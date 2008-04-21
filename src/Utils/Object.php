@@ -168,8 +168,8 @@ abstract class Object
         $m = 'get' . $name;
         if (self::hasAccessor($class, $m)) {
             // ampersands:
-            // - using &__get() because declaration should be forward compatible (e.g. with Nette::Web::Html)
-            // - not using &$this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
+            // - uses &__get() because declaration should be forward compatible (e.g. with Nette::Web::Html)
+            // - doesn't call &$this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
             $val = $this->$m();
             return $val;
 

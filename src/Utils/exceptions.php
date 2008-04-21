@@ -17,7 +17,7 @@
  * @package    Nette
  */
 
-/*no namespace*/
+// no namespace
 
 
 
