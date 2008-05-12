@@ -35,81 +35,81 @@ require_once dirname(__FILE__) . '/Object.php';
  */
 class Callback extends /*Nette::*/Object
 {
-    /** @var callback */
-    private $callback;
+	/** @var callback */
+	private $callback;
 
 
 
-    /**
-     * @param  callback|string|object
-     * @param  string
-     */
-    public function __construct($a, $b = NULL)
-    {
-        $this->callback = func_num_args() === 1 ? $a : array($a, $b);
-    }
+	/**
+	 * @param  callback|string|object
+	 * @param  string
+	 */
+	public function __construct($a, $b = NULL)
+	{
+		$this->callback = func_num_args() === 1 ? $a : array($a, $b);
+	}
 
 
 
-    /**
-     * Verifies that user function is callable
-     * @return bool
-     */
-    public function isCallable()
-    {
-        return is_callable($this->callback);
-    }
+	/**
+	 * Verifies that user function is callable
+	 * @return bool
+	 */
+	public function isCallable()
+	{
+		return is_callable($this->callback);
+	}
 
 
 
-    /**
-     * Calls a user function
-     * @return mixed
-     */
-    public function invoke()
-    {
-        $args = func_get_args();
-        return call_user_func_array($this->callback, $args);
-    }
+	/**
+	 * Calls a user function
+	 * @return mixed
+	 */
+	public function invoke()
+	{
+		$args = func_get_args();
+		return call_user_func_array($this->callback, $args);
+	}
 
 
 
-    /**
-     * Calls a user function
-     * @param  array
-     * @return mixed
-     */
-    public function invokeArgs(array $args)
-    {
-        return call_user_func_array($this->callback, $args);
-    }
+	/**
+	 * Calls a user function
+	 * @param  array
+	 * @return mixed
+	 */
+	public function invokeArgs(array $args)
+	{
+		return call_user_func_array($this->callback, $args);
+	}
 
 
 
-    /**
-     * Returns native PHP callback
-     * @return callback
-     */
-    public function getNative()
-    {
-        return $this->callback;
-    }
+	/**
+	 * Returns native PHP callback
+	 * @return callback
+	 */
+	public function getNative()
+	{
+		return $this->callback;
+	}
 
 
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        try {
-            ob_start();
-            call_user_func($this->callback);
-            return ob_get_clean();
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		try {
+			ob_start();
+			call_user_func($this->callback);
+			return ob_get_clean();
 
-        } catch (Exception $e) {
-            return $e->__toString();
-        }
-    }
+		} catch (Exception $e) {
+			return $e->__toString();
+		}
+	}
 
 }

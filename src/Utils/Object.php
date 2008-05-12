@@ -68,213 +68,213 @@ require_once dirname(__FILE__) . '/exceptions.php';
 abstract class Object
 {
 
-    /**
-     * Returns the name of the class of this object.
-     *
-     * @return string
-     */
-    final public function getClass()
-    {
-        return get_class($this);
-    }
+	/**
+	 * Returns the name of the class of this object.
+	 *
+	 * @return string
+	 */
+	final public function getClass()
+	{
+		return get_class($this);
+	}
 
 
 
-    /**
-     * Access to reflection.
-     *
-     * @return ReflectionObject
-     */
-    final public function getReflection()
-    {
-        return new ReflectionObject($this);
-    }
+	/**
+	 * Access to reflection.
+	 *
+	 * @return ReflectionObject
+	 */
+	final public function getReflection()
+	{
+		return new ReflectionObject($this);
+	}
 
 
 
-    /**
-     * Call to undefined method.
-     *
-     * @param  string  method name
-     * @param  array   arguments
-     * @return mixed
-     * @throws ::MemberAccessException
-     */
-    protected function __call($name, $args)
-    {
-        if ($name === '') {
-            throw new /*::*/MemberAccessException("Call to method without name.");
-        }
+	/**
+	 * Call to undefined method.
+	 *
+	 * @param  string  method name
+	 * @param  array   arguments
+	 * @return mixed
+	 * @throws ::MemberAccessException
+	 */
+	protected function __call($name, $args)
+	{
+		if ($name === '') {
+			throw new /*::*/MemberAccessException("Call to method without name.");
+		}
 
-        $class = get_class($this);
+		$class = get_class($this);
 
-        // event functionality
-        if (self::hasEvent($class, $name)) {
-            $list = $this->$name;
-            if (is_array($list) || $list instanceof Traversable) {
-                foreach ($list as $handler) {
-                    call_user_func_array($handler, $args);
-                }
-            }
-            return;
-        }
+		// event functionality
+		if (self::hasEvent($class, $name)) {
+			$list = $this->$name;
+			if (is_array($list) || $list instanceof Traversable) {
+				foreach ($list as $handler) {
+					call_user_func_array($handler, $args);
+				}
+			}
+			return;
+		}
 
-        // object prototypes support Class__method()
-        // (or use class Class__method { static function ... } with autoloading?)
-        $cl = $class;
-        do {
-            if (function_exists($nm = $cl . '_prototype_' . $name)) {
-                array_unshift($args, $this);
-                return call_user_func_array($nm, $args);
-            }
-        } while ($cl = get_parent_class($cl));
+		// object prototypes support Class__method()
+		// (or use class Class__method { static function ... } with autoloading?)
+		$cl = $class;
+		do {
+			if (function_exists($nm = $cl . '_prototype_' . $name)) {
+				array_unshift($args, $this);
+				return call_user_func_array($nm, $args);
+			}
+		} while ($cl = get_parent_class($cl));
 
-        throw new /*::*/MemberAccessException("Call to undefined method $class::$name().");
-    }
-
-
-
-    /**
-     * Call to undefined static method.
-     *
-     * @param  string  method name (in lower case!)
-     * @param  array   arguments
-     * @return mixed
-     * @throws ::MemberAccessException
-     */
-    protected static function __callStatic($name, $args)
-    {
-        $class = get_called_class();
-        throw new /*::*/MemberAccessException("Call to undefined static method $class::$name().");
-    }
+		throw new /*::*/MemberAccessException("Call to undefined method $class::$name().");
+	}
 
 
 
-    /**
+	/**
+	 * Call to undefined static method.
+	 *
+	 * @param  string  method name (in lower case!)
+	 * @param  array   arguments
+	 * @return mixed
+	 * @throws ::MemberAccessException
+	 */
+	protected static function __callStatic($name, $args)
+	{
+		$class = get_called_class();
+		throw new /*::*/MemberAccessException("Call to undefined static method $class::$name().");
+	}
+
+
+
+	/**
 	 * Returns property value. Do not call directly.
-     *
-     * @param  string  property name
+	 *
+	 * @param  string  property name
 	 * @return mixed   property value
 	 * @throws ::MemberAccessException if the property is not defined.
 	 */
 	protected function &__get($name)
 	{
-        if ($name === '') {
-            throw new /*::*/MemberAccessException("Cannot read an property without name.");
-        }
+		if ($name === '') {
+			throw new /*::*/MemberAccessException("Cannot read an property without name.");
+		}
 
-        // property getter support
-        $class = get_class($this);
-        $m = 'get' . $name;
-        if (self::hasAccessor($class, $m)) {
-            // ampersands:
-            // - uses &__get() because declaration should be forward compatible (e.g. with Nette::Web::Html)
-            // - doesn't call &$this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
-            $val = $this->$m();
-            return $val;
+		// property getter support
+		$class = get_class($this);
+		$m = 'get' . $name;
+		if (self::hasAccessor($class, $m)) {
+			// ampersands:
+			// - uses &__get() because declaration should be forward compatible (e.g. with Nette::Web::Html)
+			// - doesn't call &$this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
+			$val = $this->$m();
+			return $val;
 
-        } else {
-            throw new /*::*/MemberAccessException("Cannot read an undeclared property $class::\$$name.");
-        }
+		} else {
+			throw new /*::*/MemberAccessException("Cannot read an undeclared property $class::\$$name.");
+		}
 	}
 
 
 
 	/**
 	 * Sets value of a property. Do not call directly.
-     *
+	 *
 	 * @param string  property name
 	 * @param mixed   property value
-     * @return void
-     * @throws ::MemberAccessException if the property is not defined or is read-only
+	 * @return void
+	 * @throws ::MemberAccessException if the property is not defined or is read-only
 	 */
 	protected function __set($name, $value)
 	{
-        if ($name === '') {
-            throw new /*::*/MemberAccessException('Cannot assign to an property without name.');
-        }
+		if ($name === '') {
+			throw new /*::*/MemberAccessException('Cannot assign to an property without name.');
+		}
 
-        // property setter support
-        $class = get_class($this);
-        if (self::hasAccessor($class, 'get' . $name)) {
-            $m = 'set' . $name;
-            if (self::hasAccessor($class, $m)) {
-                $this->$m($value);
+		// property setter support
+		$class = get_class($this);
+		if (self::hasAccessor($class, 'get' . $name)) {
+			$m = 'set' . $name;
+			if (self::hasAccessor($class, $m)) {
+				$this->$m($value);
 
-            } else {
-                throw new /*::*/MemberAccessException("Cannot assign to a read-only property $class::\$$name.");
-            }
+			} else {
+				throw new /*::*/MemberAccessException("Cannot assign to a read-only property $class::\$$name.");
+			}
 
-        } else {
-            throw new /*::*/MemberAccessException("Cannot assign to an undeclared property $class::\$$name.");
-        }
+		} else {
+			throw new /*::*/MemberAccessException("Cannot assign to an undeclared property $class::\$$name.");
+		}
 	}
 
 
 
 	/**
 	 * Is property defined?
-     *
+	 *
 	 * @param string  property name
 	 * @return bool
 	 */
-    protected function __isset($name)
+	protected function __isset($name)
 	{
-    	return $name !== '' && self::hasAccessor(get_class($this), 'get' . $name);
+		return $name !== '' && self::hasAccessor(get_class($this), 'get' . $name);
 	}
 
 
 
-    /**
-     * Access to undeclared property.
-     *
-     * @param  string  property name
+	/**
+	 * Access to undeclared property.
+	 *
+	 * @param  string  property name
 	 * @return void
-     * @throws ::MemberAccessException
-     */
-    protected function __unset($name)
-    {
-        $class = get_class($this);
-        throw new /*::*/MemberAccessException("Cannot unset an property $class::\$$name.");
-    }
+	 * @throws ::MemberAccessException
+	 */
+	protected function __unset($name)
+	{
+		$class = get_class($this);
+		throw new /*::*/MemberAccessException("Cannot unset an property $class::\$$name.");
+	}
 
 
 
-    /**
+	/**
 	 * Has property an accessor?
-     *
+	 *
 	 * @param  string  class name
-     * @param  string  method name
+	 * @param  string  method name
 	 * @return bool
 	 */
-    private static function hasAccessor($c, $m)
-    {
-        static $cache;
-        if (!isset($cache[$c])) {
-            // get_class_methods returns private, protected and public methods of Object (doesn't matter)
-            // and ONLY PUBLIC methods of descendants (perfect!)
-            // but returns static methods too (nothing doing...)
-            // and is much faster than reflection
-            // (works good since 5.0.4)
-            $cache[$c] = array_flip(get_class_methods($c));
-        }
-        // case-sensitive checking, capitalize the fourth character
-        $m[3] = $m[3] & "\xDF";
-        return isset($cache[$c][$m]);
-    }
+	private static function hasAccessor($c, $m)
+	{
+		static $cache;
+		if (!isset($cache[$c])) {
+			// get_class_methods returns private, protected and public methods of Object (doesn't matter)
+			// and ONLY PUBLIC methods of descendants (perfect!)
+			// but returns static methods too (nothing doing...)
+			// and is much faster than reflection
+			// (works good since 5.0.4)
+			$cache[$c] = array_flip(get_class_methods($c));
+		}
+		// case-sensitive checking, capitalize the fourth character
+		$m[3] = $m[3] & "\xDF";
+		return isset($cache[$c][$m]);
+	}
 
 
 
-    /**
-     * Is property an event?
-     *
-     * @param  string  class name
-     * @param  string  method name
+	/**
+	 * Is property an event?
+	 *
+	 * @param  string  class name
+	 * @param  string  method name
 	 * @return bool
-     */
-    private static function hasEvent($c, $m)
-    {
-        return preg_match('#^on[A-Z]#', $m) && property_exists($c, $m);
-    }
+	 */
+	private static function hasEvent($c, $m)
+	{
+		return preg_match('#^on[A-Z]#', $m) && property_exists($c, $m);
+	}
 
 }

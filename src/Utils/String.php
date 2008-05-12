@@ -32,27 +32,27 @@
 final class String
 {
 
-    /**
-     * Static class - cannot be instantiated.
-     */
-    final public function __construct()
-    {
-        throw new /*::*/LogicException("Cannot instantiate static class " . get_class($this));
-    }
+	/**
+	 * Static class - cannot be instantiated.
+	 */
+	final public function __construct()
+	{
+		throw new /*::*/LogicException("Cannot instantiate static class " . get_class($this));
+	}
 
 
 
-    /**
-     * Checks if the string is valid for the UTF-8 encoding.
-     * @param  string
-     * @return string
-     */
-    public static function checkUTF($s)
-    {
-        if (preg_match('##u', $s)) {
-            return $s;
-        }
-        return FALSE;
-    }
+	/**
+	 * Checks if the string is valid for the UTF-8 encoding.
+	 * @param  string
+	 * @return string
+	 */
+	public static function checkUTF($s)
+	{
+		if (preg_match('##u', $s)) {
+			return $s;
+		}
+		return FALSE;
+	}
 
 }

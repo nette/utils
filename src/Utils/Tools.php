@@ -32,166 +32,166 @@
 final class Tools
 {
 
-    /**
-     * Static class - cannot be instantiated.
-     */
-    final public function __construct()
-    {
-        throw new /*::*/LogicException("Cannot instantiate static class " . get_class($this));
-    }
+	/**
+	 * Static class - cannot be instantiated.
+	 */
+	final public function __construct()
+	{
+		throw new /*::*/LogicException("Cannot instantiate static class " . get_class($this));
+	}
 
 
 
-    /**
-     * Generates a unique ID.
-     * @return string
-     */
-    public static function uniqueId()
-    {
-        static $entropy = 0;
-        $entropy++;
-        $id = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-        $id = md5(uniqid($id . $entropy, TRUE));
-        $id = base_convert($id, 16, 36);
-        return $id;
-    }
+	/**
+	 * Generates a unique ID.
+	 * @return string
+	 */
+	public static function uniqueId()
+	{
+		static $entropy = 0;
+		$entropy++;
+		$id = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+		$id = md5(uniqid($id . $entropy, TRUE));
+		$id = base_convert($id, 16, 36);
+		return $id;
+	}
 
 
 
-    /**
-     * Gets the boolean value of a configuration option.
-     * @param  string  configuration option name
-     * @return bool
-     */
-    public static function iniFlag($var)
-    {
-        $status = strtolower(ini_get($var));
-        return $status === 'on' || $status === 'true' || $status === 'yes' || $status % 256;
-    }
+	/**
+	 * Gets the boolean value of a configuration option.
+	 * @param  string  configuration option name
+	 * @return bool
+	 */
+	public static function iniFlag($var)
+	{
+		$status = strtolower(ini_get($var));
+		return $status === 'on' || $status === 'true' || $status === 'yes' || $status % 256;
+	}
 
 
 
-    /**
-     * Initializes variable with $default value.
-     *
-     * @param  mixed  variable
-     * @param  mixed  default value
-     * @return void
-     */
-    public static function defaultize(&$var, $default)
-    {
-        if ($var === NULL) $var = $default;
-    }
+	/**
+	 * Initializes variable with $default value.
+	 *
+	 * @param  mixed  variable
+	 * @param  mixed  default value
+	 * @return void
+	 */
+	public static function defaultize(&$var, $default)
+	{
+		if ($var === NULL) $var = $default;
+	}
 
 
 
-    /**
-     * Returns array item or $default if item is not set.
-     * Example: $val = arrayGet($arr, 'i', 123);
-     *
-     * @param  mixed  array
-     * @param  scalar key
-     * @param  mixed  default value
-     * @return mixed
-     */
-    public static function arrayGet(array $arr, $key, $default = NULL)
-    {
-        if (isset($arr[$key])) return $arr[$key];
-        return $default;
-    }
+	/**
+	 * Returns array item or $default if item is not set.
+	 * Example: $val = arrayGet($arr, 'i', 123);
+	 *
+	 * @param  mixed  array
+	 * @param  scalar key
+	 * @param  mixed  default value
+	 * @return mixed
+	 */
+	public static function arrayGet(array $arr, $key, $default = NULL)
+	{
+		if (isset($arr[$key])) return $arr[$key];
+		return $default;
+	}
 
 
 
-    /**
-     * Recursive glob(). Finds pathnames matching a pattern.
-     * @param  string
-     * @param  int
-     * @return array
-     */
-    public static function glob($pattern, $flags = 0)
-    {
-        $files = glob($pattern, $flags);
-        if (!is_array($files)) {
-            $files = array();
-        }
+	/**
+	 * Recursive glob(). Finds pathnames matching a pattern.
+	 * @param  string
+	 * @param  int
+	 * @return array
+	 */
+	public static function glob($pattern, $flags = 0)
+	{
+		$files = glob($pattern, $flags);
+		if (!is_array($files)) {
+			$files = array();
+		}
 
-        $dirs = glob(dirname($pattern) . '/*', $flags | GLOB_ONLYDIR);
-        if (is_array($dirs)) {
-            $mask = basename($pattern);
-            foreach ($dirs as $dir) {
-                $files = array_merge($files, self::glob($dir . '/' . $mask, $flags));
-            }
-        }
+		$dirs = glob(dirname($pattern) . '/*', $flags | GLOB_ONLYDIR);
+		if (is_array($dirs)) {
+			$mask = basename($pattern);
+			foreach ($dirs as $dir) {
+				$files = array_merge($files, self::glob($dir . '/' . $mask, $flags));
+			}
+		}
 
-        return $files;
-    }
-
-
-
-    /**
-     * Nette promo.
-     * @return string
-     */
-    public static function promo($xhtml = TRUE)
-    {
-        echo '<a href="http://nettephp.com/" title="Nette - the most innovative PHP framework"><img ',
-             'src="http://nettephp.com/images/nette-powered.gif" alt="Powered by Nette Framework" width="80" height="15"',
-             ($xhtml ? ' />' : '>'), '</a>';
-    }
+		return $files;
+	}
 
 
 
-    /********************* errors and warnings catching ****************d*g**/
+	/**
+	 * Nette promo.
+	 * @return string
+	 */
+	public static function promo($xhtml = TRUE)
+	{
+		echo '<a href="http://nettephp.com/" title="Nette - the most innovative PHP framework"><img ',
+			 'src="http://nettephp.com/images/nette-powered.gif" alt="Powered by Nette Framework" width="80" height="15"',
+			 ($xhtml ? ' />' : '>'), '</a>';
+	}
 
 
 
-    /** @var string */
-    private static $errorMsg;
+	/********************* errors and warnings catching ****************d*g**/
 
 
 
-    /**
-     * Starts catching potential errors/warnings.
-     *
-     * @return void
-     */
-    public static function tryError($level = E_ALL)
-    {
-        set_error_handler(array(__CLASS__, '_errorHandler'), $level);
-        self::$errorMsg = NULL;
-    }
+	/** @var string */
+	private static $errorMsg;
 
 
 
-    /**
-     * Returns catched error/warning message.
-     *
-     * @param  string  catched message
-     * @return bool
-     */
-    public static function catchError(& $message)
-    {
-        restore_error_handler();
-        $message = self::$errorMsg;
-        self::$errorMsg = NULL;
-        return $message !== NULL;
-    }
+	/**
+	 * Starts catching potential errors/warnings.
+	 *
+	 * @return void
+	 */
+	public static function tryError($level = E_ALL)
+	{
+		set_error_handler(array(__CLASS__, '_errorHandler'), $level);
+		self::$errorMsg = NULL;
+	}
 
 
 
-    /**
-     * Internal error handler. Do not call directly.
-     */
-    public static function _errorHandler($code, $message)
-    {
-        restore_error_handler();
+	/**
+	 * Returns catched error/warning message.
+	 *
+	 * @param  string  catched message
+	 * @return bool
+	 */
+	public static function catchError(& $message)
+	{
+		restore_error_handler();
+		$message = self::$errorMsg;
+		self::$errorMsg = NULL;
+		return $message !== NULL;
+	}
 
-        if (ini_get('html_errors')) {
-            $message = strip_tags($message);
-            $message = html_entity_decode($message);
-        }
 
-        self::$errorMsg = $message;
-    }
+
+	/**
+	 * Internal error handler. Do not call directly.
+	 */
+	public static function _errorHandler($code, $message)
+	{
+		restore_error_handler();
+
+		if (ini_get('html_errors')) {
+			$message = strip_tags($message);
+			$message = html_entity_decode($message);
+		}
+
+		self::$errorMsg = $message;
+	}
 
 }
