@@ -26,7 +26,7 @@ require_once dirname(__FILE__) . '/Object.php';
 
 
 /**
- * Immutable encapsulation of pseudo-type callback
+ * Immutable encapsulation of pseudo-type callback.
  *
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2008 David Grudl
@@ -52,7 +52,7 @@ class Callback extends /*Nette::*/Object
 
 
 	/**
-	 * Verifies that user function is callable
+	 * Verifies that user function is callable.
 	 * @return bool
 	 */
 	public function isCallable()
@@ -63,7 +63,7 @@ class Callback extends /*Nette::*/Object
 
 
 	/**
-	 * Calls a user function
+	 * Calls a user function.
 	 * @return mixed
 	 */
 	public function invoke()
@@ -75,7 +75,7 @@ class Callback extends /*Nette::*/Object
 
 
 	/**
-	 * Calls a user function
+	 * Calls a user function.
 	 * @param  array
 	 * @return mixed
 	 */
@@ -87,7 +87,7 @@ class Callback extends /*Nette::*/Object
 
 
 	/**
-	 * Returns native PHP callback
+	 * Returns native PHP callback.
 	 * @return callback
 	 */
 	public function getNative()

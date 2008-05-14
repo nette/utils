@@ -183,8 +183,8 @@ abstract class Object
 	/**
 	 * Sets value of a property. Do not call directly.
 	 *
-	 * @param string  property name
-	 * @param mixed   property value
+	 * @param  string  property name
+	 * @param  mixed   property value
 	 * @return void
 	 * @throws ::MemberAccessException if the property is not defined or is read-only
 	 */
@@ -215,7 +215,7 @@ abstract class Object
 	/**
 	 * Is property defined?
 	 *
-	 * @param string  property name
+	 * @param  string  property name
 	 * @return bool
 	 */
 	protected function __isset($name)

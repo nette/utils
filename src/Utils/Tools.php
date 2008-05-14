@@ -22,7 +22,7 @@
 
 
 /**
- * Tools library
+ * Tools library.
  *
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2008 David Grudl
