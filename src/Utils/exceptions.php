@@ -25,11 +25,11 @@
 some useful SPL exception:
 
 - LogicException
-   - InvalidArgumentException
-   - LengthException
+	- InvalidArgumentException
+	- LengthException
 - RuntimeException
-   - OutOfBoundsException
-   - UnexpectedValueException
+	- OutOfBoundsException
+	- UnexpectedValueException
 
 other SPL exceptions are ambiguous; do not use them
 */
@@ -52,7 +52,7 @@ class ArgumentOutOfRangeException extends InvalidArgumentException
  * current state, method has been invoked at an illegal or inappropriate time.
  * @package    Nette
  */
-class InvalidStateException extends RuntimeException // or InvalidOperationException?
+class InvalidStateException extends RuntimeException
 {
 }
 

@@ -135,8 +135,8 @@ final class Tools
 	public static function promo($xhtml = TRUE)
 	{
 		echo '<a href="http://nettephp.com/" title="Nette - the most innovative PHP framework"><img ',
-			 'src="http://nettephp.com/images/nette-powered.gif" alt="Powered by Nette Framework" width="80" height="15"',
-			 ($xhtml ? ' />' : '>'), '</a>';
+			'src="http://nettephp.com/images/nette-powered.gif" alt="Powered by Nette Framework" width="80" height="15"',
+			($xhtml ? ' />' : '>'), '</a>';
 	}
 
 

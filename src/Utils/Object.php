@@ -102,11 +102,11 @@ abstract class Object
 	 */
 	protected function __call($name, $args)
 	{
-		if ($name === '') {
-			throw new /*::*/MemberAccessException("Call to method without name.");
-		}
-
 		$class = get_class($this);
+
+		if ($name === '') {
+			throw new /*::*/MemberAccessException("Call to class '$class' method without name.");
+		}
 
 		// event functionality
 		if (self::hasEvent($class, $name)) {
@@ -159,12 +159,13 @@ abstract class Object
 	 */
 	protected function &__get($name)
 	{
+		$class = get_class($this);
+
 		if ($name === '') {
-			throw new /*::*/MemberAccessException("Cannot read an property without name.");
+			throw new /*::*/MemberAccessException("Cannot read an class '$class' property without name.");
 		}
 
 		// property getter support
-		$class = get_class($this);
 		$m = 'get' . $name;
 		if (self::hasAccessor($class, $m)) {
 			// ampersands:
@@ -190,12 +191,13 @@ abstract class Object
 	 */
 	protected function __set($name, $value)
 	{
+		$class = get_class($this);
+
 		if ($name === '') {
-			throw new /*::*/MemberAccessException('Cannot assign to an property without name.');
+			throw new /*::*/MemberAccessException("Cannot assign to an class '$class' property without name.");
 		}
 
 		// property setter support
-		$class = get_class($this);
 		if (self::hasAccessor($class, 'get' . $name)) {
 			$m = 'set' . $name;
 			if (self::hasAccessor($class, $m)) {
