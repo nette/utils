@@ -116,3 +116,14 @@ class FileNotFoundException extends IOException
 class DirectoryNotFoundException extends IOException
 {
 }
+
+
+
+/**
+ * The exception that indicates errors that can not be recovered from. Execution of
+ * the script should be halted.
+ * @package    Nette
+ */
+class FatalErrorException extends ErrorException
+{
+}
