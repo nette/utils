@@ -67,7 +67,7 @@ class Callback extends /*Nette::*/Object
 	 * @return mixed
 	 * @throws ::InvalidStateException
 	 */
-	public function invoke()
+	public function __invoke()
 	{
 		if (!is_callable($this->callback)) {
 			throw new /*::*/InvalidStateException('The callback is not valid.');
