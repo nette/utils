@@ -21,6 +21,7 @@
 /*namespace Nette::Web;*/
 
 
+
 require_once dirname(__FILE__) . '/../Object.php';
 
 
@@ -367,12 +368,20 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 
 	/**
-	 * Required by the ::IteratorAggregate interface.
-	 * @return ::ArrayIterator
+	 * Iterates over a elements.
+	 * @param  bool    recursive?
+	 * @param  string  class types filter
+	 * @return ::RecursiveIterator
 	 */
-	final public function getIterator()
+	final public function getIterator($deep = FALSE)
 	{
-		return new /*::*/ArrayIterator($this->children);
+		if ($deep) {
+			$deep = $deep > 0 ? /*::*/RecursiveIteratorIterator::SELF_FIRST : /*::*/RecursiveIteratorIterator::CHILD_FIRST;
+			return new /*::*/RecursiveIteratorIterator(new RecursiveHtmlIterator($this->children), $deep);
+
+		} else {
+			return new RecursiveHtmlIterator($this->children);
+		}
 	}
 
 
@@ -508,6 +517,32 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 				$this->children[$key] = clone $value;
 			}
 		}
+	}
+
+}
+
+
+
+
+
+
+/**
+ * Recursive HTML element iterator. See Html::getIterator().
+ *
+ * @author     David Grudl
+ * @copyright  Copyright (c) 2004, 2008 David Grudl
+ * @package    Nette::Web
+ */
+class RecursiveHtmlIterator extends /*::*/RecursiveArrayIterator
+{
+
+	/**
+	 * The sub-iterator for the current element.
+	 * @return ::RecursiveIterator
+	 */
+	public function getChildren()
+	{
+		return $this->current()->getIterator();
 	}
 
 }
