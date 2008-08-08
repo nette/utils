@@ -56,9 +56,9 @@ require_once dirname(__FILE__) . '/exceptions.php';
  * Adding method to class (i.e. to all instances) works similar to JavaScript
  * prototype property. The syntax for adding a new method is:
  * <code>
- * function MyClass_prototype_newMethod(MyClass $obj, $arg, ...) { ... }
+ * MyClass::extensionMethod('newMethod', function(MyClass $obj, $arg, ...) { ... });
  * $obj = new MyClass;
- * $obj->newMethod($x); // equivalent to MyClass_prototype_newMethod($obj, $x);
+ * $obj->newMethod($x);
  * </code>
  *
  * @author     David Grudl
@@ -73,9 +73,9 @@ abstract class Object
 	 *
 	 * @return string
 	 */
-	final public function getClass()
+	final public /*static*/ function getClass()
 	{
-		return get_class($this);
+		return /*get_called_class()*/ /**/get_class($this)/**/;
 	}
 
 
@@ -119,15 +119,11 @@ abstract class Object
 			return;
 		}
 
-		// object prototypes support Class__method()
-		// (or use class Class__method { static function ... } with autoloading?)
-		$cl = $class;
-		do {
-			if (function_exists($nm = $cl . '_prototype_' . $name)) {
-				array_unshift($args, $this);
-				return call_user_func_array($nm, $args);
-			}
-		} while ($cl = get_parent_class($cl));
+		// extension methods
+		if ($cb = $this->extensionMethod($name, NULL/**/, $class/**/)) {
+			array_unshift($args, $this);
+			return call_user_func_array($cb, $args);
+		}
 
 		throw new /*::*/MemberAccessException("Call to undefined method $class::$name().");
 	}
@@ -146,6 +142,41 @@ abstract class Object
 	{
 		$class = get_called_class();
 		throw new /*::*/MemberAccessException("Call to undefined static method $class::$name().");
+	}
+
+
+
+	/**
+	 * Adding method to class.
+	 *
+	 * @param  string  method name
+	 * @param  mixed   callback or closure
+	 * @return mixed
+	 */
+	public static function extensionMethod($name, $callback/**/, $class = NULL/**/)
+	{
+		static $list;
+		$name = strtolower($name);
+		/**/if ($class === NULL) /**/$class = get_called_class();
+
+		if ($callback === NULL) {
+			if (!isset($list[$name])) $list[$name] = array(); // for back compatibility
+			if (isset($list[$name])) {
+				$l = $list[$name];
+				do {
+					if (isset($l[$class])) {
+						return $l[$class];
+					}
+
+					if (function_exists($cb = $class . '_prototype_' . $name)) { // DEPRECATED
+						return $cb;
+					}
+				} while ($class = get_parent_class($class));
+		}
+
+		} else {
+			$list[$name][$class] = $callback;
+		}
 	}
 
 

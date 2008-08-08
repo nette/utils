@@ -125,6 +125,15 @@ class DirectoryNotFoundException extends IOException
  * the script should be halted.
  * @package    Nette
  */
-class FatalErrorException extends ErrorException
+class FatalErrorException extends /*Error*/Exception
 {
+
+	public function __construct($message, $code, $severity, $file, $line, $context)
+	{
+		parent::__construct($message, $code);
+		$this->file = $file;
+		$this->line = $line;
+		$this->context = $context;
+	}
+
 }
