@@ -68,6 +68,10 @@ require_once dirname(__FILE__) . '/exceptions.php';
  */
 abstract class Object
 {
+	/** @var array (method => array(type => callback)) */
+	private static $extMethods;
+
+
 
 	/**
 	 * Returns the name of the class of this object.
@@ -121,7 +125,7 @@ abstract class Object
 		}
 
 		// extension methods
-		if ($cb = $this->extensionMethod($name, NULL/**/, $class/**/)) {
+		if ($cb = self::extensionMethod("$class::$name")) {
 			array_unshift($args, $this);
 			return call_user_func_array($cb, $args);
 		}
@@ -154,30 +158,58 @@ abstract class Object
 	 * @param  mixed   callback or closure
 	 * @return mixed
 	 */
-	public static function extensionMethod($name, $callback/**/, $class = NULL/**/)
+	public static function extensionMethod($name, $callback = NULL)
 	{
-		static $list;
+		if (self::$extMethods === NULL || $name === NULL) { // for backwards compatibility
+			$list = get_defined_functions();
+			foreach ($list['user'] as $fce) {
+				$pair = explode('_prototype_', $fce);
+				if (count($pair) === 2) {
+					self::$extMethods[$pair[1]][$pair[0]] = $fce;
+					self::$extMethods[$pair[1]][''] = NULL;
+				}
+			}
+			if ($name === NULL) return;
+		}
+
 		$name = strtolower($name);
-		/**/if ($class === NULL) /**/$class = get_called_class();
-
-		if ($callback === NULL) {
-			if (!isset($list[$name])) $list[$name] = array(); // for back compatibility
-			if (isset($list[$name])) {
-				$l = $list[$name];
-				do {
-					if (isset($l[$class])) {
-						return $l[$class];
-					}
-
-					if (function_exists($cb = $class . '_prototype_' . $name)) { // DEPRECATED
-						return $cb;
-					}
-				} while ($class = get_parent_class($class));
-		}
-
+		$a = strrpos($name, ':'); // search ::
+		if ($a === FALSE) {
+			$class = strtolower(get_called_class());
+			$l = & self::$extMethods[$name];
 		} else {
-			$list[$name][$class] = $callback;
+			$class = substr($name, 0, $a - 1);
+			$l = & self::$extMethods[substr($name, $a + 1)];
 		}
+
+		if ($callback !== NULL) { // works as setter
+			$l[$class] = $callback;
+			$l[''] = NULL;
+			return;
+		}
+
+		// works as getter
+		if (empty($l)) {
+			return FALSE;
+
+		} elseif (isset($l[''][$class])) { // cached value
+			return $l[''][$class];
+		}
+		$cl = $class;
+		do {
+			$cl = strtolower($cl);
+			if (isset($l[$cl])) {
+				return $l[''][$class] = $l[$cl];
+			}
+		} while (($cl = get_parent_class($cl)) !== FALSE);
+
+		foreach (class_implements($class) as $cl) {
+			$cl = strtolower($cl);
+			if (isset($l[$cl])) {
+				return $l[''][$class] = $l[$cl];
+			}
+		}
+		return $l[''][$class] = FALSE;
 	}
 
 

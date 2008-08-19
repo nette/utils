@@ -399,9 +399,10 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 	/**
 	 * Renders element's start tag, content and end tag.
+	 * @param  int indent
 	 * @return string
 	 */
-	final public function render()
+	final public function render($indent = NULL)
 	{
 		$s = $this->startTag();
 
@@ -411,16 +412,23 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 		}
 
 		// add content
+		if ($indent !== NULL) {
+			$indent++;
+		}
 		foreach ($this->children as $child) {
 			if (is_object($child)) {
-				$s .= $child->render();
+				$s .= $child->render($indent);
 			} else {
 				$s .= $child;
 			}
 		}
 
 		// add end tag
-		return $s . $this->endTag();
+		$s .= $this->endTag();
+		if ($indent !== NULL) {
+			return "\n" . str_repeat("\t", $indent - 1) . $s . "\n" . str_repeat("\t", max(0, $indent - 2));
+		}
+		return $s;
 	}
 
 
