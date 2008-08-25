@@ -114,7 +114,7 @@ abstract class Object
 		}
 
 		// event functionality
-		if (self::hasEvent($class, $name)) {
+		if (property_exists($class, $name) && preg_match('#^on[A-Z]#', $name)) {
 			$list = $this->$name;
 			if (is_array($list) || $list instanceof Traversable) {
 				foreach ($list as $handler) {
@@ -327,20 +327,6 @@ abstract class Object
 		// case-sensitive checking, capitalize the fourth character
 		$m[3] = $m[3] & "\xDF";
 		return isset($cache[$c][$m]);
-	}
-
-
-
-	/**
-	 * Is property an event?
-	 *
-	 * @param  string  class name
-	 * @param  string  method name
-	 * @return bool
-	 */
-	private static function hasEvent($c, $m)
-	{
-		return preg_match('#^on[A-Z]#', $m) && property_exists($c, $m);
 	}
 
 }
