@@ -110,13 +110,15 @@ class Callback extends /*Nette::*/Object
 	 */
 	public function __toString()
 	{
+		ob_start();
 		try {
-			ob_start();
 			call_user_func($this->callback);
 			return ob_get_clean();
 
 		} catch (Exception $e) {
-			return $e->__toString();
+			ob_end_clean();
+			trigger_error($e->getMessage(), E_USER_WARNING);
+			return '';
 		}
 	}
 
