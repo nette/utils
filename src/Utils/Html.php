@@ -200,18 +200,35 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 
 	/**
+	 * Sets element's HTML content.
+	 * @param  string
+	 * @throws ::InvalidArgumentException
+	 * @return Html  provides a fluent interface
+	 */
+	final public function setHtml($html)
+	{
+		return $this->setText($html, TRUE);
+	}
+
+
+
+	/**
 	 * Sets element's textual content.
 	 * @param  string
 	 * @param  bool is the string HTML encoded yet?
-	 * @throws Exception
+	 * @throws ::InvalidArgumentException
 	 * @return Html  provides a fluent interface
 	 */
 	final public function setText($text, $isHtml = FALSE)
 	{
 		if ($text === NULL) {
 			$text = '';
-		} elseif (!is_scalar($text)) {
+
+		} elseif (is_array($text)) {
 			throw new /*::*/InvalidArgumentException("Textual content must be a scalar.");
+
+		} else {
+			$text = (string) $text;
 		}
 
 		if (!$isHtml) {
@@ -277,7 +294,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	 */
 	public function insert($index, $child, $replace = FALSE)
 	{
-		if ($child instanceof Html || is_string($child)) {
+		if ($child instanceof Html || is_scalar($child)) {
 			if ($index === NULL)  { // append
 				$this->children[] = $child;
 
