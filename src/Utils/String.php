@@ -55,4 +55,30 @@ final class String
 		return FALSE;
 	}
 
+
+
+	/**
+	 * Starts the $haystack string with the prefix $needle?
+	 * @param  string
+	 * @param  string
+	 * @return bool
+	 */
+	public static function startsWith($haystack, $needle)
+	{
+		return strncmp($haystack, $needle, strlen($needle)) === 0;
+	}
+
+
+
+	/**
+	 * Ends the $haystack string with the suffix $needle?
+	 * @param  string
+	 * @param  string
+	 * @return bool
+	 */
+	public static function endsWith($haystack, $needle)
+	{
+		return strlen($needle) === 0 || substr($haystack, -strlen($needle)) === $needle;
+	}
+
 }
