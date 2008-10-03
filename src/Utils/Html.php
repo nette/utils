@@ -278,7 +278,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	 */
 	final public function create($name, $attrs = NULL)
 	{
-		$this->insert(NULL, $child = self::el($name, $attrs));
+		$this->insert(NULL, $child = /**/self/**/ /*static*/::el($name, $attrs));
 		return $child;
 	}
 
