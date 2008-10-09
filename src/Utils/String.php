@@ -107,7 +107,7 @@ final class String
 
 	/**
 	 * Converts to web safe characters [a-z0-9-] text.
-	 * @param  string
+	 * @param  string  in utf-8
 	 * @param  string
 	 * @return string
 	 */
@@ -127,6 +127,50 @@ final class String
 		$s = preg_replace('#[^a-z0-9'.preg_quote($charlist, '#').']+#', '-', $s);
 		$s = trim($s, '-');
 		return $s;
+	}
+
+
+
+	/**
+	 * Truncates string to maximal length.
+	 * @param  string
+	 * @param  int
+	 * @param  string
+	 * @return string
+	 */
+	public static function truncate($s, $maxLen, $append = "\xE2\x80\xA6")
+	{
+		if (iconv_strlen($s) > $maxLen) {
+			$maxLen = $maxLen - iconv_strlen($append);
+			if ($maxLen < 1) {
+				return $append;
+
+			} elseif (preg_match('#^.{1,'.$maxLen.'}(?=[\s\x00-@\[-`{-~])#u', $s, $matches)) {
+				return $matches[0] . $append;
+
+			} else {
+				return iconv_substr($s, 0, $maxLen) . $append;
+			}
+		}
+		return $s;
+	}
+
+
+
+	/**
+	 * Converts to human readable file size.
+	 * @param  int
+	 * @return string
+	 */
+	public static function bytes($bytes)
+	{
+		$bytes = (int) $bytes;
+		$units = array('B', 'kB', 'MB', 'GB', 'TB', 'PB');
+		foreach ($units as $unit) {
+			if (abs($bytes) < 1024) break;
+			$bytes = $bytes / 1024;
+		}
+		return round($bytes, 2) . ' ' . $unit;
 	}
 
 }

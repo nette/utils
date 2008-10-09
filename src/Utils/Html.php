@@ -74,11 +74,16 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	public static function el($name = NULL, $attrs = NULL)
 	{
 		$el = new /**/self/**/ /*static*/;
-		$el->setName($name);
+		$parts = explode(' ', $name);
+		$el->setName(array_shift($parts));
 		if (is_array($attrs)) {
 			$el->attrs = $attrs;
 		} elseif ($attrs !== NULL) {
 			$el->setText($attrs);
+		}
+		foreach ($parts as $pair) {
+			$pair = explode('=', $pair, 2);
+			$el->attrs[$pair[0]] = isset($pair[1]) ? trim($pair[1], '"') : TRUE;
 		}
 		return $el;
 	}
