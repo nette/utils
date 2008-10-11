@@ -47,7 +47,7 @@ final class String
 	 * @param  string
 	 * @return bool
 	 */
-	public static function checkUtf($s)
+	public static function checkUtf8($s)
 	{
 		return (bool) preg_match('##u', $s);
 	}
@@ -107,7 +107,7 @@ final class String
 
 	/**
 	 * Converts to web safe characters [a-z0-9-] text.
-	 * @param  string  in utf-8
+	 * @param  string  in UTF-8
 	 * @param  string
 	 * @return string
 	 */
@@ -124,7 +124,7 @@ final class String
 		}
 		$s = str_replace(array('`', "'", '"', '^', '~'), '', $s);
 		$s = strtolower($s);
-		$s = preg_replace('#[^a-z0-9'.preg_quote($charlist, '#').']+#', '-', $s);
+		$s = preg_replace('#[^a-z0-9' . preg_quote($charlist, '#') . ']+#', '-', $s);
 		$s = trim($s, '-');
 		return $s;
 	}
@@ -133,15 +133,15 @@ final class String
 
 	/**
 	 * Truncates string to maximal length.
-	 * @param  string
+	 * @param  string  in UTF-8
 	 * @param  int
 	 * @param  string
 	 * @return string
 	 */
 	public static function truncate($s, $maxLen, $append = "\xE2\x80\xA6")
 	{
-		if (iconv_strlen($s) > $maxLen) {
-			$maxLen = $maxLen - iconv_strlen($append);
+		if (iconv_strlen($s, 'UTF-8') > $maxLen) {
+			$maxLen = $maxLen - iconv_strlen($append, 'UTF-8');
 			if ($maxLen < 1) {
 				return $append;
 
@@ -149,7 +149,7 @@ final class String
 				return $matches[0] . $append;
 
 			} else {
-				return iconv_substr($s, 0, $maxLen) . $append;
+				return iconv_substr($s, 0, $maxLen, 'UTF-8') . $append;
 			}
 		}
 		return $s;
