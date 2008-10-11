@@ -43,13 +43,27 @@ final class String
 
 
 	/**
-	 * Checks if the string is valid for the UTF-8 encoding.
-	 * @param  string
+	 * Checks if the string is valid for the specified encoding.
+	 * @param  string  byte stream to check
+	 * @param  string  expected encoding
 	 * @return bool
 	 */
-	public static function checkUtf8($s)
+	public static function checkEncoding($s, $encoding = 'UTF-8')
 	{
-		return (bool) preg_match('##u', $s);
+		return $s === self::fixEncoding($s, $encoding);
+	}
+
+
+
+	/**
+	 * Returns correctly encoded string.
+	 * @param  string  byte stream to fix
+	 * @param  string  encoding
+	 * @return string
+	 */
+	public static function fixEncoding($s, $encoding = 'UTF-8')
+	{
+		return @iconv($encoding, $encoding . '//IGNORE', $s); // intentionally @
 	}
 
 
