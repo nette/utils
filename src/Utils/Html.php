@@ -134,8 +134,8 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 	/**
 	 * Overloaded setter for element's attribute.
-	 * @param  string    property name
-	 * @param  mixed     property value
+	 * @param  string    HTML attribute name
+	 * @param  mixed     HTML attribute value
 	 * @return void
 	 */
 	final public function __set($name, $value)
@@ -147,8 +147,8 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 	/**
 	 * Overloaded getter for element's attribute.
-	 * @param  string    property name
-	 * @return mixed    property value
+	 * @param  string    HTML attribute name
+	 * @return mixed     HTML attribute value
 	 */
 	final public function &__get($name)
 	{
@@ -159,7 +159,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 	/**
 	 * Overloaded unsetter for element's attribute.
-	 * @param  string    property name
+	 * @param  string    HTML attribute name
 	 * @return void
 	 */
 	final public function __unset($name)
@@ -171,16 +171,24 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 	/**
 	 * Overloaded setter for element's attribute.
-	 * @param  string attribute name
-	 * @param  array value
+	 * @param  string  HTML attribute name
+	 * @param  array   (string) HTML attribute value & (bool) append?
 	 * @return Html  provides a fluent interface
 	 */
 	final public function __call($m, $args)
 	{
-		if (count($args) !== 1) {
-			throw new /*::*/InvalidArgumentException("Just one argument is required.");
+		if (empty($args[1]) || !isset($this->attrs[$m])) { // set
+			$this->attrs[$m] = $args[0];
+
+		} elseif ($args[0] == NULL) {
+			// append empty value -> ignore
+
+		} elseif (is_array($this->attrs[$m])) { // append to array
+			$this->attrs[$m][] = $args[0];
+
+		} else { // append to string
+			$this->attrs[$m] .= ' ' . $args[0];
 		}
-		$this->attrs[$m] = $args[0];
 		return $this;
 	}
 
