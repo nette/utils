@@ -29,13 +29,13 @@ require_once dirname(__FILE__) . '/../Object.php';
 /**
  * HTML helper.
  *
- * usage:
- *       $anchor = Html::el('a')->href($link)->setText('Nette');
- *       $el->class = 'myclass';
- *       echo $el;
+ * <code>
+ * $anchor = Html::el('a')->href($link)->setText('Nette');
+ * $el->class = 'myclass';
+ * echo $el;
  *
- *       echo $el->startTag(), $el->endTag();
- *
+ * echo $el->startTag(), $el->endTag();
+ * </cod>
  *
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2008 David Grudl
