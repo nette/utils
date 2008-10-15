@@ -31,8 +31,14 @@
  */
 final class Tools
 {
-	/** @var int  limit whether expiration is number of seconds starting from current time or timestamp */
-	const EXPIRATION_DELTA_LIMIT = 31622400; // 366 days
+	/** hour in seconds */
+	const HOUR = 3600;
+
+	/** day in seconds */
+	const DAY = 86400;
+
+	/** year in seconds */
+	const YEAR = 31536000;
 
 
 
@@ -47,22 +53,6 @@ final class Tools
 
 
 	/**
-	 * Generates a unique ID.
-	 * @return string
-	 */
-	public static function uniqueId()
-	{
-		static $entropy = 0;
-		$entropy++;
-		$id = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-		$id = md5(uniqid($id . $entropy, TRUE));
-		$id = base_convert($id, 16, 36);
-		return $id;
-	}
-
-
-
-	/**
 	 * Gets the boolean value of a configuration option.
 	 * @param  string  configuration option name
 	 * @return bool
@@ -71,24 +61,6 @@ final class Tools
 	{
 		$status = strtolower(ini_get($var));
 		return $status === 'on' || $status === 'true' || $status === 'yes' || $status % 256;
-	}
-
-
-
-	/**
-	 * Force ini_set.
-	 * @param  string  variable.
-	 * @param  mixed   value.
-	 * @return void
-	 * @throws ::NotSupportedException
-	 */
-	public static function iniSet($var, $value)
-	{
-		ini_set($var, $value);
-		$current = is_bool($value) ? self::iniFlag($var) : ini_get($var);
-		if ($current !== $value) {
-			throw new /*::*/NotSupportedException('Function ini_set() is not enabled.');
-		}
 	}
 
 
@@ -132,6 +104,7 @@ final class Tools
 	 */
 	public static function glob($pattern, $flags = 0)
 	{
+		// TODO: replace by RecursiveDirectoryIterator
 		$files = glob($pattern, $flags);
 		if (!is_array($files)) {
 			$files = array();
@@ -190,6 +163,7 @@ final class Tools
 
 	/**
 	 * Internal error handler. Do not call directly.
+	 * @internal
 	 */
 	public static function _errorHandler($code, $message)
 	{
