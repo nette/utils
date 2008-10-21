@@ -128,7 +128,7 @@ abstract class Object
 						}
 					}
 				}
-				return;
+				return NULL;
 			}
 		}
 
@@ -177,7 +177,7 @@ abstract class Object
 					self::$extMethods[$pair[1]][''] = NULL;
 				}
 			}
-			if ($name === NULL) return;
+			if ($name === NULL) return NULL;
 		}
 
 		$name = strtolower($name);
@@ -193,7 +193,7 @@ abstract class Object
 		if ($callback !== NULL) { // works as setter
 			$l[$class] = $callback;
 			$l[''] = NULL;
-			return;
+			return NULL;
 		}
 
 		// works as getter

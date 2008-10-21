@@ -96,14 +96,14 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	 * @return Html  provides a fluent interface
 	 * @throws ::InvalidArgumentException
 	 */
-	final public function setName($name, $empty = NULL)
+	final public function setName($name, $isEmpty = NULL)
 	{
 		if ($name !== NULL && !is_string($name)) {
 			throw new /*::*/InvalidArgumentException("Name must be string or NULL.");
 		}
 
 		$this->name = $name;
-		$this->isEmpty = $empty === NULL ? isset(self::$emptyElements[$name]) : (bool) $empty;
+		$this->isEmpty = $isEmpty === NULL ? isset(self::$emptyElements[$name]) : (bool) $isEmpty;
 		return $this;
 	}
 
@@ -219,7 +219,19 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	 */
 	final public function setHtml($html)
 	{
-		return $this->setText($html, TRUE);
+		if ($html === NULL) {
+			$html = '';
+
+		} elseif (is_array($html)) {
+			throw new /*::*/InvalidArgumentException("Textual content must be a scalar.");
+
+		} else {
+			$html = (string) $html;
+		}
+
+		$this->removeChildren();
+		$this->children[] = $html;
+		return $this;
 	}
 
 
@@ -227,29 +239,18 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	/**
 	 * Sets element's textual content.
 	 * @param  string
-	 * @param  bool is the string HTML encoded yet?
 	 * @throws ::InvalidArgumentException
 	 * @return Html  provides a fluent interface
 	 */
 	final public function setText($text, $isHtml = FALSE)
 	{
-		if ($text === NULL) {
-			$text = '';
+		if ($isHtml) {
+			trigger_error('Deprecated: use Html::setHtml(...) instead.', E_USER_WARNING);
 
-		} elseif (is_array($text)) {
-			throw new /*::*/InvalidArgumentException("Textual content must be a scalar.");
-
-		} else {
-			$text = (string) $text;
+		} elseif (!is_array($text)) {
+			$text = str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), (string) $text);
 		}
-
-		if (!$isHtml) {
-			$text = str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), $text);
-		}
-
-		$this->removeChildren();
-		$this->children[] = $text;
-		return $this;
+		return $this->setHtml($text);
 	}
 
 

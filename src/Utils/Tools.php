@@ -38,7 +38,7 @@ final class Tools
 	const DAY = 86400;
 
 	/** year in seconds */
-	const YEAR = 31536000;
+	const YEAR = 31557600;
 
 
 
