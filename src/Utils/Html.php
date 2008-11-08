@@ -186,7 +186,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 			$this->attrs[$m][] = $args[0];
 
 		} else { // append to string
-			$this->attrs[$m] .= ' ' . $args[0];
+			$this->attrs[$m] .= ($m === 'style' ? ';' : ' ') . $args[0];
 		}
 		return $this;
 	}
