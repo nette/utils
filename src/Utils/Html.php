@@ -14,11 +14,11 @@
  * @license    http://nettephp.com/license  Nette license
  * @link       http://nettephp.com
  * @category   Nette
- * @package    Nette::Web
+ * @package    Nette\Web
  * @version    $Id$
  */
 
-/*namespace Nette::Web;*/
+/*namespace Nette\Web;*/
 
 
 
@@ -39,9 +39,9 @@ require_once dirname(__FILE__) . '/../Object.php';
  *
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2008 David Grudl
- * @package    Nette::Web
+ * @package    Nette\Web
  */
-class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countable, /*::*/IteratorAggregate
+class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable, /*\*/IteratorAggregate
 {
 	/** @var string  element's name */
 	private $name;
@@ -94,12 +94,12 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	 * @param  string
 	 * @param  bool  Is element empty?
 	 * @return Html  provides a fluent interface
-	 * @throws ::InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	final public function setName($name, $isEmpty = NULL)
 	{
 		if ($name !== NULL && !is_string($name)) {
-			throw new /*::*/InvalidArgumentException("Name must be string or NULL.");
+			throw new /*\*/InvalidArgumentException("Name must be string or NULL.");
 		}
 
 		$this->name = $name;
@@ -214,7 +214,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	/**
 	 * Sets element's HTML content.
 	 * @param  string
-	 * @throws ::InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 * @return Html  provides a fluent interface
 	 */
 	final public function setHtml($html)
@@ -223,7 +223,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 			$html = '';
 
 		} elseif (is_array($html)) {
-			throw new /*::*/InvalidArgumentException("Textual content must be a scalar.");
+			throw new /*\*/InvalidArgumentException("Textual content must be a scalar.");
 
 		} else {
 			$html = (string) $html;
@@ -239,7 +239,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	/**
 	 * Sets element's textual content.
 	 * @param  string
-	 * @throws ::InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 * @return Html  provides a fluent interface
 	 */
 	final public function setText($text, $isHtml = FALSE)
@@ -316,7 +316,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 			}
 
 		} else {
-			throw new /*::*/InvalidArgumentException('Child node must be scalar or Html object.');
+			throw new /*\*/InvalidArgumentException('Child node must be scalar or Html object.');
 		}
 
 		return $this;
@@ -325,7 +325,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 
 	/**
-	 * Inserts (replaces) child node (::ArrayAccess implementation).
+	 * Inserts (replaces) child node (\ArrayAccess implementation).
 	 * @param  int
 	 * @param  Html node
 	 * @return void
@@ -338,7 +338,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 
 	/**
-	 * Returns child node (::ArrayAccess implementation).
+	 * Returns child node (\ArrayAccess implementation).
 	 * @param  int index
 	 * @return mixed
 	 */
@@ -350,7 +350,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 
 	/**
-	 * Exists child node? (::ArrayAccess implementation).
+	 * Exists child node? (\ArrayAccess implementation).
 	 * @param  int index
 	 * @return bool
 	 */
@@ -362,7 +362,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 
 	/**
-	 * Removes child node (::ArrayAccess implementation).
+	 * Removes child node (\ArrayAccess implementation).
 	 * @param  int index
 	 * @return void
 	 */
@@ -376,7 +376,7 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 
 
 	/**
-	 * Required by the ::Countable interface.
+	 * Required by the \Countable interface.
 	 * @return int
 	 */
 	final public function count()
@@ -401,13 +401,13 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
 	 * Iterates over a elements.
 	 * @param  bool    recursive?
 	 * @param  string  class types filter
-	 * @return ::RecursiveIterator
+	 * @return \RecursiveIterator
 	 */
 	final public function getIterator($deep = FALSE)
 	{
 		if ($deep) {
-			$deep = $deep > 0 ? /*::*/RecursiveIteratorIterator::SELF_FIRST : /*::*/RecursiveIteratorIterator::CHILD_FIRST;
-			return new /*::*/RecursiveIteratorIterator(new RecursiveHtmlIterator($this->children), $deep);
+			$deep = $deep > 0 ? /*\*/RecursiveIteratorIterator::SELF_FIRST : /*\*/RecursiveIteratorIterator::CHILD_FIRST;
+			return new /*\*/RecursiveIteratorIterator(new RecursiveHtmlIterator($this->children), $deep);
 
 		} else {
 			return new RecursiveHtmlIterator($this->children);
@@ -569,14 +569,14 @@ class Html extends /*Nette::*/Object implements /*::*/ArrayAccess, /*::*/Countab
  *
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2008 David Grudl
- * @package    Nette::Web
+ * @package    Nette\Web
  */
-class RecursiveHtmlIterator extends /*::*/RecursiveArrayIterator
+class RecursiveHtmlIterator extends /*\*/RecursiveArrayIterator
 {
 
 	/**
 	 * The sub-iterator for the current element.
-	 * @return ::RecursiveIterator
+	 * @return \RecursiveIterator
 	 */
 	public function getChildren()
 	{

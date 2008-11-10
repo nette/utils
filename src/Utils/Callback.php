@@ -33,7 +33,7 @@ require_once dirname(__FILE__) . '/Object.php';
  * @copyright  Copyright (c) 2004, 2008 David Grudl
  * @package    Nette
  */
-class Callback extends /*Nette::*/Object
+class Callback extends /*Nette\*/Object
 {
 	/** @var callback */
 	private $callback;
@@ -65,12 +65,12 @@ class Callback extends /*Nette::*/Object
 	/**
 	 * Calls a user function.
 	 * @return mixed
-	 * @throws ::InvalidStateException
+	 * @throws \InvalidStateException
 	 */
 	public function __invoke()
 	{
 		if (!is_callable($this->callback)) {
-			throw new /*::*/InvalidStateException('The callback is not valid.');
+			throw new /*\*/InvalidStateException('The callback is not valid.');
 		}
 		$args = func_get_args();
 		return call_user_func_array($this->callback, $args);
@@ -82,12 +82,12 @@ class Callback extends /*Nette::*/Object
 	 * Calls a user function.
 	 * @param  array
 	 * @return mixed
-	 * @throws ::InvalidStateException
+	 * @throws \InvalidStateException
 	 */
 	public function invokeArgs(array $args)
 	{
 		if (!is_callable($this->callback)) {
-			throw new /*::*/InvalidStateException('The callback is not valid.');
+			throw new /*\*/InvalidStateException('The callback is not valid.');
 		}
 		return call_user_func_array($this->callback, $args);
 	}
