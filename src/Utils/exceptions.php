@@ -33,6 +33,8 @@ some useful SPL exception:
 	- UnexpectedValueException
 
 other SPL exceptions are ambiguous; do not use them
+
+ErrorException is corrupted in PHP < 5.3
 */
 
 
@@ -75,6 +77,16 @@ class NotImplementedException extends LogicException
  * @package    Nette
  */
 class NotSupportedException extends LogicException
+{
+}
+
+
+
+/**
+ * The exception that is thrown when a requested method or operation is deprecated.
+ * @package    Nette
+ */
+class DeprecatedException extends NotSupportedException
 {
 }
 
