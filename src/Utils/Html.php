@@ -186,7 +186,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 			$this->attrs[$m][] = $args[0];
 
 		} else { // append to string
-			$this->attrs[$m] .= ($m === 'style' ? ';' : ' ') . $args[0];
+			$this->attrs[$m] = array($this->attrs[$m], $args[0]);
 		}
 		return $this;
 	}
@@ -502,7 +502,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 					}
 
 					if (!$tmp) continue;
-					$value = implode($key === 'style' ? ';' : ' ', $tmp);
+					$value = implode($key === 'style' || !strncmp($key, 'on', 2) ? ';' : ' ', $tmp);
 
 				} else {
 					$value = (string) $value;
