@@ -88,11 +88,11 @@ abstract class Object
 	/**
 	 * Access to reflection.
 	 *
-	 * @return ReflectionObject
+	 * @return \ReflectionObject
 	 */
 	final public function getReflection()
 	{
-		return new ReflectionObject($this);
+		return new /*\*/ReflectionObject($this);
 	}
 
 
@@ -115,10 +115,10 @@ abstract class Object
 
 		// event functionality
 		if (preg_match('#^on[A-Z]#', $name)) {
-			$rp = new ReflectionProperty($class, $name);
+			$rp = new /*\*/ReflectionProperty($class, $name);
 			if ($rp->isPublic() && !$rp->isStatic()) {
 				$list = $this->$name;
-				if (is_array($list) || $list instanceof Traversable) {
+				if (is_array($list) || $list instanceof /*\*/Traversable) {
 					foreach ($list as $handler) {
 						/**/if (is_object($handler)) {
 							call_user_func_array(array($handler, '__invoke'), $args);

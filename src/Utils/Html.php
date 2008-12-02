@@ -303,7 +303,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	 * @param  Html node
 	 * @param  bool
 	 * @return Html  provides a fluent interface
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function insert($index, $child, $replace = FALSE)
 	{
