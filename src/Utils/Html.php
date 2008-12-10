@@ -77,9 +77,11 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 		$el->setName(array_shift($parts));
 		if (is_array($attrs)) {
 			$el->attrs = $attrs;
+
 		} elseif ($attrs !== NULL) {
 			$el->setText($attrs);
 		}
+
 		foreach ($parts as $pair) {
 			$pair = explode('=', $pair, 2);
 			$el->attrs[$pair[0]] = isset($pair[1]) ? trim($pair[1], '"') : TRUE;
@@ -171,23 +173,24 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	/**
 	 * Overloaded setter for element's attribute.
 	 * @param  string  HTML attribute name
-	 * @param  array   (string) HTML attribute value & (bool) append?
+	 * @param  array   (string) HTML attribute value or pair?
 	 * @return Html  provides a fluent interface
 	 */
 	final public function __call($m, $args)
 	{
-		if (empty($args[1]) || !isset($this->attrs[$m])) { // set
+		if (count($args) === 1) { // set
 			$this->attrs[$m] = $args[0];
 
-		} elseif ($args[0] == NULL) {
+		} elseif ($args[0] == NULL) { // intentionally ==
 			// append empty value -> ignore
 
-		} elseif (is_array($this->attrs[$m])) { // append to array
-			$this->attrs[$m][] = $args[0];
+		} elseif (!isset($this->attrs[$m]) || is_array($this->attrs[$m])) { // needs array
+			$this->attrs[$m][$args[0]] = $args[1];
 
-		} else { // append to string
-			$this->attrs[$m] = array($this->attrs[$m], $args[0]);
+		} else {
+			$this->attrs[$m] = array($this->attrs[$m], $args[0] => $args[1]);
 		}
+
 		return $this;
 	}
 
@@ -463,70 +466,25 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 
 
 
+	final public function __toString()
+	{
+		return $this->render();
+	}
+
+
+
 	/**
 	 * Returns element's start tag.
 	 * @return string
 	 */
 	final public function startTag()
 	{
-		if (!$this->name) {
+		if ($this->name) {
+			return '<' . $this->name . $this->attributes() . (self::$xhtml && $this->isEmpty ? ' />' : '>');
+
+		} else {
 			return '';
 		}
-
-		$s = '<' . $this->name;
-
-		if (is_array($this->attrs)) {
-			foreach ($this->attrs as $key => $value)
-			{
-				// skip NULLs and false boolean attributes
-				if ($value === NULL || $value === FALSE) continue;
-
-				// true boolean attribute
-				if ($value === TRUE) {
-					// in XHTML must use unminimized form
-					if (self::$xhtml) $s .= ' ' . $key . '="' . $key . '"';
-					// in HTML should use minimized form
-					else $s .= ' ' . $key;
-					continue;
-
-				} elseif (is_array($value)) {
-
-					// prepare into temporary array
-					$tmp = NULL;
-					foreach ($value as $k => $v) {
-						// skip NULLs & empty string; composite 'style' vs. 'others'
-						if ($v == NULL) continue;
-
-						if (is_string($k)) $tmp[] = $k . ':' . $v;
-						else $tmp[] = $v;
-					}
-
-					if (!$tmp) continue;
-					$value = implode($key === 'style' || !strncmp($key, 'on', 2) ? ';' : ' ', $tmp);
-
-				} else {
-					$value = (string) $value;
-				}
-
-				// add new attribute
-				$s .= ' ' . $key . '="'
-					. str_replace(array('&', '"', '<', '>', '@'), array('&amp;', '&quot;', '&lt;', '&gt;', '&#64;'), $value)
-					. '"';
-			}
-		}
-
-		// finish start tag
-		if (self::$xhtml && $this->isEmpty) {
-			return $s . ' />';
-		}
-		return $s . '>';
-	}
-
-
-
-	final public function __toString()
-	{
-		return $this->render();
 	}
 
 
@@ -537,10 +495,60 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	 */
 	final public function endTag()
 	{
-		if ($this->name && !$this->isEmpty) {
-			return '</' . $this->name . '>';
+		return $this->name && !$this->isEmpty ? '</' . $this->name . '>' : '';
+	}
+
+
+
+	/**
+	 * Returns element's attributes.
+	 * @return string
+	 */
+	final public function attributes()
+	{
+		if (!is_array($this->attrs)) {
+			return '';
 		}
-		return '';
+
+		$s = '';
+		foreach ($this->attrs as $key => $value)
+		{
+			// skip NULLs and false boolean attributes
+			if ($value === NULL || $value === FALSE) continue;
+
+			// true boolean attribute
+			if ($value === TRUE) {
+				// in XHTML must use unminimized form
+				if (self::$xhtml) $s .= ' ' . $key . '="' . $key . '"';
+				// in HTML should use minimized form
+				else $s .= ' ' . $key;
+				continue;
+
+			} elseif (is_array($value)) {
+
+				// prepare into temporary array
+				$tmp = NULL;
+				foreach ($value as $k => $v) {
+					// skip NULLs & empty string; composite 'style' vs. 'others'
+					if ($v == NULL) continue; // intentionally ==
+
+					//  composite 'style' vs. 'others'
+					$tmp[] = is_string($k) ? ($v === TRUE ? $k : $k . ':' . $v) : $v;
+				}
+				if ($tmp === NULL) continue;
+
+				$value = implode($key === 'style' || !strncmp($key, 'on', 2) ? ';' : ' ', $tmp);
+
+			} else {
+				$value = (string) $value;
+			}
+
+			// add new attribute
+			$s .= ' ' . $key . '="'
+				. str_replace(array('&', '"', '<', '>', '@'), array('&amp;', '&quot;', '&lt;', '&gt;', '&#64;'), $value)
+					. '"';
+		}
+		return $s;
 	}
 
 
