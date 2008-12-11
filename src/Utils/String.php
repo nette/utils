@@ -172,6 +172,42 @@ final class String
 
 
 	/**
+	 * Convert to lower case.
+	 * @param  string
+	 * @return string
+	 */
+	public static function lower($s)
+	{
+		return mb_strtolower($s, 'UTF-8');
+	}
+
+
+
+	/**
+	 * Convert to upper case.
+	 * @param  string
+	 * @return string
+	 */
+	public static function upper($s)
+	{
+		return mb_strtoupper($s, 'UTF-8');
+	}
+
+
+
+	/**
+	 * Capitalize string.
+	 * @param  string
+	 * @return string
+	 */
+	public static function capitalize($s)
+	{
+		return mb_convert_case($s, MB_CASE_TITLE, 'UTF-8');
+	}
+
+
+
+	/**
 	 * Converts to human readable file size.
 	 * @param  int
 	 * @return string
