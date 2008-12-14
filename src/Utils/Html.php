@@ -35,7 +35,7 @@ require_once dirname(__FILE__) . '/../Object.php';
  * echo $el;
  *
  * echo $el->startTag(), $el->endTag();
- * </cod>
+ * </code>
  *
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2008 David Grudl
