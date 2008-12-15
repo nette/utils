@@ -174,6 +174,10 @@ final class Tools
 			$message = html_entity_decode($message);
 		}
 
+		if (($a = strpos($message, ': ')) !== FALSE) {
+			$message = substr($message, $a + 2);
+		}
+
 		self::$errorMsg = $message;
 	}
 
