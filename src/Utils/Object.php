@@ -124,6 +124,7 @@ abstract class Object
 							call_user_func_array(array($handler, '__invoke'), $args);
 
 						} else /**/{
+							/**/fixCallback($handler);/**/
 							call_user_func_array($handler, $args);
 						}
 					}
@@ -135,6 +136,7 @@ abstract class Object
 		// extension methods
 		if ($cb = self::extensionMethod("$class::$name")) {
 			array_unshift($args, $this);
+			/**/fixCallback($cb);/**/
 			return call_user_func_array($cb, $args);
 		}
 
