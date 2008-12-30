@@ -32,6 +32,9 @@
 class Paginator extends Object
 {
 	/** @var int */
+	private $base = 1;
+
+	/** @var int */
 	private $itemsPerPage;
 
 	/** @var int */
@@ -49,7 +52,7 @@ class Paginator extends Object
 	 */
 	public function setPage($page)
 	{
-		$this->page = max(0, (int) $page);
+		$this->page = (int) $page;
 	}
 
 
@@ -60,7 +63,41 @@ class Paginator extends Object
 	 */
 	public function getPage()
 	{
-		return min($this->page, max(0, $this->getPageCount() - 1));
+		return $this->base + $this->getPageIndex();
+	}
+
+
+
+	/**
+	 * Sets first page (base) number.
+	 * @param  int
+	 * @return void
+	 */
+	public function setBase($base)
+	{
+		$this->base = (int) $base;
+	}
+
+
+
+	/**
+	 * Returns first page (base) number.
+	 * @return int
+	 */
+	public function getBase()
+	{
+		return $this->base;
+	}
+
+
+
+	/**
+	 * Returns zero-based page number.
+	 * @return int
+	 */
+	protected function getPageIndex()
+	{
+		return min(max(0, $this->page - $this->base), max(0, $this->getPageCount() - 1));
 	}
 
 
@@ -71,7 +108,7 @@ class Paginator extends Object
 	 */
 	public function isFirst()
 	{
-		return $this->getPage() === 0;
+		return $this->getPageIndex() === 0;
 	}
 
 
@@ -82,7 +119,7 @@ class Paginator extends Object
 	 */
 	public function isLast()
 	{
-		return $this->getPage() === $this->getPageCount() - 1;
+		return $this->getPageIndex() === $this->getPageCount() - 1;
 	}
 
 
@@ -150,7 +187,7 @@ class Paginator extends Object
 	 */
 	public function getOffset()
 	{
-		return $this->getPage() * $this->itemsPerPage;
+		return $this->getPageIndex() * $this->itemsPerPage;
 	}
 
 
@@ -161,7 +198,7 @@ class Paginator extends Object
 	 */
 	public function getCountdownOffset()
 	{
-		return max(0, $this->itemCount - ($this->page + 1) * $this->itemsPerPage);
+		return max(0, $this->itemCount - ($this->getPageIndex() + 1) * $this->itemsPerPage);
 	}
 
 
@@ -172,7 +209,7 @@ class Paginator extends Object
 	 */
 	public function getLength()
 	{
-		return min($this->itemsPerPage, $this->itemCount - $this->getPage() * $this->itemsPerPage);
+		return min($this->itemsPerPage, $this->itemCount - $this->getPageIndex() * $this->itemsPerPage);
 	}
 
 
@@ -184,14 +221,14 @@ class Paginator extends Object
 	public function getSteps($steps = 5, $surround = 3)
 	{
 		$lastPage = $this->getPageCount() - 1;
-		$page = $this->getPage();
-		if ($lastPage < 1) return array($page);
+		$page = $this->getPageIndex();
+		if ($lastPage < 1) return array($page + $this->base);
 
 		$surround = max(0, $surround);
-		$arr = range(max(0, $page - $surround), min($lastPage, $page + $surround));
+		$arr = range(max(0, $page - $surround) + $this->base, min($lastPage, $page + $surround) + $this->base);
 
 		$steps = max(1, $steps - 1);
-		for ($i = 0; $i <= $steps; $i++) $arr[] = round($lastPage / $steps * $i);
+		for ($i = 0; $i <= $steps; $i++) $arr[] = round($lastPage / $steps * $i) + $this->base;
 		sort($arr);
 		return array_values(array_unique($arr));
 	}
