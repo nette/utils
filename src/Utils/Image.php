@@ -134,7 +134,7 @@ class Image extends Object {
 		$width = (int) $width;
 		$height = (int) $height;
 		if ($width < 1 || $height < 1) {
-			throw new /*\*/InvalidArgumentException('Image width and height must greater than zero.');
+			throw new /*\*/InvalidArgumentException('Image width and height must be greater than zero.');
 		}
 
 		$image = imagecreatetruecolor($width, $height);
@@ -233,7 +233,7 @@ class Image extends Object {
 
 		} else {  // proportional
 			if ($newWidth < 1 && $newHeight < 1) {
-				throw new /*\*/InvalidArgumentException('Width or height must be specified.');
+				throw new /*\*/InvalidArgumentException('At least width or height must be specified.');
 			}
 
 			$scale = array();

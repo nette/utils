@@ -101,7 +101,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	final public function setName($name, $isEmpty = NULL)
 	{
 		if ($name !== NULL && !is_string($name)) {
-			throw new /*\*/InvalidArgumentException("Name must be string or NULL.");
+			throw new /*\*/InvalidArgumentException("Name must be string or NULL, " . gettype($name) ." given.");
 		}
 
 		$this->name = $name;
@@ -226,7 +226,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 			$html = '';
 
 		} elseif (is_array($html)) {
-			throw new /*\*/InvalidArgumentException("Textual content must be a scalar.");
+			throw new /*\*/InvalidArgumentException("Textual content must be a scalar, " . gettype($html) ." given.");
 
 		} else {
 			$html = (string) $html;
@@ -319,7 +319,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 			}
 
 		} else {
-			throw new /*\*/InvalidArgumentException('Child node must be scalar or Html object.');
+			throw new /*\*/InvalidArgumentException("Child node must be scalar or Html object, " . (is_object($child) ? get_class($child) : gettype($child)) ." given.");
 		}
 
 		return $this;
