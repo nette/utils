@@ -35,9 +35,9 @@ interface ITranslator
 	/**
 	 * Translates the given string.
 	 * @param  string   message
-	 * @param  int      plural
+	 * @param  int      plural count
 	 * @return string
 	 */
-	function translate($message, $plural = NULL);
+	function translate($message, $count = NULL);
 
 }

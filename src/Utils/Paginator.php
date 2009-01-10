@@ -69,6 +69,28 @@ class Paginator extends Object
 
 
 	/**
+	 * Returns first page number.
+	 * @return int
+	 */
+	public function getFirstPage()
+	{
+		return $this->base;
+	}
+
+
+
+	/**
+	 * Returns last page number.
+	 * @return int
+	 */
+	public function getLastPage()
+	{
+		return $this->base + max(0, $this->getPageCount() - 1);
+	}
+
+
+
+	/**
 	 * Sets first page (base) number.
 	 * @param  int
 	 * @return void
@@ -217,9 +239,11 @@ class Paginator extends Object
 	/**
 	 * Generates list of pages used for visual control. (experimental)
 	 * @return array
+	 * @deprecated
 	 */
 	public function getSteps($steps = 5, $surround = 3)
 	{
+		trigger_error('Paginator::getSteps() is deprecated; use template helper instead.', E_USER_WARNING);
 		$lastPage = $this->getPageCount() - 1;
 		$page = $this->getPageIndex();
 		if ($lastPage < 1) return array($page + $this->base);
