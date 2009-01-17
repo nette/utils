@@ -332,22 +332,35 @@ class Image extends Object {
 	 * Saves image to the file.
 	 * @param  string  filename
 	 * @param  int  quality 0..100 (for JPEG and PNG)
+	 * @param  int  optional image type
 	 * @return void
 	 */
-	public function save($file = NULL, $quality = 85)
+	public function save($file = NULL, $quality = 85, $type = NULL)
 	{
-		$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-		switch ($ext) {
-		case 'jpg':
-		case 'jpeg':
+		if ($type === NULL) {
+			switch (strtolower(pathinfo($file, PATHINFO_EXTENSION))) {
+			case 'jpg':
+			case 'jpeg':
+				$type = self::JPEG;
+				break;
+			case 'png':
+				$type = self::PNG;
+				break;
+			case 'gif':
+				$type = self::GIF;
+			}
+		}
+
+		switch ($type) {
+		case self::JPEG:
 			imagejpeg($this->image, $file, max(0, min(100, (int) $quality)));
 			break;
 
-		case 'png':
+		case self::PNG:
 			imagepng($this->image, $file, max(0, min(9, round($quality / 10))));
 			break;
 
-		case 'gif':
+		case self::GIF:
 			imagegif($this->image, $file);
 			break;
 
@@ -362,28 +375,29 @@ class Image extends Object {
 	 * Outputs image to string.
 	 * @param  int  image type
 	 * @param  int  quality 0..100 (for JPEG and PNG)
-	 * @return void
+	 * @return string
 	 */
-	public function __toString($type = self::JPEG, $quality = 85)
+	public function toString($type = self::JPEG, $quality = 85)
 	{
-		switch ($type) {
-		case self::JPEG:
-			ob_start();
-			imagejpeg($this->image, NULL, max(0, min(100, (int) $quality)));
-			return ob_get_clean();
+		ob_start();
+		$this->save(NULL, $quality, $type);
+		return ob_get_clean();
+	}
 
-		case self::PNG:
-			ob_start();
-			imagepng($this->image, NULL, max(0, min(9, round($quality / 10))));
-			return ob_get_clean();
 
-		case self::GIF:
-			ob_start();
-			imagegif($this->image);
-			return ob_get_clean();
 
-		default:
-			trigger_error("Unsupported image type.", E_USER_WARNING);
+	/**
+	 * Outputs image to string.
+	 * @return string
+	 */
+	public function __toString()
+	{
+		try {
+			return $this->toString();
+
+		} catch (/*\*/Exception $e) {
+			trigger_error($e->getMessage(), E_USER_WARNING);
+			return '';
 		}
 	}
 
