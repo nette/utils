@@ -182,12 +182,12 @@ class Paginator extends Object
 
 	/**
 	 * Sets the total number of items.
-	 * @param  int
+	 * @param  int (or FALSE as infinity)
 	 * @return void
 	 */
 	public function setItemCount($itemCount)
 	{
-		$this->itemCount = max(0, (int) $itemCount);
+		$this->itemCount = $itemCount === FALSE ? PHP_INT_MAX : max(0, (int) $itemCount);
 	}
 
 

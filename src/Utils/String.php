@@ -212,7 +212,7 @@ final class String
 	 */
 	public static function bytes($bytes)
 	{
-		return TemplateHelpers::bytes($bytes);
+		return /*Nette\Templates\*/TemplateHelpers::bytes($bytes);
 	}
 
 }

@@ -83,10 +83,10 @@ class Image extends Object {
 	public static function rgb($red, $green, $blue, $transparency = 0)
 	{
 		return array(
-			'r' => max(0, min(255, (int) $red)),
-			'g' => max(0, min(255, (int) $green)),
-			'b' => max(0, min(255, (int) $blue)),
-			'a' => max(0, min(127, (int) $transparency)),
+			'red' => max(0, min(255, (int) $red)),
+			'green' => max(0, min(255, (int) $green)),
+			'blue' => max(0, min(255, (int) $blue)),
+			'alpha' => max(0, min(127, (int) $transparency)),
 		);
 	}
 
@@ -119,6 +119,9 @@ class Image extends Object {
 			return new self(imagecreatefromgif($file));
 
 		default:
+			if (self::$useImageMagick) {
+				return new ImageMagick($file);
+			}
 			throw new /*\*/Exception("Unknown image type in file '$file'.");
 		}
 	}
@@ -146,7 +149,7 @@ class Image extends Object {
 
 		$image = imagecreatetruecolor($width, $height);
 		if (is_array($color)) {
-			$color = imagecolorallocate($image, $color['r'], $color['g'], $color['b']);
+			$color = imagecolorallocate($image, $color['red'], $color['green'], $color['blue']);
 			imagefilledrectangle($image, 0, 0, $width, $height, $color);
 		}
 		return new self($image);
@@ -223,9 +226,9 @@ class Image extends Object {
 	public function resize($newWidth, $newHeight, $flags = 0)
 	{
 		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
-		$oldImg = $this->getImageResource();
-		$this->image = imagecreatetruecolor($newWidth, $newHeight);
-		imagecopyresampled($this->image, $oldImg, 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
+		$newImage = imagecreatetruecolor($newWidth, $newHeight);
+		imagecopyresampled($newImage, $this->getImageResource(), 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
+		$this->image = $newImage;
 	}
 
 
@@ -310,9 +313,9 @@ class Image extends Object {
 		$width = min((int) $width, $this->getWidth() - $left);
 		$height = min((int) $height, $this->getHeight() - $top);
 
-		$oldImg = $this->image;
-		$this->image = imagecreatetruecolor($width, $height);
-		imagecopy($this->image, $oldImg, 0, 0, $left, $top, $width, $height);
+		$newImage = imagecreatetruecolor($width, $height);
+		imagecopy($newImage, $this->getImageResource(), 0, 0, $left, $top, $width, $height);
+		$this->image = $newImage;
 	}
 
 
@@ -472,8 +475,8 @@ class Image extends Object {
 				if ($value instanceof self) {
 					$args[$key] = $value->getImageResource();
 
-				} elseif (is_array($value) && isset($value['r'])) { // rgb
-					$args[$key] = imagecolorallocatealpha($this->getImageResource(), $value['r'], $value['g'], $value['b'], $value['a']);
+				} elseif (is_array($value) && isset($value['red'])) { // rgb
+					$args[$key] = imagecolorallocatealpha($this->getImageResource(), $value['red'], $value['green'], $value['blue'], $value['alpha']);
 				}
 			}
 			array_unshift($args, $this->getImageResource());
