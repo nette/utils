@@ -369,7 +369,7 @@ class Image extends Object {
 	 * @param  int  optional image type
 	 * @return void
 	 */
-	public function save($file = NULL, $quality = 85, $type = NULL)
+	public function save($file = NULL, $quality = NULL, $type = NULL)
 	{
 		if ($type === NULL) {
 			switch (strtolower(pathinfo($file, PATHINFO_EXTENSION))) {
@@ -387,11 +387,13 @@ class Image extends Object {
 
 		switch ($type) {
 		case self::JPEG:
-			imagejpeg($this->getImageResource(), $file, max(0, min(100, (int) $quality)));
+			$quality = $quality === NULL ? 85 : max(0, min(100, (int) $quality));
+			imagejpeg($this->getImageResource(), $file, $quality);
 			break;
 
 		case self::PNG:
-			imagepng($this->getImageResource(), $file, max(0, min(9, round($quality / 10))));
+			$quality = $quality === NULL ? 9 : max(0, min(9, (int) $quality));
+			imagepng($this->getImageResource(), $file, $quality);
 			break;
 
 		case self::GIF:
@@ -411,7 +413,7 @@ class Image extends Object {
 	 * @param  int  quality 0..100 (for JPEG and PNG)
 	 * @return string
 	 */
-	public function toString($type = self::JPEG, $quality = 85)
+	public function toString($type = self::JPEG, $quality = NULL)
 	{
 		ob_start();
 		$this->save(NULL, $quality, $type);
@@ -443,7 +445,7 @@ class Image extends Object {
 	 * @param  int  quality 0..100 (for JPEG and PNG)
 	 * @return void
 	 */
-	public function send($type = self::JPEG, $quality = 85)
+	public function send($type = self::JPEG, $quality = NULL)
 	{
 		if ($type !== self::GIF && $type !== self::PNG && $type !== self::JPEG) {
 			throw new /*\*/Exception("Unsupported image type.");

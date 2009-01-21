@@ -1,0 +1,253 @@
+<?php
+
+/**
+ * Nette Framework
+ *
+ * Copyright (c) 2004, 2009 David Grudl (http://davidgrudl.com)
+ *
+ * This source file is subject to the "Nette license" that is bundled
+ * with this package in the file license.txt.
+ *
+ * For more information please see http://nettephp.com
+ *
+ * @copyright  Copyright (c) 2004, 2009 David Grudl
+ * @license    http://nettephp.com/license  Nette license
+ * @link       http://nettephp.com
+ * @category   Nette
+ * @package    Nette
+ * @version    $Id$
+ */
+
+/*namespace Nette;*/
+
+
+
+require_once dirname(__FILE__) . '/Object.php';
+
+
+
+/**
+ * Manipulation with large images using ImageMagick.
+ *
+ * <code>
+ * $image = Image::fromFile('bigphoto.jpg');
+ * $image->resize(150, 100);
+ * $image->sharpen();
+ * $image->send();
+ * </code>
+ *
+ * @author     David Grudl
+ * @copyright  Copyright (c) 2004, 2009 David Grudl
+ * @package    Nette
+ */
+class ImageMagick extends Image
+{
+	/** @var string  path to ImageMagick library */
+	static public $path = '';
+
+	/** @var string */
+	static public $tempDir;
+
+	/** @var string */
+	private $file;
+
+	/** @var bool */
+	private $isTemporary = FALSE;
+
+	/** @var int */
+	private $width;
+
+	/** @var int */
+	private $height;
+
+
+
+	/**
+	 * Wraps image file.
+	 * @param  string
+	 */
+	public function __construct($file)
+	{
+		if (!is_file($file)) {
+			throw new /*\*/InvalidArgumentException('File not exists.');
+		}
+		$this->setFile(realpath($file));
+	}
+
+
+
+	/**
+	 * Returns image width.
+	 * @return int
+	 */
+	public function getWidth()
+	{
+		return $this->file === NULL ? parent::getWidth() : $this->width;
+	}
+
+
+
+	/**
+	 * Returns image height.
+	 * @return int
+	 */
+	public function getHeight()
+	{
+		return $this->file === NULL ? parent::getHeight() : $this->height;
+	}
+
+
+
+	/**
+	 * Returns image GD resource.
+	 * @return resource
+	 */
+	public function getImageResource()
+	{
+		if ($this->file !== NULL) {
+			if (!$this->isTemporary) {
+				$this->execute("convert -strip %input %output", self::PNG);
+			}
+			$this->setImageResource(imagecreatefrompng($this->file));
+			if ($this->isTemporary) {
+				unlink($this->file);
+			}
+			$this->file = NULL;
+		}
+
+		return parent::getImageResource();
+	}
+
+
+
+	/**
+	 * Resizes image.
+	 * @param  mixed  width in pixels or percent
+	 * @param  mixed  height in pixels or percent
+	 * @param  int  flags
+	 * @return void
+	 */
+	public function resize($newWidth, $newHeight, $flags = 0)
+	{
+		if ($this->file === NULL) {
+			return parent::resize($newWidth, $newHeight, $flags);
+		}
+
+		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
+		$this->execute("convert -resize {$newWidth}x{$newHeight}! -strip %input %output", self::PNG);
+	}
+
+
+
+	/**
+	 * Crops image.
+	 * @param  int  x-coordinate
+	 * @param  int  y-coordinate
+	 * @param  int  width
+	 * @param  int  height
+	 * @return void
+	 */
+	public function crop($left, $top, $width, $height)
+	{
+		if ($this->file === NULL) {
+			return parent::crop($left, $top, $width, $height);
+		}
+
+		$left = max(0, (int) $left);
+		$top = max(0, (int) $top);
+		$width = min((int) $width, $this->getWidth() - $left);
+		$height = min((int) $height, $this->getHeight() - $top);
+		$this->execute("convert -crop \"{$width}x{$height}+{$left}+{$top}\" -strip %input %output", self::PNG);
+	}
+
+
+
+	/**
+	 * Saves image to the file.
+	 * @param  string  filename
+	 * @param  int  quality 0..100 (for JPEG and PNG)
+	 * @param  int  optional image type
+	 * @return void
+	 */
+	public function save($file = NULL, $quality = NULL, $type = NULL)
+	{
+		if ($this->file === NULL) {
+			return parent::save($file, $quality, $type);
+		}
+
+		$quality = $quality === NULL ? '' : '-quality ' . max(0, min(100, (int) $quality));
+		if ($file === NULL) {
+			$this->execute("convert $quality -strip %input %output", $type === NULL ? self::PNG : $type);
+			readfile($this->file);
+
+		} else {
+			$this->execute("convert $quality -strip %input %output", (string) $file);
+		}
+	}
+
+
+
+	/**
+	 * Change and identify image file.
+	 * @param  string  filename
+	 * @return void
+	 */
+	private function setFile($file)
+	{
+		$this->file = $file;
+		$res = $this->execute('identify -format "%w,%h,%m" ' . addcslashes($this->file, ' '));
+		if (!$res) {
+			throw new /*\*/Exception("Unknown image type in file '$file' or ImageMagick not available.");
+		}
+		list($this->width, $this->height) = explode(',', $res, 3);
+	}
+
+
+
+	/**
+	 * Executes command.
+	 * @param  string  command
+	 * @param  string|bool  process output?
+	 * @return string
+	 */
+	private function execute($command, $output = NULL)
+	{
+		$command = str_replace('%input', addcslashes($this->file, ' '), $command);
+		if ($output) {
+			$newFile = is_string($output)
+				? $output
+				: (self::$tempDir ? self::$tempDir : dirname($this->file)) . '/_tempimage' . uniqid() . image_type_to_extension($output);
+			$command = str_replace('%output', addcslashes($newFile, ' '), $command);
+		}
+
+		$lines = array();
+		exec(self::$path . $command, $lines, $status); // $status: 0 - ok, 1 - error, 127 - command not found?
+
+		if ($output) {
+			if ($status != 0) {
+				throw new /*\*/Exception("Unknown error while calling ImageMagick.");
+			}
+			if ($this->isTemporary) {
+				unlink($this->file);
+			}
+			$this->setFile($newFile);
+			$this->isTemporary = !is_string($output);
+		}
+
+		return $lines ? $lines[0] : FALSE;
+	}
+
+
+
+	/**
+	 * Delete temporary files.
+	 * @return void
+	 */
+	public function __destruct()
+	{
+		if ($this->file !== NULL && $this->isTemporary) {
+			unlink($this->file);
+		}
+	}
+
+}
