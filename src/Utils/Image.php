@@ -53,6 +53,9 @@ class Image extends Object {
 	const GIF = IMAGETYPE_GIF;
 	/**#@-*/
 
+	/** @var bool */
+	public static $useImageMagick = FALSE;
+
 	/** @var resource */
 	private $image;
 
@@ -101,6 +104,10 @@ class Image extends Object {
 		}
 
 		$info = getimagesize($file);
+		if (self::$useImageMagick && (empty($info) || $info[0] * $info[1] > 2e6)) {
+			return new ImageMagick($file);
+		}
+
 		switch ($info[2]) {
 		case self::JPEG:
 			return new self(imagecreatefromjpeg($file));
@@ -153,10 +160,7 @@ class Image extends Object {
 	 */
 	public function __construct($image)
 	{
-		if (!is_resource($image) || get_resource_type($image) !== 'gd') {
-			throw new /*\*/InvalidArgumentException('Image is not valid.');
-		}
-		$this->image = $image;
+		$this->setImageResource($image);
 	}
 
 
@@ -184,6 +188,21 @@ class Image extends Object {
 
 
 	/**
+	 * Sets image resource.
+	 * @param  resource
+	 * @return void
+	 */
+	protected function setImageResource($image)
+	{
+		if (!is_resource($image) || get_resource_type($image) !== 'gd') {
+			throw new /*\*/InvalidArgumentException('Image is not valid.');
+		}
+		$this->image = $image;
+	}
+
+
+
+	/**
 	 * Returns image GD resource.
 	 * @return resource
 	 */
@@ -203,8 +222,25 @@ class Image extends Object {
 	 */
 	public function resize($newWidth, $newHeight, $flags = 0)
 	{
-		$width = imagesx($this->image);
-		$height = imagesy($this->image);
+		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
+		$oldImg = $this->getImageResource();
+		$this->image = imagecreatetruecolor($newWidth, $newHeight);
+		imagecopyresampled($this->image, $oldImg, 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
+	}
+
+
+
+	/**
+	 * Calculates dimensions of resized image.
+	 * @param  mixed  width in pixels or percent
+	 * @param  mixed  height in pixels or percent
+	 * @param  int  flags
+	 * @return array
+	 */
+	public function calculateSize($newWidth, $newHeight, $flags = 0)
+	{
+		$width = $this->getWidth();
+		$height = $this->getHeight();
 
 		if (substr($newWidth, -1) === '%') {
 			$newWidth = round($width / 100 * $newWidth);
@@ -254,9 +290,7 @@ class Image extends Object {
 			$newHeight = round($height * $scale);
 		}
 
-		$oldImg = $this->image;
-		$this->image = imagecreatetruecolor($newWidth, $newHeight);
-		imagecopyresampled($this->image, $oldImg, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+		return array($newWidth, $newHeight);
 	}
 
 
@@ -273,8 +307,8 @@ class Image extends Object {
 	{
 		$left = max(0, (int) $left);
 		$top = max(0, (int) $top);
-		$width = min((int) $width, imagesx($this->image) - $left);
-		$height = min((int) $height, imagesy($this->image) - $top);
+		$width = min((int) $width, $this->getWidth() - $left);
+		$height = min((int) $height, $this->getHeight() - $top);
 
 		$oldImg = $this->image;
 		$this->image = imagecreatetruecolor($width, $height);
@@ -289,7 +323,7 @@ class Image extends Object {
 	 */
 	public function sharpen()
 	{
-		imageconvolution($this->image, array( // my magic numbers ;)
+		imageconvolution($this->getImageResource(), array( // my magic numbers ;)
 			array( -1, -1, -1 ),
 			array( -1, 24, -1 ),
 			array( -1, -1, -1 ),
@@ -311,18 +345,18 @@ class Image extends Object {
 		$opacity = max(0, min(100, (int) $opacity));
 
 		if (substr($left, -1) === '%') {
-			$left = round((imagesx($this->image) - imagesx($image->image)) / 100 * $left);
+			$left = round(($this->getWidth() - $image->getWidth()) / 100 * $left);
 		}
 
 		if (substr($top, -1) === '%') {
-			$top = round((imagesy($this->image) - imagesy($image->image)) / 100 * $top);
+			$top = round(($this->getHeight() - $image->getHeight()) / 100 * $top);
 		}
 
 		if ($opacity === 100) {
-			imagecopy($this->image, $image->image, $left, $top, 0, 0, imagesx($image->image), imagesy($image->image));
+			imagecopy($this->getImageResource(), $image->getImageResource(), $left, $top, 0, 0, $image->getWidth(), $image->getHeight());
 
 		} elseif ($opacity <> 0) {
-			imagecopymerge($this->image, $image->image, $left, $top, 0, 0, imagesx($image->image), imagesy($image->image), $opacity);
+			imagecopymerge($this->getImageResource(), $image->getImageResource(), $left, $top, 0, 0, $image->getWidth(), $image->getHeight(), $opacity);
 		}
 	}
 
@@ -353,15 +387,15 @@ class Image extends Object {
 
 		switch ($type) {
 		case self::JPEG:
-			imagejpeg($this->image, $file, max(0, min(100, (int) $quality)));
+			imagejpeg($this->getImageResource(), $file, max(0, min(100, (int) $quality)));
 			break;
 
 		case self::PNG:
-			imagepng($this->image, $file, max(0, min(9, round($quality / 10))));
+			imagepng($this->getImageResource(), $file, max(0, min(9, round($quality / 10))));
 			break;
 
 		case self::GIF:
-			imagegif($this->image, $file);
+			imagegif($this->getImageResource(), $file);
 			break;
 
 		default:
@@ -415,7 +449,7 @@ class Image extends Object {
 			throw new /*\*/Exception("Unsupported image type.");
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
-		echo $this->__toString($type, $quality);
+		$this->save(NULL, $quality, $type);
 	}
 
 
@@ -434,13 +468,13 @@ class Image extends Object {
 		if (function_exists($function)) {
 			foreach ($args as $key => $value) {
 				if ($value instanceof self) {
-					$args[$key] = $value->image;
+					$args[$key] = $value->getImageResource();
 
 				} elseif (is_array($value) && isset($value['r'])) { // rgb
-					$args[$key] = imagecolorallocatealpha($this->image, $value['r'], $value['g'], $value['b'], $value['a']);
+					$args[$key] = imagecolorallocatealpha($this->getImageResource(), $value['r'], $value['g'], $value['b'], $value['a']);
 				}
 			}
-			array_unshift($args, $this->image);
+			array_unshift($args, $this->getImageResource());
 
 			return call_user_func_array($function, $args);
 		}
