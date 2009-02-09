@@ -40,6 +40,9 @@ final class ObjectMixin
 	/** @var array (method => array(type => callback)) */
 	private static $extMethods;
 
+	/** @var array */
+	private static $methods;
+
 
 
 	/**
@@ -89,7 +92,7 @@ final class ObjectMixin
 		}
 
 		// extension methods
-		if ($cb = self::extensionMethod("$class::$name")) {
+		if ($cb = self::extensionMethod($class, $name)) {
 			array_unshift($args, $_this);
 			/**/fixCallback($cb);/**/
 			return call_user_func_array($cb, $args);
@@ -103,11 +106,12 @@ final class ObjectMixin
 	/**
 	 * Adding method to class.
 	 *
+	 * @param  string  class name
 	 * @param  string  method name
 	 * @param  mixed   callback or closure
 	 * @return mixed
 	 */
-	public static function extensionMethod($name, $callback = NULL)
+	public static function extensionMethod($class, $name, $callback = NULL)
 	{
 		if (self::$extMethods === NULL || $name === NULL) { // for backwards compatibility
 			$list = get_defined_functions();
@@ -121,15 +125,8 @@ final class ObjectMixin
 			if ($name === NULL) return NULL;
 		}
 
-		$name = strtolower($name);
-		$a = strrpos($name, ':'); // search ::
-		if ($a === FALSE) {
-			$class = strtolower(get_called_class());
-			$l = & self::$extMethods[$name];
-		} else {
-			$class = substr($name, 0, $a - 1);
-			$l = & self::$extMethods[substr($name, $a + 1)];
-		}
+		$class = strtolower($class);
+		$l = & self::$extMethods[strtolower($name)];
 
 		if ($callback !== NULL) { // works as setter
 			$l[$class] = $callback;
@@ -178,10 +175,18 @@ final class ObjectMixin
 			throw new /*\*/MemberAccessException("Cannot read an class '$class' property without name.");
 		}
 
+		if (!isset(self::$methods[$class])) {
+			// get_class_methods returns ONLY PUBLIC methods of objects
+			// but returns static methods too (nothing doing...)
+			// and is much faster than reflection
+			// (works good since 5.0.4)
+			self::$methods[$class] = array_flip(get_class_methods($class));
+		}
+
 		// property getter support
 		$name[0] = $name[0] & "\xDF"; // case-sensitive checking, capitalize first character
 		$m = 'get' . $name;
-		if (self::hasAccessor($class, $m)) {
+		if (isset(self::$methods[$class][$m])) {
 			// ampersands:
 			// - uses &__get() because declaration should be forward compatible (e.g. with Nette\Web\Html)
 			// - doesn't call &$_this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
@@ -190,7 +195,7 @@ final class ObjectMixin
 		}
 
 		$m = 'is' . $name;
-		if (self::hasAccessor($class, $m)) {
+		if (isset(self::$methods[$class][$m])) {
 			$val = $_this->$m();
 			return $val;
 		}
@@ -217,11 +222,15 @@ final class ObjectMixin
 			throw new /*\*/MemberAccessException("Cannot assign to an class '$class' property without name.");
 		}
 
+		if (!isset(self::$methods[$class])) {
+			self::$methods[$class] = array_flip(get_class_methods($class));
+		}
+
 		// property setter support
 		$name[0] = $name[0] & "\xDF"; // case-sensitive checking, capitalize first character
-		if (self::hasAccessor($class, 'get' . $name) || self::hasAccessor($class, 'is' . $name)) {
+		if (isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name])) {
 			$m = 'set' . $name;
-			if (self::hasAccessor($class, $m)) {
+			if (isset(self::$methods[$class][$m])) {
 				$_this->$m($value);
 				return;
 
@@ -245,30 +254,17 @@ final class ObjectMixin
 	 */
 	public static function has($_this, $name)
 	{
-		$name[0] = $name[0] & "\xDF";
-		return $name !== '' && self::hasAccessor(get_class($_this), 'get' . $name);
-	}
-
-
-
-	/**
-	 * Has property an accessor?
-	 *
-	 * @param  string  class name
-	 * @param  string  method name
-	 * @return bool
-	 */
-	public static function hasAccessor($c, $m)
-	{
-		static $cache;
-		if (!isset($cache[$c])) {
-			// get_class_methods returns ONLY PUBLIC methods of objects
-			// but returns static methods too (nothing doing...)
-			// and is much faster than reflection
-			// (works good since 5.0.4)
-			$cache[$c] = array_flip(get_class_methods($c));
+		if ($name === '') {
+			return FALSE;
 		}
-		return isset($cache[$c][$m]);
+
+		$class = get_class($_this);
+		if (!isset(self::$methods[$class])) {
+			self::$methods[$class] = array_flip(get_class_methods($class));
+		}
+
+		$name[0] = $name[0] & "\xDF";
+		return isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name]);
 	}
 
 }

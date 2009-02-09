@@ -135,7 +135,12 @@ abstract class Object
 	 */
 	public static function extensionMethod($name, $callback = NULL)
 	{
-		return ObjectMixin::extensionMethod($name, $callback);
+		if (strpos($name, '::') === FALSE) {
+			$class = get_called_class();
+		} else {
+			list($class, $name) = explode('::', $name);
+		}
+		return ObjectMixin::extensionMethod($class, $name, $callback);
 	}
 
 
