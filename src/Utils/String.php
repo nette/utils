@@ -212,6 +212,7 @@ final class String
 	 */
 	public static function bytes($bytes)
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use TemplateHelpers::bytes() instead.', E_USER_WARNING);
 		return /*Nette\Templates\*/TemplateHelpers::bytes($bytes);
 	}
 
