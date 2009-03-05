@@ -124,8 +124,8 @@ class ImageMagick extends Image
 	 * Resizes image.
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
-	 * @param  int  flags
-	 * @return void
+	 * @param  int    flags
+	 * @return ImageMagick  provides a fluent interface
 	 */
 	public function resize($newWidth, $newHeight, $flags = 0)
 	{
@@ -135,6 +135,7 @@ class ImageMagick extends Image
 
 		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
 		$this->execute("convert -resize {$newWidth}x{$newHeight}! -strip %input %output", self::PNG);
+		return $this;
 	}
 
 
@@ -145,7 +146,7 @@ class ImageMagick extends Image
 	 * @param  int  y-coordinate
 	 * @param  int  width
 	 * @param  int  height
-	 * @return void
+	 * @return ImageMagick  provides a fluent interface
 	 */
 	public function crop($left, $top, $width, $height)
 	{
@@ -158,6 +159,7 @@ class ImageMagick extends Image
 		$width = min((int) $width, $this->getWidth() - $left);
 		$height = min((int) $height, $this->getHeight() - $top);
 		$this->execute("convert -crop \"{$width}x{$height}+{$left}+{$top}\" -strip %input %output", self::PNG);
+		return $this;
 	}
 
 
@@ -167,7 +169,7 @@ class ImageMagick extends Image
 	 * @param  string  filename
 	 * @param  int  quality 0..100 (for JPEG and PNG)
 	 * @param  int  optional image type
-	 * @return void
+	 * @return bool TRUE on success or FALSE on failure.
 	 */
 	public function save($file = NULL, $quality = NULL, $type = NULL)
 	{
@@ -183,6 +185,7 @@ class ImageMagick extends Image
 		} else {
 			$this->execute("convert $quality -strip %input %output", (string) $file);
 		}
+		return TRUE;
 	}
 
 

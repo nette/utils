@@ -220,8 +220,8 @@ class Image extends Object {
 	 * Resizes image.
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
-	 * @param  int  flags
-	 * @return void
+	 * @param  int    flags
+	 * @return Image  provides a fluent interface
 	 */
 	public function resize($newWidth, $newHeight, $flags = 0)
 	{
@@ -229,6 +229,7 @@ class Image extends Object {
 		$newImage = imagecreatetruecolor($newWidth, $newHeight);
 		imagecopyresampled($newImage, $this->getImageResource(), 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
 		$this->image = $newImage;
+		return $this;
 	}
 
 
@@ -237,7 +238,7 @@ class Image extends Object {
 	 * Calculates dimensions of resized image.
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
-	 * @param  int  flags
+	 * @param  int    flags
 	 * @return array
 	 */
 	public function calculateSize($newWidth, $newHeight, $flags = 0)
@@ -300,11 +301,11 @@ class Image extends Object {
 
 	/**
 	 * Crops image.
-	 * @param  int  x-coordinate
-	 * @param  int  y-coordinate
-	 * @param  int  width
-	 * @param  int  height
-	 * @return void
+	 * @param  int    x-coordinate
+	 * @param  int    y-coordinate
+	 * @param  int    width
+	 * @param  int    height
+	 * @return Image  provides a fluent interface
 	 */
 	public function crop($left, $top, $width, $height)
 	{
@@ -316,13 +317,14 @@ class Image extends Object {
 		$newImage = imagecreatetruecolor($width, $height);
 		imagecopy($newImage, $this->getImageResource(), 0, 0, $left, $top, $width, $height);
 		$this->image = $newImage;
+		return $this;
 	}
 
 
 
 	/**
 	 * Sharpen image.
-	 * @return void
+	 * @return Image  provides a fluent interface
 	 */
 	public function sharpen()
 	{
@@ -331,6 +333,7 @@ class Image extends Object {
 			array( -1, 24, -1 ),
 			array( -1, -1, -1 ),
 		), 16, 0);
+		return $this;
 	}
 
 
@@ -341,7 +344,7 @@ class Image extends Object {
 	 * @param  mixed  x-coordinate in pixels or percent
 	 * @param  mixed  y-coordinate in pixels or percent
 	 * @param  int  opacity 0..100
-	 * @return void
+	 * @return Image  provides a fluent interface
 	 */
 	public function place(Image $image, $left = 0, $top = 0, $opacity = 100)
 	{
@@ -361,6 +364,7 @@ class Image extends Object {
 		} elseif ($opacity <> 0) {
 			imagecopymerge($this->getImageResource(), $image->getImageResource(), $left, $top, 0, 0, $image->getWidth(), $image->getHeight(), $opacity);
 		}
+		return $this;
 	}
 
 
@@ -370,7 +374,7 @@ class Image extends Object {
 	 * @param  string  filename
 	 * @param  int  quality 0..100 (for JPEG and PNG)
 	 * @param  int  optional image type
-	 * @return void
+	 * @return bool TRUE on success or FALSE on failure.
 	 */
 	public function save($file = NULL, $quality = NULL, $type = NULL)
 	{
@@ -391,17 +395,14 @@ class Image extends Object {
 		switch ($type) {
 		case self::JPEG:
 			$quality = $quality === NULL ? 85 : max(0, min(100, (int) $quality));
-			imagejpeg($this->getImageResource(), $file, $quality);
-			break;
+			return imagejpeg($this->getImageResource(), $file, $quality);
 
 		case self::PNG:
 			$quality = $quality === NULL ? 9 : max(0, min(9, (int) $quality));
-			imagepng($this->getImageResource(), $file, $quality);
-			break;
+			return imagepng($this->getImageResource(), $file, $quality);
 
 		case self::GIF:
-			imagegif($this->getImageResource(), $file);
-			break;
+			return imagegif($this->getImageResource(), $file);
 
 		default:
 			throw new /*\*/Exception("Unsupported image type.");
@@ -446,7 +447,7 @@ class Image extends Object {
 	 * Outputs image to browser.
 	 * @param  int  image type
 	 * @param  int  quality 0..100 (for JPEG and PNG)
-	 * @return void
+	 * @return bool TRUE on success or FALSE on failure.
 	 */
 	public function send($type = self::JPEG, $quality = NULL)
 	{
@@ -454,7 +455,7 @@ class Image extends Object {
 			throw new /*\*/Exception("Unsupported image type.");
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
-		$this->save(NULL, $quality, $type);
+		return $this->save(NULL, $quality, $type);
 	}
 
 
@@ -484,7 +485,7 @@ class Image extends Object {
 			return call_user_func_array($function, $args);
 		}
 
-		parent::__call($name, $args);
+		return parent::__call($name, $args);
 	}
 
 }
