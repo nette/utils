@@ -63,7 +63,8 @@ final class String
 	 */
 	public static function fixEncoding($s, $encoding = 'UTF-8')
 	{
-		return @iconv($encoding, $encoding . '//IGNORE', $s); // intentionally @
+		// removes xD800-xDFFF, xFEFF, xFFFF, x110000 and higher
+		return @iconv('UTF-16', $encoding . '//IGNORE', iconv($encoding, 'UTF-16//IGNORE', $s)); // intentionally @
 	}
 
 
