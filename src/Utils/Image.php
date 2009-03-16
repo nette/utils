@@ -40,8 +40,8 @@ require_once dirname(__FILE__) . '/Object.php';
  * @copyright  Copyright (c) 2004, 2009 David Grudl
  * @package    Nette
  */
-class Image extends Object {
-
+class Image extends Object
+{
 	/**#@+ resizing flags {@link resize()} */
 	const ENLARGE = 1;
 	const STRETCH = 2;
@@ -53,22 +53,13 @@ class Image extends Object {
 	const GIF = IMAGETYPE_GIF;
 	/**#@-*/
 
+	const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
+
 	/** @var bool */
 	public static $useImageMagick = FALSE;
 
 	/** @var resource */
 	private $image;
-
-
-
-	/**
-	 * Returns empty GIF.
-	 * @return string
-	 */
-	public static function emptyGif()
-	{
-		return "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
-	}
 
 
 
@@ -124,6 +115,18 @@ class Image extends Object {
 			}
 			throw new /*\*/Exception("Unknown image type in file '$file'.");
 		}
+	}
+
+
+
+	/**
+	 * Create a new image from the image stream in the string.
+	 * @param  string
+	 * @return Image
+	 */
+	public static function fromString($s)
+	{
+		return new self(imagecreatefromstring($s));
 	}
 
 
