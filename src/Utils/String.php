@@ -70,6 +70,19 @@ final class String
 
 
 	/**
+	 * Returns a specific character.
+	 * @param  int     codepoint
+	 * @param  string  encoding
+	 * @return string
+	 */
+	public static function chr($code, $encoding = 'UTF-8')
+	{
+		return iconv('UTF-32BE', $encoding . '//IGNORE', pack('N', $code));
+	}
+
+
+
+	/**
 	 * Starts the $haystack string with the prefix $needle?
 	 * @param  string
 	 * @param  string
