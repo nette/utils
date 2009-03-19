@@ -259,7 +259,7 @@ class Image extends Object
 
 		if (substr($newHeight, -1) === '%') {
 			$newHeight = round($height / 100 * $newHeight);
-			$flags |= $percents ? self::STRETCH : self::ENLARGE;
+			$flags |= empty($percents) ? self::ENLARGE : self::STRETCH;
 		} else {
 			$newHeight = (int) $newHeight;
 		}

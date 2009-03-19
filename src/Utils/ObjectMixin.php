@@ -94,7 +94,6 @@ final class ObjectMixin
 		// extension methods
 		if ($cb = self::extensionMethod($class, $name)) {
 			array_unshift($args, $_this);
-			/**/fixCallback($cb);/**/
 			return call_user_func_array($cb, $args);
 		}
 
@@ -129,6 +128,7 @@ final class ObjectMixin
 		$l = & self::$extMethods[strtolower($name)];
 
 		if ($callback !== NULL) { // works as setter
+			/**/fixCallback($callback);/**/
 			$l[$class] = $callback;
 			$l[''] = NULL;
 			return NULL;
@@ -141,6 +141,7 @@ final class ObjectMixin
 		} elseif (isset($l[''][$class])) { // cached value
 			return $l[''][$class];
 		}
+
 		$cl = $class;
 		do {
 			$cl = strtolower($cl);
@@ -172,7 +173,7 @@ final class ObjectMixin
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new /*\*/MemberAccessException("Cannot read an class '$class' property without name.");
+			throw new /*\*/MemberAccessException("Cannot read a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
@@ -219,7 +220,7 @@ final class ObjectMixin
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new /*\*/MemberAccessException("Cannot assign to an class '$class' property without name.");
+			throw new /*\*/MemberAccessException("Cannot assign to a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
