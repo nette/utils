@@ -78,13 +78,12 @@ final class ObjectMixin
 				$list = $_this->$name;
 				if (is_array($list) || $list instanceof /*\*/Traversable) {
 					foreach ($list as $handler) {
-						/**/if (is_object($handler)) {
-							call_user_func_array(array($handler, '__invoke'), $args);
-
-						} else /**/{
-							/**/fixCallback($handler);/**/
-							call_user_func_array($handler, $args);
+						/**/fixCallback($handler);/**/
+						if (!is_callable($handler)) {
+							$able = is_callable($handler, TRUE, $textual);
+							throw new /*\*/InvalidStateException("Event handler '$textual' is not " . ($able ? 'callable.' : 'valid PHP callback.'));
 						}
+						call_user_func_array($handler, $args);
 					}
 				}
 				return NULL;
@@ -129,6 +128,10 @@ final class ObjectMixin
 
 		if ($callback !== NULL) { // works as setter
 			/**/fixCallback($callback);/**/
+			if (!is_callable($callback)) {
+				$able = is_callable($callback, TRUE, $textual);
+				throw new /*\*/InvalidArgumentException("Extension method handler '$textual' is not " . ($able ? 'callable.' : 'valid PHP callback.'));
+			}
 			$l[$class] = $callback;
 			$l[''] = NULL;
 			return NULL;
