@@ -64,14 +64,18 @@ class ImageMagick extends Image
 
 	/**
 	 * Wraps image file.
+	 * @param  string  detected image format
 	 * @param  string
 	 */
-	public function __construct($file)
+	public function __construct($file, & $format = NULL)
 	{
 		if (!is_file($file)) {
 			throw new /*\*/InvalidArgumentException('File not exists.');
 		}
-		$this->setFile(realpath($file));
+		$format = $this->setFile(realpath($file));
+		if ($format === 'JPEG') $format = self::JPEG;
+		elseif ($format === 'PNG') $format = self::PNG;
+		elseif ($format === 'GIF') $format = self::GIF;
 	}
 
 
@@ -193,7 +197,7 @@ class ImageMagick extends Image
 	/**
 	 * Change and identify image file.
 	 * @param  string  filename
-	 * @return void
+	 * @return string  detected image format
 	 */
 	private function setFile($file)
 	{
@@ -202,7 +206,8 @@ class ImageMagick extends Image
 		if (!$res) {
 			throw new /*\*/Exception("Unknown image type in file '$file' or ImageMagick not available.");
 		}
-		list($this->width, $this->height) = explode(',', $res, 3);
+		list($this->width, $this->height, $format) = explode(',', $res, 3);
+		return $format;
 	}
 
 

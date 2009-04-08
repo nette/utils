@@ -47,7 +47,7 @@ class Image extends Object
 	const STRETCH = 2;
 	/**#@-*/
 
-	/**#@+ image types {@link send()} */
+	/**#@+ @int image types {@link send()} */
 	const JPEG = IMAGETYPE_JPEG;
 	const PNG = IMAGETYPE_PNG;
 	const GIF = IMAGETYPE_GIF;
@@ -86,9 +86,10 @@ class Image extends Object
 	/**
 	 * Opens image from file.
 	 * @param  string
+	 * @param  mixed  detected image format
 	 * @return Image
 	 */
-	public static function fromFile($file)
+	public static function fromFile($file, & $format = NULL)
 	{
 		if (!extension_loaded('gd')) {
 			throw new /*\*/Exception("PHP extension GD is not loaded.");
@@ -96,10 +97,10 @@ class Image extends Object
 
 		$info = getimagesize($file);
 		if (self::$useImageMagick && (empty($info) || $info[0] * $info[1] > 2e6)) {
-			return new ImageMagick($file);
+			return new ImageMagick($file, $format);
 		}
 
-		switch ($info[2]) {
+		switch ($format = $info[2]) {
 		case self::JPEG:
 			return new self(imagecreatefromjpeg($file));
 
@@ -111,7 +112,7 @@ class Image extends Object
 
 		default:
 			if (self::$useImageMagick) {
-				return new ImageMagick($file);
+				return new ImageMagick($file, $format);
 			}
 			throw new /*\*/Exception("Unknown image type in file '$file'.");
 		}
