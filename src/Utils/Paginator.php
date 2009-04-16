@@ -243,7 +243,7 @@ class Paginator extends Object
 	 */
 	public function getSteps($steps = 5, $surround = 3)
 	{
-		trigger_error('Paginator::getSteps() is deprecated; use template helper instead.', E_USER_WARNING);
+		trigger_error('Paginator::getSteps() is deprecated; use template helper instead.', /**/E_USER_WARNING/**//*E_USER_DEPRECATED*/);
 		$lastPage = $this->getPageCount() - 1;
 		$page = $this->getPageIndex();
 		if ($lastPage < 1) return array($page + $this->base);

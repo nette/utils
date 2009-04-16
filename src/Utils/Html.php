@@ -248,7 +248,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	final public function setText($text, $isHtml = FALSE)
 	{
 		if ($isHtml) {
-			trigger_error('Html::setText(..., TRUE) is deprecated; use Html::setHtml(...) instead.', E_USER_WARNING);
+			trigger_error('Html::setText(..., TRUE) is deprecated; use Html::setHtml(...) instead.', /**/E_USER_WARNING/**//*E_USER_DEPRECATED*/);
 
 		} elseif (!is_array($text)) {
 			$text = str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), (string) $text);
