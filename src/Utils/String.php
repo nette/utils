@@ -186,6 +186,20 @@ final class String
 
 
 	/**
+	 * Indents the content from the left.
+	 * @param  string
+	 * @param  int
+	 * @param  string
+	 * @return string
+	 */
+	public static function indent($s, $level = 1, $chars = "\t")
+	{
+		return $level < 1 ? $s : preg_replace('#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level), $s);
+	}
+
+
+
+	/**
 	 * Convert to lower case.
 	 * @param  string
 	 * @return string
