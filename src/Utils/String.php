@@ -110,7 +110,7 @@ final class String
 
 	/**
 	 * Removes special controls characters and normalizes line endings and spaces.
-	 * @param  string
+	 * @param  string  UTF-8 encoding or 8-bit
 	 * @return string
 	 */
 	public static function normalize($s)
@@ -135,8 +135,8 @@ final class String
 
 	/**
 	 * Converts to web safe characters [a-z0-9-] text.
-	 * @param  string  in UTF-8
-	 * @param  string
+	 * @param  string  UTF-8 encoding
+	 * @param  string  ASCII
 	 * @return string
 	 */
 	public static function webalize($s, $charlist = NULL)
@@ -161,9 +161,9 @@ final class String
 
 	/**
 	 * Truncates string to maximal length.
-	 * @param  string  in UTF-8
+	 * @param  string  UTF-8 encoding
 	 * @param  int
-	 * @param  string
+	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
 	public static function truncate($s, $maxLen, $append = "\xE2\x80\xA6")
@@ -187,7 +187,7 @@ final class String
 
 	/**
 	 * Indents the content from the left.
-	 * @param  string
+	 * @param  string  UTF-8 encoding or 8-bit
 	 * @param  int
 	 * @param  string
 	 * @return string
@@ -201,7 +201,7 @@ final class String
 
 	/**
 	 * Convert to lower case.
-	 * @param  string
+	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
 	public static function lower($s)
@@ -213,7 +213,7 @@ final class String
 
 	/**
 	 * Convert to upper case.
-	 * @param  string
+	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
 	public static function upper($s)
@@ -225,7 +225,7 @@ final class String
 
 	/**
 	 * Capitalize string.
-	 * @param  string
+	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
 	public static function capitalize($s)
