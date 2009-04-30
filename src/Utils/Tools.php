@@ -186,8 +186,6 @@ final class Tools
 	 */
 	public static function _errorHandler($code, $message)
 	{
-		restore_error_handler();
-
 		if (ini_get('html_errors')) {
 			$message = strip_tags($message);
 			$message = html_entity_decode($message);
