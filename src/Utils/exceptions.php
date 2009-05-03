@@ -57,6 +57,17 @@ class ArgumentOutOfRangeException extends InvalidArgumentException
  */
 class InvalidStateException extends RuntimeException
 {
+	/**/
+	function __construct($message = '', $code = 0, Exception $previous = NULL)
+	{
+		if (version_compare(PHP_VERSION , '5.3', '<')) {
+			$this->previous = $previous;
+			parent::__construct($message, $code);
+		} else {
+			parent::__construct($message, $code, $previous);
+		}
+	}
+	/**/
 }
 
 
