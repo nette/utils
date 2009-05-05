@@ -111,7 +111,7 @@ final class ObjectMixin
 	 */
 	public static function extensionMethod($class, $name, $callback = NULL)
 	{
-		if (self::$extMethods === NULL || $name === NULL) { // for backwards compatibility
+		/**/if (self::$extMethods === NULL || $name === NULL) { // for backwards compatibility
 			$list = get_defined_functions();
 			foreach ($list['user'] as $fce) {
 				$pair = explode('_prototype_', $fce);
@@ -122,7 +122,7 @@ final class ObjectMixin
 			}
 			if ($name === NULL) return NULL;
 		}
-
+		/**/
 		$class = strtolower($class);
 		$l = & self::$extMethods[strtolower($name)];
 

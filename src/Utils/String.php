@@ -233,15 +233,4 @@ final class String
 		return mb_convert_case($s, MB_CASE_TITLE, 'UTF-8');
 	}
 
-
-
-	/**
-	 * @deprecated
-	 */
-	public static function bytes($bytes)
-	{
-		trigger_error(__METHOD__ . '() is deprecated; use TemplateHelpers::bytes() instead.', /**/E_USER_WARNING/**//*E_USER_DEPRECATED*/);
-		return /*Nette\Templates\*/TemplateHelpers::bytes($bytes);
-	}
-
 }
