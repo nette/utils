@@ -31,13 +31,22 @@
  */
 final class Tools
 {
+	/** minute in seconds */
+	const MINUTE = 60;
+
 	/** hour in seconds */
 	const HOUR = 3600;
 
 	/** day in seconds */
 	const DAY = 86400;
 
-	/** year in seconds */
+	/** week in seconds */
+	const WEEK = 604800;
+
+	/** average month in seconds */
+	const MONTH = 2629800;
+
+	/** average year in seconds */
 	const YEAR = 31557600;
 
 
