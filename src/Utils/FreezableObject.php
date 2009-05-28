@@ -28,6 +28,8 @@
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2009 David Grudl
  * @package    Nette
+ *
+ * @property-read bool $frozen
  */
 abstract class FreezableObject extends Object
 {

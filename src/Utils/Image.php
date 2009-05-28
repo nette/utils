@@ -39,6 +39,10 @@ require_once dirname(__FILE__) . '/Object.php';
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2009 David Grudl
  * @package    Nette
+ *
+ * @property-read int $width
+ * @property-read int $height
+ * @property-read resource $imageResource
  */
 class Image extends Object
 {

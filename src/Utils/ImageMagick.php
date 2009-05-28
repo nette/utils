@@ -43,10 +43,10 @@ require_once dirname(__FILE__) . '/Object.php';
 class ImageMagick extends Image
 {
 	/** @var string  path to ImageMagick library */
-	static public $path = '';
+	public static $path = '';
 
 	/** @var string */
-	static public $tempDir;
+	public static $tempDir;
 
 	/** @var string */
 	private $file;

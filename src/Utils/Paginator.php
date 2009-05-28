@@ -28,6 +28,19 @@
  * @author     David Grudl
  * @copyright  Copyright (c) 2004, 2009 David Grudl
  * @package    Nette
+ *
+ * @property   int $page
+ * @property-read int $firstPage
+ * @property-read int $lastPage
+ * @property   int $base
+ * @property-read int $pageCount
+ * @property   int $itemsPerPage
+ * @property   int $itemCount
+ * @property-read int $offset
+ * @property-read int $countdownOffset
+ * @property-read int $length
+ * @property-read bool $first
+ * @property-read bool $last
  */
 class Paginator extends Object
 {
