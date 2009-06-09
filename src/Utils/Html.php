@@ -73,8 +73,9 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	public static function el($name = NULL, $attrs = NULL)
 	{
 		$el = new /**/self/**/ /*static*/;
-		$parts = explode(' ', $name);
-		$el->setName(array_shift($parts));
+		$parts = explode(' ', $name, 2);
+		$el->setName($parts[0]);
+
 		if (is_array($attrs)) {
 			$el->attrs = $attrs;
 
@@ -82,10 +83,13 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 			$el->setText($attrs);
 		}
 
-		foreach ($parts as $pair) {
-			$pair = explode('=', $pair, 2);
-			$el->attrs[$pair[0]] = isset($pair[1]) ? trim($pair[1], '"') : TRUE;
+		if (isset($parts[1])) {
+			preg_match_all('#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\\2|\s))?#i', $parts[1] . ' ', $parts, PREG_SET_ORDER);
+			foreach ($parts as $m) {
+				$el->attrs[$m[1]] = isset($m[3]) ? $m[3] : TRUE;
+			}
 		}
+
 		return $el;
 	}
 
