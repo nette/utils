@@ -99,7 +99,7 @@ class Image extends Object
 			throw new /*\*/Exception("PHP extension GD is not loaded.");
 		}
 
-		$info = getimagesize($file);
+		$info = @getimagesize($file); // intentionally @
 		if (self::$useImageMagick && (empty($info) || $info[0] * $info[1] > 2e6)) {
 			return new ImageMagick($file, $format);
 		}
@@ -118,7 +118,7 @@ class Image extends Object
 			if (self::$useImageMagick) {
 				return new ImageMagick($file, $format);
 			}
-			throw new /*\*/Exception("Unknown image type in file '$file'.");
+			throw new /*\*/Exception("Unknown image type or file '$file' not found.");
 		}
 	}
 

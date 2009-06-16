@@ -70,7 +70,7 @@ class ImageMagick extends Image
 	public function __construct($file, & $format = NULL)
 	{
 		if (!is_file($file)) {
-			throw new /*\*/InvalidArgumentException('File not exists.');
+			throw new /*\*/InvalidArgumentException('File not found.');
 		}
 		$format = $this->setFile(realpath($file));
 		if ($format === 'JPEG') $format = self::JPEG;
