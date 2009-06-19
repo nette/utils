@@ -182,6 +182,18 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	 */
 	final public function __call($m, $args)
 	{
+		$p = substr($m, 0, 3);
+		if ($p === 'get' || $p === 'set' || $p === 'add') {
+			$m = substr($m, 3);
+			$m[0] = $m[0] | "\x20";
+			if ($p === 'get') {
+				return isset($this->attrs[$m]) ? $this->attrs[$m] : NULL;
+
+			} elseif ($p === 'add') {
+				$args[] = TRUE;
+			}
+		}
+
 		if (count($args) === 1) { // set
 			$this->attrs[$m] = $args[0];
 
