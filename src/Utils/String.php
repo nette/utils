@@ -137,9 +137,10 @@ final class String
 	 * Converts to web safe characters [a-z0-9-] text.
 	 * @param  string  UTF-8 encoding
 	 * @param  string  ASCII
+	 * @param  bool
 	 * @return string
 	 */
-	public static function webalize($s, $charlist = NULL)
+	public static function webalize($s, $charlist = NULL, $lower = TRUE)
 	{
 		$s = strtr($s, '`\'"^~', '-----');
 		if (ICONV_IMPL === 'glibc') {
@@ -151,8 +152,8 @@ final class String
 			$s = @iconv('UTF-8', 'ASCII//TRANSLIT', $s); // intentionally @
 		}
 		$s = str_replace(array('`', "'", '"', '^', '~'), '', $s);
-		$s = strtolower($s);
-		$s = preg_replace('#[^a-z0-9' . preg_quote($charlist, '#') . ']+#', '-', $s);
+		if ($lower) $s = strtolower($s);
+		$s = preg_replace('#[^a-z0-9' . preg_quote($charlist, '#') . ']+#i', '-', $s);
 		$s = trim($s, '-');
 		return $s;
 	}
