@@ -256,6 +256,22 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 
 
 	/**
+	 * Gets element's textual content.
+	 * @return string
+	 */
+	final public function getHtml()
+	{
+		$s = '';
+		foreach ($this->children as $child) {
+			if (is_object($child)) return FALSE;
+			$s .= $child;
+		}
+		return $s;
+	}
+
+
+
+	/**
 	 * Sets element's textual content.
 	 * @param  string
 	 * @throws \InvalidArgumentException
@@ -272,17 +288,11 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 
 
 	/**
-	 * Gets element's textual content.
-	 * @return string
+	 * @deprecated
 	 */
 	final public function getText()
 	{
-		$s = '';
-		foreach ($this->children as $child) {
-			if (is_object($child)) return FALSE;
-			$s .= $child;
-		}
-		return $s;
+		return $this->getHtml();
 	}
 
 
