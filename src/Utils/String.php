@@ -234,4 +234,18 @@ final class String
 		return mb_convert_case($s, MB_CASE_TITLE, 'UTF-8');
 	}
 
+
+
+	/**
+	 * Strips whitespace.
+	 * @param  string  UTF-8 encoding
+	 * @param  string
+	 * @return string
+	 */
+	public static function trim($s, $charlist = " \t\n\r\0\x0B\xC2\xA0")
+	{
+		$charlist = preg_quote($charlist, '#');
+		return preg_replace('#^['.$charlist.']+|['.$charlist.']+$#u', '', $s);
+	}
+
 }
