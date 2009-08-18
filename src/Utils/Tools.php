@@ -88,42 +88,6 @@ final class Tools
 
 
 	/**
-	 * Returns array item or $default if item is not set.
-	 * Example: $val = arrayGet($arr, 'i', 123);
-	 *
-	 * @param  mixed  array
-	 * @param  scalar key
-	 * @param  mixed  default value
-	 * @return mixed
-	 */
-	public static function arrayGet(array $arr, $key, $default = NULL)
-	{
-		if (isset($arr[$key])) return $arr[$key];
-		return $default;
-	}
-
-
-
-	/**
-	 * Recursively appends elements of remaining keys from the second array to the first.
-	 * @param  array
-	 * @param  array
-	 * @return array
-	 */
-	public static function arrayMergeTree($arr1, $arr2)
-	{
-		$res = $arr1 + $arr2;
-		foreach (array_intersect_key($arr1, $arr2) as $k => $v) {
-			if (is_array($v) && is_array($arr2[$k])) {
-				$res[$k] = self::arrayMergeTree($v, $arr2[$k]);
-			}
-		}
-		return $res;
-	}
-
-
-
-	/**
 	 * Recursive glob(). Finds pathnames matching a pattern.
 	 * @param  string
 	 * @param  int
