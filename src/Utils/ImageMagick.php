@@ -161,7 +161,7 @@ class ImageMagick extends Image
 		$top = max(0, (int) $top);
 		$width = min((int) $width, $this->getWidth() - $left);
 		$height = min((int) $height, $this->getHeight() - $top);
-		$this->execute("convert -crop \"{$width}x{$height}+{$left}+{$top}\" -strip %input %output", self::PNG);
+		$this->execute("convert -crop {$width}x{$height}+{$left}+{$top} -strip %input %output", self::PNG);
 		return $this;
 	}
 
@@ -201,7 +201,7 @@ class ImageMagick extends Image
 	private function setFile($file)
 	{
 		$this->file = $file;
-		$res = $this->execute('identify -format "%w,%h,%m" ' . addcslashes($this->file, ' '));
+		$res = $this->execute('identify -format "%w,%h,%m" ' . escapeshellarg($this->file));
 		if (!$res) {
 			throw new /*\*/Exception("Unknown image type in file '$file' or ImageMagick not available.");
 		}
@@ -219,12 +219,12 @@ class ImageMagick extends Image
 	 */
 	private function execute($command, $output = NULL)
 	{
-		$command = str_replace('%input', addcslashes($this->file, ' '), $command);
+		$command = str_replace('%input', escapeshellarg($this->file), $command);
 		if ($output) {
 			$newFile = is_string($output)
 				? $output
 				: (self::$tempDir ? self::$tempDir : dirname($this->file)) . '/_tempimage' . uniqid() . image_type_to_extension($output);
-			$command = str_replace('%output', addcslashes($newFile, ' '), $command);
+			$command = str_replace('%output', escapeshellarg($newFile), $command);
 		}
 
 		$lines = array();
