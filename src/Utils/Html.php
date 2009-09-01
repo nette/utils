@@ -197,7 +197,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 			$this->attrs[$m] = $args[0];
 
 		} elseif ($args[0] == NULL) { // intentionally ==
-			// append empty value -> ignore
+			$tmp = & $this->attrs[$m]; // appending empty value? -> ignore, but ensure it exists
 
 		} elseif (!isset($this->attrs[$m]) || is_array($this->attrs[$m])) { // needs array
 			$this->attrs[$m][$args[0]] = $args[1];
