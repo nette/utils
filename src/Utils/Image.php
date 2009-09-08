@@ -171,7 +171,9 @@ class Image extends Object
 		if (is_array($color)) {
 			$color += array('alpha' => 0);
 			$color = imagecolorallocatealpha($image, $color['red'], $color['green'], $color['blue'], $color['alpha']);
-			imagefilledrectangle($image, 0, 0, $width, $height, $color);
+			imagealphablending($image, FALSE);
+			imagefilledrectangle($image, 0, 0, $width - 1, $height - 1, $color);
+			imagealphablending($image, TRUE);
 		}
 		return new self($image);
 	}
@@ -247,7 +249,7 @@ class Image extends Object
 	public function resize($newWidth, $newHeight, $flags = 0)
 	{
 		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
-		$newImage = imagecreatetruecolor($newWidth, $newHeight);
+		$newImage = self::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
 		imagecopyresampled($newImage, $this->getImageResource(), 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
 		$this->image = $newImage;
 		return $this;
@@ -335,7 +337,7 @@ class Image extends Object
 		$width = min((int) $width, $this->getWidth() - $left);
 		$height = min((int) $height, $this->getHeight() - $top);
 
-		$newImage = imagecreatetruecolor($width, $height);
+		$newImage = self::fromBlank($width, $height, self::RGB(0, 0, 0, 127))->getImageResource();
 		imagecopy($newImage, $this->getImageResource(), 0, 0, $left, $top, $width, $height);
 		$this->image = $newImage;
 		return $this;
