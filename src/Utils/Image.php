@@ -126,10 +126,23 @@ class Image extends Object
 	/**
 	 * Create a new image from the image stream in the string.
 	 * @param  string
+	 * @param  mixed  detected image format
 	 * @return Image
 	 */
-	public static function fromString($s)
+	public static function fromString($s, & $format = NULL)
 	{
+		if (strncmp($s, "\xff\xd8", 2) === 0) {
+			$format = self::JPEG;
+
+		} elseif (strncmp($s, "\x89PNG", 4) === 0) {
+			$format = self::PNG;
+
+		} elseif (strncmp($s, "GIF", 3) === 0) {
+			$format = self::GIF;
+
+		} else {
+			$format = NULL;
+		}
 		return new self(imagecreatefromstring($s));
 	}
 
