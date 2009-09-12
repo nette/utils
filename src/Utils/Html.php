@@ -601,7 +601,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
  * @copyright  Copyright (c) 2004, 2009 David Grudl
  * @package    Nette\Web
  */
-class RecursiveHtmlIterator extends /*\*/RecursiveArrayIterator
+class RecursiveHtmlIterator extends /*\*/RecursiveArrayIterator implements /*\*/Countable
 {
 
 	/**
@@ -611,6 +611,17 @@ class RecursiveHtmlIterator extends /*\*/RecursiveArrayIterator
 	public function getChildren()
 	{
 		return $this->current()->getIterator();
+	}
+
+
+
+	/**
+	 * Returns the count of elements.
+	 * @return int
+	 */
+	public function count()
+	{
+		return iterator_count($this);
 	}
 
 }
