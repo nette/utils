@@ -1,10 +1,20 @@
 <?php
-// Nette\Image user func test</h1>
 
-require_once '../../Nette/loader.php';
+/**
+ * Test: Image drawing.
+ *
+ * @author     David Grudl
+ * @category   Nette
+ * @package    Nette
+ * @subpackage UnitTests
+ */
 
-/*use Nette\Debug;*/
 /*use Nette\Image;*/
+
+
+
+require dirname(__FILE__) . '/../NetteTest/initialize.php';
+
 
 
 $size = 300;
@@ -22,3 +32,7 @@ $image->filledEllipse(187, 125, $radius, $radius, Image::rgb(0, 0, 255, 75));
 $image->copyResampled($image, 200, 200, 0, 0, 80, 80, $size, $size);
 
 $image->send(Image::GIF);
+
+
+
+__halt_compiler();

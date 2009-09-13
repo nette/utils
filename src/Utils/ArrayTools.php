@@ -58,7 +58,7 @@ final class ArrayTools
 				} else {
 					return $default;
 				}
-			}	
+			}
 			return $arr;
 
 		} else {
