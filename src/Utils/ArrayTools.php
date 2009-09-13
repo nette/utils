@@ -45,13 +45,25 @@ final class ArrayTools
 	 * Returns array item or $default if item is not set.
 	 * Example: $val = ArrayTools::get($arr, 'i', 123);
 	 * @param  mixed  array
-	 * @param  scalar key
+	 * @param  mixed  key
 	 * @param  mixed  default value
 	 * @return mixed
 	 */
 	public static function get(array $arr, $key, $default = NULL)
 	{
-		return array_key_exists($key, $arr) ? $arr[$key] : $default;
+		if (is_array($key)) {
+			foreach ($key as $k) {
+				if (is_array($arr) && array_key_exists($k, $arr)) {
+					$arr = $arr[$k];
+				} else {
+					return $default;
+				}
+			}	
+			return $arr;
+
+		} else {
+			return array_key_exists($key, $arr) ? $arr[$key] : $default;
+		}
 	}
 
 
