@@ -20,6 +20,12 @@ require dirname(__FILE__) . '/Object.inc';
 
 
 
+if (PHP_VERSION < '5.3') {
+	NetteTestHelpers::skip();
+}
+
+
+
 TestClass::extensionMethod('join',
 	function (TestClass $that, $separator) {
 		return $that->foo . $separator . $that->bar;

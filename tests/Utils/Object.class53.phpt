@@ -7,7 +7,6 @@
  * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
- * @phpversion 5.3
  */
 
 /*use Nette\Object;*/
@@ -17,6 +16,12 @@
 require dirname(__FILE__) . '/../NetteTest/initialize.php';
 
 require dirname(__FILE__) . '/Object.inc';
+
+
+
+if (/*Nette\*/Framework::PACKAGE !== 'PHP 5.3') {
+	NetteTestHelpers::skip();
+}
 
 
 
