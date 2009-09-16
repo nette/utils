@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::indent()
+ * Test: Nette\String::indent()
  *
  * @author     David Grudl
  * @category   Nette

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::webalize()
+ * Test: Nette\String::webalize()
  *
  * @author     David Grudl
  * @category   Nette

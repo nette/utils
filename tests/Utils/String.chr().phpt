@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::chr()
+ * Test: Nette\String::chr()
  *
  * @author     David Grudl
  * @category   Nette

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Object ExtendedMethodViaInterface
+ * Test: Nette\Object extension method via interface.
  *
  * @author     David Grudl
  * @category   Nette

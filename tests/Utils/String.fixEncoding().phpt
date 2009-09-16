@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::fixEncoding()
+ * Test: Nette\String::fixEncoding()
  *
  * @author     David Grudl
  * @category   Nette

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Image crop & resize.
+ * Test: Nette\Image crop & resize.
  *
  * @author     David Grudl
  * @category   Nette
@@ -22,56 +22,56 @@ $image = clone $main;
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
-section("cropping...");
+output("cropping...");
 $image->crop(10, 20, 50, 300);
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 
 $image = clone $main;
-section("resizing X");
+output("resizing X");
 $image->resize(150, NULL);
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 $image = clone $main;
-section("resizing Y");
+output("resizing Y");
 $image->resize(NULL, 150);
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 $image = clone $main;
-section("resizing X Y");
+output("resizing X Y");
 $image->resize(300, 150);
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 $image = clone $main;
-section("resizing X Y enlarge");
+output("resizing X Y enlarge");
 $image->resize(300, 150, Image::ENLARGE);
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 $image = clone $main;
-section("resizing X Y enlarge stretch");
+output("resizing X Y enlarge stretch");
 $image->resize(300, 100, Image::ENLARGE | Image::STRETCH);
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 $image = clone $main;
-section("resizing X Y stretch");
+output("resizing X Y stretch");
 $image->resize(300, 100, Image::STRETCH);
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 $image = clone $main;
-section("resizing X%");
+output("resizing X%");
 $image->resize('110%', NULL);
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 $image = clone $main;
-section("resizing X% Y%");
+output("resizing X% Y%");
 $image->resize('110%', '90%');
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
@@ -85,55 +85,55 @@ width: int(176)
 
 height: int(104)
 
-==> cropping...
+cropping...
 
 width: int(50)
 
 height: int(84)
 
-==> resizing X
+resizing X
 
 width: int(150)
 
 height: int(89)
 
-==> resizing Y
+resizing Y
 
 width: int(176)
 
 height: int(104)
 
-==> resizing X Y
+resizing X Y
 
 width: int(176)
 
 height: int(104)
 
-==> resizing X Y enlarge
+resizing X Y enlarge
 
 width: int(254)
 
 height: int(150)
 
-==> resizing X Y enlarge stretch
+resizing X Y enlarge stretch
 
 width: int(300)
 
 height: int(100)
 
-==> resizing X Y stretch
+resizing X Y stretch
 
 width: int(176)
 
 height: int(100)
 
-==> resizing X%
+resizing X%
 
 width: int(194)
 
 height: int(115)
 
-==> resizing X% Y%
+resizing X% Y%
 
 width: int(194)
 

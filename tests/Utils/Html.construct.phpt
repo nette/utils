@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Html::__construct()
+ * Test: Nette\Web\Html::__construct()
  *
  * @author     David Grudl
  * @category   Nette

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Image alpha channel.
+ * Test: Nette\Image alpha channel.
  *
  * @author     David Grudl
  * @category   Nette

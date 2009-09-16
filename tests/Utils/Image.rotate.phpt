@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Image rotating.
+ * Test: Nette\Image rotating.
  *
  * @author     David Grudl
  * @category   Nette

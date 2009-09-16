@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: ArrayTools::insertBefore()
+ * Test: Nette\ArrayTools::insertBefore()
  *
  * @author     David Grudl
  * @category   Nette
@@ -26,7 +26,7 @@ $arr  = array(
 
 dump( $arr );
 
-section('First item');
+output('First item');
 $dolly = $arr;
 ArrayTools::insertBefore($dolly, NULL, array('new' => 'value'));
 dump( $dolly );
@@ -36,7 +36,7 @@ ArrayTools::insertAfter($dolly, NULL, array('new' => 'value'));
 dump( $dolly );
 
 
-section('Last item');
+output('Last item');
 $dolly = $arr;
 ArrayTools::insertBefore($dolly, 7, array('new' => 'value'));
 dump( $dolly );
@@ -46,7 +46,7 @@ ArrayTools::insertAfter($dolly, 7, array('new' => 'value'));
 dump( $dolly );
 
 
-section('Undefined item');
+output('Undefined item');
 $dolly = $arr;
 ArrayTools::insertBefore($dolly, 'undefined', array('new' => 'value'));
 dump( $dolly );
@@ -68,7 +68,7 @@ array(4) {
 	7 => string(6) "fourth"
 }
 
-==> First item
+First item
 
 array(5) {
 	"new" => string(5) "value"
@@ -86,7 +86,7 @@ array(5) {
 	7 => string(6) "fourth"
 }
 
-==> Last item
+Last item
 
 array(5) {
 	"" => string(5) "first"
@@ -104,7 +104,7 @@ array(5) {
 	"new" => string(5) "value"
 }
 
-==> Undefined item
+Undefined item
 
 array(5) {
 	"new" => string(5) "value"

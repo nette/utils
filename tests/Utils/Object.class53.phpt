@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Object Class53
+ * Test: Nette\Object class name 5.3
  *
  * @author     David Grudl
  * @category   Nette

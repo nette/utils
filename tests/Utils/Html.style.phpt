@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Html style & class attribute.
+ * Test: Nette\Web\Html style & class attribute.
  *
  * @author     David Grudl
  * @category   Nette

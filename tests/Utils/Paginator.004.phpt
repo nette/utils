@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Paginator Base:1 test.
+ * Test: Nette\Paginator Base:1 test.
  *
  * @author     David Grudl
  * @category   Nette

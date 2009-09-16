@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Image factories.
+ * Test: Nette\Image factories.
  *
  * @author     David Grudl
  * @category   Nette
@@ -18,12 +18,12 @@ require dirname(__FILE__) . '/../NetteTest/initialize.php';
 
 
 $image = Image::fromFile('images/logo.gif');
-section("logo.gif");
+output("logo.gif");
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
 $image = Image::fromBlank(200, 300, Image::rgb(255, 128, 0));
-section("blank");
+output("blank");
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
@@ -32,13 +32,13 @@ dump( $image->height, 'height' );
 __halt_compiler();
 
 ------EXPECT------
-==> logo.gif
+logo.gif
 
 width: int(176)
 
 height: int(104)
 
-==> blank
+blank
 
 width: int(200)
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::truncate()
+ * Test: Nette\String::truncate()
  *
  * @author     David Grudl
  * @category   Nette

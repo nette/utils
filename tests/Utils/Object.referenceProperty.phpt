@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Object reference to property
+ * Test: Nette\Object reference to property.
  *
  * @author     David Grudl
  * @category   Nette

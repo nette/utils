@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Object Reflection
+ * Test: Nette\Object reflection.
  *
  * @author     David Grudl
  * @category   Nette

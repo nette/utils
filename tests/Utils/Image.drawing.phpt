@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Image drawing.
+ * Test: Nette\Image drawing.
  *
  * @author     David Grudl
  * @category   Nette

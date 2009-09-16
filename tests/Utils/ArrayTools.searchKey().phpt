@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: ArrayTools::searchKey()
+ * Test: Nette\ArrayTools::searchKey()
  *
  * @author     David Grudl
  * @category   Nette

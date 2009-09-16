@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::startsWith()
+ * Test: Nette\String::startsWith()
  *
  * @author     David Grudl
  * @category   Nette

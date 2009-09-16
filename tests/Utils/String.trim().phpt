@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::trim()
+ * Test: Nette\String::trim()
  *
  * @author     David Grudl
  * @category   Nette

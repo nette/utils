@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::endsWith()
+ * Test: Nette\String::endsWith()
  *
  * @author     David Grudl
  * @category   Nette

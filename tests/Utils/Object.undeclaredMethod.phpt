@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Object UndeclaredMethod
+ * Test: Nette\Object undeclared method.
  *
  * @author     David Grudl
  * @category   Nette

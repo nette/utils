@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Object event handlers.
+ * Test: Nette\Object event handlers.
  *
  * @author     David Grudl
  * @category   Nette

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Html basic usage.
+ * Test: Nette\Web\Html basic usage.
  *
  * @author     David Grudl
  * @category   Nette
@@ -32,13 +32,13 @@ $el->add( Html::el('p')->setText('one') );
 $el->add( Html::el('p')->setText('two') );
 dump( (string) $el );
 
-section("Get child:");
+output("==> Get child:");
 dump(isset($el[1]), 'Child1');
 dump( (string) $el[1]);
 dump(isset($el[2]), 'Child2');
 
 
-section("Iterator:");
+output("==> Iterator:");
 $el = Html::el('select');
 $el->create('optgroup')->label('Main')->create('option')->setText('sub one')->create('option')->setText('sub two');
 $el->create('option')->setText('Item');
@@ -48,7 +48,7 @@ foreach ($el as $name => $child) {
 	dump( $child instanceof Html ? $child->getName() : "'$child'" );
 }
 
-section("Deep iterator:");
+output("==> Deep iterator:");
 foreach ($el->getIterator(TRUE) as $name => $child) {
 	dump( $child instanceof Html ? $child->getName() : "'$child'" );
 }

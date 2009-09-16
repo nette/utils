@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::normalize()
+ * Test: Nette\String::normalize()
  *
  * @author     David Grudl
  * @category   Nette

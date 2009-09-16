@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: SmartCachingIterator.
+ * Test: Nette\SmartCachingIterator basic usage.
  *
  * @author     David Grudl
  * @category   Nette
@@ -17,7 +17,7 @@ require dirname(__FILE__) . '/../NetteTest/initialize.php';
 
 
 
-section("Two items in array");
+output("==> Two items in array");
 
 $arr = array('Nette', 'Framework');
 
@@ -36,7 +36,7 @@ foreach ($iterator = new SmartCachingIterator($arr) as $k => $v)
 }
 
 $iterator->rewind();
-section("rewinding...");
+output("==> rewinding...");
 dump( $iterator->isFirst(), 'first' );
 dump( $iterator->isLast(), 'last' );
 dump( $iterator->getCounter(), 'counter' );
@@ -44,7 +44,7 @@ dump( $iterator->isEmpty(), 'empty' );
 
 
 
-section("One item in array");
+output("==> One item in array");
 
 $arr = array('Nette');
 
@@ -56,7 +56,7 @@ foreach ($iterator = new SmartCachingIterator($arr) as $k => $v)
 }
 
 $iterator->rewind();
-section("rewinding...");
+output("==> rewinding...");
 dump( $iterator->isFirst(), 'first' );
 dump( $iterator->isLast(), 'last' );
 dump( $iterator->getCounter(), 'counter' );
@@ -64,7 +64,7 @@ dump( $iterator->isEmpty(), 'empty' );
 
 
 
-section("Zero item in array");
+output("==> Zero item in array");
 
 $arr = array();
 

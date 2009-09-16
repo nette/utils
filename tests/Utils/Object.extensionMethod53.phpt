@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Test: Object ExtendedMethod
+ * Test: Nette\Object extension method 5.3
  *
  * @author     David Grudl
  * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
+ * @phpversion 5.3
  */
 
 /*use Nette\Object;*/
@@ -19,12 +20,17 @@ require dirname(__FILE__) . '/Object.inc';
 
 
 
-function TestClass_join(TestClass $that, $separator)
-{
-	return $that->foo . $separator . $that->bar;
+if (PHP_VERSION < '5.3') {
+	NetteTestHelpers::skip();
 }
 
-TestClass::extensionMethod('TestClass::join', 'TestClass_join');
+
+
+TestClass::extensionMethod('join',
+	function (TestClass $that, $separator) {
+		return $that->foo . $separator . $that->bar;
+	}
+);
 
 $obj = new TestClass('Hello', 'World');
 dump( $obj->join('*') );

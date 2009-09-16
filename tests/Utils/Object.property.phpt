@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Object roperties.
+ * Test: Nette\Object properties.
  *
  * @author     David Grudl
  * @category   Nette
@@ -28,7 +28,7 @@ $obj->foo .= ' world';
 dump( $obj->foo );
 
 
-section('Undeclared property writing');
+output('Undeclared property writing');
 try {
 	$obj->undeclared = 'value';
 } catch (Exception $e) {
@@ -36,7 +36,7 @@ try {
 }
 
 
-section('Undeclared property reading');
+output('Undeclared property reading');
 dump( isset($obj->S) ); // False
 dump( isset($obj->s) ); // False
 dump( isset($obj->undeclared) ); // False
@@ -48,7 +48,7 @@ try {
 
 
 
-section('Read-only property');
+output('Read-only property');
 $obj = new TestClass('Hello', 'World');
 dump( $obj->bar );
 try {
@@ -68,11 +68,11 @@ string(5) "hello"
 
 string(11) "hello world"
 
-==> Undeclared property writing
+Undeclared property writing
 
 Exception MemberAccessException: Cannot assign to an undeclared property TestClass::$undeclared.
 
-==> Undeclared property reading
+Undeclared property reading
 
 bool(FALSE)
 
@@ -82,7 +82,7 @@ bool(FALSE)
 
 Exception MemberAccessException: Cannot read an undeclared property TestClass::$s.
 
-==> Read-only property
+Read-only property
 
 string(5) "World"
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Html basic usage.
+ * Test: Nette\Web\Html basic usage.
  *
  * @author     David Grudl
  * @category   Nette

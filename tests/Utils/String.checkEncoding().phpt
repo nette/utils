@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: String::checkEncoding()
+ * Test: Nette\String::checkEncoding()
  *
  * @author     David Grudl
  * @category   Nette
