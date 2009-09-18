@@ -216,7 +216,7 @@ class Image extends Object
 	/**
 	 * Sets image resource.
 	 * @param  resource
-	 * @return void
+	 * @return Image  provides a fluent interface
 	 */
 	protected function setImageResource($image)
 	{
@@ -224,6 +224,7 @@ class Image extends Object
 			throw new /*\*/InvalidArgumentException('Image is not valid.');
 		}
 		$this->image = $image;
+		return $this;
 	}
 
 
