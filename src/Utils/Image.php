@@ -131,6 +131,10 @@ class Image extends Object
 	 */
 	public static function fromString($s, & $format = NULL)
 	{
+		if (!extension_loaded('gd')) {
+			throw new /*\*/Exception("PHP extension GD is not loaded.");
+		}
+
 		if (strncmp($s, "\xff\xd8", 2) === 0) {
 			$format = self::JPEG;
 
