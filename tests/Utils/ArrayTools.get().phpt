@@ -73,4 +73,3 @@ array(3) {
 }
 
 string(5) "third"
-
