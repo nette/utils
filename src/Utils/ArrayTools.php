@@ -51,19 +51,34 @@ final class ArrayTools
 	 */
 	public static function get(array $arr, $key, $default = NULL)
 	{
-		if (is_array($key)) {
-			foreach ($key as $k) {
-				if (is_array($arr) && array_key_exists($k, $arr)) {
-					$arr = $arr[$k];
-				} else {
-					return $default;
-				}
+		foreach (is_array($key) ? $key : array($key) as $k) {
+			if (is_array($arr) && array_key_exists($k, $arr)) {
+				$arr = $arr[$k];
+			} else {
+				return $default;
 			}
-			return $arr;
-
-		} else {
-			return array_key_exists($key, $arr) ? $arr[$key] : $default;
 		}
+		return $arr;
+	}
+
+
+
+	/**
+	 * Returns reference to array item or $default if item is not set.
+	 * @param  mixed  array
+	 * @param  mixed  key
+	 * @return mixed
+	 */
+	public static function & getRef(& $arr, $key)
+	{
+		foreach (is_array($key) ? $key : array($key) as $k) {
+			if (is_array($arr) || $arr === NULL) {
+				$arr = & $arr[$k];
+			} else {
+				throw new /*\*/InvalidArgumentException('Traversed item is not an array.');
+			}
+		}
+		return $arr;
 	}
 
 
