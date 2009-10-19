@@ -45,10 +45,14 @@ require_once dirname(__FILE__) . '/Object.php';
  */
 class Image extends Object
 {
-	/**#@+ resizing flags {@link resize()} */
+	/** {@link resize()} allows enlarging image (it only shrinks images by default) */
 	const ENLARGE = 1;
+
+	/** {@link resize()} will ignore aspect ratio */
 	const STRETCH = 2;
-	/**#@-*/
+
+	/** {@link resize()} fills (and even overflows) given area */
+	const FILL = 4;
 
 	/**#@+ @int image types {@link send()} */
 	const JPEG = IMAGETYPE_JPEG;
@@ -311,6 +315,10 @@ class Image extends Object
 
 			if ($newHeight > 0) { // fit height
 				$scale[] = $newHeight / $height;
+			}
+
+			if ($flags & self::FILL) {
+				$scale = array(max($scale));
 			}
 
 			if (($flags & self::ENLARGE) === 0) {
