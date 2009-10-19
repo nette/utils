@@ -329,14 +329,22 @@ class Image extends Object
 
 	/**
 	 * Crops image.
-	 * @param  int    x-coordinate
-	 * @param  int    y-coordinate
+	 * @param  mixed  x-offset in pixels or percent
+	 * @param  mixed  y-offset in pixels or percent
 	 * @param  int    width
 	 * @param  int    height
 	 * @return Image  provides a fluent interface
 	 */
 	public function crop($left, $top, $width, $height)
 	{
+		if (substr($left, -1) === '%') {
+			$left = round(($this->getWidth() - $width) / 100 * $left);
+		}
+
+		if (substr($top, -1) === '%') {
+			$top = round(($this->getHeight() - $height) / 100 * $top);
+		}
+
 		$left = max(0, (int) $left);
 		$top = max(0, (int) $top);
 		$width = min((int) $width, $this->getWidth() - $left);
