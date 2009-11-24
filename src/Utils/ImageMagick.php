@@ -223,7 +223,7 @@ class ImageMagick extends Image
 		if ($output) {
 			$newFile = is_string($output)
 				? $output
-				: (self::$tempDir ? self::$tempDir : dirname($this->file)) . '/_tempimage' . uniqid() . image_type_to_extension($output);
+				: (self::$tempDir ? self::$tempDir : dirname($this->file)) . '/' . uniqid('_tempimage', TRUE) . image_type_to_extension($output);
 			$command = str_replace('%output', escapeshellarg($newFile), $command);
 		}
 
