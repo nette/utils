@@ -19,8 +19,13 @@ require dirname(__FILE__) . '/Object.inc';
 
 
 
-$obj = new TestClass;
-$obj->undeclared();
+try {
+	$obj = new TestClass;
+	$obj->undeclared();
+
+} catch (Exception $e) {
+	dump( $e );
+}
 
 
 

@@ -53,10 +53,15 @@ dump( $dolly );
 
 output('Error');
 
-$dolly = $arr;
-$item = & ArrayTools::getRef($dolly, array(7, 'item', 3));
-$item = 'changed';
-dump( $dolly );
+try {
+	$dolly = $arr;
+	$item = & ArrayTools::getRef($dolly, array(7, 'item', 3));
+	$item = 'changed';
+	dump( $dolly );
+
+} catch (Exception $e) {
+	dump( $e );
+}
 
 
 
