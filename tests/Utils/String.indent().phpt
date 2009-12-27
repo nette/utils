@@ -17,46 +17,12 @@ require dirname(__FILE__) . '/../NetteTest/initialize.php';
 
 
 
-dump( String::indent("") ); // ""
-dump( String::indent("\n") ); // "\n"
-dump( String::indent("word") ); // "\tword"
-dump( String::indent("\nword") ); // "\n\tword"
-dump( String::indent("\nword") ); // "\n\tword"
-dump( String::indent("\nword\n") ); // "\n\tword\n"
-dump( String::indent("\r\nword\r\n") ); // "\r\n\tword\r\n"
-dump( String::indent("\r\nword\r\n", 2) ); // "\r\n\t\tword\r\n"
-dump( String::indent("\r\nword\r\n", 2, '   ') ); // "\r\n      word\r\n"
-
-
-
-__halt_compiler();
-
-------EXPECT------
-string(0) ""
-
-string(1) "
-"
-
-string(5) "	word"
-
-string(6) "
-	word"
-
-string(6) "
-	word"
-
-string(7) "
-	word
-"
-
-string(9) "
-	word
-"
-
-string(10) "
-		word
-"
-
-string(14) "
-      word
-"
+Assert::same( "",  String::indent("") );
+Assert::same( "\n",  String::indent("\n") );
+Assert::same( "\tword",  String::indent("word") );
+Assert::same( "\n\tword",  String::indent("\nword") );
+Assert::same( "\n\tword",  String::indent("\nword") );
+Assert::same( "\n\tword\n",  String::indent("\nword\n") );
+Assert::same( "\r\n\tword\r\n",  String::indent("\r\nword\r\n") );
+Assert::same( "\r\n\t\tword\r\n",  String::indent("\r\nword\r\n", 2) );
+Assert::same( "\r\n      word\r\n",  String::indent("\r\nword\r\n", 2, '   ') );
