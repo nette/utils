@@ -80,7 +80,7 @@ abstract class Object
 	 *
 	 * @return Nette\Reflection\ObjectReflection
 	 */
-	final public function getReflection()
+	public function getReflection()
 	{
 		return new /*Nette\Reflection\*/ObjectReflection($this);
 	}
