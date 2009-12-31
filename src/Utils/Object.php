@@ -68,19 +68,17 @@ require_once dirname(__FILE__) . '/ObjectMixin.php';
  * @package    Nette
  *
  * @property-read string $class
- * @property-read \ReflectionObject $reflection
+ * @property-read Nette\Reflection\ObjectReflection $reflection
  */
 abstract class Object
 {
 
 	/**
-	 * Returns the name of the class of this object.
-	 *
-	 * @return string
+	 * @deprecated
 	 */
-	final public /*static*/ function getClass()
+	public function getClass()
 	{
-		return /*get_called_class()*/ /**/get_class($this)/**/;
+		return get_class($this);
 	}
 
 
@@ -88,11 +86,11 @@ abstract class Object
 	/**
 	 * Access to reflection.
 	 *
-	 * @return \ReflectionObject
+	 * @return Nette\Reflection\ObjectReflection
 	 */
 	final public function getReflection()
 	{
-		return new /*\*/ReflectionObject($this);
+		return new /*Nette\Reflection\*/ObjectReflection($this);
 	}
 
 
@@ -198,7 +196,7 @@ abstract class Object
 	 */
 	public function __unset($name)
 	{
-		throw new /*\*/MemberAccessException("Cannot unset the property $this->class::\$$name.");
+		throw new /*\*/MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
 	}
 
 }
