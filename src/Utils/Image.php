@@ -14,10 +14,6 @@
 
 
 
-require_once dirname(__FILE__) . '/Object.php';
-
-
-
 /**
  * Basic manipulation with images.
  *

@@ -14,10 +14,6 @@
 
 
 
-require_once dirname(__FILE__) . '/Object.php';
-
-
-
 /**
  * Defines an object that has a modifiable state and a read-only (frozen) state.
  *

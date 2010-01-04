@@ -14,12 +14,6 @@
 
 
 
-require_once dirname(__FILE__) . '/exceptions.php';
-
-require_once dirname(__FILE__) . '/ObjectMixin.php';
-
-
-
 /**
  * Nette\Object is the ultimate ancestor of all instantiable classes.
  *
