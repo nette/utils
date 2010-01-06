@@ -74,9 +74,9 @@ abstract class Object
 	 *
 	 * @return Nette\Reflection\ClassReflection
 	 */
-	public function getReflection()
+	public /*static */function getReflection()
 	{
-		return new /*Nette\Reflection\*/ClassReflection($this);
+		return new /*Nette\Reflection\*/ClassReflection(/**/$this/**//*get_called_class()*/);
 	}
 
 
