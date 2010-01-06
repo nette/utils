@@ -54,7 +54,7 @@
  * @package    Nette
  *
  * @property-read string $class
- * @property-read Nette\Reflection\ObjectReflection $reflection
+ * @property-read Nette\Reflection\ClassReflection $reflection
  */
 abstract class Object
 {
@@ -72,11 +72,11 @@ abstract class Object
 	/**
 	 * Access to reflection.
 	 *
-	 * @return Nette\Reflection\ObjectReflection
+	 * @return Nette\Reflection\ClassReflection
 	 */
 	public function getReflection()
 	{
-		return new /*Nette\Reflection\*/ObjectReflection($this);
+		return new /*Nette\Reflection\*/ClassReflection($this);
 	}
 
 
