@@ -126,7 +126,12 @@ abstract class Object
 		} else {
 			list($class, $name) = explode('::', $name);
 		}
-		return ObjectMixin::extensionMethod($class, $name, $callback);
+		$class = new /*Nette\Reflection\*/ClassReflection($class);
+		if ($callback === NULL) {
+			return $class->getExtensionMethod($name);
+		} else {
+			$class->setExtensionMethod($name, $callback);
+		}
 	}
 
 

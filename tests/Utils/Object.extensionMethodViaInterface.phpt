@@ -10,6 +10,7 @@
  */
 
 /*use Nette\Object;*/
+/*use Nette\Reflection\ClassReflection;*/
 
 
 
@@ -33,8 +34,8 @@ function ISecond_join(ISecond $that, $separator)
 
 
 
-TestClass::extensionMethod('IFirst::join', 'IFirst_join');
-TestClass::extensionMethod('ISecond::join', 'ISecond_join');
+ClassReflection::create('IFirst')->setExtensionMethod('join', 'IFirst_join');
+ClassReflection::create('ISecond')->setExtensionMethod('join', 'ISecond_join');
 
 $obj = new TestClass('Hello', 'World');
 dump( $obj->join('*') );

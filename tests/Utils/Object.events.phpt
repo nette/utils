@@ -61,6 +61,15 @@ try {
 }
 
 
+try {
+	$obj->onUndefined(123);
+	$this->fail('called undefined event');
+
+} catch (MemberAccessException $e) {
+	dump( $e );
+}
+
+
 
 __halt_compiler();
 
@@ -70,3 +79,5 @@ int(1)
 int(3)
 
 Exception MemberAccessException: Call to undefined method TestClass::onPrivate().
+
+Exception MemberAccessException: Call to undefined method TestClass::onUndefined().
