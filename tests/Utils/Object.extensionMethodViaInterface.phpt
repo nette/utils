@@ -34,8 +34,8 @@ function ISecond_join(ISecond $that, $separator)
 
 
 
-ClassReflection::create('IFirst')->setExtensionMethod('join', 'IFirst_join');
-ClassReflection::create('ISecond')->setExtensionMethod('join', 'ISecond_join');
+ClassReflection::from('IFirst')->setExtensionMethod('join', 'IFirst_join');
+ClassReflection::from('ISecond')->setExtensionMethod('join', 'ISecond_join');
 
 $obj = new TestClass('Hello', 'World');
 dump( $obj->join('*') );
