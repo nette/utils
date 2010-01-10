@@ -468,8 +468,7 @@ class Image extends Object
 			return $this->toString();
 
 		} catch (/*\*/Exception $e) {
-			trigger_error($e->getMessage(), E_USER_WARNING);
-			return '';
+			Debug::toStringException($e);
 		}
 	}
 
