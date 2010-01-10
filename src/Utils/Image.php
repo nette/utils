@@ -39,6 +39,9 @@ class Image extends Object
 	/** {@link resize()} will ignore aspect ratio */
 	const STRETCH = 2;
 
+	/** {@link resize()} fits in given area */
+	const FIT = 0;
+
 	/** {@link resize()} fills (and even overflows) given area */
 	const FILL = 4;
 
@@ -91,7 +94,7 @@ class Image extends Object
 		}
 
 		$info = @getimagesize($file); // intentionally @
-		if (self::$useImageMagick && (empty($info) || $info[0] * $info[1] > 2e6)) {
+		if (self::$useImageMagick && (empty($info) || $info[0] * $info[1] > 9e5)) { // cca 1024x768
 			return new ImageMagick($file, $format);
 		}
 
@@ -243,7 +246,7 @@ class Image extends Object
 	 * @param  int    flags
 	 * @return Image  provides a fluent interface
 	 */
-	public function resize($newWidth, $newHeight, $flags = 0)
+	public function resize($newWidth, $newHeight, $flags = self::FIT)
 	{
 		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
 		$newImage = self::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
