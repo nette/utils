@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\Image crop & resize.
+ * Test: Nette\Image crop, resize & flip.
  *
  * @author     David Grudl
  * @category   Nette
@@ -76,6 +76,24 @@ $image->resize('110%', '90%');
 dump( $image->width, 'width' );
 dump( $image->height, 'height' );
 
+$image = clone $main;
+output("flipping X");
+$image->resize(-150, NULL);
+dump( $image->width, 'width' );
+dump( $image->height, 'height' );
+
+$image = clone $main;
+output("flipping Y");
+$image->resize(NULL, -150);
+dump( $image->width, 'width' );
+dump( $image->height, 'height' );
+
+$image = clone $main;
+output("flipping X Y");
+$image->resize(-300, -150);
+dump( $image->width, 'width' );
+dump( $image->height, 'height' );
+
 
 
 __halt_compiler();
@@ -138,3 +156,21 @@ resizing X% Y%
 width: int(194)
 
 height: int(94)
+
+flipping X
+
+width: int(150)
+
+height: int(89)
+
+flipping Y
+
+width: int(176)
+
+height: int(104)
+
+flipping X Y
+
+width: int(176)
+
+height: int(104)

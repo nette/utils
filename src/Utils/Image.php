@@ -246,12 +246,29 @@ class Image extends Object
 	 * @param  int    flags
 	 * @return Image  provides a fluent interface
 	 */
-	public function resize($newWidth, $newHeight, $flags = self::FIT)
+	public function resize($width, $height, $flags = 0)
 	{
-		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
-		$newImage = self::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
-		imagecopyresampled($newImage, $this->getImageResource(), 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
-		$this->image = $newImage;
+		list($newWidth, $newHeight) = $this->calculateSize($width, $height, $flags);
+
+		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
+			$newImage = self::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
+			imagecopyresampled(
+				$newImage, $this->getImageResource(),
+				0, 0, 0, 0,
+				$newWidth, $newHeight, $this->getWidth(), $this->getHeight()
+			);
+			$this->image = $newImage;
+		}
+
+		if ($width < 0 || $height < 0) { // flip is processed in two steps for better quality
+			$newImage = self::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
+			imagecopyresampled(
+				$newImage, $this->getImageResource(),
+				0, 0, $width < 0 ? $newWidth - 1 : 0, $height < 0 ? $newHeight - 1 : 0,
+				$newWidth, $newHeight, $width < 0 ? -$newWidth : $newWidth, $height < 0 ? -$newHeight : $newHeight
+			);
+			$this->image = $newImage;
+		}
 		return $this;
 	}
 
@@ -270,22 +287,22 @@ class Image extends Object
 		$height = $this->getHeight();
 
 		if (substr($newWidth, -1) === '%') {
-			$newWidth = round($width / 100 * $newWidth);
+			$newWidth = round($width / 100 * abs($newWidth));
 			$flags |= self::ENLARGE;
 			$percents = TRUE;
 		} else {
-			$newWidth = (int) $newWidth;
+			$newWidth = (int) abs($newWidth);
 		}
 
 		if (substr($newHeight, -1) === '%') {
-			$newHeight = round($height / 100 * $newHeight);
+			$newHeight = round($height / 100 * abs($newHeight));
 			$flags |= empty($percents) ? self::ENLARGE : self::STRETCH;
 		} else {
-			$newHeight = (int) $newHeight;
+			$newHeight = (int) abs($newHeight);
 		}
 
 		if ($flags & self::STRETCH) { // non-proportional
-			if ($newWidth < 1 || $newHeight < 1) {
+			if (empty($newWidth) || empty($newHeight)) {
 				throw new /*\*/InvalidArgumentException('For stretching must be both width and height specified.');
 			}
 
@@ -295,7 +312,7 @@ class Image extends Object
 			}
 
 		} else {  // proportional
-			if ($newWidth < 1 && $newHeight < 1) {
+			if (empty($newWidth) && empty($newHeight)) {
 				throw new /*\*/InvalidArgumentException('At least width or height must be specified.');
 			}
 
@@ -321,7 +338,7 @@ class Image extends Object
 			$newHeight = round($height * $scale);
 		}
 
-		return array($newWidth, $newHeight);
+		return array((int) $newWidth, (int) $newHeight);
 	}
 
 
