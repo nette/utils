@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\ArrayTools::insertBefore()
+ * Test: Nette\ArrayTools::insertBefore() & insertAfter()
  *
  * @author     David Grudl
  * @category   Nette

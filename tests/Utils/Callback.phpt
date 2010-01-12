@@ -19,7 +19,7 @@ require dirname(__FILE__) . '/../NetteTest/initialize.php';
 
 class Test
 {
-	function add($a, $b)
+	static function add($a, $b)
 	{
 		return $a + $b;
 	}
@@ -83,7 +83,7 @@ array(2) {
 
 bool(TRUE)
 
-object(Callback) (1) {
+object(%ns%Callback) (1) {
 	"cb" private => array(2) {
 		0 => object(Test) (0) {}
 		1 => string(3) "add"

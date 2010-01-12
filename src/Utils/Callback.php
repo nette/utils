@@ -82,7 +82,8 @@ final class Callback extends Object
 		if (!is_callable($this->cb)) {
 			$this->check();
 		}
-		return call_user_func_array($this->cb, func_get_args());
+		/**/$args = func_get_args();/**/
+		return call_user_func_array($this->cb, /**/$args/**//*func_get_args()*/);
 	}
 
 
