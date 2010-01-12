@@ -454,7 +454,7 @@ class Image extends Object
 			return imagepng($this->getImageResource(), $file, $quality);
 
 		case self::GIF:
-			return imagegif($this->getImageResource(), $file);
+			return $file === NULL ? imagegif($this->getImageResource()) : imagegif($this->getImageResource(), $file); // PHP bug #44591
 
 		default:
 			throw new /*\*/Exception("Unsupported image type.");

@@ -118,7 +118,7 @@ final class ArrayTools
 	public static function insertBefore(array &$arr, $key, array $inserted)
 	{
 		$offset = self::searchKey($arr, $key);
-		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, NULL, TRUE);
+		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
 	}
 
 
@@ -133,8 +133,8 @@ final class ArrayTools
 	public static function insertAfter(array &$arr, $key, array $inserted)
 	{
 		$offset = self::searchKey($arr, $key);
-		$offset = $offset === FALSE ? NULL : $offset + 1;
-		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, NULL, TRUE);
+		$offset = $offset === FALSE ? count($arr) : $offset + 1;
+		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
 	}
 
 }
