@@ -28,6 +28,8 @@ final class Callback extends Object
 	/** @var bool */
 	public static $fix520;
 	/**/
+	/** @var bool */
+	public static $checkImmediately = FALSE;
 
 
 
@@ -69,6 +71,10 @@ final class Callback extends Object
 			}
 		}
 		/**/
+
+		if (!is_callable($this->cb, !self::$checkImmediately)) {
+			throw new /*\*/InvalidArgumentException("Invalid callback.");
+		}	
 	}
 
 
@@ -80,7 +86,7 @@ final class Callback extends Object
 	public function __invoke()
 	{
 		if (!is_callable($this->cb)) {
-			$this->check();
+			throw new /*\*/InvalidStateException("Callback '$this' is not callable.");
 		}
 		/**/$args = func_get_args();/**/
 		return call_user_func_array($this->cb, /**/$args/**//*func_get_args()*/);
@@ -96,7 +102,7 @@ final class Callback extends Object
 	public function invokeArgs(array $args)
 	{
 		if (!is_callable($this->cb)) {
-			$this->check();
+			throw new /*\*/InvalidStateException("Callback '$this' is not callable.");
 		}
 		return call_user_func_array($this->cb, $args);
 	}
@@ -112,8 +118,7 @@ final class Callback extends Object
 	public function check($label = 'Callback')
 	{
 		if (!is_callable($this->cb)) {
-			$able = is_callable($this->cb, TRUE, $textual);
-			throw new /*\*/InvalidStateException("$label '$textual' is not " . ($able ? 'callable.' : 'valid.'));
+			throw new /*\*/InvalidStateException("$label '$this' is not callable.");
 		}
 		return $this;
 	}

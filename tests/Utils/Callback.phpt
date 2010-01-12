@@ -92,4 +92,5 @@ object(%ns%Callback) (1) {
 
 Exception InvalidStateException: undefined 'undefined' is not callable.
 
-Exception InvalidStateException: invalid '' is not valid.
+Exception InvalidArgumentException: Invalid callback.
+
