@@ -48,13 +48,13 @@ dump( $cb->isCallable() );
 dump( callback($cb) );
 
 try {
-	callback('undefined')->check('undefined');
+	callback('undefined')->__invoke();
 } catch (Exception $e) {
 	dump( $e );
 }
 
 try {
-	callback(NULL)->check('invalid');
+	callback(NULL)->__invoke();
 } catch (Exception $e) {
 	dump( $e );
 }
@@ -90,7 +90,6 @@ object(%ns%Callback) (1) {
 	}
 }
 
-Exception InvalidStateException: undefined 'undefined' is not callable.
+Exception InvalidStateException: Callback 'undefined' is not callable.
 
 Exception InvalidArgumentException: Invalid callback.
-

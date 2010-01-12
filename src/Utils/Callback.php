@@ -110,22 +110,6 @@ final class Callback extends Object
 
 
 	/**
-	 * Throws exception is callback cannot be called.
-	 * @param  string
-	 * @return void
-	 * @throws \InvalidStateException
-	 */
-	public function check($label = 'Callback')
-	{
-		if (!is_callable($this->cb)) {
-			throw new /*\*/InvalidStateException("$label '$this' is not callable.");
-		}
-		return $this;
-	}
-
-
-
-	/**
 	 * Verifies that callback can be called.
 	 * @return bool
 	 */
