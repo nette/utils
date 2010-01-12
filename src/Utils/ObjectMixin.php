@@ -57,12 +57,7 @@ final class ObjectMixin
 		if ($class->hasEventProperty($name)) {
 			if (is_array($list = $_this->$name) || $list instanceof /*\*/Traversable) {
 				foreach ($list as $handler) {
-					/**/fixCallback($handler);/**/
-					if (!is_callable($handler)) {
-						$able = is_callable($handler, TRUE, $textual);
-						throw new /*\*/InvalidStateException("Event handler '$textual' is not " . ($able ? 'callable.' : 'valid PHP callback.'));
-					}
-					call_user_func_array($handler, $args);
+					callback($handler)->invokeArgs($args);
 				}
 			}
 			return NULL;
@@ -71,7 +66,7 @@ final class ObjectMixin
 		// extension methods
 		if ($cb = $class->getExtensionMethod($name)) {
 			array_unshift($args, $_this);
-			return call_user_func_array($cb, $args);
+			return $cb->invokeArgs($args);
 		}
 
 		throw new /*\*/MemberAccessException("Call to undefined method $class->name::$name().");
