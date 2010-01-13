@@ -74,7 +74,7 @@ final class Callback extends Object
 
 		if (!is_callable($this->cb, !self::$checkImmediately)) {
 			throw new /*\*/InvalidArgumentException("Invalid callback.");
-		}	
+		}
 	}
 
 
