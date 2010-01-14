@@ -66,10 +66,10 @@ final class Tools
 			if ($time <= self::YEAR) {
 				$time += time();
 			}
-			return new /*\*/DateTime(date('Y-m-d H:i:s', $time));
+			return new /**/DateTime53/**//*\DateTime*/(date('Y-m-d H:i:s', $time));
 
 		} else { // textual or NULL
-			return new /*\*/DateTime($time);
+			return new /**/DateTime53/**//*\DateTime*/($time);
 		}
 	}
 
