@@ -37,37 +37,37 @@ final class Callback extends Object
 	 * @param  mixed   class, object, function, callback
 	 * @param  string  method
 	 */
-	public function __construct($callback, $m = NULL)
+	public function __construct($t, $m = NULL)
 	{
 		if ($m === NULL) {
-			$this->cb = $callback;
+			$this->cb = $t;
 		} else {
-			$this->cb = $callback = array($callback, $m);
+			$this->cb = array($t, $m);
 		}
 
 		/**/
 		// __invoke support
-		if (is_object($callback)) {
-			$this->cb = array($callback, '__invoke');
+		if (is_object($this->cb)) {
+			$this->cb = array($this->cb, '__invoke');
 
 		} elseif (self::$fix520) {
 			// explode 'Class::method' into array
-			if (is_string($callback) && strpos($callback, ':')) {
-				$this->cb = explode('::', $callback);
+			if (is_string($this->cb) && strpos($this->cb, ':')) {
+				$this->cb = explode('::', $this->cb);
 			}
 
 			// remove class namespace
-			if (is_array($callback) && is_string($callback[0]) && $a = strrpos($callback[0], '\\')) {
-				$this->cb[0] = substr($callback[0], $a + 1);
+			if (is_array($this->cb) && is_string($this->cb[0]) && $a = strrpos($this->cb[0], '\\')) {
+				$this->cb[0] = substr($this->cb[0], $a + 1);
 			}
 
 		} else {
 			// remove class namespace
-			if (is_string($callback) && $a = strrpos($callback, '\\')) {
-				$this->cb = substr($callback, $a + 1);
+			if (is_string($this->cb) && $a = strrpos($this->cb, '\\')) {
+				$this->cb = substr($this->cb, $a + 1);
 
-			} elseif (is_array($callback) && is_string($callback[0]) && $a = strrpos($callback[0], '\\')) {
-				$this->cb[0] = substr($callback[0], $a + 1);
+			} elseif (is_array($this->cb) && is_string($this->cb[0]) && $a = strrpos($this->cb[0], '\\')) {
+				$this->cb[0] = substr($this->cb[0], $a + 1);
 			}
 		}
 		/**/
