@@ -449,25 +449,23 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	{
 		$s = $this->startTag();
 
-		// empty elements are finished now
-		if ($this->isEmpty) {
-			return $s;
-		}
-
-		// add content
-		if ($indent !== NULL) {
-			$indent++;
-		}
-		foreach ($this->children as $child) {
-			if (is_object($child)) {
-				$s .= $child->render($indent);
-			} else {
-				$s .= $child;
+		if (!$this->isEmpty) {
+			// add content
+			if ($indent !== NULL) {
+				$indent++;
 			}
+			foreach ($this->children as $child) {
+				if (is_object($child)) {
+					$s .= $child->render($indent);
+				} else {
+					$s .= $child;
+				}
+			}
+
+			// add end tag
+			$s .= $this->endTag();
 		}
 
-		// add end tag
-		$s .= $this->endTag();
 		if ($indent !== NULL) {
 			return "\n" . str_repeat("\t", $indent - 1) . $s . "\n" . str_repeat("\t", max(0, $indent - 2));
 		}
