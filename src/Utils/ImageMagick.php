@@ -118,14 +118,17 @@ class ImageMagick extends Image
 	 * @param  int    flags
 	 * @return ImageMagick  provides a fluent interface
 	 */
-	public function resize($newWidth, $newHeight, $flags = 0)
+	public function resize($newWidth, $newHeight, $flags = self::FIT)
 	{
 		if ($this->file === NULL) {
 			return parent::resize($newWidth, $newHeight, $flags);
 		}
 
+		$mirror = '';
+		if ($width < 0) $mirror .= ' -flip';
+		if ($height < 0) $mirror .= ' -flop';
 		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
-		$this->execute("convert -resize {$newWidth}x{$newHeight}! -strip %input %output", self::PNG);
+		$this->execute("convert -resize {$newWidth}x{$newHeight}! {$mirror} -strip %input %output", self::PNG);
 		return $this;
 	}
 
