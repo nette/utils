@@ -246,9 +246,9 @@ class Image extends Object
 	 * @param  int    flags
 	 * @return Image  provides a fluent interface
 	 */
-	public function resize($width, $height, $flags = 0)
+	public function resize($width, $height, $flags = self::FIT)
 	{
-		list($newWidth, $newHeight) = $this->calculateSize($width, $height, $flags);
+		list($newWidth, $newHeight) = self::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
 
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
 			$newImage = self::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
@@ -276,18 +276,17 @@ class Image extends Object
 
 	/**
 	 * Calculates dimensions of resized image.
+	 * @param  mixed  source width
+	 * @param  mixed  source height
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
 	 * @param  int    flags
 	 * @return array
 	 */
-	public function calculateSize($newWidth, $newHeight, $flags = 0)
+	public static function calculateSize($srcWidth, $srcHeight, $newWidth, $newHeight, $flags = self::FIT)
 	{
-		$width = $this->getWidth();
-		$height = $this->getHeight();
-
 		if (substr($newWidth, -1) === '%') {
-			$newWidth = round($width / 100 * abs($newWidth));
+			$newWidth = round($srcWidth / 100 * abs($newWidth));
 			$flags |= self::ENLARGE;
 			$percents = TRUE;
 		} else {
@@ -295,7 +294,7 @@ class Image extends Object
 		}
 
 		if (substr($newHeight, -1) === '%') {
-			$newHeight = round($height / 100 * abs($newHeight));
+			$newHeight = round($srcHeight / 100 * abs($newHeight));
 			$flags |= empty($percents) ? self::ENLARGE : self::STRETCH;
 		} else {
 			$newHeight = (int) abs($newHeight);
@@ -307,8 +306,8 @@ class Image extends Object
 			}
 
 			if (($flags & self::ENLARGE) === 0) {
-				$newWidth = round($width * min(1, $newWidth / $width));
-				$newHeight = round($height * min(1, $newHeight / $height));
+				$newWidth = round($srcWidth * min(1, $newWidth / $srcWidth));
+				$newHeight = round($srcHeight * min(1, $newHeight / $srcHeight));
 			}
 
 		} else {  // proportional
@@ -318,11 +317,11 @@ class Image extends Object
 
 			$scale = array();
 			if ($newWidth > 0) { // fit width
-				$scale[] = $newWidth / $width;
+				$scale[] = $newWidth / $srcWidth;
 			}
 
 			if ($newHeight > 0) { // fit height
-				$scale[] = $newHeight / $height;
+				$scale[] = $newHeight / $srcHeight;
 			}
 
 			if ($flags & self::FILL) {
@@ -334,8 +333,8 @@ class Image extends Object
 			}
 
 			$scale = min($scale);
-			$newWidth = round($width * $scale);
-			$newHeight = round($height * $scale);
+			$newWidth = round($srcWidth * $scale);
+			$newHeight = round($srcHeight * $scale);
 		}
 
 		return array((int) $newWidth, (int) $newHeight);

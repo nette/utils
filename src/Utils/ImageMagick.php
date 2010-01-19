@@ -127,7 +127,7 @@ class ImageMagick extends Image
 		$mirror = '';
 		if ($width < 0) $mirror .= ' -flip';
 		if ($height < 0) $mirror .= ' -flop';
-		list($newWidth, $newHeight) = $this->calculateSize($newWidth, $newHeight, $flags);
+		list($newWidth, $newHeight) = self::calculateSize($this->getWidth(), $this->getHeight(), $newWidth, $newHeight, $flags);
 		$this->execute("convert -resize {$newWidth}x{$newHeight}! {$mirror} -strip %input %output", self::PNG);
 		return $this;
 	}
