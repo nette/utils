@@ -52,13 +52,17 @@ dump( (string) $el );
 dump( (string) Html::el('p')->setText('Hello &ndash; World'), 'setText' );
 dump( (string) Html::el('p')->setHtml('Hello &ndash; World'), 'setHtml' );
 
+// getText vs. getHtml
+$el = Html::el('p')->setHtml('Hello &ndash; World');
+$el->create('a')->setText('link');
+dump( (string) $el, 'getHtml' );
+dump( $el->getText(), 'getText' );
+
 // email obfuscate
 dump( (string) Html::el('a')->href('mailto:dave@example.com'), 'mailto' );
 
 // href with query
 dump( (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
-
-
 
 
 
@@ -94,6 +98,10 @@ string(120) "<span src="image.gif" alt="alt2 alt3" style="float:left" class="thr
 setText: string(30) "<p>Hello &amp;ndash; World</p>"
 
 setHtml: string(26) "<p>Hello &ndash; World</p>"
+
+getHtml: string(37) "<p>Hello &ndash; World<a>link</a></p>"
+
+getText: string(19) "Hello – Worldlink"
 
 mailto: string(42) "<a href="mailto:dave&#64;example.com"></a>"
 
