@@ -37,7 +37,7 @@ dump( (string) new Callback('undefined') );
 
 $cb = new Callback(new Test, 'add');
 
-dump( $cb/**/->__invoke/**/(3, 5) );
+dump( $cb/**/->invoke/**/(3, 5) );
 
 dump( $cb->invokeArgs(array(3, 5)) );
 
@@ -48,13 +48,13 @@ dump( $cb->isCallable() );
 dump( callback($cb) );
 
 try {
-	callback('undefined')->__invoke();
+	callback('undefined')->invoke();
 } catch (Exception $e) {
 	dump( $e );
 }
 
 try {
-	callback(NULL)->__invoke();
+	callback(NULL)->invoke();
 } catch (Exception $e) {
 	dump( $e );
 }

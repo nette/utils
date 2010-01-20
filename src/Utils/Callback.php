@@ -80,10 +80,25 @@ final class Callback extends Object
 
 
 	/**
-	 * Invokes callback.
+	 * Invokes callback. Do not call directly.
 	 * @return mixed
 	 */
 	public function __invoke()
+	{
+		if (!is_callable($this->cb)) {
+			throw new /*\*/InvalidStateException("Callback '$this' is not callable.");
+		}
+		/**/$args = func_get_args();/**/
+		return call_user_func_array($this->cb, /**/$args/**//*func_get_args()*/);
+	}
+
+
+
+	/**
+	 * Invokes callback.
+	 * @return mixed
+	 */
+	public function invoke()
 	{
 		if (!is_callable($this->cb)) {
 			throw new /*\*/InvalidStateException("Callback '$this' is not callable.");
