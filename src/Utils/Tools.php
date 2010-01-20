@@ -174,8 +174,7 @@ final class Tools
 	public static function _errorHandler($code, $message)
 	{
 		if (ini_get('html_errors')) {
-			$message = strip_tags($message);
-			$message = html_entity_decode($message);
+			$message = html_entity_decode(strip_tags($message), ENT_QUOTES, 'UTF-8');
 		}
 
 		if (($a = strpos($message, ': ')) !== FALSE) {
