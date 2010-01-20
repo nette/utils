@@ -137,4 +137,23 @@ final class ArrayTools
 		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
 	}
 
+
+
+	/**
+	 * Renames key in array.
+	 * @param  array
+	 * @param  mixed  old key
+	 * @param  mixed  new key
+	 * @return void
+	 */
+	public static function renameKey(array &$arr, $oldKey, $newKey)
+	{
+		$offset = self::searchKey($arr, $oldKey);
+		if ($offset !== FALSE) {
+		    $keys = array_keys($arr);
+		    $keys[$offset] = $newKey;
+    		$arr = array_combine($keys, $arr);
+    	}
+	}
+
 }
