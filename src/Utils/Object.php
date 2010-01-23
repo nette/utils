@@ -64,6 +64,7 @@ abstract class Object
 	 */
 	public function getClass()
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use getReflection()->getName() instead.', E_USER_WARNING);
 		return get_class($this);
 	}
 
