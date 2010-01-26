@@ -239,4 +239,36 @@ final class String
 		return preg_replace('#^['.$charlist.']+|['.$charlist.']+$#u', '', $s);
 	}
 
+
+
+	/**
+	 * Pad a string to a certain length with another string.
+	 * @param  string  UTF-8 encoding
+	 * @param  int
+	 * @param  string
+	 * @return string
+	 */
+	public static function padLeft($s, $length, $pad = ' ')
+	{
+		$length = max(0, $length - iconv_strlen($s, 'UTF-8'));
+		$padLen = iconv_strlen($pad, 'UTF-8');
+		return str_repeat($pad, $length / $padLen) . iconv_substr($pad, 0, $length % $padLen, 'UTF-8') . $s;
+	}
+
+
+
+	/**
+	 * Pad a string to a certain length with another string.
+	 * @param  string  UTF-8 encoding
+	 * @param  int
+	 * @param  string
+	 * @return string
+	 */
+	public static function padRight($s, $length, $pad = ' ')
+	{
+		$length = max(0, $length - iconv_strlen($s, 'UTF-8'));
+		$padLen = iconv_strlen($pad, 'UTF-8');
+		return $s . str_repeat($pad, $length / $padLen) . iconv_substr($pad, 0, $length % $padLen, 'UTF-8');
+	}
+
 }
