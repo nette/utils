@@ -39,7 +39,7 @@ class Paginator extends Object
 	private $base = 1;
 
 	/** @var int */
-	private $itemsPerPage;
+	private $itemsPerPage = 1;
 
 	/** @var int */
 	private $page;

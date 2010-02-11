@@ -150,10 +150,10 @@ final class ArrayTools
 	{
 		$offset = self::searchKey($arr, $oldKey);
 		if ($offset !== FALSE) {
-		    $keys = array_keys($arr);
-		    $keys[$offset] = $newKey;
-    		$arr = array_combine($keys, $arr);
-    	}
+			$keys = array_keys($arr);
+			$keys[$offset] = $newKey;
+			$arr = array_combine($keys, $arr);
+		}
 	}
 
 }
