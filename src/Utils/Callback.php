@@ -28,8 +28,6 @@ final class Callback extends Object
 	/** @var bool */
 	public static $fix520;
 	/**/
-	/** @var bool */
-	public static $checkImmediately = FALSE;
 
 
 
@@ -72,7 +70,7 @@ final class Callback extends Object
 		}
 		/**/
 
-		if (!is_callable($this->cb, !self::$checkImmediately)) {
+		if (!is_callable($this->cb, TRUE)) {
 			throw new /*\*/InvalidArgumentException("Invalid callback.");
 		}
 	}
