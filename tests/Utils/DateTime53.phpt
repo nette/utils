@@ -63,14 +63,14 @@ string(13) "Europe/London"
 
 int(254397600)
 
-string(19) "1978-01-23 11:40:00"
+string(19) "1978-01-23 10:40:00"
 
 string(13) "Europe/London"
 
-int(254403600)
+int(254400000)
 
-string(19) "1978-01-23 11:40:00"
+string(19) "1978-01-23 10:40:00"
 
 string(13) "Europe/London"
 
-int(254403600)
+int(254400000)
