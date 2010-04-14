@@ -60,17 +60,6 @@ abstract class Object
 {
 
 	/**
-	 * @deprecated
-	 */
-	public function getClass()
-	{
-		trigger_error(__METHOD__ . '() is deprecated; use getReflection()->getName() instead.', E_USER_WARNING);
-		return get_class($this);
-	}
-
-
-
-	/**
 	 * Access to reflection.
 	 *
 	 * @return Nette\Reflection\ClassReflection
