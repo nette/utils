@@ -31,10 +31,16 @@ foreach (new SmartCachingIterator($arr) as $k => $v) dump("$k => $v");
 
 
 
-output("==> ArrayObject");
+output("==> IteratorAggregate");
 
 $arr = new ArrayObject(array('Nette', 'Framework'));
 foreach (new SmartCachingIterator($arr) as $k => $v) dump("$k => $v");
+
+
+
+output("==> Iterator");
+
+foreach (new SmartCachingIterator($arr->getIterator()) as $k => $v) dump("$k => $v");
 
 
 
@@ -71,7 +77,13 @@ string(10) "0 => Nette"
 
 string(14) "1 => Framework"
 
-==> ArrayObject
+==> IteratorAggregate
+
+string(10) "0 => Nette"
+
+string(14) "1 => Framework"
+
+==> Iterator
 
 string(10) "0 => Nette"
 
