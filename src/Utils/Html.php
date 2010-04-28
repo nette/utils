@@ -424,10 +424,10 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	{
 		if ($deep) {
 			$deep = $deep > 0 ? /*\*/RecursiveIteratorIterator::SELF_FIRST : /*\*/RecursiveIteratorIterator::CHILD_FIRST;
-			return new /*\*/RecursiveIteratorIterator(new RecursiveHtmlIterator($this->children), $deep);
+			return new /*\*/RecursiveIteratorIterator(new /*Nette\*/GenericRecursiveIterator(new /*\*/ArrayIterator($this->children)), $deep);
 
 		} else {
-			return new RecursiveHtmlIterator($this->children);
+			return new /*Nette\*/GenericRecursiveIterator(new /*\*/ArrayIterator($this->children));
 		}
 	}
 
@@ -575,42 +575,6 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 				$this->children[$key] = clone $value;
 			}
 		}
-	}
-
-}
-
-
-
-
-
-
-/**
- * Recursive HTML element iterator. See Html::getIterator().
- *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Web
- */
-class RecursiveHtmlIterator extends /*\*/RecursiveArrayIterator implements /*\*/Countable
-{
-
-	/**
-	 * The sub-iterator for the current element.
-	 * @return \RecursiveIterator
-	 */
-	public function getChildren()
-	{
-		return $this->current()->getIterator();
-	}
-
-
-
-	/**
-	 * Returns the count of elements.
-	 * @return int
-	 */
-	public function count()
-	{
-		return iterator_count($this);
 	}
 
 }
