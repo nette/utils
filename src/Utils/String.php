@@ -302,4 +302,125 @@ final class String
 		return $s . str_repeat($pad, $length / $padLen) . iconv_substr($pad, 0, $length % $padLen, 'UTF-8');
 	}
 
+
+
+	/**
+	 * Splits string by a regular expression.
+	 * @param  string
+	 * @param  string
+	 * @param  int
+	 * @return array
+	 */
+	public static function split($subject, $pattern, $flags = 0)
+	{
+		$res = preg_split($pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE);
+		self::checkPreg($res, $pattern);
+		return $res;
+	}
+
+
+
+	/**
+	 * Performs a regular expression match.
+	 * @param  string
+	 * @param  string
+	 * @param  int
+	 * @param  int
+	 * @return mixed
+	 */
+	public static function match($subject, $pattern, $flags = 0, $offset = 0)
+	{
+		$res = preg_match($pattern, $subject, $m, $flags, $offset);
+		self::checkPreg($res, $pattern);
+		if ($res) {
+			return $m;
+		}
+	}
+
+
+
+	/**
+	 * Performs a global regular expression match.
+	 * @param  string
+	 * @param  string
+	 * @param  int  (PREG_SET_ORDER is default)
+	 * @param  int
+	 * @return array
+	 */
+	public static function matchAll($subject, $pattern, $flags = 0, $offset = 0)
+	{
+		$res = preg_match_all($pattern, $subject, $m, ($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER), $offset);
+		self::checkPreg($res, $pattern);
+		return $m;
+	}
+
+
+
+	/**
+	 * Perform a regular expression search and replace.
+	 * @param  string
+	 * @param  string|array
+	 * @param  string|callback
+	 * @param  int
+	 * @return string
+	 */
+	public static function replace($subject, $pattern, $replacement = NULL, $limit = -1)
+	{
+		preg_match('##', '');
+		if (is_object($replacement) || is_array($replacement)) {
+			if (!is_callable($replacement, FALSE, $textual)) {
+				throw new \InvalidStateException("Callback '$textual' is not callable.");
+			}
+			/*5.2*if ($replacement instanceof Callback) {
+				$replacement = $replacement->getNative();
+			}*/
+			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
+
+		} elseif (is_array($pattern)) {
+			$res = preg_replace(array_keys($pattern), array_values($pattern), $subject, $limit);
+
+		} else {
+			$res = preg_replace($pattern, $replacement, $subject, $limit);
+		}
+
+		if (preg_last_error()) {
+			self::checkPreg(TRUE, $pattern);
+		} elseif ($res === NULL) {
+			self::checkPreg(FALSE, $pattern);
+		} else {
+			return $res;
+		}
+	}
+
+
+
+	private static function checkPreg($res, $pattern)
+	{
+		if ($res === FALSE) { // compile error
+			$error = error_get_last();
+			throw new RegexpException("$error[message] in pattern: $pattern");
+
+		} elseif (preg_last_error()) { // run-time error
+			static $messages = array(
+				PREG_INTERNAL_ERROR => 'Internal error',
+				PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
+				PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',
+				PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
+				5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point', // PREG_BAD_UTF8_OFFSET_ERROR
+			);
+			$code = preg_last_error();
+			throw new RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error') . " (pattern: $pattern)", $code);
+		}
+	}
+
+}
+
+
+
+/**
+ * The exception that indicates error of the last Regexp execution.
+ * @package    Nette
+ */
+class RegexpException extends \Exception
+{
 }
