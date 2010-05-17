@@ -163,7 +163,7 @@ final class String
 			if ($maxLen < 1) {
 				return $append;
 
-			} elseif (preg_match('#^.{1,'.$maxLen.'}(?=[\s\x00-@\[-`{-~])#us', $s, $matches)) {
+			} elseif ($matches = self::match($s, '#^.{1,'.$maxLen.'}(?=[\s\x00-@\[-`{-~])#us')) {
 				return $matches[0] . $append;
 
 			} else {
@@ -184,7 +184,7 @@ final class String
 	 */
 	public static function indent($s, $level = 1, $chars = "\t")
 	{
-		return $level < 1 ? $s : preg_replace('#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level), $s);
+		return $level < 1 ? $s : self::replace($s, '#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level));
 	}
 
 
@@ -267,7 +267,7 @@ final class String
 	public static function trim($s, $charlist = " \t\n\r\0\x0B\xC2\xA0")
 	{
 		$charlist = preg_quote($charlist, '#');
-		return preg_replace('#^['.$charlist.']+|['.$charlist.']+$#u', '', $s);
+		return self::replace($s, '#^['.$charlist.']+|['.$charlist.']+$#u', '');
 	}
 
 

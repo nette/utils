@@ -73,8 +73,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 		}
 
 		if (isset($parts[1])) {
-			preg_match_all('#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\\2|\s))?#i', $parts[1] . ' ', $parts, PREG_SET_ORDER);
-			foreach ($parts as $m) {
+			foreach (Nette\String::matchAll($parts[1] . ' ', '#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\\2|\s))?#i') as $m) {
 				$el->attrs[$m[1]] = isset($m[3]) ? $m[3] : TRUE;
 			}
 		}
