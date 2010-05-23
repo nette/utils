@@ -35,7 +35,7 @@ dump( ArrayTools::searchKey($arr, 'undefined') );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 array(4) {

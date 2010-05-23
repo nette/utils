@@ -48,7 +48,7 @@ dump( $obj->getTimestamp() );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(19) "1978-01-23 10:00:00"

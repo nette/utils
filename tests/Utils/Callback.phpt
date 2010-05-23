@@ -61,7 +61,7 @@ try {
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(9) "Test::add"

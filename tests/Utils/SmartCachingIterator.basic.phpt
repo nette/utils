@@ -78,7 +78,7 @@ dump( $iterator->isEmpty(), 'empty' );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 ==> Two items in array

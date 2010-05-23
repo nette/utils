@@ -31,7 +31,7 @@ dump( $obj->join('*') );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(11) "Hello*World"

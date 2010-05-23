@@ -29,7 +29,7 @@ try {
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 Exception MemberAccessException: Call to undefined method TestClass::undeclared().

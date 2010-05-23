@@ -24,4 +24,4 @@ $image->send(Image::PNG, 100);
 
 
 
-__halt_compiler();
+__halt_compiler() ?>

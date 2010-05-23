@@ -38,7 +38,7 @@ dump( String::padRight("\xc5\xbdLU", 10) );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(14) "ŤOUŤOUŤŽLU"

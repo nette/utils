@@ -27,7 +27,7 @@ dump( $obj->foo );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(5) "hello"

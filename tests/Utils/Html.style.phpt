@@ -63,7 +63,7 @@ dump( (string) $el );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(75) "<div style="text-align:right;background-color: blue" class="one two"></div>"

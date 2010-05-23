@@ -57,7 +57,7 @@ dump( String::truncate($s, 32), "length=32" );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 length=-1: string(3) "…"

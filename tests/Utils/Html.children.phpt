@@ -55,7 +55,7 @@ foreach ($el->getIterator(TRUE) as $name => $child) {
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(47) "<ul class="hello"><li>one</li><li>two</li></ul>"

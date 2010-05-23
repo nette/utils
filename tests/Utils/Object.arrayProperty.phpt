@@ -31,7 +31,7 @@ dump( $obj->items[1] );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(4) "test"

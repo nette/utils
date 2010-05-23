@@ -27,7 +27,7 @@ dump( (string) Html::el('a lang=\'hello" world\' href="hello "world" title=0')->
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(60) "<a lang="cs" href="#" title="" selected="selected">click</a>"

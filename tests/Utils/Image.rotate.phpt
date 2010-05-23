@@ -29,4 +29,4 @@ $rotated->send(Image::GIF);
 
 
 
-__halt_compiler();
+__halt_compiler() ?>

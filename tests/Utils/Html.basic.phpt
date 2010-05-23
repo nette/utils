@@ -66,7 +66,7 @@ dump( (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(30) "<img src="image.gif" alt="" />"

@@ -42,7 +42,7 @@ dump( $obj->join('*') );
 
 
 
-__halt_compiler();
+__halt_compiler() ?>
 
 ------EXPECT------
 string(29) "ISecond_join says Hello*World"
