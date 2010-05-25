@@ -19,7 +19,6 @@ require dirname(__FILE__) . '/Object.inc';
 
 
 
-
 function handler($obj)
 {
 	$obj->counter++;

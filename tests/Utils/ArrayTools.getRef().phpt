@@ -65,7 +65,6 @@ try {
 
 
 
-
 __halt_compiler() ?>
 
 ------EXPECT------

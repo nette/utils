@@ -46,7 +46,6 @@ dump( ArrayTools::get($arr, array(7, 'item')) );
 
 
 
-
 __halt_compiler() ?>
 
 ------EXPECT------
