@@ -9,11 +9,11 @@
  * @subpackage UnitTests
  */
 
-/*use Nette\String;*/
+use Nette\String;
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require __DIR__ . '/../NetteTest/initialize.php';
 
 
 

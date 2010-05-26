@@ -9,13 +9,13 @@
  * @subpackage UnitTests
  */
 
-/*use Nette\Object;*/
+use Nette\Object;
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require __DIR__ . '/../NetteTest/initialize.php';
 
-require dirname(__FILE__) . '/Object.inc';
+require __DIR__ . '/Object.inc';
 
 
 

@@ -49,7 +49,7 @@ class ArgumentOutOfRangeException extends InvalidArgumentException
  */
 class InvalidStateException extends RuntimeException
 {
-	/**/
+	/*5.2*
 	public function __construct($message = '', $code = 0, Exception $previous = NULL)
 	{
 		if (version_compare(PHP_VERSION , '5.3', '<')) {
@@ -59,7 +59,7 @@ class InvalidStateException extends RuntimeException
 			parent::__construct($message, $code, $previous);
 		}
 	}
-	/**/
+	*/
 }
 
 
@@ -140,28 +140,37 @@ class DirectoryNotFoundException extends IOException
  * the script should be halted.
  * @package    exceptions
  */
-class FatalErrorException extends /*Error*/Exception
+/**/
+class FatalErrorException extends ErrorException
 {
-	/**//** @var int */
-	private $severity;
-	/**/
 
 	public function __construct($message, $code, $severity, $file, $line, $context)
 	{
-		/*parent::__construct($message, $code, $severity, $file, $line);*/
-		/**/parent::__construct($message, $code);
-		$this->severity = $severity;
-		$this->file = $file;
-		$this->line = $line;/**/
+		parent::__construct($message, $code, $severity, $file, $line);
 		$this->context = $context;
 	}
 
+}
+/**/
 
-	/**/
+/*5.2*
+class FatalErrorException extends Exception
+{
+	private $severity;
+
+	public function __construct($message, $code, $severity, $file, $line, $context)
+	{
+		parent::__construct($message, $code);
+		$this->severity = $severity;
+		$this->file = $file;
+		$this->line = $line;
+		$this->context = $context;
+	}
+
 	public function getSeverity()
 	{
 		return $this->severity;
 	}
-	/**/
 
 }
+*/

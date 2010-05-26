@@ -9,17 +9,17 @@
  * @subpackage UnitTests
  */
 
-/*use Nette\Object;*/
+use Nette\Object;
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require __DIR__ . '/../NetteTest/initialize.php';
 
-require dirname(__FILE__) . '/Object.inc';
+require __DIR__ . '/Object.inc';
 
 
 
-if (/*Nette\*/Framework::PACKAGE === 'PHP 5.3') {
+if (Nette\Framework::PACKAGE === 'PHP 5.3') {
 	NetteTestHelpers::skip('Requires Nette Framework package < PHP 5.3');
 }
 

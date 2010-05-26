@@ -10,7 +10,9 @@
  * @package    Nette\Web
  */
 
-/*namespace Nette\Web;*/
+namespace Nette\Web;
+
+use Nette;
 
 
 
@@ -28,7 +30,7 @@
  * @copyright  Copyright (c) 2004, 2010 David Grudl
  * @package    Nette\Web
  */
-class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable, /*\*/IteratorAggregate
+class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 	/** @var string  element's name */
 	private $name;
@@ -59,7 +61,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	 */
 	public static function el($name = NULL, $attrs = NULL)
 	{
-		$el = new /**/self/**/ /*static*/;
+		$el = new static;
 		$parts = explode(' ', $name, 2);
 		$el->setName($parts[0]);
 
@@ -92,7 +94,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	final public function setName($name, $isEmpty = NULL)
 	{
 		if ($name !== NULL && !is_string($name)) {
-			throw new /*\*/InvalidArgumentException("Name must be string or NULL, " . gettype($name) ." given.");
+			throw new \InvalidArgumentException("Name must be string or NULL, " . gettype($name) ." given.");
 		}
 
 		$this->name = $name;
@@ -229,7 +231,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 			$html = '';
 
 		} elseif (is_array($html)) {
-			throw new /*\*/InvalidArgumentException("Textual content must be a scalar, " . gettype($html) ." given.");
+			throw new \InvalidArgumentException("Textual content must be a scalar, " . gettype($html) ." given.");
 
 		} else {
 			$html = (string) $html;
@@ -308,7 +310,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	 */
 	final public function create($name, $attrs = NULL)
 	{
-		$this->insert(NULL, $child = /**/self/**/ /*static*/::el($name, $attrs));
+		$this->insert(NULL, $child = static::el($name, $attrs));
 		return $child;
 	}
 
@@ -333,7 +335,7 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 			}
 
 		} else {
-			throw new /*\*/InvalidArgumentException("Child node must be scalar or Html object, " . (is_object($child) ? get_class($child) : gettype($child)) ." given.");
+			throw new \InvalidArgumentException("Child node must be scalar or Html object, " . (is_object($child) ? get_class($child) : gettype($child)) ." given.");
 		}
 
 		return $this;
@@ -423,11 +425,11 @@ class Html extends /*Nette\*/Object implements /*\*/ArrayAccess, /*\*/Countable,
 	final public function getIterator($deep = FALSE)
 	{
 		if ($deep) {
-			$deep = $deep > 0 ? /*\*/RecursiveIteratorIterator::SELF_FIRST : /*\*/RecursiveIteratorIterator::CHILD_FIRST;
-			return new /*\*/RecursiveIteratorIterator(new /*Nette\*/GenericRecursiveIterator(new /*\*/ArrayIterator($this->children)), $deep);
+			$deep = $deep > 0 ? \RecursiveIteratorIterator::SELF_FIRST : \RecursiveIteratorIterator::CHILD_FIRST;
+			return new \RecursiveIteratorIterator(new Nette\GenericRecursiveIterator(new \ArrayIterator($this->children)), $deep);
 
 		} else {
-			return new /*Nette\*/GenericRecursiveIterator(new /*\*/ArrayIterator($this->children));
+			return new Nette\GenericRecursiveIterator(new \ArrayIterator($this->children));
 		}
 	}
 

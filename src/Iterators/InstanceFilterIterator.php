@@ -10,7 +10,9 @@
  * @package    Nette
  */
 
-/*namespace Nette;*/
+namespace Nette;
+
+use Nette;
 
 
 
@@ -20,7 +22,7 @@
  * @copyright  Copyright (c) 2004, 2010 David Grudl
  * @package    Nette
  */
-class InstanceFilterIterator extends /*\*/FilterIterator implements /*\*/Countable
+class InstanceFilterIterator extends \FilterIterator implements \Countable
 {
 	/** @var string */
 	private $type;
@@ -31,7 +33,7 @@ class InstanceFilterIterator extends /*\*/FilterIterator implements /*\*/Countab
 	 * @param  Iterator
 	 * @param  string  class/interface name
 	 */
-	public function __construct(/*\*/Iterator $iterator, $type)
+	public function __construct(\Iterator $iterator, $type)
 	{
 		$this->type = $type;
 		parent::__construct($iterator);

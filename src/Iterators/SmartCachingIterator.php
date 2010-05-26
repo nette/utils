@@ -10,7 +10,9 @@
  * @package    Nette
  */
 
-/*namespace Nette;*/
+namespace Nette;
+
+use Nette;
 
 
 
@@ -26,7 +28,7 @@
  * @property-read bool $odd
  * @property-read bool $even
  */
-class SmartCachingIterator extends /*\*/CachingIterator implements /*\*/Countable
+class SmartCachingIterator extends \CachingIterator implements \Countable
 {
 	/** @var int */
 	private $counter = 0;
@@ -35,19 +37,19 @@ class SmartCachingIterator extends /*\*/CachingIterator implements /*\*/Countabl
 
 	public function __construct($iterator)
 	{
-		if (is_array($iterator) || $iterator instanceof /*\*/stdClass) {
-			$iterator = new /*\*/ArrayIterator($iterator);
+		if (is_array($iterator) || $iterator instanceof \stdClass) {
+			$iterator = new \ArrayIterator($iterator);
 
-		} elseif ($iterator instanceof /*\*/Traversable) {
-			if ($iterator instanceof /*\*/IteratorAggregate) {
+		} elseif ($iterator instanceof \Traversable) {
+			if ($iterator instanceof \IteratorAggregate) {
 				$iterator = $iterator->getIterator();
 
-			} elseif (!($iterator instanceof /*\*/Iterator)) {
-				$iterator = new /*\*/IteratorIterator($iterator);
+			} elseif (!($iterator instanceof \Iterator)) {
+				$iterator = new \IteratorIterator($iterator);
 			}
 
 		} else {
-			throw new /*\*/InvalidArgumentException("Invalid argument passed to foreach resp. " . __CLASS__ . "; array or Traversable expected, " . (is_object($iterator) ? get_class($iterator) : gettype($iterator)) ." given.");
+			throw new \InvalidArgumentException("Invalid argument passed to foreach resp. " . __CLASS__ . "; array or Traversable expected, " . (is_object($iterator) ? get_class($iterator) : gettype($iterator)) ." given.");
 		}
 
 		parent::__construct($iterator, 0);
@@ -130,11 +132,11 @@ class SmartCachingIterator extends /*\*/CachingIterator implements /*\*/Countabl
 	public function count()
 	{
 		$inner = $this->getInnerIterator();
-		if ($inner instanceof /*\*/Countable) {
+		if ($inner instanceof \Countable) {
 			return $inner->count();
 
 		} else {
-			throw new /*\*/NotSupportedException('Iterator is not countable.');
+			throw new \NotSupportedException('Iterator is not countable.');
 		}
 	}
 
@@ -259,7 +261,7 @@ class SmartCachingIterator extends /*\*/CachingIterator implements /*\*/Countabl
 	public function __unset($name)
 	{
 		$class = get_class($this);
-		throw new /*\*/MemberAccessException("Cannot unset the property $class::\$$name.");
+		throw new \MemberAccessException("Cannot unset the property $class::\$$name.");
 	}
 
 

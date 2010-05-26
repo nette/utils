@@ -9,11 +9,11 @@
  * @subpackage UnitTests
  */
 
-/*use Nette\SmartCachingIterator;*/
+use Nette\SmartCachingIterator;
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require __DIR__ . '/../NetteTest/initialize.php';
 
 
 
@@ -97,4 +97,4 @@ string(17) "item => Framework"
 
 ==> object
 
-Exception InvalidArgumentException: Invalid argument passed to foreach resp. SmartCachingIterator; array or Traversable expected, Directory given.
+Exception InvalidArgumentException: Invalid argument passed to foreach resp. %ns%SmartCachingIterator; array or Traversable expected, Directory given.

@@ -10,7 +10,9 @@
  * @package    Nette
  */
 
-/*namespace Nette;*/
+namespace Nette;
+
+use Nette;
 
 
 
@@ -47,7 +49,7 @@ final class Tools
 	 */
 	final public function __construct()
 	{
-		throw new /*\*/LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
 
@@ -59,17 +61,17 @@ final class Tools
 	 */
 	public static function createDateTime($time)
 	{
-		if ($time instanceof /*\*/DateTime) {
+		if ($time instanceof \DateTime) {
 			return clone $time;
 
 		} elseif (is_numeric($time)) {
 			if ($time <= self::YEAR) {
 				$time += time();
 			}
-			return new /**/DateTime53/**//*\DateTime*/(date('Y-m-d H:i:s', $time));
+			return new \DateTime(date('Y-m-d H:i:s', $time));
 
 		} else { // textual or NULL
-			return new /**/DateTime53/**//*\DateTime*/($time);
+			return new \DateTime($time);
 		}
 	}
 

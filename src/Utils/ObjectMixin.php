@@ -10,7 +10,9 @@
  * @package    Nette
  */
 
-/*namespace Nette;*/
+namespace Nette;
+
+use Nette;
 
 
 
@@ -32,7 +34,7 @@ final class ObjectMixin
 	 */
 	final public function __construct()
 	{
-		throw new /*\*/LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
 
@@ -47,15 +49,15 @@ final class ObjectMixin
 	 */
 	public static function call($_this, $name, $args)
 	{
-		$class = new /*Nette\Reflection\*/ClassReflection($_this);
+		$class = new Nette\Reflection\ClassReflection($_this);
 
 		if ($name === '') {
-			throw new /*\*/MemberAccessException("Call to class '$class->name' method without name.");
+			throw new \MemberAccessException("Call to class '$class->name' method without name.");
 		}
 
 		// event functionality
 		if ($class->hasEventProperty($name)) {
-			if (is_array($list = $_this->$name) || $list instanceof /*\*/Traversable) {
+			if (is_array($list = $_this->$name) || $list instanceof \Traversable) {
 				foreach ($list as $handler) {
 					callback($handler)->invokeArgs($args);
 				}
@@ -69,7 +71,7 @@ final class ObjectMixin
 			return $cb->invokeArgs($args);
 		}
 
-		throw new /*\*/MemberAccessException("Call to undefined method $class->name::$name().");
+		throw new \MemberAccessException("Call to undefined method $class->name::$name().");
 	}
 
 
@@ -86,7 +88,7 @@ final class ObjectMixin
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new /*\*/MemberAccessException("Cannot read a class '$class' property without name.");
+			throw new \MemberAccessException("Cannot read a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
@@ -115,7 +117,7 @@ final class ObjectMixin
 		}
 
 		$name = func_get_arg(1);
-		throw new /*\*/MemberAccessException("Cannot read an undeclared property $class::\$$name.");
+		throw new \MemberAccessException("Cannot read an undeclared property $class::\$$name.");
 	}
 
 
@@ -133,7 +135,7 @@ final class ObjectMixin
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new /*\*/MemberAccessException("Cannot assign to a class '$class' property without name.");
+			throw new \MemberAccessException("Cannot assign to a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
@@ -150,12 +152,12 @@ final class ObjectMixin
 
 			} else {
 				$name = func_get_arg(1);
-				throw new /*\*/MemberAccessException("Cannot assign to a read-only property $class::\$$name.");
+				throw new \MemberAccessException("Cannot assign to a read-only property $class::\$$name.");
 			}
 		}
 
 		$name = func_get_arg(1);
-		throw new /*\*/MemberAccessException("Cannot assign to an undeclared property $class::\$$name.");
+		throw new \MemberAccessException("Cannot assign to an undeclared property $class::\$$name.");
 	}
 
 

@@ -10,7 +10,9 @@
  * @package    Nette
  */
 
-/*namespace Nette;*/
+namespace Nette;
+
+use Nette;
 
 
 
@@ -68,7 +70,7 @@ abstract class FreezableObject extends Object
 	protected function updating()
 	{
 		if ($this->frozen) {
-			throw new /*\*/InvalidStateException("Cannot modify a frozen object {$this->reflection->name}.");
+			throw new \InvalidStateException("Cannot modify a frozen object {$this->reflection->name}.");
 		}
 	}
 

@@ -10,7 +10,9 @@
  * @package    Nette
  */
 
-/*namespace Nette;*/
+namespace Nette;
+
+use Nette;
 
 
 
@@ -20,7 +22,7 @@
  * @copyright  Copyright (c) 2004, 2010 David Grudl
  * @package    Nette
  */
-class ArrayList implements /*\*/ArrayAccess, /*\*/Countable, /*\*/IteratorAggregate
+class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 	private $list = array();
 
@@ -32,7 +34,7 @@ class ArrayList implements /*\*/ArrayAccess, /*\*/Countable, /*\*/IteratorAggreg
 	 */
 	public function getIterator()
 	{
-		return new /*\*/ArrayIterator($this->list);
+		return new \ArrayIterator($this->list);
 	}
 
 
@@ -61,7 +63,7 @@ class ArrayList implements /*\*/ArrayAccess, /*\*/Countable, /*\*/IteratorAggreg
 			$this->list[] = $value;
 
 		} elseif ($index < 0 || $index >= count($this->list)) {
-			throw new /*\*/OutOfRangeException("Offset invalid or out of range");
+			throw new \OutOfRangeException("Offset invalid or out of range");
 
 		} else {
 			$this->list[(int) $index] = $value;
@@ -79,7 +81,7 @@ class ArrayList implements /*\*/ArrayAccess, /*\*/Countable, /*\*/IteratorAggreg
 	public function offsetGet($index)
 	{
 		if ($index < 0 || $index >= count($this->list)) {
-			throw new /*\*/OutOfRangeException("Offset invalid or out of range");
+			throw new \OutOfRangeException("Offset invalid or out of range");
 		}
 		return $this->list[(int) $index];
 	}
@@ -107,7 +109,7 @@ class ArrayList implements /*\*/ArrayAccess, /*\*/Countable, /*\*/IteratorAggreg
 	public function offsetUnset($index)
 	{
 		if ($index < 0 || $index >= count($this->list)) {
-			throw new /*\*/OutOfRangeException("Offset invalid or out of range");
+			throw new \OutOfRangeException("Offset invalid or out of range");
 		}
 		array_splice($this->list, (int) $index, 1);
 	}

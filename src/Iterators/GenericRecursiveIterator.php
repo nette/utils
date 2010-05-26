@@ -10,7 +10,9 @@
  * @package    Nette
  */
 
-/*namespace Nette;*/
+namespace Nette;
+
+use Nette;
 
 
 
@@ -20,7 +22,7 @@
  * @copyright  Copyright (c) 2004, 2010 David Grudl
  * @package    Nette
  */
-class GenericRecursiveIterator extends /*\*/IteratorIterator implements /*\*/RecursiveIterator, /*\*/Countable
+class GenericRecursiveIterator extends \IteratorIterator implements \RecursiveIterator, \Countable
 {
 
 	/**
@@ -30,7 +32,7 @@ class GenericRecursiveIterator extends /*\*/IteratorIterator implements /*\*/Rec
 	public function hasChildren()
 	{
 		$obj = $this->current();
-		return ($obj instanceof /*\*/IteratorAggregate && $obj->getIterator() instanceof /*\*/RecursiveIterator) || $obj instanceof /*\*/RecursiveIterator;
+		return ($obj instanceof \IteratorAggregate && $obj->getIterator() instanceof \RecursiveIterator) || $obj instanceof \RecursiveIterator;
 	}
 
 
@@ -42,7 +44,7 @@ class GenericRecursiveIterator extends /*\*/IteratorIterator implements /*\*/Rec
 	public function getChildren()
 	{
 		$obj = $this->current();
-		return $obj instanceof /*\*/IteratorAggregate ? $obj->getIterator() : $obj;
+		return $obj instanceof \IteratorAggregate ? $obj->getIterator() : $obj;
 	}
 
 

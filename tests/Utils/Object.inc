@@ -4,7 +4,7 @@
  * Common code for Nette\Object test cases.
  */
 
-/*use Nette\Object;*/
+use Nette\Object;
 
 
 

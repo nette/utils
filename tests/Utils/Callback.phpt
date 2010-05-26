@@ -9,11 +9,11 @@
  * @subpackage UnitTests
  */
 
-/*use Nette\Callback;*/
+use Nette\Callback;
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require __DIR__ . '/../NetteTest/initialize.php';
 
 
 
@@ -37,7 +37,7 @@ dump( (string) new Callback('undefined') );
 
 $cb = new Callback(new Test, 'add');
 
-dump( $cb/**/->invoke/**/(3, 5) );
+dump( $cb/*5.2*->invoke*/(3, 5) );
 
 dump( $cb->invokeArgs(array(3, 5)) );
 

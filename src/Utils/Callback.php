@@ -10,7 +10,9 @@
  * @package    Nette
  */
 
-/*namespace Nette;*/
+namespace Nette;
+
+use Nette;
 
 
 
@@ -24,10 +26,8 @@ final class Callback extends Object
 {
 	/** @var callback */
 	private $cb;
-	/**/
-	/** @var bool */
-	public static $fix520;
-	/**/
+
+	/*5.2* public static $fix520;*/
 
 
 
@@ -43,7 +43,7 @@ final class Callback extends Object
 			$this->cb = array($t, $m);
 		}
 
-		/**/
+		/*5.2*
 		// __invoke support
 		if (is_object($this->cb)) {
 			$this->cb = array($this->cb, '__invoke');
@@ -68,10 +68,10 @@ final class Callback extends Object
 				$this->cb[0] = substr($this->cb[0], $a + 1);
 			}
 		}
-		/**/
+		*/
 
 		if (!is_callable($this->cb, TRUE)) {
-			throw new /*\*/InvalidArgumentException("Invalid callback.");
+			throw new \InvalidArgumentException("Invalid callback.");
 		}
 	}
 
@@ -84,10 +84,10 @@ final class Callback extends Object
 	public function __invoke()
 	{
 		if (!is_callable($this->cb)) {
-			throw new /*\*/InvalidStateException("Callback '$this' is not callable.");
+			throw new \InvalidStateException("Callback '$this' is not callable.");
 		}
-		/**/$args = func_get_args();/**/
-		return call_user_func_array($this->cb, /**/$args/**//*func_get_args()*/);
+		$args = func_get_args();
+		return call_user_func_array($this->cb, $args);
 	}
 
 
@@ -99,10 +99,10 @@ final class Callback extends Object
 	public function invoke()
 	{
 		if (!is_callable($this->cb)) {
-			throw new /*\*/InvalidStateException("Callback '$this' is not callable.");
+			throw new \InvalidStateException("Callback '$this' is not callable.");
 		}
-		/**/$args = func_get_args();/**/
-		return call_user_func_array($this->cb, /**/$args/**//*func_get_args()*/);
+		$args = func_get_args();
+		return call_user_func_array($this->cb, $args);
 	}
 
 
@@ -115,7 +115,7 @@ final class Callback extends Object
 	public function invokeArgs(array $args)
 	{
 		if (!is_callable($this->cb)) {
-			throw new /*\*/InvalidStateException("Callback '$this' is not callable.");
+			throw new \InvalidStateException("Callback '$this' is not callable.");
 		}
 		return call_user_func_array($this->cb, $args);
 	}
@@ -157,4 +157,4 @@ final class Callback extends Object
 
 
 
-/**/Callback::$fix520 = version_compare(PHP_VERSION , '5.2.2', '<');/**/
+/*5.2* Callback::$fix520 = version_compare(PHP_VERSION , '5.2.2', '<');*/
