@@ -158,8 +158,8 @@ final class String
 	 */
 	public static function truncate($s, $maxLen, $append = "\xE2\x80\xA6")
 	{
-		if (iconv_strlen($s, 'UTF-8') > $maxLen) {
-			$maxLen = $maxLen - iconv_strlen($append, 'UTF-8');
+		if (self::length($s) > $maxLen) {
+			$maxLen = $maxLen - self::length($append);
 			if ($maxLen < 1) {
 				return $append;
 
@@ -226,6 +226,18 @@ final class String
 
 
 	/**
+	 * Returns UTF-8 string length.
+	 * @param  string
+	 * @return int
+	 */
+	public static function length($s)
+	{
+		return function_exists('mb_strlen') ? mb_strlen($s, 'UTF-8') : strlen(utf8_decode($s));
+	}
+
+
+
+	/**
 	 * Strips whitespace.
 	 * @param  string  UTF-8 encoding
 	 * @param  string
@@ -248,8 +260,8 @@ final class String
 	 */
 	public static function padLeft($s, $length, $pad = ' ')
 	{
-		$length = max(0, $length - iconv_strlen($s, 'UTF-8'));
-		$padLen = iconv_strlen($pad, 'UTF-8');
+		$length = max(0, $length - self::length($s));
+		$padLen = self::length($pad);
 		return str_repeat($pad, $length / $padLen) . iconv_substr($pad, 0, $length % $padLen, 'UTF-8') . $s;
 	}
 
@@ -264,8 +276,8 @@ final class String
 	 */
 	public static function padRight($s, $length, $pad = ' ')
 	{
-		$length = max(0, $length - iconv_strlen($s, 'UTF-8'));
-		$padLen = iconv_strlen($pad, 'UTF-8');
+		$length = max(0, $length - self::length($s));
+		$padLen = self::length($pad);
 		return $s . str_repeat($pad, $length / $padLen) . iconv_substr($pad, 0, $length % $padLen, 'UTF-8');
 	}
 
