@@ -226,6 +226,27 @@ final class String
 
 
 	/**
+	 * Case-insensitive compares UTF-8 strings.
+	 * @param  string
+	 * @param  string
+	 * @param  int
+	 * @return bool
+	 */
+	public static function compare($left, $right, $len = NULL)
+	{
+		if ($len < 0) {
+			$left = iconv_substr($left, $len, -$len, 'UTF-8');
+			$right = iconv_substr($right, $len, -$len, 'UTF-8');
+		} elseif ($len !== NULL) {
+			$left = iconv_substr($left, 0, $len, 'UTF-8');
+			$right = iconv_substr($right, 0, $len, 'UTF-8');
+		}
+		return self::lower($left) === self::lower($right);
+	}
+
+
+
+	/**
 	 * Returns UTF-8 string length.
 	 * @param  string
 	 * @return int
