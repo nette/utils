@@ -70,7 +70,7 @@ string(11) "hello world"
 
 Undeclared property writing
 
-Exception MemberAccessException: Cannot assign to an undeclared property TestClass::$undeclared.
+Exception MemberAccessException: Cannot write to an undeclared property TestClass::$undeclared.
 
 Undeclared property reading
 
@@ -86,4 +86,4 @@ Read-only property
 
 string(5) "World"
 
-Exception MemberAccessException: Cannot assign to a read-only property TestClass::$bar.
+Exception MemberAccessException: Cannot write to a read-only property TestClass::$bar.

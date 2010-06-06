@@ -92,7 +92,6 @@ final class Tools
 
 	/**
 	 * Initializes variable with $default value.
-	 *
 	 * @param  mixed  variable
 	 * @param  mixed  default value
 	 * @return void
@@ -142,7 +141,6 @@ final class Tools
 
 	/**
 	 * Starts catching potential errors/warnings.
-	 *
 	 * @return void
 	 */
 	public static function tryError($level = E_ALL)
@@ -155,7 +153,6 @@ final class Tools
 
 	/**
 	 * Returns catched error/warning message.
-	 *
 	 * @param  string  catched message
 	 * @return bool
 	 */

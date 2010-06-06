@@ -63,7 +63,6 @@ abstract class Object
 
 	/**
 	 * Access to reflection.
-	 *
 	 * @return Nette\Reflection\ClassReflection
 	 */
 	public /**/static/**/ function getReflection()
@@ -75,7 +74,6 @@ abstract class Object
 
 	/**
 	 * Call to undefined method.
-	 *
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
@@ -90,7 +88,6 @@ abstract class Object
 
 	/**
 	 * Call to undefined static method.
-	 *
 	 * @param  string  method name (in lower case!)
 	 * @param  array   arguments
 	 * @return mixed
@@ -106,7 +103,6 @@ abstract class Object
 
 	/**
 	 * Adding method to class.
-	 *
 	 * @param  string  method name
 	 * @param  mixed   callback or closure
 	 * @return mixed
@@ -130,7 +126,6 @@ abstract class Object
 
 	/**
 	 * Returns property value. Do not call directly.
-	 *
 	 * @param  string  property name
 	 * @return mixed   property value
 	 * @throws \MemberAccessException if the property is not defined.
@@ -144,7 +139,6 @@ abstract class Object
 
 	/**
 	 * Sets value of a property. Do not call directly.
-	 *
 	 * @param  string  property name
 	 * @param  mixed   property value
 	 * @return void
@@ -159,7 +153,6 @@ abstract class Object
 
 	/**
 	 * Is property defined?
-	 *
 	 * @param  string  property name
 	 * @return bool
 	 */
@@ -172,7 +165,6 @@ abstract class Object
 
 	/**
 	 * Access to undeclared property.
-	 *
 	 * @param  string  property name
 	 * @return void
 	 * @throws \MemberAccessException

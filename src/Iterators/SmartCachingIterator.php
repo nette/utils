@@ -196,7 +196,6 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Call to undefined method.
-	 *
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
@@ -211,7 +210,6 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Returns property value. Do not call directly.
-	 *
 	 * @param  string  property name
 	 * @return mixed   property value
 	 * @throws \MemberAccessException if the property is not defined.
@@ -225,7 +223,6 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Sets value of a property. Do not call directly.
-	 *
 	 * @param  string  property name
 	 * @param  mixed   property value
 	 * @return void
@@ -240,7 +237,6 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Is property defined?
-	 *
 	 * @param  string  property name
 	 * @return bool
 	 */
@@ -253,7 +249,6 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Access to undeclared property.
-	 *
 	 * @param  string  property name
 	 * @return void
 	 * @throws \MemberAccessException

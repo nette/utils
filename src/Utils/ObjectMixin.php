@@ -41,7 +41,6 @@ final class ObjectMixin
 
 	/**
 	 * Call to undefined method.
-	 *
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
@@ -78,7 +77,6 @@ final class ObjectMixin
 
 	/**
 	 * Returns property value.
-	 *
 	 * @param  string  property name
 	 * @return mixed   property value
 	 * @throws \MemberAccessException if the property is not defined.
@@ -124,7 +122,6 @@ final class ObjectMixin
 
 	/**
 	 * Sets value of a property.
-	 *
 	 * @param  string  property name
 	 * @param  mixed   property value
 	 * @return void
@@ -135,7 +132,7 @@ final class ObjectMixin
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new \MemberAccessException("Cannot assign to a class '$class' property without name.");
+			throw new \MemberAccessException("Cannot write to a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
@@ -152,19 +149,18 @@ final class ObjectMixin
 
 			} else {
 				$name = func_get_arg(1);
-				throw new \MemberAccessException("Cannot assign to a read-only property $class::\$$name.");
+				throw new \MemberAccessException("Cannot write to a read-only property $class::\$$name.");
 			}
 		}
 
 		$name = func_get_arg(1);
-		throw new \MemberAccessException("Cannot assign to an undeclared property $class::\$$name.");
+		throw new \MemberAccessException("Cannot write to an undeclared property $class::\$$name.");
 	}
 
 
 
 	/**
 	 * Is property defined?
-	 *
 	 * @param  string  property name
 	 * @return bool
 	 */
