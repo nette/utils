@@ -27,8 +27,6 @@ final class Callback extends Object
 	/** @var callback */
 	private $cb;
 
-	/*5.2* public static $fix520;*/
-
 
 
 	/**
@@ -48,7 +46,7 @@ final class Callback extends Object
 		if (is_object($this->cb)) {
 			$this->cb = array($this->cb, '__invoke');
 
-		} elseif (self::$fix520) {
+		} elseif (PHP_VERSION_ID < 50202) {
 			// explode 'Class::method' into array
 			if (is_string($this->cb) && strpos($this->cb, ':')) {
 				$this->cb = explode('::', $this->cb);
@@ -154,7 +152,3 @@ final class Callback extends Object
 	}
 
 }
-
-
-
-/*5.2* Callback::$fix520 = version_compare(PHP_VERSION , '5.2.2', '<');*/
