@@ -368,12 +368,12 @@ final class String
 	{
 		preg_match('##', '');
 		if (is_object($replacement) || is_array($replacement)) {
-			if (!is_callable($replacement, FALSE, $textual)) {
-				throw new \InvalidStateException("Callback '$textual' is not callable.");
-			}
 			/*5.2*if ($replacement instanceof Callback) {
 				$replacement = $replacement->getNative();
 			}*/
+			if (!is_callable($replacement, FALSE, $textual)) {
+				throw new \InvalidStateException("Callback '$textual' is not callable.");
+			}
 			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
 
 		} elseif (is_array($pattern)) {
