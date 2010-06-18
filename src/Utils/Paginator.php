@@ -149,7 +149,7 @@ class Paginator extends Object
 	 */
 	public function isLast()
 	{
-		return $this->getPageIndex() === $this->getPageCount() - 1;
+		return $this->getPageIndex() >= $this->getPageCount() - 1;
 	}
 
 
