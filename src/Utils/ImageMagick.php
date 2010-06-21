@@ -123,7 +123,7 @@ class ImageMagick extends Image
 	public function resize($width, $height, $flags = self::FIT)
 	{
 		if ($this->file === NULL) {
-			return parent::resize($newWidth, $newHeight, $flags);
+			return parent::resize($width, $height, $flags);
 		}
 
 		$mirror = '';
