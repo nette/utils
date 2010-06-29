@@ -13,68 +13,68 @@ use Nette\SmartCachingIterator;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
-output("==> Two items in array");
+T::note("==> Two items in array");
 
 $arr = array('Nette', 'Framework');
 
 foreach ($iterator = new SmartCachingIterator($arr) as $k => $v)
 {
-	dump( $iterator->isFirst(), 'first' );
-	dump( $iterator->isLast(), 'last' );
-	dump( $iterator->getCounter(), 'counter' );
+	T::dump( $iterator->isFirst(), 'first' );
+	T::dump( $iterator->isLast(), 'last' );
+	T::dump( $iterator->getCounter(), 'counter' );
 
 	foreach ($innerIterator = new SmartCachingIterator($arr) as $k => $v)
 	{
-		dump( $innerIterator->isFirst(), '  inner first' );
-		dump( $innerIterator->isLast(), '  inner last' );
-		dump( $innerIterator->counter, '  inner counter' );
+		T::dump( $innerIterator->isFirst(), '  inner first' );
+		T::dump( $innerIterator->isLast(), '  inner last' );
+		T::dump( $innerIterator->counter, '  inner counter' );
 	}
 }
 
 $iterator->rewind();
-output("==> rewinding...");
-dump( $iterator->isFirst(), 'first' );
-dump( $iterator->isLast(), 'last' );
-dump( $iterator->getCounter(), 'counter' );
-dump( $iterator->isEmpty(), 'empty' );
+T::note("==> rewinding...");
+T::dump( $iterator->isFirst(), 'first' );
+T::dump( $iterator->isLast(), 'last' );
+T::dump( $iterator->getCounter(), 'counter' );
+T::dump( $iterator->isEmpty(), 'empty' );
 
 
 
-output("==> One item in array");
+T::note("==> One item in array");
 
 $arr = array('Nette');
 
 foreach ($iterator = new SmartCachingIterator($arr) as $k => $v)
 {
-	dump( $iterator->isFirst(), 'first' );
-	dump( $iterator->isLast(), 'last' );
-	dump( $iterator->getCounter(), 'counter' );
+	T::dump( $iterator->isFirst(), 'first' );
+	T::dump( $iterator->isLast(), 'last' );
+	T::dump( $iterator->getCounter(), 'counter' );
 }
 
 $iterator->rewind();
-output("==> rewinding...");
-dump( $iterator->isFirst(), 'first' );
-dump( $iterator->isLast(), 'last' );
-dump( $iterator->getCounter(), 'counter' );
-dump( $iterator->isEmpty(), 'empty' );
+T::note("==> rewinding...");
+T::dump( $iterator->isFirst(), 'first' );
+T::dump( $iterator->isLast(), 'last' );
+T::dump( $iterator->getCounter(), 'counter' );
+T::dump( $iterator->isEmpty(), 'empty' );
 
 
 
-output("==> Zero item in array");
+T::note("==> Zero item in array");
 
 $arr = array();
 
 $iterator = new SmartCachingIterator($arr);
 $iterator->next();
 $iterator->next();
-dump( $iterator->isFirst(), 'first' );
-dump( $iterator->isLast(), 'last' );
-dump( $iterator->getCounter(), 'counter' );
-dump( $iterator->isEmpty(), 'empty' );
+T::dump( $iterator->isFirst(), 'first' );
+T::dump( $iterator->isLast(), 'last' );
+T::dump( $iterator->getCounter(), 'counter' );
+T::dump( $iterator->isEmpty(), 'empty' );
 
 
 

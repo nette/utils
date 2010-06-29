@@ -13,7 +13,7 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
@@ -21,13 +21,13 @@ require __DIR__ . '/Object.inc';
 
 $obj = new TestClass;
 $obj->items[] = 'test';
-dump( $obj->items[0] );
+T::dump( $obj->items[0] );
 
 $obj->items = array();
 $obj->items[] = 'one';
 $obj->items[] = 'two';
-dump( $obj->items[0] );
-dump( $obj->items[1] );
+T::dump( $obj->items[0] );
+T::dump( $obj->items[1] );
 
 
 

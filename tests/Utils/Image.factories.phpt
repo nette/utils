@@ -13,19 +13,19 @@ use Nette\Image;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
 $image = Image::fromFile('images/logo.gif');
-output("logo.gif");
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::note("logo.gif");
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = Image::fromBlank(200, 300, Image::rgb(255, 128, 0));
-output("blank");
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::note("blank");
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 
 

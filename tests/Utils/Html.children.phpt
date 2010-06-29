@@ -13,7 +13,7 @@ use Nette\Web\Html;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -21,36 +21,36 @@ require __DIR__ . '/../NetteTest/initialize.php';
 $el = Html::el('ul');
 $el->create('li')->setText('one');
 $el->add( Html::el('li')->setText('two') )->class('hello');
-dump( (string) $el );
+T::dump( (string) $el );
 
 // with indentation
-dump( $el->render(2), 'indentation' );
+T::dump( $el->render(2), 'indentation' );
 
 
 $el = Html::el(NULL);
 $el->add( Html::el('p')->setText('one') );
 $el->add( Html::el('p')->setText('two') );
-dump( (string) $el );
+T::dump( (string) $el );
 
-output("==> Get child:");
-dump(isset($el[1]), 'Child1');
-dump( (string) $el[1]);
-dump(isset($el[2]), 'Child2');
+T::note("==> Get child:");
+T::dump(isset($el[1]), 'Child1');
+T::dump( (string) $el[1]);
+T::dump(isset($el[2]), 'Child2');
 
 
-output("==> Iterator:");
+T::note("==> Iterator:");
 $el = Html::el('select');
 $el->create('optgroup')->label('Main')->create('option')->setText('sub one')->create('option')->setText('sub two');
 $el->create('option')->setText('Item');
-dump( (string) $el );
+T::dump( (string) $el );
 
 foreach ($el as $name => $child) {
-	dump( $child instanceof Html ? $child->getName() : "'$child'" );
+	T::dump( $child instanceof Html ? $child->getName() : "'$child'" );
 }
 
-output("==> Deep iterator:");
+T::note("==> Deep iterator:");
 foreach ($el->getIterator(TRUE) as $name => $child) {
-	dump( $child instanceof Html ? $child->getName() : "'$child'" );
+	T::dump( $child instanceof Html ? $child->getName() : "'$child'" );
 }
 
 

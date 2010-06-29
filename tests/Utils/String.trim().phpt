@@ -13,7 +13,7 @@ use Nette\String;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -25,7 +25,7 @@ Assert::same( "e",  String::trim("\xc5\x98e-", "\xc5\x98-") ); // Ře-
 try {
 	String::trim("\xC2x\xA0");
 } catch (Exception $e) {
-	dump($e);
+	T::dump($e);
 }
 
 

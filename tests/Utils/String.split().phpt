@@ -13,12 +13,12 @@ use Nette\String;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
-dump( String::split('a, b, c', '#(,)\s*#') );
-dump( String::split('a, b, c', '#(,)\s*#', PREG_SPLIT_NO_EMPTY) );
+T::dump( String::split('a, b, c', '#(,)\s*#') );
+T::dump( String::split('a, b, c', '#(,)\s*#', PREG_SPLIT_NO_EMPTY) );
 
 
 

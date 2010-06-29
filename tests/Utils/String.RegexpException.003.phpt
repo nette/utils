@@ -13,32 +13,32 @@ use Nette\String;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
 try {
 	String::split('0123456789', '#*#');
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 try {
 	String::match('0123456789', '#*#');
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 try {
 	String::matchAll('0123456789', '#*#');
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 try {
 	String::replace('0123456789', '#*#', 'x');
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 

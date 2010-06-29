@@ -13,7 +13,7 @@ use Nette\ArrayTools;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -24,14 +24,14 @@ $arr  = array(
 	7 => 'fourth'
 );
 
-dump( $arr );
+T::dump( $arr );
 
-dump( ArrayTools::searchKey($arr, '1') );
-dump( ArrayTools::searchKey($arr, 1) );
-dump( ArrayTools::searchKey($arr, 0) );
-dump( ArrayTools::searchKey($arr, NULL) );
-dump( ArrayTools::searchKey($arr, '') );
-dump( ArrayTools::searchKey($arr, 'undefined') );
+T::dump( ArrayTools::searchKey($arr, '1') );
+T::dump( ArrayTools::searchKey($arr, 1) );
+T::dump( ArrayTools::searchKey($arr, 0) );
+T::dump( ArrayTools::searchKey($arr, NULL) );
+T::dump( ArrayTools::searchKey($arr, '') );
+T::dump( ArrayTools::searchKey($arr, 'undefined') );
 
 
 

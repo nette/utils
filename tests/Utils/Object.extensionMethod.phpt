@@ -13,7 +13,7 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
@@ -27,7 +27,7 @@ function TestClass_join(TestClass $that, $separator)
 TestClass::extensionMethod('TestClass::join', 'TestClass_join');
 
 $obj = new TestClass('Hello', 'World');
-dump( $obj->join('*') );
+T::dump( $obj->join('*') );
 
 
 

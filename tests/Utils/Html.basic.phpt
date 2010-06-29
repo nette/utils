@@ -13,30 +13,30 @@ use Nette\Web\Html;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
 $el = Html::el('img')->src('image.gif')->alt('');
-dump( (string) $el );
-dump( $el->startTag() );
-dump( $el->endTag() );
+T::dump( (string) $el );
+T::dump( $el->startTag() );
+T::dump( $el->endTag() );
 
 $el = Html::el('img')->src('image.gif')->alt('')->setText(NULL)->setText('any content');
-dump( (string) $el );
-dump( $el->startTag() );
-dump( $el->endTag() );
+T::dump( (string) $el );
+T::dump( $el->startTag() );
+T::dump( $el->endTag() );
 
 Html::$xhtml = FALSE;
-dump( (string) $el );
+T::dump( (string) $el );
 
 $el = Html::el('img')->setSrc('image.gif')->setAlt('alt1')->setAlt('alt2');
-dump( (string) $el );
-dump( $el->getSrc() );
-dump( $el->getTitle() );
-dump( $el->getAlt() );
+T::dump( (string) $el );
+T::dump( $el->getSrc() );
+T::dump( $el->getTitle() );
+T::dump( $el->getAlt() );
 $el->addAlt('alt3');
-dump( (string) $el );
+T::dump( (string) $el );
 
 $el->style = 'float:left';
 $el->class = 'three';
@@ -46,23 +46,23 @@ $el->checked = TRUE;
 $el->selected = FALSE;
 $el->name = 'testname';
 $el->setName('span');
-dump( (string) $el );
+T::dump( (string) $el );
 
 // setText vs. setHtml
-dump( (string) Html::el('p')->setText('Hello &ndash; World'), 'setText' );
-dump( (string) Html::el('p')->setHtml('Hello &ndash; World'), 'setHtml' );
+T::dump( (string) Html::el('p')->setText('Hello &ndash; World'), 'setText' );
+T::dump( (string) Html::el('p')->setHtml('Hello &ndash; World'), 'setHtml' );
 
 // getText vs. getHtml
 $el = Html::el('p')->setHtml('Hello &ndash; World');
 $el->create('a')->setText('link');
-dump( (string) $el, 'getHtml' );
-dump( $el->getText(), 'getText' );
+T::dump( (string) $el, 'getHtml' );
+T::dump( $el->getText(), 'getText' );
 
 // email obfuscate
-dump( (string) Html::el('a')->href('mailto:dave@example.com'), 'mailto' );
+T::dump( (string) Html::el('a')->href('mailto:dave@example.com'), 'mailto' );
 
 // href with query
-dump( (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
+T::dump( (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
 
 
 

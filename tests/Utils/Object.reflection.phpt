@@ -13,15 +13,15 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
 
 
 $obj = new TestClass;
-dump( $obj->getReflection()->getName() );
-dump( $obj->Reflection->getName() );
+T::dump( $obj->getReflection()->getName() );
+T::dump( $obj->Reflection->getName() );
 
 
 

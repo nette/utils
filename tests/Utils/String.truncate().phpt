@@ -13,47 +13,47 @@ use Nette\String;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
 iconv_set_encoding('internal_encoding', 'UTF-8');
 $s = "\xc5\x98ekn\xc4\x9bte, jak se (dnes) m\xc3\xa1te?"; // Řekněte, jak se (dnes) máte?
 
-dump( String::truncate($s, -1), "length=-1" );
-dump( String::truncate($s, 0), "length=0" );
-dump( String::truncate($s, 1), "length=1" );
-dump( String::truncate($s, 2), "length=2" );
-dump( String::truncate($s, 3), "length=3" );
-dump( String::truncate($s, 4), "length=4" );
-dump( String::truncate($s, 5), "length=5" );
-dump( String::truncate($s, 6), "length=6" );
-dump( String::truncate($s, 7), "length=7" );
-dump( String::truncate($s, 8), "length=8" );
-dump( String::truncate($s, 9), "length=9" );
-dump( String::truncate($s, 10), "length=10" );
-dump( String::truncate($s, 11), "length=11" );
-dump( String::truncate($s, 12), "length=12" );
-dump( String::truncate($s, 13), "length=13" );
-dump( String::truncate($s, 14), "length=14" );
-dump( String::truncate($s, 15), "length=15" );
-dump( String::truncate($s, 16), "length=16" );
-dump( String::truncate($s, 17), "length=17" );
-dump( String::truncate($s, 18), "length=18" );
-dump( String::truncate($s, 19), "length=19" );
-dump( String::truncate($s, 20), "length=20" );
-dump( String::truncate($s, 21), "length=21" );
-dump( String::truncate($s, 22), "length=22" );
-dump( String::truncate($s, 23), "length=23" );
-dump( String::truncate($s, 24), "length=24" );
-dump( String::truncate($s, 25), "length=25" );
-dump( String::truncate($s, 26), "length=26" );
-dump( String::truncate($s, 27), "length=27" );
-dump( String::truncate($s, 28), "length=28" );
-dump( String::truncate($s, 29), "length=29" );
-dump( String::truncate($s, 30), "length=30" );
-dump( String::truncate($s, 31), "length=31" );
-dump( String::truncate($s, 32), "length=32" );
+T::dump( String::truncate($s, -1), "length=-1" );
+T::dump( String::truncate($s, 0), "length=0" );
+T::dump( String::truncate($s, 1), "length=1" );
+T::dump( String::truncate($s, 2), "length=2" );
+T::dump( String::truncate($s, 3), "length=3" );
+T::dump( String::truncate($s, 4), "length=4" );
+T::dump( String::truncate($s, 5), "length=5" );
+T::dump( String::truncate($s, 6), "length=6" );
+T::dump( String::truncate($s, 7), "length=7" );
+T::dump( String::truncate($s, 8), "length=8" );
+T::dump( String::truncate($s, 9), "length=9" );
+T::dump( String::truncate($s, 10), "length=10" );
+T::dump( String::truncate($s, 11), "length=11" );
+T::dump( String::truncate($s, 12), "length=12" );
+T::dump( String::truncate($s, 13), "length=13" );
+T::dump( String::truncate($s, 14), "length=14" );
+T::dump( String::truncate($s, 15), "length=15" );
+T::dump( String::truncate($s, 16), "length=16" );
+T::dump( String::truncate($s, 17), "length=17" );
+T::dump( String::truncate($s, 18), "length=18" );
+T::dump( String::truncate($s, 19), "length=19" );
+T::dump( String::truncate($s, 20), "length=20" );
+T::dump( String::truncate($s, 21), "length=21" );
+T::dump( String::truncate($s, 22), "length=22" );
+T::dump( String::truncate($s, 23), "length=23" );
+T::dump( String::truncate($s, 24), "length=24" );
+T::dump( String::truncate($s, 25), "length=25" );
+T::dump( String::truncate($s, 26), "length=26" );
+T::dump( String::truncate($s, 27), "length=27" );
+T::dump( String::truncate($s, 28), "length=28" );
+T::dump( String::truncate($s, 29), "length=29" );
+T::dump( String::truncate($s, 30), "length=30" );
+T::dump( String::truncate($s, 31), "length=31" );
+T::dump( String::truncate($s, 32), "length=32" );
 
 
 

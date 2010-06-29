@@ -13,12 +13,12 @@ use Nette\Image;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
 if (GD_BUNDLED === 0) {
-	NetteTestHelpers::skip('Requires PHP extension GD in bundled version.');
+	T::skip('Requires PHP extension GD in bundled version.');
 }
 
 

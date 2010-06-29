@@ -14,7 +14,7 @@ use Nette\Object,
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
@@ -38,7 +38,7 @@ ClassReflection::from('IFirst')->setExtensionMethod('join', 'IFirst_join');
 ClassReflection::from('ISecond')->setExtensionMethod('join', 'ISecond_join');
 
 $obj = new TestClass('Hello', 'World');
-dump( $obj->join('*') );
+T::dump( $obj->join('*') );
 
 
 

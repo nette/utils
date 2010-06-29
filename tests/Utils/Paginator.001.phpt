@@ -13,7 +13,7 @@ use Nette\Paginator;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -23,10 +23,10 @@ $paginator->itemsPerPage = 6;
 $paginator->base = 0;
 $paginator->page = -1;
 
-dump( $paginator->page );
-dump( $paginator->offset );
-dump( $paginator->countdownOffset );
-dump( $paginator->length );
+T::dump( $paginator->page );
+T::dump( $paginator->offset );
+T::dump( $paginator->countdownOffset );
+T::dump( $paginator->length );
 
 
 

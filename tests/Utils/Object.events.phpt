@@ -13,7 +13,7 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
@@ -42,13 +42,13 @@ $var = (object) NULL;
 $obj->onPublic[] = 'handler';
 
 $obj->onPublic($var);
-dump( $var->counter );
+T::dump( $var->counter );
 
 
 $obj->onPublic[] = new Handler;
 
 $obj->onPublic($var);
-dump( $var->counter );
+T::dump( $var->counter );
 
 
 try {
@@ -56,7 +56,7 @@ try {
 	$this->fail('called private event');
 
 } catch (MemberAccessException $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 
@@ -65,7 +65,7 @@ try {
 	$this->fail('called undefined event');
 
 } catch (MemberAccessException $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 

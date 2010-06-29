@@ -13,7 +13,7 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
@@ -21,40 +21,40 @@ require __DIR__ . '/Object.inc';
 
 $obj = new TestClass;
 $obj->foo = 'hello';
-dump( $obj->foo );
-dump( $obj->Foo );
+T::dump( $obj->foo );
+T::dump( $obj->Foo );
 
 $obj->foo .= ' world';
-dump( $obj->foo );
+T::dump( $obj->foo );
 
 
-output('Undeclared property writing');
+T::note('Undeclared property writing');
 try {
 	$obj->undeclared = 'value';
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 
-output('Undeclared property reading');
-dump( isset($obj->S) ); // False
-dump( isset($obj->s) ); // False
-dump( isset($obj->undeclared) ); // False
+T::note('Undeclared property reading');
+T::dump( isset($obj->S) ); // False
+T::dump( isset($obj->s) ); // False
+T::dump( isset($obj->undeclared) ); // False
 try {
 	$val = $obj->s;
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 
 
-output('Read-only property');
+T::note('Read-only property');
 $obj = new TestClass('Hello', 'World');
-dump( $obj->bar );
+T::dump( $obj->bar );
 try {
 	$obj->bar = 'value';
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 

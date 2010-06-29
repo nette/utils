@@ -13,7 +13,7 @@ use Nette\ArrayTools;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -25,42 +25,42 @@ $arr  = array(
 	),
 );
 
-output('Single item');
+T::note('Single item');
 
 $dolly = $arr;
 $item = & ArrayTools::getRef($dolly, NULL);
 $item = 'changed';
-dump( $dolly );
+T::dump( $dolly );
 
 $dolly = $arr;
 $item = & ArrayTools::getRef($dolly, 'undefined');
 $item = 'changed';
-dump( $dolly );
+T::dump( $dolly );
 
 
-output('Traversing');
+T::note('Traversing');
 
 $dolly = $arr;
 $item = & ArrayTools::getRef($dolly, array());
 $item = 'changed';
-dump( $dolly );
+T::dump( $dolly );
 
 $dolly = $arr;
 $item = & ArrayTools::getRef($dolly, array(7, 'item'));
 $item = 'changed';
-dump( $dolly );
+T::dump( $dolly );
 
 
-output('Error');
+T::note('Error');
 
 try {
 	$dolly = $arr;
 	$item = & ArrayTools::getRef($dolly, array(7, 'item', 3));
 	$item = 'changed';
-	dump( $dolly );
+	T::dump( $dolly );
 
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 

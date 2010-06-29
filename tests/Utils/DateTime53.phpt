@@ -13,7 +13,7 @@ use Nette\Annotations;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -21,30 +21,30 @@ date_default_timezone_set('Europe/Prague');
 
 $obj = new DateTime53('Mon, 23 Jan 1978 10:00:00', new DateTimeZone('Europe/London'));
 
-dump( $obj->format('Y-m-d H:i:s') );
-dump( $obj->getTimezone()->getName() );
-dump( $obj->getTimestamp() );
+T::dump( $obj->format('Y-m-d H:i:s') );
+T::dump( $obj->getTimezone()->getName() );
+T::dump( $obj->getTimestamp() );
 
 $obj = unserialize(serialize($obj));
 
-dump( $obj->format('Y-m-d H:i:s') );
-dump( $obj->getTimezone()->getName() );
-dump( $obj->getTimestamp() );
+T::dump( $obj->format('Y-m-d H:i:s') );
+T::dump( $obj->getTimezone()->getName() );
+T::dump( $obj->getTimestamp() );
 
 
 
 $obj = new DateTime53(NULL, new DateTimeZone('Europe/London'));
 $obj->setTimestamp(254400000);
 
-dump( $obj->format('Y-m-d H:i:s') );
-dump( $obj->getTimezone()->getName() );
-dump( $obj->getTimestamp() );
+T::dump( $obj->format('Y-m-d H:i:s') );
+T::dump( $obj->getTimezone()->getName() );
+T::dump( $obj->getTimestamp() );
 
 $obj = unserialize(serialize($obj));
 
-dump( $obj->format('Y-m-d H:i:s') );
-dump( $obj->getTimezone()->getName() );
-dump( $obj->getTimestamp() );
+T::dump( $obj->format('Y-m-d H:i:s') );
+T::dump( $obj->getTimezone()->getName() );
+T::dump( $obj->getTimestamp() );
 
 
 

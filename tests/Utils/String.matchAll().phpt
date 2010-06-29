@@ -13,15 +13,15 @@ use Nette\String;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
-dump( String::matchAll('hello world!', '#([E-L])+#') );
-dump( String::matchAll('hello world!', '#([e-l])+#') );
-dump( String::matchAll('hello world!', '#[e-l]+#') );
-dump( String::matchAll('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
-dump( String::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2) );
+T::dump( String::matchAll('hello world!', '#([E-L])+#') );
+T::dump( String::matchAll('hello world!', '#([e-l])+#') );
+T::dump( String::matchAll('hello world!', '#[e-l]+#') );
+T::dump( String::matchAll('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
+T::dump( String::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2) );
 
 
 

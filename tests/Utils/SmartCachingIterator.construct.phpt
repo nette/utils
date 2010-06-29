@@ -13,51 +13,51 @@ use Nette\SmartCachingIterator;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
-output("==> array");
+T::note("==> array");
 
 $arr = array('Nette', 'Framework');
-foreach (new SmartCachingIterator($arr) as $k => $v) dump("$k => $v");
+foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
 
 
 
-output("==> stdClass");
+T::note("==> stdClass");
 
 $arr = (object) array('Nette', 'Framework');
-foreach (new SmartCachingIterator($arr) as $k => $v) dump("$k => $v");
+foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
 
 
 
-output("==> IteratorAggregate");
+T::note("==> IteratorAggregate");
 
 $arr = new ArrayObject(array('Nette', 'Framework'));
-foreach (new SmartCachingIterator($arr) as $k => $v) dump("$k => $v");
+foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
 
 
 
-output("==> Iterator");
+T::note("==> Iterator");
 
-foreach (new SmartCachingIterator($arr->getIterator()) as $k => $v) dump("$k => $v");
+foreach (new SmartCachingIterator($arr->getIterator()) as $k => $v) T::dump("$k => $v");
 
 
 
-output("==> SimpleXMLElement");
+T::note("==> SimpleXMLElement");
 
 $arr = new SimpleXMLElement('<feed><item>Nette</item><item>Framework</item></feed>');
-foreach (new SmartCachingIterator($arr) as $k => $v) dump("$k => $v");
+foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
 
 
 
-output("==> object");
+T::note("==> object");
 
 try {
 	$arr = dir('.');
-	foreach (new SmartCachingIterator($arr) as $k => $v) dump("$k => $v");
+	foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
 } catch (Exception $e) {
-	dump($e);
+	T::dump($e);
 }
 
 

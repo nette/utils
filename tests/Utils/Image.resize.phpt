@@ -13,86 +13,86 @@ use Nette\Image;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
 $main = Image::fromFile('images/logo.gif');
 $image = clone $main;
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
-output("cropping...");
+T::note("cropping...");
 $image->crop(10, 20, 50, 300);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 
 $image = clone $main;
-output("resizing X");
+T::note("resizing X");
 $image->resize(150, NULL);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("resizing Y");
+T::note("resizing Y");
 $image->resize(NULL, 150);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("resizing X Y");
+T::note("resizing X Y");
 $image->resize(300, 150);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("resizing X Y enlarge");
+T::note("resizing X Y enlarge");
 $image->resize(300, 150, Image::ENLARGE);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("resizing X Y enlarge stretch");
+T::note("resizing X Y enlarge stretch");
 $image->resize(300, 100, Image::ENLARGE | Image::STRETCH);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("resizing X Y stretch");
+T::note("resizing X Y stretch");
 $image->resize(300, 100, Image::STRETCH);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("resizing X%");
+T::note("resizing X%");
 $image->resize('110%', NULL);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("resizing X% Y%");
+T::note("resizing X% Y%");
 $image->resize('110%', '90%');
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("flipping X");
+T::note("flipping X");
 $image->resize(-150, NULL);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("flipping Y");
+T::note("flipping Y");
 $image->resize(NULL, -150);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 $image = clone $main;
-output("flipping X Y");
+T::note("flipping X Y");
 $image->resize(-300, -150);
-dump( $image->width, 'width' );
-dump( $image->height, 'height' );
+T::dump( $image->width, 'width' );
+T::dump( $image->height, 'height' );
 
 
 

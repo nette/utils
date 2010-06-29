@@ -14,11 +14,11 @@ use Nette\String;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
-dump( String::replace('hello world!', '#[e-l]+#', function() { return '@'; }) );
+T::dump( String::replace('hello world!', '#[e-l]+#', function() { return '@'; }) );
 
 
 

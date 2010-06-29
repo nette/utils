@@ -13,7 +13,7 @@ use Nette\Callback;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -26,37 +26,37 @@ class Test
 }
 
 
-dump( (string) new Callback(new Test, 'add') );
+T::dump( (string) new Callback(new Test, 'add') );
 
-dump( (string) new Callback('Test', 'add') );
+T::dump( (string) new Callback('Test', 'add') );
 
-dump( (string) new Callback('Test::add') );
+T::dump( (string) new Callback('Test::add') );
 
-dump( (string) new Callback('undefined') );
+T::dump( (string) new Callback('undefined') );
 
 
 $cb = new Callback(new Test, 'add');
 
-dump( $cb/*5.2*->invoke*/(3, 5) );
+T::dump( $cb/*5.2*->invoke*/(3, 5) );
 
-dump( $cb->invokeArgs(array(3, 5)) );
+T::dump( $cb->invokeArgs(array(3, 5)) );
 
-dump( $cb->getNative() );
+T::dump( $cb->getNative() );
 
-dump( $cb->isCallable() );
+T::dump( $cb->isCallable() );
 
-dump( callback($cb) );
+T::dump( callback($cb) );
 
 try {
 	callback('undefined')->invoke();
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 try {
 	callback(NULL)->invoke();
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 

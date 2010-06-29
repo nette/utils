@@ -13,7 +13,7 @@ use Nette\ArrayList;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -31,7 +31,7 @@ class Person
 
 	public function sayHi()
 	{
-		output("My name is $this->name");
+		T::note("My name is $this->name");
 	}
 
 
@@ -50,23 +50,23 @@ $mary = new Person('Mary');
 
 
 
-output("Adding Mary");
+T::note("Adding Mary");
 $list[] = $mary;
 
-output("Adding Jack");
+T::note("Adding Jack");
 $list[] = $jack;
 
 
 
-dump( $list->count(), 'count:' );
-dump( count($list) );
+T::dump( $list->count(), 'count:' );
+T::dump( count($list) );
 
 
-dump( iterator_to_array($list) );
+T::dump( iterator_to_array($list) );
 
 
 
-output("Get Interator:");
+T::note("Get Interator:");
 foreach ($list as $key => $person) {
 	echo $key, ' => ', $person->sayHi();
 }
@@ -74,20 +74,20 @@ foreach ($list as $key => $person) {
 
 
 try {
-	output("unset -1");
+	T::note("unset -1");
 	unset($list[-1]);
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 try {
-	output("unset 1");
+	T::note("unset 1");
 	unset($list[1]);
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
-dump( iterator_to_array($list) );
+T::dump( iterator_to_array($list) );
 
 
 

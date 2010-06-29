@@ -13,7 +13,7 @@ use Nette\String;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -24,11 +24,11 @@ class Test
 	}
 }
 
-dump( String::replace('hello world!', '#([E-L])+#', '#') );
-dump( String::replace('hello world!', '#([e-l])+#', '#') );
-dump( String::replace('hello world!', '#[e-l]+#', callback('Test::cb')) );
-dump( String::replace('hello world!', '#[e-l]+#', array('Test', 'cb')) );
-dump( String::replace('hello world!', array(
+T::dump( String::replace('hello world!', '#([E-L])+#', '#') );
+T::dump( String::replace('hello world!', '#([e-l])+#', '#') );
+T::dump( String::replace('hello world!', '#[e-l]+#', callback('Test::cb')) );
+T::dump( String::replace('hello world!', '#[e-l]+#', array('Test', 'cb')) );
+T::dump( String::replace('hello world!', array(
 	'#([e-l])+#' => '#',
 	'#[o-w]#' => '@',
 )) );

@@ -13,7 +13,7 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
@@ -24,7 +24,7 @@ try {
 	$obj->undeclared();
 
 } catch (Exception $e) {
-	dump( $e );
+	T::dump( $e );
 }
 
 

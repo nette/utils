@@ -13,15 +13,15 @@ use Nette\Web\Html;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
-dump( (string) Html::el('a lang=cs href="#" title="" selected')->setText('click') );
+T::dump( (string) Html::el('a lang=cs href="#" title="" selected')->setText('click') );
 
-dump( (string) Html::el('a lang=hello world href="hello world" title="hello \'world"')->setText('click') );
+T::dump( (string) Html::el('a lang=hello world href="hello world" title="hello \'world"')->setText('click') );
 
-dump( (string) Html::el('a lang=\'hello" world\' href="hello "world" title=0')->setText('click') );
+T::dump( (string) Html::el('a lang=\'hello" world\' href="hello "world" title=0')->setText('click') );
 
 
 

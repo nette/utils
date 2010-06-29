@@ -13,7 +13,7 @@ use Nette\ArrayTools;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -25,24 +25,24 @@ $arr  = array(
 	),
 );
 
-output('Single item');
+T::note('Single item');
 
-dump( ArrayTools::get($arr, NULL) );
+T::dump( ArrayTools::get($arr, NULL) );
 
-dump( ArrayTools::get($arr, 1) );
+T::dump( ArrayTools::get($arr, 1) );
 
-dump( ArrayTools::get($arr, 1, 'x') );
+T::dump( ArrayTools::get($arr, 1, 'x') );
 
-dump( ArrayTools::get($arr, 'undefined', 'x') );
+T::dump( ArrayTools::get($arr, 'undefined', 'x') );
 
-dump( ArrayTools::get($arr, 'undefined') );
+T::dump( ArrayTools::get($arr, 'undefined') );
 
 
-output('Traversing');
+T::note('Traversing');
 
-dump( ArrayTools::get($arr, array()) );
+T::dump( ArrayTools::get($arr, array()) );
 
-dump( ArrayTools::get($arr, array(7, 'item')) );
+T::dump( ArrayTools::get($arr, array(7, 'item')) );
 
 
 

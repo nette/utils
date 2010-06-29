@@ -13,7 +13,7 @@ use Nette\ArrayTools;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -24,7 +24,7 @@ $arr  = array(
 	7 => 'fourth'
 );
 
-dump( $arr );
+T::dump( $arr );
 
 ArrayTools::renameKey($arr, '1', 'new1');
 ArrayTools::renameKey($arr, 0, 'new2');
@@ -32,7 +32,7 @@ ArrayTools::renameKey($arr, NULL, 'new3');
 ArrayTools::renameKey($arr, '', 'new4');
 ArrayTools::renameKey($arr, 'undefined', 'new5');
 
-dump( $arr );
+T::dump( $arr );
 
 
 

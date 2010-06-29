@@ -13,14 +13,14 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
 
 
-if (Nette\Framework::PACKAGE === 'PHP 5.3') {
-	NetteTestHelpers::skip('Requires Nette Framework package < PHP 5.3');
+if (NETTE_PACKAGE === '5.3') {
+	T::skip('Requires Nette Framework package < PHP 5.3');
 }
 
 
@@ -31,7 +31,7 @@ function TestClass_prototype_join(TestClass $that, $separator)
 }
 
 $obj = new TestClass('Hello', 'World');
-dump( $obj->join('*') );
+T::dump( $obj->join('*') );
 
 
 

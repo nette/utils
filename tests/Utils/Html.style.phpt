@@ -13,7 +13,7 @@ use Nette\Web\Html;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -25,12 +25,12 @@ $el->class[] = 'one';
 $el->class[] = NULL;
 $el->class[] = 'two';
 
-dump( (string) $el );
+T::dump( (string) $el );
 
 $el->style = NULL;
 $el->style['text-align'] = 'left';
 $el->style['background-color'] = 'green';
-dump( (string) $el );
+T::dump( (string) $el );
 
 // append
 $el = Html::el('div');
@@ -42,24 +42,24 @@ $el->class('', TRUE);
 $el->class('two', TRUE);
 
 $el->id('my', TRUE);
-dump( (string) $el );
+T::dump( (string) $el );
 
 // append II
 $el = Html::el('div');
 $el->style[] = 'text-align:right';
 $el->style('', TRUE);
 $el->style('background-color: blue', TRUE);
-dump( (string) $el );
+T::dump( (string) $el );
 
 // append III
 $el = Html::el('div');
 $el->class('top', TRUE);
 $el->class('active', TRUE);
-dump( (string) $el );
+T::dump( (string) $el );
 
 $el->class('top', NULL);
 $el->class('active', FALSE);
-dump( (string) $el );
+T::dump( (string) $el );
 
 
 

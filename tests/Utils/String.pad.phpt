@@ -13,28 +13,28 @@ use Nette\String;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
-dump( String::padLeft("\xc5\xbdLU", 10, "\xc5\xa4OU") ); // ŽLU - ŤOU
-dump( String::padLeft("\xc5\xbdLU", 9, "\xc5\xa4OU") );
-dump( String::padLeft("\xc5\xbdLU", 3, "\xc5\xa4OU") );
-dump( String::padLeft("\xc5\xbdLU", 0, "\xc5\xa4OU") );
-dump( String::padLeft("\xc5\xbdLU", -1, "\xc5\xa4OU") );
-dump( String::padLeft("\xc5\xbdLU", 10, "\xc5\xa4") );
-dump( String::padLeft("\xc5\xbdLU", 3, "\xc5\xa4") );
-dump( String::padLeft("\xc5\xbdLU", 10) );
+T::dump( String::padLeft("\xc5\xbdLU", 10, "\xc5\xa4OU") ); // ŽLU - ŤOU
+T::dump( String::padLeft("\xc5\xbdLU", 9, "\xc5\xa4OU") );
+T::dump( String::padLeft("\xc5\xbdLU", 3, "\xc5\xa4OU") );
+T::dump( String::padLeft("\xc5\xbdLU", 0, "\xc5\xa4OU") );
+T::dump( String::padLeft("\xc5\xbdLU", -1, "\xc5\xa4OU") );
+T::dump( String::padLeft("\xc5\xbdLU", 10, "\xc5\xa4") );
+T::dump( String::padLeft("\xc5\xbdLU", 3, "\xc5\xa4") );
+T::dump( String::padLeft("\xc5\xbdLU", 10) );
 
 
-dump( String::padRight("\xc5\xbdLU", 10, "\xc5\xa4OU") );
-dump( String::padRight("\xc5\xbdLU", 9, "\xc5\xa4OU") );
-dump( String::padRight("\xc5\xbdLU", 3, "\xc5\xa4OU") );
-dump( String::padRight("\xc5\xbdLU", 0, "\xc5\xa4OU") );
-dump( String::padRight("\xc5\xbdLU", -1, "\xc5\xa4OU") );
-dump( String::padRight("\xc5\xbdLU", 10, "\xc5\xa4") );
-dump( String::padRight("\xc5\xbdLU", 3, "\xc5\xa4") );
-dump( String::padRight("\xc5\xbdLU", 10) );
+T::dump( String::padRight("\xc5\xbdLU", 10, "\xc5\xa4OU") );
+T::dump( String::padRight("\xc5\xbdLU", 9, "\xc5\xa4OU") );
+T::dump( String::padRight("\xc5\xbdLU", 3, "\xc5\xa4OU") );
+T::dump( String::padRight("\xc5\xbdLU", 0, "\xc5\xa4OU") );
+T::dump( String::padRight("\xc5\xbdLU", -1, "\xc5\xa4OU") );
+T::dump( String::padRight("\xc5\xbdLU", 10, "\xc5\xa4") );
+T::dump( String::padRight("\xc5\xbdLU", 3, "\xc5\xa4") );
+T::dump( String::padRight("\xc5\xbdLU", 10) );
 
 
 

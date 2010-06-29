@@ -13,7 +13,7 @@ use Nette\ArrayTools;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 
 
@@ -24,36 +24,36 @@ $arr  = array(
 	7 => 'fourth'
 );
 
-dump( $arr );
+T::dump( $arr );
 
-output('First item');
+T::note('First item');
 $dolly = $arr;
 ArrayTools::insertBefore($dolly, NULL, array('new' => 'value'));
-dump( $dolly );
+T::dump( $dolly );
 
 $dolly = $arr;
 ArrayTools::insertAfter($dolly, NULL, array('new' => 'value'));
-dump( $dolly );
+T::dump( $dolly );
 
 
-output('Last item');
+T::note('Last item');
 $dolly = $arr;
 ArrayTools::insertBefore($dolly, 7, array('new' => 'value'));
-dump( $dolly );
+T::dump( $dolly );
 
 $dolly = $arr;
 ArrayTools::insertAfter($dolly, 7, array('new' => 'value'));
-dump( $dolly );
+T::dump( $dolly );
 
 
-output('Undefined item');
+T::note('Undefined item');
 $dolly = $arr;
 ArrayTools::insertBefore($dolly, 'undefined', array('new' => 'value'));
-dump( $dolly );
+T::dump( $dolly );
 
 $dolly = $arr;
 ArrayTools::insertAfter($dolly, 'undefined', array('new' => 'value'));
-dump( $dolly );
+T::dump( $dolly );
 
 
 

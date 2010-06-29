@@ -13,7 +13,7 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../initialize.php';
 
 require __DIR__ . '/Object.inc';
 
@@ -23,7 +23,7 @@ $obj = new TestClass;
 $obj->foo = 'hello';
 @$x = & $obj->foo;
 $x = 'changed by reference';
-dump( $obj->foo );
+T::dump( $obj->foo );
 
 
 
