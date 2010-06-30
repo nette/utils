@@ -170,8 +170,12 @@ final class Tools
 	 * Internal error handler. Do not call directly.
 	 * @internal
 	 */
-	public static function _errorHandler($code, $message)
+	public static function _errorHandler($severity, $message)
 	{
+		if (($severity & error_reporting()) !== $severity) {
+			return NULL;
+		}
+
 		if (ini_get('html_errors')) {
 			$message = html_entity_decode(strip_tags($message), ENT_QUOTES, 'UTF-8');
 		}
