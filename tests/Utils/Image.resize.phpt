@@ -99,78 +99,78 @@ T::dump( $image->height, 'height' );
 __halt_compiler() ?>
 
 ------EXPECT------
-width: int(176)
+width: 176
 
-height: int(104)
+height: 104
 
 cropping...
 
-width: int(50)
+width: 50
 
-height: int(84)
+height: 84
 
 resizing X
 
-width: int(150)
+width: 150
 
-height: int(89)
+height: 89
 
 resizing Y
 
-width: int(176)
+width: 176
 
-height: int(104)
+height: 104
 
 resizing X Y
 
-width: int(176)
+width: 176
 
-height: int(104)
+height: 104
 
 resizing X Y enlarge
 
-width: int(254)
+width: 254
 
-height: int(150)
+height: 150
 
 resizing X Y enlarge stretch
 
-width: int(300)
+width: 300
 
-height: int(100)
+height: 100
 
 resizing X Y stretch
 
-width: int(176)
+width: 176
 
-height: int(100)
+height: 100
 
 resizing X%
 
-width: int(194)
+width: 194
 
-height: int(115)
+height: 115
 
 resizing X% Y%
 
-width: int(194)
+width: 194
 
-height: int(94)
+height: 94
 
 flipping X
 
-width: int(150)
+width: 150
 
-height: int(89)
+height: 89
 
 flipping Y
 
-width: int(176)
+width: 176
 
-height: int(104)
+height: 104
 
 flipping X Y
 
-width: int(176)
+width: 176
 
-height: int(104)
+height: 104

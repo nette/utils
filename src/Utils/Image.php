@@ -95,7 +95,7 @@ class Image extends Object
 			throw new \Exception("PHP extension GD is not loaded.");
 		}
 
-		$info = @getimagesize($file); // intentionally @
+		$info = @getimagesize($file); // @ - format may not be supported by getimagesize()
 		if (self::$useImageMagick && (empty($info) || $info[0] * $info[1] > 9e5)) { // cca 1024x768
 			return new ImageMagick($file, $format);
 		}

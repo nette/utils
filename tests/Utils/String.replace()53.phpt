@@ -25,4 +25,4 @@ T::dump( String::replace('hello world!', '#[e-l]+#', function() { return '@'; })
 __halt_compiler();
 
 ------EXPECT------
-string(9) "@o wor@d!"
+"@o wor@d!"

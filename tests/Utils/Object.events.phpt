@@ -73,9 +73,9 @@ try {
 __halt_compiler() ?>
 
 ------EXPECT------
-int(1)
+1
 
-int(3)
+3
 
 Exception MemberAccessException: Call to undefined method TestClass::onPrivate().
 

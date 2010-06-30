@@ -30,22 +30,22 @@ __halt_compiler();
 ------EXPECT------
 NULL
 
-array(2) {
-	0 => string(4) "hell"
-	1 => string(1) "l"
-}
+array(
+	"hell"
+	"l"
+)
 
-array(1) {
-	0 => string(4) "hell"
-}
+array(
+	"hell"
+)
 
-array(1) {
-	0 => array(2) {
-		0 => string(4) "hell"
-		1 => int(0)
-	}
-}
+array(
+	array(
+		"hell"
+		0
+	)
+)
 
-array(1) {
-	0 => string(2) "ll"
-}
+array(
+	"ll"
+)

@@ -34,4 +34,4 @@ T::dump( $obj->join('*') );
 __halt_compiler() ?>
 
 ------EXPECT------
-string(11) "Hello*World"
+"Hello*World"

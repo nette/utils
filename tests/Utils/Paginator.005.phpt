@@ -45,24 +45,24 @@ __halt_compiler() ?>
 ------EXPECT------
 ItemCount: 0
 
-bool(TRUE)
+TRUE
 
-bool(TRUE)
+TRUE
 
 ItemCount: 1
 
-bool(TRUE)
+TRUE
 
-bool(TRUE)
+TRUE
 
 ItemCount: 2
 
-bool(TRUE)
+TRUE
 
-bool(FALSE)
+FALSE
 
 Page 2
 
-bool(FALSE)
+FALSE
 
-bool(TRUE)
+TRUE

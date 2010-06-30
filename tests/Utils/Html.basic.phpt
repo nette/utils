@@ -69,40 +69,40 @@ T::dump( (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
 __halt_compiler() ?>
 
 ------EXPECT------
-string(30) "<img src="image.gif" alt="" />"
+"<img src="image.gif" alt="" />"
 
-string(30) "<img src="image.gif" alt="" />"
+"<img src="image.gif" alt="" />"
 
-string(0) ""
+""
 
-string(30) "<img src="image.gif" alt="" />"
+"<img src="image.gif" alt="" />"
 
-string(30) "<img src="image.gif" alt="" />"
+"<img src="image.gif" alt="" />"
 
-string(0) ""
+""
 
-string(28) "<img src="image.gif" alt="">"
+"<img src="image.gif" alt="">"
 
-string(32) "<img src="image.gif" alt="alt2">"
+"<img src="image.gif" alt="alt2">"
 
-string(9) "image.gif"
+"image.gif"
 
 NULL
 
-string(4) "alt2"
+"alt2"
 
-string(37) "<img src="image.gif" alt="alt2 alt3">"
+"<img src="image.gif" alt="alt2 alt3">"
 
-string(120) "<span src="image.gif" alt="alt2 alt3" style="float:left" class="three" lang="" title="0" checked name="testname"></span>"
+"<span src="image.gif" alt="alt2 alt3" style="float:left" class="three" lang="" title="0" checked name="testname"></span>"
 
-setText: string(30) "<p>Hello &amp;ndash; World</p>"
+setText: "<p>Hello &amp;ndash; World</p>"
 
-setHtml: string(26) "<p>Hello &ndash; World</p>"
+setHtml: "<p>Hello &ndash; World</p>"
 
-getHtml: string(37) "<p>Hello &ndash; World<a>link</a></p>"
+getHtml: "<p>Hello &ndash; World<a>link</a></p>"
 
-getText: string(19) "Hello – Worldlink"
+getText: "Hello – Worldlink"
 
-mailto: string(42) "<a href="mailto:dave&#64;example.com"></a>"
+mailto: "<a href="mailto:dave&#64;example.com"></a>"
 
-href: string(28) "<a href="file.php?a=10"></a>"
+href: "<a href="file.php?a=10"></a>"

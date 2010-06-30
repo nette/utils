@@ -39,16 +39,16 @@ T::dump( $arr );
 __halt_compiler() ?>
 
 ------EXPECT------
-array(4) {
-	"" => string(5) "first"
-	0 => string(6) "second"
-	1 => string(5) "third"
-	7 => string(6) "fourth"
-}
+array(
+	"" => "first"
+	0 => "second"
+	1 => "third"
+	7 => "fourth"
+)
 
-array(4) {
-	"new3" => string(5) "first"
-	"new2" => string(6) "second"
-	"new1" => string(5) "third"
-	7 => string(6) "fourth"
-}
+array(
+	"new3" => "first"
+	"new2" => "second"
+	"new1" => "third"
+	7 => "fourth"
+)

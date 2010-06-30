@@ -67,33 +67,33 @@ __halt_compiler() ?>
 ------EXPECT------
 ==> array
 
-string(10) "0 => Nette"
+"0 => Nette"
 
-string(14) "1 => Framework"
+"1 => Framework"
 
 ==> stdClass
 
-string(10) "0 => Nette"
+"0 => Nette"
 
-string(14) "1 => Framework"
+"1 => Framework"
 
 ==> IteratorAggregate
 
-string(10) "0 => Nette"
+"0 => Nette"
 
-string(14) "1 => Framework"
+"1 => Framework"
 
 ==> Iterator
 
-string(10) "0 => Nette"
+"0 => Nette"
 
-string(14) "1 => Framework"
+"1 => Framework"
 
 ==> SimpleXMLElement
 
-string(13) "item => Nette"
+"item => Nette"
 
-string(17) "item => Framework"
+"item => Framework"
 
 ==> object
 

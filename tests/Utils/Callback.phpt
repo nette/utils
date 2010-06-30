@@ -64,31 +64,31 @@ try {
 __halt_compiler() ?>
 
 ------EXPECT------
-string(9) "Test::add"
+"Test::add"
 
-string(9) "Test::add"
+"Test::add"
 
-string(9) "Test::add"
+"Test::add"
 
-string(9) "undefined"
+"undefined"
 
-int(8)
+8
 
-int(8)
+8
 
-array(2) {
-	0 => object(Test) (0) {}
-	1 => string(3) "add"
-}
+array(
+	Test()
+	"add"
+)
 
-bool(TRUE)
+TRUE
 
-object(%ns%Callback) (1) {
-	"cb" private => array(2) {
-		0 => object(Test) (0) {}
-		1 => string(3) "add"
-	}
-}
+%ns%Callback(
+	"cb" private => array(
+		Test()
+		"add"
+	)
+)
 
 Exception InvalidStateException: Callback 'undefined' is not callable.
 

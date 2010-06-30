@@ -51,24 +51,24 @@ __halt_compiler() ?>
 ------EXPECT------
 Single item
 
-string(5) "first"
+"first"
 
-string(6) "second"
+"second"
 
-string(6) "second"
+"second"
 
-string(1) "x"
+"x"
 
 NULL
 
 Traversing
 
-array(3) {
-	"" => string(5) "first"
-	1 => string(6) "second"
-	7 => array(1) {
-		"item" => string(5) "third"
-	}
-}
+array(
+	"" => "first"
+	1 => "second"
+	7 => array(
+		"item" => "third"
+	)
+)
 
-string(5) "third"
+"third"

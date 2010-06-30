@@ -33,4 +33,4 @@ try {
 __halt_compiler();
 
 ------EXPECT------
-Exception Nette\RegexpException: #4 Malformed UTF-8 data (pattern: %A%)
+Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: %A%)

@@ -58,9 +58,9 @@ foreach ($el->getIterator(TRUE) as $name => $child) {
 __halt_compiler() ?>
 
 ------EXPECT------
-string(47) "<ul class="hello"><li>one</li><li>two</li></ul>"
+"<ul class="hello"><li>one</li><li>two</li></ul>"
 
-indentation: string(66) "
+indentation: "
 		<ul class="hello">
 			<li>one</li>
 
@@ -68,36 +68,36 @@ indentation: string(66) "
 		</ul>
 	"
 
-string(20) "<p>one</p><p>two</p>"
+"<p>one</p><p>two</p>"
 
 ==> Get child:
 
-Child1: bool(TRUE)
+Child1: TRUE
 
-string(10) "<p>two</p>"
+"<p>two</p>"
 
-Child2: bool(FALSE)
+Child2: FALSE
 
 ==> Iterator:
 
-string(120) "<select><optgroup label="Main"><option>sub one<option>sub two</option></option></optgroup><option>Item</option></select>"
+"<select><optgroup label="Main"><option>sub one<option>sub two</option></option></optgroup><option>Item</option></select>"
 
-string(8) "optgroup"
+"optgroup"
 
-string(6) "option"
+"option"
 
 ==> Deep iterator:
 
-string(8) "optgroup"
+"optgroup"
 
-string(6) "option"
+"option"
 
-string(9) "'sub one'"
+"'sub one'"
 
-string(6) "option"
+"option"
 
-string(9) "'sub two'"
+"'sub two'"
 
-string(6) "option"
+"option"
 
-string(6) "'Item'"
+"'Item'"

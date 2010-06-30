@@ -41,34 +41,34 @@ T::dump( String::padRight("\xc5\xbdLU", 10) );
 __halt_compiler() ?>
 
 ------EXPECT------
-string(14) "ŤOUŤOUŤŽLU"
+"ŤOUŤOUŤŽLU"
 
-string(12) "ŤOUŤOUŽLU"
+"ŤOUŤOUŽLU"
 
-string(4) "ŽLU"
+"ŽLU"
 
-string(4) "ŽLU"
+"ŽLU"
 
-string(4) "ŽLU"
+"ŽLU"
 
-string(18) "ŤŤŤŤŤŤŤŽLU"
+"ŤŤŤŤŤŤŤŽLU"
 
-string(4) "ŽLU"
+"ŽLU"
 
-string(11) "       ŽLU"
+"       ŽLU"
 
-string(14) "ŽLUŤOUŤOUŤ"
+"ŽLUŤOUŤOUŤ"
 
-string(12) "ŽLUŤOUŤOU"
+"ŽLUŤOUŤOU"
 
-string(4) "ŽLU"
+"ŽLU"
 
-string(4) "ŽLU"
+"ŽLU"
 
-string(4) "ŽLU"
+"ŽLU"
 
-string(18) "ŽLUŤŤŤŤŤŤŤ"
+"ŽLUŤŤŤŤŤŤŤ"
 
-string(4) "ŽLU"
+"ŽLU"
 
-string(11) "ŽLU       "
+"ŽLU       "

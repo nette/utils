@@ -70,34 +70,34 @@ __halt_compiler() ?>
 ------EXPECT------
 Single item
 
-array(3) {
-	"" => string(7) "changed"
-	1 => string(6) "second"
-	7 => array(1) {
-		"item" => string(5) "third"
-	}
-}
+array(
+	"" => "changed"
+	1 => "second"
+	7 => array(
+		"item" => "third"
+	)
+)
 
-array(4) {
-	"" => string(5) "first"
-	1 => string(6) "second"
-	7 => array(1) {
-		"item" => string(5) "third"
-	}
-	"undefined" => string(7) "changed"
-}
+array(
+	"" => "first"
+	1 => "second"
+	7 => array(
+		"item" => "third"
+	)
+	"undefined" => "changed"
+)
 
 Traversing
 
-string(7) "changed"
+"changed"
 
-array(3) {
-	"" => string(5) "first"
-	1 => string(6) "second"
-	7 => array(1) {
-		"item" => string(7) "changed"
-	}
-}
+array(
+	"" => "first"
+	1 => "second"
+	7 => array(
+		"item" => "changed"
+	)
+)
 
 Error
 

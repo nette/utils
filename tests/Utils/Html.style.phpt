@@ -66,14 +66,14 @@ T::dump( (string) $el );
 __halt_compiler() ?>
 
 ------EXPECT------
-string(75) "<div style="text-align:right;background-color: blue" class="one two"></div>"
+"<div style="text-align:right;background-color: blue" class="one two"></div>"
 
-string(74) "<div style="text-align:left;background-color:green" class="one two"></div>"
+"<div style="text-align:left;background-color:green" class="one two"></div>"
 
-string(77) "<div style="color:white;background-color:blue" class="one two" id="my"></div>"
+"<div style="color:white;background-color:blue" class="one two" id="my"></div>"
 
-string(59) "<div style="text-align:right;background-color: blue"></div>"
+"<div style="text-align:right;background-color: blue"></div>"
 
-string(30) "<div class="top active"></div>"
+"<div class="top active"></div>"
 
-string(11) "<div></div>"
+"<div></div>"

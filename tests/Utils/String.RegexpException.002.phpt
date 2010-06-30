@@ -46,10 +46,10 @@ try {
 __halt_compiler();
 
 ------EXPECT------
-Exception Nette\RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
+Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
 
-Exception Nette\RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
+Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
 
-Exception Nette\RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
+Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
 
-Exception Nette\RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
+Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)

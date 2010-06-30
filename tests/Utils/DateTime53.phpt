@@ -51,26 +51,26 @@ T::dump( $obj->getTimestamp() );
 __halt_compiler() ?>
 
 ------EXPECT------
-string(19) "1978-01-23 10:00:00"
+"1978-01-23 10:00:00"
 
-string(13) "Europe/London"
+"Europe/London"
 
-int(254397600)
+254397600
 
-string(19) "1978-01-23 10:00:00"
+"1978-01-23 10:00:00"
 
-string(13) "Europe/London"
+"Europe/London"
 
-int(254397600)
+254397600
 
-string(19) "1978-01-23 10:40:00"
+"1978-01-23 10:40:00"
 
-string(13) "Europe/London"
+"Europe/London"
 
-int(254400000)
+254400000
 
-string(19) "1978-01-23 10:40:00"
+"1978-01-23 10:40:00"
 
-string(13) "Europe/London"
+"Europe/London"
 
-int(254400000)
+254400000

@@ -98,18 +98,18 @@ Adding Mary
 
 Adding Jack
 
-count: int(2)
+count: 2
 
-int(2)
+2
 
-array(2) {
-	0 => object(Person) (1) {
-		"name" private => string(4) "Mary"
-	}
-	1 => object(Person) (1) {
-		"name" private => string(4) "Jack"
-	}
-}
+array(
+	Person(
+		"name" private => "Mary"
+	)
+	Person(
+		"name" private => "Jack"
+	)
+)
 
 Get Interator:
 
@@ -123,8 +123,8 @@ Exception OutOfRangeException: Offset invalid or out of range
 
 unset 1
 
-array(1) {
-	0 => object(Person) (1) {
-		"name" private => string(4) "Mary"
-	}
-}
+array(
+	Person(
+		"name" private => "Mary"
+	)
+)

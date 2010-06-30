@@ -38,21 +38,21 @@ T::dump( ArrayTools::searchKey($arr, 'undefined') );
 __halt_compiler() ?>
 
 ------EXPECT------
-array(4) {
-	"" => string(5) "first"
-	0 => string(6) "second"
-	1 => string(5) "third"
-	7 => string(6) "fourth"
-}
+array(
+	"" => "first"
+	0 => "second"
+	1 => "third"
+	7 => "fourth"
+)
 
-int(2)
+2
 
-int(2)
+2
 
-int(1)
+1
 
-int(0)
+0
 
-int(0)
+0
 
-bool(FALSE)
+FALSE

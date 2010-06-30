@@ -28,6 +28,6 @@ T::dump( $obj->Reflection->getName() );
 __halt_compiler() ?>
 
 ------EXPECT------
-string(9) "TestClass"
+"TestClass"
 
-string(9) "TestClass"
+"TestClass"

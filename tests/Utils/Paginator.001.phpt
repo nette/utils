@@ -33,10 +33,10 @@ T::dump( $paginator->length );
 __halt_compiler() ?>
 
 ------EXPECT------
-int(0)
+0
 
-int(0)
+0
 
-int(1)
+1
 
-int(6)
+6

@@ -34,12 +34,12 @@ __halt_compiler() ?>
 ------EXPECT------
 logo.gif
 
-width: int(176)
+width: 176
 
-height: int(104)
+height: 104
 
 blank
 
-width: int(200)
+width: 200
 
-height: int(300)
+height: 300

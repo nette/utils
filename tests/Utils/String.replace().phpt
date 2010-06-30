@@ -38,12 +38,12 @@ T::dump( String::replace('hello world!', array(
 __halt_compiler();
 
 ------EXPECT------
-string(12) "hello world!"
+"hello world!"
 
-string(9) "#o wor#d!"
+"#o wor#d!"
 
-string(9) "@o wor@d!"
+"@o wor@d!"
 
-string(9) "@o wor@d!"
+"@o wor@d!"
 
-string(9) "#@ @@@#d!"
+"#@ @@@#d!"

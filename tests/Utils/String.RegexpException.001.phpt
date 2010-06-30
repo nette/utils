@@ -48,10 +48,10 @@ try {
 __halt_compiler();
 
 ------EXPECT------
-Exception Nette\RegexpException: #2 Backtrack limit was exhausted (pattern: #.*\d#)
+Exception %ns%RegexpException: #2 Backtrack limit was exhausted (pattern: #.*\d#)
 
-Exception Nette\RegexpException: #2 Backtrack limit was exhausted (pattern: #.*\d#)
+Exception %ns%RegexpException: #2 Backtrack limit was exhausted (pattern: #.*\d#)
 
-Exception Nette\RegexpException: #2 Backtrack limit was exhausted (pattern: #.*\d#)
+Exception %ns%RegexpException: #2 Backtrack limit was exhausted (pattern: #.*\d#)
 
-Exception Nette\RegexpException: #2 Backtrack limit was exhausted (pattern: #.*\d#)
+Exception %ns%RegexpException: #2 Backtrack limit was exhausted (pattern: #.*\d#)

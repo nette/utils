@@ -34,8 +34,8 @@ T::dump( $obj->items[1] );
 __halt_compiler() ?>
 
 ------EXPECT------
-string(4) "test"
+"test"
 
-string(3) "one"
+"one"
 
-string(3) "two"
+"two"

@@ -83,76 +83,76 @@ __halt_compiler() ?>
 ------EXPECT------
 ==> Two items in array
 
-first: bool(TRUE)
+first: TRUE
 
-last: bool(FALSE)
+last: FALSE
 
-counter: int(1)
+counter: 1
 
-  inner first: bool(TRUE)
+  inner first: TRUE
 
-  inner last: bool(FALSE)
+  inner last: FALSE
 
-  inner counter: int(1)
+  inner counter: 1
 
-  inner first: bool(FALSE)
+  inner first: FALSE
 
-  inner last: bool(TRUE)
+  inner last: TRUE
 
-  inner counter: int(2)
+  inner counter: 2
 
-first: bool(FALSE)
+first: FALSE
 
-last: bool(TRUE)
+last: TRUE
 
-counter: int(2)
+counter: 2
 
-  inner first: bool(TRUE)
+  inner first: TRUE
 
-  inner last: bool(FALSE)
+  inner last: FALSE
 
-  inner counter: int(1)
+  inner counter: 1
 
-  inner first: bool(FALSE)
+  inner first: FALSE
 
-  inner last: bool(TRUE)
+  inner last: TRUE
 
-  inner counter: int(2)
+  inner counter: 2
 
 ==> rewinding...
 
-first: bool(TRUE)
+first: TRUE
 
-last: bool(FALSE)
+last: FALSE
 
-counter: int(1)
+counter: 1
 
-empty: bool(FALSE)
+empty: FALSE
 
 ==> One item in array
 
-first: bool(TRUE)
+first: TRUE
 
-last: bool(TRUE)
+last: TRUE
 
-counter: int(1)
+counter: 1
 
 ==> rewinding...
 
-first: bool(TRUE)
+first: TRUE
 
-last: bool(TRUE)
+last: TRUE
 
-counter: int(1)
+counter: 1
 
-empty: bool(FALSE)
+empty: FALSE
 
 ==> Zero item in array
 
-first: bool(FALSE)
+first: FALSE
 
-last: bool(TRUE)
+last: TRUE
 
-counter: int(0)
+counter: 0
 
-empty: bool(TRUE)
+empty: TRUE

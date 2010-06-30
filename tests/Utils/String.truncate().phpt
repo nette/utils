@@ -60,70 +60,70 @@ T::dump( String::truncate($s, 32), "length=32" );
 __halt_compiler() ?>
 
 ------EXPECT------
-length=-1: string(3) "…"
+length=-1: "…"
 
-length=0: string(3) "…"
+length=0: "…"
 
-length=1: string(3) "…"
+length=1: "…"
 
-length=2: string(5) "Ř…"
+length=2: "Ř…"
 
-length=3: string(6) "Ře…"
+length=3: "Ře…"
 
-length=4: string(7) "Řek…"
+length=4: "Řek…"
 
-length=5: string(8) "Řekn…"
+length=5: "Řekn…"
 
-length=6: string(10) "Řekně…"
+length=6: "Řekně…"
 
-length=7: string(11) "Řeknět…"
+length=7: "Řeknět…"
 
-length=8: string(12) "Řekněte…"
+length=8: "Řekněte…"
 
-length=9: string(13) "Řekněte,…"
+length=9: "Řekněte,…"
 
-length=10: string(13) "Řekněte,…"
+length=10: "Řekněte,…"
 
-length=11: string(13) "Řekněte,…"
+length=11: "Řekněte,…"
 
-length=12: string(13) "Řekněte,…"
+length=12: "Řekněte,…"
 
-length=13: string(17) "Řekněte, jak…"
+length=13: "Řekněte, jak…"
 
-length=14: string(17) "Řekněte, jak…"
+length=14: "Řekněte, jak…"
 
-length=15: string(17) "Řekněte, jak…"
+length=15: "Řekněte, jak…"
 
-length=16: string(20) "Řekněte, jak se…"
+length=16: "Řekněte, jak se…"
 
-length=17: string(21) "Řekněte, jak se …"
+length=17: "Řekněte, jak se …"
 
-length=18: string(21) "Řekněte, jak se …"
+length=18: "Řekněte, jak se …"
 
-length=19: string(21) "Řekněte, jak se …"
+length=19: "Řekněte, jak se …"
 
-length=20: string(21) "Řekněte, jak se …"
+length=20: "Řekněte, jak se …"
 
-length=21: string(21) "Řekněte, jak se …"
+length=21: "Řekněte, jak se …"
 
-length=22: string(26) "Řekněte, jak se (dnes…"
+length=22: "Řekněte, jak se (dnes…"
 
-length=23: string(27) "Řekněte, jak se (dnes)…"
+length=23: "Řekněte, jak se (dnes)…"
 
-length=24: string(27) "Řekněte, jak se (dnes)…"
+length=24: "Řekněte, jak se (dnes)…"
 
-length=25: string(27) "Řekněte, jak se (dnes)…"
+length=25: "Řekněte, jak se (dnes)…"
 
-length=26: string(27) "Řekněte, jak se (dnes)…"
+length=26: "Řekněte, jak se (dnes)…"
 
-length=27: string(27) "Řekněte, jak se (dnes)…"
+length=27: "Řekněte, jak se (dnes)…"
 
-length=28: string(31) "Řekněte, jak se (dnes) máte?"
+length=28: "Řekněte, jak se (dnes) máte?"
 
-length=29: string(31) "Řekněte, jak se (dnes) máte?"
+length=29: "Řekněte, jak se (dnes) máte?"
 
-length=30: string(31) "Řekněte, jak se (dnes) máte?"
+length=30: "Řekněte, jak se (dnes) máte?"
 
-length=31: string(31) "Řekněte, jak se (dnes) máte?"
+length=31: "Řekněte, jak se (dnes) máte?"
 
-length=32: string(31) "Řekněte, jak se (dnes) máte?"
+length=32: "Řekněte, jak se (dnes) máte?"
