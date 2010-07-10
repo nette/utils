@@ -538,6 +538,14 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				continue;
 
 			} elseif (is_array($value)) {
+				if ($key === 'data') {
+					foreach ($value as $k => $v) {
+						if ($v !== NULL && $v !== FALSE) {
+							$s .= ' data-' . $k . '="' . htmlspecialchars((string) $v) . '"';
+						}
+					}
+					continue;
+				}
 
 				// prepare into temporary array
 				$tmp = NULL;
