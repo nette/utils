@@ -12,7 +12,8 @@
 
 namespace Nette;
 
-use Nette;
+use Nette,
+	Nette\Debug;
 
 
 
@@ -313,8 +314,9 @@ final class String
 	 */
 	public static function split($subject, $pattern, $flags = 0)
 	{
+		Debug::tryError();
 		$res = preg_split($pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE);
-		self::checkPreg($res, $pattern);
+		self::catchPregError($pattern);
 		return $res;
 	}
 
@@ -330,8 +332,9 @@ final class String
 	 */
 	public static function match($subject, $pattern, $flags = 0, $offset = 0)
 	{
+		Debug::tryError();
 		$res = preg_match($pattern, $subject, $m, $flags, $offset);
-		self::checkPreg($res, $pattern);
+		self::catchPregError($pattern);
 		if ($res) {
 			return $m;
 		}
@@ -349,8 +352,9 @@ final class String
 	 */
 	public static function matchAll($subject, $pattern, $flags = 0, $offset = 0)
 	{
+		Debug::tryError();
 		$res = preg_match_all($pattern, $subject, $m, ($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER), $offset);
-		self::checkPreg($res, $pattern);
+		self::catchPregError($pattern);
 		return $m;
 	}
 
@@ -366,12 +370,13 @@ final class String
 	 */
 	public static function replace($subject, $pattern, $replacement = NULL, $limit = -1)
 	{
-		preg_match('##', '');
+		Debug::tryError();
 		if (is_object($replacement) || is_array($replacement)) {
 			/*5.2*if ($replacement instanceof Callback) {
 				$replacement = $replacement->getNative();
 			}*/
 			if (!is_callable($replacement, FALSE, $textual)) {
+				Debug::catchError($foo);
 				throw new \InvalidStateException("Callback '$textual' is not callable.");
 			}
 			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
@@ -382,23 +387,16 @@ final class String
 		} else {
 			$res = preg_replace($pattern, $replacement, $subject, $limit);
 		}
-
-		if (preg_last_error()) {
-			self::checkPreg(TRUE, $pattern);
-		} elseif ($res === NULL) {
-			self::checkPreg(FALSE, $pattern);
-		} else {
-			return $res;
-		}
+		self::catchPregError($pattern);
+		return $res;
 	}
 
 
 
-	private static function checkPreg($res, $pattern)
+	private static function catchPregError($pattern)
 	{
-		if ($res === FALSE) { // compile error
-			$error = error_get_last();
-			throw new RegexpException("$error[message] in pattern: $pattern");
+		if (Debug::catchError($message)) { // compile error
+			throw new RegexpException("$message in pattern: $pattern");
 
 		} elseif (preg_last_error()) { // run-time error
 			static $messages = array(
