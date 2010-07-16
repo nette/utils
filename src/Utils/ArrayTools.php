@@ -158,4 +158,21 @@ final class ArrayTools
 		}
 	}
 
+
+
+	/**
+	 * Return array entries that match the pattern.
+	 * @param  array
+	 * @param  string
+	 * @param  int
+	 * @return array
+	 */
+	public static function grep(array $arr, $pattern, $flags = 0)
+	{
+		Debug::tryError();
+		$res = preg_grep($pattern, $arr, $flags);
+		String::catchPregError($pattern);
+		return $res;
+	}
+
 }

@@ -393,7 +393,8 @@ final class String
 
 
 
-	private static function catchPregError($pattern)
+	/** @internal */
+	public static function catchPregError($pattern)
 	{
 		if (Debug::catchError($message)) { // compile error
 			throw new RegexpException("$message in pattern: $pattern");
