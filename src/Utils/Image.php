@@ -102,13 +102,13 @@ class Image extends Object
 
 		switch ($format = $info[2]) {
 		case self::JPEG:
-			return new self(imagecreatefromjpeg($file));
+			return new static(imagecreatefromjpeg($file));
 
 		case self::PNG:
-			return new self(imagecreatefrompng($file));
+			return new static(imagecreatefrompng($file));
 
 		case self::GIF:
-			return new self(imagecreatefromgif($file));
+			return new static(imagecreatefromgif($file));
 
 		default:
 			if (self::$useImageMagick) {
@@ -144,7 +144,7 @@ class Image extends Object
 		} else {
 			$format = NULL;
 		}
-		return new self(imagecreatefromstring($s));
+		return new static(imagecreatefromstring($s));
 	}
 
 
@@ -176,7 +176,7 @@ class Image extends Object
 			imagefilledrectangle($image, 0, 0, $width - 1, $height - 1, $color);
 			imagealphablending($image, TRUE);
 		}
-		return new self($image);
+		return new static($image);
 	}
 
 
@@ -535,7 +535,7 @@ class Image extends Object
 			array_unshift($args, $this->getImageResource());
 
 			$res = call_user_func_array($function, $args);
-			return is_resource($res) ? new self($res) : $res;
+			return is_resource($res) ? new static($res) : $res;
 		}
 
 		return parent::__call($name, $args);
