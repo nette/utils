@@ -12,8 +12,7 @@
 
 namespace Nette;
 
-use Nette,
-	Nette\Debug;
+use Nette;
 
 
 
