@@ -128,4 +128,31 @@ final class Tools
 		return $files;
 	}
 
+
+
+	/**
+	 * Returns the MIME content type of file.
+	 * @param  string
+	 * @return string
+	 */
+	public static function detectMimeType($file)
+	{
+		if (!is_file($file)) {
+			throw new \FileNotFoundException("File '$file' not found.");
+		}
+
+		$info = getimagesize($file);
+		if (isset($info['mime'])) {
+			return $info['mime'];
+
+		} elseif (extension_loaded('fileinfo')) {
+			$type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $file);
+
+		} elseif (function_exists('mime_content_type')) {
+			$type = mime_content_type($file);
+		}
+
+		return isset($type) && preg_match('#^\S+/\S+$#', $type) ? $type : 'application/octet-stream';
+	}
+
 }
