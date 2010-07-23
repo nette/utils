@@ -535,7 +535,7 @@ class Image extends Object
 			array_unshift($args, $this->getImageResource());
 
 			$res = call_user_func_array($function, $args);
-			return is_resource($res) ? new static($res) : $res;
+			return is_resource($res) && get_resource_type($res) === 'gd' ? $this->setImageResource($res) : $res;
 		}
 
 		return parent::__call($name, $args);
