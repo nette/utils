@@ -30,6 +30,7 @@ final class Callback extends Object
 
 
 	/**
+	 * Do not call directly, use callback() function.
 	 * @param  mixed   class, object, function, callback
 	 * @param  string  method
 	 */

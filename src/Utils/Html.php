@@ -271,7 +271,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	final public function setText($text)
 	{
 		if (!is_array($text)) {
-			$text = str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), (string) $text);
+			$text = htmlspecialchars((string) $text, ENT_NOQUOTES);
 		}
 		return $this->setHtml($text);
 	}
@@ -564,11 +564,10 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				$value = (string) $value;
 			}
 
-			// add new attribute
-			$s .= ' ' . $key . '="'
-				. str_replace(array('&', '"', '<', '>', '@'), array('&amp;', '&quot;', '&lt;', '&gt;', '&#64;'), $value)
-					. '"';
+			$s .= ' ' . $key . '="' . htmlspecialchars($value) . '"';
 		}
+
+		$s = str_replace('@', '&#64;', $s);
 		return $s;
 	}
 
