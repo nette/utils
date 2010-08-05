@@ -17,7 +17,7 @@ use Nette;
 
 
 /**
- * Provides the base class for a generic list (items can be accessed by index). In PHP 5.3 use SplQueue.
+ * Provides the base class for a generic list (items can be accessed by index).
  *
  * @copyright  Copyright (c) 2004, 2010 David Grudl
  * @package    Nette
