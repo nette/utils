@@ -64,7 +64,7 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 	 */
 	public function isFirst($width = NULL)
 	{
-		return $width === NULL ? $this->counter === 1 : ($this->counter % $width) === 1;
+		return $this->counter === 1 || ($width && $this->counter !== 0 && (($this->counter - 1) % $width) === 0);
 	}
 
 
@@ -76,7 +76,7 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 	 */
 	public function isLast($width = NULL)
 	{
-		return !$this->hasNext() || ($width !== NULL && ($this->counter % $width) === 0);
+		return !$this->hasNext() || ($width && ($this->counter % $width) === 0);
 	}
 
 
