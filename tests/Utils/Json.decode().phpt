@@ -23,6 +23,8 @@ T::dump( Json::decode('') );
 T::dump( Json::decode('null') );
 T::dump( Json::decode('NULL') );
 
+T::dump( Json::decode('{"a":1}') );
+T::dump( Json::decode('{"a":1}', Json::FORCE_ARRAY) );
 
 
 try {
@@ -59,6 +61,14 @@ NULL
 NULL
 
 NULL
+
+stdClass(
+	"a" => 1
+)
+
+array(
+	"a" => 1
+)
 
 Exception %ns%JsonException: #4 Syntax error, malformed JSON
 

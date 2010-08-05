@@ -24,6 +24,8 @@ use Nette;
  */
 final class Json
 {
+	const FORCE_ARRAY = 1;
+
 	/** @var array */
 	private static $messages = array(
 		JSON_ERROR_DEPTH => 'The maximum stack depth has been exceeded',
@@ -70,12 +72,13 @@ final class Json
 	/**
 	 * Decodes a JSON string.
 	 * @param  string
+	 * @param  int
 	 * @return mixed
 	 */
-	public static function decode($json)
+	public static function decode($json, $options = 0)
 	{
 		$json = (string) $json;
-		$value = json_decode($json);
+		$value = json_decode($json, (bool) ($options & self::FORCE_ARRAY));
 		if ($value === NULL && $json !== '' && strcasecmp($json, 'null')) { // '' do not clean json_last_error
 			$error = PHP_VERSION_ID >= 50300 ? json_last_error() : 0;
 			throw new JsonException(isset(self::$messages[$error]) ? self::$messages[$error] : 'Unknown error', $error);
