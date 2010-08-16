@@ -182,7 +182,9 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 			}
 		}
 
-		if (count($args) === 1) { // set
+		if (count($args) === 0) { // invalid
+
+		} elseif (count($args) === 1) { // set
 			$this->attrs[$m] = $args[0];
 
 		} elseif ($args[0] == NULL) { // intentionally ==
