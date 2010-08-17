@@ -362,8 +362,12 @@ class Image extends Object
 			$top = round(($this->getHeight() - $height) / 100 * $top);
 		}
 
-		$left = max(0, (int) $left);
-		$top = max(0, (int) $top);
+		if ($left < 0) {
+			$width += $left; $left = 0;
+		}
+		if ($top < 0) {
+			$height += $top; $top = 0;
+		}
 		$width = min((int) $width, $this->getWidth() - $left);
 		$height = min((int) $height, $this->getHeight() - $top);
 
