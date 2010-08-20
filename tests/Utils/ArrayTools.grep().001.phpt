@@ -17,19 +17,11 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::dump( ArrayTools::grep(array('a', '1', 'c'), '#\d#') );
-T::dump( ArrayTools::grep(array('a', '1', 'c'), '#\d#', PREG_GREP_INVERT) );
+Assert::same( array(
+	1 => '1',
+), ArrayTools::grep(array('a', '1', 'c'), '#\d#') );
 
-
-
-__halt_compiler();
-
-------EXPECT------
-array(
-	1 => "1"
-)
-
-array(
-	0 => "a"
-	2 => "c"
-)
+Assert::same( array(
+	0 => 'a',
+	2 => 'c',
+), ArrayTools::grep(array('a', '1', 'c'), '#\d#', PREG_GREP_INVERT) );

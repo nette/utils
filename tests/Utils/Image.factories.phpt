@@ -18,28 +18,14 @@ require __DIR__ . '/../initialize.php';
 
 
 $image = Image::fromFile('images/logo.gif');
-T::note("logo.gif");
-T::dump( $image->width, 'width' );
-T::dump( $image->height, 'height' );
+// logo.gif
+Assert::same( 176, $image->width, 'width' );
+
+Assert::same( 104, $image->height, 'height' );
+
 
 $image = Image::fromBlank(200, 300, Image::rgb(255, 128, 0));
-T::note("blank");
-T::dump( $image->width, 'width' );
-T::dump( $image->height, 'height' );
+// blank
+Assert::same( 200, $image->width, 'width' );
 
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-logo.gif
-
-width: 176
-
-height: 104
-
-blank
-
-width: 200
-
-height: 300
+Assert::same( 300, $image->height, 'height' );

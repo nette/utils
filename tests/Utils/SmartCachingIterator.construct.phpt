@@ -17,84 +17,71 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::note("==> array");
+// ==> array
 
 $arr = array('Nette', 'Framework');
-foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
+$tmp = array();
+foreach (new SmartCachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+Assert::same( array(
+	'0 => Nette',
+	'1 => Framework',
+), $tmp );
 
 
 
-T::note("==> stdClass");
+// ==> stdClass
 
 $arr = (object) array('Nette', 'Framework');
-foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
+$tmp = array();
+foreach (new SmartCachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+Assert::same( array(
+	'0 => Nette',
+	'1 => Framework',
+), $tmp );
 
 
 
-T::note("==> IteratorAggregate");
+// ==> IteratorAggregate
 
 $arr = new ArrayObject(array('Nette', 'Framework'));
-foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
+$tmp = array();
+foreach (new SmartCachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+Assert::same( array(
+	'0 => Nette',
+	'1 => Framework',
+), $tmp );
 
 
 
-T::note("==> Iterator");
+// ==> Iterator
 
-foreach (new SmartCachingIterator($arr->getIterator()) as $k => $v) T::dump("$k => $v");
+$tmp = array();
+foreach (new SmartCachingIterator($arr->getIterator()) as $k => $v) $tmp[] = "$k => $v";
+Assert::same( array(
+	'0 => Nette',
+	'1 => Framework',
+), $tmp );
 
 
 
-T::note("==> SimpleXMLElement");
+// ==> SimpleXMLElement
 
 $arr = new SimpleXMLElement('<feed><item>Nette</item><item>Framework</item></feed>');
-foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
+$tmp = array();
+foreach (new SmartCachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+Assert::same( array(
+	'item => Nette',
+	'item => Framework',
+), $tmp );
 
 
 
-T::note("==> object");
+// ==> object
 
 try {
 	$arr = dir('.');
-	foreach (new SmartCachingIterator($arr) as $k => $v) T::dump("$k => $v");
+	foreach (new SmartCachingIterator($arr) as $k => $v);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump($e);
+	Assert::exception('InvalidArgumentException', NULL, $e );
 }
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-==> array
-
-"0 => Nette"
-
-"1 => Framework"
-
-==> stdClass
-
-"0 => Nette"
-
-"1 => Framework"
-
-==> IteratorAggregate
-
-"0 => Nette"
-
-"1 => Framework"
-
-==> Iterator
-
-"0 => Nette"
-
-"1 => Framework"
-
-==> SimpleXMLElement
-
-"item => Nette"
-
-"item => Framework"
-
-==> object
-
-Exception InvalidArgumentException: Invalid argument passed to foreach resp. %ns%SmartCachingIterator; array or Traversable expected, Directory given.

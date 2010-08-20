@@ -23,29 +23,10 @@ $paginator->itemsPerPage = 7;
 $paginator->base = 0;
 $paginator->page = -1;
 
-T::dump( $paginator->page );
-T::dump( $paginator->pageCount );
-T::dump( $paginator->firstPage );
-T::dump( $paginator->lastPage );
-T::dump( $paginator->offset );
-T::dump( $paginator->countdownOffset );
-T::dump( $paginator->length );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-0
-
-1
-
-0
-
-0
-
-0
-
-0
-
-7
+Assert::same( 0, $paginator->page );
+Assert::same( 1, $paginator->pageCount );
+Assert::same( 0, $paginator->firstPage );
+Assert::same( 0, $paginator->lastPage );
+Assert::same( 0, $paginator->offset );
+Assert::same( 0, $paginator->countdownOffset );
+Assert::same( 7, $paginator->length );

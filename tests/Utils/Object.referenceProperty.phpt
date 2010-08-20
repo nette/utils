@@ -23,11 +23,4 @@ $obj = new TestClass;
 $obj->foo = 'hello';
 @$x = & $obj->foo;
 $x = 'changed by reference';
-T::dump( $obj->foo );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-"hello"
+Assert::same( 'hello', $obj->foo );

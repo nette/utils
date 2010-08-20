@@ -24,26 +24,11 @@ class Test
 	}
 }
 
-T::dump( String::replace('hello world!', '#([E-L])+#', '#') );
-T::dump( String::replace('hello world!', '#([e-l])+#', '#') );
-T::dump( String::replace('hello world!', '#[e-l]+#', callback('Test::cb')) );
-T::dump( String::replace('hello world!', '#[e-l]+#', array('Test', 'cb')) );
-T::dump( String::replace('hello world!', array(
+Assert::same( 'hello world!', String::replace('hello world!', '#([E-L])+#', '#') );
+Assert::same( '#o wor#d!', String::replace('hello world!', '#([e-l])+#', '#') );
+Assert::same( '@o wor@d!', String::replace('hello world!', '#[e-l]+#', callback('Test::cb')) );
+Assert::same( '@o wor@d!', String::replace('hello world!', '#[e-l]+#', array('Test', 'cb')) );
+Assert::same( '#@ @@@#d!', String::replace('hello world!', array(
 	'#([e-l])+#' => '#',
 	'#[o-w]#' => '@',
 )) );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-"hello world!"
-
-"#o wor#d!"
-
-"@o wor@d!"
-
-"@o wor@d!"
-
-"#@ @@@#d!"

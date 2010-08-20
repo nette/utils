@@ -17,61 +17,38 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::dump( Json::decode('"ok"') );
+Assert::same( "ok", Json::decode('"ok"') );
+Assert::null( Json::decode('') );
+Assert::null( Json::decode('null') );
+Assert::null( Json::decode('NULL') );
 
-T::dump( Json::decode('') );
-T::dump( Json::decode('null') );
-T::dump( Json::decode('NULL') );
 
-T::dump( Json::decode('{"a":1}') );
-T::dump( Json::decode('{"a":1}', Json::FORCE_ARRAY) );
+Assert::equal( (object) array('a' => 1), Json::decode('{"a":1}') );
+Assert::same( array('a' => 1), Json::decode('{"a":1}', Json::FORCE_ARRAY) );
+
 
 
 try {
-	T::dump( Json::decode('{') );
+	Json::decode('{');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\JsonException', 'Syntax error, malformed JSON', $e );
 }
 
 
 
 try {
-	T::dump( Json::decode('{}}') );
+	Json::decode('{}}');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\JsonException', 'Syntax error, malformed JSON', $e );
 }
 
 
 
 try {
-	T::dump( Json::decode("\x00") );
+	Json::decode("\x00");
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\JsonException', 'Unexpected control character found', $e );
 }
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-"ok"
-
-NULL
-
-NULL
-
-NULL
-
-stdClass(
-	"a" => 1
-)
-
-array(
-	"a" => 1
-)
-
-Exception %ns%JsonException: #4 Syntax error, malformed JSON
-
-Exception %ns%JsonException: #2 Syntax error, malformed JSON
-
-Exception %ns%JsonException: #3 Unexpected control character found

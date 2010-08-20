@@ -21,69 +21,45 @@ require __DIR__ . '/Object.inc';
 
 $obj = new TestClass;
 $obj->foo = 'hello';
-T::dump( $obj->foo );
-T::dump( $obj->Foo );
+Assert::same( 'hello', $obj->foo );
+Assert::same( 'hello', $obj->Foo );
+
 
 $obj->foo .= ' world';
-T::dump( $obj->foo );
+Assert::same( 'hello world', $obj->foo );
 
 
-T::note('Undeclared property writing');
+
+// Undeclared property writing
 try {
 	$obj->undeclared = 'value';
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('MemberAccessException', 'Cannot write to an undeclared property TestClass::$undeclared.', $e );
 }
 
 
-T::note('Undeclared property reading');
-T::dump( isset($obj->S) ); // False
-T::dump( isset($obj->s) ); // False
-T::dump( isset($obj->undeclared) ); // False
+// Undeclared property reading
+Assert::false( isset($obj->S) );
+Assert::false( isset($obj->s) );
+Assert::false( isset($obj->undeclared) );
+
 try {
 	$val = $obj->s;
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('MemberAccessException', 'Cannot read an undeclared property TestClass::$s.', $e );
 }
 
 
 
-T::note('Read-only property');
+// Read-only property
 $obj = new TestClass('Hello', 'World');
-T::dump( $obj->bar );
+Assert::same( 'World', $obj->bar );
+
 try {
 	$obj->bar = 'value';
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('MemberAccessException', 'Cannot write to a read-only property TestClass::$bar.', $e );
 }
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-"hello"
-
-"hello"
-
-"hello world"
-
-Undeclared property writing
-
-Exception MemberAccessException: Cannot write to an undeclared property TestClass::$undeclared.
-
-Undeclared property reading
-
-FALSE
-
-FALSE
-
-FALSE
-
-Exception MemberAccessException: Cannot read an undeclared property TestClass::$s.
-
-Read-only property
-
-"World"
-
-Exception MemberAccessException: Cannot write to a read-only property TestClass::$bar.

@@ -26,70 +26,31 @@ class Test
 }
 
 
-T::dump( (string) new Callback(new Test, 'add') );
+Assert::same( 'Test::add', (string) new Callback(new Test, 'add') );
+Assert::same( 'Test::add', (string) new Callback('Test', 'add') );
+Assert::same( 'Test::add', (string) new Callback('Test::add') );
+Assert::same( 'undefined', (string) new Callback('undefined') );
 
-T::dump( (string) new Callback('Test', 'add') );
-
-T::dump( (string) new Callback('Test::add') );
-
-T::dump( (string) new Callback('undefined') );
 
 
 $cb = new Callback(new Test, 'add');
 
-T::dump( $cb/*5.2*->invoke*/(3, 5) );
+Assert::same( 8, $cb/*5.2*->invoke*/(3, 5) );
+Assert::same( 8, $cb->invokeArgs(array(3, 5)) );
+Assert::equal( array(new Test, 'add'), $cb->getNative() );
+Assert::true( $cb->isCallable() );
 
-T::dump( $cb->invokeArgs(array(3, 5)) );
-
-T::dump( $cb->getNative() );
-
-T::dump( $cb->isCallable() );
-
-T::dump( callback($cb) );
 
 try {
 	callback('undefined')->invoke();
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('InvalidStateException', "Callback 'undefined' is not callable.", $e );
 }
 
 try {
 	callback(NULL)->invoke();
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('InvalidArgumentException', 'Invalid callback.', $e );
 }
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-"Test::add"
-
-"Test::add"
-
-"Test::add"
-
-"undefined"
-
-8
-
-8
-
-array(
-	Test()
-	"add"
-)
-
-TRUE
-
-%ns%Callback(
-	"cb" private => array(
-		Test()
-		"add"
-	)
-)
-
-Exception InvalidStateException: Callback 'undefined' is not callable.
-
-Exception InvalidArgumentException: Invalid callback.

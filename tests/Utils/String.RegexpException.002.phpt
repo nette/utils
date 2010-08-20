@@ -19,37 +19,28 @@ require __DIR__ . '/../initialize.php';
 
 try {
 	String::split("0123456789\xFF", '#\d#u');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\RegexpException', 'Malformed UTF-8 data (pattern: #\d#u)', $e );
 }
 
 try {
 	String::match("0123456789\xFF", '#\d#u');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\RegexpException', 'Malformed UTF-8 data (pattern: #\d#u)', $e );
 }
 
 try {
 	String::matchAll("0123456789\xFF", '#\d#u');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\RegexpException', 'Malformed UTF-8 data (pattern: #\d#u)', $e );
 }
 
 try {
 	String::replace("0123456789\xFF", '#\d#u', 'x');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\RegexpException', 'Malformed UTF-8 data (pattern: #\d#u)', $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
-
-Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
-
-Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)
-
-Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)

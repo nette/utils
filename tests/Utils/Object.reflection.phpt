@@ -20,14 +20,5 @@ require __DIR__ . '/Object.inc';
 
 
 $obj = new TestClass;
-T::dump( $obj->getReflection()->getName() );
-T::dump( $obj->Reflection->getName() );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-"TestClass"
-
-"TestClass"
+Assert::same( 'TestClass', $obj->getReflection()->getName() );
+Assert::same( 'TestClass', $obj->Reflection->getName() );

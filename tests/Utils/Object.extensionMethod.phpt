@@ -27,11 +27,4 @@ function TestClass_join(TestClass $that, $separator)
 TestClass::extensionMethod('TestClass::join', 'TestClass_join');
 
 $obj = new TestClass('Hello', 'World');
-T::dump( $obj->join('*') );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-"Hello*World"
+Assert::same( 'Hello*World', $obj->join('*') );

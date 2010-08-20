@@ -18,11 +18,4 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::dump( String::replace('hello world!', '#[e-l]+#', function() { return '@'; }) );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-"@o wor@d!"
+Assert::same( '@o wor@d!', String::replace('hello world!', '#[e-l]+#', function() { return '@'; }) );

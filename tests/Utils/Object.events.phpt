@@ -42,21 +42,24 @@ $var = (object) NULL;
 $obj->onPublic[] = 'handler';
 
 $obj->onPublic($var);
-T::dump( $var->counter );
+Assert::same( 1, $var->counter );
+
 
 
 $obj->onPublic[] = new Handler;
 
 $obj->onPublic($var);
-T::dump( $var->counter );
+Assert::same( 3, $var->counter );
+
 
 
 try {
 	$obj->onPrivate(123);
 	$this->fail('called private event');
 
-} catch (MemberAccessException $e) {
-	T::dump( $e );
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('MemberAccessException', 'Call to undefined method TestClass::onPrivate().', $e );
 }
 
 
@@ -64,19 +67,7 @@ try {
 	$obj->onUndefined(123);
 	$this->fail('called undefined event');
 
-} catch (MemberAccessException $e) {
-	T::dump( $e );
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('MemberAccessException', 'Call to undefined method TestClass::onUndefined().', $e );
 }
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-1
-
-3
-
-Exception MemberAccessException: Call to undefined method TestClass::onPrivate().
-
-Exception MemberAccessException: Call to undefined method TestClass::onUndefined().

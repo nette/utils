@@ -19,50 +19,24 @@ require __DIR__ . '/../initialize.php';
 
 $paginator = new Paginator;
 
-T::note('ItemCount: 0');
+// ItemCount: 0
 $paginator->setItemCount(0);
-T::dump( $paginator->isFirst() );
-T::dump( $paginator->isLast() );
+Assert::true( $paginator->isFirst() );
+Assert::true( $paginator->isLast() );
 
-T::note('ItemCount: 1');
+
+// ItemCount: 1
 $paginator->setItemCount(1);
-T::dump( $paginator->isFirst() );
-T::dump( $paginator->isLast() );
+Assert::true( $paginator->isFirst() );
+Assert::true( $paginator->isLast() );
 
-T::note('ItemCount: 2');
+
+// ItemCount: 2
 $paginator->setItemCount(2);
-T::dump( $paginator->isFirst() );
-T::dump( $paginator->isLast() );
-T::note('Page 2');
+Assert::true( $paginator->isFirst() );
+Assert::false( $paginator->isLast() );
+
+// Page 2
 $paginator->setPage(2);
-T::dump( $paginator->isFirst() );
-T::dump( $paginator->isLast() );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-ItemCount: 0
-
-TRUE
-
-TRUE
-
-ItemCount: 1
-
-TRUE
-
-TRUE
-
-ItemCount: 2
-
-TRUE
-
-FALSE
-
-Page 2
-
-FALSE
-
-TRUE
+Assert::false( $paginator->isFirst() );
+Assert::true( $paginator->isLast() );

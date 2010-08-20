@@ -23,13 +23,7 @@ try {
 	$obj = new TestClass;
 	$obj->undeclared();
 
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('MemberAccessException', 'Call to undefined method TestClass::undeclared().', $e );
 }
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-Exception MemberAccessException: Call to undefined method TestClass::undeclared().

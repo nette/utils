@@ -25,80 +25,61 @@ $arr  = array(
 	),
 );
 
-T::note('Single item');
+// Single item
 
 $dolly = $arr;
 $item = & ArrayTools::getRef($dolly, NULL);
 $item = 'changed';
-T::dump( $dolly );
+Assert::same( array(
+	'' => 'changed',
+	1 => 'second',
+	7 => array(
+		'item' => 'third',
+	),
+), $dolly );
+
 
 $dolly = $arr;
 $item = & ArrayTools::getRef($dolly, 'undefined');
 $item = 'changed';
-T::dump( $dolly );
+Assert::same( array(
+	'' => 'first',
+	1 => 'second',
+	7 => array(
+		'item' => 'third',
+	),
+	'undefined' => 'changed',
+), $dolly );
 
 
-T::note('Traversing');
+
+// Traversing
 
 $dolly = $arr;
 $item = & ArrayTools::getRef($dolly, array());
 $item = 'changed';
-T::dump( $dolly );
+Assert::same( 'changed', $dolly );
+
 
 $dolly = $arr;
 $item = & ArrayTools::getRef($dolly, array(7, 'item'));
 $item = 'changed';
-T::dump( $dolly );
+Assert::same( array(
+	'' => 'first',
+	1 => 'second',
+	7 => array(
+		'item' => 'changed',
+	),
+), $dolly );
 
 
-T::note('Error');
+
+// Error
 
 try {
 	$dolly = $arr;
 	$item = & ArrayTools::getRef($dolly, array(7, 'item', 3));
-	$item = 'changed';
-	T::dump( $dolly );
-
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('InvalidArgumentException', 'Traversed item is not an array.', $e );
 }
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-Single item
-
-array(
-	"" => "changed"
-	1 => "second"
-	7 => array(
-		"item" => "third"
-	)
-)
-
-array(
-	"" => "first"
-	1 => "second"
-	7 => array(
-		"item" => "third"
-	)
-	"undefined" => "changed"
-)
-
-Traversing
-
-"changed"
-
-array(
-	"" => "first"
-	1 => "second"
-	7 => array(
-		"item" => "changed"
-	)
-)
-
-Error
-
-Exception InvalidArgumentException: Traversed item is not an array.

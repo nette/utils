@@ -17,142 +17,60 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::note("==> Two items in array");
+// ==> Two items in array
 
 $arr = array('Nette', 'Framework');
 
-foreach ($iterator = new SmartCachingIterator($arr) as $k => $v)
-{
-	T::dump( $iterator->isFirst(), 'first' );
-	T::dump( $iterator->isLast(), 'last' );
-	T::dump( $iterator->getCounter(), 'counter' );
+$iterator = new SmartCachingIterator($arr);
+$iterator->rewind();
+Assert::true( $iterator->valid() );
+Assert::true( $iterator->isFirst() );
+Assert::false( $iterator->isLast() );
+Assert::same( 1, $iterator->getCounter() );
 
-	foreach ($innerIterator = new SmartCachingIterator($arr) as $k => $v)
-	{
-		T::dump( $innerIterator->isFirst(), '  inner first' );
-		T::dump( $innerIterator->isLast(), '  inner last' );
-		T::dump( $innerIterator->counter, '  inner counter' );
-	}
-}
+$iterator->next();
+Assert::true( $iterator->valid() );
+Assert::false( $iterator->isFirst() );
+Assert::true( $iterator->isLast() );
+Assert::same( 2, $iterator->getCounter() );
+
+$iterator->next();
+Assert::false( $iterator->valid() );
 
 $iterator->rewind();
-T::note("==> rewinding...");
-T::dump( $iterator->isFirst(), 'first' );
-T::dump( $iterator->isLast(), 'last' );
-T::dump( $iterator->getCounter(), 'counter' );
-T::dump( $iterator->isEmpty(), 'empty' );
+Assert::true( $iterator->isFirst() );
+Assert::false( $iterator->isLast() );
+Assert::same( 1, $iterator->getCounter() );
+Assert::false( $iterator->isEmpty() );
 
 
-
-T::note("==> One item in array");
 
 $arr = array('Nette');
 
-foreach ($iterator = new SmartCachingIterator($arr) as $k => $v)
-{
-	T::dump( $iterator->isFirst(), 'first' );
-	T::dump( $iterator->isLast(), 'last' );
-	T::dump( $iterator->getCounter(), 'counter' );
-}
+$iterator = new SmartCachingIterator($arr);
+$iterator->rewind();
+Assert::true( $iterator->valid() );
+Assert::true( $iterator->isFirst() );
+Assert::true( $iterator->isLast() );
+Assert::same( 1, $iterator->getCounter() );
+
+$iterator->next();
+Assert::false( $iterator->valid() );
 
 $iterator->rewind();
-T::note("==> rewinding...");
-T::dump( $iterator->isFirst(), 'first' );
-T::dump( $iterator->isLast(), 'last' );
-T::dump( $iterator->getCounter(), 'counter' );
-T::dump( $iterator->isEmpty(), 'empty' );
+Assert::true( $iterator->isFirst() );
+Assert::true( $iterator->isLast() );
+Assert::same( 1, $iterator->getCounter() );
+Assert::false( $iterator->isEmpty() );
 
 
-
-T::note("==> Zero item in array");
 
 $arr = array();
 
 $iterator = new SmartCachingIterator($arr);
 $iterator->next();
 $iterator->next();
-T::dump( $iterator->isFirst(), 'first' );
-T::dump( $iterator->isLast(), 'last' );
-T::dump( $iterator->getCounter(), 'counter' );
-T::dump( $iterator->isEmpty(), 'empty' );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-==> Two items in array
-
-first: TRUE
-
-last: FALSE
-
-counter: 1
-
-  inner first: TRUE
-
-  inner last: FALSE
-
-  inner counter: 1
-
-  inner first: FALSE
-
-  inner last: TRUE
-
-  inner counter: 2
-
-first: FALSE
-
-last: TRUE
-
-counter: 2
-
-  inner first: TRUE
-
-  inner last: FALSE
-
-  inner counter: 1
-
-  inner first: FALSE
-
-  inner last: TRUE
-
-  inner counter: 2
-
-==> rewinding...
-
-first: TRUE
-
-last: FALSE
-
-counter: 1
-
-empty: FALSE
-
-==> One item in array
-
-first: TRUE
-
-last: TRUE
-
-counter: 1
-
-==> rewinding...
-
-first: TRUE
-
-last: TRUE
-
-counter: 1
-
-empty: FALSE
-
-==> Zero item in array
-
-first: FALSE
-
-last: TRUE
-
-counter: 0
-
-empty: TRUE
+Assert::false( $iterator->isFirst() );
+Assert::true( $iterator->isLast() );
+Assert::same( 0, $iterator->getCounter() );
+Assert::true( $iterator->isEmpty() );

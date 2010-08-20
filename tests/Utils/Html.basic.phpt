@@ -18,25 +18,30 @@ require __DIR__ . '/../initialize.php';
 
 
 $el = Html::el('img')->src('image.gif')->alt('');
-T::dump( (string) $el );
-T::dump( $el->startTag() );
-T::dump( $el->endTag() );
+Assert::same( '<img src="image.gif" alt="" />', (string) $el );
+Assert::same( '<img src="image.gif" alt="" />', $el->startTag() );
+Assert::same( '', $el->endTag() );
+
 
 $el = Html::el('img')->src('image.gif')->alt('')->setText(NULL)->setText('any content');
-T::dump( (string) $el );
-T::dump( $el->startTag() );
-T::dump( $el->endTag() );
+Assert::same( '<img src="image.gif" alt="" />', (string) $el );
+Assert::same( '<img src="image.gif" alt="" />', $el->startTag() );
+Assert::same( '', $el->endTag() );
+
 
 Html::$xhtml = FALSE;
-T::dump( (string) $el );
+Assert::same( '<img src="image.gif" alt="">', (string) $el );
+
 
 $el = Html::el('img')->setSrc('image.gif')->setAlt('alt1')->setAlt('alt2');
-T::dump( (string) $el );
-T::dump( $el->getSrc() );
-T::dump( $el->getTitle() );
-T::dump( $el->getAlt() );
+Assert::same( '<img src="image.gif" alt="alt2">', (string) $el );
+Assert::same( 'image.gif', $el->getSrc() );
+Assert::null( $el->getTitle() );
+Assert::same( 'alt2', $el->getAlt() );
+
 $el->addAlt('alt3');
-T::dump( (string) $el );
+Assert::same( '<img src="image.gif" alt="alt2 alt3">', (string) $el );
+
 
 $el->style = 'float:left';
 $el->class = 'three';
@@ -46,63 +51,20 @@ $el->checked = TRUE;
 $el->selected = FALSE;
 $el->name = 'testname';
 $el->setName('span');
-T::dump( (string) $el );
+Assert::same( '<span src="image.gif" alt="alt2 alt3" style="float:left" class="three" lang="" title="0" checked name="testname"></span>', (string) $el );
 
 // setText vs. setHtml
-T::dump( (string) Html::el('p')->setText('Hello &ndash; World'), 'setText' );
-T::dump( (string) Html::el('p')->setHtml('Hello &ndash; World'), 'setHtml' );
+Assert::same( '<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->setText('Hello &ndash; World'), 'setText' );
+Assert::same( '<p>Hello &ndash; World</p>', (string) Html::el('p')->setHtml('Hello &ndash; World'), 'setHtml' );
 
 // getText vs. getHtml
 $el = Html::el('p')->setHtml('Hello &ndash; World');
 $el->create('a')->setText('link');
-T::dump( (string) $el, 'getHtml' );
-T::dump( $el->getText(), 'getText' );
+Assert::same( '<p>Hello &ndash; World<a>link</a></p>', (string) $el, 'getHtml' );
+Assert::same( 'Hello – Worldlink', $el->getText(), 'getText' );
 
 // email obfuscate
-T::dump( (string) Html::el('a')->href('mailto:dave@example.com'), 'mailto' );
+Assert::same( '<a href="mailto:dave&#64;example.com"></a>', (string) Html::el('a')->href('mailto:dave@example.com'), 'mailto' );
 
 // href with query
-T::dump( (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-"<img src="image.gif" alt="" />"
-
-"<img src="image.gif" alt="" />"
-
-""
-
-"<img src="image.gif" alt="" />"
-
-"<img src="image.gif" alt="" />"
-
-""
-
-"<img src="image.gif" alt="">"
-
-"<img src="image.gif" alt="alt2">"
-
-"image.gif"
-
-NULL
-
-"alt2"
-
-"<img src="image.gif" alt="alt2 alt3">"
-
-"<span src="image.gif" alt="alt2 alt3" style="float:left" class="three" lang="" title="0" checked name="testname"></span>"
-
-setText: "<p>Hello &amp;ndash; World</p>"
-
-setHtml: "<p>Hello &ndash; World</p>"
-
-getHtml: "<p>Hello &ndash; World<a>link</a></p>"
-
-getText: "Hello – Worldlink"
-
-mailto: "<a href="mailto:dave&#64;example.com"></a>"
-
-href: "<a href="file.php?a=10"></a>"
+Assert::same( '<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );

@@ -24,35 +24,17 @@ $arr  = array(
 	7 => 'fourth'
 );
 
-T::dump( $arr );
-
-T::dump( ArrayTools::searchKey($arr, '1') );
-T::dump( ArrayTools::searchKey($arr, 1) );
-T::dump( ArrayTools::searchKey($arr, 0) );
-T::dump( ArrayTools::searchKey($arr, NULL) );
-T::dump( ArrayTools::searchKey($arr, '') );
-T::dump( ArrayTools::searchKey($arr, 'undefined') );
+Assert::same( array(
+	'' => 'first',
+	0 => 'second',
+	1 => 'third',
+	7 => 'fourth',
+), $arr );
 
 
-
-__halt_compiler() ?>
-
-------EXPECT------
-array(
-	"" => "first"
-	0 => "second"
-	1 => "third"
-	7 => "fourth"
-)
-
-2
-
-2
-
-1
-
-0
-
-0
-
-FALSE
+Assert::same( 2, ArrayTools::searchKey($arr, '1') );
+Assert::same( 2, ArrayTools::searchKey($arr, 1) );
+Assert::same( 1, ArrayTools::searchKey($arr, 0) );
+Assert::same( 0, ArrayTools::searchKey($arr, NULL) );
+Assert::same( 0, ArrayTools::searchKey($arr, '') );
+Assert::false( ArrayTools::searchKey($arr, 'undefined') );

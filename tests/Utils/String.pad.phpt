@@ -17,58 +17,22 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::dump( String::padLeft("\xc5\xbdLU", 10, "\xc5\xa4OU") ); // ŽLU - ŤOU
-T::dump( String::padLeft("\xc5\xbdLU", 9, "\xc5\xa4OU") );
-T::dump( String::padLeft("\xc5\xbdLU", 3, "\xc5\xa4OU") );
-T::dump( String::padLeft("\xc5\xbdLU", 0, "\xc5\xa4OU") );
-T::dump( String::padLeft("\xc5\xbdLU", -1, "\xc5\xa4OU") );
-T::dump( String::padLeft("\xc5\xbdLU", 10, "\xc5\xa4") );
-T::dump( String::padLeft("\xc5\xbdLU", 3, "\xc5\xa4") );
-T::dump( String::padLeft("\xc5\xbdLU", 10) );
-
-
-T::dump( String::padRight("\xc5\xbdLU", 10, "\xc5\xa4OU") );
-T::dump( String::padRight("\xc5\xbdLU", 9, "\xc5\xa4OU") );
-T::dump( String::padRight("\xc5\xbdLU", 3, "\xc5\xa4OU") );
-T::dump( String::padRight("\xc5\xbdLU", 0, "\xc5\xa4OU") );
-T::dump( String::padRight("\xc5\xbdLU", -1, "\xc5\xa4OU") );
-T::dump( String::padRight("\xc5\xbdLU", 10, "\xc5\xa4") );
-T::dump( String::padRight("\xc5\xbdLU", 3, "\xc5\xa4") );
-T::dump( String::padRight("\xc5\xbdLU", 10) );
+Assert::same( "ŤOUŤOUŤŽLU", String::padLeft("\xc5\xbdLU", 10, "\xc5\xa4OU") );
+Assert::same( "ŤOUŤOUŽLU", String::padLeft("\xc5\xbdLU", 9, "\xc5\xa4OU") );
+Assert::same( "ŽLU", String::padLeft("\xc5\xbdLU", 3, "\xc5\xa4OU") );
+Assert::same( "ŽLU", String::padLeft("\xc5\xbdLU", 0, "\xc5\xa4OU") );
+Assert::same( "ŽLU", String::padLeft("\xc5\xbdLU", -1, "\xc5\xa4OU") );
+Assert::same( "ŤŤŤŤŤŤŤŽLU", String::padLeft("\xc5\xbdLU", 10, "\xc5\xa4") );
+Assert::same( "ŽLU", String::padLeft("\xc5\xbdLU", 3, "\xc5\xa4") );
+Assert::same( "       ŽLU", String::padLeft("\xc5\xbdLU", 10) );
 
 
 
-__halt_compiler() ?>
-
-------EXPECT------
-"ŤOUŤOUŤŽLU"
-
-"ŤOUŤOUŽLU"
-
-"ŽLU"
-
-"ŽLU"
-
-"ŽLU"
-
-"ŤŤŤŤŤŤŤŽLU"
-
-"ŽLU"
-
-"       ŽLU"
-
-"ŽLUŤOUŤOUŤ"
-
-"ŽLUŤOUŤOU"
-
-"ŽLU"
-
-"ŽLU"
-
-"ŽLU"
-
-"ŽLUŤŤŤŤŤŤŤ"
-
-"ŽLU"
-
-"ŽLU       "
+Assert::same( "ŽLUŤOUŤOUŤ", String::padRight("\xc5\xbdLU", 10, "\xc5\xa4OU") );
+Assert::same( "ŽLUŤOUŤOU", String::padRight("\xc5\xbdLU", 9, "\xc5\xa4OU") );
+Assert::same( "ŽLU", String::padRight("\xc5\xbdLU", 3, "\xc5\xa4OU") );
+Assert::same( "ŽLU", String::padRight("\xc5\xbdLU", 0, "\xc5\xa4OU") );
+Assert::same( "ŽLU", String::padRight("\xc5\xbdLU", -1, "\xc5\xa4OU") );
+Assert::same( "ŽLUŤŤŤŤŤŤŤ", String::padRight("\xc5\xbdLU", 10, "\xc5\xa4") );
+Assert::same( "ŽLU", String::padRight("\xc5\xbdLU", 3, "\xc5\xa4") );
+Assert::same( "ŽLU       ", String::padRight("\xc5\xbdLU", 10) );

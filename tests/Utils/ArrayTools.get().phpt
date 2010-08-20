@@ -25,50 +25,25 @@ $arr  = array(
 	),
 );
 
-T::note('Single item');
+// Single item
 
-T::dump( ArrayTools::get($arr, NULL) );
-
-T::dump( ArrayTools::get($arr, 1) );
-
-T::dump( ArrayTools::get($arr, 1, 'x') );
-
-T::dump( ArrayTools::get($arr, 'undefined', 'x') );
-
-T::dump( ArrayTools::get($arr, 'undefined') );
-
-
-T::note('Traversing');
-
-T::dump( ArrayTools::get($arr, array()) );
-
-T::dump( ArrayTools::get($arr, array(7, 'item')) );
+Assert::same( 'first', ArrayTools::get($arr, NULL) );
+Assert::same( 'second', ArrayTools::get($arr, 1) );
+Assert::same( 'second', ArrayTools::get($arr, 1, 'x') );
+Assert::same( 'x', ArrayTools::get($arr, 'undefined', 'x') );
+Assert::null( ArrayTools::get($arr, 'undefined') );
 
 
 
-__halt_compiler() ?>
+// Traversing
 
-------EXPECT------
-Single item
-
-"first"
-
-"second"
-
-"second"
-
-"x"
-
-NULL
-
-Traversing
-
-array(
-	"" => "first"
-	1 => "second"
+Assert::same( array(
+	'' => 'first',
+	1 => 'second',
 	7 => array(
-		"item" => "third"
-	)
-)
+		'item' => 'third',
+	),
+), ArrayTools::get($arr, array()) );
 
-"third"
+
+Assert::same( 'third', ArrayTools::get($arr, array(7, 'item')) );

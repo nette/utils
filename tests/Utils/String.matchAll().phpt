@@ -17,57 +17,25 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::dump( String::matchAll('hello world!', '#([E-L])+#') );
-T::dump( String::matchAll('hello world!', '#([e-l])+#') );
-T::dump( String::matchAll('hello world!', '#[e-l]+#') );
-T::dump( String::matchAll('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
-T::dump( String::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2) );
+Assert::same( array(), String::matchAll('hello world!', '#([E-L])+#') );
 
+Assert::same( array(
+	array('hell', 'l'),
+	array('l', 'l'),
+), String::matchAll('hello world!', '#([e-l])+#') );
 
+Assert::same( array(
+	array('hell'),
+	array('l'),
+), String::matchAll('hello world!', '#[e-l]+#') );
 
-__halt_compiler();
-
-------EXPECT------
-array()
-
-array(
+Assert::same( array(
 	array(
-		"hell"
-		"l"
-	)
+		array('hell', 0),
+	),
 	array(
-		"l"
-		"l"
-	)
-)
+		array('l', 9),
+	),
+), String::matchAll('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
 
-array(
-	array(
-		"hell"
-	)
-	array(
-		"l"
-	)
-)
-
-array(
-	array(
-		array(
-			"hell"
-			0
-		)
-	)
-	array(
-		array(
-			"l"
-			9
-		)
-	)
-)
-
-array(
-	array(
-		"ll"
-		"l"
-	)
-)
+Assert::same( array(array('ll',	'l')), String::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2) );

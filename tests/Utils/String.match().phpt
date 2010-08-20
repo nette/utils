@@ -17,35 +17,12 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::dump( String::match('hello world!', '#([E-L])+#') );
-T::dump( String::match('hello world!', '#([e-l])+#') );
-T::dump( String::match('hello world!', '#[e-l]+#') );
-T::dump( String::match('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
-T::dump( String::match('hello world!', '#[e-l]+#', NULL, 2) );
+Assert::null( String::match('hello world!', '#([E-L])+#') );
 
+Assert::same( array('hell',	'l'), String::match('hello world!', '#([e-l])+#') );
 
+Assert::same( array('hell'), String::match('hello world!', '#[e-l]+#') );
 
-__halt_compiler();
+Assert::same( array(array('hell', 0)), String::match('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
 
-------EXPECT------
-NULL
-
-array(
-	"hell"
-	"l"
-)
-
-array(
-	"hell"
-)
-
-array(
-	array(
-		"hell"
-		0
-	)
-)
-
-array(
-	"ll"
-)
+Assert::same( array('ll'), String::match('hello world!', '#[e-l]+#', NULL, 2) );

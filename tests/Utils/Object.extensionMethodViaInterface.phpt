@@ -38,11 +38,4 @@ ClassReflection::from('IFirst')->setExtensionMethod('join', 'IFirst_join');
 ClassReflection::from('ISecond')->setExtensionMethod('join', 'ISecond_join');
 
 $obj = new TestClass('Hello', 'World');
-T::dump( $obj->join('*') );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-"ISecond_join says Hello*World"
+Assert::same( 'ISecond_join says Hello*World', $obj->join('*') );

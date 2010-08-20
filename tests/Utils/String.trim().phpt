@@ -17,20 +17,14 @@ require __DIR__ . '/../initialize.php';
 
 
 
-Assert::same( "x",  String::trim(" \t\n\r\x00\x0B\xC2\xA0x") );
-Assert::same( "a b",  String::trim(" a b ") );
-Assert::same( " a b ",  String::trim(" a b ", '') );
-Assert::same( "e",  String::trim("\xc5\x98e-", "\xc5\x98-") ); // Ře-
+Assert::same( 'x',  String::trim(" \t\n\r\x00\x0B\xC2\xA0x") );
+Assert::same( 'a b',  String::trim(' a b ') );
+Assert::same( ' a b ',  String::trim(' a b ', '') );
+Assert::same( 'e',  String::trim("\xc5\x98e-", "\xc5\x98-") ); // Ře-
 
 try {
 	String::trim("\xC2x\xA0");
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump($e);
+	Assert::exception('Nette\RegexpException', NULL, $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: %A%)

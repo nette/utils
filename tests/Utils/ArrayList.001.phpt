@@ -31,7 +31,7 @@ class Person
 
 	public function sayHi()
 	{
-		T::note("My name is $this->name");
+		return "My name is $this->name";
 	}
 
 
@@ -50,81 +50,49 @@ $mary = new Person('Mary');
 
 
 
-T::note("Adding Mary");
+// Adding Mary
 $list[] = $mary;
 
-T::note("Adding Jack");
+// Adding Jack
 $list[] = $jack;
 
 
 
-T::dump( $list->count(), 'count:' );
-T::dump( count($list) );
+Assert::same( 2, $list->count(), 'count:' );
 
-
-T::dump( iterator_to_array($list) );
+Assert::same( 2, count($list) );
 
 
 
-T::note("Get Interator:");
+Assert::equal( array(
+	new Person('Mary'),
+	new Person('Jack'),
+), iterator_to_array($list) );
+
+
+
+
+// Get Interator:
 foreach ($list as $key => $person) {
-	echo $key, ' => ', $person->sayHi();
+	$tmp[] = $key . ' => ' . $person->sayHi();
 }
+Assert::same( array(
+	'0 => My name is Mary',
+	'1 => My name is Jack',
+), $tmp );
+
 
 
 
 try {
-	T::note("unset -1");
+	// unset -1
 	unset($list[-1]);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('OutOfRangeException', 'Offset invalid or out of range', $e );
 }
 
-try {
-	T::note("unset 1");
-	unset($list[1]);
-} catch (Exception $e) {
-	T::dump( $e );
-}
-
-T::dump( iterator_to_array($list) );
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-Adding Mary
-
-Adding Jack
-
-count: 2
-
-2
-
-array(
-	Person(
-		"name" private => "Mary"
-	)
-	Person(
-		"name" private => "Jack"
-	)
-)
-
-Get Interator:
-
-0 => My name is Mary
-
-1 => My name is Jack
-
-unset -1
-
-Exception OutOfRangeException: Offset invalid or out of range
-
-unset 1
-
-array(
-	Person(
-		"name" private => "Mary"
-	)
-)
+unset($list[1]);
+Assert::equal( array(
+	new Person('Mary'),
+), iterator_to_array($list) );

@@ -19,23 +19,15 @@ require __DIR__ . '/../initialize.php';
 
 try {
 	ArrayTools::grep(array('a', '1', 'c'), '#*#');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\RegexpException', 'preg_grep(): Compilation failed: nothing to repeat at offset 0 in pattern: #*#', $e );
 }
 
 
 try {
 	ArrayTools::grep(array('a', "1\xFF", 'c'), '#\d#u');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\RegexpException', 'Malformed UTF-8 data (pattern: #\d#u)', $e );
 }
-
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception %ns%RegexpException: preg_grep(): Compilation failed: nothing to repeat at offset 0 in pattern: #*#
-
-Exception %ns%RegexpException: #4 Malformed UTF-8 data (pattern: #\d#u)

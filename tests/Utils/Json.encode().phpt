@@ -17,14 +17,16 @@ require __DIR__ . '/../initialize.php';
 
 
 
-T::dump( Json::encode('ok') );
+Assert::same( '"ok"', Json::encode('ok') );
+
 
 
 
 try {
-	T::dump( Json::encode(array("bad utf\xFF")) );
+	Json::encode(array("bad utf\xFF"));
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\JsonException', 'json_encode(): Invalid UTF-8 sequence in argument', $e );
 }
 
 
@@ -32,18 +34,8 @@ try {
 try {
 	$arr = array('recursive');
 	$arr[] = & $arr;
-	T::dump( Json::encode($arr) );
+	Json::encode($arr);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	T::dump( $e );
+	Assert::exception('Nette\JsonException', 'json_encode(): recursion detected', $e );
 }
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
-""ok""
-
-Exception %ns%JsonException: json_encode(): Invalid UTF-8 sequence in argument
-
-Exception %ns%JsonException: json_encode(): recursion detected
