@@ -20,7 +20,7 @@ require __DIR__ . '/Object.inc';
 
 
 if (NETTE_PACKAGE === '5.3') {
-	T::skip('Requires Nette Framework package < PHP 5.3');
+	TestHelpers::skip('Requires Nette Framework package < PHP 5.3');
 }
 
 

@@ -18,7 +18,7 @@ require __DIR__ . '/../initialize.php';
 
 
 if (GD_BUNDLED === 0) {
-	T::skip('Requires PHP extension GD in bundled version.');
+	TestHelpers::skip('Requires PHP extension GD in bundled version.');
 }
 
 
