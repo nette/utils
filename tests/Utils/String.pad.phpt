@@ -4,7 +4,6 @@
  * Test: Nette\String::padLeft() & padRight()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

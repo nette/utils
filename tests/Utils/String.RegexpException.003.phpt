@@ -4,7 +4,6 @@
  * Test: Nette\String and RegexpException compile error.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

@@ -4,7 +4,6 @@
  * Test: Nette\Object extension method old way.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

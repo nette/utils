@@ -4,7 +4,6 @@
  * Test: Nette\Object properties.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

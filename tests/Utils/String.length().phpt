@@ -4,7 +4,6 @@
  * Test: Nette\String::length()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

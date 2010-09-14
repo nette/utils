@@ -4,7 +4,6 @@
  * Test: Nette\Paginator ItemCount:0 test.
  *
  * @author     Petr Procházka
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

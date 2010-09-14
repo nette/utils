@@ -4,7 +4,6 @@
  * Test: Nette\Object event handlers.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

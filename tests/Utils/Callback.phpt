@@ -4,7 +4,6 @@
  * Test: Nette\Callback tests.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

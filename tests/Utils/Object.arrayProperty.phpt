@@ -4,7 +4,6 @@
  * Test: Nette\Object array property.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

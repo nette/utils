@@ -4,7 +4,6 @@
  * Test: Nette\String::trim()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

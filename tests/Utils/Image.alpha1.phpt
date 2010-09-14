@@ -4,7 +4,6 @@
  * Test: Nette\Image alpha channel.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

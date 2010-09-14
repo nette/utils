@@ -4,7 +4,6 @@
  * Test: Nette\Object undeclared method.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

@@ -4,7 +4,6 @@
  * Test: Nette\String::split()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

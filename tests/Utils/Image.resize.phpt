@@ -4,7 +4,6 @@
  * Test: Nette\Image crop, resize & flip.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

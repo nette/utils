@@ -4,7 +4,6 @@
  * Test: Nette\Json::decode()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

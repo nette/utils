@@ -4,7 +4,6 @@
  * Test: Nette\SmartCachingIterator basic usage.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

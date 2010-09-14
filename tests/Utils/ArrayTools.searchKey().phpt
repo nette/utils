@@ -4,7 +4,6 @@
  * Test: Nette\ArrayTools::searchKey()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

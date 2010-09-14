@@ -4,7 +4,6 @@
  * Test: Nette\Paginator Base:0 Page:3 test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

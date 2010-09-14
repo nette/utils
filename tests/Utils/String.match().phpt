@@ -4,7 +4,6 @@
  * Test: Nette\String::match()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

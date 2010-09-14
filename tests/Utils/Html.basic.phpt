@@ -4,7 +4,6 @@
  * Test: Nette\Web\Html basic usage.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */

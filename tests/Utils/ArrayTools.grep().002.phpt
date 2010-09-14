@@ -4,7 +4,6 @@
  * Test: Nette\ArrayTools::grep() errors.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

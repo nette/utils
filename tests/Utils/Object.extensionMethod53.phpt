@@ -4,7 +4,6 @@
  * Test: Nette\Object extension method 5.3
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  * @phpversion 5.3

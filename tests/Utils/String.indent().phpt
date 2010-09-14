@@ -4,7 +4,6 @@
  * Test: Nette\String::indent()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */

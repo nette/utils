@@ -4,7 +4,6 @@
  * Test: Nette\Object reference to property.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */
