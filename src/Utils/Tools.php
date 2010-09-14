@@ -102,33 +102,6 @@ final class Tools
 
 
 	/**
-	 * Recursive glob(). Finds pathnames matching a pattern.
-	 * @param  string
-	 * @param  int
-	 * @return array
-	 */
-	public static function glob($pattern, $flags = 0)
-	{
-		// TODO: replace by RecursiveDirectoryIterator
-		$files = glob($pattern, $flags);
-		if (!is_array($files)) {
-			$files = array();
-		}
-
-		$dirs = glob(dirname($pattern) . '/*', $flags | GLOB_ONLYDIR);
-		if (is_array($dirs)) {
-			$mask = basename($pattern);
-			foreach ($dirs as $dir) {
-				$files = array_merge($files, self::glob($dir . '/' . $mask, $flags));
-			}
-		}
-
-		return $files;
-	}
-
-
-
-	/**
 	 * Compares two values.
 	 * @param  mixed
 	 * @param  mixed
