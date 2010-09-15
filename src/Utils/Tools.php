@@ -139,7 +139,7 @@ final class Tools
 			throw new \FileNotFoundException("File '$file' not found.");
 		}
 
-		$info = getimagesize($file);
+		$info = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
 		if (isset($info['mime'])) {
 			return $info['mime'];
 
