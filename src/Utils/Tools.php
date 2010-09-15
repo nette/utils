@@ -129,6 +129,36 @@ final class Tools
 
 
 	/**
+	 * Compares two values.
+	 * @param  mixed
+	 * @param  mixed
+	 * @return bool
+	 */
+	public static function compare($l, $operator, $r)
+	{
+		switch ($operator) {
+		case '>':
+			return $l > $r;
+		case '>=':
+			return $l >= $r;
+		case '<':
+			return $l < $r;
+		case '<=':
+			return $l <= $r;
+		case '=':
+		case '==':
+			return $l = $r;
+		case '!':
+		case '!=':
+		case '<>':
+			return $l != $r;
+		}
+		throw new \InvalidArgumentException("Unknown operator $operator.");
+	}
+
+
+
+	/**
 	 * Returns the MIME content type of file.
 	 * @param  string
 	 * @return string
