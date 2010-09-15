@@ -120,7 +120,7 @@ final class Tools
 			return $l <= $r;
 		case '=':
 		case '==':
-			return $l = $r;
+			return $l == $r;
 		case '!':
 		case '!=':
 		case '<>':
