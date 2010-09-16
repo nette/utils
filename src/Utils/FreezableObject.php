@@ -16,13 +16,13 @@ use Nette;
 
 
 /**
- * Defines an object that has a modifiable state and a read-only (frozen) state.
+ * Defines an object that has a modifiable and a read-only (frozen) state.
  *
  * @author     David Grudl
  *
  * @property-read bool $frozen
  */
-abstract class FreezableObject extends Object
+abstract class FreezableObject extends Object implements IFreezable
 {
 	/** @var bool */
 	private $frozen = FALSE;
