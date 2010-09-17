@@ -12,7 +12,7 @@ use Nette\Object;
 
 
 
-require __DIR__ . '/../initialize.php';
+require __DIR__ . '/../bootstrap.php';
 
 require __DIR__ . '/Object.inc';
 

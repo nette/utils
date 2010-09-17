@@ -12,7 +12,7 @@ use Nette\Image;
 
 
 
-require __DIR__ . '/../initialize.php';
+require __DIR__ . '/../bootstrap.php';
 
 ob_start();
 

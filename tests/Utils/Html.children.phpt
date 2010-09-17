@@ -12,7 +12,7 @@ use Nette\Web\Html;
 
 
 
-require __DIR__ . '/../initialize.php';
+require __DIR__ . '/../bootstrap.php';
 
 
 
