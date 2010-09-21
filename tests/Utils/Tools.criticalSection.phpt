@@ -16,24 +16,25 @@ require __DIR__ . '/../bootstrap.php';
 
 
 
-$key = '../' . implode('', range("\x00", "\x1F"));
-
-// temporary directory
-define('TEMP_DIR', __DIR__ . '/tmp');
-Nette\Environment::setVariable('tempDir', TEMP_DIR);
-TestHelpers::purge(TEMP_DIR);
-
-
 // entering
-Tools::enterCriticalSection($key);
+Tools::enterCriticalSection();
 
 // leaving
-Tools::leaveCriticalSection($key);
+Tools::leaveCriticalSection();
 
 try {
 	// leaving not entered
-	Tools::leaveCriticalSection('notEntered');
+	Tools::leaveCriticalSection();
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
 	Assert::exception('InvalidStateException', 'Critical section has not been initialized.', $e );
+}
+
+try {
+	// doubled entering
+	Tools::enterCriticalSection();
+	Tools::enterCriticalSection();
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('InvalidStateException', 'Critical section has been already entered.', $e );
 }
