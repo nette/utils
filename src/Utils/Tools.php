@@ -172,7 +172,7 @@ final class Tools
 	public static function enterCriticalSection()
 	{
 		if (self::$criticalSections) {
-			throw new \InvalidStateException('Critical section has been already entered.');
+			throw new \InvalidStateException('Critical section has already been entered.');
 		}
 		$handle = fopen((defined('TEMP_DIR') ? TEMP_DIR : __DIR__) . '/criticalSection.lock', 'w');
 		if (!$handle) {

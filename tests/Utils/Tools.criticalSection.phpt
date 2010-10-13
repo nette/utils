@@ -36,5 +36,5 @@ try {
 	Tools::enterCriticalSection();
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('InvalidStateException', 'Critical section has been already entered.', $e );
+	Assert::exception('InvalidStateException', 'Critical section has already been entered.', $e );
 }
