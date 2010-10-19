@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 ob_start();
 
-$image = Image::fromBlank(rand(100, 200), 100, Image::rgb(255, 128, 0, 60));
+$image = Image::fromBlank(200, 100, Image::rgb(255, 128, 0, 60));
 $image->crop(0, 0, '60%', '60%');
 $image->savealpha(TRUE);
 $image->send(Image::PNG, 100);

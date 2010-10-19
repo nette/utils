@@ -360,20 +360,24 @@ class Image extends Object
 	 * Crops image.
 	 * @param  mixed  x-offset in pixels or percent
 	 * @param  mixed  y-offset in pixels or percent
-	 * @param  int    width
-	 * @param  int    height
+	 * @param  mixed  width in pixels or percent
+	 * @param  mixed  height in pixels or percent
 	 * @return Image  provides a fluent interface
 	 */
 	public function crop($left, $top, $width, $height)
 	{
+		if (substr($width, -1) === '%') {
+			$width = round($this->getWidth() / 100 * $width);
+		}
+		if (substr($height, -1) === '%') {
+			$height = round($this->getHeight() / 100 * $height);
+		}
 		if (substr($left, -1) === '%') {
 			$left = round(($this->getWidth() - $width) / 100 * $left);
 		}
-
 		if (substr($top, -1) === '%') {
 			$top = round(($this->getHeight() - $height) / 100 * $top);
 		}
-
 		if ($left < 0) {
 			$width += $left; $left = 0;
 		}
