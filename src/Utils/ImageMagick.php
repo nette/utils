@@ -136,10 +136,10 @@ class ImageMagick extends Image
 
 	/**
 	 * Crops image.
-	 * @param  int  x-coordinate
-	 * @param  int  y-coordinate
-	 * @param  int  width
-	 * @param  int  height
+	 * @param  mixed  x-offset in pixels or percent
+	 * @param  mixed  y-offset in pixels or percent
+	 * @param  mixed  width in pixels or percent
+	 * @param  mixed  height in pixels or percent
 	 * @return ImageMagick  provides a fluent interface
 	 */
 	public function crop($left, $top, $width, $height)
@@ -148,10 +148,7 @@ class ImageMagick extends Image
 			return parent::crop($left, $top, $width, $height);
 		}
 
-		$left = max(0, (int) $left);
-		$top = max(0, (int) $top);
-		$width = min((int) $width, $this->getWidth() - $left);
-		$height = min((int) $height, $this->getHeight() - $top);
+		list($left, $top, $width, $height) = self::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
 		$this->execute("convert -crop {$width}x{$height}+{$left}+{$top} -strip %input %output", self::PNG);
 		return $this;
 	}

@@ -366,31 +366,48 @@ class Image extends Object
 	 */
 	public function crop($left, $top, $width, $height)
 	{
-		if (substr($width, -1) === '%') {
-			$width = round($this->getWidth() / 100 * $width);
-		}
-		if (substr($height, -1) === '%') {
-			$height = round($this->getHeight() / 100 * $height);
-		}
-		if (substr($left, -1) === '%') {
-			$left = round(($this->getWidth() - $width) / 100 * $left);
-		}
-		if (substr($top, -1) === '%') {
-			$top = round(($this->getHeight() - $height) / 100 * $top);
-		}
-		if ($left < 0) {
-			$width += $left; $left = 0;
-		}
-		if ($top < 0) {
-			$height += $top; $top = 0;
-		}
-		$width = min((int) $width, $this->getWidth() - $left);
-		$height = min((int) $height, $this->getHeight() - $top);
-
+		list($left, $top, $width, $height) = self::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
 		$newImage = self::fromBlank($width, $height, self::RGB(0, 0, 0, 127))->getImageResource();
 		imagecopy($newImage, $this->getImageResource(), 0, 0, $left, $top, $width, $height);
 		$this->image = $newImage;
 		return $this;
+	}
+
+
+
+	/**
+	 * Calculates dimensions of cutout in image.
+	 * @param  mixed  source width
+	 * @param  mixed  source height
+	 * @param  mixed  x-offset in pixels or percent
+	 * @param  mixed  y-offset in pixels or percent
+	 * @param  mixed  width in pixels or percent
+	 * @param  mixed  height in pixels or percent
+	 * @return array
+	 */
+	public static function calculateCutout($srcWidth, $srcHeight, $left, $top, $newWidth, $newHeight)
+	{
+		if (substr($newWidth, -1) === '%') {
+			$newWidth = round($srcWidth / 100 * $newWidth);
+		}
+		if (substr($newHeight, -1) === '%') {
+			$newHeight = round($srcHeight / 100 * $newHeight);
+		}
+		if (substr($left, -1) === '%') {
+			$left = round(($srcWidth - $newWidth) / 100 * $left);
+		}
+		if (substr($top, -1) === '%') {
+			$top = round(($srcHeight - $newHeight) / 100 * $top);
+		}
+		if ($left < 0) {
+			$newWidth += $left; $left = 0;
+		}
+		if ($top < 0) {
+			$newHeight += $top; $top = 0;
+		}
+		$newWidth = min((int) $newWidth, $srcWidth - $left);
+		$newHeight = min((int) $newHeight, $srcHeight - $top);
+		return array($left, $top, $newWidth, $newHeight);
 	}
 
 
