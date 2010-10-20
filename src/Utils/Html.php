@@ -185,7 +185,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 		} elseif (count($args) === 1) { // set
 			$this->attrs[$m] = $args[0];
 
-		} elseif ($args[0] == NULL) { // intentionally ==
+		} elseif ((string) $args[0] === '') {
 			$tmp = & $this->attrs[$m]; // appending empty value? -> ignore, but ensure it exists
 
 		} elseif (!isset($this->attrs[$m]) || is_array($this->attrs[$m])) { // needs array
@@ -554,7 +554,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 					if ($v == NULL) continue; // intentionally ==
 
 					//  composite 'style' vs. 'others'
-					$tmp[] = is_string($k) ? ($v === TRUE ? $k : $k . ':' . $v) : $v;
+					$tmp[] = $v === TRUE ? $k : (is_string($k) ? $k . ':' . $v : $v);
 				}
 				if ($tmp === NULL) continue;
 

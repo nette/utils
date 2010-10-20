@@ -22,6 +22,12 @@ Assert::same( '<img src="image.gif" alt="" />', $el->startTag() );
 Assert::same( '', $el->endTag() );
 
 
+$el = Html::el('img')->accesskey(0, TRUE)->alt('alt', FALSE);
+Assert::same( '<img accesskey="0" />', (string) $el );
+Assert::same( '<img accesskey="0 1" />', (string) $el->accesskey(1, TRUE) );
+Assert::same( '<img accesskey="0" />', (string) $el->accesskey(0) );
+
+
 $el = Html::el('img')->src('image.gif')->alt('')->setText(NULL)->setText('any content');
 Assert::same( '<img src="image.gif" alt="" />', (string) $el );
 Assert::same( '<img src="image.gif" alt="" />', $el->startTag() );
