@@ -179,7 +179,7 @@ final class String
 			if ($maxLen < 1) {
 				return $append;
 
-			} elseif ($matches = self::match($s, '#^.{1,'.$maxLen.'}(?=[\s\x00-@\[-`{-~])#us')) {
+			} elseif ($matches = self::match($s, '#^.{1,'.$maxLen.'}(?=[\s\x00-/:-@\[-`{-~])#us')) {
 				return $matches[0] . $append;
 
 			} else {
