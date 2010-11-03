@@ -411,8 +411,8 @@ final class String
 	/** @internal */
 	public static function catchPregError($pattern)
 	{
-		if (Debug::catchError($message)) { // compile error
-			throw new RegexpException("$message in pattern: $pattern");
+		if (Debug::catchError($e)) { // compile error
+			throw new RegexpException($e->getMessage() . " in pattern: $pattern");
 
 		} elseif (preg_last_error()) { // run-time error
 			static $messages = array(

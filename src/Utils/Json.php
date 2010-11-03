@@ -59,8 +59,8 @@ final class Json
 		} else {
 			$json = json_encode($value);
 		}
-		if (Debug::catchError($message)) { // needed to receive 'recursion detected' error
-			throw new JsonException($message);
+		if (Debug::catchError($e)) { // needed to receive 'recursion detected' error
+			throw new JsonException($e->getMessage());
 		}
 		return $json;
 	}
