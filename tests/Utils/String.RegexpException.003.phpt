@@ -43,3 +43,12 @@ try {
 } catch (Exception $e) {
 	Assert::exception('Nette\RegexpException', 'preg_replace(): Compilation failed: nothing to repeat at offset 0 in pattern: #*#', $e );
 }
+
+function cb() { return 'x'; }
+
+try {
+	String::replace('0123456789', '#*#', callback('cb'));
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('Nette\RegexpException', 'preg_replace_callback(): Compilation failed: nothing to repeat at offset 0 in pattern: #*#', $e );
+}

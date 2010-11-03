@@ -387,14 +387,21 @@ final class String
 	{
 		Debug::tryError();
 		if (is_object($replacement) || is_array($replacement)) {
-			/*5.2*if ($replacement instanceof Callback) {
+			if ($replacement instanceof Callback) {
 				$replacement = $replacement->getNative();
-			}*/
+			}
 			if (!is_callable($replacement, FALSE, $textual)) {
 				Debug::catchError($foo);
 				throw new \InvalidStateException("Callback '$textual' is not callable.");
 			}
 			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
+
+			if (Debug::catchError($e)) { // compile error
+				$trace = $e->getTrace();
+				if (isset($trace[2]['class']) && $trace[2]['class'] === __CLASS__) {
+					throw new RegexpException($e->getMessage() . " in pattern: $pattern");
+				}
+			}
 
 		} elseif (is_array($pattern)) {
 			$res = preg_replace(array_keys($pattern), array_values($pattern), $subject, $limit);

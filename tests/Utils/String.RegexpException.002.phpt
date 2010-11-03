@@ -43,3 +43,12 @@ try {
 } catch (Exception $e) {
 	Assert::exception('Nette\RegexpException', 'Malformed UTF-8 data (pattern: #\d#u)', $e );
 }
+
+function cb() { return 'x'; }
+
+try {
+	String::replace("0123456789\xFF", '#\d#u', callback('cb'));
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('Nette\RegexpException', 'Malformed UTF-8 data (pattern: #\d#u)', $e );
+}

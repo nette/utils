@@ -45,3 +45,12 @@ try {
 } catch (Exception $e) {
 	Assert::exception( 'Nette\RegexpException', 'Backtrack limit was exhausted (pattern: #.*\d#)', $e );
 }
+
+function cb() { return 'x'; }
+
+try {
+	String::replace('0123456789', '#.*\d#', callback('cb'));
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception( 'Nette\RegexpException', 'Backtrack limit was exhausted (pattern: #.*\d#)', $e );
+}
