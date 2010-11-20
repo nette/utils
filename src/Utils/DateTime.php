@@ -45,7 +45,7 @@ class DateTime53 extends DateTime
 
 	public function setTimestamp($timestamp)
 	{
-		return $this->__construct(gmdate('Y-m-d H:i:s', $timestamp), new DateTimeZone($this->getTimezone()->getName())); // simply getTimezone() crashes in PHP 5.2.6
+		return $this->__construct(gmdate('Y-m-d H:i:s', $timestamp + $this->getOffset()), new DateTimeZone($this->getTimezone()->getName())); // simply getTimezone() crashes in PHP 5.2.6
 	}
 
 }
