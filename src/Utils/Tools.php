@@ -161,6 +161,32 @@ final class Tools
 
 
 
+	/**
+	 * Returns the MIME content type of file.
+	 * @param  string
+	 * @return string
+	 */
+	public static function detectMimeTypeFromString($data)
+	{
+		if (extension_loaded('fileinfo') && preg_match('#^(\S+/[^\s;]+)#', finfo_buffer(finfo_open(FILEINFO_MIME), $data), $m)) {
+			return $m[1];
+
+		} elseif (strncmp($data, "\xff\xd8", 2) === 0) {
+			return 'image/jpeg';
+
+		} elseif (strncmp($data, "\x89PNG", 4) === 0) {
+			return 'image/png';
+
+		} elseif (strncmp($data, "GIF", 3) === 0) {
+			return 'image/gif';
+
+		} else {
+			return 'application/octet-stream';
+		}
+	}
+
+
+
 	/********************* critical section ****************d*g**/
 
 
