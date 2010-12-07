@@ -218,6 +218,7 @@ final class Tools
 		if (!self::$criticalSections) {
 			throw new \InvalidStateException('Critical section has not been initialized.');
 		}
+		flock(self::$criticalSections, LOCK_UN);
 		fclose(self::$criticalSections);
 		self::$criticalSections = NULL;
 	}
