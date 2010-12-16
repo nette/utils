@@ -200,7 +200,7 @@ final class Tools
 		if (self::$criticalSections) {
 			throw new \InvalidStateException('Critical section has already been entered.');
 		}
-		$handle = fopen(NETTE_DIR . '/lockfile', 'r') ?: fopen(NETTE_DIR . '/lockfile', 'w');
+		$handle = @fopen(NETTE_DIR . '/lockfile', 'r') ?: fopen(NETTE_DIR . '/lockfile', 'w'); // @ - file may not already exist
 		if (!$handle) {
 			throw new \InvalidStateException("Unable initialize critical section (missing file '" . NETTE_DIR . "/lockfile').");
 		}
