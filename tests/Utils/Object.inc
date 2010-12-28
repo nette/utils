@@ -61,6 +61,13 @@ class TestClass extends Object implements ISecond
 
 
 
+	public function setBazz($value)
+	{
+		$this->bar = $value;
+	}
+
+
+
 	public function getItems()
 	{
 		return $this->items;

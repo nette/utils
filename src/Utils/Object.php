@@ -26,7 +26,7 @@ use Nette;
  *
  * Properties is a syntactic sugar which allows access public getter and setter
  * methods as normal object variables. A property is defined by a getter method
- * and optional setter method (no setter method means read-only property).
+ * or setter method (no setter method means read-only property).
  * <code>
  * $val = $obj->label;     // equivalent to $val = $obj->getLabel();
  * $obj->label = 'Nette';  // equivalent to $obj->setLabel('Nette');

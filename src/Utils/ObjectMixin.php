@@ -112,8 +112,9 @@ final class ObjectMixin
 			return $val;
 		}
 
+		$type = isset(self::$methods[$class]['set' . $name]) ? 'a write-only' : 'an undeclared';
 		$name = func_get_arg(1);
-		throw new \MemberAccessException("Cannot read an undeclared property $class::\$$name.");
+		throw new \MemberAccessException("Cannot read $type property $class::\$$name.");
 	}
 
 
@@ -139,20 +140,16 @@ final class ObjectMixin
 
 		// property setter support
 		$name[0] = $name[0] & "\xDF"; // case-sensitive checking, capitalize first character
-		if (isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name])) {
-			$m = 'set' . $name;
-			if (isset(self::$methods[$class][$m])) {
-				$_this->$m($value);
-				return;
 
-			} else {
-				$name = func_get_arg(1);
-				throw new \MemberAccessException("Cannot write to a read-only property $class::\$$name.");
-			}
+		$m = 'set' . $name;
+		if (isset(self::$methods[$class][$m])) {
+			$_this->$m($value);
+			return;
 		}
 
+		$type = isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name]) ? 'a read-only' : 'an undeclared';
 		$name = func_get_arg(1);
-		throw new \MemberAccessException("Cannot write to an undeclared property $class::\$$name.");
+		throw new \MemberAccessException("Cannot write to $type property $class::\$$name.");
 	}
 
 

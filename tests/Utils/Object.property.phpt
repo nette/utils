@@ -54,6 +54,7 @@ try {
 
 // Read-only property
 $obj = new TestClass('Hello', 'World');
+Assert::true( isset($obj->bar) );
 Assert::same( 'World', $obj->bar );
 
 try {
@@ -61,4 +62,19 @@ try {
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
 	Assert::exception('MemberAccessException', 'Cannot write to a read-only property TestClass::$bar.', $e );
+}
+
+
+
+// write-only property
+$obj = new TestClass;
+Assert::false( isset($obj->bazz) );
+$obj->bazz = 'World';
+Assert::same( 'World', $obj->bar );
+
+try {
+	$val = $obj->bazz;
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('MemberAccessException', 'Cannot read a write-only property TestClass::$bazz.', $e );
 }
