@@ -53,9 +53,6 @@ class Image extends Object
 
 	const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
-	/** @var bool */
-	public static $useImageMagick = FALSE;
-
 	/** @var resource */
 	private $image;
 
@@ -94,9 +91,6 @@ class Image extends Object
 		}
 
 		$info = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
-		if (self::$useImageMagick && (empty($info) || $info[0] * $info[1] > 9e5)) { // cca 1024x768
-			return new ImageMagick($file, $format);
-		}
 
 		switch ($format = $info[2]) {
 		case self::JPEG:
@@ -109,9 +103,6 @@ class Image extends Object
 			return new static(imagecreatefromgif($file));
 
 		default:
-			if (self::$useImageMagick) {
-				return new ImageMagick($file, $format);
-			}
 			throw new \Exception("Unknown image type or file '$file' not found.");
 		}
 	}
