@@ -321,6 +321,22 @@ final class String
 
 
 	/**
+	 * Generate random string.
+	 * @param  int     defaults to maximum length of 27 characters
+	 * @return string  consists of alphanumerical characters, + and /
+	 */
+	public static function random($length = NULL)
+	{
+		$return = rtrim(base64_encode(sha1(uniqid(rand(), true), true)), '=');
+		if (isset($length)) {
+			return substr($return, 0, $length);
+		}
+		return $return;
+	}
+
+
+
+	/**
 	 * Splits string by a regular expression.
 	 * @param  string
 	 * @param  string
