@@ -343,7 +343,7 @@ class Image extends Object
 			$newHeight = round($srcHeight * $scale);
 		}
 
-		return array((int) $newWidth, (int) $newHeight);
+		return array(max((int) $newWidth, 1), max((int) $newHeight, 1));
 	}
 
 
