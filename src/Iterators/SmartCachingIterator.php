@@ -42,7 +42,7 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 			if ($iterator instanceof \IteratorAggregate) {
 				$iterator = $iterator->getIterator();
 
-			} elseif (!($iterator instanceof \Iterator)) {
+			} elseif (!$iterator instanceof \Iterator) {
 				$iterator = new \IteratorIterator($iterator);
 			}
 
