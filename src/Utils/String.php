@@ -322,16 +322,28 @@ final class String
 
 	/**
 	 * Generate random string.
-	 * @param  int     defaults to maximum length of 27 characters
-	 * @return string  consists of alphanumerical characters, + and /
+	 * @param  int
+	 * @return string
+	 * @return string
 	 */
-	public static function random($length = NULL)
+	public static function random($length = 10, $charlist = '0-9a-z')
 	{
-		$return = rtrim(base64_encode(sha1(uniqid(rand(), true), true)), '=');
-		if (isset($length)) {
-			return substr($return, 0, $length);
+		$charlist = str_shuffle(preg_replace_callback('#.-.#', function($m) {
+			return implode('', range($m[0][0], $m[0][2]));
+		}, $charlist));
+		$chLen = strlen($charlist);
+
+		$s = '';
+		for ($i = 0; $i < $length; $i++) {
+			if ($i % 5 === 0) {
+				$rand = lcg_value();
+				$rand2 = microtime(TRUE);
+			}
+			$rand *= $chLen;
+			$s .= $charlist[($rand + $rand2) % $chLen];
+			$rand -= (int) $rand;
 		}
-		return $return;
+		return $s;
 	}
 
 
