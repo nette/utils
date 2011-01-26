@@ -44,8 +44,8 @@ class Paginator extends Object
 	/** @var int */
 	private $page;
 
-	/** @var int */
-	private $itemCount = 0;
+	/** @var int|NULL */
+	private $itemCount;
 
 
 
@@ -86,11 +86,11 @@ class Paginator extends Object
 
 	/**
 	 * Returns last page number.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function getLastPage()
 	{
-		return $this->base + max(0, $this->getPageCount() - 1);
+		return $this->itemCount === NULL ? NULL : $this->base + max(0, $this->getPageCount() - 1);
 	}
 
 
@@ -125,7 +125,8 @@ class Paginator extends Object
 	 */
 	protected function getPageIndex()
 	{
-		return min(max(0, $this->page - $this->base), max(0, $this->getPageCount() - 1));
+		$index = max(0, $this->page - $this->base);
+		return $this->itemCount === NULL ? $index : min($index, max(0, $this->getPageCount() - 1));
 	}
 
 
@@ -147,18 +148,18 @@ class Paginator extends Object
 	 */
 	public function isLast()
 	{
-		return $this->getPageIndex() >= $this->getPageCount() - 1;
+		return $this->itemCount === NULL ? FALSE : $this->getPageIndex() >= $this->getPageCount() - 1;
 	}
 
 
 
 	/**
 	 * Returns the total number of pages.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function getPageCount()
 	{
-		return (int) ceil($this->itemCount / $this->itemsPerPage);
+		return $this->itemCount === NULL ? NULL : (int) ceil($this->itemCount / $this->itemsPerPage);
 	}
 
 
@@ -189,12 +190,12 @@ class Paginator extends Object
 
 	/**
 	 * Sets the total number of items.
-	 * @param  int (or FALSE as infinity)
+	 * @param  int (or NULL as infinity)
 	 * @return Paginator  provides a fluent interface
 	 */
 	public function setItemCount($itemCount)
 	{
-		$this->itemCount = $itemCount === FALSE ? PHP_INT_MAX : max(0, (int) $itemCount);
+		$this->itemCount = ($itemCount === FALSE || $itemCount === NULL) ? NULL : max(0, (int) $itemCount);
 		return $this;
 	}
 
@@ -202,7 +203,7 @@ class Paginator extends Object
 
 	/**
 	 * Returns the total number of items.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function getItemCount()
 	{
@@ -224,22 +225,22 @@ class Paginator extends Object
 
 	/**
 	 * Returns the absolute index of the first item on current page in countdown paging.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function getCountdownOffset()
 	{
-		return max(0, $this->itemCount - ($this->getPageIndex() + 1) * $this->itemsPerPage);
+		return $this->itemCount === NULL ? NULL : max(0, $this->itemCount - ($this->getPageIndex() + 1) * $this->itemsPerPage);
 	}
 
 
 
 	/**
 	 * Returns the number of items on current page.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function getLength()
 	{
-		return min($this->itemsPerPage, $this->itemCount - $this->getPageIndex() * $this->itemsPerPage);
+		return $this->itemCount === NULL ? $this->itemsPerPage : min($this->itemsPerPage, $this->itemCount - $this->getPageIndex() * $this->itemsPerPage);
 	}
 
 }
