@@ -119,8 +119,6 @@ class Image extends Object
 		$types = array('image/jpeg' => self::JPEG, 'image/gif' => self::GIF, 'image/png' => self::PNG);
 		$type = Tools::detectMimeTypeFromString($s);
 		return isset($types[$type]) ? $types[$type] : NULL;
-
-		return NULL;
 	}
 
 
@@ -183,6 +181,7 @@ class Image extends Object
 	public function __construct($image)
 	{
 		$this->setImageResource($image);
+		imagesavealpha($image, TRUE);
 	}
 
 
