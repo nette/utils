@@ -142,6 +142,16 @@ final class Callback extends Object
 
 
 	/**
+	 * @return bool
+	 */
+	public function isStatic()
+	{
+		return is_array($this->cb) ? is_string($this->cb[0]) : is_string($this->cb);
+	}
+
+
+
+	/**
 	 * @return string
 	 */
 	public function __toString()
