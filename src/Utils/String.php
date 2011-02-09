@@ -230,6 +230,18 @@ final class String
 
 
 	/**
+	 * Convert first character to upper case.
+	 * @param  string  UTF-8 encoding
+	 * @return string
+	 */
+	public static function firstUpper($s)
+	{
+		return self::upper(mb_substr($s, 0, 1, 'UTF-8')) . mb_substr($s, 1, self::length($s), 'UTF-8');
+	}
+
+
+
+	/**
 	 * Capitalize string.
 	 * @param  string  UTF-8 encoding
 	 * @return string
