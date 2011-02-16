@@ -45,11 +45,10 @@ class Image extends Object
 	/** {@link resize()} fills (and even overflows) given area */
 	const FILL = 4;
 
-	/**#@+ @int image types {@link send()} */
-	const JPEG = IMAGETYPE_JPEG;
-	const PNG = IMAGETYPE_PNG;
-	const GIF = IMAGETYPE_GIF;
-	/**#@-*/
+	/** @int image types {@link send()} */
+	const JPEG = IMAGETYPE_JPEG,
+		PNG = IMAGETYPE_PNG,
+		GIF = IMAGETYPE_GIF;
 
 	const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
