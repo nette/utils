@@ -124,6 +124,19 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
+	 * Sets multiple attributes.
+	 * @param  array
+	 * @return Html  provides a fluent interface
+	 */
+	public function addAttributes(array $attrs)
+	{
+		$this->attrs = $attrs + $this->attrs;
+		return $this;
+	}
+
+
+
+	/**
 	 * Overloaded setter for element's attribute.
 	 * @param  string    HTML attribute name
 	 * @param  mixed     HTML attribute value
