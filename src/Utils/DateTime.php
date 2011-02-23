@@ -20,6 +20,13 @@
 class DateTime53 extends DateTime
 {
 
+	public static function __set_state($state)
+	{
+		return new self($state['date'], new DateTimeZone($state['timezone']));
+	}
+
+
+
 	public function __sleep()
 	{
 		$this->fix = array($this->format('Y-m-d H:i:s'), $this->getTimezone()->getName());
