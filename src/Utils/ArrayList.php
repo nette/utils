@@ -20,7 +20,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
+class ArrayList extends Object implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 	private $list = array();
 
