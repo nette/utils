@@ -31,7 +31,8 @@ ErrorException is corrupted in PHP < 5.3
 
 
 /**
- * The exception that is thrown when the value of an argument is outside the allowable range of values as defined by the invoked method.
+ * The exception that is thrown when the value of an argument is
+ * outside the allowable range of values as defined by the invoked method.
  */
 class ArgumentOutOfRangeException extends InvalidArgumentException
 {
@@ -40,7 +41,8 @@ class ArgumentOutOfRangeException extends InvalidArgumentException
 
 
 /**
- * The exception that is thrown when a method call is invalid for the object's current state, method has been invoked at an illegal or inappropriate time.
+ * The exception that is thrown when a method call is invalid for the object's
+ * current state, method has been invoked at an illegal or inappropriate time.
  */
 class InvalidStateException extends RuntimeException
 {
@@ -69,8 +71,8 @@ class NotImplementedException extends LogicException
 
 
 /**
- * The exception that is thrown when an invoked method is not supported.
- * For scenarios where it is sometimes possible to perform the requested operation, see InvalidStateException.
+ * The exception that is thrown when an invoked method is not supported. For scenarios where
+ * it is sometimes possible to perform the requested operation, see InvalidStateException.
  */
 class NotSupportedException extends LogicException
 {
@@ -124,8 +126,8 @@ class DirectoryNotFoundException extends IOException
 
 
 /**
- * The exception that indicates errors that can not be recovered from.
- * Execution of the script should be halted.
+ * The exception that indicates errors that can not be recovered from. Execution of
+ * the script should be halted.
  */
 /**/
 class FatalErrorException extends ErrorException

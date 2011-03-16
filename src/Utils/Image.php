@@ -430,10 +430,17 @@ class Image extends Object
 		}
 
 		if ($opacity === 100) {
-			imagecopy($this->getImageResource(), $image->getImageResource(), $left, $top, 0, 0, $image->getWidth(), $image->getHeight());
+			imagecopy(
+				$this->getImageResource(), $image->getImageResource(),
+				$left, $top, 0, 0, $image->getWidth(), $image->getHeight()
+			);
 
 		} elseif ($opacity <> 0) {
-			imagecopymerge($this->getImageResource(), $image->getImageResource(), $left, $top, 0, 0, $image->getWidth(), $image->getHeight(), $opacity);
+			imagecopymerge(
+				$this->getImageResource(), $image->getImageResource(),
+				$left, $top, 0, 0, $image->getWidth(), $image->getHeight(),
+				$opacity
+			);
 		}
 		return $this;
 	}
@@ -547,7 +554,10 @@ class Image extends Object
 					$args[$key] = $value->getImageResource();
 
 				} elseif (is_array($value) && isset($value['red'])) { // rgb
-					$args[$key] = imagecolorallocatealpha($this->getImageResource(), $value['red'], $value['green'], $value['blue'], $value['alpha']);
+					$args[$key] = imagecolorallocatealpha(
+						$this->getImageResource(),
+						$value['red'], $value['green'], $value['blue'], $value['alpha']
+					);
 				}
 			}
 			array_unshift($args, $this->getImageResource());

@@ -147,7 +147,8 @@ final class ObjectMixin
 			return;
 		}
 
-		$type = isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name]) ? 'a read-only' : 'an undeclared';
+		$type = isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name])
+			? 'a read-only' : 'an undeclared';
 		$name = func_get_arg(1);
 		throw new \MemberAccessException("Cannot write to $type property $class::\$$name.");
 	}

@@ -30,7 +30,8 @@ class GenericRecursiveIterator extends \IteratorIterator implements \RecursiveIt
 	public function hasChildren()
 	{
 		$obj = $this->current();
-		return ($obj instanceof \IteratorAggregate && $obj->getIterator() instanceof \RecursiveIterator) || $obj instanceof \RecursiveIterator;
+		return ($obj instanceof \IteratorAggregate && $obj->getIterator() instanceof \RecursiveIterator)
+			|| $obj instanceof \RecursiveIterator;
 	}
 
 

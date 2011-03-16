@@ -229,7 +229,9 @@ class Paginator extends Object
 	 */
 	public function getCountdownOffset()
 	{
-		return $this->itemCount === NULL ? NULL : max(0, $this->itemCount - ($this->getPageIndex() + 1) * $this->itemsPerPage);
+		return $this->itemCount === NULL
+			? NULL
+			: max(0, $this->itemCount - ($this->getPageIndex() + 1) * $this->itemsPerPage);
 	}
 
 
@@ -240,7 +242,9 @@ class Paginator extends Object
 	 */
 	public function getLength()
 	{
-		return $this->itemCount === NULL ? $this->itemsPerPage : min($this->itemsPerPage, $this->itemCount - $this->getPageIndex() * $this->itemsPerPage);
+		return $this->itemCount === NULL
+			? $this->itemsPerPage
+			: min($this->itemsPerPage, $this->itemCount - $this->getPageIndex() * $this->itemsPerPage);
 	}
 
 }

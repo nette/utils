@@ -8,13 +8,14 @@ use Nette\Object;
 
 
 
-interface IFirst {}
+interface IFirst
+{}
 
-interface ISecond extends IFirst {}
+interface ISecond extends IFirst
+{}
 
 class TestClass extends Object implements ISecond
 {
-
 	private $foo, $bar;
 
 	private $items;

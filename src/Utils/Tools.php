@@ -201,7 +201,10 @@ final class Tools
 			throw new \InvalidStateException('Critical section has already been entered.');
 		}
 		// locking on Windows causes that a file seems to be empty
-		$handle = substr(PHP_OS, 0, 3) === 'WIN' ? @fopen(NETTE_DIR . '/lockfile', 'w') : @fopen(__FILE__, 'r'); // @ - file may not already exist
+		$handle = substr(PHP_OS, 0, 3) === 'WIN'
+			? @fopen(NETTE_DIR . '/lockfile', 'w')
+			: @fopen(__FILE__, 'r'); // @ - file may not already exist
+
 		if (!$handle) {
 			throw new \InvalidStateException("Unable initialize critical section.");
 		}
