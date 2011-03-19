@@ -20,7 +20,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-final class String
+class String
 {
 
 	/**
