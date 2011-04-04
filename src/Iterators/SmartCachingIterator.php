@@ -253,8 +253,7 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 	 */
 	public function __unset($name)
 	{
-		$class = get_class($this);
-		throw new \MemberAccessException("Cannot unset the property $class::\$$name.");
+		ObjectMixin::remove($this, $name);
 	}
 
 

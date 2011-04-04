@@ -39,6 +39,7 @@ final class ObjectMixin
 
 	/**
 	 * Call to undefined method.
+	 * @param  object
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
@@ -74,7 +75,23 @@ final class ObjectMixin
 
 
 	/**
+	 * Call to undefined static method.
+	 * @param  object
+	 * @param  string  method name
+	 * @param  array   arguments
+	 * @return mixed
+	 * @throws \MemberAccessException
+	 */
+	public static function callStatic($class, $name, $args)
+	{
+		throw new \MemberAccessException("Call to undefined static method $class::$name().");
+	}
+
+
+
+	/**
 	 * Returns property value.
+	 * @param  object
 	 * @param  string  property name
 	 * @return mixed   property value
 	 * @throws \MemberAccessException if the property is not defined.
@@ -121,6 +138,7 @@ final class ObjectMixin
 
 	/**
 	 * Sets value of a property.
+	 * @param  object
 	 * @param  string  property name
 	 * @param  mixed   property value
 	 * @return void
@@ -156,7 +174,23 @@ final class ObjectMixin
 
 
 	/**
+	 * Throws exception.
+	 * @param  object
+	 * @param  string  property name
+	 * @param  mixed   property value
+	 * @throws \MemberAccessException
+	 */
+	public static function remove($_this, $name)
+	{
+		$class = get_class($_this);
+		throw new \MemberAccessException("Cannot unset the property $class::\$$name.");
+	}
+
+
+
+	/**
 	 * Is property defined?
+	 * @param  object
 	 * @param  string  property name
 	 * @return bool
 	 */

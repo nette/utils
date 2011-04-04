@@ -93,8 +93,7 @@ abstract class Object
 	 */
 	public static function __callStatic($name, $args)
 	{
-		$class = get_called_class();
-		throw new \MemberAccessException("Call to undefined static method $class::$name().");
+		return ObjectMixin::callStatic(get_called_class(), $name, $args);
 	}
 
 
@@ -169,7 +168,7 @@ abstract class Object
 	 */
 	public function __unset($name)
 	{
-		throw new \MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
+		ObjectMixin::remove($this, $name);
 	}
 
 }
