@@ -22,23 +22,6 @@ use Nette;
  */
 final class Tools
 {
-	/** minute in seconds */
-	const MINUTE = 60;
-
-	/** hour in seconds */
-	const HOUR = 3600;
-
-	/** day in seconds */
-	const DAY = 86400;
-
-	/** week in seconds */
-	const WEEK = 604800;
-
-	/** average month in seconds */
-	const MONTH = 2629800;
-
-	/** average year in seconds */
-	const YEAR = 31557600;
 
 	/** @var resource {@link Tools::enterCriticalSection()} */
 	private static $criticalSections;
@@ -51,29 +34,6 @@ final class Tools
 	final public function __construct()
 	{
 		throw new \LogicException("Cannot instantiate static class " . get_class($this));
-	}
-
-
-
-	/**
-	 * DateTime object factory.
-	 * @param  string|int|DateTime
-	 * @return DateTime
-	 */
-	public static function createDateTime($time)
-	{
-		if ($time instanceof \DateTime) {
-			return clone $time;
-
-		} elseif (is_numeric($time)) {
-			if ($time <= self::YEAR) {
-				$time += time();
-			}
-			return new \DateTime(date('Y-m-d H:i:s', $time));
-
-		} else { // textual or NULL
-			return new \DateTime($time);
-		}
 	}
 
 

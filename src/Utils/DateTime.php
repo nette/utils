@@ -9,17 +9,62 @@
  * the file license.txt that was distributed with this source code.
  */
 
+namespace Nette;
+
+use Nette;
+
 
 
 /**
  * DateTime with serialization and timestamp support for PHP 5.2.
  *
  * @author     David Grudl
- * @phpversion < 5.3
  */
-class DateTime53 extends DateTime
+class DateTime extends \DateTime
 {
+	/** minute in seconds */
+	const MINUTE = 60;
 
+	/** hour in seconds */
+	const HOUR = 3600;
+
+	/** day in seconds */
+	const DAY = 86400;
+
+	/** week in seconds */
+	const WEEK = 604800;
+
+	/** average month in seconds */
+	const MONTH = 2629800;
+
+	/** average year in seconds */
+	const YEAR = 31557600;
+
+
+
+	/**
+	 * DateTime object factory.
+	 * @param  string|int|\DateTime
+	 * @return DateTime
+	 */
+	public static function from($time)
+	{
+		if ($time instanceof \DateTime) {
+			return clone $time;
+
+		} elseif (is_numeric($time)) {
+			if ($time <= self::YEAR) {
+				$time += time();
+			}
+			return new self(date('Y-m-d H:i:s', $time));
+
+		} else { // textual or NULL
+			return new self($time);
+		}
+	}
+
+
+	/*5.2*
 	public static function __set_state($state)
 	{
 		return new self($state['date'], new DateTimeZone($state['timezone']));
@@ -57,5 +102,6 @@ class DateTime53 extends DateTime
 			new DateTimeZone($this->getTimezone()->getName()) // simply getTimezone() crashes in PHP 5.2.6
 		);
 	}
+	*/
 
 }
