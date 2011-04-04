@@ -23,11 +23,6 @@ use Nette;
 final class Tools
 {
 
-	/** @var resource {@link Tools::enterCriticalSection()} */
-	private static $criticalSections;
-
-
-
 	/**
 	 * Static class - cannot be instantiated.
 	 */
@@ -90,101 +85,6 @@ final class Tools
 			return $l != $r;
 		}
 		throw new \InvalidArgumentException("Unknown operator $operator.");
-	}
-
-
-
-	/**
-	 * Returns the MIME content type of file.
-	 * @param  string
-	 * @return string
-	 */
-	public static function detectMimeType($file)
-	{
-		if (!is_file($file)) {
-			throw new \FileNotFoundException("File '$file' not found.");
-		}
-
-		$info = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
-		if (isset($info['mime'])) {
-			return $info['mime'];
-
-		} elseif (extension_loaded('fileinfo')) {
-			$type = preg_replace('#[\s;].*$#', '', finfo_file(finfo_open(FILEINFO_MIME), $file));
-
-		} elseif (function_exists('mime_content_type')) {
-			$type = mime_content_type($file);
-		}
-
-		return isset($type) && preg_match('#^\S+/\S+$#', $type) ? $type : 'application/octet-stream';
-	}
-
-
-
-	/**
-	 * Returns the MIME content type of file.
-	 * @param  string
-	 * @return string
-	 */
-	public static function detectMimeTypeFromString($data)
-	{
-		if (extension_loaded('fileinfo') && preg_match('#^(\S+/[^\s;]+)#', finfo_buffer(finfo_open(FILEINFO_MIME), $data), $m)) {
-			return $m[1];
-
-		} elseif (strncmp($data, "\xff\xd8", 2) === 0) {
-			return 'image/jpeg';
-
-		} elseif (strncmp($data, "\x89PNG", 4) === 0) {
-			return 'image/png';
-
-		} elseif (strncmp($data, "GIF", 3) === 0) {
-			return 'image/gif';
-
-		} else {
-			return 'application/octet-stream';
-		}
-	}
-
-
-
-	/********************* critical section ****************d*g**/
-
-
-
-	/**
-	 * Enters the critical section, other threads are locked out.
-	 * @return void
-	 */
-	public static function enterCriticalSection()
-	{
-		if (self::$criticalSections) {
-			throw new \InvalidStateException('Critical section has already been entered.');
-		}
-		// locking on Windows causes that a file seems to be empty
-		$handle = substr(PHP_OS, 0, 3) === 'WIN'
-			? @fopen(NETTE_DIR . '/lockfile', 'w')
-			: @fopen(__FILE__, 'r'); // @ - file may not already exist
-
-		if (!$handle) {
-			throw new \InvalidStateException("Unable initialize critical section.");
-		}
-		flock(self::$criticalSections = $handle, LOCK_EX);
-	}
-
-
-
-	/**
-	 * Leaves the critical section, other threads can now enter it.
-	 * @return void
-	 */
-	public static function leaveCriticalSection()
-	{
-		if (!self::$criticalSections) {
-			throw new \InvalidStateException('Critical section has not been initialized.');
-		}
-		flock(self::$criticalSections, LOCK_UN);
-		fclose(self::$criticalSections);
-		self::$criticalSections = NULL;
 	}
 
 }

@@ -116,7 +116,7 @@ class Image extends Object
 	public static function getFormatFromString($s)
 	{
 		$types = array('image/jpeg' => self::JPEG, 'image/gif' => self::GIF, 'image/png' => self::PNG);
-		$type = Tools::detectMimeTypeFromString($s);
+		$type = MimeTypeDetector::fromString($s);
 		return isset($types[$type]) ? $types[$type] : NULL;
 	}
 
