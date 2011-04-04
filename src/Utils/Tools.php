@@ -57,34 +57,4 @@ final class Tools
 		if ($var === NULL) $var = $default;
 	}
 
-
-
-	/**
-	 * Compares two values.
-	 * @param  mixed
-	 * @param  mixed
-	 * @return bool
-	 */
-	public static function compare($l, $operator, $r)
-	{
-		switch ($operator) {
-		case '>':
-			return $l > $r;
-		case '>=':
-			return $l >= $r;
-		case '<':
-			return $l < $r;
-		case '<=':
-			return $l <= $r;
-		case '=':
-		case '==':
-			return $l == $r;
-		case '!':
-		case '!=':
-		case '<>':
-			return $l != $r;
-		}
-		throw new \InvalidArgumentException("Unknown operator $operator.");
-	}
-
 }
