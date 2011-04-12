@@ -20,7 +20,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-final class ArrayTools
+final class ArrayUtils
 {
 
 	/**
@@ -35,7 +35,7 @@ final class ArrayTools
 
 	/**
 	 * Returns array item or $default if item is not set.
-	 * Example: $val = ArrayTools::get($arr, 'i', 123);
+	 * Example: $val = ArrayUtils::get($arr, 'i', 123);
 	 * @param  mixed  array
 	 * @param  mixed  key
 	 * @param  mixed  default value
@@ -167,9 +167,9 @@ final class ArrayTools
 	 */
 	public static function grep(array $arr, $pattern, $flags = 0)
 	{
-		Debug::tryError();
+		Diagnostics\Debugger::tryError();
 		$res = preg_grep($pattern, $arr, $flags);
-		String::catchPregError($pattern);
+		StringUtils::catchPregError($pattern);
 		return $res;
 	}
 

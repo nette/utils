@@ -22,7 +22,7 @@ if (GD_BUNDLED === 0) {
 
 
 
-$image = Image::fromFile('files/images/logo.gif');
+$image = Image::fromFile('images/logo.gif');
 $image->rotate(30, Image::rgb(0, 0, 0));
 
 Assert::same(file_get_contents(__DIR__ . '/Image.rotate.expect'), $image->toString(Image::GIF));

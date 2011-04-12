@@ -54,18 +54,18 @@ use Nette;
  * @author     David Grudl
  *
  * @property-read string $class
- * @property-read Nette\Reflection\ClassReflection $reflection
+ * @property-read Nette\Reflection\ClassType $reflection
  */
 abstract class Object
 {
 
 	/**
 	 * Access to reflection.
-	 * @return Nette\Reflection\ClassReflection
+	 * @return Nette\Reflection\ClassType
 	 */
 	public /**/static/**/ function getReflection()
 	{
-		return new Nette\Reflection\ClassReflection(/*5.2*$this*//**/get_called_class()/**/);
+		return new Reflection\ClassType(/*5.2*$this*//**/get_called_class()/**/);
 	}
 
 
@@ -75,7 +75,7 @@ abstract class Object
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
-	 * @throws \MemberAccessException
+	 * @throws MemberAccessException
 	 */
 	public function __call($name, $args)
 	{
@@ -89,7 +89,7 @@ abstract class Object
 	 * @param  string  method name (in lower case!)
 	 * @param  array   arguments
 	 * @return mixed
-	 * @throws \MemberAccessException
+	 * @throws MemberAccessException
 	 */
 	public static function __callStatic($name, $args)
 	{
@@ -111,7 +111,7 @@ abstract class Object
 		} else {
 			list($class, $name) = explode('::', $name);
 		}
-		$class = new Nette\Reflection\ClassReflection($class);
+		$class = new Reflection\ClassType($class);
 		if ($callback === NULL) {
 			return $class->getExtensionMethod($name);
 		} else {
@@ -125,7 +125,7 @@ abstract class Object
 	 * Returns property value. Do not call directly.
 	 * @param  string  property name
 	 * @return mixed   property value
-	 * @throws \MemberAccessException if the property is not defined.
+	 * @throws MemberAccessException if the property is not defined.
 	 */
 	public function &__get($name)
 	{
@@ -139,7 +139,7 @@ abstract class Object
 	 * @param  string  property name
 	 * @param  mixed   property value
 	 * @return void
-	 * @throws \MemberAccessException if the property is not defined or is read-only
+	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
 	public function __set($name, $value)
 	{
@@ -164,7 +164,7 @@ abstract class Object
 	 * Access to undeclared property.
 	 * @param  string  property name
 	 * @return void
-	 * @throws \MemberAccessException
+	 * @throws MemberAccessException
 	 */
 	public function __unset($name)
 	{

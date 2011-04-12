@@ -9,7 +9,7 @@
  * the file license.txt that was distributed with this source code.
  */
 
-namespace Nette;
+namespace Nette\Localization;
 
 use Nette;
 

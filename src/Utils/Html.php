@@ -9,7 +9,7 @@
  * the file license.txt that was distributed with this source code.
  */
 
-namespace Nette\Web;
+namespace Nette\Utils;
 
 use Nette;
 
@@ -71,7 +71,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 		}
 
 		if (isset($parts[1])) {
-			foreach (Nette\String::matchAll($parts[1] . ' ', '#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\\2|\s))?#i') as $m) {
+			foreach (Nette\StringUtils::matchAll($parts[1] . ' ', '#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\\2|\s))?#i') as $m) {
 				$el->attrs[$m[1]] = isset($m[3]) ? $m[3] : TRUE;
 			}
 		}
@@ -438,10 +438,10 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	{
 		if ($deep) {
 			$deep = $deep > 0 ? \RecursiveIteratorIterator::SELF_FIRST : \RecursiveIteratorIterator::CHILD_FIRST;
-			return new \RecursiveIteratorIterator(new Nette\GenericRecursiveIterator(new \ArrayIterator($this->children)), $deep);
+			return new \RecursiveIteratorIterator(new Nette\Iterators\Recursor(new \ArrayIterator($this->children)), $deep);
 
 		} else {
-			return new Nette\GenericRecursiveIterator(new \ArrayIterator($this->children));
+			return new Nette\Iterators\Recursor(new \ArrayIterator($this->children));
 		}
 	}
 

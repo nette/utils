@@ -9,7 +9,7 @@
  * the file license.txt that was distributed with this source code.
  */
 
-namespace Nette;
+namespace Nette\Utils;
 
 use Nette;
 
@@ -51,7 +51,7 @@ final class Json
 	 */
 	public static function encode($value)
 	{
-		Debug::tryError();
+		Nette\Diagnostics\Debugger::tryError();
 		if (function_exists('ini_set')) {
 			$old = ini_set('display_errors', 0); // needed to receive 'Invalid UTF-8 sequence' error
 			$json = json_encode($value);
@@ -59,7 +59,7 @@ final class Json
 		} else {
 			$json = json_encode($value);
 		}
-		if (Debug::catchError($e)) { // needed to receive 'recursion detected' error
+		if (Nette\Diagnostics\Debugger::catchError($e)) { // needed to receive 'recursion detected' error
 			throw new JsonException($e->getMessage());
 		}
 		return $json;

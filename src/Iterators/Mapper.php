@@ -9,7 +9,7 @@
  * the file license.txt that was distributed with this source code.
  */
 
-namespace Nette;
+namespace Nette\Iterators;
 
 use Nette;
 
@@ -20,7 +20,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-class MapIterator extends \IteratorIterator
+class Mapper extends \IteratorIterator
 {
 	/** @var callback */
 	private $callback;

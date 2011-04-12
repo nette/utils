@@ -43,14 +43,14 @@ final class ObjectMixin
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
-	 * @throws \MemberAccessException
+	 * @throws MemberAccessException
 	 */
 	public static function call($_this, $name, $args)
 	{
-		$class = new Nette\Reflection\ClassReflection($_this);
+		$class = new Reflection\ClassType($_this);
 
 		if ($name === '') {
-			throw new \MemberAccessException("Call to class '$class->name' method without name.");
+			throw new MemberAccessException("Call to class '$class->name' method without name.");
 		}
 
 		// event functionality
@@ -69,7 +69,7 @@ final class ObjectMixin
 			return $cb->invokeArgs($args);
 		}
 
-		throw new \MemberAccessException("Call to undefined method $class->name::$name().");
+		throw new MemberAccessException("Call to undefined method $class->name::$name().");
 	}
 
 
@@ -80,11 +80,11 @@ final class ObjectMixin
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
-	 * @throws \MemberAccessException
+	 * @throws MemberAccessException
 	 */
 	public static function callStatic($class, $name, $args)
 	{
-		throw new \MemberAccessException("Call to undefined static method $class::$name().");
+		throw new MemberAccessException("Call to undefined static method $class::$name().");
 	}
 
 
@@ -94,14 +94,14 @@ final class ObjectMixin
 	 * @param  object
 	 * @param  string  property name
 	 * @return mixed   property value
-	 * @throws \MemberAccessException if the property is not defined.
+	 * @throws MemberAccessException if the property is not defined.
 	 */
 	public static function & get($_this, $name)
 	{
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new \MemberAccessException("Cannot read a class '$class' property without name.");
+			throw new MemberAccessException("Cannot read a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
@@ -117,7 +117,7 @@ final class ObjectMixin
 		$m = 'get' . $name;
 		if (isset(self::$methods[$class][$m])) {
 			// ampersands:
-			// - uses &__get() because declaration should be forward compatible (e.g. with Nette\Web\Html)
+			// - uses &__get() because declaration should be forward compatible (e.g. with Nette\Utils\Html)
 			// - doesn't call &$_this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
 			$val = $_this->$m();
 			return $val;
@@ -131,7 +131,7 @@ final class ObjectMixin
 
 		$type = isset(self::$methods[$class]['set' . $name]) ? 'a write-only' : 'an undeclared';
 		$name = func_get_arg(1);
-		throw new \MemberAccessException("Cannot read $type property $class::\$$name.");
+		throw new MemberAccessException("Cannot read $type property $class::\$$name.");
 	}
 
 
@@ -142,14 +142,14 @@ final class ObjectMixin
 	 * @param  string  property name
 	 * @param  mixed   property value
 	 * @return void
-	 * @throws \MemberAccessException if the property is not defined or is read-only
+	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
 	public static function set($_this, $name, $value)
 	{
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new \MemberAccessException("Cannot write to a class '$class' property without name.");
+			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
@@ -168,7 +168,7 @@ final class ObjectMixin
 		$type = isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name])
 			? 'a read-only' : 'an undeclared';
 		$name = func_get_arg(1);
-		throw new \MemberAccessException("Cannot write to $type property $class::\$$name.");
+		throw new MemberAccessException("Cannot write to $type property $class::\$$name.");
 	}
 
 
@@ -178,12 +178,12 @@ final class ObjectMixin
 	 * @param  object
 	 * @param  string  property name
 	 * @param  mixed   property value
-	 * @throws \MemberAccessException
+	 * @throws MemberAccessException
 	 */
 	public static function remove($_this, $name)
 	{
 		$class = get_class($_this);
-		throw new \MemberAccessException("Cannot unset the property $class::\$$name.");
+		throw new MemberAccessException("Cannot unset the property $class::\$$name.");
 	}
 
 

@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 
-$main = Image::fromFile('files/images/logo.gif');
+$main = Image::fromFile('images/logo.gif');
 $image = clone $main;
 Assert::same( 176, $image->width, 'width' );
 

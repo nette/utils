@@ -9,7 +9,7 @@
  * the file license.txt that was distributed with this source code.
  */
 
-namespace Nette;
+namespace Nette\Iterators;
 
 use Nette;
 
@@ -20,7 +20,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-class InstanceFilterIterator extends \FilterIterator implements \Countable
+class InstanceFilter extends \FilterIterator implements \Countable
 {
 	/** @var string */
 	private $type;
@@ -28,7 +28,7 @@ class InstanceFilterIterator extends \FilterIterator implements \Countable
 
 	/**
 	 * Constructs a filter around another iterator.
-	 * @param  Iterator
+	 * @param  Nette\Iterator
 	 * @param  string  class/interface name
 	 */
 	public function __construct(\Iterator $iterator, $type)

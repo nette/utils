@@ -9,7 +9,7 @@
  * the file license.txt that was distributed with this source code.
  */
 
-namespace Nette;
+namespace Nette\Iterators;
 
 use Nette;
 
@@ -26,7 +26,7 @@ use Nette;
  * @property-read bool $odd
  * @property-read bool $even
  */
-class SmartCachingIterator extends \CachingIterator implements \Countable
+class CachingIterator extends \CachingIterator implements \Countable
 {
 	/** @var int */
 	private $counter = 0;
@@ -134,7 +134,7 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 			return $inner->count();
 
 		} else {
-			throw new \NotSupportedException('Iterator is not countable.');
+			throw new Nette\NotSupportedException('Iterator is not countable.');
 		}
 	}
 
@@ -197,11 +197,11 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
-	 * @throws \MemberAccessException
+	 * @throws Nette\MemberAccessException
 	 */
 	public function __call($name, $args)
 	{
-		return ObjectMixin::call($this, $name, $args);
+		return Nette\ObjectMixin::call($this, $name, $args);
 	}
 
 
@@ -210,11 +210,11 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 	 * Returns property value. Do not call directly.
 	 * @param  string  property name
 	 * @return mixed   property value
-	 * @throws \MemberAccessException if the property is not defined.
+	 * @throws Nette\MemberAccessException if the property is not defined.
 	 */
 	public function &__get($name)
 	{
-		return ObjectMixin::get($this, $name);
+		return Nette\ObjectMixin::get($this, $name);
 	}
 
 
@@ -224,11 +224,11 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 	 * @param  string  property name
 	 * @param  mixed   property value
 	 * @return void
-	 * @throws \MemberAccessException if the property is not defined or is read-only
+	 * @throws Nette\MemberAccessException if the property is not defined or is read-only
 	 */
 	public function __set($name, $value)
 	{
-		return ObjectMixin::set($this, $name, $value);
+		return Nette\ObjectMixin::set($this, $name, $value);
 	}
 
 
@@ -240,7 +240,7 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 	 */
 	public function __isset($name)
 	{
-		return ObjectMixin::has($this, $name);
+		return Nette\ObjectMixin::has($this, $name);
 	}
 
 
@@ -249,11 +249,11 @@ class SmartCachingIterator extends \CachingIterator implements \Countable
 	 * Access to undeclared property.
 	 * @param  string  property name
 	 * @return void
-	 * @throws \MemberAccessException
+	 * @throws Nette\MemberAccessException
 	 */
 	public function __unset($name)
 	{
-		ObjectMixin::remove($this, $name);
+		Nette\ObjectMixin::remove($this, $name);
 	}
 
 

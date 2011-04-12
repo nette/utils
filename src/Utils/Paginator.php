@@ -9,7 +9,7 @@
  * the file license.txt that was distributed with this source code.
  */
 
-namespace Nette;
+namespace Nette\Utils;
 
 use Nette;
 
@@ -33,7 +33,7 @@ use Nette;
  * @property-read bool $first
  * @property-read bool $last
  */
-class Paginator extends Object
+class Paginator extends Nette\Object
 {
 	/** @var int */
 	private $base = 1;

@@ -116,7 +116,7 @@ class Image extends Object
 	public static function getFormatFromString($s)
 	{
 		$types = array('image/jpeg' => self::JPEG, 'image/gif' => self::GIF, 'image/png' => self::PNG);
-		$type = MimeTypeDetector::fromString($s);
+		$type = Utils\MimeTypeDetector::fromString($s);
 		return isset($types[$type]) ? $types[$type] : NULL;
 	}
 
@@ -514,7 +514,7 @@ class Image extends Object
 			return $this->toString();
 
 		} catch (\Exception $e) {
-			Debug::toStringException($e);
+			Diagnostics\Debugger::toStringException($e);
 		}
 	}
 
@@ -543,7 +543,7 @@ class Image extends Object
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
-	 * @throws \MemberAccessException
+	 * @throws MemberAccessException
 	 */
 	public function __call($name, $args)
 	{
