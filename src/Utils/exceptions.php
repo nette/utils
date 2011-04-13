@@ -32,7 +32,7 @@ class ArgumentOutOfRangeException extends \InvalidArgumentException
 class InvalidStateException extends \RuntimeException
 {
 	/*5.2*
-	public function __construct($message = '', $code = 0, Exception $previous = NULL)
+	public function __construct($message = '', $code = 0, \Exception $previous = NULL)
 	{
 		if (PHP_VERSION_ID < 50300) {
 			$this->previous = $previous;
@@ -109,7 +109,7 @@ class DirectoryNotFoundException extends IOException
 }
 
 
-
+/**/
 /**
  * The exception that is thrown when an argument does not match with the expected value.
  */
@@ -134,7 +134,7 @@ class OutOfRangeException extends \OutOfRangeException
 class UnexpectedValueException extends \UnexpectedValueException
 {
 }
-
+/**/
 
 
 /**
@@ -164,7 +164,7 @@ class FatalErrorException extends \ErrorException
 /**/
 
 /*5.2*
-class FatalErrorException extends Exception // ErrorException is corrupted in PHP < 5.3
+class FatalErrorException extends \Exception // ErrorException is corrupted in PHP < 5.3
 {
 	private $severity;
 
