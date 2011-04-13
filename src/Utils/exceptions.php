@@ -15,23 +15,6 @@ use Nette;
 
 
 
-/*
-some useful SPL exception:
-
-- LogicException
-	- InvalidArgumentException
-	- LengthException
-- RuntimeException
-	- OutOfBoundsException
-	- UnexpectedValueException
-
-other SPL exceptions are ambiguous; do not use them
-
-ErrorException is corrupted in PHP < 5.3
-*/
-
-
-
 /**
  * The exception that is thrown when the value of an argument is
  * outside the allowable range of values as defined by the invoked method.
@@ -128,6 +111,42 @@ class DirectoryNotFoundException extends IOException
 
 
 /**
+ * The exception that is thrown when an argument does not match with the expected value.
+ */
+class InvalidArgumentException extends \InvalidArgumentException
+{
+}
+
+
+
+/**
+ * The exception that is thrown when an illegal index was requested.
+ */
+class OutOfRangeException extends \OutOfRangeException
+{
+}
+
+
+
+/**
+ * The exception that is thrown when a value (typically returned by function) does not match with the expected value.
+ */
+class UnexpectedValueException extends \UnexpectedValueException
+{
+}
+
+
+
+/**
+ * The exception that is thrown when static class is instantiated.
+ */
+class StaticClassException extends \LogicException
+{
+}
+
+
+
+/**
  * The exception that indicates errors that can not be recovered from. Execution of
  * the script should be halted.
  */
@@ -145,7 +164,7 @@ class FatalErrorException extends \ErrorException
 /**/
 
 /*5.2*
-class FatalErrorException extends Exception
+class FatalErrorException extends Exception // ErrorException is corrupted in PHP < 5.3
 {
 	private $severity;
 
