@@ -69,7 +69,7 @@ class ArrayHash implements \ArrayAccess, \Countable, \IteratorAggregate
 	public function offsetSet($key, $value)
 	{
 		if (!is_scalar($key)) { // prevents NULL
-			throw new \InvalidArgumentException("Key must be either a string or an integer, " . gettype($key) ." given.");
+			throw new Nette\InvalidArgumentException("Key must be either a string or an integer, " . gettype($key) ." given.");
 		}
 		$this->$key = $value;
 	}

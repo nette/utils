@@ -28,7 +28,7 @@ final class ArrayUtils
 	 */
 	final public function __construct()
 	{
-		throw new \LogicException("Cannot instantiate static class " . get_class($this));
+		throw new Nette\StaticClassException;
 	}
 
 
@@ -67,7 +67,7 @@ final class ArrayUtils
 			if (is_array($arr) || $arr === NULL) {
 				$arr = & $arr[$k];
 			} else {
-				throw new \InvalidArgumentException('Traversed item is not an array.');
+				throw new Nette\InvalidArgumentException('Traversed item is not an array.');
 			}
 		}
 		return $arr;

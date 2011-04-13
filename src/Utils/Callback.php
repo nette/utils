@@ -68,7 +68,7 @@ final class Callback extends Object
 		*/
 
 		if (!is_callable($this->cb, TRUE)) {
-			throw new \InvalidArgumentException("Invalid callback.");
+			throw new Nette\InvalidArgumentException("Invalid callback.");
 		}
 	}
 

@@ -86,12 +86,12 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * @param  string
 	 * @param  bool  Is element empty?
 	 * @return Html  provides a fluent interface
-	 * @throws \InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setName($name, $isEmpty = NULL)
 	{
 		if ($name !== NULL && !is_string($name)) {
-			throw new \InvalidArgumentException("Name must be string or NULL, " . gettype($name) ." given.");
+			throw new Nette\InvalidArgumentException("Name must be string or NULL, " . gettype($name) ." given.");
 		}
 
 		$this->name = $name;
@@ -235,7 +235,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * Sets element's HTML content.
 	 * @param  string
 	 * @return Html  provides a fluent interface
-	 * @throws \InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setHtml($html)
 	{
@@ -243,7 +243,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 			$html = '';
 
 		} elseif (is_array($html)) {
-			throw new \InvalidArgumentException("Textual content must be a scalar, " . gettype($html) ." given.");
+			throw new Nette\InvalidArgumentException("Textual content must be a scalar, " . gettype($html) ." given.");
 
 		} else {
 			$html = (string) $html;
@@ -279,7 +279,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * Sets element's textual content.
 	 * @param  string
 	 * @return Html  provides a fluent interface
-	 * @throws \InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setText($text)
 	{
@@ -347,7 +347,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 			}
 
 		} else {
-			throw new \InvalidArgumentException("Child node must be scalar or Html object, " . (is_object($child) ? get_class($child) : gettype($child)) ." given.");
+			throw new Nette\InvalidArgumentException("Child node must be scalar or Html object, " . (is_object($child) ? get_class($child) : gettype($child)) ." given.");
 		}
 
 		return $this;
