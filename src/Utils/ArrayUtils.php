@@ -28,7 +28,7 @@ final class ArrayUtils
 	 */
 	final public function __construct()
 	{
-		throw new Nette\StaticClassException;
+		throw new StaticClassException;
 	}
 
 
@@ -67,7 +67,7 @@ final class ArrayUtils
 			if (is_array($arr) || $arr === NULL) {
 				$arr = & $arr[$k];
 			} else {
-				throw new Nette\InvalidArgumentException('Traversed item is not an array.');
+				throw new InvalidArgumentException('Traversed item is not an array.');
 			}
 		}
 		return $arr;

@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\ArrayTools::get()
+ * Test: Nette\ArrayUtils::get()
  *
  * @author     David Grudl
  * @package    Nette
  * @subpackage UnitTests
  */
 
-use Nette\ArrayTools;
+use Nette\ArrayUtils;
 
 
 
@@ -26,11 +26,11 @@ $arr  = array(
 
 // Single item
 
-Assert::same( 'first', ArrayTools::get($arr, NULL) );
-Assert::same( 'second', ArrayTools::get($arr, 1) );
-Assert::same( 'second', ArrayTools::get($arr, 1, 'x') );
-Assert::same( 'x', ArrayTools::get($arr, 'undefined', 'x') );
-Assert::null( ArrayTools::get($arr, 'undefined') );
+Assert::same( 'first', ArrayUtils::get($arr, NULL) );
+Assert::same( 'second', ArrayUtils::get($arr, 1) );
+Assert::same( 'second', ArrayUtils::get($arr, 1, 'x') );
+Assert::same( 'x', ArrayUtils::get($arr, 'undefined', 'x') );
+Assert::null( ArrayUtils::get($arr, 'undefined') );
 
 
 
@@ -42,7 +42,7 @@ Assert::same( array(
 	7 => array(
 		'item' => 'third',
 	),
-), ArrayTools::get($arr, array()) );
+), ArrayUtils::get($arr, array()) );
 
 
-Assert::same( 'third', ArrayTools::get($arr, array(7, 'item')) );
+Assert::same( 'third', ArrayUtils::get($arr, array(7, 'item')) );

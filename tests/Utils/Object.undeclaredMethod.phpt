@@ -8,7 +8,6 @@
  * @subpackage UnitTests
  */
 
-use Nette\Object;
 
 
 
@@ -24,5 +23,5 @@ try {
 
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('MemberAccessException', 'Call to undefined method TestClass::undeclared().', $e );
+	Assert::exception('Nette\MemberAccessException', 'Call to undefined method TestClass::undeclared().', $e );
 }

@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\Web\Html basic usage.
+ * Test: Nette\Utils\Html basic usage.
  *
  * @author     David Grudl
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
-use Nette\Web\Html;
+use Nette\Utils\Html;
 
 
 

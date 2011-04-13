@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\Paginator Base:0 Page:-1 Count:-1 test.
+ * Test: Nette\Utils\Paginator Base:0 Page:-1 Count:-1 test.
  *
  * @author     David Grudl
- * @package    Nette
+ * @package    Nette\Utils
  * @subpackage UnitTests
  */
 
-use Nette\Paginator;
+use Nette\Utils\Paginator;
 
 
 

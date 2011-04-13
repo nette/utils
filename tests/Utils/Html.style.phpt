@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\Web\Html style & class attribute.
+ * Test: Nette\Utils\Html style & class attribute.
  *
  * @author     David Grudl
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
-use Nette\Web\Html;
+use Nette\Utils\Html;
 
 
 

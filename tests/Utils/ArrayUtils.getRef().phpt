@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\ArrayTools::getRef()
+ * Test: Nette\ArrayUtils::getRef()
  *
  * @author     David Grudl
  * @package    Nette
  * @subpackage UnitTests
  */
 
-use Nette\ArrayTools;
+use Nette\ArrayUtils;
 
 
 
@@ -27,7 +27,7 @@ $arr  = array(
 // Single item
 
 $dolly = $arr;
-$item = & ArrayTools::getRef($dolly, NULL);
+$item = & ArrayUtils::getRef($dolly, NULL);
 $item = 'changed';
 Assert::same( array(
 	'' => 'changed',
@@ -39,7 +39,7 @@ Assert::same( array(
 
 
 $dolly = $arr;
-$item = & ArrayTools::getRef($dolly, 'undefined');
+$item = & ArrayUtils::getRef($dolly, 'undefined');
 $item = 'changed';
 Assert::same( array(
 	'' => 'first',
@@ -55,13 +55,13 @@ Assert::same( array(
 // Traversing
 
 $dolly = $arr;
-$item = & ArrayTools::getRef($dolly, array());
+$item = & ArrayUtils::getRef($dolly, array());
 $item = 'changed';
 Assert::same( 'changed', $dolly );
 
 
 $dolly = $arr;
-$item = & ArrayTools::getRef($dolly, array(7, 'item'));
+$item = & ArrayUtils::getRef($dolly, array(7, 'item'));
 $item = 'changed';
 Assert::same( array(
 	'' => 'first',
@@ -77,7 +77,7 @@ Assert::same( array(
 
 try {
 	$dolly = $arr;
-	$item = & ArrayTools::getRef($dolly, array(7, 'item', 3));
+	$item = & ArrayUtils::getRef($dolly, array(7, 'item', 3));
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
 	Assert::exception('InvalidArgumentException', 'Traversed item is not an array.', $e );

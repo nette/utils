@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\String::split()
+ * Test: Nette\StringUtils::split()
  *
  * @author     David Grudl
  * @package    Nette
  * @subpackage UnitTests
  */
 
-use Nette\String;
+use Nette\StringUtils;
 
 
 
@@ -22,7 +22,7 @@ Assert::same( array(
 	'b',
 	',',
 	'c',
-), String::split('a, b, c', '#(,)\s*#') );
+), StringUtils::split('a, b, c', '#(,)\s*#') );
 
 Assert::same( array(
 	'a',
@@ -30,4 +30,4 @@ Assert::same( array(
 	'b',
 	',',
 	'c',
-), String::split('a, b, c', '#(,)\s*#', PREG_SPLIT_NO_EMPTY) );
+), StringUtils::split('a, b, c', '#(,)\s*#', PREG_SPLIT_NO_EMPTY) );

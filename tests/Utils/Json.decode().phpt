@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\Json::decode()
+ * Test: Nette\Utils\Json::decode()
  *
  * @author     David Grudl
- * @package    Nette
+ * @package    Nette\Utils
  * @subpackage UnitTests
  */
 
-use Nette\Json;
+use Nette\Utils\Json;
 
 
 
@@ -31,7 +31,7 @@ try {
 	Json::decode('{');
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('Nette\JsonException', 'Syntax error, malformed JSON', $e );
+	Assert::exception('Nette\Utils\JsonException', 'Syntax error, malformed JSON', $e );
 }
 
 
@@ -40,7 +40,7 @@ try {
 	Json::decode('{}}');
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('Nette\JsonException', 'Syntax error, malformed JSON', $e );
+	Assert::exception('Nette\Utils\JsonException', 'Syntax error, malformed JSON', $e );
 }
 
 
@@ -49,5 +49,5 @@ try {
 	Json::decode("\x00");
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('Nette\JsonException', 'Unexpected control character found', $e );
+	Assert::exception('Nette\Utils\JsonException', 'Unexpected control character found', $e );
 }

@@ -8,7 +8,6 @@
  * @subpackage UnitTests
  */
 
-use Nette\Object;
 
 
 

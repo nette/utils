@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\Web\Html user data attribute.
+ * Test: Nette\Utils\Html user data attribute.
  *
  * @author     David Grudl
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
-use Nette\Web\Html;
+use Nette\Utils\Html;
 
 
 

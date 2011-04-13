@@ -8,7 +8,6 @@
  * @subpackage UnitTests
  */
 
-use Nette\Object;
 
 
 
@@ -34,7 +33,7 @@ try {
 	$obj->undeclared = 'value';
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('MemberAccessException', 'Cannot write to an undeclared property TestClass::$undeclared.', $e );
+	Assert::exception('Nette\MemberAccessException', 'Cannot write to an undeclared property TestClass::$undeclared.', $e );
 }
 
 
@@ -47,7 +46,7 @@ try {
 	$val = $obj->s;
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('MemberAccessException', 'Cannot read an undeclared property TestClass::$s.', $e );
+	Assert::exception('Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$s.', $e );
 }
 
 
@@ -61,7 +60,7 @@ try {
 	$obj->bar = 'value';
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('MemberAccessException', 'Cannot write to a read-only property TestClass::$bar.', $e );
+	Assert::exception('Nette\MemberAccessException', 'Cannot write to a read-only property TestClass::$bar.', $e );
 }
 
 
@@ -76,5 +75,5 @@ try {
 	$val = $obj->bazz;
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('MemberAccessException', 'Cannot read a write-only property TestClass::$bazz.', $e );
+	Assert::exception('Nette\MemberAccessException', 'Cannot read a write-only property TestClass::$bazz.', $e );
 }

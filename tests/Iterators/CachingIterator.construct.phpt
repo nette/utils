@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\SmartCachingIterator constructor.
+ * Test: Nette\Iterators\CachingIterator constructor.
  *
  * @author     David Grudl
- * @package    Nette
+ * @package    Nette\Iterators
  * @subpackage UnitTests
  */
 
-use Nette\SmartCachingIterator;
+use Nette\Iterators;
 
 
 
@@ -20,7 +20,7 @@ require __DIR__ . '/../bootstrap.php';
 
 $arr = array('Nette', 'Framework');
 $tmp = array();
-foreach (new SmartCachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
 Assert::same( array(
 	'0 => Nette',
 	'1 => Framework',
@@ -32,7 +32,7 @@ Assert::same( array(
 
 $arr = (object) array('Nette', 'Framework');
 $tmp = array();
-foreach (new SmartCachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
 Assert::same( array(
 	'0 => Nette',
 	'1 => Framework',
@@ -44,7 +44,7 @@ Assert::same( array(
 
 $arr = new ArrayObject(array('Nette', 'Framework'));
 $tmp = array();
-foreach (new SmartCachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
 Assert::same( array(
 	'0 => Nette',
 	'1 => Framework',
@@ -55,7 +55,7 @@ Assert::same( array(
 // ==> Iterator
 
 $tmp = array();
-foreach (new SmartCachingIterator($arr->getIterator()) as $k => $v) $tmp[] = "$k => $v";
+foreach (new Iterators\CachingIterator($arr->getIterator()) as $k => $v) $tmp[] = "$k => $v";
 Assert::same( array(
 	'0 => Nette',
 	'1 => Framework',
@@ -67,7 +67,7 @@ Assert::same( array(
 
 $arr = new SimpleXMLElement('<feed><item>Nette</item><item>Framework</item></feed>');
 $tmp = array();
-foreach (new SmartCachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
 Assert::same( array(
 	'item => Nette',
 	'item => Framework',
@@ -79,7 +79,7 @@ Assert::same( array(
 
 try {
 	$arr = dir('.');
-	foreach (new SmartCachingIterator($arr) as $k => $v);
+	foreach (new Iterators\CachingIterator($arr) as $k => $v);
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
 	Assert::exception('InvalidArgumentException', NULL, $e );

@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\ArrayTools::searchKey()
+ * Test: Nette\ArrayUtils::searchKey()
  *
  * @author     David Grudl
  * @package    Nette
  * @subpackage UnitTests
  */
 
-use Nette\ArrayTools;
+use Nette\ArrayUtils;
 
 
 
@@ -31,9 +31,9 @@ Assert::same( array(
 ), $arr );
 
 
-Assert::same( 2, ArrayTools::searchKey($arr, '1') );
-Assert::same( 2, ArrayTools::searchKey($arr, 1) );
-Assert::same( 1, ArrayTools::searchKey($arr, 0) );
-Assert::same( 0, ArrayTools::searchKey($arr, NULL) );
-Assert::same( 0, ArrayTools::searchKey($arr, '') );
-Assert::false( ArrayTools::searchKey($arr, 'undefined') );
+Assert::same( 2, ArrayUtils::searchKey($arr, '1') );
+Assert::same( 2, ArrayUtils::searchKey($arr, 1) );
+Assert::same( 1, ArrayUtils::searchKey($arr, 0) );
+Assert::same( 0, ArrayUtils::searchKey($arr, NULL) );
+Assert::same( 0, ArrayUtils::searchKey($arr, '') );
+Assert::false( ArrayUtils::searchKey($arr, 'undefined') );

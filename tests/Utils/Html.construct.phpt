@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\Web\Html::__construct()
+ * Test: Nette\Utils\Html::__construct()
  *
  * @author     David Grudl
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
-use Nette\Web\Html;
+use Nette\Utils\Html;
 
 
 

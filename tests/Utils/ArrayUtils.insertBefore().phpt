@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\ArrayTools::insertBefore() & insertAfter()
+ * Test: Nette\ArrayUtils::insertBefore() & insertAfter()
  *
  * @author     David Grudl
  * @package    Nette
  * @subpackage UnitTests
  */
 
-use Nette\ArrayTools;
+use Nette\ArrayUtils;
 
 
 
@@ -33,7 +33,7 @@ Assert::same( array(
 
 // First item
 $dolly = $arr;
-ArrayTools::insertBefore($dolly, NULL, array('new' => 'value'));
+ArrayUtils::insertBefore($dolly, NULL, array('new' => 'value'));
 Assert::same( array(
 	'new' => 'value',
 	'' => 'first',
@@ -44,7 +44,7 @@ Assert::same( array(
 
 
 $dolly = $arr;
-ArrayTools::insertAfter($dolly, NULL, array('new' => 'value'));
+ArrayUtils::insertAfter($dolly, NULL, array('new' => 'value'));
 Assert::same( array(
 	'' => 'first',
 	'new' => 'value',
@@ -57,7 +57,7 @@ Assert::same( array(
 
 // Last item
 $dolly = $arr;
-ArrayTools::insertBefore($dolly, 7, array('new' => 'value'));
+ArrayUtils::insertBefore($dolly, 7, array('new' => 'value'));
 Assert::same( array(
 	'' => 'first',
 	0 => 'second',
@@ -68,7 +68,7 @@ Assert::same( array(
 
 
 $dolly = $arr;
-ArrayTools::insertAfter($dolly, 7, array('new' => 'value'));
+ArrayUtils::insertAfter($dolly, 7, array('new' => 'value'));
 Assert::same( array(
 	'' => 'first',
 	0 => 'second',
@@ -81,7 +81,7 @@ Assert::same( array(
 
 // Undefined item
 $dolly = $arr;
-ArrayTools::insertBefore($dolly, 'undefined', array('new' => 'value'));
+ArrayUtils::insertBefore($dolly, 'undefined', array('new' => 'value'));
 Assert::same( array(
 	'new' => 'value',
 	'' => 'first',
@@ -92,7 +92,7 @@ Assert::same( array(
 
 
 $dolly = $arr;
-ArrayTools::insertAfter($dolly, 'undefined', array('new' => 'value'));
+ArrayUtils::insertAfter($dolly, 'undefined', array('new' => 'value'));
 Assert::same( array(
 	'' => 'first',
 	0 => 'second',

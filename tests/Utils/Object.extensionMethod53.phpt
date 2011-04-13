@@ -9,7 +9,6 @@
  * @phpversion 5.3
  */
 
-use Nette\Object;
 
 
 

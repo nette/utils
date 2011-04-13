@@ -44,7 +44,7 @@ try {
 	callback('undefined')->invoke();
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('InvalidStateException', "Callback 'undefined' is not callable.", $e );
+	Assert::exception('Nette\InvalidStateException', "Callback 'undefined' is not callable.", $e );
 }
 
 try {

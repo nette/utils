@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\SmartCachingIterator basic usage.
+ * Test: Nette\Iterators\CachingIterator basic usage.
  *
  * @author     David Grudl
- * @package    Nette
+ * @package    Nette\Iterators
  * @subpackage UnitTests
  */
 
-use Nette\SmartCachingIterator;
+use Nette\Iterators;
 
 
 
@@ -20,7 +20,7 @@ require __DIR__ . '/../bootstrap.php';
 
 $arr = array('Nette', 'Framework');
 
-$iterator = new SmartCachingIterator($arr);
+$iterator = new Iterators\CachingIterator($arr);
 $iterator->rewind();
 Assert::true( $iterator->valid() );
 Assert::true( $iterator->isFirst() );
@@ -46,7 +46,7 @@ Assert::false( $iterator->isEmpty() );
 
 $arr = array('Nette');
 
-$iterator = new SmartCachingIterator($arr);
+$iterator = new Iterators\CachingIterator($arr);
 $iterator->rewind();
 Assert::true( $iterator->valid() );
 Assert::true( $iterator->isFirst() );
@@ -66,7 +66,7 @@ Assert::false( $iterator->isEmpty() );
 
 $arr = array();
 
-$iterator = new SmartCachingIterator($arr);
+$iterator = new Iterators\CachingIterator($arr);
 $iterator->next();
 $iterator->next();
 Assert::false( $iterator->isFirst() );

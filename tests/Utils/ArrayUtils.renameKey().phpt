@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\ArrayTools::renameKey()
+ * Test: Nette\ArrayUtils::renameKey()
  *
  * @author     David Grudl
  * @package    Nette
  * @subpackage UnitTests
  */
 
-use Nette\ArrayTools;
+use Nette\ArrayUtils;
 
 
 
@@ -31,11 +31,11 @@ Assert::same( array(
 ), $arr );
 
 
-ArrayTools::renameKey($arr, '1', 'new1');
-ArrayTools::renameKey($arr, 0, 'new2');
-ArrayTools::renameKey($arr, NULL, 'new3');
-ArrayTools::renameKey($arr, '', 'new4');
-ArrayTools::renameKey($arr, 'undefined', 'new5');
+ArrayUtils::renameKey($arr, '1', 'new1');
+ArrayUtils::renameKey($arr, 0, 'new2');
+ArrayUtils::renameKey($arr, NULL, 'new3');
+ArrayUtils::renameKey($arr, '', 'new4');
+ArrayUtils::renameKey($arr, 'undefined', 'new5');
 
 Assert::same( array(
 	'new3' => 'first',

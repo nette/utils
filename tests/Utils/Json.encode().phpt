@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Nette\Json::encode()
+ * Test: Nette\Utils\Json::encode()
  *
  * @author     David Grudl
- * @package    Nette
+ * @package    Nette\Utils
  * @subpackage UnitTests
  */
 
-use Nette\Json;
+use Nette\Utils\Json;
 
 
 
@@ -25,7 +25,7 @@ try {
 	Json::encode(array("bad utf\xFF"));
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('Nette\JsonException', 'json_encode(): Invalid UTF-8 sequence in argument', $e );
+	Assert::exception('Nette\Utils\JsonException', 'json_encode(): Invalid UTF-8 sequence in argument', $e );
 }
 
 
@@ -36,5 +36,5 @@ try {
 	Json::encode($arr);
 	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	Assert::exception('Nette\JsonException', 'json_encode(): recursion detected', $e );
+	Assert::exception('Nette\Utils\JsonException', 'json_encode(): recursion detected', $e );
 }
