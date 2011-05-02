@@ -223,7 +223,9 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	{
 		if ($query) {
 			$query = http_build_query($query, NULL, '&');
-			if ($query !== '') $path .= '?' . $query;
+			if ($query !== '') {
+				$path .= '?' . $query;
+			}
 		}
 		$this->attrs['href'] = $path;
 		return $this;
@@ -538,15 +540,15 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 		$s = '';
 		foreach ($this->attrs as $key => $value) {
-			// skip NULLs and false boolean attributes
-			if ($value === NULL || $value === FALSE) continue;
+			if ($value === NULL || $value === FALSE) {
+				continue;
 
-			// true boolean attribute
-			if ($value === TRUE) {
-				// in XHTML must use unminimized form
-				if (self::$xhtml) $s .= ' ' . $key . '="' . $key . '"';
-				// in HTML should use minimized form
-				else $s .= ' ' . $key;
+			} elseif ($value === TRUE) {
+				if (self::$xhtml) {
+					$s .= ' ' . $key . '="' . $key . '"';
+				} else {
+					$s .= ' ' . $key;
+				}
 				continue;
 
 			} elseif (is_array($value)) {
@@ -559,16 +561,16 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 					continue;
 				}
 
-				// prepare into temporary array
 				$tmp = NULL;
 				foreach ($value as $k => $v) {
-					// skip NULLs & empty string; composite 'style' vs. 'others'
-					if ($v == NULL) continue; // intentionally ==
-
-					//  composite 'style' vs. 'others'
-					$tmp[] = $v === TRUE ? $k : (is_string($k) ? $k . ':' . $v : $v);
+					if ($v != NULL) { // intentionally ==, skip NULLs & empty string
+						//  composite 'style' vs. 'others'
+						$tmp[] = $v === TRUE ? $k : (is_string($k) ? $k . ':' . $v : $v);
+					}
 				}
-				if ($tmp === NULL) continue;
+				if ($tmp === NULL) {
+					continue;
+				}
 
 				$value = implode($key === 'style' || !strncmp($key, 'on', 2) ? ';' : ' ', $tmp);
 
