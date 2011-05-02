@@ -60,7 +60,7 @@ class RecursiveFilter extends \FilterIterator implements \RecursiveIterator
 
 	function getChildren()
 	{
-		return new self($this->getInnerIterator()->getChildren(), $this->callback, $this->childrenCallback);
+		return new static($this->getInnerIterator()->getChildren(), $this->callback, $this->childrenCallback);
 	}
 
 }

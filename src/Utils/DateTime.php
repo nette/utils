@@ -56,10 +56,10 @@ class DateTime extends \DateTime
 			if ($time <= self::YEAR) {
 				$time += time();
 			}
-			return new self(date('Y-m-d H:i:s', $time));
+			return new static(date('Y-m-d H:i:s', $time));
 
 		} else { // textual or NULL
-			return new self($time);
+			return new static($time);
 		}
 	}
 
