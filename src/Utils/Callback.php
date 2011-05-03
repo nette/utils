@@ -22,7 +22,7 @@ use Nette;
  */
 final class Callback extends Object
 {
-	/** @var callback */
+	/** @var string|array|\Closure */
 	private $cb;
 
 
@@ -35,35 +35,26 @@ final class Callback extends Object
 	public function __construct($t, $m = NULL)
 	{
 		if ($m === NULL) {
-			$this->cb = $t;
+			if (is_string($t)) {
+				$t = explode('::', $t, 2);
+				$this->cb = isset($t[1]) ? $t : $t[0];
+			} elseif (is_object($t)) {
+				$this->cb = $t instanceof \Closure ? $t : array($t, '__invoke');
+			} else {
+				$this->cb = $t;
+			}
+
 		} else {
 			$this->cb = array($t, $m);
 		}
 
 		/*5.2*
-		// __invoke support
-		if (is_object($this->cb)) {
-			$this->cb = array($this->cb, '__invoke');
+		// remove class namespace
+		if (is_string($this->cb) && $a = strrpos($this->cb, '\\')) {
+			$this->cb = substr($this->cb, $a + 1);
 
-		} elseif (PHP_VERSION_ID < 50202) {
-			// explode 'Class::method' into array
-			if (is_string($this->cb) && strpos($this->cb, ':')) {
-				$this->cb = explode('::', $this->cb);
-			}
-
-			// remove class namespace
-			if (is_array($this->cb) && is_string($this->cb[0]) && $a = strrpos($this->cb[0], '\\')) {
-				$this->cb[0] = substr($this->cb[0], $a + 1);
-			}
-
-		} else {
-			// remove class namespace
-			if (is_string($this->cb) && $a = strrpos($this->cb, '\\')) {
-				$this->cb = substr($this->cb, $a + 1);
-
-			} elseif (is_array($this->cb) && is_string($this->cb[0]) && $a = strrpos($this->cb[0], '\\')) {
-				$this->cb[0] = substr($this->cb[0], $a + 1);
-			}
+		} elseif (is_array($this->cb) && is_string($this->cb[0]) && $a = strrpos($this->cb[0], '\\')) {
+			$this->cb[0] = substr($this->cb[0], $a + 1);
 		}
 		*/
 
@@ -132,7 +123,7 @@ final class Callback extends Object
 
 	/**
 	 * Returns PHP callback pseudotype.
-	 * @return callback
+	 * @return string|array|\Closure
 	 */
 	public function getNative()
 	{

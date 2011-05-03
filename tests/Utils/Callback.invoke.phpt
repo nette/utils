@@ -25,18 +25,10 @@ class Test
 }
 
 
-Assert::same( 'Test::add', (string) new Callback(new Test, 'add') );
-Assert::same( 'Test::add', (string) new Callback('Test', 'add') );
-Assert::same( 'Test::add', (string) new Callback('Test::add') );
-Assert::same( 'undefined', (string) new Callback('undefined') );
-
-
-
 $cb = new Callback(new Test, 'add');
 
 Assert::same( 8, $cb/*5.2*->invoke*/(3, 5) );
 Assert::same( 8, $cb->invokeArgs(array(3, 5)) );
-Assert::equal( array(new Test, 'add'), $cb->getNative() );
 Assert::true( $cb->isCallable() );
 
 
