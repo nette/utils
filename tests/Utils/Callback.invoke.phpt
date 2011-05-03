@@ -29,6 +29,7 @@ $cb = new Callback(new Test, 'add');
 
 Assert::same( 8, $cb/*5.2*->invoke*/(3, 5) );
 Assert::same( 8, $cb->invokeArgs(array(3, 5)) );
+Assert::same( 3, $cb->invokeNamedArgs(array('b' => 3)) );
 Assert::true( $cb->isCallable() );
 
 

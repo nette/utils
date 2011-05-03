@@ -111,6 +111,23 @@ final class Callback extends Object
 
 
 	/**
+	 * Invokes callback using named parameters.
+	 * @param  array
+	 * @return mixed
+	 */
+	public function invokeNamedArgs(array $args)
+	{
+		$ref = $this->toReflection();
+		if (is_array($this->cb)) {
+			return $ref->invokeNamedArgs(is_object($this->cb[0]) ? $this->cb[0] : NULL, $args);
+		} else {
+			return $ref->invokeNamedArgs($args);
+		}
+	}
+
+
+
+	/**
 	 * Verifies that callback can be called.
 	 * @return bool
 	 */
@@ -128,6 +145,21 @@ final class Callback extends Object
 	public function getNative()
 	{
 		return $this->cb;
+	}
+
+
+
+	/**
+	 * Returns callback reflection.
+	 * @return Nette\Reflection\GlobalFunction|Nette\Reflection\Method
+	 */
+	public function toReflection()
+	{
+		if (is_array($this->cb)) {
+			return new Nette\Reflection\Method($this->cb[0], $this->cb[1]);
+		} else {
+			return new Nette\Reflection\GlobalFunction($this->cb);
+		}
 	}
 
 
