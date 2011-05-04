@@ -20,25 +20,16 @@ class Person
 {
 	private $name;
 
-
 	public function __construct($name)
 	{
 		$this->name = $name;
 	}
-
-
 
 	public function sayHi()
 	{
 		return "My name is $this->name";
 	}
 
-
-
-	public function __toString()
-	{
-		return $this->name;
-	}
 }
 
 
@@ -47,38 +38,29 @@ $list = new ArrayHash;
 $jack = new Person('Jack');
 $mary = new Person('Mary');
 
-
-
-// Adding Mary
 $list['m'] = $mary;
-
-// Adding Jack
 $list['j'] = $jack;
 
+Assert::same( $mary, $list['m'] );
+Assert::same( $jack, $list['j'] );
+
+Assert::same( $mary, $list->m );
+Assert::same( $jack, $list->j );
 
 
-Assert::same( 2, $list->count(), 'count:' );
 
-Assert::same( 2, count($list) );
-
-
-
-Assert::equal( array(
-	'm' => new Person('Mary'),
-	'j' => new Person('Jack'),
+Assert::same( array(
+	'm' => $mary,
+	'j' => $jack,
 ), iterator_to_array($list) );
 
 
-
-Assert::equal( array(
-	'm' => new Person('Mary'),
-	'j' => new Person('Jack'),
+Assert::same( array(
+	'm' => $mary,
+	'j' => $jack,
 ), (array) $list );
 
 
-
-
-// Get Interator:
 foreach ($list as $key => $person) {
 	$tmp[] = $key . ' => ' . $person->sayHi();
 }
@@ -89,8 +71,31 @@ Assert::same( array(
 
 
 
+Assert::same( 2, $list->count(), 'count:' );
+Assert::same( 2, count($list) );
+
+
 
 unset($list['j']);
-Assert::equal( array(
-	'm' => new Person('Mary'),
+Assert::same( array(
+	'm' => $mary,
 ), iterator_to_array($list) );
+
+
+
+$list = ArrayHash::from(array(
+	'm' => $mary,
+	'j' => 'Jack',
+	'children' => array(
+		'c' => 'John',
+	),
+));
+Assert::true( $list instanceof ArrayHash );
+Assert::same( $mary, $list['m'] );
+Assert::same( 'Jack', $list['j'] );
+Assert::true( is_array($list['children']) );
+Assert::same( 'John', $list['children']['c'] );
+
+/*
+$list['children']['c'] = 'Jim'; // indirect modification
+*/
