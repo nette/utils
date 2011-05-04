@@ -68,7 +68,8 @@ abstract class FreezableObject extends Object implements IFreezable
 	protected function updating()
 	{
 		if ($this->frozen) {
-			throw new InvalidStateException("Cannot modify a frozen object {$this->reflection->name}.");
+			$class = get_class($this);
+			throw new InvalidStateException("Cannot modify a frozen object $class.");
 		}
 	}
 
