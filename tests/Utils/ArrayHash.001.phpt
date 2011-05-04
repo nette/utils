@@ -89,13 +89,32 @@ $list = ArrayHash::from(array(
 	'children' => array(
 		'c' => 'John',
 	),
+), FALSE);
+Assert::true( $list instanceof ArrayHash );
+Assert::true( is_array($list['children']) );
+
+
+
+$list = ArrayHash::from(array(
+	'm' => $mary,
+	'j' => 'Jack',
+	'children' => array(
+		'c' => 'John',
+	),
 ));
 Assert::true( $list instanceof ArrayHash );
 Assert::same( $mary, $list['m'] );
 Assert::same( 'Jack', $list['j'] );
-Assert::true( is_array($list['children']) );
+Assert::true( $list['children'] instanceof ArrayHash );
 Assert::same( 'John', $list['children']['c'] );
 
-/*
-$list['children']['c'] = 'Jim'; // indirect modification
-*/
+$list['children']['c'] = 'Jim';
+Assert::same( 'Jim', $list['children']['c'] );
+
+
+Assert::same( array(
+	'm' => $mary,
+	'j' => 'Jack',
+	'children' => $list['children'],
+	'c' => 'Jim',
+), iterator_to_array(new RecursiveIteratorIterator($list, RecursiveIteratorIterator::SELF_FIRST)) );
