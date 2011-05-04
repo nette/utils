@@ -31,7 +31,7 @@ class Mapper extends \IteratorIterator
 	 * @param
 	 * @param  callback
 	 */
-	function __construct(\Traversable $iterator, $callback)
+	public function __construct(\Traversable $iterator, $callback)
 	{
 		parent::__construct($iterator);
 		$this->callback = $callback;
@@ -39,7 +39,7 @@ class Mapper extends \IteratorIterator
 
 
 
-	function current()
+	public function current()
 	{
 		return call_user_func($this->callback, parent::current(), parent::key());
 	}

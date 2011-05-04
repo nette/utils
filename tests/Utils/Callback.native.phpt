@@ -57,6 +57,6 @@ Assert::same( 'Method Test::__invoke()', (string) callback($test)->toReflection(
 /**/
 $closure = function(){};
 Assert::same( $closure, callback($closure)->getNative() );
-Assert::same( 'Closure::__invoke', (string) callback($closure) );
+Assert::same( '{closure}', (string) callback($closure) );
 Assert::same( 'Function {closure}()', (string) callback($closure)->toReflection() );
 /**/

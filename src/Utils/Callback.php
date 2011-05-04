@@ -179,8 +179,14 @@ final class Callback extends Object
 	 */
 	public function __toString()
 	{
-		is_callable($this->cb, TRUE, $textual);
-		return $textual;
+		if ($this->cb instanceof \Closure) {
+			return '{closure}';
+		} elseif (is_string($this->cb) && $this->cb[0] === "\0") {
+			return '{lambda}';
+		} else {
+			is_callable($this->cb, TRUE, $textual);
+			return $textual;
+		}
 	}
 
 }

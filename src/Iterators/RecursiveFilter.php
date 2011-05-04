@@ -34,7 +34,7 @@ class RecursiveFilter extends \FilterIterator implements \RecursiveIterator
 	 * @param
 	 * @param  callback
 	 */
-	function __construct(\RecursiveIterator $iterator, $callback, $childrenCallback = NULL)
+	public function __construct(\RecursiveIterator $iterator, $callback, $childrenCallback = NULL)
 	{
 		parent::__construct($iterator);
 		$this->callback = $callback;
@@ -43,14 +43,14 @@ class RecursiveFilter extends \FilterIterator implements \RecursiveIterator
 
 
 
-	function accept()
+	public function accept()
 	{
 		return $this->callback === NULL || call_user_func($this->callback, $this);
 	}
 
 
 
-	function hasChildren()
+	public function hasChildren()
 	{
 		return $this->getInnerIterator()->hasChildren()
 			&& ($this->childrenCallback === NULL || call_user_func($this->childrenCallback, $this));
@@ -58,7 +58,7 @@ class RecursiveFilter extends \FilterIterator implements \RecursiveIterator
 
 
 
-	function getChildren()
+	public function getChildren()
 	{
 		return new static($this->getInnerIterator()->getChildren(), $this->callback, $this->childrenCallback);
 	}

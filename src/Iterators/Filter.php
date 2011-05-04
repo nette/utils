@@ -31,7 +31,7 @@ class Filter extends \FilterIterator
 	 * @param
 	 * @param  callback
 	 */
-	function __construct(\Iterator $iterator, $callback)
+	public function __construct(\Iterator $iterator, $callback)
 	{
 		parent::__construct($iterator);
 		$this->callback = $callback;
@@ -39,7 +39,7 @@ class Filter extends \FilterIterator
 
 
 
-	function accept()
+	public function accept()
 	{
 		return call_user_func($this->callback, $this);
 	}
