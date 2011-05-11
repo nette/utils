@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: DateTime53 test.
+ * Test: Nette\DateTime53 test.
  *
  * @author     David Grudl
  * @package    Nette

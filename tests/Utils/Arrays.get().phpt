@@ -4,7 +4,7 @@
  * Test: Nette\Utils\Arrays::get()
  *
  * @author     David Grudl
- * @package    Nette
+ * @package    Nette\Utils
  * @subpackage UnitTests
  */
 

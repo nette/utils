@@ -4,7 +4,7 @@
  * Test: Nette\Utils\Strings and RegexpException run-time error.
  *
  * @author     David Grudl
- * @package    Nette
+ * @package    Nette\Utils
  * @subpackage UnitTests
  */
 
