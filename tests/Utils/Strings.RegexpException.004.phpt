@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 
-Assert::same('HELLO', Strings::replace('hello', '#.#', function($m) {
+Assert::same('HELLO', Strings::replace('hello', '#.#', callback(function($m) {
 	$a++; // E_NOTICE
 	return strtoupper($m[0]);
-}));
+})));
