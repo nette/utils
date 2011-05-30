@@ -47,6 +47,9 @@ final class Arrays
 			if (is_array($arr) && array_key_exists($k, $arr)) {
 				$arr = $arr[$k];
 			} else {
+				if (func_num_args() < 3) {
+					throw new Nette\InvalidArgumentException("Missing item '$k'.");
+				}
 				return $default;
 			}
 		}
