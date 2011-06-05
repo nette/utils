@@ -15,6 +15,12 @@ use Nette\Image;
 require __DIR__ . '/../bootstrap.php';
 
 
+
+if (!extension_loaded('gd')) {
+	TestHelpers::skip('Requires PHP extension GD.');
+}
+
+
 $image = Image::fromFile('images/logo.gif');
 $flipped = $image->resize(-100, -100);
 

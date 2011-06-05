@@ -16,6 +16,12 @@ require __DIR__ . '/../bootstrap.php';
 
 
 
+if (!extension_loaded('gd')) {
+	TestHelpers::skip('Requires PHP extension GD.');
+}
+
+
+
 $main = Image::fromFile('images/logo.gif');
 $image = clone $main;
 Assert::same( 176, $image->width, 'width' );

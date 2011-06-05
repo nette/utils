@@ -16,8 +16,8 @@ require __DIR__ . '/../bootstrap.php';
 
 
 
-if (GD_BUNDLED === 0) {
-	TestHelpers::skip('Requires PHP extension GD in bundled version.');
+if (!extension_loaded('gd') || GD_BUNDLED === 0) {
+	TestHelpers::skip('Requires PHP extension GD (the bundled version).');
 }
 
 

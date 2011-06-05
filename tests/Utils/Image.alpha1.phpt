@@ -14,6 +14,14 @@ use Nette\Image;
 
 require __DIR__ . '/../bootstrap.php';
 
+
+
+if (!extension_loaded('gd')) {
+	TestHelpers::skip('Requires PHP extension GD.');
+}
+
+
+
 ob_start();
 
 $image = Image::fromBlank(200, 100, Image::rgb(255, 128, 0, 60));

@@ -16,6 +16,12 @@ require __DIR__ . '/../bootstrap.php';
 
 
 
+if (!extension_loaded('gd')) {
+	TestHelpers::skip('Requires PHP extension GD.');
+}
+
+
+
 $size = 300;
 $image = Image::fromBlank($size, $size);
 
