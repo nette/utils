@@ -112,7 +112,7 @@ class Strings
 		$s = strtr($s, "\r", "\n"); // Mac
 
 		// remove control characters; leave \t + \n
-		$s = preg_replace('#[\x00-\x08\x0B-\x1F]+#', '', $s);
+		$s = preg_replace('#[\x00-\x08\x0B-\x1F\x7F]+#', '', $s);
 
 		// right trim
 		$s = preg_replace("#[\t ]+$#m", '', $s);
