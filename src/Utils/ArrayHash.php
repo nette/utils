@@ -20,7 +20,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-class ArrayHash implements \ArrayAccess, \Countable, \IteratorAggregate
+class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 
 	/**
