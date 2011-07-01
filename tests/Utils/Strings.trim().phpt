@@ -21,9 +21,6 @@ Assert::same( 'a b',  Strings::trim(' a b ') );
 Assert::same( ' a b ',  Strings::trim(' a b ', '') );
 Assert::same( 'e',  Strings::trim("\xc5\x98e-", "\xc5\x98-") ); // Ře-
 
-try {
+Assert::throws(function() {
 	Strings::trim("\xC2x\xA0");
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('Nette\Utils\RegexpException', NULL, $e );
-}
+}, 'Nette\Utils\RegexpException', NULL);

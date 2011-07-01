@@ -25,23 +25,14 @@ Assert::same( 'a123b123c', Strings::expand('a%key%b%key%c', array('key' => 123))
 Assert::same( 123, Strings::expand('%key1.key2%', array('key1' => array('key2' => 123))) );
 Assert::same( 123, Strings::expand('%key1%', array('key1' => '%key2%', 'key2' => 123), TRUE) );
 
-try {
+Assert::throws(function() {
 	Strings::expand('%missing%', array());
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception( 'Nette\InvalidArgumentException', "Missing item 'missing'.", $e );
-}
+}, 'Nette\InvalidArgumentException', "Missing item 'missing'.");
 
-try {
+Assert::throws(function() {
 	Strings::expand('%key1%a', array('key1' => array('key2' => 123)));
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception( 'Nette\InvalidArgumentException', "Unable to concatenate non-scalar parameter 'key1' into '%key1%a'.", $e );
-}
+}, 'Nette\InvalidArgumentException', "Unable to concatenate non-scalar parameter 'key1' into '%key1%a'.");
 
-try {
+Assert::throws(function() {
 	Strings::expand('%key1%', array('key1' => '%key2%', 'key2' => '%key1%'), TRUE);
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception( 'Nette\InvalidArgumentException', "Circular reference detected for variables: key1, key2.", $e );
-}
+}, 'Nette\InvalidArgumentException', "Circular reference detected for variables: key1, key2.");

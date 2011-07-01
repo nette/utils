@@ -67,19 +67,13 @@ Assert::same( 2, count($list) );
 
 
 
-try {
+Assert::throws(function() use ($list) {
 	unset($list[-1]);
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('OutOfRangeException', 'Offset invalid or out of range', $e );
-}
+}, 'OutOfRangeException', 'Offset invalid or out of range');
 
-try {
+Assert::throws(function() use ($list) {
 	unset($list[2]);
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('OutOfRangeException', 'Offset invalid or out of range', $e );
-}
+}, 'OutOfRangeException', 'Offset invalid or out of range');
 
 unset($list[1]);
 Assert::same( array(

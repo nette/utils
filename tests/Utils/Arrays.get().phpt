@@ -30,12 +30,9 @@ Assert::same( 'first', Arrays::get($arr, NULL) );
 Assert::same( 'second', Arrays::get($arr, 1) );
 Assert::same( 'second', Arrays::get($arr, 1, 'x') );
 Assert::same( 'x', Arrays::get($arr, 'undefined', 'x') );
-try {
+Assert::throws(function() use ($arr) {
 	Arrays::get($arr, 'undefined');
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('Nette\InvalidArgumentException', "Missing item 'undefined'.", $e );
-}
+}, 'Nette\InvalidArgumentException', "Missing item 'undefined'.");
 
 
 

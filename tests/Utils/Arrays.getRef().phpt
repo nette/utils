@@ -75,10 +75,7 @@ Assert::same( array(
 
 // Error
 
-try {
+Assert::throws(function() use ($arr) {
 	$dolly = $arr;
 	$item = & Arrays::getRef($dolly, array(7, 'item', 3));
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('InvalidArgumentException', 'Traversed item is not an array.', $e );
-}
+}, 'InvalidArgumentException', 'Traversed item is not an array.');

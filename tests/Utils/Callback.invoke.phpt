@@ -33,16 +33,10 @@ Assert::same( 3, $cb->invokeNamedArgs(array('b' => 3)) );
 Assert::true( $cb->isCallable() );
 
 
-try {
+Assert::throws(function() {
 	callback('undefined')->invoke();
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('Nette\InvalidStateException', "Callback 'undefined' is not callable.", $e );
-}
+}, 'Nette\InvalidStateException', "Callback 'undefined' is not callable.");
 
-try {
+Assert::throws(function() {
 	callback(NULL)->invoke();
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('InvalidArgumentException', 'Invalid callback.', $e );
-}
+}, 'InvalidArgumentException', 'Invalid callback.');

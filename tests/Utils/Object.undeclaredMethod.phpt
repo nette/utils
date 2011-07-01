@@ -17,11 +17,7 @@ require __DIR__ . '/Object.inc';
 
 
 
-try {
+Assert::throws(function() {
 	$obj = new TestClass;
 	$obj->undeclared();
-
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('Nette\MemberAccessException', 'Call to undefined method TestClass::undeclared().', $e );
-}
+}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::undeclared().');

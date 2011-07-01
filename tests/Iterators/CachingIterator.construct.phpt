@@ -77,10 +77,7 @@ Assert::same( array(
 
 // ==> object
 
-try {
+Assert::throws(function() {
 	$arr = dir('.');
 	foreach (new Iterators\CachingIterator($arr) as $k => $v);
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('InvalidArgumentException', NULL, $e );
-}
+}, 'InvalidArgumentException', NULL);

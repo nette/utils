@@ -51,21 +51,11 @@ Assert::same( 3, $var->counter );
 
 
 
-try {
+Assert::throws(function() use ($obj) {
 	$obj->onPrivate(123);
-	$this->fail('called private event');
-
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('Nette\MemberAccessException', 'Call to undefined method TestClass::onPrivate().', $e );
-}
+}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::onPrivate().');
 
 
-try {
+Assert::throws(function() use ($obj) {
 	$obj->onUndefined(123);
-	$this->fail('called undefined event');
-
-	Assert::fail('Expected exception');
-} catch (Exception $e) {
-	Assert::exception('Nette\MemberAccessException', 'Call to undefined method TestClass::onUndefined().', $e );
-}
+}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::onUndefined().');
