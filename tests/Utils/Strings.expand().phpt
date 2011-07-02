@@ -17,7 +17,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 Assert::same( 'item', Strings::expand('item', array()) );
-Assert::same( 123, Strings::expand(123, array()) );
+Assert::same( '123', Strings::expand(123, array()) );
 Assert::same( '%', Strings::expand('%%', array()) );
 Assert::same( 'item', Strings::expand('%key%', array('key' => 'item')) );
 Assert::same( 123, Strings::expand('%key%', array('key' => 123)) );

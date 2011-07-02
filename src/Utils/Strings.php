@@ -487,7 +487,7 @@ class Strings
 
 	/**
 	 * Expands %placeholders% in string.
-	 * @param  mixed
+	 * @param  string
 	 * @param  array
 	 * @param  bool
 	 * @return mixed
@@ -495,11 +495,7 @@ class Strings
 	 */
 	public static function expand($s, array $params, $recursive = FALSE)
 	{
-		if (!is_string($s) || strpos($s, '%') === FALSE) {
-			return $s;
-		}
-
-		$parts = preg_split('#%([a-z0-9._-]*)%#i', $s, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$parts = preg_split('#%([\w.-]*)%#i', $s, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$res = '';
 		foreach ($parts as $n => $part) {
 			if ($n % 2 === 0) {
@@ -513,8 +509,8 @@ class Strings
 
 			} else {
 				$val = Arrays::get($params, explode('.', $part));
-				if ($recursive) {
-					$val = Strings::expand($val, $params, (is_array($recursive) ? $recursive : array()) + array($part => 1));
+				if ($recursive && is_string($val)) {
+					$val = self::expand($val, $params, (is_array($recursive) ? $recursive : array()) + array($part => 1));
 				}
 				if (strlen($part) + 2 === strlen($s)) {
 					return $val;
