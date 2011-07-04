@@ -53,7 +53,6 @@ use Nette;
  *
  * @author     David Grudl
  *
- * @property-read string $class
  * @property-read Nette\Reflection\ClassType $reflection
  */
 abstract class Object

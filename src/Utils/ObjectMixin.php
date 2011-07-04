@@ -76,7 +76,7 @@ final class ObjectMixin
 
 	/**
 	 * Call to undefined static method.
-	 * @param  object
+	 * @param  string
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
@@ -177,7 +177,7 @@ final class ObjectMixin
 	 * Throws exception.
 	 * @param  object
 	 * @param  string  property name
-	 * @param  mixed   property value
+	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public static function remove($_this, $name)
