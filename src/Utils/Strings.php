@@ -386,12 +386,15 @@ class Strings
 	 * Performs a regular expression match.
 	 * @param  string
 	 * @param  string
-	 * @param  int
-	 * @param  int
+	 * @param  int  can be PREG_OFFSET_CAPTURE (returned in bytes)
+	 * @param  int  offset in bytes
 	 * @return mixed
 	 */
 	public static function match($subject, $pattern, $flags = 0, $offset = 0)
 	{
+		if ($offset > strlen($subject)) {
+			return NULL;
+		}
 		Nette\Diagnostics\Debugger::tryError();
 		$res = preg_match($pattern, $subject, $m, $flags, $offset);
 		self::catchPregError($pattern);
@@ -406,12 +409,15 @@ class Strings
 	 * Performs a global regular expression match.
 	 * @param  string
 	 * @param  string
-	 * @param  int  (PREG_SET_ORDER is default)
-	 * @param  int
+	 * @param  int  can be PREG_OFFSET_CAPTURE (returned in bytes); PREG_SET_ORDER is default
+	 * @param  int  offset in bytes
 	 * @return array
 	 */
 	public static function matchAll($subject, $pattern, $flags = 0, $offset = 0)
 	{
+		if ($offset > strlen($subject)) {
+			return array();
+		}
 		Nette\Diagnostics\Debugger::tryError();
 		$res = preg_match_all(
 			$pattern, $subject, $m,
