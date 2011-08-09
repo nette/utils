@@ -101,6 +101,19 @@ class Strings
 
 
 	/**
+	 * Does $haystack contain $needle?
+	 * @param  string
+	 * @param  string
+	 * @return bool
+	 */
+	public static function contains($haystack, $needle)
+	{
+		return strpos($haystack, $needle) !== FALSE;
+	}
+
+
+
+	/**
 	 * Removes special controls characters and normalizes line endings and spaces.
 	 * @param  string  UTF-8 encoding or 8-bit
 	 * @return string
