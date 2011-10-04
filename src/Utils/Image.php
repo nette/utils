@@ -649,8 +649,3 @@ class Image extends Object
 class UnknownImageFileException extends \Exception
 {
 }
-
-
-
-$x = new Image;
-$x->fontHeight()
