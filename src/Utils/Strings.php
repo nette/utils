@@ -123,9 +123,9 @@ class Strings
 	public static function substring($s, $start, $length = NULL)
 	{
 		if ($length === NULL) {
-			$length = PHP_INT_MAX;
+			$length = self::length($s);
 		}
-		return function_exists('mb_substr') ? mb_substr($s, $start, $length, 'UTF-8') : iconv_substr($s, $start, $length, 'UTF-8');
+		return function_exists('mb_substr') ? mb_substr($s, $start, $length, 'UTF-8') : iconv_substr($s, $start, $length, 'UTF-8'); // MB is much faster
 	}
 
 
