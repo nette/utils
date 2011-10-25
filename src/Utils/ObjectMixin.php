@@ -75,6 +75,36 @@ final class ObjectMixin
 
 
 	/**
+	 * Call to undefined method.
+	 * @param  object
+	 * @param  string  method name
+	 * @param  array   arguments
+	 * @return mixed
+	 * @throws MemberAccessException
+	 */
+	public static function callProperty($_this, $name, $args)
+	{
+		if (strlen($name) > 3) {
+			$op = substr($name, 0, 3);
+			$prop = strtolower($name[3]) . substr($name, 4);
+			if ($op === 'add' && property_exists($_this, $prop.'s')) {
+				$_this->{$prop.'s'}[] = $args[0];
+				return $_this;
+
+			} elseif ($op === 'set' && property_exists($_this, $prop)) {
+				$_this->$prop = $args[0];
+				return $_this;
+
+			} elseif ($op === 'get' && property_exists($_this, $prop)) {
+				return $_this->$prop;
+			}
+		}
+		self::call($_this, $name, $args);
+	}
+
+
+
+	/**
 	 * Call to undefined static method.
 	 * @param  string
 	 * @param  string  method name
