@@ -25,6 +25,9 @@ use Nette;
  * @property-read bool $empty
  * @property-read bool $odd
  * @property-read bool $even
+ * @property-read int $counter
+ * @property-read mixed $nextKey
+ * @property-read mixed $nextValue
  */
 class CachingIterator extends \CachingIterator implements \Countable
 {
