@@ -34,7 +34,7 @@ class Validators extends Nette\Object
 		'string' =>  'is_string',
 		'unicode' => 'Nette\Utils\Validators::isUnicode',
 		'array' => 'is_array',
-		'list' => 'Nette\Utils\Arrays::isList',
+		'list' => 'Nette\Utils\Validators::isList',
 		'object' => 'is_object',
 		'resource' => 'is_resource',
 		'scalar' => 'is_scalar',
@@ -214,6 +214,18 @@ class Validators extends Nette\Object
 	public static function isNone($value)
 	{
 		return $value == NULL; // intentionally ==
+	}
+
+
+
+	/**
+	 * Finds whether a variable is not associative array.
+	 * @param  array
+	 * @return bool
+	 */
+	public static function isList($value)
+	{
+		return is_array($value) && (!$value || array_keys($value) === range(0, count($value) - 1));
 	}
 
 

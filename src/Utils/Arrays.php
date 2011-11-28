@@ -176,16 +176,4 @@ final class Arrays
 		return $res;
 	}
 
-
-
-	/**
-	 * Finds whether a variable is not associative array.
-	 * @param  array
-	 * @return bool
-	 */
-	public static function isList($arr)
-	{
-		return is_array($arr) && (!$arr || array_keys($arr) === range(0, count($arr) - 1));
-	}
-
 }
