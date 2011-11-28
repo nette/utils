@@ -312,10 +312,10 @@ class Image extends Object
 	 */
 	public function resize($width, $height, $flags = self::FIT)
 	{
-		list($newWidth, $newHeight) = self::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
+		list($newWidth, $newHeight) = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
 
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
-			$newImage = self::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
+			$newImage = static::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
 			imagecopyresampled(
 				$newImage, $this->getImageResource(),
 				0, 0, 0, 0,
@@ -325,7 +325,7 @@ class Image extends Object
 		}
 
 		if ($width < 0 || $height < 0) { // flip is processed in two steps for better quality
-			$newImage = self::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
+			$newImage = static::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
 			imagecopyresampled(
 				$newImage, $this->getImageResource(),
 				0, 0, $width < 0 ? $newWidth - 1 : 0, $height < 0 ? $newHeight - 1 : 0,
@@ -416,8 +416,8 @@ class Image extends Object
 	 */
 	public function crop($left, $top, $width, $height)
 	{
-		list($left, $top, $width, $height) = self::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
-		$newImage = self::fromBlank($width, $height, self::RGB(0, 0, 0, 127))->getImageResource();
+		list($left, $top, $width, $height) = static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
+		$newImage = static::fromBlank($width, $height, self::RGB(0, 0, 0, 127))->getImageResource();
 		imagecopy($newImage, $this->getImageResource(), 0, 0, $left, $top, $width, $height);
 		$this->image = $newImage;
 		return $this;

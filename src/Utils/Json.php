@@ -79,7 +79,7 @@ final class Json
 		$value = json_decode($json, (bool) ($options & self::FORCE_ARRAY));
 		if ($value === NULL && $json !== '' && strcasecmp($json, 'null')) { // '' do not clean json_last_error
 			$error = PHP_VERSION_ID >= 50300 ? json_last_error() : 0;
-			throw new JsonException(isset(self::$messages[$error]) ? self::$messages[$error] : 'Unknown error', $error);
+			throw new JsonException(isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error', $error);
 		}
 		return $value;
 	}
