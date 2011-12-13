@@ -84,6 +84,8 @@ class Validators extends Nette\Object
 				$type = 'array(' . count($value) . ')';
 			} elseif (is_object($value)) {
 				$type = 'object ' . get_class($value);
+			} elseif (is_string($value) && strlen($value) < 40) {
+				$type = "string '$value'";
 			} else {
 				$type = gettype($value);
 			}

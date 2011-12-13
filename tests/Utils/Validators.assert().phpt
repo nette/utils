@@ -22,7 +22,7 @@ Assert::throws(function() {
 
 Assert::throws(function() {
 	Validators::assert('1.0', 'int|float');
-}, 'Nette\Utils\AssertionException', "The variable expects to be int or float, string given.");
+}, 'Nette\Utils\AssertionException', "The variable expects to be int or float, string '1.0' given.");
 
 Assert::throws(function() {
 	Validators::assert(1, 'string|integer:2..5', 'variable');
