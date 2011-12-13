@@ -108,11 +108,14 @@ class Image extends Object
 	/** {@link resize()} will ignore aspect ratio */
 	const STRETCH = 2;
 
-	/** {@link resize()} fits in given area */
+	/** {@link resize()} fits in given area so its dimensions are less than or equal to the required dimensions */
 	const FIT = 0;
 
-	/** {@link resize()} fills (and even overflows) given area */
+	/** {@link resize()} fills given area so its dimensions are greater than or equal to the required dimensions */
 	const FILL = 4;
+
+	/** {@link resize()} fills given area exactly */
+	const EXACT = 8;
 
 	/** @int image types {@link send()} */
 	const JPEG = IMAGETYPE_JPEG,
@@ -312,6 +315,10 @@ class Image extends Object
 	 */
 	public function resize($width, $height, $flags = self::FIT)
 	{
+		if ($flags & self::EXACT) {
+			return $this->resize($width, $height, self::FILL)->crop('50%', '50%', $width, $height);
+		}
+
 		list($newWidth, $newHeight) = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
 
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize

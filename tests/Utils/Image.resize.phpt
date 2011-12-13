@@ -123,3 +123,12 @@ $image->resize(-300, -150, Image::SHRINK);
 Assert::same( 176, $image->width, 'width' );
 
 Assert::same( 104, $image->height, 'height' );
+
+
+
+
+$image = clone $main;
+$image->resize(300, 150, Image::EXACT);
+Assert::same( 300, $image->width, 'width' );
+
+Assert::same( 150, $image->height, 'height' );
