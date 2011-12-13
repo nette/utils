@@ -102,8 +102,8 @@ use Nette;
  */
 class Image extends Object
 {
-	/** {@link resize()} allows enlarging image (it only shrinks images by default) */
-	const ENLARGE = 1;
+	/** {@link resize()} only shrinks images */
+	const SHRINK = 1;
 
 	/** {@link resize()} will ignore aspect ratio */
 	const STRETCH = 2;
@@ -351,7 +351,6 @@ class Image extends Object
 	{
 		if (substr($newWidth, -1) === '%') {
 			$newWidth = round($srcWidth / 100 * abs($newWidth));
-			$flags |= self::ENLARGE;
 			$percents = TRUE;
 		} else {
 			$newWidth = (int) abs($newWidth);
@@ -359,7 +358,7 @@ class Image extends Object
 
 		if (substr($newHeight, -1) === '%') {
 			$newHeight = round($srcHeight / 100 * abs($newHeight));
-			$flags |= empty($percents) ? self::ENLARGE : self::STRETCH;
+			$flags |= empty($percents) ? 0 : self::STRETCH;
 		} else {
 			$newHeight = (int) abs($newHeight);
 		}
@@ -369,7 +368,7 @@ class Image extends Object
 				throw new InvalidArgumentException('For stretching must be both width and height specified.');
 			}
 
-			if (($flags & self::ENLARGE) === 0) {
+			if ($flags & self::SHRINK) {
 				$newWidth = round($srcWidth * min(1, $newWidth / $srcWidth));
 				$newHeight = round($srcHeight * min(1, $newHeight / $srcHeight));
 			}
@@ -392,7 +391,7 @@ class Image extends Object
 				$scale = array(max($scale));
 			}
 
-			if (($flags & self::ENLARGE) === 0) {
+			if ($flags & self::SHRINK) {
 				$scale[] = 1;
 			}
 
