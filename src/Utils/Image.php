@@ -27,9 +27,6 @@ use Nette;
  *
  * @author     David Grudl
  *
- * @property-read int $width
- * @property-read int $height
- * @property-read resource $imageResource
  * @method void alphaBlending(bool $on)
  * @method void antialias(bool $on)
  * @method void arc($x, $y, $w, $h, $s, $e, $color)
@@ -99,6 +96,9 @@ use Nette;
  * @method array ttfBBox($size, $angle, string $fontfile, string $text)
  * @method array ttfText($size, $angle, $x, $y, $color, string $fontfile, string $text)
  * @method int types()
+ * @property-read int $width
+ * @property-read int $height
+ * @property-read resource $imageResource
  */
 class Image extends Object
 {
