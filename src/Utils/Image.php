@@ -103,7 +103,7 @@ use Nette;
 class Image extends Object
 {
 	/** {@link resize()} only shrinks images */
-	const SHRINK = 1;
+	const SHRINK_ONLY = 1;
 
 	/** {@link resize()} will ignore aspect ratio */
 	const STRETCH = 2;
@@ -123,6 +123,9 @@ class Image extends Object
 		GIF = IMAGETYPE_GIF;
 
 	const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
+
+	/** @deprecated */
+	const ENLARGE = 0;
 
 	/** @var resource */
 	private $image;
@@ -375,7 +378,7 @@ class Image extends Object
 				throw new InvalidArgumentException('For stretching must be both width and height specified.');
 			}
 
-			if ($flags & self::SHRINK) {
+			if ($flags & self::SHRINK_ONLY) {
 				$newWidth = round($srcWidth * min(1, $newWidth / $srcWidth));
 				$newHeight = round($srcHeight * min(1, $newHeight / $srcHeight));
 			}
@@ -398,7 +401,7 @@ class Image extends Object
 				$scale = array(max($scale));
 			}
 
-			if ($flags & self::SHRINK) {
+			if ($flags & self::SHRINK_ONLY) {
 				$scale[] = 1;
 			}
 

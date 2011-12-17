@@ -47,7 +47,7 @@ Assert::same( 89, $image->height, 'height' );
 
 $image = clone $main;
 // resizing Y shrink
-$image->resize(NULL, 150, Image::SHRINK);
+$image->resize(NULL, 150, Image::SHRINK_ONLY);
 Assert::same( 176, $image->width, 'width' );
 
 Assert::same( 104, $image->height, 'height' );
@@ -55,7 +55,7 @@ Assert::same( 104, $image->height, 'height' );
 
 $image = clone $main;
 // resizing X Y shrink
-$image->resize(300, 150, Image::SHRINK);
+$image->resize(300, 150, Image::SHRINK_ONLY);
 Assert::same( 176, $image->width, 'width' );
 
 Assert::same( 104, $image->height, 'height' );
@@ -79,7 +79,7 @@ Assert::same( 100, $image->height, 'height' );
 
 $image = clone $main;
 // resizing X Y shrink stretch
-$image->resize(300, 100, Image::SHRINK | Image::STRETCH);
+$image->resize(300, 100, Image::SHRINK_ONLY | Image::STRETCH);
 Assert::same( 176, $image->width, 'width' );
 
 Assert::same( 100, $image->height, 'height' );
@@ -111,7 +111,7 @@ Assert::same( 89, $image->height, 'height' );
 
 $image = clone $main;
 // flipping Y shrink
-$image->resize(NULL, -150, Image::SHRINK);
+$image->resize(NULL, -150, Image::SHRINK_ONLY);
 Assert::same( 176, $image->width, 'width' );
 
 Assert::same( 104, $image->height, 'height' );
@@ -119,7 +119,7 @@ Assert::same( 104, $image->height, 'height' );
 
 $image = clone $main;
 // flipping X Y shrink
-$image->resize(-300, -150, Image::SHRINK);
+$image->resize(-300, -150, Image::SHRINK_ONLY);
 Assert::same( 176, $image->width, 'width' );
 
 Assert::same( 104, $image->height, 'height' );
