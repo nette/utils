@@ -162,7 +162,7 @@ final class Arrays
 
 
 	/**
-	 * Return array entries that match the pattern.
+	 * Returns array entries that match the pattern.
 	 * @param  array
 	 * @param  string
 	 * @param  int
@@ -173,6 +173,20 @@ final class Arrays
 		Nette\Diagnostics\Debugger::tryError();
 		$res = preg_grep($pattern, $arr, $flags);
 		Strings::catchPregError($pattern);
+		return $res;
+	}
+
+
+
+	/**
+	 * Returns flatten array values
+	 * @param  array
+	 * @return array
+	 */
+	public static function flatten(array $arr)
+	{
+		$res = array();
+		array_walk_recursive($arr, function($a) use (& $res) { $res[] = $a; });
 		return $res;
 	}
 
