@@ -179,7 +179,7 @@ final class Arrays
 
 
 	/**
-	 * Returns flatten array values
+	 * Returns flattened array.
 	 * @param  array
 	 * @return array
 	 */
