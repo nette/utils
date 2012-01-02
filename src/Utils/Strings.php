@@ -368,6 +368,18 @@ class Strings
 
 
 	/**
+	 * Reverse string.
+	 * @param  string  UTF-8 encoding
+	 * @return string
+	 */
+	public static function reverse($s)
+	{
+		return @iconv('UTF-32LE', 'UTF-8', strrev(@iconv('UTF-8', 'UTF-32BE', $s)));
+	}
+
+
+
+	/**
 	 * Generate random string.
 	 * @param  int
 	 * @param  string
