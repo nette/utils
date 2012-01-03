@@ -316,7 +316,7 @@ class Strings
 	 */
 	public static function length($s)
 	{
-		return function_exists('mb_strlen') ? mb_strlen($s, 'UTF-8') : strlen(utf8_decode($s));
+		return strlen(utf8_decode($s)); // fastest way
 	}
 
 
