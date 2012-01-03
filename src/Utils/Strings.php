@@ -311,6 +311,33 @@ class Strings
 
 
 	/**
+	 * Finds the length of common prefix of strings.
+	 * @param  string|array
+	 * @param  string
+	 * @return string
+	 */
+	public static function findPrefix($strings, $second = NULL)
+	{
+		if (!is_array($strings)) {
+			$strings = func_get_args();
+		}
+		$first = array_shift($strings);
+		for ($i = 0; $i < strlen($first); $i++) {
+			foreach ($strings as $s) {
+				if (!isset($s[$i]) || $first[$i] !== $s[$i]) {
+					if ($i && $first[$i-1] >= "\x80" && $first[$i] >= "\x80" && $first[$i] < "\xC0") {
+						$i--;
+					}
+					return substr($first, 0, $i);
+				}
+			}
+		}
+		return $first;
+	}
+
+
+
+	/**
 	 * Returns UTF-8 string length.
 	 * @param  string
 	 * @return int
