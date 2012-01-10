@@ -70,7 +70,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Throws exception if a variable is not expected type.
+	 * Throws exception if a variable is of unexpected type.
 	 * @param  mixed
 	 * @param  string  expected types separated by pipe
 	 * @param  string  label
@@ -96,7 +96,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Throws exception if a array field is mission or not expected type.
+	 * Throws exception if an array field is missing or of unexpected type.
 	 * @param  array
 	 * @param  string  item
 	 * @param  string  expected types separated by pipe
@@ -116,7 +116,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Finds whether a variable is expected type.
+	 * Finds whether a variable is of expected type.
 	 * @param  mixed
 	 * @param  string  expected types separated by pipe with optional ranges
 	 * @return bool
@@ -162,7 +162,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Finds whether a value is integer.
+	 * Finds whether a value is an integer.
 	 * @param  mixed
 	 * @return bool
 	 */
@@ -174,7 +174,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Finds whether a string is floating point numbers in decimal base.
+	 * Finds whether a string is a floating point number in decimal base.
 	 * @param  mixed
 	 * @return bool
 	 */
@@ -186,7 +186,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Finds whether a value is syntactically correct callback.
+	 * Finds whether a value is a syntactically correct callback.
 	 * @param  mixed
 	 * @return bool
 	 */
@@ -198,7 +198,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Finds whether a string is encoded in UTF-8.
+	 * Finds whether a value is an UTF-8 encoded string.
 	 * @param  string
 	 * @return bool
 	 */
@@ -222,7 +222,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Finds whether a variable is not associative array.
+	 * Finds whether a variable is a zero-based integer indexed array.
 	 * @param  array
 	 * @return bool
 	 */
@@ -247,7 +247,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Finds whether a string is valid email address.
+	 * Finds whether a string is a valid email address.
 	 * @param  string
 	 * @return bool
 	 */
@@ -263,7 +263,7 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Finds whether a string is valid URL.
+	 * Finds whether a string is a valid URL.
 	 * @param  string
 	 * @return bool
 	 */
