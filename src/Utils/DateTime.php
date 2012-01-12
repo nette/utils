@@ -64,7 +64,31 @@ class DateTime extends \DateTime
 	}
 
 
+
+	public function __toString()
+	{
+		return $this->format('Y-m-d H:i:s');
+	}
+
+
+
+	public function modifyClone($modify = '')
+	{
+		$dolly = clone $this;
+		return $modify ? $dolly->modify($modify) : $dolly;
+	}
+
+
+
 	/*5.2*
+	public function modify($modify)
+	{
+		parent::modify($modify);
+		return $this;
+	}
+
+
+
 	public static function __set_state($state)
 	{
 		return new self($state['date'], new \DateTimeZone($state['timezone']));
