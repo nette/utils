@@ -114,23 +114,6 @@ final class Callback extends Object
 
 
 	/**
-	 * Invokes callback using named parameters.
-	 * @param  array
-	 * @return mixed
-	 */
-	public function invokeNamedArgs(array $args)
-	{
-		$ref = $this->toReflection();
-		if (is_array($this->cb)) {
-			return $ref->invokeNamedArgs(is_object($this->cb[0]) ? $this->cb[0] : NULL, $args);
-		} else {
-			return $ref->invokeNamedArgs($args);
-		}
-	}
-
-
-
-	/**
 	 * Verifies that callback can be called.
 	 * @return bool
 	 */
