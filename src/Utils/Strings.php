@@ -489,31 +489,33 @@ class Strings
 	 */
 	public static function replace($subject, $pattern, $replacement = NULL, $limit = -1)
 	{
-		Nette\Diagnostics\Debugger::tryError();
 		if (is_object($replacement) || is_array($replacement)) {
 			if ($replacement instanceof Nette\Callback) {
 				$replacement = $replacement->getNative();
 			}
 			if (!is_callable($replacement, FALSE, $textual)) {
-				Nette\Diagnostics\Debugger::catchError($foo);
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
-			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
 
-			if (Nette\Diagnostics\Debugger::catchError($e)) { // compile error
-				$trace = $e->getTrace();
-				if (isset($trace[2]['class']) && $trace[2]['class'] === __CLASS__) {
-					throw new RegexpException($e->getMessage() . " in pattern: $pattern");
-				}
+			Debugger::tryError();
+			preg_match($pattern, '');
+			if (Debugger::catchError($e)) { // compile error
+				throw new RegexpException($e->getMessage(), NULL, $pattern);
 			}
 
-		} elseif (is_array($pattern)) {
-			$res = preg_replace(array_keys($pattern), array_values($pattern), $subject, $limit);
+			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
+			if ($res === NULL && preg_last_error()) { // run-time error
+				throw new RegexpException(NULL, preg_last_error(), $pattern);
+			}
+			return $res;
 
-		} else {
-			$res = preg_replace($pattern, $replacement, $subject, $limit);
+		} elseif (is_array($pattern)) {
+			$replacement = array_values($pattern);
+			$pattern = array_keys($pattern);
 		}
 
+		Debugger::tryError();
+		$res = preg_replace($pattern, $replacement, $subject, $limit);
 		if (Debugger::catchError($e) || preg_last_error()) { // compile error XOR run-time error
 			throw new RegexpException($e ? $e->getMessage() : NULL, $e ? NULL : preg_last_error(), $pattern);
 		}
