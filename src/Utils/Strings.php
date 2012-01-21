@@ -11,7 +11,8 @@
 
 namespace Nette\Utils;
 
-use Nette;
+use Nette,
+	Nette\Diagnostics\Debugger;
 
 
 
@@ -416,9 +417,11 @@ class Strings
 	 */
 	public static function split($subject, $pattern, $flags = 0)
 	{
-		Nette\Diagnostics\Debugger::tryError();
+		Debugger::tryError();
 		$res = preg_split($pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE);
-		self::catchPregError($pattern);
+		if (Debugger::catchError($e) || preg_last_error()) { // compile error XOR run-time error
+			throw new RegexpException($e ? $e->getMessage() : NULL, $e ? NULL : preg_last_error(), $pattern);
+		}
 		return $res;
 	}
 
@@ -437,9 +440,11 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return NULL;
 		}
-		Nette\Diagnostics\Debugger::tryError();
+		Debugger::tryError();
 		$res = preg_match($pattern, $subject, $m, $flags, $offset);
-		self::catchPregError($pattern);
+		if (Debugger::catchError($e) || preg_last_error()) { // compile error XOR run-time error
+			throw new RegexpException($e ? $e->getMessage() : NULL, $e ? NULL : preg_last_error(), $pattern);
+		}
 		if ($res) {
 			return $m;
 		}
@@ -460,13 +465,15 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return array();
 		}
-		Nette\Diagnostics\Debugger::tryError();
+		Debugger::tryError();
 		$res = preg_match_all(
 			$pattern, $subject, $m,
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
 			$offset
 		);
-		self::catchPregError($pattern);
+		if (Debugger::catchError($e) || preg_last_error()) { // compile error XOR run-time error
+			throw new RegexpException($e ? $e->getMessage() : NULL, $e ? NULL : preg_last_error(), $pattern);
+		}
 		return $m;
 	}
 
@@ -506,29 +513,11 @@ class Strings
 		} else {
 			$res = preg_replace($pattern, $replacement, $subject, $limit);
 		}
-		self::catchPregError($pattern);
-		return $res;
-	}
 
-
-
-	/** @internal */
-	public static function catchPregError($pattern)
-	{
-		if (Nette\Diagnostics\Debugger::catchError($e)) { // compile error
-			throw new RegexpException($e->getMessage() . " in pattern: $pattern");
-
-		} elseif (preg_last_error()) { // run-time error
-			static $messages = array(
-				PREG_INTERNAL_ERROR => 'Internal error',
-				PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
-				PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',
-				PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
-				5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point', // PREG_BAD_UTF8_OFFSET_ERROR
-			);
-			$code = preg_last_error();
-			throw new RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error') . " (pattern: $pattern)", $code);
+		if (Debugger::catchError($e) || preg_last_error()) { // compile error XOR run-time error
+			throw new RegexpException($e ? $e->getMessage() : NULL, $e ? NULL : preg_last_error(), $pattern);
 		}
+		return $res;
 	}
 
 }
@@ -540,4 +529,22 @@ class Strings
  */
 class RegexpException extends \Exception
 {
+	static public $messages = array(
+				PREG_INTERNAL_ERROR => 'Internal error',
+				PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
+				PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',
+				PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
+				5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point', // PREG_BAD_UTF8_OFFSET_ERROR
+			);
+
+	public function __construct($message, $code = NULL, $pattern = NULL)
+	{
+		if (!$message) {
+			$message = (isset(self::$messages[$code]) ? self::$messages[$code] : 'Unknown error') . ($pattern ? " (pattern: $pattern)" : '');
+		} elseif ($pattern) {
+			$message .= " in pattern: $pattern";
+		}
+		parent::__construct($message, $code);
+	}
+
 }

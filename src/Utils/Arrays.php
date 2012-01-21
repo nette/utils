@@ -172,7 +172,9 @@ final class Arrays
 	{
 		Nette\Diagnostics\Debugger::tryError();
 		$res = preg_grep($pattern, $arr, $flags);
-		Strings::catchPregError($pattern);
+		if (Nette\Diagnostics\Debugger::catchError($e) || preg_last_error()) { // compile error XOR run-time error
+			throw new RegexpException($e ? $e->getMessage() : NULL, $e ? NULL : preg_last_error(), $pattern);
+		}
 		return $res;
 	}
 
