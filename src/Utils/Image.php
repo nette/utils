@@ -653,7 +653,6 @@ class Image extends Object
 
 /**
  * The exception that indicates invalid image file.
- * @internal
  */
 class UnknownImageFileException extends \Exception
 {

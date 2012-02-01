@@ -28,7 +28,7 @@ class InstanceFilter extends \FilterIterator implements \Countable
 
 	/**
 	 * Constructs a filter around another iterator.
-	 * @param  Nette\Iterator
+	 * @param  \Iterator
 	 * @param  string  class/interface name
 	 */
 	public function __construct(\Iterator $iterator, $type)

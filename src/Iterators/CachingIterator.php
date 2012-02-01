@@ -16,7 +16,7 @@ use Nette;
 
 
 /**
- * Smarter caching interator.
+ * Smarter caching iterator.
  *
  * @author     David Grudl
  *
