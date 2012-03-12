@@ -483,7 +483,7 @@ class Strings
 	 * Perform a regular expression search and replace.
 	 * @param  string
 	 * @param  string|array
-	 * @param  string|callback
+	 * @param  string|callable
 	 * @param  int
 	 * @return string
 	 */

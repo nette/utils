@@ -22,17 +22,17 @@ use Nette;
  */
 class RecursiveFilter extends \FilterIterator implements \RecursiveIterator
 {
-	/** @var callback */
+	/** @var callable */
 	private $callback;
 
-	/** @var callback */
+	/** @var callable */
 	private $childrenCallback;
 
 
 	/**
 	 * Constructs a filter around another iterator.
 	 * @param
-	 * @param  callback
+	 * @param  callable
 	 */
 	public function __construct(\RecursiveIterator $iterator, $callback, $childrenCallback = NULL)
 	{

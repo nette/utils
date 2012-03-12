@@ -100,7 +100,7 @@ abstract class Object
 	/**
 	 * Adding method to class.
 	 * @param  string  method name
-	 * @param  mixed   callback or closure
+	 * @param  callable
 	 * @return mixed
 	 */
 	public static function extensionMethod($name, $callback = NULL)

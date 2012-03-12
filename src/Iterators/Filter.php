@@ -22,14 +22,14 @@ use Nette;
  */
 class Filter extends \FilterIterator
 {
-	/** @var callback */
+	/** @var callable */
 	private $callback;
 
 
 	/**
 	 * Constructs a filter around another iterator.
 	 * @param
-	 * @param  callback
+	 * @param  callable
 	 */
 	public function __construct(\Iterator $iterator, $callback)
 	{

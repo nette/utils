@@ -22,14 +22,14 @@ use Nette;
  */
 class Mapper extends \IteratorIterator
 {
-	/** @var callback */
+	/** @var callable */
 	private $callback;
 
 
 	/**
 	 * Constructs a filter around another iterator.
 	 * @param
-	 * @param  callback
+	 * @param  callable
 	 */
 	public function __construct(\Traversable $iterator, $callback)
 	{
