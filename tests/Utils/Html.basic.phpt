@@ -73,3 +73,7 @@ Assert::same( '<a href="mailto:dave&#64;example.com"></a>', (string) Html::el('a
 
 // href with query
 Assert::same( '<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
+
+// isset
+Assert::false( isset(Html::el('a')->id) );
+Assert::true( isset(Html::el('a')->id('')->id) );
