@@ -59,6 +59,8 @@ final class ObjectMixin
 				foreach ($list as $handler) {
 					callback($handler)->invokeArgs($args);
 				}
+			} elseif ($list !== NULL) {
+				throw new UnexpectedValueException("Property $class->name::$$name must be array or NULL, " . gettype($list) ." given.");
 			}
 			return NULL;
 		}

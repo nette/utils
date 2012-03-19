@@ -35,6 +35,8 @@ class Handler
 
 
 $obj = new TestClass;
+$obj->onPublic();
+
 $var = (object) NULL;
 
 $obj->onPublic[] = 'handler';
@@ -59,3 +61,8 @@ Assert::throws(function() use ($obj) {
 Assert::throws(function() use ($obj) {
 	$obj->onUndefined(123);
 }, 'Nette\MemberAccessException', 'Call to undefined method TestClass::onUndefined().');
+
+Assert::throws(function() use ($obj) {
+	$obj->onPublic = 'string';
+	$obj->onPublic();
+}, 'Nette\UnexpectedValueException', 'Property TestClass::$onPublic must be array or NULL, string given.');
