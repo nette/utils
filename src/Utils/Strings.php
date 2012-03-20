@@ -148,7 +148,7 @@ class Strings
 		// right trim
 		$s = preg_replace("#[\t ]+$#m", '', $s);
 
-		// trailing spaces
+		// leading and trailing blank lines
 		$s = trim($s, "\n");
 
 		return $s;
