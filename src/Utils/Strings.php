@@ -497,10 +497,12 @@ class Strings
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
 
-			Debugger::tryError();
-			preg_match($pattern, '');
-			if (Debugger::catchError($e)) { // compile error
-				throw new RegexpException($e->getMessage(), NULL, $pattern);
+			foreach ((array) $pattern as $tmp) {
+				Debugger::tryError();
+				preg_match($tmp, '');
+				if (Debugger::catchError($e)) { // compile error
+					throw new RegexpException($e->getMessage(), NULL, $tmp);
+				}
 			}
 
 			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
@@ -509,7 +511,7 @@ class Strings
 			}
 			return $res;
 
-		} elseif (is_array($pattern)) {
+		} elseif ($replacement === NULL && is_array($pattern)) {
 			$replacement = array_values($pattern);
 			$pattern = array_keys($pattern);
 		}
