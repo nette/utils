@@ -45,15 +45,7 @@ final class Callback extends Object
 		} elseif (is_object($cb) && !$cb instanceof Closure) {
 			$cb = array($cb, '__invoke');
 		}
-
-		// remove class namespace
-		if (is_string($this->cb) && $a = strrpos($this->cb, '\\')) {
-			$this->cb = substr($this->cb, $a + 1);
-
-		} elseif (is_array($this->cb) && is_string($this->cb[0]) && $a = strrpos($this->cb[0], '\\')) {
-			$this->cb[0] = substr($this->cb[0], $a + 1);
-		}
-		*/
+  		*/
 		if (!is_callable($cb, TRUE)) {
 			throw new InvalidArgumentException("Invalid callback.");
 		}
