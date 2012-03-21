@@ -34,14 +34,14 @@ class Filter extends \FilterIterator
 	public function __construct(\Iterator $iterator, $callback)
 	{
 		parent::__construct($iterator);
-		$this->callback = $callback;
+		$this->callback = callback($callback);
 	}
 
 
 
 	public function accept()
 	{
-		return call_user_func($this->callback, $this);
+		return $this->callback->invoke($this);
 	}
 
 }
