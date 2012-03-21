@@ -41,7 +41,7 @@ Assert::same( array('Test', 'add'), callback('Test', 'add')->getNative() );
 Assert::same( 'Test::add', (string) callback('Test', 'add') );
 Assert::same( 'Method Test::add()', (string) callback('Test', 'add')->toReflection() );
 
-Assert::same( array('Test', 'add'), callback('Test::add')->getNative() );
+Assert::same( 'Test::add', callback('Test::add')->getNative() );
 Assert::same( 'Test::add', (string) callback('Test::add') );
 Assert::same( 'Method Test::add()', (string) callback('Test::add')->toReflection() );
 
@@ -50,7 +50,7 @@ Assert::same( array($test, 'add'), callback($test, 'add')->getNative() );
 Assert::same( 'Test::add', (string) callback($test, 'add') );
 Assert::same( 'Method Test::add()', (string) callback($test, 'add')->toReflection() );
 
-Assert::same( array($test, '__invoke'), callback($test)->getNative() );
+/**/Assert::same( $test, callback($test)->getNative() );/**/
 Assert::same( 'Test::__invoke', (string) callback($test) );
 Assert::same( 'Method Test::__invoke()', (string) callback($test)->toReflection() );
 
