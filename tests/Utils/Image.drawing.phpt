@@ -36,4 +36,4 @@ $image->filledEllipse(187, 125, $radius, $radius, Image::rgb(0, 0, 255, 75));
 
 $image->copyResampled($image, 200, 200, 0, 0, 80, 80, $size, $size);
 
-Assert::same(file_get_contents(__DIR__ . '/Image.drawing.expect'), $image->toString(Image::GIF));
+Assert::same(file_get_contents(__DIR__ . '/Image.drawing.expect'), $image->toString(Image::PNG, 0));
