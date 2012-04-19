@@ -463,7 +463,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Returns all of children.
-	 * return array
+	 * @return array
 	 */
 	final public function getChildren()
 	{
