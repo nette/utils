@@ -149,6 +149,14 @@ final class ObjectMixin
 			self::$methods[$class] = array_flip(get_class_methods($class));
 		}
 
+		// public method as closure getter
+		if (isset(self::$methods[$class][$name])) {
+			$val = function() use ($_this, $name) {
+				return call_user_func_array(array($_this, $name), func_get_args());
+			};
+			return $val;
+		}
+
 		// property getter support
 		$name[0] = $name[0] & "\xDF"; // case-sensitive checking, capitalize first character
 		$m = 'get' . $name;
