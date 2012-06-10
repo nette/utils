@@ -56,10 +56,9 @@ final class ObjectMixin
 			throw new MemberAccessException("Call to class '$class' method without name.");
 		}
 
-		// event functionality
-		if (preg_match('#^on[A-Z]#', $name) && property_exists($class, $name)) {
-			$rp = new \ReflectionProperty($class, $name);
-			if ($rp->isPublic() && !$rp->isStatic()) {
+		if (property_exists($class, $name) && ($rp = new \ReflectionProperty($class, $name)) && $rp->isPublic() && !$rp->isStatic()) {
+			// event functionality
+			if (preg_match('#^on[A-Z]#', $name)) {
 				if (is_array($list = $_this->$name) || $list instanceof \Traversable) {
 					foreach ($list as $handler) {
 						callback($handler)->invokeArgs($args);
@@ -68,6 +67,11 @@ final class ObjectMixin
 					throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($list) ." given.");
 				}
 				return NULL;
+			}
+
+			// closure in property
+			if ($_this->$name instanceof \Closure) {
+				return call_user_func_array($_this->$name, $args);
 			}
 		}
 
