@@ -110,11 +110,10 @@ abstract class Object
 		} else {
 			list($class, $name) = explode('::', $name);
 		}
-		$class = new Reflection\ClassType($class);
 		if ($callback === NULL) {
-			return $class->getExtensionMethod($name);
+			return ObjectMixin::getExtensionMethod($class, $name);
 		} else {
-			$class->setExtensionMethod($name, $callback);
+			ObjectMixin::setExtensionMethod($class, $name, $callback);
 		}
 	}
 

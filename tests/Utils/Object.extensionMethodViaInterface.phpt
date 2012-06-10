@@ -8,7 +8,7 @@
  * @subpackage UnitTests
  */
 
-use Nette\Reflection;
+use Nette\Object;
 
 
 
@@ -32,8 +32,8 @@ function ISecond_join(ISecond $that, $separator)
 
 
 
-Reflection\ClassType::from('IFirst')->setExtensionMethod('join', 'IFirst_join');
-Reflection\ClassType::from('ISecond')->setExtensionMethod('join', 'ISecond_join');
+Object::extensionMethod('IFirst::join', 'IFirst_join');
+Object::extensionMethod('ISecond::join', 'ISecond_join');
 
 $obj = new TestClass('Hello', 'World');
 Assert::same( 'ISecond_join says Hello*World', $obj->join('*') );

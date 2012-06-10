@@ -25,6 +25,9 @@ final class ObjectMixin
 	/** @var array */
 	private static $methods;
 
+	/** @var array (method => array(type => callable)) */
+	private static $extMethods;
+
 
 
 	/**
@@ -47,34 +50,34 @@ final class ObjectMixin
 	 */
 	public static function call($_this, $name, $args)
 	{
-		$class = new Reflection\ClassType($_this);
+		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new MemberAccessException("Call to class '$class->name' method without name.");
+			throw new MemberAccessException("Call to class '$class' method without name.");
 		}
 
 		// event functionality
-		if (preg_match('#^on[A-Z]#', $name) && $class->hasProperty($name)) {
-			$rp = $class->getProperty($name);
+		if (preg_match('#^on[A-Z]#', $name) && property_exists($class, $name)) {
+			$rp = new \ReflectionProperty($class, $name);
 			if ($rp->isPublic() && !$rp->isStatic()) {
 				if (is_array($list = $_this->$name) || $list instanceof \Traversable) {
 					foreach ($list as $handler) {
 						callback($handler)->invokeArgs($args);
 					}
 				} elseif ($list !== NULL) {
-					throw new UnexpectedValueException("Property $class->name::$$name must be array or NULL, " . gettype($list) ." given.");
+					throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($list) ." given.");
 				}
 				return NULL;
 			}
 		}
 
 		// extension methods
-		if ($cb = $class->getExtensionMethod($name)) {
+		if ($cb = static::getExtensionMethod($class, $name)) {
 			array_unshift($args, $_this);
 			return $cb->invokeArgs($args);
 		}
 
-		throw new MemberAccessException("Call to undefined method $class->name::$name().");
+		throw new MemberAccessException("Call to undefined method $class::$name().");
 	}
 
 
@@ -241,6 +244,71 @@ final class ObjectMixin
 
 		$name[0] = $name[0] & "\xDF";
 		return isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name]);
+	}
+
+
+
+	/**
+	 * Adds a method to class.
+	 * @param  string  method name
+	 * @param  mixed   callable
+	 * @return ClassType  provides a fluent interface
+	 */
+	public static function setExtensionMethod($class, $name, $callback)
+	{
+		$l = & self::$extMethods[strtolower($name)];
+		$l[strtolower($class)] = callback($callback);
+		$l[''] = NULL;
+	}
+
+
+
+	/**
+	 * Returns extension method.
+	 * @param  string  method name
+	 * @return mixed
+	 */
+	public static function getExtensionMethod($class, $name)
+	{
+		/*5.2* if (self::$extMethods === NULL || $name === NULL) { // for backwards compatibility
+			$list = get_defined_functions(); // names are lowercase!
+			foreach ($list['user'] as $fce) {
+				$pair = explode('_prototype_', $fce);
+				if (count($pair) === 2) {
+					self::$extMethods[$pair[1]][$pair[0]] = callback($fce);
+					self::$extMethods[$pair[1]][''] = NULL;
+				}
+			}
+			if ($name === NULL) {
+				return NULL;
+			}
+		}
+		*/
+
+		$class = strtolower($class);
+		$l = & self::$extMethods[strtolower($name)];
+
+		if (empty($l)) {
+			return FALSE;
+
+		} elseif (isset($l[''][$class])) { // cached value
+			return $l[''][$class];
+		}
+
+		$cl = $class;
+		do {
+			if (isset($l[$cl])) {
+				return $l[''][$class] = $l[$cl];
+			}
+		} while (($cl = strtolower(get_parent_class($cl))) !== '');
+
+		foreach (class_implements($class) as $cl) {
+			$cl = strtolower($cl);
+			if (isset($l[$cl])) {
+				return $l[''][$class] = $l[$cl];
+			}
+		}
+		return $l[''][$class] = FALSE;
 	}
 
 }
