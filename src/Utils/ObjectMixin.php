@@ -54,15 +54,18 @@ final class ObjectMixin
 		}
 
 		// event functionality
-		if ($class->hasEventProperty($name)) {
-			if (is_array($list = $_this->$name) || $list instanceof \Traversable) {
-				foreach ($list as $handler) {
-					callback($handler)->invokeArgs($args);
+		if (preg_match('#^on[A-Z]#', $name) && $class->hasProperty($name)) {
+			$rp = $class->getProperty($name);
+			if ($rp->isPublic() && !$rp->isStatic()) {
+				if (is_array($list = $_this->$name) || $list instanceof \Traversable) {
+					foreach ($list as $handler) {
+						callback($handler)->invokeArgs($args);
+					}
+				} elseif ($list !== NULL) {
+					throw new UnexpectedValueException("Property $class->name::$$name must be array or NULL, " . gettype($list) ." given.");
 				}
-			} elseif ($list !== NULL) {
-				throw new UnexpectedValueException("Property $class->name::$$name must be array or NULL, " . gettype($list) ." given.");
+				return NULL;
 			}
-			return NULL;
 		}
 
 		// extension methods
@@ -137,10 +140,9 @@ final class ObjectMixin
 		}
 
 		if (!isset(self::$methods[$class])) {
-			// get_class_methods returns ONLY PUBLIC methods of objects
-			// but returns static methods too (nothing doing...)
+			// get_class_methods returns only public methods of objects
+			// but returns static methods too
 			// and is much faster than reflection
-			// (works good since 5.0.4)
 			self::$methods[$class] = array_flip(get_class_methods($class));
 		}
 
