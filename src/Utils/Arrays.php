@@ -196,4 +196,16 @@ final class Arrays
 		return $res;
 	}
 
+
+
+	/**
+	 * Finds whether a variable is a zero-based integer indexed array.
+	 * @param  array
+	 * @return bool
+	 */
+	public static function isList($value)
+	{
+		return is_array($value) && (!$value || array_keys($value) === range(0, count($value) - 1));
+	}
+
 }

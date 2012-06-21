@@ -34,7 +34,7 @@ class Validators extends Nette\Object
 		'string' =>  'is_string',
 		'unicode' => array(__CLASS__, 'isUnicode'),
 		'array' => 'is_array',
-		'list' => array(__CLASS__, 'isList'),
+		'list' => array('Nette\Utils\Arrays', 'isList'),
 		'object' => 'is_object',
 		'resource' => 'is_resource',
 		'scalar' => 'is_scalar',
@@ -228,7 +228,7 @@ class Validators extends Nette\Object
 	 */
 	public static function isList($value)
 	{
-		return is_array($value) && (!$value || array_keys($value) === range(0, count($value) - 1));
+		return Arrays::isList($value);
 	}
 
 
