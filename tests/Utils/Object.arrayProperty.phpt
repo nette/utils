@@ -13,8 +13,28 @@
 
 require __DIR__ . '/../bootstrap.php';
 
-require __DIR__ . '/Object.inc';
 
+
+class TestClass extends Nette\Object
+{
+	private $items;
+
+	function __construct()
+	{
+		$this->items = new ArrayObject;
+	}
+
+	public function getItems()
+	{
+		return $this->items;
+	}
+
+	public function setItems(array $value)
+	{
+		$this->items = new ArrayObject($value);
+	}
+
+}
 
 
 $obj = new TestClass;

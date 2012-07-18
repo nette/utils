@@ -13,7 +13,19 @@
 
 require __DIR__ . '/../bootstrap.php';
 
-require __DIR__ . '/Object.inc';
+
+
+class TestClass extends Nette\Object
+{
+	public $onPublic;
+
+	static public $onPublicStatic;
+
+	protected $onProtected;
+
+	private $onPrivate;
+
+}
 
 
 
@@ -51,6 +63,16 @@ $obj->onPublic[] = new Handler;
 $obj->onPublic($var);
 Assert::same( 3, $var->counter );
 
+
+
+Assert::throws(function() use ($obj) {
+	$obj->onPublicStatic(123);
+}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::onPublicStatic().');
+
+
+Assert::throws(function() use ($obj) {
+	$obj->onProtected(123);
+}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::onProtected().');
 
 
 Assert::throws(function() use ($obj) {

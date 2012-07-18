@@ -14,7 +14,18 @@ use Nette\Object;
 
 require __DIR__ . '/../bootstrap.php';
 
-require __DIR__ . '/Object.inc';
+
+
+interface IFirst
+{}
+
+interface ISecond extends IFirst
+{}
+
+class TestClass extends Object implements ISecond
+{
+	public $foo = 'Hello', $bar = 'World';
+}
 
 
 
@@ -35,5 +46,5 @@ function ISecond_join(ISecond $that, $separator)
 Object::extensionMethod('IFirst::join', 'IFirst_join');
 Object::extensionMethod('ISecond::join', 'ISecond_join');
 
-$obj = new TestClass('Hello', 'World');
+$obj = new TestClass;
 Assert::same( 'ISecond_join says Hello*World', $obj->join('*') );

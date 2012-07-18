@@ -14,8 +14,12 @@
 
 require __DIR__ . '/../bootstrap.php';
 
-require __DIR__ . '/Object.inc';
 
+
+class TestClass extends Nette\Object
+{
+	public $foo = 'Hello', $bar = 'World';
+}
 
 
 TestClass::extensionMethod('join',
@@ -24,5 +28,5 @@ TestClass::extensionMethod('join',
 	}
 );
 
-$obj = new TestClass('Hello', 'World');
+$obj = new TestClass;
 Assert::same( 'Hello*World', $obj->join('*') );

@@ -13,8 +13,11 @@
 
 require __DIR__ . '/../bootstrap.php';
 
-require __DIR__ . '/Object.inc';
 
+
+class TestClass extends Nette\Object
+{
+}
 
 
 Assert::throws(function() {
