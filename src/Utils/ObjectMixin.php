@@ -59,6 +59,9 @@ final class ObjectMixin
 		if ($name === '') {
 			throw new MemberAccessException("Call to class '$class' method without name.");
 
+		} elseif ($isProp && $_this->$name instanceof \Closure) { // closure in property
+			return call_user_func_array($_this->$name, $args);
+
 		} elseif ($isProp === 'event') { // calling event handlers
 			if (is_array($_this->$name)) {
 				foreach ($_this->$name as $handler) {
@@ -67,9 +70,6 @@ final class ObjectMixin
 			} elseif ($_this->$name !== NULL) {
 				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
 			}
-
-		} elseif ($isProp && $_this->$name instanceof \Closure) { // closure in property
-			return call_user_func_array($_this->$name, $args);
 
 		} elseif ($cb = self::getExtensionMethod($class, $name)) { // extension methods
 			array_unshift($args, $_this);

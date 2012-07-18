@@ -19,12 +19,13 @@ require __DIR__ . '/../bootstrap.php';
 class TestClass extends Nette\Object
 {
 	public $public;
+	public $onPublic;
 	protected $protected;
 	private $private;
 
 	function __construct($func)
 	{
-		$this->public = $this->protected = $this->private = $func;
+		$this->public = $this->onPublic = $this->protected = $this->private = $func;
 	}
 
 }
@@ -36,6 +37,7 @@ $obj = new TestClass(function($a, $b) {
 });
 
 Assert::same( "1 2", $obj->public(1, 2) );
+Assert::same( "1 2", $obj->onPublic(1, 2) );
 
 
 Assert::throws(function() {
