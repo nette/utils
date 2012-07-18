@@ -193,6 +193,9 @@ final class ObjectMixin
 		if ($name === '') {
 			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
 
+		} elseif (self::hasProperty($class, $name)) { // unsetted property
+			$_this->$name = $value;
+
 		} elseif (isset(self::$methods[$class][$m = 'set' . $uname])) { // property setter
 			$_this->$m($value);
 
@@ -215,7 +218,9 @@ final class ObjectMixin
 	public static function remove($_this, $name)
 	{
 		$class = get_class($_this);
-		throw new MemberAccessException("Cannot unset the property $class::\$$name.");
+		if (!self::hasProperty($class, $name)) { // strict class
+			throw new MemberAccessException("Cannot unset the property $class::\$$name.");
+		}
 	}
 
 
