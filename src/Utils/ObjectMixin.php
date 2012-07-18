@@ -153,8 +153,17 @@ final class ObjectMixin
 			return $val;
 
 		} elseif (isset(self::$methods[$class][$m = 'get' . $uname]) || isset(self::$methods[$class][$m = 'is' . $uname])) { // property getter
-			$val = $_this->$m();
-			return $val;
+			$isRef = & self::$methods[$class][$m];
+			if (!is_bool($isRef)) {
+				$rm = new \ReflectionMethod($class, $m);
+				$isRef = $rm->returnsReference();
+			}
+			if ($isRef) {
+				return $_this->$m();
+			} else {
+				$val = $_this->$m();
+				return $val;
+			}
 
 		} else { // strict class
 			$type = isset(self::$methods[$class]['set' . $uname]) ? 'a write-only' : 'an undeclared';
