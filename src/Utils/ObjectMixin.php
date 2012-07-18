@@ -25,6 +25,9 @@ final class ObjectMixin
 	/** @var array */
 	private static $methods;
 
+	/** @var array */
+	private static $props;
+
 	/** @var array (method => array(type => callable)) */
 	private static $extMethods;
 
@@ -41,56 +44,49 @@ final class ObjectMixin
 
 
 	/**
-	 * Call to undefined method.
+	 * __call() implementation.
 	 * @param  object
-	 * @param  string  method name
-	 * @param  array   arguments
+	 * @param  string
+	 * @param  array
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
 	public static function call($_this, $name, $args)
 	{
 		$class = get_class($_this);
+		$isProp = self::hasProperty($class, $name);
 
 		if ($name === '') {
 			throw new MemberAccessException("Call to class '$class' method without name.");
-		}
 
-		if (property_exists($class, $name) && ($rp = new \ReflectionProperty($class, $name)) && $rp->isPublic() && !$rp->isStatic()) {
-			// event functionality
-			if (preg_match('#^on[A-Z]#', $name)) {
-				if (is_array($list = $_this->$name) || $list instanceof \Traversable) {
-					foreach ($list as $handler) {
-						callback($handler)->invokeArgs($args);
-					}
-				} elseif ($list !== NULL) {
-					throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($list) ." given.");
+		} elseif ($isProp === 'event') { // calling event handlers
+			if (is_array($_this->$name)) {
+				foreach ($_this->$name as $handler) {
+					callback($handler)->invokeArgs($args);
 				}
-				return NULL;
+			} elseif ($_this->$name !== NULL) {
+				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
 			}
 
-			// closure in property
-			if ($_this->$name instanceof \Closure) {
-				return call_user_func_array($_this->$name, $args);
-			}
-		}
+		} elseif ($isProp && $_this->$name instanceof \Closure) { // closure in property
+			return call_user_func_array($_this->$name, $args);
 
-		// extension methods
-		if ($cb = static::getExtensionMethod($class, $name)) {
+		} elseif ($cb = self::getExtensionMethod($class, $name)) { // extension methods
 			array_unshift($args, $_this);
 			return $cb->invokeArgs($args);
-		}
 
-		throw new MemberAccessException("Call to undefined method $class::$name().");
+		} else {
+			throw new MemberAccessException("Call to undefined method $class::$name().");
+		}
 	}
 
 
 
 	/**
-	 * Call to undefined method.
+	 * __call() implementation for entities.
 	 * @param  object
-	 * @param  string  method name
-	 * @param  array   arguments
+	 * @param  string
+	 * @param  array
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
@@ -99,40 +95,40 @@ final class ObjectMixin
 		if (strlen($name) > 3) {
 			$op = substr($name, 0, 3);
 			$prop = strtolower($name[3]) . substr($name, 4);
-			if ($op === 'add' && property_exists($_this, $prop.'s')) {
+			if ($op === 'add' && self::hasProperty(get_class($_this), $prop.'s')) {
 				$_this->{$prop.'s'}[] = $args[0];
 				return $_this;
 
-			} elseif ($op === 'set' && property_exists($_this, $prop)) {
+			} elseif ($op === 'set' && self::hasProperty(get_class($_this), $prop)) {
 				$_this->$prop = $args[0];
 				return $_this;
 
-			} elseif ($op === 'get' && property_exists($_this, $prop)) {
+			} elseif ($op === 'get' && self::hasProperty(get_class($_this), $prop)) {
 				return $_this->$prop;
 			}
 		}
-		self::call($_this, $name, $args);
+		return self::call($_this, $name, $args);
 	}
 
 
 
 	/**
-	 * Call to undefined static method.
+	 * __callStatic() implementation.
 	 * @param  string
-	 * @param  string  method name
-	 * @param  array   arguments
-	 * @return mixed
+	 * @param  string
+	 * @param  array
+	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public static function callStatic($class, $name, $args)
+	public static function callStatic($class, $method, $args)
 	{
-		throw new MemberAccessException("Call to undefined static method $class::$name().");
+		throw new MemberAccessException("Call to undefined static method $class::$method().");
 	}
 
 
 
 	/**
-	 * Returns property value.
+	 * __get() implementation.
 	 * @param  object
 	 * @param  string  property name
 	 * @return mixed   property value
@@ -141,52 +137,35 @@ final class ObjectMixin
 	public static function & get($_this, $name)
 	{
 		$class = get_class($_this);
+		$uname = ucfirst($name);
+
+		if (!isset(self::$methods[$class])) {
+			self::$methods[$class] = array_flip(get_class_methods($class)); // public (static and non-static) methods
+		}
 
 		if ($name === '') {
 			throw new MemberAccessException("Cannot read a class '$class' property without name.");
-		}
 
-		if (!isset(self::$methods[$class])) {
-			// get_class_methods returns only public methods of objects
-			// but returns static methods too
-			// and is much faster than reflection
-			self::$methods[$class] = array_flip(get_class_methods($class));
-		}
-
-		// public method as closure getter
-		if (isset(self::$methods[$class][$name])) {
+		} elseif (isset(self::$methods[$class][$name])) { // public method as closure getter
 			$val = function() use ($_this, $name) {
 				return call_user_func_array(array($_this, $name), func_get_args());
 			};
 			return $val;
-		}
 
-		// property getter support
-		$name[0] = $name[0] & "\xDF"; // case-sensitive checking, capitalize first character
-		$m = 'get' . $name;
-		if (isset(self::$methods[$class][$m])) {
-			// ampersands:
-			// - uses &__get() because declaration should be forward compatible (e.g. with Nette\Utils\Html)
-			// - doesn't call &$_this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
+		} elseif (isset(self::$methods[$class][$m = 'get' . $uname]) || isset(self::$methods[$class][$m = 'is' . $uname])) { // property getter
 			$val = $_this->$m();
 			return $val;
-		}
 
-		$m = 'is' . $name;
-		if (isset(self::$methods[$class][$m])) {
-			$val = $_this->$m();
-			return $val;
+		} else { // strict class
+			$type = isset(self::$methods[$class]['set' . $uname]) ? 'a write-only' : 'an undeclared';
+			throw new MemberAccessException("Cannot read $type property $class::\$$name.");
 		}
-
-		$type = isset(self::$methods[$class]['set' . $name]) ? 'a write-only' : 'an undeclared';
-		$name = func_get_arg(1);
-		throw new MemberAccessException("Cannot read $type property $class::\$$name.");
 	}
 
 
 
 	/**
-	 * Sets value of a property.
+	 * __set() implementation.
 	 * @param  object
 	 * @param  string  property name
 	 * @param  mixed   property value
@@ -196,34 +175,29 @@ final class ObjectMixin
 	public static function set($_this, $name, $value)
 	{
 		$class = get_class($_this);
-
-		if ($name === '') {
-			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
-		}
+		$uname = ucfirst($name);
 
 		if (!isset(self::$methods[$class])) {
 			self::$methods[$class] = array_flip(get_class_methods($class));
 		}
 
-		// property setter support
-		$name[0] = $name[0] & "\xDF"; // case-sensitive checking, capitalize first character
+		if ($name === '') {
+			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
 
-		$m = 'set' . $name;
-		if (isset(self::$methods[$class][$m])) {
+		} elseif (isset(self::$methods[$class][$m = 'set' . $uname])) { // property setter
 			$_this->$m($value);
-			return;
-		}
 
-		$type = isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name])
-			? 'a read-only' : 'an undeclared';
-		$name = func_get_arg(1);
-		throw new MemberAccessException("Cannot write to $type property $class::\$$name.");
+		} else { // strict class
+			$type = isset(self::$methods[$class]['get' . $uname]) || isset(self::$methods[$class]['is' . $uname])
+				? 'a read-only' : 'an undeclared';
+			throw new MemberAccessException("Cannot write to $type property $class::\$$name.");
+		}
 	}
 
 
 
 	/**
-	 * Throws exception.
+	 * __unset() implementation.
 	 * @param  object
 	 * @param  string  property name
 	 * @return void
@@ -238,33 +212,50 @@ final class ObjectMixin
 
 
 	/**
-	 * Is property defined?
+	 * __isset() implementation.
 	 * @param  object
 	 * @param  string  property name
 	 * @return bool
 	 */
 	public static function has($_this, $name)
 	{
-		if ($name === '') {
-			return FALSE;
-		}
-
 		$class = get_class($_this);
+		$name = ucfirst($name);
 		if (!isset(self::$methods[$class])) {
 			self::$methods[$class] = array_flip(get_class_methods($class));
 		}
+		return $name !== '' && (isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name]));
+	}
 
-		$name[0] = $name[0] & "\xDF";
-		return isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name]);
+
+
+	/**
+	 * Checks if the public non-static property exists.
+	 * @return mixed
+	 */
+	private static function hasProperty($class, $name)
+	{
+		$prop = & self::$props[$class][$name];
+		if ($prop === NULL) {
+			$prop = FALSE;
+			try {
+				$rp = new \ReflectionProperty($class, $name);
+				if ($name === $rp->getName() && $rp->isPublic() && !$rp->isStatic()) {
+					$prop = preg_match('#^on[A-Z]#', $name) ? 'event' : TRUE;
+				}
+			} catch (\ReflectionException $e) {}
+		}
+		return $prop;
 	}
 
 
 
 	/**
 	 * Adds a method to class.
-	 * @param  string  method name
+	 * @param  string
+	 * @param  string
 	 * @param  mixed   callable
-	 * @return ClassType  provides a fluent interface
+	 * @return void
 	 */
 	public static function setExtensionMethod($class, $name, $callback)
 	{
@@ -277,7 +268,8 @@ final class ObjectMixin
 
 	/**
 	 * Returns extension method.
-	 * @param  string  method name
+	 * @param  string
+	 * @param  string
 	 * @return mixed
 	 */
 	public static function getExtensionMethod($class, $name)
