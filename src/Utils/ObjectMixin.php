@@ -63,7 +63,7 @@ final class ObjectMixin
 			return call_user_func_array($_this->$name, $args);
 
 		} elseif ($isProp === 'event') { // calling event handlers
-			if (is_array($_this->$name)) {
+			if (is_array($_this->$name) || $_this->$name instanceof \Traversable) {
 				foreach ($_this->$name as $handler) {
 					callback($handler)->invokeArgs($args);
 				}
