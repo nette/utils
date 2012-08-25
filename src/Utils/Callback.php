@@ -38,7 +38,12 @@ final class Callback extends Object
 	{
 		if ($m !== NULL) {
 			$cb = array($cb, $m); // back-compatibility
+
+		} elseif ($cb instanceof self) { // prevents wrapping itself
+			$this->cb = $cb->cb;
+			return;
 		}
+
 		/*5.2*
 		if (PHP_VERSION_ID < 50202 && is_string($cb) && strpos($cb, '::')) {
 			$cb = explode('::', $cb, 2);
