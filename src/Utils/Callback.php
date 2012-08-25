@@ -31,13 +31,26 @@ final class Callback extends Object
 
 
 	/**
-	 * Do not call directly, use callback() function.
-	 * @param  callable
+	 * Factory. Workaround for missing (new Callback)->invoke() in PHP 5.3.
+	 * @param  mixed   class, object, callable
+	 * @param  string  method
+	 * @return Callback
+	 */
+	public static function create($callback, $m = NULL)
+	{
+		return new self($callback, $m);
+	}
+
+
+
+	/**
+	 * @param  mixed   class, object, callable
+	 * @param  string  method
 	 */
 	public function __construct($cb, $m = NULL)
 	{
 		if ($m !== NULL) {
-			$cb = array($cb, $m); // back-compatibility
+			$cb = array($cb, $m);
 
 		} elseif ($cb instanceof self) { // prevents wrapping itself
 			$this->cb = $cb->cb;
