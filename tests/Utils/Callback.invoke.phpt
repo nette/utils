@@ -33,9 +33,9 @@ Assert::true( $cb->isCallable() );
 
 
 Assert::throws(function() {
-	callback('undefined')->invoke();
+	Callback::create('undefined')->invoke();
 }, 'Nette\InvalidStateException', "Callback 'undefined' is not callable.");
 
 Assert::throws(function() {
-	callback(NULL)->invoke();
+	Callback::create(NULL)->invoke();
 }, 'InvalidArgumentException', 'Invalid callback.');

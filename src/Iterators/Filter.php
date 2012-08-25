@@ -34,7 +34,7 @@ class Filter extends \FilterIterator
 	public function __construct(\Iterator $iterator, $callback)
 	{
 		parent::__construct($iterator);
-		$this->callback = callback($callback);
+		$this->callback = new Nette\Callback($callback);
 	}
 
 
