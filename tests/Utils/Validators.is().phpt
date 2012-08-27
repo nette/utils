@@ -142,6 +142,10 @@ Assert::true( Validators::is(null, 'null') );
 Assert::false( Validators::is('', 'email') );
 Assert::false( Validators::is('hello', 'email') );
 Assert::true( Validators::is('hello@world.cz', 'email') );
+Assert::false( Validators::is('hello@localhost', 'email') );
+Assert::false( Validators::is('hello@127.0.0.1', 'email') );
+Assert::true( Validators::is('hello@l.org', 'email') );
+Assert::true( Validators::is('hello@1.org', 'email') );
 
 
 Assert::false( Validators::is('', 'url') );
