@@ -147,7 +147,12 @@ Assert::true( Validators::is('hello@world.cz', 'email') );
 Assert::false( Validators::is('', 'url') );
 Assert::false( Validators::is('hello', 'url') );
 Assert::false( Validators::is('nette.org', 'url') );
+Assert::true( Validators::is('http://1.org', 'url') );
+Assert::true( Validators::is('http://l.org', 'url') );
+Assert::true( Validators::is('http://localhost', 'url') );
+Assert::true( Validators::is('http://127.0.0.1', 'url') );
 Assert::true( Validators::is('http://nette.org/path', 'url') );
+Assert::true( Validators::is('http://nette.org:8080/path', 'url') );
 Assert::true( Validators::is('https://www.nette.org/path', 'url') );
 
 

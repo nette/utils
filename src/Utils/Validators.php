@@ -269,8 +269,10 @@ class Validators extends Nette\Object
 	 */
 	public static function isUrl($value)
 	{
-		$chars = "a-z0-9\x80-\xFF";
-		return (bool) preg_match("#^https?://(?:[$chars](?:[-$chars]{0,61}[$chars])?\\.)+[-$chars]{2,19}(/\S*)?$#i", $value);
+		$alpha = "a-z\x80-\xFF";
+		$domain = "[0-9$alpha](?:[-0-9$alpha]{0,61}[0-9$alpha])?";
+		$topDomain = "[$alpha][-0-9$alpha]{0,17}[$alpha]";
+		return (bool) preg_match("(^https?://(?:(?:$domain\\.)*$topDomain|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d{1,5})?(/\S*)?\\z)i", $value);
 	}
 
 }
