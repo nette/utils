@@ -148,7 +148,8 @@ final class ObjectMixin
 
 		} elseif (isset(self::$methods[$class][$name])) { // public method as closure getter
 			$val = function() use ($_this, $name) {
-				return call_user_func_array(array($_this, $name), func_get_args());
+				$args = func_get_args();
+				return call_user_func_array(array($_this, $name), $args);
 			};
 			return $val;
 
