@@ -25,6 +25,10 @@ class TestClass extends Nette\Object
 		$this->bar = $bar;
 	}
 
+	public function foo()
+	{ // method getter has lower priority than getter
+	}
+
 	public function getFoo()
 	{
 		return $this->foo;
