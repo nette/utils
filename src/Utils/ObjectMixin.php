@@ -294,6 +294,7 @@ final class ObjectMixin
 			foreach ($list['user'] as $fce) {
 				$pair = explode('_prototype_', $fce);
 				if (count($pair) === 2) {
+					trigger_error("Declaring extension method as function $fce() is deprecated; use $pair[0]::extensionMethod('$pair[1]', ...) instead.", E_USER_WARNING);
 					self::$extMethods[$pair[1]][$pair[0]] = new Nette\Callback($fce);
 					self::$extMethods[$pair[1]][''] = NULL;
 				}
