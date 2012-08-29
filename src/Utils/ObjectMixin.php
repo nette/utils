@@ -65,7 +65,7 @@ final class ObjectMixin
 		} elseif ($isProp === 'event') { // calling event handlers
 			if (is_array($_this->$name) || $_this->$name instanceof \Traversable) {
 				foreach ($_this->$name as $handler) {
-					Nette\Callback::create($handler)->invokeArgs($args);
+					Callback::create($handler)->invokeArgs($args);
 				}
 			} elseif ($_this->$name !== NULL) {
 				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
@@ -272,7 +272,7 @@ final class ObjectMixin
 	public static function setExtensionMethod($class, $name, $callback)
 	{
 		$l = & self::$extMethods[strtolower($name)];
-		$l[strtolower($class)] = new Nette\Callback($callback);
+		$l[strtolower($class)] = new Callback($callback);
 		$l[''] = NULL;
 	}
 
@@ -292,7 +292,7 @@ final class ObjectMixin
 				$pair = explode('_prototype_', $fce);
 				if (count($pair) === 2) {
 					trigger_error("Declaring extension method as function $fce() is deprecated; use $pair[0]::extensionMethod('$pair[1]', ...) instead.", E_USER_WARNING);
-					self::$extMethods[$pair[1]][$pair[0]] = new Nette\Callback($fce);
+					self::$extMethods[$pair[1]][$pair[0]] = new Callback($fce);
 					self::$extMethods[$pair[1]][''] = NULL;
 				}
 			}
