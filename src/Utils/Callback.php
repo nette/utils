@@ -169,6 +169,22 @@ final class Callback extends Object
 
 
 	/**
+	 * Duplicates the callback with a new bound object.
+	 * @return Callback
+	 */
+	public function bindTo($newthis)
+	{
+		if (is_string($this->cb) && strpos($this->cb, '::')) {
+			$this->cb = explode('::', $this->cb);
+		} elseif (!is_array($this->cb)) {
+			throw new InvalidStateException("Callback '$this' have not any bound object.");
+		}
+		return new static($newthis, $this->cb[1]);
+	}
+
+
+
+	/**
 	 * @return string
 	 */
 	public function __toString()
