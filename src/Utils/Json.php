@@ -23,6 +23,7 @@ use Nette;
 final class Json
 {
 	const FORCE_ARRAY = 1;
+	const PRETTY = 2;
 
 	/** @var array */
 	private static $messages = array(
@@ -47,14 +48,15 @@ final class Json
 	/**
 	 * Returns the JSON representation of a value.
 	 * @param  mixed
+	 * @param  int  accepts Json::PRETTY
 	 * @return string
 	 */
-	public static function encode($value)
+	public static function encode($value, $options = 0)
 	{
 		Nette\Diagnostics\Debugger::tryError();
 		$args = array($value);
 		if (PHP_VERSION_ID >= 50400) {
-			$args[] = JSON_UNESCAPED_UNICODE;
+			$args[] = JSON_UNESCAPED_UNICODE | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0);
 		}
 		if (function_exists('ini_set')) {
 			$old = ini_set('display_errors', 0); // needed to receive 'Invalid UTF-8 sequence' error
@@ -74,7 +76,7 @@ final class Json
 	/**
 	 * Decodes a JSON string.
 	 * @param  string
-	 * @param  int
+	 * @param  int  accepts Json::FORCE_ARRAY
 	 * @return mixed
 	 */
 	public static function decode($json, $options = 0)
