@@ -42,3 +42,10 @@ Assert::throws(function() {
 Assert::throws(function() {
 	Json::decode("\x00");
 }, 'Nette\Utils\JsonException', 'Unexpected control character found');
+
+
+
+if (PHP_VERSION_ID >= 50400) {
+	// default JSON_BIGINT_AS_STRING
+	Assert::same( array('12345678901234567890'), Json::decode('[12345678901234567890]') );
+}

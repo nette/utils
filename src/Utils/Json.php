@@ -52,12 +52,16 @@ final class Json
 	public static function encode($value)
 	{
 		Nette\Diagnostics\Debugger::tryError();
+		$args = array($value);
+		if (PHP_VERSION_ID >= 50400) {
+			$args[] = JSON_UNESCAPED_UNICODE;
+		}
 		if (function_exists('ini_set')) {
 			$old = ini_set('display_errors', 0); // needed to receive 'Invalid UTF-8 sequence' error
-			$json = json_encode($value);
+		}
+		$json = call_user_func_array('json_encode', $args);
+		if (isset($old)) {
 			ini_set('display_errors', $old);
-		} else {
-			$json = json_encode($value);
 		}
 		if (Nette\Diagnostics\Debugger::catchError($e)) { // needed to receive 'recursion detected' error
 			throw new JsonException($e->getMessage());
@@ -76,7 +80,15 @@ final class Json
 	public static function decode($json, $options = 0)
 	{
 		$json = (string) $json;
-		$value = json_decode($json, (bool) ($options & self::FORCE_ARRAY));
+		$args = array($json, (bool) ($options & self::FORCE_ARRAY));
+		if (PHP_VERSION_ID >= 50300) {
+			$args[] = 512;
+			if (PHP_VERSION_ID >= 50400) {
+				$args[] = JSON_BIGINT_AS_STRING;
+			}
+		}
+		$value = call_user_func_array('json_decode', $args);
+
 		if ($value === NULL && $json !== '' && strcasecmp($json, 'null')) { // '' do not clean json_last_error
 			$error = PHP_VERSION_ID >= 50300 ? json_last_error() : 0;
 			throw new JsonException(isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error', $error);
