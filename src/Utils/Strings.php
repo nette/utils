@@ -55,9 +55,15 @@ class Strings
 	 */
 	public static function fixEncoding($s, $encoding = 'UTF-8')
 	{
-		// removes xD800-xDFFF, xFEFF, xFFFF, x110000 and higher
-		$s = @iconv('UTF-16', $encoding . '//IGNORE', iconv($encoding, 'UTF-16//IGNORE', $s)); // intentionally @
-		return str_replace("\xEF\xBB\xBF", '', $s); // remove UTF-8 BOM
+		// removes xD800-xDFFF, xFEFF, x110000 and higher
+		if (PHP_VERSION_ID >= 50400) {
+			if (strcasecmp($encoding, 'UTF-8') === 0) {
+				$s = str_replace("\xEF\xBB\xBF", '', $s); // remove UTF-8 BOM
+			}
+			ini_set('mbstring.substitute_character', 'none');
+			return mb_convert_encoding($s, $encoding, $encoding);
+		}
+		return @iconv('UTF-16', $encoding . '//IGNORE', iconv($encoding, 'UTF-16//IGNORE', $s)); // intentionally @
 	}
 
 
