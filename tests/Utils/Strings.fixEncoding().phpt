@@ -30,11 +30,8 @@ function utfChar($ord)
 }
 
 
-// valid
+// invalid
 Assert::same( "\xC5\xBEa\x01b", Strings::fixEncoding("\xC5\xBE" . "a\x01b") );
-
-// BOM
-Assert::same( "ab", Strings::fixEncoding("a" . utfChar(0xFEFF) . "b") );
 
 // surrogates area
 for ($i = 0xD800; $i <= 0xDFFF; $i++) {
