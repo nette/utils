@@ -154,9 +154,9 @@ class StaticClassException extends \LogicException
 class FatalErrorException extends \ErrorException
 {
 
-	public function __construct($message, $code, $severity, $file, $line, $context)
+	public function __construct($message, $code, $severity, $file, $line, $context, \Exception $previous = NULL)
 	{
-		parent::__construct($message, $code, $severity, $file, $line);
+		parent::__construct($message, $code, $severity, $file, $line, $previous);
 		$this->context = $context;
 	}
 
@@ -168,9 +168,14 @@ class FatalErrorException extends \Exception // ErrorException is corrupted in P
 {
 	private $severity;
 
-	public function __construct($message, $code, $severity, $file, $line, $context)
+	public function __construct($message, $code, $severity, $file, $line, $context, Exception $previous = NULL)
 	{
-		parent::__construct($message, $code);
+		if (PHP_VERSION_ID < 50300) {
+			$this->previous = $previous;
+			parent::__construct($message, $code);
+		} else {
+			parent::__construct($message, $code, $previous);
+		}
 		$this->severity = $severity;
 		$this->file = $file;
 		$this->line = $line;
