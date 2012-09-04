@@ -5,7 +5,6 @@
  *
  * @author     David Grudl
  * @package    Nette
- * @subpackage UnitTests
  */
 
 use Nette\ArrayList;

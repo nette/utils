@@ -5,7 +5,6 @@
  *
  * @author     Petr Procházka
  * @package    Nette\Utils
- * @subpackage UnitTests
  */
 
 use Nette\Utils\Paginator;

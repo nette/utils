@@ -11,8 +11,7 @@
 
 namespace Nette\Utils;
 
-use Nette,
-	Nette\Diagnostics\Debugger;
+use Nette;
 
 
 

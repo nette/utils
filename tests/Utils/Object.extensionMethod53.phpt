@@ -5,7 +5,6 @@
  *
  * @author     David Grudl
  * @package    Nette
- * @subpackage UnitTests
  * @phpversion 5.3
  */
 
@@ -22,11 +21,9 @@ class TestClass extends Nette\Object
 }
 
 
-TestClass::extensionMethod('join',
-	function (TestClass $that, $separator) {
-		return $that->foo . $separator . $that->bar;
-	}
-);
+TestClass::extensionMethod('join', function(TestClass $that, $separator) {
+	return $that->foo . $separator . $that->bar;
+});
 
 $obj = new TestClass;
 Assert::same( 'Hello*World', $obj->join('*') );

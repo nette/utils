@@ -23,11 +23,6 @@ use Nette;
 class RecursiveFilter extends Filter implements \RecursiveIterator
 {
 
-	/**
-	 * Constructs a filter around another iterator.
-	 * @param
-	 * @param  callable
-	 */
 	public function __construct(\RecursiveIterator $iterator, $callback)
 	{
 		parent::__construct($iterator, $callback);

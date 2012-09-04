@@ -5,7 +5,6 @@
  *
  * @author     David Grudl
  * @package    Nette\Iterators
- * @subpackage UnitTests
  */
 
 use Nette\Iterators;

@@ -5,7 +5,6 @@
  *
  * @author     bojovyletoun
  * @package    Nette\Utils
- * @subpackage UnitTests
  * @phpversion 5.3
  */
 

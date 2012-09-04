@@ -26,11 +26,6 @@ class Mapper extends \IteratorIterator
 	private $callback;
 
 
-	/**
-	 * Constructs a filter around another iterator.
-	 * @param
-	 * @param  callable
-	 */
 	public function __construct(\Traversable $iterator, $callback)
 	{
 		parent::__construct($iterator);
