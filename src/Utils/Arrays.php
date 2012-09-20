@@ -170,7 +170,7 @@ final class Arrays
 	 */
 	public static function grep(array $arr, $pattern, $flags = 0)
 	{
-		set_error_handler(function($severity, $message) use ($pattern) { // compile error
+		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
 			restore_error_handler();
 			throw new RegexpException("$message in pattern: $pattern");
 		});

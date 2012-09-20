@@ -447,7 +447,7 @@ class Strings
 	 */
 	public static function split($subject, $pattern, $flags = 0)
 	{
-		set_error_handler(function($severity, $message) use ($pattern) { // compile error
+		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
 			restore_error_handler();
 			throw new RegexpException("$message in pattern: $pattern");
 		});
@@ -474,7 +474,7 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return NULL;
 		}
-		set_error_handler(function($severity, $message) use ($pattern) { // compile error
+		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
 			restore_error_handler();
 			throw new RegexpException("$message in pattern: $pattern");
 		});
@@ -503,7 +503,7 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return array();
 		}
-		set_error_handler(function($severity, $message) use ($pattern) { // compile error
+		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
 			restore_error_handler();
 			throw new RegexpException("$message in pattern: $pattern");
 		});
@@ -539,7 +539,7 @@ class Strings
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
 
-			set_error_handler(function($severity, $message) use (& $tmp) { // compile error
+			set_error_handler(function($severity, $message) use (& $tmp) { // preg_last_error does not return compile errors
 				restore_error_handler();
 				throw new RegexpException("$message in pattern: $tmp");
 			});
@@ -559,7 +559,7 @@ class Strings
 			$pattern = array_keys($pattern);
 		}
 
-		set_error_handler(function($severity, $message) use ($pattern) { // compile error
+		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
 			restore_error_handler();
 			throw new RegexpException("$message in pattern: " . implode(' or ', (array) $pattern));
 		});
