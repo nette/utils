@@ -134,7 +134,7 @@ class Validators extends Nette\Object
 					continue;
 				}
 			} elseif ($type === 'pattern') {
-				if (preg_match('|^' . (isset($item[1]) ? $item[1] : '') . '$|', $value)) {
+				if (preg_match('|^' . (isset($item[1]) ? $item[1] : '') . '\z|', $value)) {
 					return TRUE;
 				}
 				continue;
@@ -168,7 +168,7 @@ class Validators extends Nette\Object
 	 */
 	public static function isNumericInt($value)
 	{
-		return is_int($value) || is_string($value) && preg_match('#^-?[0-9]+$#', $value);
+		return is_int($value) || is_string($value) && preg_match('#^-?[0-9]+\z#', $value);
 	}
 
 
@@ -180,7 +180,7 @@ class Validators extends Nette\Object
 	 */
 	public static function isNumeric($value)
 	{
-		return is_float($value) || is_int($value) || is_string($value) && preg_match('#^-?[0-9]*[.]?[0-9]+$#', $value);
+		return is_float($value) || is_int($value) || is_string($value) && preg_match('#^-?[0-9]*[.]?[0-9]+\z#', $value);
 	}
 
 

@@ -361,7 +361,7 @@ class Strings
 	public static function trim($s, $charlist = " \t\n\r\0\x0B\xC2\xA0")
 	{
 		$charlist = preg_quote($charlist, '#');
-		return self::replace($s, '#^['.$charlist.']+|['.$charlist.']+$#u', '');
+		return self::replace($s, '#^['.$charlist.']+|['.$charlist.']+\z#u', '');
 	}
 
 
