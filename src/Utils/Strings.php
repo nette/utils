@@ -149,7 +149,7 @@ class Strings
 		$s = preg_replace('#[\x00-\x08\x0B-\x1F\x7F]+#', '', $s);
 
 		// right trim
-		$s = preg_replace("#[\t ]+$#m", '', $s);
+		$s = preg_replace('#[\t ]+$#m', '', $s);
 
 		// leading and trailing blank lines
 		$s = trim($s, "\n");
