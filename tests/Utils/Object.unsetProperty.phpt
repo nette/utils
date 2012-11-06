@@ -36,7 +36,7 @@ unset($obj->foo);
 
 
 // reading of unset property
-Assert::throws(function() {
+Assert::exception(function() {
 	$obj = new TestClass;
 	unset($obj->foo);
 	$val = $obj->foo;

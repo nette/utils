@@ -15,11 +15,11 @@ require __DIR__ . '/../bootstrap.php';
 
 
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Arrays::grep(array('a', '1', 'c'), '#*#');
 }, 'Nette\Utils\RegexpException', 'preg_grep(): Compilation failed: nothing to repeat at offset 0 in pattern: #*#');
 
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Arrays::grep(array('a', "1\xFF", 'c'), '#\d#u');
 }, 'Nette\Utils\RegexpException', 'Malformed UTF-8 data (pattern: #\d#u)');

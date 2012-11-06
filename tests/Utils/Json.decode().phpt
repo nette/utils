@@ -26,19 +26,19 @@ Assert::same( array('a' => 1), Json::decode('{"a":1}', Json::FORCE_ARRAY) );
 
 
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Json::decode('{');
 }, 'Nette\Utils\JsonException', 'Syntax error, malformed JSON');
 
 
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Json::decode('{}}');
 }, 'Nette\Utils\JsonException', 'Syntax error, malformed JSON');
 
 
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Json::decode("\x00");
 }, 'Nette\Utils\JsonException', 'Unexpected control character found');
 

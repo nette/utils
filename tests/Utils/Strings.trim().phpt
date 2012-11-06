@@ -20,6 +20,6 @@ Assert::same( 'a b',  Strings::trim(' a b ') );
 Assert::same( ' a b ',  Strings::trim(' a b ', '') );
 Assert::same( 'e',  Strings::trim("\xc5\x98e-", "\xc5\x98-") ); // Ře-
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Strings::trim("\xC2x\xA0");
 }, 'Nette\Utils\RegexpException', NULL);

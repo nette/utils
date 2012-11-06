@@ -36,10 +36,10 @@ $cb2/*5.2*->invoke*/(2);
 Assert::same( 2, $test->var );
 
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Callback::create('strlen')->bindTo(new stdClass);
 }, 'Nette\InvalidStateException', "Callback 'strlen' have not any bound object.");
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Callback::create('Test::set')->bindTo(1);
 }, 'InvalidArgumentException', 'Invalid callback.');

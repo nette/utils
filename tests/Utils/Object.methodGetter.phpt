@@ -45,13 +45,13 @@ $method = $obj1->publicMethod;
 Assert::same( "1 2 3", $method(2, 3) );
 
 
-Assert::throws(function() {
+Assert::exception(function() {
 	$obj = new TestClass;
 	$method = $obj->protectedMethod;
 }, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$protectedMethod.');
 
 
-Assert::throws(function() {
+Assert::exception(function() {
 	$obj = new TestClass;
 	$method = $obj->privateMethod;
 }, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$privateMethod.');

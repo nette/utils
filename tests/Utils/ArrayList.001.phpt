@@ -66,11 +66,11 @@ Assert::same( 2, count($list) );
 
 
 
-Assert::throws(function() use ($list) {
+Assert::exception(function() use ($list) {
 	unset($list[-1]);
 }, 'OutOfRangeException', 'Offset invalid or out of range');
 
-Assert::throws(function() use ($list) {
+Assert::exception(function() use ($list) {
 	unset($list[2]);
 }, 'OutOfRangeException', 'Offset invalid or out of range');
 

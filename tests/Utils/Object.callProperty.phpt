@@ -41,7 +41,7 @@ Assert::same( array(), $obj->getItems() );
 
 
 // Undeclared method access
-Assert::throws(function() {
+Assert::exception(function() {
 	$obj = new TestClass;
 	$obj->setItem();
 }, 'Nette\MemberAccessException', 'Call to undefined method TestClass::setItem().');

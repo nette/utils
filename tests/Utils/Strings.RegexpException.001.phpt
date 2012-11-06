@@ -17,24 +17,24 @@ require __DIR__ . '/../bootstrap.php';
 
 ini_set('pcre.backtrack_limit', 3); // forces PREG_BACKTRACK_LIMIT_ERROR
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Strings::split('0123456789', '#.*\d#');
 }, 'Nette\Utils\RegexpException', 'Backtrack limit was exhausted (pattern: #.*\d#)');
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Strings::match('0123456789', '#.*\d#');
 }, 'Nette\Utils\RegexpException', 'Backtrack limit was exhausted (pattern: #.*\d#)');
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Strings::matchAll('0123456789', '#.*\d#');
 }, 'Nette\Utils\RegexpException', 'Backtrack limit was exhausted (pattern: #.*\d#)');
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Strings::replace('0123456789', '#.*\d#', 'x');
 }, 'Nette\Utils\RegexpException', 'Backtrack limit was exhausted (pattern: #.*\d#)');
 
 function cb() { return 'x'; }
 
-Assert::throws(function() {
+Assert::exception(function() {
 	Strings::replace('0123456789', '#.*\d#', new Nette\Callback('cb'));
 }, 'Nette\Utils\RegexpException', 'Backtrack limit was exhausted (pattern: #.*\d#)');
