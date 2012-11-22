@@ -48,7 +48,7 @@ class Handler
 $obj = new TestClass;
 $obj->onPublic();
 
-$var = (object) NULL;
+$var = new stdClass;
 
 $obj->onPublic[] = 'handler';
 
