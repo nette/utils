@@ -426,8 +426,8 @@ class Strings
 		$s = '';
 		for ($i = 0; $i < $length; $i++) {
 			if ($i % 5 === 0) {
-				$rand = lcg_value();
-				$rand2 = microtime(TRUE);
+				list($rand, $rand2) = explode(' ', microtime());
+				$rand += lcg_value();
 			}
 			$rand *= $chLen;
 			$s .= $charlist[($rand + $rand2) % $chLen];
