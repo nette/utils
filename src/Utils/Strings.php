@@ -423,6 +423,11 @@ class Strings
 		}, $charlist));
 		$chLen = strlen($charlist);
 
+		static $rand3;
+		if (!$rand3) {
+			$rand3 = md5(serialize($_SERVER), TRUE);
+		}
+
 		$s = '';
 		for ($i = 0; $i < $length; $i++) {
 			if ($i % 5 === 0) {
@@ -430,7 +435,7 @@ class Strings
 				$rand += lcg_value();
 			}
 			$rand *= $chLen;
-			$s .= $charlist[($rand + $rand2) % $chLen];
+			$s .= $charlist[($rand + $rand2 + ord($rand3[$i % strlen($rand3)])) % $chLen];
 			$rand -= (int) $rand;
 		}
 		return $s;
