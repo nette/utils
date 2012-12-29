@@ -69,6 +69,7 @@ final class Json
 		if (isset($old)) {
 			ini_set('display_errors', $old);
 		}
+		$json = str_replace(array("\xe2\x80\xa8", "\xe2\x80\xa9"), array('\u2028', '\u2029'), $json);
 		return $json;
 	}
 
