@@ -222,3 +222,7 @@ interface kryton { }
 Assert::true(Validators::is('rimmer', 'type'));
 Assert::true(Validators::is('kryton', 'type'));
 Assert::false(Validators::is('1', 'type'));
+
+
+Assert::true( Validators::is('Item', 'identifier') );
+Assert::false( Validators::is('0Item', 'identifier') );
