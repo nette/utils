@@ -19,7 +19,7 @@ use Nette;
  * HTML helper.
  *
  * <code>
- * $anchor = Html::el('a')->href($link)->setText('Nette');
+ * $el = Html::el('a')->href($link)->setText('Nette');
  * $el->class = 'myclass';
  * echo $el;
  *
