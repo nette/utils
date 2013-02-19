@@ -67,8 +67,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Replaces or appends a item.
-	 * @param  mixed
-	 * @param  mixed
 	 * @return void
 	 */
 	public function offsetSet($key, $value)
@@ -83,7 +81,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Returns a item.
-	 * @param  mixed
 	 * @return mixed
 	 */
 	public function offsetGet($key)
@@ -95,7 +92,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Determines whether a item exists.
-	 * @param  mixed
 	 * @return bool
 	 */
 	public function offsetExists($key)
@@ -107,7 +103,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Removes the element from this list.
-	 * @param  mixed
 	 * @return void
 	 */
 	public function offsetUnset($key)

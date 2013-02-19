@@ -163,7 +163,6 @@ class Validators extends Nette\Object
 
 	/**
 	 * Finds whether a value is an integer.
-	 * @param  mixed
 	 * @return bool
 	 */
 	public static function isNumericInt($value)
@@ -175,7 +174,6 @@ class Validators extends Nette\Object
 
 	/**
 	 * Finds whether a string is a floating point number in decimal base.
-	 * @param  mixed
 	 * @return bool
 	 */
 	public static function isNumeric($value)
@@ -187,7 +185,6 @@ class Validators extends Nette\Object
 
 	/**
 	 * Finds whether a value is a syntactically correct callback.
-	 * @param  mixed
 	 * @return bool
 	 */
 	public static function isCallable($value)
@@ -211,7 +208,6 @@ class Validators extends Nette\Object
 
 	/**
 	 * Finds whether a value is "falsy".
-	 * @param  mixed
 	 * @return bool
 	 */
 	public static function isNone($value)
