@@ -49,6 +49,7 @@ $obj = new TestClass;
 $obj->onPublic();
 
 $var = new stdClass;
+$var->counter = 0;
 
 $obj->onPublic[] = 'handler';
 
