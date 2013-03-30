@@ -43,6 +43,7 @@ class Validators extends Nette\Object
 		'email' => array(__CLASS__, 'isEmail'),
 		'url' => array(__CLASS__, 'isUrl'),
 		'none' => array(__CLASS__, 'isNone'),
+		'type' => array(__CLASS__, 'isType'),
 		'pattern' => NULL,
 		'alnum' => 'ctype_alnum',
 		'alpha' => 'ctype_alpha',
@@ -270,6 +271,18 @@ class Validators extends Nette\Object
 		$domain = "[0-9$alpha](?:[-0-9$alpha]{0,61}[0-9$alpha])?";
 		$topDomain = "[$alpha][-0-9$alpha]{0,17}[$alpha]";
 		return (bool) preg_match("(^https?://(?:(?:$domain\\.)*$topDomain|\\d{1,3}\.\\d{1,3}\.\\d{1,3}\.\\d{1,3})(:\\d{1,5})?(/\\S*)?\\z)i", $value);
+	}
+
+
+
+	/**
+	 * Checks whether the input is a class, interface or trait
+	 * @param  string
+	 * @return bool
+	 */
+	public static function isType($type)
+	{
+		return class_exists($type) || interface_exists($type) || (PHP_VERSION_ID >= 50400 && trait_exists($type));
 	}
 
 }

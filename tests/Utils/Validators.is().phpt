@@ -214,3 +214,11 @@ Assert::true( Validators::is('123aA', 'xdigit') );
 Assert::true( Validators::is(1.0, 'int|float') );
 Assert::true( Validators::is(1, 'int|float') );
 Assert::false( Validators::is('1', 'int|float') );
+
+
+class rimmer {}
+interface kryton { }
+
+Assert::true(Validators::is('rimmer', 'type'));
+Assert::true(Validators::is('kryton', 'type'));
+Assert::false(Validators::is('1', 'type'));
