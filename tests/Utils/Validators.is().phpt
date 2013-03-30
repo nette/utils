@@ -95,7 +95,7 @@ Assert::true( Validators::is('hello', 'unicode:4..') );
 Assert::false( Validators::is('hello', 'unicode:1..4') );
 
 
-Assert::false( Validators::is(null, 'array') );
+Assert::false( Validators::is(NULL, 'array') );
 Assert::true( Validators::is(array(), 'array') );
 Assert::true( Validators::is(array(), 'array:0') );
 Assert::true( Validators::is(array(1), 'array:1') );
@@ -116,16 +116,16 @@ Assert::true( Validators::is($arr, 'list') );
 Assert::false( Validators::is(array(1,2,3), 'list:4') );
 
 
-Assert::false( Validators::is(null, 'object') );
+Assert::false( Validators::is(NULL, 'object') );
 Assert::true( Validators::is(new stdClass, 'object') );
 
 
-Assert::false( Validators::is(null, 'scalar') );
+Assert::false( Validators::is(NULL, 'scalar') );
 Assert::false( Validators::is(array(), 'scalar') );
 Assert::true( Validators::is(1, 'scalar') );
 
 
-Assert::false( Validators::is(null, 'callable') );
+Assert::false( Validators::is(NULL, 'callable') );
 Assert::false( Validators::is(array(), 'callable') );
 Assert::false( Validators::is(1, 'callable') );
 Assert::false( Validators::is('', 'callable') );
@@ -135,7 +135,7 @@ Assert::true( Validators::is(array('hello', 'world'), 'callable') );
 
 
 Assert::false( Validators::is(0, 'null') );
-Assert::true( Validators::is(null, 'null') );
+Assert::true( Validators::is(NULL, 'null') );
 
 
 Assert::false( Validators::is('', 'email') );
