@@ -286,22 +286,6 @@ final class ObjectMixin
 	 */
 	public static function getExtensionMethod($class, $name)
 	{
-		/*5.2* if (self::$extMethods === NULL || $name === NULL) { // for backwards compatibility
-			$list = get_defined_functions(); // names are lowercase!
-			foreach ($list['user'] as $fce) {
-				$pair = explode('_prototype_', $fce);
-				if (count($pair) === 2) {
-					trigger_error("Declaring extension method as function $fce() is deprecated; use $pair[0]::extensionMethod('$pair[1]', ...) instead.", E_USER_WARNING);
-					self::$extMethods[$pair[1]][$pair[0]] = new Callback($fce);
-					self::$extMethods[$pair[1]][''] = NULL;
-				}
-			}
-			if ($name === NULL) {
-				return NULL;
-			}
-		}
-		*/
-
 		$class = strtolower($class);
 		$l = & self::$extMethods[strtolower($name)];
 
