@@ -154,6 +154,8 @@ Assert::true( Validators::is('http://1.org', 'url') );
 Assert::true( Validators::is('http://l.org', 'url') );
 Assert::true( Validators::is('http://localhost', 'url') );
 Assert::true( Validators::is('http://127.0.0.1', 'url') );
+Assert::true( Validators::is('http://[::1]', 'url') );
+Assert::true( Validators::is('http://[2001:0db8:0000:0000:0000:0000:1428:57AB]', 'url') );
 Assert::true( Validators::is('http://nette.org/path', 'url') );
 Assert::true( Validators::is('http://nette.org:8080/path', 'url') );
 Assert::true( Validators::is('https://www.nette.org/path', 'url') );
