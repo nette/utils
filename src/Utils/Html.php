@@ -567,7 +567,8 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				if ($key === 'data') {
 					foreach ($value as $k => $v) {
 						if ($v !== NULL && $v !== FALSE) {
-							$s .= ' data-' . $k . '="' . htmlspecialchars((string) $v) . '"';
+							$q = strpos($v, '"') === FALSE ? '"' : "'";
+							$s .= ' data-' . $k . '=' . $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $v) . $q;
 						}
 					}
 					continue;
@@ -590,7 +591,8 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				$value = (string) $value;
 			}
 
-			$s .= ' ' . $key . '="' . htmlspecialchars($value) . '"';
+			$q = strpos($value, '"') === FALSE ? '"' : "'";
+			$s .= ' ' . $key . '=' . $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $value) . $q;
 		}
 
 		$s = str_replace('@', '&#64;', $s);
