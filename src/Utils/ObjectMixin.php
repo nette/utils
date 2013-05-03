@@ -22,7 +22,7 @@ use Nette;
  */
 final class ObjectMixin
 {
-	/** @var array (name => 0 | bool)  used by getMethods() */
+	/** @var array (name => 0 | bool | array)  used by getMethods() */
 	private static $methods;
 
 	/** @var array (name => 'event' | TRUE)  used by hasProperty() */
@@ -55,6 +55,7 @@ final class ObjectMixin
 	{
 		$class = get_class($_this);
 		$isProp = self::hasProperty($class, $name);
+		$methods = & self::getMethods($class);
 
 		if ($name === '') {
 			throw new MemberAccessException("Call to class '$class' method without name.");
@@ -70,6 +71,26 @@ final class ObjectMixin
 			} elseif ($_this->$name !== NULL) {
 				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
 			}
+
+		} elseif (isset($methods[$name])) { // magic @methods
+			list($op, $rp) = $methods[$name];
+			if (!$rp) {
+				throw new MemberAccessException("Magic method $class::$name() has not corresponding property $$op.");
+
+			} elseif (count($args) !== ($op === 'get' ? 0 : 1)) {
+				throw new InvalidArgumentException("$class::$name() expects " . ($op === 'get' ? 'no' : '1') . ' argument, ' . count($args) . ' given.');
+			}
+
+			if ($op === 'get') {
+				return $rp->getValue($_this);
+			} elseif ($op === 'set') {
+				$rp->setValue($_this, $args[0]);
+			} elseif ($op === 'add') {
+				$val = $rp->getValue($_this);
+				$val[] = $args[0];
+				$rp->setValue($_this, $val);
+			}
+			return $_this;
 
 		} elseif ($cb = self::getExtensionMethod($class, $name)) { // extension methods
 			array_unshift($args, $_this);
@@ -148,7 +169,7 @@ final class ObjectMixin
 				$rm = new \ReflectionMethod($class, $m);
 				$methods[$m] = $rm->returnsReference();
 			}
-			if ($methods[$m]) {
+			if ($methods[$m] === TRUE) {
 				return $_this->$m();
 			} else {
 				$val = $_this->$m();
@@ -253,15 +274,48 @@ final class ObjectMixin
 
 
 	/**
-	 * Returns array of public (static and non-static) methods.
+	 * Returns array of public (static, non-static and magic) methods.
 	 * @return array
 	 */
 	private static function & getMethods($class)
 	{
 		if (!isset(self::$methods[$class])) {
-			self::$methods[$class] = array_fill_keys(get_class_methods($class), 0);
+			self::$methods[$class] = array_fill_keys(get_class_methods($class), 0) + self::getMagicMethods($class);
+			if ($parent = get_parent_class($class)) {
+				self::$methods[$class] += self::getMethods($parent);
+			}
 		}
 		return self::$methods[$class];
+	}
+
+
+
+	/**
+	 * Returns array of magic methods defined by annotation @method.
+	 * @return array
+	 */
+	public static function getMagicMethods($class)
+	{
+		$rc = new \ReflectionClass($class);
+		preg_match_all('~^
+			[ \t*]*  @method  [ \t]+
+			(?: [^\s(]+  [ \t]+ )?
+			(set|get|is|add)  ([A-Z]\w*)
+		()~mx', $rc->getDocComment(), $matches, PREG_SET_ORDER);
+
+		$methods = array();
+		foreach ($matches as $m) {
+			list(, $op, $prop) = $m;
+			$name = $op . $prop;
+			$prop = strtolower($prop[0]) . substr($prop, 1) . ($op === 'add' ? 's' : '');
+			if ($rc->hasProperty($prop) && ($rp = $rc->getProperty($prop)) && !$rp->isStatic()) {
+				/**/$rp->setAccessible(TRUE);/**/
+				$methods[$name] = array($op === 'is' ? 'get' : $op, $rp);
+			} else {
+				$methods[$name] = array($prop, NULL);
+			}
+		}
+		return $methods;
 	}
 
 
