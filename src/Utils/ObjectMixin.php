@@ -22,13 +22,13 @@ use Nette;
  */
 final class ObjectMixin
 {
-	/** @var array */
+	/** @var array (name => 0 | bool)  used by getMethods() */
 	private static $methods;
 
-	/** @var array */
+	/** @var array (name => 'event' | TRUE)  used by hasProperty() */
 	private static $props;
 
-	/** @var array (method => array(type => callable)) */
+	/** @var array (name => array(type => callback))  used by get|setExtensionMethod() */
 	private static $extMethods;
 
 
@@ -138,33 +138,29 @@ final class ObjectMixin
 	{
 		$class = get_class($_this);
 		$uname = ucfirst($name);
-
-		if (!isset(self::$methods[$class])) {
-			self::$methods[$class] = array_flip(get_class_methods($class)); // public (static and non-static) methods
-		}
+		$methods = & self::getMethods($class);
 
 		if ($name === '') {
 			throw new MemberAccessException("Cannot read a class '$class' property without name.");
 
-		} elseif (isset(self::$methods[$class][$m = 'get' . $uname]) || isset(self::$methods[$class][$m = 'is' . $uname])) { // property getter
-			$isRef = & self::$methods[$class][$m];
-			if (!is_bool($isRef)) {
+		} elseif (isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname])) { // property getter
+			if ($methods[$m] === 0) {
 				$rm = new \ReflectionMethod($class, $m);
-				$isRef = $rm->returnsReference();
+				$methods[$m] = $rm->returnsReference();
 			}
-			if ($isRef) {
+			if ($methods[$m]) {
 				return $_this->$m();
 			} else {
 				$val = $_this->$m();
 				return $val;
 			}
 
-		} elseif (isset(self::$methods[$class][$name])) { // public method as closure getter
+		} elseif (isset($methods[$name])) { // public method as closure getter
 			$val = Callback::create($_this, $name);
 			return $val;
 
 		} else { // strict class
-			$type = isset(self::$methods[$class]['set' . $uname]) ? 'a write-only' : 'an undeclared';
+			$type = isset($methods['set' . $uname]) ? 'a write-only' : 'an undeclared';
 			throw new MemberAccessException("Cannot read $type property $class::\$$name.");
 		}
 	}
@@ -183,10 +179,7 @@ final class ObjectMixin
 	{
 		$class = get_class($_this);
 		$uname = ucfirst($name);
-
-		if (!isset(self::$methods[$class])) {
-			self::$methods[$class] = array_flip(get_class_methods($class));
-		}
+		$methods = & self::getMethods($class);
 
 		if ($name === '') {
 			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
@@ -194,11 +187,11 @@ final class ObjectMixin
 		} elseif (self::hasProperty($class, $name)) { // unsetted property
 			$_this->$name = $value;
 
-		} elseif (isset(self::$methods[$class][$m = 'set' . $uname])) { // property setter
+		} elseif (isset($methods[$m = 'set' . $uname])) { // property setter
 			$_this->$m($value);
 
 		} else { // strict class
-			$type = isset(self::$methods[$class]['get' . $uname]) || isset(self::$methods[$class]['is' . $uname])
+			$type = isset($methods['get' . $uname]) || isset($methods['is' . $uname])
 				? 'a read-only' : 'an undeclared';
 			throw new MemberAccessException("Cannot write to $type property $class::\$$name.");
 		}
@@ -231,12 +224,9 @@ final class ObjectMixin
 	 */
 	public static function has($_this, $name)
 	{
-		$class = get_class($_this);
 		$name = ucfirst($name);
-		if (!isset(self::$methods[$class])) {
-			self::$methods[$class] = array_flip(get_class_methods($class));
-		}
-		return $name !== '' && (isset(self::$methods[$class]['get' . $name]) || isset(self::$methods[$class]['is' . $name]));
+		$methods = & self::getMethods(get_class($_this));
+		return $name !== '' && (isset($methods['get' . $name]) || isset($methods['is' . $name]));
 	}
 
 
@@ -252,12 +242,26 @@ final class ObjectMixin
 			$prop = FALSE;
 			try {
 				$rp = new \ReflectionProperty($class, $name);
-				if ($name === $rp->getName() && $rp->isPublic() && !$rp->isStatic()) {
+				if ($rp->isPublic() && !$rp->isStatic()) {
 					$prop = preg_match('#^on[A-Z]#', $name) ? 'event' : TRUE;
 				}
 			} catch (\ReflectionException $e) {}
 		}
 		return $prop;
+	}
+
+
+
+	/**
+	 * Returns array of public (static and non-static) methods.
+	 * @return array
+	 */
+	private static function & getMethods($class)
+	{
+		if (!isset(self::$methods[$class])) {
+			self::$methods[$class] = array_fill_keys(get_class_methods($class), 0);
+		}
+		return self::$methods[$class];
 	}
 
 
@@ -271,9 +275,9 @@ final class ObjectMixin
 	 */
 	public static function setExtensionMethod($class, $name, $callback)
 	{
-		$l = & self::$extMethods[strtolower($name)];
-		$l[strtolower($class)] = new Callback($callback);
-		$l[''] = NULL;
+		$name = strtolower($name);
+		self::$extMethods[$name][$class] = new Callback($callback);
+		self::$extMethods[$name][''] = NULL;
 	}
 
 
@@ -286,30 +290,18 @@ final class ObjectMixin
 	 */
 	public static function getExtensionMethod($class, $name)
 	{
-		$class = strtolower($class);
-		$l = & self::$extMethods[strtolower($name)];
-
-		if (empty($l)) {
-			return FALSE;
-
-		} elseif (isset($l[''][$class])) { // cached value
-			return $l[''][$class];
+		$list = & self::$extMethods[strtolower($name)];
+		$cache = & $list[''][$class];
+		if (isset($cache)) {
+			return $cache;
 		}
 
-		$cl = $class;
-		do {
-			if (isset($l[$cl])) {
-				return $l[''][$class] = $l[$cl];
-			}
-		} while (($cl = strtolower(get_parent_class($cl))) !== '');
-
-		foreach (class_implements($class) as $cl) {
-			$cl = strtolower($cl);
-			if (isset($l[$cl])) {
-				return $l[''][$class] = $l[$cl];
+		foreach (array($class) + class_parents($class) + class_implements($class) as $cl) {
+			if (isset($list[$cl])) {
+				return $cache = $list[$cl];
 			}
 		}
-		return $l[''][$class] = FALSE;
+		return $cache = FALSE;
 	}
 
 }

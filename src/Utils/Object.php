@@ -109,6 +109,8 @@ abstract class Object
 			$class = get_called_class();
 		} else {
 			list($class, $name) = explode('::', $name);
+			$rc = new \ReflectionClass($class);
+			$class = $rc->getName();
 		}
 		if ($callback === NULL) {
 			return ObjectMixin::getExtensionMethod($class, $name);
