@@ -73,12 +73,15 @@ final class ObjectMixin
 			}
 
 		} elseif (isset($methods[$name])) { // magic @methods
-			list($op, $rp) = $methods[$name];
+			list($op, $rp, $type) = $methods[$name];
 			if (!$rp) {
 				throw new MemberAccessException("Magic method $class::$name() has not corresponding property $$op.");
 
 			} elseif (count($args) !== ($op === 'get' ? 0 : 1)) {
 				throw new InvalidArgumentException("$class::$name() expects " . ($op === 'get' ? 'no' : '1') . ' argument, ' . count($args) . ' given.');
+
+			} elseif ($type && $args && !self::checkType($args[0], $type)) {
+				throw new InvalidArgumentException("Argument passed to $class::$name() must be $type, " . gettype($args[0]) . ' given.');
 			}
 
 			if ($op === 'get') {
@@ -300,22 +303,98 @@ final class ObjectMixin
 		preg_match_all('~^
 			[ \t*]*  @method  [ \t]+
 			(?: [^\s(]+  [ \t]+ )?
-			(set|get|is|add)  ([A-Z]\w*)
+			(set|get|is|add)  ([A-Z]\w*)  [ \t]*
+			(?: \(  [ \t]* ([^)$\s]+)  )?
 		()~mx', $rc->getDocComment(), $matches, PREG_SET_ORDER);
 
 		$methods = array();
 		foreach ($matches as $m) {
-			list(, $op, $prop) = $m;
+			list(, $op, $prop, $type) = $m;
 			$name = $op . $prop;
 			$prop = strtolower($prop[0]) . substr($prop, 1) . ($op === 'add' ? 's' : '');
 			if ($rc->hasProperty($prop) && ($rp = $rc->getProperty($prop)) && !$rp->isStatic()) {
 				/**/$rp->setAccessible(TRUE);/**/
-				$methods[$name] = array($op === 'is' ? 'get' : $op, $rp);
+				if ($op === 'get' || $op === 'is') {
+					$type = NULL; $op = 'get';
+				} elseif (!$type && preg_match('#@var[ \t]+(\S+)' . ($op === 'add' ? '\[\]#' : '#'), $rp->getDocComment(), $m)) {
+					$type = $m[1];
+				}
+				if ($rc->inNamespace() && preg_match('#^[A-Z]\w+(\[|\||\z)#', $type)) {
+					$type = $rc->getNamespaceName() . '\\' . $type;
+				}
+				$methods[$name] = array($op, $rp, $type);
 			} else {
-				$methods[$name] = array($prop, NULL);
+				$methods[$name] = array($prop, NULL, NULL);
 			}
 		}
 		return $methods;
+	}
+
+
+
+	/**
+	 * Finds whether a variable is of expected type and do non-data-loss conversion.
+	 * @return bool
+	 */
+	public static function checkType(& $val, $type)
+	{
+		if (strpos($type, '|') !== FALSE) {
+			$found = NULL;
+			foreach (explode('|', $type) as $type) {
+				$tmp = $val;
+				if (self::checkType($tmp, $type)) {
+					if ($val === $tmp) {
+						return TRUE;
+					}
+					$found[] = $tmp;
+				}
+			}
+			if ($found) {
+				$val = $found[0];
+				return TRUE;
+			}
+			return FALSE;
+
+		} elseif (substr($type, -2) === '[]') {
+			if (!is_array($val)) {
+				return FALSE;
+			}
+			$type = substr($type, 0, -2);
+			$res = array();
+			foreach ($val as $k => $v) {
+				if (!self::checkType($v, $type)) {
+					return FALSE;
+				}
+				$res[$k] = $v;
+			}
+			$val = $res;
+			return TRUE;
+		}
+
+		switch (strtolower($type)) {
+			case NULL:
+			case 'mixed':
+				return TRUE;
+			case 'bool':
+			case 'boolean':
+				return ($val === NULL || is_scalar($val)) && settype($val, 'bool');
+			case 'string':
+				return ($val === NULL || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) && settype($val, 'string');
+			case 'int':
+			case 'integer':
+				return ($val === NULL || is_bool($val) || is_numeric($val)) && ((float) (int) $val === (float) $val) && settype($val, 'int');
+			case 'float':
+				return ($val === NULL || is_bool($val) || is_numeric($val)) && settype($val, 'float');
+			case 'scalar':
+			case 'array':
+			case 'object':
+			case 'callable':
+			case 'resource':
+			case 'null':
+				return call_user_func("is_$type", $val);
+			default:
+				return $val instanceof $type;
+		}
 	}
 
 
