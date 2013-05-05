@@ -107,36 +107,6 @@ final class ObjectMixin
 
 
 	/**
-	 * __call() implementation for entities.
-	 * @param  object
-	 * @param  string
-	 * @param  array
-	 * @return mixed
-	 * @throws MemberAccessException
-	 */
-	public static function callProperty($_this, $name, $args)
-	{
-		if (strlen($name) > 3) {
-			$op = substr($name, 0, 3);
-			$prop = strtolower($name[3]) . substr($name, 4);
-			if ($op === 'add' && self::hasProperty(get_class($_this), $prop.'s')) {
-				$_this->{$prop.'s'}[] = $args[0];
-				return $_this;
-
-			} elseif ($op === 'set' && self::hasProperty(get_class($_this), $prop)) {
-				$_this->$prop = $args[0];
-				return $_this;
-
-			} elseif ($op === 'get' && self::hasProperty(get_class($_this), $prop)) {
-				return $_this->$prop;
-			}
-		}
-		return self::call($_this, $name, $args);
-	}
-
-
-
-	/**
 	 * __callStatic() implementation.
 	 * @param  string
 	 * @param  string
