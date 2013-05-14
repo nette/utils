@@ -5,7 +5,6 @@
  *
  * @author     David Grudl
  * @package    Nette
- * @phpversion 5.3
  */
 
 namespace Test;

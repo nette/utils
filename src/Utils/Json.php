@@ -73,7 +73,7 @@ final class Json
 		if (isset($old)) {
 			ini_set('display_errors', $old);
 		}
-		if (PHP_VERSION_ID >= 50300 && ($error = json_last_error())) {
+		if ($error = json_last_error()) {
 			throw new JsonException(isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error', $error);
 		}
 		$json = str_replace(array("\xe2\x80\xa8", "\xe2\x80\xa9"), array('\u2028', '\u2029'), $json);
@@ -92,16 +92,14 @@ final class Json
 	{
 		$json = (string) $json;
 		$args = array($json, (bool) ($options & self::FORCE_ARRAY));
-		if (PHP_VERSION_ID >= 50300) {
-			$args[] = 512;
-			if (PHP_VERSION_ID >= 50400) {
-				$args[] = JSON_BIGINT_AS_STRING;
-			}
+		$args[] = 512;
+		if (PHP_VERSION_ID >= 50400) {
+			$args[] = JSON_BIGINT_AS_STRING;
 		}
 		$value = call_user_func_array('json_decode', $args);
 
 		if ($value === NULL && $json !== '' && strcasecmp($json, 'null')) { // '' do not clean json_last_error
-			$error = PHP_VERSION_ID >= 50300 ? json_last_error() : 0;
+			$error = json_last_error();
 			throw new JsonException(isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error', $error);
 		}
 		return $value;

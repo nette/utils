@@ -5,7 +5,6 @@
  *
  * @author     bojovyletoun
  * @package    Nette\Utils
- * @phpversion 5.3
  */
 
 use Nette\Utils\Strings;

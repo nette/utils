@@ -49,13 +49,11 @@ Assert::same( array($test, 'add'), Callback::create($test, 'add')->getNative() )
 Assert::same( 'Test::add', (string) Callback::create($test, 'add') );
 Assert::same( 'Test::add()', (string) Callback::create($test, 'add')->toReflection() );
 
-/**/Assert::same( $test, Callback::create($test)->getNative() );/**/
+Assert::same( $test, Callback::create($test)->getNative() );
 Assert::same( 'Test::__invoke', (string) new Callback($test) );
 Assert::same( 'Test::__invoke()', (string) Callback::create($test)->toReflection() );
 
-/**/
 $closure = function(){};
 Assert::same( $closure, Callback::create($closure)->getNative() );
 Assert::same( '{closure}', (string) Callback::create($closure) );
 Assert::same( '{closure}()', (string) Callback::create($closure)->toReflection() );
-/**/

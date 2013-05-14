@@ -283,7 +283,7 @@ final class ObjectMixin
 			$name = $op . $prop;
 			$prop = strtolower($prop[0]) . substr($prop, 1) . ($op === 'add' ? 's' : '');
 			if ($rc->hasProperty($prop) && ($rp = $rc->getProperty($prop)) && !$rp->isStatic()) {
-				/**/$rp->setAccessible(TRUE);/**/
+				$rp->setAccessible(TRUE);
 				if ($op === 'get' || $op === 'is') {
 					$type = NULL; $op = 'get';
 				} elseif (!$type && preg_match('#@var[ \t]+(\S+)' . ($op === 'add' ? '\[\]#' : '#'), $rp->getDocComment(), $m)) {

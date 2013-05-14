@@ -32,7 +32,7 @@ $cb2 = $cb->bindTo($test);
 
 Assert::true( $cb !== $cb2 );
 
-$cb2/*5.2*->invoke*/(2);
+$cb2(2);
 Assert::same( 2, $test->var );
 
 

@@ -546,7 +546,7 @@ class Strings
 	 */
 	public static function replace($subject, $pattern, $replacement = NULL, $limit = -1)
 	{
-		if (is_object($replacement) || is_array($replacement)/*5.2* || preg_match('#^\x00lambda_\d+\z#', $replacement)*/) {
+		if (is_object($replacement) || is_array($replacement)) {
 			if ($replacement instanceof Nette\Callback) {
 				$replacement = $replacement->getNative();
 			}
