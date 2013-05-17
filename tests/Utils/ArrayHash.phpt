@@ -70,7 +70,7 @@ Assert::same( array(
 
 
 
-Assert::same( 2, $list->count(), 'count:' );
+Assert::same( 2, $list->count() );
 Assert::same( 2, count($list) );
 
 
@@ -89,7 +89,7 @@ $list = ArrayHash::from(array(
 		'c' => 'John',
 	),
 ), FALSE);
-Assert::true( $list instanceof ArrayHash );
+Assert::type( 'Nette\ArrayHash', $list );
 Assert::true( is_array($list['children']) );
 
 
@@ -101,10 +101,10 @@ $list = ArrayHash::from(array(
 		'c' => 'John',
 	),
 ));
-Assert::true( $list instanceof ArrayHash );
+Assert::type( 'Nette\ArrayHash', $list );
 Assert::same( $mary, $list['m'] );
 Assert::same( 'Jack', $list['j'] );
-Assert::true( $list['children'] instanceof ArrayHash );
+Assert::type( 'Nette\ArrayHash', $list['children'] );
 Assert::same( 'John', $list['children']['c'] );
 
 $list['children']['c'] = 'Jim';

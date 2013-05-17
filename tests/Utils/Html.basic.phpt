@@ -61,20 +61,20 @@ Assert::same( '<span src="image.gif" alt="alt2 alt3" style="float:left" class="t
 Assert::same( '<a one=\'"\' two="\'" three="<>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;') );
 
 // setText vs. setHtml
-Assert::same( '<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->setText('Hello &ndash; World'), 'setText' );
-Assert::same( '<p>Hello &ndash; World</p>', (string) Html::el('p')->setHtml('Hello &ndash; World'), 'setHtml' );
+Assert::same( '<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->setText('Hello &ndash; World') );
+Assert::same( '<p>Hello &ndash; World</p>', (string) Html::el('p')->setHtml('Hello &ndash; World') );
 
 // getText vs. getHtml
 $el = Html::el('p')->setHtml('Hello &ndash; World');
 $el->create('a')->setText('link');
-Assert::same( '<p>Hello &ndash; World<a>link</a></p>', (string) $el, 'getHtml' );
-Assert::same( 'Hello – Worldlink', $el->getText(), 'getText' );
+Assert::same( '<p>Hello &ndash; World<a>link</a></p>', (string) $el );
+Assert::same( 'Hello – Worldlink', $el->getText() );
 
 // email obfuscate
-Assert::same( '<a href="mailto:dave&#64;example.com"></a>', (string) Html::el('a')->href('mailto:dave@example.com'), 'mailto' );
+Assert::same( '<a href="mailto:dave&#64;example.com"></a>', (string) Html::el('a')->href('mailto:dave@example.com') );
 
 // href with query
-Assert::same( '<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
+Assert::same( '<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', array('a' => 10)) );
 
 // isset
 Assert::false( isset(Html::el('a')->id) );

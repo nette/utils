@@ -30,7 +30,7 @@ $test = new Test;
 $cb = Callback::create('Test::set');
 $cb2 = $cb->bindTo($test);
 
-Assert::true( $cb !== $cb2 );
+Assert::notSame( $cb, $cb2 );
 
 $cb2(2);
 Assert::same( 2, $test->var );

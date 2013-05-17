@@ -40,9 +40,9 @@ Assert::same( '<p>one</p><p>two</p>', (string) $el );
 
 
 // ==> Get child:
-Assert::true( isset($el[1]), 'Child1' );
+Assert::true( isset($el[1]) );
 Assert::same( '<p>two</p>', (string) $el[1] );
-Assert::false( isset($el[2]), 'Child2' );
+Assert::false( isset($el[2]) );
 
 
 
