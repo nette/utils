@@ -17,7 +17,7 @@ require __DIR__ . '/../bootstrap.php';
 
 Assert::null( Strings::match('hello world!', '#([E-L])+#') );
 
-Assert::same( array('hell',	'l'), Strings::match('hello world!', '#([e-l])+#') );
+Assert::same( array('hell', 'l'), Strings::match('hello world!', '#([e-l])+#') );
 
 Assert::same( array('hell'), Strings::match('hello world!', '#[e-l]+#') );
 

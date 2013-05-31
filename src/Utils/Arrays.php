@@ -105,7 +105,7 @@ final class Arrays
 	 * Inserts new array before item specified by key.
 	 * @return void
 	 */
-	public static function insertBefore(array &$arr, $key, array $inserted)
+	public static function insertBefore(array & $arr, $key, array $inserted)
 	{
 		$offset = self::searchKey($arr, $key);
 		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
@@ -117,7 +117,7 @@ final class Arrays
 	 * Inserts new array after item specified by key.
 	 * @return void
 	 */
-	public static function insertAfter(array &$arr, $key, array $inserted)
+	public static function insertAfter(array & $arr, $key, array $inserted)
 	{
 		$offset = self::searchKey($arr, $key);
 		$offset = $offset === FALSE ? count($arr) : $offset + 1;
@@ -130,7 +130,7 @@ final class Arrays
 	 * Renames key in array.
 	 * @return void
 	 */
-	public static function renameKey(array &$arr, $oldKey, $newKey)
+	public static function renameKey(array & $arr, $oldKey, $newKey)
 	{
 		$offset = self::searchKey($arr, $oldKey);
 		if ($offset !== FALSE) {

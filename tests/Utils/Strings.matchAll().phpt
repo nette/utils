@@ -36,4 +36,4 @@ Assert::same( array(
 	),
 ), Strings::matchAll('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
 
-Assert::same( array(array('ll',	'l')), Strings::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2) );
+Assert::same( array(array('ll', 'l')), Strings::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2) );
