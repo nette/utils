@@ -45,9 +45,9 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/** @var bool  use XHTML syntax? */
 	public static $xhtml = TRUE;
 
-	/** @var array  empty elements */
+	/** @var array  empty (void) elements */
 	public static $emptyElements = array('img'=>1,'hr'=>1,'br'=>1,'input'=>1,'meta'=>1,'area'=>1,'embed'=>1,'keygen'=>1,
-		'source'=>1,'base'=>1,'col'=>1,'link'=>1,'param'=>1,'basefont'=>1,'frame'=>1,'isindex'=>1,'wbr'=>1,'command'=>1);
+		'source'=>1,'base'=>1,'col'=>1,'link'=>1,'param'=>1,'basefont'=>1,'frame'=>1,'isindex'=>1,'wbr'=>1,'command'=>1,'track'=>1);
 
 
 
