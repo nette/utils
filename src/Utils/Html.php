@@ -124,7 +124,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function addAttributes(array $attrs)
 	{
-		$this->attrs = $attrs + $this->attrs;
+		$this->attrs = array_merge($this->attrs, $attrs);
 		return $this;
 	}
 
