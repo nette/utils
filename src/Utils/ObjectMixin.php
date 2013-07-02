@@ -14,7 +14,6 @@ namespace Nette;
 use Nette;
 
 
-
 /**
  * Nette\Object behaviour mixin.
  *
@@ -32,7 +31,6 @@ final class ObjectMixin
 	private static $extMethods;
 
 
-
 	/**
 	 * Static class - cannot be instantiated.
 	 */
@@ -40,7 +38,6 @@ final class ObjectMixin
 	{
 		throw new StaticClassException;
 	}
-
 
 
 	/**
@@ -105,7 +102,6 @@ final class ObjectMixin
 	}
 
 
-
 	/**
 	 * __callStatic() implementation.
 	 * @param  string
@@ -118,7 +114,6 @@ final class ObjectMixin
 	{
 		throw new MemberAccessException("Call to undefined static method $class::$method().");
 	}
-
 
 
 	/**
@@ -160,7 +155,6 @@ final class ObjectMixin
 	}
 
 
-
 	/**
 	 * __set() implementation.
 	 * @param  object
@@ -192,7 +186,6 @@ final class ObjectMixin
 	}
 
 
-
 	/**
 	 * __unset() implementation.
 	 * @param  object
@@ -209,7 +202,6 @@ final class ObjectMixin
 	}
 
 
-
 	/**
 	 * __isset() implementation.
 	 * @param  object
@@ -222,7 +214,6 @@ final class ObjectMixin
 		$methods = & self::getMethods(get_class($_this));
 		return $name !== '' && (isset($methods['get' . $name]) || isset($methods['is' . $name]));
 	}
-
 
 
 	/**
@@ -245,7 +236,6 @@ final class ObjectMixin
 	}
 
 
-
 	/**
 	 * Returns array of public (static, non-static and magic) methods.
 	 * @return array
@@ -260,7 +250,6 @@ final class ObjectMixin
 		}
 		return self::$methods[$class];
 	}
-
 
 
 	/**
@@ -299,7 +288,6 @@ final class ObjectMixin
 		}
 		return $methods;
 	}
-
 
 
 	/**
@@ -368,7 +356,6 @@ final class ObjectMixin
 	}
 
 
-
 	/**
 	 * Adds a method to class.
 	 * @param  string
@@ -382,7 +369,6 @@ final class ObjectMixin
 		self::$extMethods[$name][$class] = new Callback($callback);
 		self::$extMethods[$name][''] = NULL;
 	}
-
 
 
 	/**

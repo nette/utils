@@ -10,9 +10,7 @@
 use Nette\Utils\Validators;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::true( Validators::isInRange(1, array(0, 2)) );

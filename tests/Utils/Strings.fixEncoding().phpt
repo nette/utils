@@ -10,9 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 function utfChar($ord)

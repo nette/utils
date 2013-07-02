@@ -8,10 +8,7 @@
  */
 
 
-
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 date_default_timezone_set('Europe/Prague');

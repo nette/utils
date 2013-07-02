@@ -10,9 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 iconv_set_encoding('internal_encoding', 'UTF-8');

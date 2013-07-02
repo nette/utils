@@ -10,9 +10,7 @@
 use Nette\Utils\Arrays;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 $arr  = array(

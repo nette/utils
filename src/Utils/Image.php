@@ -14,7 +14,6 @@ namespace Nette;
 use Nette;
 
 
-
 /**
  * Basic manipulation with images.
  *
@@ -131,7 +130,6 @@ class Image extends Object
 	private $image;
 
 
-
 	/**
 	 * Returns RGB color.
 	 * @param  int  red 0..255
@@ -149,7 +147,6 @@ class Image extends Object
 			'alpha' => max(0, min(127, (int) $transparency)),
 		);
 	}
-
 
 
 	/**
@@ -182,7 +179,6 @@ class Image extends Object
 	}
 
 
-
 	/**
 	 * Get format from the image stream in the string.
 	 * @param  string
@@ -194,7 +190,6 @@ class Image extends Object
 		$type = Utils\MimeTypeDetector::fromString($s);
 		return isset($types[$type]) ? $types[$type] : NULL;
 	}
-
 
 
 	/**
@@ -213,7 +208,6 @@ class Image extends Object
 
 		return new static(imagecreatefromstring($s));
 	}
-
 
 
 	/**
@@ -247,7 +241,6 @@ class Image extends Object
 	}
 
 
-
 	/**
 	 * Wraps GD image.
 	 * @param  resource
@@ -257,7 +250,6 @@ class Image extends Object
 		$this->setImageResource($image);
 		imagesavealpha($image, TRUE);
 	}
-
 
 
 	/**
@@ -270,7 +262,6 @@ class Image extends Object
 	}
 
 
-
 	/**
 	 * Returns image height.
 	 * @return int
@@ -279,7 +270,6 @@ class Image extends Object
 	{
 		return imagesy($this->image);
 	}
-
 
 
 	/**
@@ -297,7 +287,6 @@ class Image extends Object
 	}
 
 
-
 	/**
 	 * Returns image GD resource.
 	 * @return resource
@@ -306,7 +295,6 @@ class Image extends Object
 	{
 		return $this->image;
 	}
-
 
 
 	/**
@@ -345,7 +333,6 @@ class Image extends Object
 		}
 		return $this;
 	}
-
 
 
 	/**
@@ -414,7 +401,6 @@ class Image extends Object
 	}
 
 
-
 	/**
 	 * Crops image.
 	 * @param  mixed  x-offset in pixels or percent
@@ -431,7 +417,6 @@ class Image extends Object
 		$this->image = $newImage;
 		return $this;
 	}
-
 
 
 	/**
@@ -470,7 +455,6 @@ class Image extends Object
 	}
 
 
-
 	/**
 	 * Sharpen image.
 	 * @return Image  provides a fluent interface
@@ -484,7 +468,6 @@ class Image extends Object
 		), 16, 0);
 		return $this;
 	}
-
 
 
 	/**
@@ -522,7 +505,6 @@ class Image extends Object
 		}
 		return $this;
 	}
-
 
 
 	/**
@@ -566,7 +548,6 @@ class Image extends Object
 	}
 
 
-
 	/**
 	 * Outputs image to string.
 	 * @param  int  image type
@@ -579,7 +560,6 @@ class Image extends Object
 		$this->save(NULL, $quality, $type);
 		return ob_get_clean();
 	}
-
 
 
 	/**
@@ -597,7 +577,6 @@ class Image extends Object
 	}
 
 
-
 	/**
 	 * Outputs image to browser.
 	 * @param  int  image type
@@ -612,7 +591,6 @@ class Image extends Object
 		header('Content-Type: ' . image_type_to_mime_type($type));
 		return $this->save(NULL, $quality, $type);
 	}
-
 
 
 	/**
@@ -648,7 +626,6 @@ class Image extends Object
 	}
 
 }
-
 
 
 /**

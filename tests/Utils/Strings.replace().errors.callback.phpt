@@ -10,9 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::error(function() {
@@ -21,7 +19,6 @@ Assert::error(function() {
 		return strtoupper($m[0]);
 	})));
 }, E_NOTICE, "Undefined variable: a");
-
 
 
 Assert::same('HELLO', Strings::replace('hello', '#.+#', new Nette\Callback(function($m) {

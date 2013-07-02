@@ -10,7 +10,6 @@
 use Nette\Iterators;
 
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

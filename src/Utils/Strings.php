@@ -14,7 +14,6 @@ namespace Nette\Utils;
 use Nette;
 
 
-
 /**
  * String tools library.
  *
@@ -32,7 +31,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Checks if the string is valid for the specified encoding.
 	 * @param  string  byte stream to check
@@ -43,7 +41,6 @@ class Strings
 	{
 		return $s === self::fixEncoding($s, $encoding);
 	}
-
 
 
 	/**
@@ -64,7 +61,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Returns a specific character.
 	 * @param  int     codepoint
@@ -75,7 +71,6 @@ class Strings
 	{
 		return iconv('UTF-32BE', $encoding . '//IGNORE', pack('N', $code));
 	}
-
 
 
 	/**
@@ -90,7 +85,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Ends the $haystack string with the suffix $needle?
 	 * @param  string
@@ -103,7 +97,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Does $haystack contain $needle?
 	 * @param  string
@@ -114,7 +107,6 @@ class Strings
 	{
 		return strpos($haystack, $needle) !== FALSE;
 	}
-
 
 
 	/**
@@ -131,7 +123,6 @@ class Strings
 		}
 		return function_exists('mb_substr') ? mb_substr($s, $start, $length, 'UTF-8') : iconv_substr($s, $start, $length, 'UTF-8'); // MB is much faster
 	}
-
 
 
 	/**
@@ -156,7 +147,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Standardize line endings to unix-like.
 	 * @param  string  UTF-8 encoding or 8-bit
@@ -166,7 +156,6 @@ class Strings
 	{
 		return str_replace(array("\r\n", "\r"), "\n", $s);
 	}
-
 
 
 	/**
@@ -193,7 +182,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Converts to web safe characters [a-z0-9-] text.
 	 * @param  string  UTF-8 encoding
@@ -211,7 +199,6 @@ class Strings
 		$s = trim($s, '-');
 		return $s;
 	}
-
 
 
 	/**
@@ -239,7 +226,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Indents the content from the left.
 	 * @param  string  UTF-8 encoding or 8-bit
@@ -253,7 +239,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Convert to lower case.
 	 * @param  string  UTF-8 encoding
@@ -263,7 +248,6 @@ class Strings
 	{
 		return mb_strtolower($s, 'UTF-8');
 	}
-
 
 
 	/**
@@ -277,7 +261,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Convert first character to upper case.
 	 * @param  string  UTF-8 encoding
@@ -289,7 +272,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Capitalize string.
 	 * @param  string  UTF-8 encoding
@@ -299,7 +281,6 @@ class Strings
 	{
 		return mb_convert_case($s, MB_CASE_TITLE, 'UTF-8');
 	}
-
 
 
 	/**
@@ -320,7 +301,6 @@ class Strings
 		}
 		return self::lower($left) === self::lower($right);
 	}
-
 
 
 	/**
@@ -349,7 +329,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Returns UTF-8 string length.
 	 * @param  string
@@ -359,7 +338,6 @@ class Strings
 	{
 		return strlen(utf8_decode($s)); // fastest way
 	}
-
 
 
 	/**
@@ -373,7 +351,6 @@ class Strings
 		$charlist = preg_quote($charlist, '#');
 		return self::replace($s, '#^['.$charlist.']+|['.$charlist.']+\z#u', '');
 	}
-
 
 
 	/**
@@ -391,7 +368,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Pad a string to a certain length with another string.
 	 * @param  string  UTF-8 encoding
@@ -407,7 +383,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Reverse string.
 	 * @param  string  UTF-8 encoding
@@ -417,7 +392,6 @@ class Strings
 	{
 		return @iconv('UTF-32LE', 'UTF-8', strrev(@iconv('UTF-8', 'UTF-32BE', $s)));
 	}
-
 
 
 	/**
@@ -452,7 +426,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Splits string by a regular expression.
 	 * @param  string
@@ -473,7 +446,6 @@ class Strings
 		}
 		return $res;
 	}
-
 
 
 	/**
@@ -504,7 +476,6 @@ class Strings
 	}
 
 
-
 	/**
 	 * Performs a global regular expression match.
 	 * @param  string
@@ -533,7 +504,6 @@ class Strings
 		}
 		return $m;
 	}
-
 
 
 	/**
@@ -587,7 +557,6 @@ class Strings
 	}
 
 }
-
 
 
 /**

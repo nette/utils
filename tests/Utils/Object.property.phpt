@@ -8,10 +8,7 @@
  */
 
 
-
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class TestClass extends Nette\Object
@@ -57,7 +54,6 @@ class TestClass extends Nette\Object
 }
 
 
-
 $obj = new TestClass;
 $obj->foo = 'hello';
 Assert::same( 'hello', $obj->foo );
@@ -66,7 +62,6 @@ Assert::same( 'hello', $obj->Foo );
 
 $obj->foo .= ' world';
 Assert::same( 'hello world', $obj->foo );
-
 
 
 // Undeclared property writing
@@ -85,7 +80,6 @@ Assert::exception(function() use ($obj) {
 }, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$s.');
 
 
-
 // Read-only property
 $obj = new TestClass('Hello', 'World');
 Assert::true( isset($obj->bar) );
@@ -94,7 +88,6 @@ Assert::same( 'World', $obj->bar );
 Assert::exception(function() use ($obj) {
 	$obj->bar = 'value';
 }, 'Nette\MemberAccessException', 'Cannot write to a read-only property TestClass::$bar.');
-
 
 
 // write-only property

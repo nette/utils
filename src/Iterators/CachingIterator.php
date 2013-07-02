@@ -14,7 +14,6 @@ namespace Nette\Iterators;
 use Nette;
 
 
-
 /**
  * Smarter caching iterator.
  *
@@ -38,7 +37,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	private $counter = 0;
 
 
-
 	public function __construct($iterator)
 	{
 		if (is_array($iterator) || $iterator instanceof \stdClass) {
@@ -60,7 +58,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Is the current element the first one?
 	 * @param  int  grid width
@@ -70,7 +67,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	{
 		return $this->counter === 1 || ($width && $this->counter !== 0 && (($this->counter - 1) % $width) === 0);
 	}
-
 
 
 	/**
@@ -84,7 +80,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Is the iterator empty?
 	 * @return bool
@@ -93,7 +88,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	{
 		return $this->counter === 0;
 	}
-
 
 
 	/**
@@ -106,7 +100,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Is the counter even?
 	 * @return bool
@@ -117,7 +110,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Returns the counter.
 	 * @return int
@@ -126,7 +118,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	{
 		return $this->counter;
 	}
-
 
 
 	/**
@@ -145,7 +136,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Forwards to the next element.
 	 * @return void
@@ -159,7 +149,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Rewinds the Iterator.
 	 * @return void
@@ -169,7 +158,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 		parent::rewind();
 		$this->counter = parent::valid() ? 1 : 0;
 	}
-
 
 
 	/**
@@ -182,7 +170,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Returns the next element.
 	 * @return mixed
@@ -193,9 +180,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/********************* Nette\Object behaviour ****************d*g**/
-
 
 
 	/**
@@ -211,7 +196,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Returns property value. Do not call directly.
 	 * @param  string  property name
@@ -222,7 +206,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	{
 		return Nette\ObjectMixin::get($this, $name);
 	}
-
 
 
 	/**
@@ -238,7 +221,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-
 	/**
 	 * Is property defined?
 	 * @param  string  property name
@@ -248,7 +230,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	{
 		return Nette\ObjectMixin::has($this, $name);
 	}
-
 
 
 	/**

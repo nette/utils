@@ -10,9 +10,7 @@
 use Nette\Utils\Html;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 test(function() {
@@ -27,7 +25,6 @@ test(function() {
 });
 
 
-
 test(function() { // direct
 	$el = Html::el('div');
 	$el->{'data-x'} = 'x';
@@ -35,7 +32,6 @@ test(function() { // direct
 
 	Assert::same( '<div data-x="x" data-x="y"></div>', (string) $el );
 });
-
 
 
 test(function() { // function
@@ -47,7 +43,6 @@ test(function() { // function
 });
 
 
-
 test(function() {
 	$el = Html::el('div');
 	$el->data('top', NULL);
@@ -55,7 +50,6 @@ test(function() {
 	$el->data('x', '');
 	Assert::same( '<div data-x=""></div>', (string) $el );
 });
-
 
 
 test(function() {

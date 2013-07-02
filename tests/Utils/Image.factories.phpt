@@ -10,15 +10,12 @@
 use Nette\Image;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 if (!extension_loaded('gd')) {
 	Tester\Helpers::skip('Requires PHP extension GD.');
 }
-
 
 
 test(function() {
@@ -28,7 +25,6 @@ test(function() {
 
 	Assert::same( 104, $image->height );
 });
-
 
 
 test(function() {

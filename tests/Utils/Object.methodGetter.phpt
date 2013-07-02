@@ -8,10 +8,7 @@
  */
 
 
-
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class TestClass extends Nette\Object
@@ -37,7 +34,6 @@ class TestClass extends Nette\Object
 	}
 
 }
-
 
 
 $obj1 = new TestClass(1);

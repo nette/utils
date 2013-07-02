@@ -14,7 +14,6 @@ namespace Nette\Iterators;
 use Nette;
 
 
-
 /**
  * Generic recursive iterator.
  *
@@ -35,7 +34,6 @@ class Recursor extends \IteratorIterator implements \RecursiveIterator, \Countab
 	}
 
 
-
 	/**
 	 * The sub-iterator for the current element.
 	 * @return \RecursiveIterator
@@ -45,7 +43,6 @@ class Recursor extends \IteratorIterator implements \RecursiveIterator, \Countab
 		$obj = $this->current();
 		return $obj instanceof \IteratorAggregate ? $obj->getIterator() : $obj;
 	}
-
 
 
 	/**

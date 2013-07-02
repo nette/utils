@@ -10,9 +10,7 @@
 use Nette\Utils\Arrays;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 $arr  = array(
@@ -54,7 +52,6 @@ test(function() use ($arr) { // First item
 });
 
 
-
 test(function() use ($arr) { // Last item
 	$dolly = $arr;
 	Arrays::insertBefore($dolly, 7, array('new' => 'value'));
@@ -77,7 +74,6 @@ test(function() use ($arr) { // Last item
 		'new' => 'value',
 	), $dolly );
 });
-
 
 
 test(function() use ($arr) { // Undefined item

@@ -10,9 +10,7 @@
 use Nette\Utils\Html;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::same( '<a lang="cs" href="#" title="" selected="selected">click</a>', (string) Html::el('a lang=cs href="#" title="" selected')->setText('click') );

@@ -10,9 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 ini_set('pcre.backtrack_limit', 3); // forces PREG_BACKTRACK_LIMIT_ERROR

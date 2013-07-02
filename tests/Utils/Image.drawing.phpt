@@ -10,15 +10,12 @@
 use Nette\Image;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 if (!extension_loaded('gd')) {
 	Tester\Helpers::skip('Requires PHP extension GD.');
 }
-
 
 
 $size = 300;

@@ -14,7 +14,6 @@ namespace Nette;
 use Nette;
 
 
-
 /**
  * DateTime.
  *
@@ -41,7 +40,6 @@ class DateTime extends \DateTime
 	const YEAR = 31557600;
 
 
-
 	/**
 	 * DateTime object factory.
 	 * @param  string|int|\DateTime
@@ -64,12 +62,10 @@ class DateTime extends \DateTime
 	}
 
 
-
 	public function __toString()
 	{
 		return $this->format('Y-m-d H:i:s');
 	}
-
 
 
 	public function modifyClone($modify = '')

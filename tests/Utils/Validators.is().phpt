@@ -10,9 +10,7 @@
 use Nette\Utils\Validators;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 test(function() {
@@ -35,7 +33,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is(TRUE, 'float') );
 	Assert::false( Validators::is('1', 'float') );
@@ -44,14 +41,12 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is(TRUE, 'number') );
 	Assert::false( Validators::is('1', 'number') );
 	Assert::true( Validators::is(1, 'number') );
 	Assert::true( Validators::is(1.0, 'number') );
 });
-
 
 
 test(function() {
@@ -66,7 +61,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is(TRUE, 'numericint') );
 	Assert::true( Validators::is('1', 'numericint') );
@@ -77,7 +71,6 @@ test(function() {
 	Assert::true( Validators::is(1, 'numericint') );
 	Assert::false( Validators::is(1.0, 'numericint') );
 });
-
 
 
 test(function() {
@@ -93,7 +86,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is(1, 'string') );
 	Assert::true( Validators::is('', 'string') );
@@ -103,7 +95,6 @@ test(function() {
 	Assert::true( Validators::is('hello', 'string:4..') );
 	Assert::false( Validators::is('hello', 'string:1..4') );
 });
-
 
 
 test(function() {
@@ -118,7 +109,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is(NULL, 'array') );
 	Assert::true( Validators::is(array(), 'array') );
@@ -127,7 +117,6 @@ test(function() {
 	Assert::true( Validators::is(array(1), 'array:0..') );
 	Assert::true( Validators::is(array(), 'array:..1') );
 });
-
 
 
 test(function() {
@@ -145,12 +134,10 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is(NULL, 'object') );
 	Assert::true( Validators::is(new stdClass, 'object') );
 });
-
 
 
 test(function() {
@@ -158,7 +145,6 @@ test(function() {
 	Assert::false( Validators::is(array(), 'scalar') );
 	Assert::true( Validators::is(1, 'scalar') );
 });
-
 
 
 test(function() {
@@ -172,12 +158,10 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is(0, 'null') );
 	Assert::true( Validators::is(NULL, 'null') );
 });
-
 
 
 test(function() {
@@ -189,7 +173,6 @@ test(function() {
 	Assert::true( Validators::is('hello@l.org', 'email') );
 	Assert::true( Validators::is('hello@1.org', 'email') );
 });
-
 
 
 test(function() {
@@ -208,7 +191,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::true( Validators::is(0, 'none') );
 	Assert::true( Validators::is('', 'none') );
@@ -219,13 +201,11 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::true( Validators::is('', 'pattern') );
 	Assert::true( Validators::is('  123', 'pattern:\s+\d+') );
 	Assert::false( Validators::is('  123x', 'pattern:\s+\d+') );
 });
-
 
 
 test(function() {
@@ -236,14 +216,12 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is('', 'alpha') );
 	Assert::false( Validators::is('a1', 'alpha') );
 	Assert::true( Validators::is('aA', 'alpha') );
 	Assert::true( Validators::is('aA', 'alpha:1..3') );
 });
-
 
 
 test(function() {
@@ -254,14 +232,12 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is('', 'lower') );
 	Assert::false( Validators::is('Hello', 'lower') );
 	Assert::true( Validators::is('hello', 'lower') );
 	Assert::false( Validators::is('hello', 'lower:9') );
 });
-
 
 
 test(function() {
@@ -271,13 +247,11 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::false( Validators::is('', 'space') );
 	Assert::false( Validators::is(' 1', 'space') );
 	Assert::true( Validators::is(" \t\r\n", 'space') );
 });
-
 
 
 test(function() {
@@ -287,13 +261,11 @@ test(function() {
 });
 
 
-
 test(function() {
 	Assert::true( Validators::is(1.0, 'int|float') );
 	Assert::true( Validators::is(1, 'int|float') );
 	Assert::false( Validators::is('1', 'int|float') );
 });
-
 
 
 test(function() {
@@ -304,7 +276,6 @@ test(function() {
 	Assert::true(Validators::is('kryton', 'type'));
 	Assert::false(Validators::is('1', 'type'));
 });
-
 
 
 test(function() {

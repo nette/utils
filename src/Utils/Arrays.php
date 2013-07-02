@@ -14,7 +14,6 @@ namespace Nette\Utils;
 use Nette;
 
 
-
 /**
  * Array tools library.
  *
@@ -30,7 +29,6 @@ final class Arrays
 	{
 		throw new Nette\StaticClassException;
 	}
-
 
 
 	/**
@@ -53,7 +51,6 @@ final class Arrays
 	}
 
 
-
 	/**
 	 * Returns reference to array item or $default if item is not set.
 	 * @return mixed
@@ -69,7 +66,6 @@ final class Arrays
 		}
 		return $arr;
 	}
-
 
 
 	/**
@@ -88,7 +84,6 @@ final class Arrays
 	}
 
 
-
 	/**
 	 * Searches the array for a given key and returns the offset if successful.
 	 * @return int    offset if it is found, FALSE otherwise
@@ -98,7 +93,6 @@ final class Arrays
 		$foo = array($key => NULL);
 		return array_search(key($foo), array_keys($arr), TRUE);
 	}
-
 
 
 	/**
@@ -112,7 +106,6 @@ final class Arrays
 	}
 
 
-
 	/**
 	 * Inserts new array after item specified by key.
 	 * @return void
@@ -123,7 +116,6 @@ final class Arrays
 		$offset = $offset === FALSE ? count($arr) : $offset + 1;
 		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
 	}
-
 
 
 	/**
@@ -139,7 +131,6 @@ final class Arrays
 			$arr = array_combine($keys, $arr);
 		}
 	}
-
 
 
 	/**
@@ -161,7 +152,6 @@ final class Arrays
 	}
 
 
-
 	/**
 	 * Returns flattened array.
 	 * @return array
@@ -172,7 +162,6 @@ final class Arrays
 		array_walk_recursive($arr, function($a) use (& $res) { $res[] = $a; });
 		return $res;
 	}
-
 
 
 	/**

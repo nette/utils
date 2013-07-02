@@ -10,9 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::same( "\n \n \n\n",  Strings::normalizeNewLines("\r\n \r \n\n") );

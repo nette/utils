@@ -10,9 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::null( Strings::match('hello world!', '#([E-L])+#') );

@@ -10,9 +10,7 @@
 use Nette\Callback;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class Test
@@ -36,7 +34,6 @@ test(function() {
 	$cb2(2);
 	Assert::same( 2, $test->var );
 });
-
 
 
 test(function() {

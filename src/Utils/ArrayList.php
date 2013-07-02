@@ -14,7 +14,6 @@ namespace Nette;
 use Nette;
 
 
-
 /**
  * Provides the base class for a generic list (items can be accessed by index).
  *
@@ -27,7 +26,6 @@ class ArrayList extends Object implements \ArrayAccess, \Countable, \IteratorAgg
 	private $list = array();
 
 
-
 	/**
 	 * Returns an iterator over all items.
 	 * @return \ArrayIterator
@@ -38,7 +36,6 @@ class ArrayList extends Object implements \ArrayAccess, \Countable, \IteratorAgg
 	}
 
 
-
 	/**
 	 * Returns items count.
 	 * @return int
@@ -47,7 +44,6 @@ class ArrayList extends Object implements \ArrayAccess, \Countable, \IteratorAgg
 	{
 		return count($this->list);
 	}
-
 
 
 	/**
@@ -71,7 +67,6 @@ class ArrayList extends Object implements \ArrayAccess, \Countable, \IteratorAgg
 	}
 
 
-
 	/**
 	 * Returns a item.
 	 * @param  int
@@ -87,7 +82,6 @@ class ArrayList extends Object implements \ArrayAccess, \Countable, \IteratorAgg
 	}
 
 
-
 	/**
 	 * Determines whether a item exists.
 	 * @param  int
@@ -97,7 +91,6 @@ class ArrayList extends Object implements \ArrayAccess, \Countable, \IteratorAgg
 	{
 		return $index >= 0 && $index < count($this->list);
 	}
-
 
 
 	/**

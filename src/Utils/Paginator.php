@@ -14,7 +14,6 @@ namespace Nette\Utils;
 use Nette;
 
 
-
 /**
  * Paginating math.
  *
@@ -48,7 +47,6 @@ class Paginator extends Nette\Object
 	private $itemCount;
 
 
-
 	/**
 	 * Sets current page number.
 	 * @param  int
@@ -61,7 +59,6 @@ class Paginator extends Nette\Object
 	}
 
 
-
 	/**
 	 * Returns current page number.
 	 * @return int
@@ -70,7 +67,6 @@ class Paginator extends Nette\Object
 	{
 		return $this->base + $this->getPageIndex();
 	}
-
 
 
 	/**
@@ -83,7 +79,6 @@ class Paginator extends Nette\Object
 	}
 
 
-
 	/**
 	 * Returns last page number.
 	 * @return int|NULL
@@ -92,7 +87,6 @@ class Paginator extends Nette\Object
 	{
 		return $this->itemCount === NULL ? NULL : $this->base + max(0, $this->getPageCount() - 1);
 	}
-
 
 
 	/**
@@ -107,7 +101,6 @@ class Paginator extends Nette\Object
 	}
 
 
-
 	/**
 	 * Returns first page (base) number.
 	 * @return int
@@ -116,7 +109,6 @@ class Paginator extends Nette\Object
 	{
 		return $this->base;
 	}
-
 
 
 	/**
@@ -130,7 +122,6 @@ class Paginator extends Nette\Object
 	}
 
 
-
 	/**
 	 * Is the current page the first one?
 	 * @return bool
@@ -139,7 +130,6 @@ class Paginator extends Nette\Object
 	{
 		return $this->getPageIndex() === 0;
 	}
-
 
 
 	/**
@@ -152,7 +142,6 @@ class Paginator extends Nette\Object
 	}
 
 
-
 	/**
 	 * Returns the total number of pages.
 	 * @return int|NULL
@@ -161,7 +150,6 @@ class Paginator extends Nette\Object
 	{
 		return $this->itemCount === NULL ? NULL : (int) ceil($this->itemCount / $this->itemsPerPage);
 	}
-
 
 
 	/**
@@ -176,7 +164,6 @@ class Paginator extends Nette\Object
 	}
 
 
-
 	/**
 	 * Returns the number of items to display on a single page.
 	 * @return int
@@ -185,7 +172,6 @@ class Paginator extends Nette\Object
 	{
 		return $this->itemsPerPage;
 	}
-
 
 
 	/**
@@ -200,7 +186,6 @@ class Paginator extends Nette\Object
 	}
 
 
-
 	/**
 	 * Returns the total number of items.
 	 * @return int|NULL
@@ -209,7 +194,6 @@ class Paginator extends Nette\Object
 	{
 		return $this->itemCount;
 	}
-
 
 
 	/**
@@ -222,7 +206,6 @@ class Paginator extends Nette\Object
 	}
 
 
-
 	/**
 	 * Returns the absolute index of the first item on current page in countdown paging.
 	 * @return int|NULL
@@ -233,7 +216,6 @@ class Paginator extends Nette\Object
 			? NULL
 			: max(0, $this->itemCount - ($this->getPageIndex() + 1) * $this->itemsPerPage);
 	}
-
 
 
 	/**

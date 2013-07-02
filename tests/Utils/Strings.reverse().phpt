@@ -10,10 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
-
 
 
 $t1 = "\x60,\xc8\xb6,\xe0\xb8\xa2,\xf0\xa0\x81\xa2";

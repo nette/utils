@@ -10,9 +10,7 @@
 use Nette\Callback;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class Test

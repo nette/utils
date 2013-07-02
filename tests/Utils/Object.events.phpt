@@ -8,10 +8,7 @@
  */
 
 
-
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class TestClass extends Nette\Object
@@ -27,12 +24,10 @@ class TestClass extends Nette\Object
 }
 
 
-
 function handler($obj)
 {
 	$obj->counter++;
 }
-
 
 
 class Handler
@@ -42,7 +37,6 @@ class Handler
 		$obj->counter++;
 	}
 }
-
 
 
 $obj = new TestClass;
@@ -57,12 +51,10 @@ $obj->onPublic($var);
 Assert::same( 1, $var->counter );
 
 
-
 $obj->onPublic[] = new Handler;
 
 $obj->onPublic($var);
 Assert::same( 3, $var->counter );
-
 
 
 Assert::exception(function() use ($obj) {

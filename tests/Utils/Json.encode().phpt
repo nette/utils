@@ -10,14 +10,10 @@
 use Nette\Utils\Json;
 
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
-
 Assert::same( '"ok"', Json::encode('ok') );
-
-
 
 
 Assert::exception(function() {
@@ -25,13 +21,11 @@ Assert::exception(function() {
 }, 'Nette\Utils\JsonException', '%a?%Invalid UTF-8 sequence%a?%');
 
 
-
 Assert::exception(function() {
 	$arr = array('recursive');
 	$arr[] = & $arr;
 	Json::encode($arr);
 }, 'Nette\Utils\JsonException', '%a?%ecursion detected');
-
 
 
 if (PHP_VERSION_ID >= 50400) {

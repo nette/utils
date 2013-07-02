@@ -10,9 +10,7 @@
 use Nette\Utils\Html;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 test(function() {
@@ -34,7 +32,6 @@ test(function() {
 });
 
 
-
 test(function() { // append
 	$el = Html::el('div');
 	$el->style('color', 'white');
@@ -49,7 +46,6 @@ test(function() { // append
 });
 
 
-
 test(function() { // append II
 	$el = Html::el('div');
 	$el->style[] = 'text-align:right';
@@ -57,7 +53,6 @@ test(function() { // append II
 	$el->style('background-color: blue', TRUE);
 	Assert::same( '<div style="text-align:right;background-color: blue"></div>', (string) $el );
 });
-
 
 
 test(function() { // append III

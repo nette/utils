@@ -8,10 +8,7 @@
  */
 
 
-
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class TestClass extends Nette\Object
@@ -31,14 +28,12 @@ test(function() {
 });
 
 
-
 test(function() {
 	// double unset
 	$obj = new TestClass;
 	unset($obj->foo);
 	unset($obj->foo);
 });
-
 
 
 test(function() {

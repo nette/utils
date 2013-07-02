@@ -10,9 +10,7 @@
 use Nette\Utils\Arrays;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 $arr  = array(
@@ -51,7 +49,6 @@ test(function() use ($arr) { // Single item
 });
 
 
-
 test(function() use ($arr) { // Traversing
 
 	$dolly = $arr;
@@ -71,7 +68,6 @@ test(function() use ($arr) { // Traversing
 		),
 	), $dolly );
 });
-
 
 
 test(function() use ($arr) { // Error

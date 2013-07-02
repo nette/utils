@@ -10,9 +10,7 @@
 use Nette\Utils\Html;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 test(function() {
@@ -24,7 +22,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	Html::$xhtml = TRUE;
 	$el = Html::el('img')->accesskey(0, TRUE)->alt('alt', FALSE);
@@ -32,7 +29,6 @@ test(function() {
 	Assert::same( '<img accesskey="0 1" />', (string) $el->accesskey(1, TRUE) );
 	Assert::same( '<img accesskey="0" />', (string) $el->accesskey(0) );
 });
-
 
 
 test(function() {
@@ -44,7 +40,6 @@ test(function() {
 	Html::$xhtml = FALSE;
 	Assert::same( '<img src="image.gif" alt="">', (string) $el );
 });
-
 
 
 test(function() {
@@ -71,18 +66,15 @@ test(function() {
 });
 
 
-
 test(function() { // attributes escaping
 	Assert::same( '<a one=\'"\' two="\'" three="<>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;') );
 });
-
 
 
 test(function() { // setText vs. setHtml
 	Assert::same( '<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->setText('Hello &ndash; World') );
 	Assert::same( '<p>Hello &ndash; World</p>', (string) Html::el('p')->setHtml('Hello &ndash; World') );
 });
-
 
 
 test(function() { // getText vs. getHtml
@@ -93,17 +85,14 @@ test(function() { // getText vs. getHtml
 });
 
 
-
 test(function() { // email obfuscate
 	Assert::same( '<a href="mailto:dave&#64;example.com"></a>', (string) Html::el('a')->href('mailto:dave@example.com') );
 });
 
 
-
 test(function() { // href with query
 	Assert::same( '<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', array('a' => 10)) );
 });
-
 
 
 test(function() { // isset

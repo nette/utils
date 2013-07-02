@@ -15,7 +15,6 @@ use Assert, Nette, stdClass;
 require __DIR__ . '/../bootstrap.php';
 
 
-
 /**
  * @method void setName(string $var)
  * @method getName()
@@ -33,7 +32,6 @@ class TestClass extends Nette\Object
 	/** @var TestClass[] */
 	public $items = array();
 }
-
 
 
 $obj = new TestClass;

@@ -10,9 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::true( Strings::endsWith('123', NULL), "endsWith('123', NULL)" );

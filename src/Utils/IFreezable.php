@@ -14,7 +14,6 @@ namespace Nette;
 use Nette;
 
 
-
 /**
  * Object that has a modifiable and a read-only (frozen) state.
  *

@@ -14,7 +14,6 @@ namespace Nette\Iterators;
 use Nette;
 
 
-
 /**
  * Applies the callback to the elements of the inner iterator.
  *
@@ -31,7 +30,6 @@ class Mapper extends \IteratorIterator
 		parent::__construct($iterator);
 		$this->callback = new Nette\Callback($callback);
 	}
-
 
 
 	public function current()

@@ -46,7 +46,6 @@ function assertConverts($type, $vals)
 }
 
 
-
 $resource = fopen(__FILE__, 'r');
 
 assertAccepts('', array(NULL, TRUE, FALSE, 0, 0.0, 0.1, 1, 12, '', 'true', 'false', '-123', '123x', '+1.2', '1.0', array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));

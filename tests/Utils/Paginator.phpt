@@ -10,9 +10,7 @@
 use Nette\Utils\Paginator;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 test(function() {
@@ -32,7 +30,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
@@ -45,7 +42,6 @@ test(function() {
 	Assert::same( 1, $paginator->countdownOffset );
 	Assert::same( 6, $paginator->length );
 });
-
 
 
 test(function() {
@@ -65,7 +61,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	$paginator = new Paginator;
 	$paginator->itemCount = -1;
@@ -83,7 +78,6 @@ test(function() {
 });
 
 
-
 test(function() {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
@@ -99,7 +93,6 @@ test(function() {
 	Assert::same( 0, $paginator->countdownOffset );
 	Assert::same( 1, $paginator->length );
 });
-
 
 
 test(function() {
@@ -127,7 +120,6 @@ test(function() {
 	Assert::false( $paginator->isFirst() );
 	Assert::true( $paginator->isLast() );
 });
-
 
 
 test(function() {

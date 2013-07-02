@@ -10,9 +10,7 @@
 use Nette\Utils\Strings;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::true( Strings::checkEncoding("\xc5\xbelu\xc5\xa5ou\xc4\x8dk\xc3\xbd") ); // UTF-8   žluťoučký

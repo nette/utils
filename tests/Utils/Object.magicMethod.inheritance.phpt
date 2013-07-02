@@ -8,10 +8,7 @@
  */
 
 
-
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 /**
@@ -43,7 +40,6 @@ Assert::same( 'hello', $parent->getA() );
 Assert::exception(function() use ($parent) {
 	$parent->setC(123);
 }, 'Nette\MemberAccessException', 'Call to undefined method ParentClass::setC().');
-
 
 
 $child = new ChildClass;

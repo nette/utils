@@ -14,7 +14,6 @@ namespace Nette;
 use Nette;
 
 
-
 /**
  * Defines an object that has a modifiable and a read-only (frozen) state.
  *
@@ -28,7 +27,6 @@ abstract class FreezableObject extends Object implements IFreezable
 	private $frozen = FALSE;
 
 
-
 	/**
 	 * Makes the object unmodifiable.
 	 * @return void
@@ -37,7 +35,6 @@ abstract class FreezableObject extends Object implements IFreezable
 	{
 		$this->frozen = TRUE;
 	}
-
 
 
 	/**
@@ -50,7 +47,6 @@ abstract class FreezableObject extends Object implements IFreezable
 	}
 
 
-
 	/**
 	 * Creates a modifiable clone of the object.
 	 * @return void
@@ -59,7 +55,6 @@ abstract class FreezableObject extends Object implements IFreezable
 	{
 		$this->frozen = FALSE;
 	}
-
 
 
 	/**

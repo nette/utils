@@ -10,9 +10,7 @@
 use Nette\Utils\Json;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::same( "ok", Json::decode('"ok"') );
@@ -25,11 +23,9 @@ Assert::equal( (object) array('a' => 1), Json::decode('{"a":1}') );
 Assert::same( array('a' => 1), Json::decode('{"a":1}', Json::FORCE_ARRAY) );
 
 
-
 Assert::exception(function() {
 	Json::decode('{');
 }, 'Nette\Utils\JsonException', 'Syntax error, malformed JSON');
-
 
 
 Assert::exception(function() {
@@ -37,11 +33,9 @@ Assert::exception(function() {
 }, 'Nette\Utils\JsonException', 'Syntax error, malformed JSON');
 
 
-
 Assert::exception(function() {
 	Json::decode("\x00");
 }, 'Nette\Utils\JsonException', 'Unexpected control character found');
-
 
 
 if (PHP_VERSION_ID >= 50400) {

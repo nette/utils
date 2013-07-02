@@ -14,7 +14,6 @@ namespace Nette;
 use Nette;
 
 
-
 /**
  * The exception that is thrown when the value of an argument is
  * outside the allowable range of values as defined by the invoked method.
@@ -22,7 +21,6 @@ use Nette;
 class ArgumentOutOfRangeException extends \InvalidArgumentException
 {
 }
-
 
 
 /**
@@ -34,14 +32,12 @@ class InvalidStateException extends \RuntimeException
 }
 
 
-
 /**
  * The exception that is thrown when a requested method or operation is not implemented.
  */
 class NotImplementedException extends \LogicException
 {
 }
-
 
 
 /**
@@ -53,14 +49,12 @@ class NotSupportedException extends \LogicException
 }
 
 
-
 /**
  * The exception that is thrown when a requested method or operation is deprecated.
  */
 class DeprecatedException extends NotSupportedException
 {
 }
-
 
 
 /**
@@ -71,14 +65,12 @@ class MemberAccessException extends \LogicException
 }
 
 
-
 /**
  * The exception that is thrown when an I/O error occurs.
  */
 class IOException extends \RuntimeException
 {
 }
-
 
 
 /**
@@ -89,14 +81,12 @@ class FileNotFoundException extends IOException
 }
 
 
-
 /**
  * The exception that is thrown when part of a file or directory cannot be found.
  */
 class DirectoryNotFoundException extends IOException
 {
 }
-
 
 
 /**
@@ -107,14 +97,12 @@ class InvalidArgumentException extends \InvalidArgumentException
 }
 
 
-
 /**
  * The exception that is thrown when an illegal index was requested.
  */
 class OutOfRangeException extends \OutOfRangeException
 {
 }
-
 
 
 /**
@@ -125,14 +113,12 @@ class UnexpectedValueException extends \UnexpectedValueException
 }
 
 
-
 /**
  * The exception that is thrown when static class is instantiated.
  */
 class StaticClassException extends \LogicException
 {
 }
-
 
 
 /**

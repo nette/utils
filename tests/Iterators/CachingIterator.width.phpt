@@ -10,9 +10,7 @@
 use Nette\Iterators;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 test(function() {
@@ -51,7 +49,6 @@ test(function() {
 	$iterator->next();
 	Assert::false( $iterator->valid() );
 });
-
 
 
 test(function() {

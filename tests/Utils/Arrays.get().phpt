@@ -10,9 +10,7 @@
 use Nette\Utils\Arrays;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 $arr  = array(
@@ -33,7 +31,6 @@ test(function() use ($arr) { // Single item
 		Arrays::get($arr, 'undefined');
 	}, 'Nette\InvalidArgumentException', "Missing item 'undefined'.");
 });
-
 
 
 test(function() use ($arr) { // Traversing

@@ -10,9 +10,7 @@
 use Nette\ArrayHash;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class Person
@@ -32,7 +30,6 @@ class Person
 }
 
 
-
 test(function() {
 	$list = new ArrayHash;
 	$jack = new Person('Jack');
@@ -46,7 +43,6 @@ test(function() {
 
 	Assert::same( $mary, $list->m );
 	Assert::same( $jack, $list->j );
-
 
 
 	Assert::same( array(
@@ -70,10 +66,8 @@ test(function() {
 	), $tmp );
 
 
-
 	Assert::same( 2, $list->count() );
 	Assert::same( 2, count($list) );
-
 
 
 	unset($list['j']);
@@ -81,7 +75,6 @@ test(function() {
 		'm' => $mary,
 	), iterator_to_array($list) );
 });
-
 
 
 test(function() {
@@ -96,7 +89,6 @@ test(function() {
 	Assert::type( 'Nette\ArrayHash', $list );
 	Assert::true( is_array($list['children']) );
 });
-
 
 
 test(function() {

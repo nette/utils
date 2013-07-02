@@ -8,10 +8,7 @@
  */
 
 
-
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class TestClass extends Nette\Object
@@ -29,7 +26,6 @@ class TestClass extends Nette\Object
 }
 
 
-
 test(function() {
 	$obj = new TestClass(function($a, $b) {
 		return "$a $b";
@@ -38,7 +34,6 @@ test(function() {
 	Assert::same( "1 2", $obj->public(1, 2) );
 	Assert::same( "1 2", $obj->onPublic(1, 2) );
 });
-
 
 
 test(function() {

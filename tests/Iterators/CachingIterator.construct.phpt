@@ -10,9 +10,7 @@
 use Nette\Iterators;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 test(function() { // ==> array
@@ -26,7 +24,6 @@ test(function() { // ==> array
 });
 
 
-
 test(function() { // ==> stdClass
 	$arr = (object) array('Nette', 'Framework');
 	$tmp = array();
@@ -36,7 +33,6 @@ test(function() { // ==> stdClass
 		'1 => Framework',
 	), $tmp );
 });
-
 
 
 test(function() { // ==> IteratorAggregate
@@ -50,7 +46,6 @@ test(function() { // ==> IteratorAggregate
 });
 
 
-
 test(function() { // ==> Iterator
 	$arr = new ArrayObject(array('Nette', 'Framework'));
 	$tmp = array();
@@ -62,7 +57,6 @@ test(function() { // ==> Iterator
 });
 
 
-
 test(function() { // ==> SimpleXMLElement
 	$arr = new SimpleXMLElement('<feed><item>Nette</item><item>Framework</item></feed>');
 	$tmp = array();
@@ -72,7 +66,6 @@ test(function() { // ==> SimpleXMLElement
 		'item => Framework',
 	), $tmp );
 });
-
 
 
 test(function() { // ==> object

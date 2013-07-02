@@ -10,9 +10,7 @@
 use Nette\Utils\Validators;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Assert::exception(function() {

@@ -10,9 +10,7 @@
 use Nette\Callback;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 class Test
@@ -32,7 +30,6 @@ test(function() {
 	Assert::same( 8, $cb->invokeArgs(array(3, 5)) );
 	Assert::true( $cb->isCallable() );
 });
-
 
 
 test(function() {

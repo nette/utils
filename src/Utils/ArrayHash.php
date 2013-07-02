@@ -14,7 +14,6 @@ namespace Nette;
 use Nette;
 
 
-
 /**
  * Provides objects to work as array.
  *
@@ -42,7 +41,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	}
 
 
-
 	/**
 	 * Returns an iterator over all items.
 	 * @return \RecursiveArrayIterator
@@ -53,7 +51,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	}
 
 
-
 	/**
 	 * Returns items count.
 	 * @return int
@@ -62,7 +59,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	{
 		return count((array) $this);
 	}
-
 
 
 	/**
@@ -78,7 +74,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	}
 
 
-
 	/**
 	 * Returns a item.
 	 * @return mixed
@@ -89,7 +84,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	}
 
 
-
 	/**
 	 * Determines whether a item exists.
 	 * @return bool
@@ -98,7 +92,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	{
 		return isset($this->$key);
 	}
-
 
 
 	/**
