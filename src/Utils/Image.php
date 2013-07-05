@@ -275,7 +275,7 @@ class Image extends Object
 	/**
 	 * Sets image resource.
 	 * @param  resource
-	 * @return Image  provides a fluent interface
+	 * @return self
 	 */
 	protected function setImageResource($image)
 	{
@@ -302,7 +302,7 @@ class Image extends Object
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
 	 * @param  int    flags
-	 * @return Image  provides a fluent interface
+	 * @return self
 	 */
 	public function resize($width, $height, $flags = self::FIT)
 	{
@@ -407,7 +407,7 @@ class Image extends Object
 	 * @param  mixed  y-offset in pixels or percent
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
-	 * @return Image  provides a fluent interface
+	 * @return self
 	 */
 	public function crop($left, $top, $width, $height)
 	{
@@ -457,7 +457,7 @@ class Image extends Object
 
 	/**
 	 * Sharpen image.
-	 * @return Image  provides a fluent interface
+	 * @return self
 	 */
 	public function sharpen()
 	{
@@ -476,7 +476,7 @@ class Image extends Object
 	 * @param  mixed  x-coordinate in pixels or percent
 	 * @param  mixed  y-coordinate in pixels or percent
 	 * @param  int  opacity 0..100
-	 * @return Image  provides a fluent interface
+	 * @return self
 	 */
 	public function place(Image $image, $left = 0, $top = 0, $opacity = 100)
 	{

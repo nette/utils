@@ -82,7 +82,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * Changes element's name.
 	 * @param  string
 	 * @param  bool  Is element empty?
-	 * @return Html  provides a fluent interface
+	 * @return self
 	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setName($name, $isEmpty = NULL)
@@ -120,7 +120,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/**
 	 * Sets multiple attributes.
 	 * @param  array
-	 * @return Html  provides a fluent interface
+	 * @return self
 	 */
 	public function addAttributes(array $attrs)
 	{
@@ -178,7 +178,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * Overloaded setter for element's attribute.
 	 * @param  string  HTML attribute name
 	 * @param  array   (string) HTML attribute value or pair?
-	 * @return Html  provides a fluent interface
+	 * @return self
 	 */
 	final public function __call($m, $args)
 	{
@@ -217,7 +217,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * Special setter for element's attribute.
 	 * @param  string path
 	 * @param  array query
-	 * @return Html  provides a fluent interface
+	 * @return self
 	 */
 	final public function href($path, $query = NULL)
 	{
@@ -235,7 +235,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/**
 	 * Sets element's HTML content.
 	 * @param  string
-	 * @return Html  provides a fluent interface
+	 * @return self
 	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setHtml($html)
@@ -270,7 +270,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/**
 	 * Sets element's textual content.
 	 * @param  string
-	 * @return Html  provides a fluent interface
+	 * @return self
 	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setText($text)
@@ -295,7 +295,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/**
 	 * Adds new element's child.
 	 * @param  Html|string child node
-	 * @return Html  provides a fluent interface
+	 * @return self
 	 */
 	final public function add($child)
 	{
@@ -321,7 +321,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * @param  int
 	 * @param  Html node
 	 * @param  bool
-	 * @return Html  provides a fluent interface
+	 * @return self
 	 * @throws \Exception
 	 */
 	public function insert($index, $child, $replace = FALSE)
