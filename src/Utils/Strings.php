@@ -121,7 +121,10 @@ class Strings
 		if ($length === NULL) {
 			$length = self::length($s);
 		}
-		return function_exists('mb_substr') ? mb_substr($s, $start, $length, 'UTF-8') : iconv_substr($s, $start, $length, 'UTF-8'); // MB is much faster
+		if (function_exists('mb_substr')) {
+			return mb_substr($s, $start, $length, 'UTF-8'); // MB is much faster
+		}
+		return iconv_substr($s, $start, $length, 'UTF-8');
 	}
 
 
@@ -235,7 +238,10 @@ class Strings
 	 */
 	public static function indent($s, $level = 1, $chars = "\t")
 	{
-		return $level < 1 ? $s : self::replace($s, '#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level));
+		if ($level > 0) {
+			$s = self::replace($s, '#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level));
+		}
+		return $s;
 	}
 
 
