@@ -145,7 +145,12 @@ final class ObjectMixin
 			}
 
 		} elseif (isset($methods[$name])) { // public method as closure getter
-			$val = Callback::create($_this, $name);
+			if (PHP_VERSION_ID >= 50400) {
+				$rm = new \ReflectionMethod($class, $name);
+				$val = $rm->getClosure($_this);
+			} else {
+				$val = Nette\Utils\Callback::closure($_this, $name);
+			}
 			return $val;
 
 		} else { // strict class
