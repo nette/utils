@@ -15,12 +15,7 @@ use Nette;
 
 
 /**
- * PHP callback encapsulation.
- *
- * @author     David Grudl
- * @property-read bool $callable
- * @property-read string|array|\Closure $native
- * @property-read bool $static
+ * @deprecated
  */
 final class Callback extends Object
 {

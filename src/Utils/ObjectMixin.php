@@ -63,7 +63,7 @@ final class ObjectMixin
 		} elseif ($isProp === 'event') { // calling event handlers
 			if (is_array($_this->$name) || $_this->$name instanceof \Traversable) {
 				foreach ($_this->$name as $handler) {
-					Callback::create($handler)->invokeArgs($args);
+					Nette\Utils\Callback::invokeArgs($handler, $args);
 				}
 			} elseif ($_this->$name !== NULL) {
 				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
@@ -94,7 +94,7 @@ final class ObjectMixin
 
 		} elseif ($cb = self::getExtensionMethod($class, $name)) { // extension methods
 			array_unshift($args, $_this);
-			return $cb->invokeArgs($args);
+			return Nette\Utils\Callback::invokeArgs($cb, $args);
 
 		} else {
 			throw new MemberAccessException("Call to undefined method $class::$name().");
@@ -366,7 +366,7 @@ final class ObjectMixin
 	public static function setExtensionMethod($class, $name, $callback)
 	{
 		$name = strtolower($name);
-		self::$extMethods[$name][$class] = new Callback($callback);
+		self::$extMethods[$name][$class] = Nette\Utils\Callback::closure($callback);
 		self::$extMethods[$name][''] = NULL;
 	}
 

@@ -36,9 +36,9 @@ Assert::exception(function() {
 function cb() { return 'x'; }
 
 Assert::exception(function() {
-	Strings::replace('0123456789', '#*#', new Nette\Callback('cb'));
+	Strings::replace('0123456789', '#*#', Nette\Utils\Callback::closure('cb'));
 }, 'Nette\Utils\RegexpException', 'preg_match(): Compilation failed: nothing to repeat at offset 0 in pattern: #*#');
 
 Assert::exception(function() {
-	Strings::replace('0123456789', array('##', '#*#'), new Nette\Callback('cb'));
+	Strings::replace('0123456789', array('##', '#*#'), Nette\Utils\Callback::closure('cb'));
 }, 'Nette\Utils\RegexpException', 'preg_match(): Compilation failed: nothing to repeat at offset 0 in pattern: #*#');
