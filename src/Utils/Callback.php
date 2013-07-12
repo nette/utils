@@ -109,10 +109,8 @@ class Callback
 	public static function toString($callable)
 	{
 		if ($callable instanceof \Closure) {
-			if ($inner = self::unwrap($callable)) {
-				return '{closure ' . self::toString($inner) . '}';
-			}
-			return '{closure}';
+			$inner = self::unwrap($callable);
+			return '{closure' . ($inner instanceof \Closure ? '}' : ' ' . self::toString($inner) . '}');
 		} elseif (is_string($callable) && $callable[0] === "\0") {
 			return '{lambda}';
 		} else {
@@ -127,8 +125,8 @@ class Callback
 	 */
 	public static function toReflection($callable)
 	{
-		if ($callable instanceof \Closure && $inner = self::unwrap($callable)) {
-			$callable = $inner;
+		if ($callable instanceof \Closure) {
+			$callable = self::unwrap($callable);
 		} elseif ($callable instanceof Nette\Callback) {
 			$callable = $callable->getNative();
 		}
@@ -165,7 +163,7 @@ class Callback
 	{
 		$rm = new \ReflectionFunction($closure);
 		$vars = $rm->getStaticVariables();
-		return isset($vars['_callable_']) ? $vars['_callable_'] : NULL;
+		return isset($vars['_callable_']) ? $vars['_callable_'] : $closure;
 	}
 
 }

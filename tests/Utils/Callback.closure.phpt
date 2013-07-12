@@ -92,6 +92,7 @@ test(function() { // closure
 		return $a;
 	};
 	Assert::same( $closure, Callback::closure($closure) );
+	Assert::same( $closure, Callback::unwrap($closure) );
 	Assert::same( '{closure}', Callback::toString($closure) );
 	Assert::same( '{closure}', getName(Callback::toReflection($closure)) );
 	Assert::same( '{closure}', call_user_func_array(Callback::closure($closure), array(& $res)) );
