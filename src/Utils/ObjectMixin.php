@@ -366,7 +366,7 @@ class ObjectMixin
 	public static function setExtensionMethod($class, $name, $callback)
 	{
 		$name = strtolower($name);
-		self::$extMethods[$name][$class] = Callback::closure($callback);
+		self::$extMethods[$name][$class] = Callback::check($callback);
 		self::$extMethods[$name][''] = NULL;
 	}
 
