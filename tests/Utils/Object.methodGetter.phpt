@@ -38,6 +38,13 @@ $obj1 = new TestClass(1);
 $method = $obj1->publicMethod;
 Assert::same( "1 2 3", $method(2, 3) );
 
+if (PHP_VERSION_ID >= 50400) {
+	$rm = new ReflectionFunction($method);
+	Assert::same( $obj1, $rm->getClosureThis() );
+	Assert::same( 'publicMethod', $rm->getName() );
+	Assert::same( 2, $rm->getNumberOfParameters() );
+}
+
 
 Assert::exception(function() {
 	$obj = new TestClass;
