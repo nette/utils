@@ -44,7 +44,7 @@ final class FileSystem
 			throw new Nette\IOException("File or directory '$source' not found.");
 
 		} elseif (!$overwrite && file_exists($dest)) {
-			return;
+			throw new Nette\InvalidStateException("File or directory '$dest' already exists.");
 
 		} elseif (is_dir($source)) {
 			static::createDir($dest);
@@ -98,7 +98,7 @@ final class FileSystem
 	public static function rename($name, $newName, $overwrite = TRUE)
 	{
 		if (!$overwrite && file_exists($newName)) {
-			return;
+			throw new Nette\InvalidStateException("File or directory '$newName' already exists.");
 
 		} elseif (!file_exists($name)) {
 			throw new Nette\IOException("File or directory '$name' not found.");

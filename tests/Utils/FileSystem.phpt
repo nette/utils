@@ -48,16 +48,22 @@ test(function() { // copy
 
 	FileSystem::write(TEMP_DIR . '/5/newfile', 'World');
 
-	FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file', FALSE);
+	Assert::exception(function() {
+		FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file', FALSE);
+	}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
 	Assert::same( 'Hello', file_get_contents(TEMP_DIR . '/3/x/file') );
 
-	FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/file', FALSE);
+	Assert::exception(function() {
+		FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/file', FALSE);
+	}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
 	Assert::same( 'Hello', file_get_contents(TEMP_DIR . '/3/x/file') );
 
 	FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file');
 	Assert::same( 'World', file_get_contents(TEMP_DIR . '/3/x/file') );
 
-	FileSystem::copy(TEMP_DIR . '/5', TEMP_DIR . '/3', FALSE);
+	Assert::exception(function() {
+		FileSystem::copy(TEMP_DIR . '/5', TEMP_DIR . '/3', FALSE);
+	}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
 	Assert::true( is_dir(TEMP_DIR . '/3/x/y') );
 	Assert::false( file_exists(TEMP_DIR . '/3/newfile') );
 
@@ -89,13 +95,17 @@ test(function() { // rename
 	Assert::same( 'Hello', file_get_contents(TEMP_DIR . '/9/x/file') );
 
 	FileSystem::write(TEMP_DIR . '/8/newfile', 'World');
-	FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file', FALSE);
+	Assert::exception(function() {
+		FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file', FALSE);
+	}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
 	Assert::same( 'Hello', file_get_contents(TEMP_DIR . '/9/x/file') );
 	FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file');
 	Assert::same( 'World', file_get_contents(TEMP_DIR . '/9/x/file') );
 
 	FileSystem::createDir(TEMP_DIR . '/10/');
-	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9', FALSE);
+	Assert::exception(function() {
+		FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9', FALSE);
+	}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
 	Assert::same( 'World', file_get_contents(TEMP_DIR . '/9/x/file') );
 
 	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9');
