@@ -44,13 +44,13 @@ test(function() {
 
 
 	Assert::exception(function() {
-		$obj = new TestClass(function(){});
+		$obj = new TestClass(function() {});
 		$obj->protected();
 	}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::protected().');
 
 
 	Assert::exception(function() {
-		$obj = new TestClass(function(){});
+		$obj = new TestClass(function() {});
 		$obj->private();
 	}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::private().');
 });

@@ -53,10 +53,10 @@ test(function() {
 
 test(function() {
 	$iterator = new Iterators\CachingIterator(array());
-	Assert::same( FALSE,  $iterator->isFirst(0) );
-	Assert::same( TRUE,  $iterator->isLast(0) );
-	Assert::same( FALSE,  $iterator->isFirst(1) );
-	Assert::same( TRUE,  $iterator->isLast(1) );
-	Assert::same( FALSE,  $iterator->isFirst(2) );
-	Assert::same( TRUE,  $iterator->isLast(2) );
+	Assert::false( $iterator->isFirst(0) );
+	Assert::true( $iterator->isLast(0) );
+	Assert::false( $iterator->isFirst(1) );
+	Assert::true( $iterator->isLast(1) );
+	Assert::false( $iterator->isFirst(2) );
+	Assert::true( $iterator->isLast(2) );
 });

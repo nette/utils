@@ -54,7 +54,7 @@ test(function() {
 	Assert::same( 'Test::__invoke', Callback::toString($test) );
 	Assert::same( 'Test::__invoke()', (string) Callback::toReflection($test) );
 
-	$closure = function(){};
+	$closure = function() {};
 	Assert::same( $closure, Callback::closure($closure) );
 	Assert::same( '{closure}', Callback::toString($closure) );
 	Assert::same( '{closure}()', (string) Callback::toReflection($closure) );

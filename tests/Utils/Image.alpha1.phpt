@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 if (!extension_loaded('gd')) {
-	Tester\Helpers::skip('Requires PHP extension GD.');
+	Tester\Environment::skip('Requires PHP extension GD.');
 }
 
 

@@ -87,7 +87,7 @@ test(function() {
 		),
 	), FALSE);
 	Assert::type( 'Nette\ArrayHash', $list );
-	Assert::true( is_array($list['children']) );
+	Assert::type( 'array', $list['children'] );
 });
 
 

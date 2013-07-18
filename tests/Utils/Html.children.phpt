@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\Utils\Html basic usage.
+ * Test: Nette\Utils\Html children usage.
  *
  * @author     David Grudl
  * @package    Nette\Utils
