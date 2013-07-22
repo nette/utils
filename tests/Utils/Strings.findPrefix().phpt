@@ -13,6 +13,10 @@ use Nette\Utils\Strings;
 require __DIR__ . '/../bootstrap.php';
 
 
+Assert::same( '', Strings::findPrefix("\xC0\x80", "\xC1\x80") );
+Assert::same( '', Strings::findPrefix("\xC0\x80", "\xC0\x81") );
+Assert::same( '', Strings::findPrefix("\xC0\x80\x80", "\xC0\x80\x81") );
+Assert::same( '', Strings::findPrefix("\xC0\x80\x80\x80", "\xC0\x80\x80\x81") );
 Assert::same( '', Strings::findPrefix('', '') );
 Assert::same( '', Strings::findPrefix('a', '') );
 Assert::same( '', Strings::findPrefix('', 'b') );

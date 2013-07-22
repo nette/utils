@@ -324,7 +324,7 @@ class Strings
 		for ($i = 0; $i < strlen($first); $i++) {
 			foreach ($strings as $s) {
 				if (!isset($s[$i]) || $first[$i] !== $s[$i]) {
-					if ($i && $first[$i-1] >= "\x80" && $first[$i] >= "\x80" && $first[$i] < "\xC0") {
+					while ($i && $first[$i-1] >= "\x80" && $first[$i] >= "\x80" && $first[$i] < "\xC0") {
 						$i--;
 					}
 					return substr($first, 0, $i);
