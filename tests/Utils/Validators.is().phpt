@@ -170,11 +170,15 @@ test(function() {
 	Assert::true( Validators::is('hello@world.cz', 'email') );
 	Assert::false( Validators::is('hello@localhost', 'email') );
 	Assert::false( Validators::is('hello@127.0.0.1', 'email') );
+	Assert::false( Validators::is('hello@localhost.a0', 'email') );
+	Assert::false( Validators::is('hello@localhost.0a', 'email') );
 	Assert::true( Validators::is('hello@l.org', 'email') );
 	Assert::true( Validators::is('hello@1.org', 'email') );
-	Assert::false( Validators::is('jean.fran√ßois@lyotard.fr', 'email') );
-	Assert::true( Validators::is('jerzy@kosi≈Ñski.pl', 'email') );
-	Assert::false( Validators::is('p√©ter@esterh√°zy.hu', 'email') );
+	Assert::false( Validators::is('jean.franÁois@lyotard.fr', 'email') );
+	Assert::true( Validators::is('jerzy@kosiÒski.pl', 'email') );
+	Assert::false( Validators::is('pÈter@esterh·zy.hu', 'email') );
+	Assert::true( Validators::is('hello@1.c0m', 'email') );
+	Assert::true( Validators::is('hello@1.c', 'email') );
 });
 
 
@@ -182,6 +186,8 @@ test(function() {
 	Assert::false( Validators::is('', 'url') );
 	Assert::false( Validators::is('hello', 'url') );
 	Assert::false( Validators::is('nette.org', 'url') );
+	Assert::false( Validators::is('http://nette.org0', 'url') );
+	Assert::false( Validators::is('http://nette.0org', 'url') );
 	Assert::true( Validators::is('http://1.org', 'url') );
 	Assert::true( Validators::is('http://l.org', 'url') );
 	Assert::true( Validators::is('http://localhost', 'url') );
@@ -191,6 +197,8 @@ test(function() {
 	Assert::true( Validators::is('http://nette.org/path', 'url') );
 	Assert::true( Validators::is('http://nette.org:8080/path', 'url') );
 	Assert::true( Validators::is('https://www.nette.org/path', 'url') );
+	Assert::true( Validators::is('https://example.c0m', 'url') );
+	Assert::true( Validators::is('https://example.l', 'url') );
 });
 
 
