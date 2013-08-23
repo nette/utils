@@ -172,6 +172,9 @@ test(function() {
 	Assert::false( Validators::is('hello@127.0.0.1', 'email') );
 	Assert::true( Validators::is('hello@l.org', 'email') );
 	Assert::true( Validators::is('hello@1.org', 'email') );
+	Assert::false( Validators::is('jean.françois@lyotard.fr', 'email') );
+	Assert::true( Validators::is('jerzy@kosiński.pl', 'email') );
+	Assert::false( Validators::is('péter@esterházy.hu', 'email') );
 });
 
 
