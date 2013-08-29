@@ -46,7 +46,7 @@ class DateTime extends \DateTime
 	 * @return DateTime
 	 */
 	public static function from($time)
-	{	
+	{
 		if ($time instanceof \DateTime || $time instanceof \DateTimeInterface) {
 			return new self($time->format('Y-m-d H:i:s'), $time->getTimezone());
 
