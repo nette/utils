@@ -20,6 +20,11 @@ require __DIR__ . '/../bootstrap.php';
 class TestClass extends Nette\Object
 {
 	protected $items = array();
+	
+	public function abc()
+	{
+		parent::abc();
+	}
 }
 
 // Undeclared method access
@@ -27,6 +32,11 @@ Assert::exception(function() {
 	$obj = new TestClass;
 	$obj->setAbc();
 }, 'Nette\MemberAccessException', 'Call to undefined method TestClass::setAbc().');
+
+Assert::exception(function() {
+	$obj = new TestClass;
+	$obj->abc();
+}, 'Nette\MemberAccessException', PHP_VERSION_ID != 50303 ? 'Call to undefined method parent::abc().' : 'Call to undefined static method TestClass::abc().'); // PHP bug #52713 (exclusive to PHP 5.3.3)
 
 
 // Wrong parameters count

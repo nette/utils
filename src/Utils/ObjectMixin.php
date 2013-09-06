@@ -69,7 +69,7 @@ final class ObjectMixin
 				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
 			}
 
-		} elseif (isset($methods[$name])) { // magic @methods
+		} elseif (isset($methods[$name]) && $methods[$name] !== 0) { // magic @methods
 			list($op, $rp, $type) = $methods[$name];
 			if (!$rp) {
 				throw new MemberAccessException("Magic method $class::$name() has not corresponding property $$op.");
@@ -97,6 +97,9 @@ final class ObjectMixin
 			return Nette\Utils\Callback::invokeArgs($cb, $args);
 
 		} else {
+			if (method_exists($class, $name)) { // called parent::$name()
+				$class = 'parent';
+			}
 			throw new MemberAccessException("Call to undefined method $class::$name().");
 		}
 	}
