@@ -89,7 +89,7 @@ final class Json
 		$json = (string) $json;
 		$args = array($json, (bool) ($options & self::FORCE_ARRAY));
 		$args[] = 512;
-		if (PHP_VERSION_ID >= 50400) {
+		if (PHP_VERSION_ID >= 50400 && !(defined('JSON_C_VERSION') && PHP_INT_SIZE > 4)) { // not implemented in PECL JSON-C 1.3.2 for 64bit systems
 			$args[] = JSON_BIGINT_AS_STRING;
 		}
 		$value = call_user_func_array('json_decode', $args);
