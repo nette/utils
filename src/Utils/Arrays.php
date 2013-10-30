@@ -156,10 +156,13 @@ final class Arrays
 	 * Returns flattened array.
 	 * @return array
 	 */
-	public static function flatten(array $arr)
+	public static function flatten(array $arr, $preserveKeys = FALSE)
 	{
 		$res = array();
-		array_walk_recursive($arr, function($a) use (& $res) { $res[] = $a; });
+		$cb = $preserveKeys
+			? function($v, $k) use (& $res) { $res[$k] = $v; }
+			: function($v) use (& $res) { $res[] = $v; };
+		array_walk_recursive($arr, $cb);
 		return $res;
 	}
 
