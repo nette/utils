@@ -38,6 +38,11 @@ Assert::exception(function() {
 }, 'Nette\Utils\JsonException', defined('JSON_C_VERSION') ? 'Syntax error, malformed JSON' : 'Unexpected control character found');
 
 
+Assert::exception(function() {
+	Json::decode("\"\xC1\xBF\"");
+}, 'Nette\Utils\JsonException', 'Invalid UTF-8 sequence');
+
+
 // default JSON_BIGINT_AS_STRING
 if (PHP_VERSION_ID >= 50400) {
 	if (defined('JSON_C_VERSION')) {

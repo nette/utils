@@ -87,6 +87,10 @@ final class Json
 	public static function decode($json, $options = 0)
 	{
 		$json = (string) $json;
+		if (!preg_match('##u', $json)) {
+			throw new JsonException('Invalid UTF-8 sequence', 5); // workaround for PHP < 5.3.3 & PECL JSON-C
+		}
+
 		$args = array($json, (bool) ($options & self::FORCE_ARRAY));
 		$args[] = 512;
 		if (PHP_VERSION_ID >= 50400 && !(defined('JSON_C_VERSION') && PHP_INT_SIZE > 4)) { // not implemented in PECL JSON-C 1.3.2 for 64bit systems
