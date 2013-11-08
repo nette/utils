@@ -217,7 +217,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 */
 	public function __set($name, $value)
 	{
-		return Nette\ObjectMixin::set($this, $name, $value);
+		Nette\ObjectMixin::set($this, $name, $value);
 	}
 
 

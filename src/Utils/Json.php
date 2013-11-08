@@ -31,9 +31,9 @@ final class Json
 		JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
 		JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON',
 		5 /*JSON_ERROR_UTF8*/ => 'Invalid UTF-8 sequence',
-		6 /*PHP_JSON_ERROR_RECURSION*/ => 'Recursion detected',
-		7 /*PHP_JSON_ERROR_INF_OR_NAN*/ => 'Inf and NaN cannot be JSON encoded',
-		8 /*PHP_JSON_ERROR_UNSUPPORTED_TYPE*/ => 'Type is not supported',
+		6 /*JSON_ERROR_RECURSION*/ => 'Recursion detected',
+		7 /*JSON_ERROR_INF_OR_NAN*/ => 'Inf and NaN cannot be JSON encoded',
+		8 /*JSON_ERROR_UNSUPPORTED_TYPE*/ => 'Type is not supported',
 	);
 
 

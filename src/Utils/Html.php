@@ -155,7 +155,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/**
 	 * Overloaded tester for element's attribute.
 	 * @param  string    HTML attribute name
-	 * @return void
+	 * @return bool
 	 */
 	final public function __isset($name)
 	{
