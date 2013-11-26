@@ -54,10 +54,6 @@ final class Json
 	 */
 	public static function encode($value, $options = 0)
 	{
-		$args = array($value);
-		if (PHP_VERSION_ID >= 50400) {
-			$args[] = JSON_UNESCAPED_UNICODE | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0);
-		}
 		if (function_exists('ini_set')) { // workaround for PHP bugs #52397, #54109, #63004
 			$old = ini_set('display_errors', 0); // needed to receive 'Invalid UTF-8 sequence' error
 		}
@@ -65,7 +61,10 @@ final class Json
 			restore_error_handler();
 			throw new JsonException($message);
 		});
-		$json = call_user_func_array('json_encode', $args);
+		$json = json_encode(
+			$value,
+			PHP_VERSION_ID >= 50400 ? (JSON_UNESCAPED_UNICODE | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)) : 0
+		);
 		restore_error_handler();
 		if (isset($old)) {
 			ini_set('display_errors', $old);
