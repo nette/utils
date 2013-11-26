@@ -174,9 +174,9 @@ test(function() {
 	Assert::false( Validators::is('hello@localhost.0a', 'email') );
 	Assert::true( Validators::is('hello@l.org', 'email') );
 	Assert::true( Validators::is('hello@1.org', 'email') );
-	Assert::false( Validators::is('jean.françois@lyotard.fr', 'email') );
-	Assert::true( Validators::is('jerzy@kosiñski.pl', 'email') );
-	Assert::false( Validators::is('péter@esterházy.hu', 'email') );
+	Assert::false( Validators::is('jean.franÃ§ois@lyotard.fr', 'email') );
+	Assert::true( Validators::is('jerzy@kosiÅ„ski.pl', 'email') );
+	Assert::false( Validators::is('pÃ©ter@esterhÃ¡zy.hu', 'email') );
 	Assert::true( Validators::is('hello@1.c0m', 'email') );
 	Assert::true( Validators::is('hello@1.c', 'email') );
 });

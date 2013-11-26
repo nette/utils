@@ -20,7 +20,7 @@ require __DIR__ . '/../bootstrap.php';
 class TestClass extends Nette\Object
 {
 	protected $items = array();
-	
+
 	public function abc()
 	{
 		parent::abc();
