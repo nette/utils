@@ -7,7 +7,8 @@
  * @package    Nette\Iterators
  */
 
-use Nette\Iterators;
+use Nette\Iterators,
+	Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

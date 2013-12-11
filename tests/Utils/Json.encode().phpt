@@ -7,7 +7,8 @@
  * @package    Nette\Utils
  */
 
-use Nette\Utils\Json;
+use Nette\Utils\Json,
+	Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

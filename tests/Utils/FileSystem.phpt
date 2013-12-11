@@ -7,7 +7,8 @@
  * @package    Nette\Utils
  */
 
-use Nette\Utils\FileSystem;
+use Nette\Utils\FileSystem,
+	Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

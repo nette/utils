@@ -9,7 +9,9 @@
 
 namespace Test;
 
-use Assert, Nette, stdClass;
+use Nette,
+	stdClass,
+	Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

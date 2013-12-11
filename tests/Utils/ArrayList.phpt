@@ -7,7 +7,8 @@
  * @package    Nette
  */
 
-use Nette\ArrayList;
+use Nette\ArrayList,
+	Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
