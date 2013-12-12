@@ -54,7 +54,8 @@ class DateTime extends \DateTime
 			if ($time <= self::YEAR) {
 				$time += time();
 			}
-			return new static(date('Y-m-d H:i:s', $time));
+			$tmp = new static('@' . $time);
+			return $tmp->setTimeZone(new \DateTimeZone(date_default_timezone_get()));
 
 		} else { // textual or NULL
 			return new static($time);
@@ -72,6 +73,21 @@ class DateTime extends \DateTime
 	{
 		$dolly = clone $this;
 		return $modify ? $dolly->modify($modify) : $dolly;
+	}
+
+
+	public function setTimestamp($timestamp)
+	{
+		$zone = $this->getTimezone();
+		$this->__construct('@' . $timestamp);
+		return $this->setTimeZone($zone);
+	}
+
+
+	public function getTimestamp()
+	{
+		$ts = $this->format('U');
+		return is_float($tmp = $ts * 1) ? $ts : $tmp;
 	}
 
 }
