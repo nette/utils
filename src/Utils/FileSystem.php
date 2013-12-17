@@ -61,7 +61,7 @@ final class FileSystem
 
 		} else {
 			static::createDir(dirname($dest));
-			if (!@copy($source, $dest)) {
+			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === FALSE) {
 				throw new Nette\IOException("Unable to copy file '$source' to '$dest'.");
 			}
 		}
