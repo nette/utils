@@ -19,7 +19,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-final class Json
+class Json
 {
 	const FORCE_ARRAY = 1;
 	const PRETTY = 2;

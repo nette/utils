@@ -19,7 +19,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-final class ObjectMixin
+class ObjectMixin
 {
 	/** @var array (name => 0 | bool | array)  used by getMethods() */
 	private static $methods;

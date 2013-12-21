@@ -17,7 +17,7 @@ use Nette;
 /**
  * @deprecated
  */
-final class Callback extends Object
+class Callback extends Object
 {
 	/** @var callable */
 	private $cb;

@@ -19,7 +19,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-final class Callback
+class Callback
 {
 
 	/**
