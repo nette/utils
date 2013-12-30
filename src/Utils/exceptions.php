@@ -119,19 +119,3 @@ class UnexpectedValueException extends \UnexpectedValueException
 class StaticClassException extends \LogicException
 {
 }
-
-
-/**
- * The exception that indicates errors that can not be recovered from. Execution of
- * the script should be halted.
- */
-class FatalErrorException extends \ErrorException
-{
-
-	public function __construct($message, $code, $severity, $file, $line, $context, \Exception $previous = NULL)
-	{
-		parent::__construct($message, $code, $severity, $file, $line, $previous);
-		$this->context = $context;
-	}
-
-}
