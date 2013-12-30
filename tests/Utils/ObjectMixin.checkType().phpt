@@ -4,7 +4,6 @@
  * Test: Nette\ObjectMixin::checkType()
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Nette\ObjectMixin,

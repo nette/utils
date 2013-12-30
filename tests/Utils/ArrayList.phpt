@@ -4,7 +4,6 @@
  * Test: Nette\ArrayList basic usage.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Nette\ArrayList,

@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Validators::is()
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Validators,

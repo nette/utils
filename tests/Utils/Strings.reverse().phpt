@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Strings::reverse()
  *
  * @author     bojovyletoun
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Strings,

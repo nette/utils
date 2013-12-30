@@ -4,7 +4,6 @@
  * Test: Nette\Iterators\Mapper
  *
  * @author     Matěj Koubík
- * @package    Nette\Iterators
  */
 
 use Nette\Iterators,

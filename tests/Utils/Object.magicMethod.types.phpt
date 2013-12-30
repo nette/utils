@@ -4,7 +4,6 @@
  * Test: Nette\Object magic @methods and types.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 namespace Test;

@@ -4,7 +4,6 @@
  * Test: Nette\DateTime test.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Tester\Assert;

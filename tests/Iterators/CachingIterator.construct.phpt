@@ -4,7 +4,6 @@
  * Test: Nette\Iterators\CachingIterator constructor.
  *
  * @author     David Grudl
- * @package    Nette\Iterators
  */
 
 use Nette\Iterators,

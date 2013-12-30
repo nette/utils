@@ -4,7 +4,6 @@
  * Test: Nette\Callback tests.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Nette\Callback,

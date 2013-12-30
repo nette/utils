@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Arrays::grep() errors.
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Arrays,

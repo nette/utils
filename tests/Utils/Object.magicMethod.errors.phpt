@@ -4,7 +4,6 @@
  * Test: Nette\Object magic @methods errors.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Tester\Assert;

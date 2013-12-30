@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Html basic usage.
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Html,

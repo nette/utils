@@ -4,7 +4,6 @@
  * Test: Nette\Utils\FileSystem basic usage.
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\FileSystem,

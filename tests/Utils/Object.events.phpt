@@ -4,7 +4,6 @@
  * Test: Nette\Object event handlers.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Tester\Assert;

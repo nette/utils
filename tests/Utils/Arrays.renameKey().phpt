@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Arrays::renameKey()
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Arrays,

@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Arrays::getRef()
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Arrays,

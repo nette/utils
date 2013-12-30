@@ -4,7 +4,6 @@
  * Test: Nette\Object properties.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Tester\Assert;

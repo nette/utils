@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Strings::compare()
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Strings,

@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Html user data attribute.
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Html,

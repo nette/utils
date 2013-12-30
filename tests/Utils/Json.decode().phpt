@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Json::decode()
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Json,

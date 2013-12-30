@@ -4,7 +4,6 @@
  * Test: Nette\Object magic @methods inheritance.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Tester\Assert;

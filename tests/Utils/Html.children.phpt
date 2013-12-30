@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Html children usage.
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Html,

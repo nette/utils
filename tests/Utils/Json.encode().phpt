@@ -4,7 +4,6 @@
  * Test: Nette\Utils\Json::encode()
  *
  * @author     David Grudl
- * @package    Nette\Utils
  */
 
 use Nette\Utils\Json,

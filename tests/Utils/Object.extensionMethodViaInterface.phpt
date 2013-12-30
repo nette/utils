@@ -4,7 +4,6 @@
  * Test: Nette\Object extension method via interface.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Nette\Object,

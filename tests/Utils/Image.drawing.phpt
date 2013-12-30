@@ -4,7 +4,6 @@
  * Test: Nette\Image drawing.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Nette\Image,

@@ -4,7 +4,6 @@
  * Test: Nette\Object reference to property.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Tester\Assert;

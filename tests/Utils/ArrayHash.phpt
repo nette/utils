@@ -4,7 +4,6 @@
  * Test: Nette\ArrayHash basic usage.
  *
  * @author     David Grudl
- * @package    Nette
  */
 
 use Nette\ArrayHash,
