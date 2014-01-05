@@ -621,6 +621,14 @@ class Image extends Object
 		return parent::__call($name, $args);
 	}
 
+
+	public function __clone()
+	{
+		ob_start();
+		imagegd2($this->getImageResource());
+		$this->setImageResource(imagecreatefromstring(ob_get_clean()));
+	}
+
 }
 
 
