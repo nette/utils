@@ -67,10 +67,7 @@ class ObjectMixin
 
 		} elseif (isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
 			list($op, $rp, $type) = $methods[$name];
-			if (!$rp) {
-				throw new MemberAccessException("Magic method $class::$name() has not corresponding property $$op.");
-
-			} elseif (count($args) !== ($op === 'get' ? 0 : 1)) {
+			if (count($args) !== ($op === 'get' ? 0 : 1)) {
 				throw new InvalidArgumentException("$class::$name() expects " . ($op === 'get' ? 'no' : '1') . ' argument, ' . count($args) . ' given.');
 
 			} elseif ($type && $args && !self::checkType($args[0], $type)) {
@@ -286,8 +283,6 @@ class ObjectMixin
 					$type = $rc->getNamespaceName() . '\\' . $type;
 				}
 				$methods[$name] = array($op, $rp, $type);
-			} else {
-				$methods[$name] = array($prop, NULL, NULL);
 			}
 		}
 		return $methods;

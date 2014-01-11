@@ -39,9 +39,9 @@ Assert::same( 'hello', $obj->getA() );
 
 Assert::exception(function() use ($obj) {
 	$obj->setC(123);
-}, 'Nette\MemberAccessException', 'Magic method ChildClass::setC() has not corresponding property $c.');
+}, 'Nette\MemberAccessException', 'Call to undefined method ChildClass::setC().');
 
 
 Assert::exception(function() use ($obj) {
 	$obj->setB(123);
-}, 'Nette\MemberAccessException', 'Magic method ChildClass::setB() has not corresponding property $b.');
+}, 'Nette\MemberAccessException', 'Call to undefined method ChildClass::setB().');
