@@ -65,7 +65,7 @@ class ObjectMixin
 				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
 			}
 
-		} elseif (isset($methods[$name]) && $methods[$name] !== 0) { // magic @methods
+		} elseif (isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
 			list($op, $rp, $type) = $methods[$name];
 			if (!$rp) {
 				throw new MemberAccessException("Magic method $class::$name() has not corresponding property $$op.");

@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 /**
  * @method setA
  * @method getA
- * @method getC
+ * @method setC
  * @method getC
  */
 class ParentClass extends Nette\Object
@@ -32,21 +32,16 @@ class ChildClass extends ParentClass
 	public $c;
 }
 
-$parent = new ParentClass;
+$obj = new ChildClass;
 
-$parent->setA('hello');
-Assert::same( 'hello', $parent->getA() );
+$obj->setA('hello');
+Assert::same( 'hello', $obj->getA() );
 
-Assert::exception(function() use ($parent) {
-	$parent->setC(123);
-}, 'Nette\MemberAccessException', 'Call to undefined method ParentClass::setC().');
+Assert::exception(function() use ($obj) {
+	$obj->setC(123);
+}, 'Nette\MemberAccessException', 'Magic method ChildClass::setC() has not corresponding property $c.');
 
 
-$child = new ChildClass;
-
-$child->setA('hello');
-Assert::same( 'hello', $child->getA() );
-
-Assert::exception(function() use ($child) {
-	$child->setB(123);
+Assert::exception(function() use ($obj) {
+	$obj->setB(123);
 }, 'Nette\MemberAccessException', 'Magic method ChildClass::setB() has not corresponding property $b.');
