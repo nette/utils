@@ -409,9 +409,16 @@ class Strings
 		}, $charlist));
 		$chLen = strlen($charlist);
 
-		static $rand3;
-		if (!$rand3) {
-			$rand3 = md5(serialize($_SERVER), TRUE);
+		if (function_exists('openssl_random_pseudo_bytes') && (PHP_VERSION_ID >= 50400 || DIRECTORY_SEPARATOR === '/')) {
+			$rand3 = openssl_random_pseudo_bytes($length);
+		} elseif (function_exists('mcrypt_create_iv')) {
+			$rand3 = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
+		} elseif (@is_readable('/dev/urandom')) {
+			$rand3 = file_get_contents('/dev/urandom', FALSE, NULL, -1, $length);
+		}
+		if (empty($rand3)) {
+			static $cache;
+			$rand3 = $cache ?: $cache = md5(serialize($_SERVER), TRUE);
 		}
 
 		$s = '';
