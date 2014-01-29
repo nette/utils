@@ -32,7 +32,7 @@ class Random
 		$chLen = strlen($charlist);
 
 		if (function_exists('openssl_random_pseudo_bytes')
-			&& (PHP_VERSION_ID >= 50400 || !defined('PHP_WINDOWS_VERSION_BUILD')) // slow in PHP 5.3 & Window
+			&& (PHP_VERSION_ID >= 50400 || !defined('PHP_WINDOWS_VERSION_BUILD')) // slow in PHP 5.3 & Windows
 		) {
 			$rand3 = openssl_random_pseudo_bytes($length);
 		}
