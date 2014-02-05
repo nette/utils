@@ -172,4 +172,56 @@ class Arrays
 		return is_array($value) && (!$value || array_keys($value) === range(0, count($value) - 1));
 	}
 
+
+	/**
+	 * Reformats table to associative tree. Path looks like 'field|field[]field->field=field'.
+	 * @return array|stdClass
+	 */
+	public static function associate(array $arr, $path)
+	{
+		$parts = is_array($path)
+			? $path
+			: preg_split('#(\[\]|->|=|\|)#', $path, NULL, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+		if (!$parts || $parts[0] === '=' || $parts[0] === '|' || $parts === array('->')) {
+			throw new Nette\InvalidArgumentException("Invalid path '$path'.");
+		}
+
+		$res = $parts[0] === '->' ? new \stdClass : array();
+
+		foreach ($arr as $rowOrig) {
+			$row = (array) $rowOrig;
+			$x = & $res;
+
+			for ($i = 0; $i < count($parts); $i++) {
+				$part = $parts[$i];
+				if ($part === '[]') {
+					$x = & $x[];
+
+				} elseif ($part === '=') {
+					if (isset($parts[++$i])) {
+						$x = $row[$parts[$i]];
+						$row = NULL;
+					}
+
+				} elseif ($part === '->') {
+					if (isset($parts[++$i])) {
+						$x = & $x->{$row[$parts[$i]]};
+					} else {
+						$row = is_object($rowOrig) ? $rowOrig : (object) $row;
+					}
+
+				} elseif ($part !== '|') {
+					$x = & $x[(string) $row[$part]];
+				}
+			}
+
+			if ($x === NULL) {
+				$x = $row;
+			}
+		}
+
+		return $res;
+	}
+
 }
