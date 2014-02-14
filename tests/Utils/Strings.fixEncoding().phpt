@@ -36,8 +36,10 @@ for ($i = 0xD800; $i <= 0xDFFF; $i++) {
 }
 
 // out of range
-for ($i = 0x110000; $i < 0x200000; $i+=0x99) {
-	Assert::same( "ab", Strings::fixEncoding("a" . utfChar($i) . "b") );
+if (PHP_VERSION_ID > 50303) {
+	for ($i = 0x110000; $i < 0x200000; $i+=0x99) {
+		Assert::same( "ab", Strings::fixEncoding("a" . utfChar($i) . "b") );
+	}
 }
 
 /* // noncharacters
