@@ -311,7 +311,7 @@ class Image extends Object
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
 			$newImage = static::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
 			imagecopyresampled(
-				$newImage, $this->getImageResource(),
+				$newImage, $this->image,
 				0, 0, 0, 0,
 				$newWidth, $newHeight, $this->getWidth(), $this->getHeight()
 			);
@@ -321,7 +321,7 @@ class Image extends Object
 		if ($width < 0 || $height < 0) { // flip is processed in two steps for better quality
 			$newImage = static::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
 			imagecopyresampled(
-				$newImage, $this->getImageResource(),
+				$newImage, $this->image,
 				0, 0, $width < 0 ? $newWidth - 1 : 0, $height < 0 ? $newHeight - 1 : 0,
 				$newWidth, $newHeight, $width < 0 ? -$newWidth : $newWidth, $height < 0 ? -$newHeight : $newHeight
 			);
@@ -409,7 +409,7 @@ class Image extends Object
 	{
 		list($left, $top, $width, $height) = static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
 		$newImage = static::fromBlank($width, $height, self::RGB(0, 0, 0, 127))->getImageResource();
-		imagecopy($newImage, $this->getImageResource(), 0, 0, $left, $top, $width, $height);
+		imagecopy($newImage, $this->image, 0, 0, $left, $top, $width, $height);
 		$this->image = $newImage;
 		return $this;
 	}
@@ -457,7 +457,7 @@ class Image extends Object
 	 */
 	public function sharpen()
 	{
-		imageconvolution($this->getImageResource(), array( // my magic numbers ;)
+		imageconvolution($this->image, array( // my magic numbers ;)
 			array( -1, -1, -1 ),
 			array( -1, 24, -1 ),
 			array( -1, -1, -1 ),
@@ -488,13 +488,13 @@ class Image extends Object
 
 		if ($opacity === 100) {
 			imagecopy(
-				$this->getImageResource(), $image->getImageResource(),
+				$this->image, $image->getImageResource(),
 				$left, $top, 0, 0, $image->getWidth(), $image->getHeight()
 			);
 
 		} elseif ($opacity <> 0) {
 			imagecopymerge(
-				$this->getImageResource(), $image->getImageResource(),
+				$this->image, $image->getImageResource(),
 				$left, $top, 0, 0, $image->getWidth(), $image->getHeight(),
 				$opacity
 			);
@@ -529,14 +529,14 @@ class Image extends Object
 		switch ($type) {
 			case self::JPEG:
 				$quality = $quality === NULL ? 85 : max(0, min(100, (int) $quality));
-				return imagejpeg($this->getImageResource(), $file, $quality);
+				return imagejpeg($this->image, $file, $quality);
 
 			case self::PNG:
 				$quality = $quality === NULL ? 9 : max(0, min(9, (int) $quality));
-				return imagepng($this->getImageResource(), $file, $quality);
+				return imagepng($this->image, $file, $quality);
 
 			case self::GIF:
-				return imagegif($this->getImageResource(), $file);
+				return imagegif($this->image, $file);
 
 			default:
 				throw new InvalidArgumentException("Unsupported image type.");
@@ -607,12 +607,12 @@ class Image extends Object
 
 				} elseif (is_array($value) && isset($value['red'])) { // rgb
 					$args[$key] = imagecolorallocatealpha(
-						$this->getImageResource(),
+						$this->image,
 						$value['red'], $value['green'], $value['blue'], $value['alpha']
 					);
 				}
 			}
-			array_unshift($args, $this->getImageResource());
+			array_unshift($args, $this->image);
 
 			$res = call_user_func_array($function, $args);
 			return is_resource($res) && get_resource_type($res) === 'gd' ? $this->setImageResource($res) : $res;
@@ -625,7 +625,7 @@ class Image extends Object
 	public function __clone()
 	{
 		ob_start();
-		imagegd2($this->getImageResource());
+		imagegd2($this->image);
 		$this->setImageResource(imagecreatefromstring(ob_get_clean()));
 	}
 
