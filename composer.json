@@ -1,0 +1,31 @@
+{
+	"name": "nette/utils",
+	"description": "Nette Utility Classes",
+	"homepage": "http://nette.org",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "http://davidgrudl.com"
+		},
+		{
+			"name": "Nette Community",
+			"homepage": "http://nette.org/contributors"
+		}
+	],
+	"require": {
+		"php": ">=5.3.1"
+	},
+	"require-dev": {
+		"nette/tester": "~1.0"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	},
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.2-dev"
+		}
+	}
+}
