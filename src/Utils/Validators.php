@@ -39,7 +39,7 @@ class Validators extends Nette\Object
 		'url' => array(__CLASS__, 'isUrl'),
 		'none' => array(__CLASS__, 'isNone'),
 		'type' => array(__CLASS__, 'isType'),
-		'identifier' => array('Nette\PhpGenerator\Helpers', 'isIdentifier'),
+		'identifier' => array(__CLASS__, 'isPhpIdentifier'),
 		'pattern' => NULL,
 		'alnum' => 'ctype_alnum',
 		'alpha' => 'ctype_alpha',
@@ -260,13 +260,23 @@ class Validators extends Nette\Object
 
 
 	/**
-	 * Checks whether the input is a class, interface or trait
+	 * Checks whether the input is a class, interface or trait.
 	 * @param  string
 	 * @return bool
 	 */
 	public static function isType($type)
 	{
 		return class_exists($type) || interface_exists($type) || (PHP_VERSION_ID >= 50400 && trait_exists($type));
+	}
+
+
+	/**
+	 * Checks whether the input is a valid PHP identifier.
+	 * @return bool
+	 */
+	public static function isPhpIdentifier($value)
+	{
+		return is_string($value) && preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\z#', $value);
 	}
 
 }
