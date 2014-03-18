@@ -36,3 +36,10 @@ if (PHP_VERSION_ID >= 50400) {
 	// JSON_PRETTY_PRINT
 	Assert::same( "[\n    1,\n    2,\n    3\n]", Json::encode(array(1,2,3,), Json::PRETTY) );
 }
+
+
+if (PHP_VERSION_ID >= 50500) {
+	Assert::exception(function() {
+		Json::encode(NAN);
+	}, 'Nette\Utils\JsonException', 'Inf and NaN cannot be JSON encoded');
+}
