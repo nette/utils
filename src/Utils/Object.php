@@ -56,11 +56,12 @@ abstract class Object
 
 	/**
 	 * Access to reflection.
-	 * @return Nette\Reflection\ClassType
+	 * @return ReflectionClass
 	 */
 	public static function getReflection()
 	{
-		return new Reflection\ClassType(get_called_class());
+		$class = class_exists('Nette\Reflection\ClassType') ? 'Nette\Reflection\ClassType' : 'ReflectionClass';
+		return new $class(get_called_class());
 	}
 
 

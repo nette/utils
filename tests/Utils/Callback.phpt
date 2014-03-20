@@ -26,6 +26,16 @@ class Test
 
 }
 
+function getName($ref)
+{
+	if ($ref instanceof ReflectionFunction) {
+		return $ref->getName();
+	} elseif ($ref instanceof ReflectionMethod) {
+		return $ref->getDeclaringClass()->getName() . '::' . $ref->getName();
+	}
+}
+
+
 test(function() {
 	Assert::same( 'undefined', Callback::unwrap(Callback::closure('undefined')) );
 	Assert::same( 'undefined', Callback::toString('undefined') );
@@ -35,32 +45,32 @@ test(function() {
 
 	Assert::same( 'trim', Callback::unwrap(Callback::closure('trim')) );
 	Assert::same( 'trim', Callback::toString('trim') );
-	Assert::same( 'trim()', (string) Callback::toReflection('trim') );
+	Assert::same( 'trim', getName(Callback::toReflection('trim')) );
 
 	Assert::same( array('Test', 'add'), Callback::unwrap(Callback::closure('Test', 'add')) );
 	Assert::same( 'Test::add', Callback::toString(array('Test', 'add')) );
-	Assert::same( 'Test::add()', (string) Callback::toReflection(array('Test', 'add')) );
+	Assert::same( 'Test::add', getName(Callback::toReflection(array('Test', 'add'))) );
 
 	Assert::same( 'Test::add', Callback::unwrap(Callback::closure('Test::add')) );
 	Assert::same( 'Test::add', Callback::toString('Test::add') );
-	Assert::same( 'Test::add()', (string) Callback::toReflection('Test::add') );
+	Assert::same( 'Test::add', getName(Callback::toReflection('Test::add')) );
 
 	$test = new Test;
 	Assert::same( array($test, 'add'), Callback::unwrap(Callback::closure($test, 'add')) );
 	Assert::same( 'Test::add', Callback::toString(array($test, 'add')) );
-	Assert::same( 'Test::add()', (string) Callback::toReflection(array($test, 'add')) );
+	Assert::same( 'Test::add', getName(Callback::toReflection(array($test, 'add'))) );
 
 	Assert::same( $test, Callback::unwrap(Callback::closure($test)) );
 	Assert::same( 'Test::__invoke', Callback::toString($test) );
-	Assert::same( 'Test::__invoke()', (string) Callback::toReflection($test) );
+	Assert::same( 'Test::__invoke', getName(Callback::toReflection($test)) );
 
 	$closure = function() {};
 	Assert::same( $closure, Callback::closure($closure) );
 	Assert::same( '{closure}', Callback::toString($closure) );
-	Assert::same( '{closure}()', (string) Callback::toReflection($closure) );
+	Assert::same( '{closure}', getName(Callback::toReflection($closure)) );
 
 	Assert::same( '{closure Test::add}', Callback::toString(Callback::closure($test, 'add')) );
-	Assert::same( 'Test::add()', (string) Callback::toReflection(Callback::closure($test, 'add')) );
+	Assert::same( 'Test::add', getName(Callback::toReflection(Callback::closure($test, 'add'))) );
 });
 
 

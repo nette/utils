@@ -118,14 +118,16 @@ class Callback extends Object
 	 */
 	public function toReflection()
 	{
+		$class = class_exists('Nette\Reflection\Method') ? 'Nette\Reflection\Method' : 'ReflectionMethod';
 		if (is_string($this->cb) && strpos($this->cb, '::')) {
-			return new Nette\Reflection\Method($this->cb);
+			return new $class($this->cb);
 		} elseif (is_array($this->cb)) {
-			return new Nette\Reflection\Method($this->cb[0], $this->cb[1]);
+			return new $class($this->cb[0], $this->cb[1]);
 		} elseif (is_object($this->cb) && !$this->cb instanceof \Closure) {
-			return new Nette\Reflection\Method($this->cb, '__invoke');
+			return new $class($this->cb, '__invoke');
 		} else {
-			return new Nette\Reflection\GlobalFunction($this->cb);
+			$class = class_exists('Nette\Reflection\GlobalFunction') ? 'Nette\Reflection\GlobalFunction' : 'ReflectionFunction';
+			return new $class($this->cb);
 		}
 	}
 

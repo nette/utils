@@ -107,14 +107,16 @@ class Callback
 			$callable = $callable->getNative();
 		}
 
+		$class = class_exists('Nette\Reflection\Method') ? 'Nette\Reflection\Method' : 'ReflectionMethod';
 		if (is_string($callable) && strpos($callable, '::')) {
-			return new Nette\Reflection\Method($callable);
+			return new $class($callable);
 		} elseif (is_array($callable)) {
-			return new Nette\Reflection\Method($callable[0], $callable[1]);
+			return new $class($callable[0], $callable[1]);
 		} elseif (is_object($callable) && !$callable instanceof \Closure) {
-			return new Nette\Reflection\Method($callable, '__invoke');
+			return new $class($callable, '__invoke');
 		} else {
-			return new Nette\Reflection\GlobalFunction($callable);
+			$class = class_exists('Nette\Reflection\GlobalFunction') ? 'Nette\Reflection\GlobalFunction' : 'ReflectionFunction';
+			return new $class($callable);
 		}
 	}
 
