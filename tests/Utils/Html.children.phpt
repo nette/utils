@@ -53,19 +53,4 @@ test(function() { // ==> Iterator:
 	Assert::same( 2, count($el) );
 	Assert::same( "optgroup", $el[0]->getName() );
 	Assert::same( "option", $el[1]->getName() );
-
-
-	// ==> Deep iterator:
-	foreach ($el->getIterator(TRUE) as $name => $child) {
-		$tmp[] = $child instanceof Html ? $child->getName() : "'$child'";
-	}
-	Assert::same( array(
-		"optgroup",
-		"option",
-		"'sub one'",
-		"option",
-		"'sub two'",
-		"option",
-		"'Item'",
-	), $tmp );
 });

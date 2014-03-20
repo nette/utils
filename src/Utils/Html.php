@@ -407,19 +407,14 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Iterates over a elements.
-	 * @param  bool    recursive?
-	 * @param  string  class types filter
-	 * @return \RecursiveIterator
+	 * @return \ArrayIterator
 	 */
-	public function getIterator($deep = FALSE)
+	public function getIterator()
 	{
-		if ($deep) {
-			$deep = $deep > 0 ? \RecursiveIteratorIterator::SELF_FIRST : \RecursiveIteratorIterator::CHILD_FIRST;
-			return new \RecursiveIteratorIterator(new Nette\Iterators\Recursor(new \ArrayIterator($this->children)), $deep);
-
-		} else {
-			return new Nette\Iterators\Recursor(new \ArrayIterator($this->children));
+		if (func_num_args() && func_get_arg(0)) {
+			throw new Nette\DeprecatedException(__METHOD__ . " doesn't support deep iterator any more.");
 		}
+		return new \ArrayIterator($this->children);
 	}
 
 
