@@ -41,6 +41,11 @@ Assert::exception(function() {
 }, 'Nette\Utils\JsonException', 'Invalid UTF-8 sequence');
 
 
+Assert::exception(function() {
+	Json::decode('"\uD811\uD811"');
+}, 'Nette\Utils\JsonException');
+
+
 // default JSON_BIGINT_AS_STRING
 if (PHP_VERSION_ID >= 50400) {
 	if (defined('JSON_C_VERSION')) {
