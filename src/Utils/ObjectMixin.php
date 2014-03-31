@@ -5,9 +5,10 @@
  * Copyright (c) 2004 David Grudl (http://davidgrudl.com)
  */
 
-namespace Nette;
+namespace Nette\Utils;
 
-use Nette;
+use Nette,
+	Nette\MemberAccessException;
 
 
 /**
@@ -32,7 +33,7 @@ class ObjectMixin
 	 */
 	final public function __construct()
 	{
-		throw new StaticClassException;
+		throw new Nette\StaticClassException;
 	}
 
 
@@ -59,19 +60,19 @@ class ObjectMixin
 		} elseif ($isProp === 'event') { // calling event handlers
 			if (is_array($_this->$name) || $_this->$name instanceof \Traversable) {
 				foreach ($_this->$name as $handler) {
-					Nette\Utils\Callback::invokeArgs($handler, $args);
+					Callback::invokeArgs($handler, $args);
 				}
 			} elseif ($_this->$name !== NULL) {
-				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
+				throw new Nette\UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
 			}
 
 		} elseif (isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
 			list($op, $rp, $type) = $methods[$name];
 			if (count($args) !== ($op === 'get' ? 0 : 1)) {
-				throw new InvalidArgumentException("$class::$name() expects " . ($op === 'get' ? 'no' : '1') . ' argument, ' . count($args) . ' given.');
+				throw new Nette\InvalidArgumentException("$class::$name() expects " . ($op === 'get' ? 'no' : '1') . ' argument, ' . count($args) . ' given.');
 
 			} elseif ($type && $args && !self::checkType($args[0], $type)) {
-				throw new InvalidArgumentException("Argument passed to $class::$name() must be $type, " . gettype($args[0]) . ' given.');
+				throw new Nette\InvalidArgumentException("Argument passed to $class::$name() must be $type, " . gettype($args[0]) . ' given.');
 			}
 
 			if ($op === 'get') {
@@ -87,7 +88,7 @@ class ObjectMixin
 
 		} elseif ($cb = self::getExtensionMethod($class, $name)) { // extension methods
 			array_unshift($args, $_this);
-			return Nette\Utils\Callback::invokeArgs($cb, $args);
+			return Callback::invokeArgs($cb, $args);
 
 		} else {
 			if (method_exists($class, $name)) { // called parent::$name()

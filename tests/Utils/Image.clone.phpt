@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Test: Nette\Image cloning.
+ * Test: Nette\Utils\Image cloning.
  *
  * @author     MzK Olda Salek
  */
 
-use Nette\Image,
+use Nette\Utils\Image,
 	Tester\Assert;
 
 

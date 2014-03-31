@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Test: Nette\ArrayList basic usage.
+ * Test: Nette\Utils\ArrayList basic usage.
  *
  * @author     David Grudl
  */
 
-use Nette\ArrayList,
+use Nette\Utils\ArrayList,
 	Tester\Assert;
 
 

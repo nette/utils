@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Test: Nette\Image alpha channel.
+ * Test: Nette\Utils\Image alpha channel.
  *
  * @author     David Grudl
  */
 
-use Nette\Image,
+use Nette\Utils\Image,
 	Tester\Assert;
 
 

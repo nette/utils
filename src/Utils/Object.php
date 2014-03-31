@@ -7,7 +7,8 @@
 
 namespace Nette;
 
-use Nette;
+use Nette,
+	Nette\Utils\ObjectMixin;
 
 
 /**

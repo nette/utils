@@ -7,7 +7,7 @@
  */
 
 use Nette\Utils\Arrays,
-	Nette\DateTime,
+	Nette\Utils\DateTime,
 	Tester\Assert;
 
 

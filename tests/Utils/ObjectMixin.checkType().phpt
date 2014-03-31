@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Test: Nette\ObjectMixin::checkType()
+ * Test: Nette\Utils\ObjectMixin::checkType()
  *
  * @author     David Grudl
  */
 
-use Nette\ObjectMixin,
+use Nette\Utils\ObjectMixin,
 	Tester\Assert;
 
 

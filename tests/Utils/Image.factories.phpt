@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Test: Nette\Image factories.
+ * Test: Nette\Utils\Image factories.
  *
  * @author     David Grudl
  */
 
-use Nette\Image,
+use Nette\Utils\Image,
 	Tester\Assert;
 
 

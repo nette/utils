@@ -5,7 +5,7 @@
  * Copyright (c) 2004 David Grudl (http://davidgrudl.com)
  */
 
-namespace Nette;
+namespace Nette\Utils;
 
 use Nette;
 
@@ -95,7 +95,7 @@ use Nette;
  * @property-read int $height
  * @property-read resource $imageResource
  */
-class Image extends Object
+class Image extends Nette\Object
 {
 	/** {@link resize()} only shrinks images */
 	const SHRINK_ONLY = 1;
@@ -154,7 +154,7 @@ class Image extends Object
 	public static function fromFile($file, & $format = NULL)
 	{
 		if (!extension_loaded('gd')) {
-			throw new NotSupportedException("PHP extension GD is not loaded.");
+			throw new Nette\NotSupportedException("PHP extension GD is not loaded.");
 		}
 
 		$info = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
@@ -197,7 +197,7 @@ class Image extends Object
 	public static function fromString($s, & $format = NULL)
 	{
 		if (!extension_loaded('gd')) {
-			throw new NotSupportedException("PHP extension GD is not loaded.");
+			throw new Nette\NotSupportedException("PHP extension GD is not loaded.");
 		}
 
 		$format = static::getFormatFromString($s);
@@ -216,13 +216,13 @@ class Image extends Object
 	public static function fromBlank($width, $height, $color = NULL)
 	{
 		if (!extension_loaded('gd')) {
-			throw new NotSupportedException("PHP extension GD is not loaded.");
+			throw new Nette\NotSupportedException("PHP extension GD is not loaded.");
 		}
 
 		$width = (int) $width;
 		$height = (int) $height;
 		if ($width < 1 || $height < 1) {
-			throw new InvalidArgumentException('Image width and height must be greater than zero.');
+			throw new Nette\InvalidArgumentException('Image width and height must be greater than zero.');
 		}
 
 		$image = imagecreatetruecolor($width, $height);
@@ -276,7 +276,7 @@ class Image extends Object
 	protected function setImageResource($image)
 	{
 		if (!is_resource($image) || get_resource_type($image) !== 'gd') {
-			throw new InvalidArgumentException('Image is not valid.');
+			throw new Nette\InvalidArgumentException('Image is not valid.');
 		}
 		$this->image = $image;
 		return $this;
@@ -358,7 +358,7 @@ class Image extends Object
 
 		if ($flags & self::STRETCH) { // non-proportional
 			if (empty($newWidth) || empty($newHeight)) {
-				throw new InvalidArgumentException('For stretching must be both width and height specified.');
+				throw new Nette\InvalidArgumentException('For stretching must be both width and height specified.');
 			}
 
 			if ($flags & self::SHRINK_ONLY) {
@@ -368,7 +368,7 @@ class Image extends Object
 
 		} else {  // proportional
 			if (empty($newWidth) && empty($newHeight)) {
-				throw new InvalidArgumentException('At least width or height must be specified.');
+				throw new Nette\InvalidArgumentException('At least width or height must be specified.');
 			}
 
 			$scale = array();
@@ -539,7 +539,7 @@ class Image extends Object
 				return imagegif($this->image, $file);
 
 			default:
-				throw new InvalidArgumentException("Unsupported image type.");
+				throw new Nette\InvalidArgumentException("Unsupported image type.");
 		}
 	}
 
@@ -584,7 +584,7 @@ class Image extends Object
 	public function send($type = self::JPEG, $quality = NULL)
 	{
 		if ($type !== self::GIF && $type !== self::PNG && $type !== self::JPEG) {
-			throw new InvalidArgumentException("Unsupported image type.");
+			throw new Nette\InvalidArgumentException("Unsupported image type.");
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
 		return $this->save(NULL, $quality, $type);

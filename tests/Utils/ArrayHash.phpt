@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Test: Nette\ArrayHash basic usage.
+ * Test: Nette\Utils\ArrayHash basic usage.
  *
  * @author     David Grudl
  */
 
-use Nette\ArrayHash,
+use Nette\Utils\ArrayHash,
 	Tester\Assert;
 
 
@@ -86,7 +86,7 @@ test(function() {
 			'c' => 'John',
 		),
 	), FALSE);
-	Assert::type( 'Nette\ArrayHash', $list );
+	Assert::type( 'Nette\Utils\ArrayHash', $list );
 	Assert::type( 'array', $list['children'] );
 });
 
@@ -100,10 +100,10 @@ test(function() {
 			'c' => 'John',
 		),
 	));
-	Assert::type( 'Nette\ArrayHash', $list );
+	Assert::type( 'Nette\Utils\ArrayHash', $list );
 	Assert::same( $mary, $list['m'] );
 	Assert::same( 'Jack', $list['j'] );
-	Assert::type( 'Nette\ArrayHash', $list['children'] );
+	Assert::type( 'Nette\Utils\ArrayHash', $list['children'] );
 	Assert::same( 'John', $list['children']['c'] );
 
 	$list['children']['c'] = 'Jim';

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Test: Nette\Image drawing.
+ * Test: Nette\Utils\Image drawing.
  *
  * @author     David Grudl
  */
 
-use Nette\Image,
+use Nette\Utils\Image,
 	Tester\Assert;
 
 
