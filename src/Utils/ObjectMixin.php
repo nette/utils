@@ -146,7 +146,7 @@ class ObjectMixin
 				$rm = new \ReflectionMethod($class, $name);
 				$val = $rm->getClosure($_this);
 			} else {
-				$val = Nette\Utils\Callback::closure($_this, $name);
+				$val = Callback::closure($_this, $name);
 			}
 			return $val;
 
@@ -366,7 +366,7 @@ class ObjectMixin
 	public static function setExtensionMethod($class, $name, $callback)
 	{
 		$name = strtolower($name);
-		self::$extMethods[$name][$class] = Nette\Utils\Callback::closure($callback);
+		self::$extMethods[$name][$class] = Callback::closure($callback);
 		self::$extMethods[$name][''] = NULL;
 	}
 
