@@ -64,7 +64,7 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	public function offsetSet($key, $value)
 	{
 		if (!is_scalar($key)) { // prevents NULL
-			throw new Nette\InvalidArgumentException("Key must be either a string or an integer, " . gettype($key) ." given.");
+			throw new Nette\InvalidArgumentException(sprintf('Key must be either a string or an integer, %s given.', gettype($key)));
 		}
 		$this->$key = $value;
 	}

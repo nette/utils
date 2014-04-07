@@ -47,7 +47,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 			}
 
 		} else {
-			throw new Nette\InvalidArgumentException("Invalid argument passed to foreach resp. " . __CLASS__ . "; array or Traversable expected, " . (is_object($iterator) ? get_class($iterator) : gettype($iterator)) ." given.");
+			throw new Nette\InvalidArgumentException(sprintf('Invalid argument passed to %s; array or Traversable expected, %s given.', __CLASS__, is_object($iterator) ? get_class($iterator) : gettype($iterator)));
 		}
 
 		parent::__construct($iterator, 0);

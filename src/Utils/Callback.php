@@ -70,7 +70,7 @@ class Callback
 		if (!is_callable($callable, $syntax)) {
 			throw new Nette\InvalidArgumentException($syntax
 				? 'Given value is not a callable type.'
-				: "Callback '" . self::toString($callable) . "' is not callable."
+				: sprintf("Callback '%s' is not callable.", self::toString($callable))
 			);
 		}
 		return $callable;

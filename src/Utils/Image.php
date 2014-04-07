@@ -156,7 +156,7 @@ class Image extends Nette\Object
 	public static function fromFile($file, & $format = NULL)
 	{
 		if (!extension_loaded('gd')) {
-			throw new Nette\NotSupportedException("PHP extension GD is not loaded.");
+			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
 		$info = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
@@ -199,7 +199,7 @@ class Image extends Nette\Object
 	public static function fromString($s, & $format = NULL)
 	{
 		if (!extension_loaded('gd')) {
-			throw new Nette\NotSupportedException("PHP extension GD is not loaded.");
+			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
 		$format = static::getFormatFromString($s);
@@ -218,7 +218,7 @@ class Image extends Nette\Object
 	public static function fromBlank($width, $height, $color = NULL)
 	{
 		if (!extension_loaded('gd')) {
-			throw new Nette\NotSupportedException("PHP extension GD is not loaded.");
+			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
 		$width = (int) $width;
@@ -541,7 +541,7 @@ class Image extends Nette\Object
 				return imagegif($this->image, $file);
 
 			default:
-				throw new Nette\InvalidArgumentException("Unsupported image type.");
+				throw new Nette\InvalidArgumentException('Unsupported image type.');
 		}
 	}
 
@@ -586,7 +586,7 @@ class Image extends Nette\Object
 	public function send($type = self::JPEG, $quality = NULL)
 	{
 		if ($type !== self::GIF && $type !== self::PNG && $type !== self::JPEG) {
-			throw new Nette\InvalidArgumentException("Unsupported image type.");
+			throw new Nette\InvalidArgumentException('Unsupported image type.');
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
 		return $this->save(NULL, $quality, $type);
