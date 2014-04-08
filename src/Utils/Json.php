@@ -85,9 +85,14 @@ class Json
 		if (!preg_match('##u', $json)) {
 			throw new JsonException('Invalid UTF-8 sequence', 5); // workaround for PHP < 5.3.3 & PECL JSON-C
 		}
-
-		$args = array($json, (bool) ($options & self::FORCE_ARRAY));
-		$args[] = 512;
+		$forceArray = (bool) ($options & self::FORCE_ARRAY);
+		if (!$forceArray) {
+			// workaround for json_decode fatal error when object key starts with \u0000
+			if (preg_match('#[^\\\\]"\\\\u0000(?:[^"\\\\]|\\\\.)*"\s*:#', $json)) {
+				throw new JsonException(static::$messages[JSON_ERROR_CTRL_CHAR]);
+			}
+		}
+		$args = array($json, $forceArray, 512);
 		if (PHP_VERSION_ID >= 50400 && !(defined('JSON_C_VERSION') && PHP_INT_SIZE > 4)) { // not implemented in PECL JSON-C 1.3.2 for 64bit systems
 			$args[] = JSON_BIGINT_AS_STRING;
 		}
