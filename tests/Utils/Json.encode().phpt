@@ -16,16 +16,18 @@ require __DIR__ . '/../bootstrap.php';
 Assert::same( '"ok"', Json::encode('ok') );
 
 
+// invalid UTF-8
 Assert::exception(function() {
 	Json::encode(array("bad utf\xFF"));
 }, 'Nette\Utils\JsonException', '%a?%Invalid UTF-8 sequence%a?%');
 
 
-Assert::exception(function() {
-	$arr = array('recursive');
-	$arr[] = & $arr;
-	Json::encode($arr);
-}, 'Nette\Utils\JsonException', '%a?%ecursion detected');
+// PHP bug #54058
+if (PHP_VERSION_ID >= 50306) {
+	Assert::exception(function() {
+		Json::encode(Json::encode(array("bad utf\xFF", "good utf")));
+	}, 'Nette\Utils\JsonException', '%a?%Invalid UTF-8 sequence%a?%');
+}
 
 
 if (PHP_VERSION_ID >= 50400) {
@@ -38,8 +40,27 @@ if (PHP_VERSION_ID >= 50400) {
 }
 
 
-if (PHP_VERSION_ID >= 50500) {
-	Assert::exception(function() {
-		Json::encode(NAN);
-	}, 'Nette\Utils\JsonException', 'Inf and NaN cannot be JSON encoded');
-}
+// NAN
+Assert::exception(function() {
+	Json::encode(NAN);
+}, 'Nette\Utils\JsonException', PHP_VERSION_ID >= 50500 ? 'Inf and NaN cannot be JSON encoded' : '%a% double NAN does not conform to the JSON spec, encoded as 0');
+
+
+// INF
+Assert::exception(function() {
+	Json::encode(INF);
+}, 'Nette\Utils\JsonException', PHP_VERSION_ID >= 50500 ? 'Inf and NaN cannot be JSON encoded' : '%a% double INF does not conform to the JSON spec, encoded as 0');
+
+
+// resource
+Assert::exception(function () {
+	Json::encode(stream_context_create());
+}, 'Nette\Utils\JsonException', PHP_VERSION_ID >= 50500 ? 'Type is not supported' : '%a% type is unsupported, encoded as null');
+
+
+// recursion
+Assert::exception(function() {
+	$arr = array('recursive');
+	$arr[] = & $arr;
+	Json::encode($arr);
+}, 'Nette\Utils\JsonException', PHP_VERSION_ID >= 50500 ? 'Recursion detected' : '%a% recursion detected');
