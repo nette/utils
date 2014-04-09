@@ -171,11 +171,13 @@ class HtmlDataset extends Nette\Object implements \ArrayAccess, \Countable, \Ite
 			return strtolower(substr($s, 0, 1)) . substr($s, 1);
 		}
 
-		$s = strtolower($s);
-		$s = preg_replace('#-(?=[a-z])#', ' ', $s);
-		$s = substr(ucwords('x' . $s), 1);
-		$s = str_replace(' ', '', $s);
-		return $s;
+		return preg_replace_callback(
+			'#-([a-z])#',
+			function ($m) {
+				return strtoupper($m[1]);
+			},
+			strtolower($s)
+		);
 	}
 
 }
