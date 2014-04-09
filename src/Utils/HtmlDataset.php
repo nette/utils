@@ -58,7 +58,11 @@ class HtmlDataset extends Nette\Object implements \ArrayAccess, \Countable, \Ite
 	 */
 	public function __set($name, $value)
 	{
-		$this->data[$this->dataKey($name)] = $value;
+		if ($value === NULL) {
+			unset($this->data[$this->dataKey($name)]);
+		} else {
+			$this->data[$this->dataKey($name)] = $value;
+		}
 	}
 
 

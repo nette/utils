@@ -29,7 +29,7 @@ test(function() {
 	$d->obj = $obj;
 
 	Assert::same( 'data-string="string" data-empty="" data-true="true" data-false="false" data-int="42" data-list="[1,2]" data-dict=\'{"a":"A","1":2}\' data-obj=\'{"a":"A","b":"B"}\'', (string) $d );
-	Assert::same( 9, count($d) );
+	Assert::same( 8, count($d) );
 	Assert::type( '\ArrayIterator', $d->getIterator() );
 });
 
