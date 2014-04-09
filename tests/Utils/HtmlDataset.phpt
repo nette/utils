@@ -13,51 +13,61 @@ use Nette\Utils\HtmlDataset,
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function() {
+test(function() { // standard usage
 	$d = new HtmlDataset;
-	$d['string'] = 'string';
-	$d['empty'] = '';
-	$d['null'] = null;
-	$d['true'] = true;
-	$d['false'] = false;
-	$d['int'] = 42;
-	$d->list = array(1, 2);
-	$d->dict = array('a' => 'A', 1 => 2);
-	$obj = new \stdClass;
-	$obj->a = 'A';
-	$obj->b = 'B';
-	$d->obj = $obj;
+	$d->camelCase = 'string';
+	$d->empty = '';
+	$d->null = null;
+	$d->true = true;
+	$d->false = false;
+	$d->int = 42;
+	$d->float = 4.2;
+	$d->list = array('one');
+	$d->list[] = 2;
+	$d->dict = array('a' => 'A');
+	$d->dict[] = 2;
+	$d->obj = new \stdClass;
+	$d->obj->c = 'C';
+	$d->obj->d = 2;
 
-	Assert::same( 'data-string="string" data-empty="" data-true="true" data-false="false" data-int="42" data-list="[1,2]" data-dict=\'{"a":"A","1":2}\' data-obj=\'{"a":"A","b":"B"}\'', (string) $d );
-	Assert::same( 8, count($d) );
+	Assert::false( isset($d->null) );
+	Assert::same( 'data-camel-case="string" data-empty="" data-true="true" data-false="false" data-int="42" data-float="4.2" data-list=\'["one",2]\' data-dict=\'{"a":"A","0":2}\' data-obj=\'{"c":"C","d":2}\'', (string) $d );
+	Assert::same( 9, count($d) );
 	Assert::type( '\ArrayIterator', $d->getIterator() );
+
+	$d->testAttr = 'test';
+	Assert::true( isset($d->testAttr) );
+	Assert::same( 'test', $d->testAttr );
+	unset($d->testAttr);
+	Assert::false( isset($d->testAttr) );
 });
 
 
-test(function() {
-	$d = new HtmlDataset(array('TestAttr' => false, 'testAttr' => true));
-	foreach (array('testAttr', 'test-attr', 'TestAttr', 'Test-Attr') as $name) {
-		Assert::true( isset($d->$name) );
-		Assert::true( $d->$name );
+test(function() { // backward compatibility: array access
+	$d = new HtmlDataset;
 
-		Assert::true( isset($d[$name]) );
-		Assert::true( $d[$name] );
-	}
+	$d['testAttr'] = 'test';
+	Assert::true( isset($d->testAttr) );
+	Assert::same( 'test', $d->testAttr );
+	Assert::true( isset($d['testAttr']) );
+	Assert::same( 'test', $d['testAttr'] );
 
-	Assert::false( isset($d->unknown) );
-	Assert::false( isset($d['unknown']) );
+	unset($d['testAttr']);
+	Assert::false( isset($d->testAttr) );
+	Assert::false( isset($d['testAttr']) );
 });
 
 
-test(function() {
-	$d = new HtmlDataset(array('a-b' => true, 'c-d' => true));
+test(function() { // backward compatibility: dash-separated names
+	$d = new HtmlDataset;
 
-	Assert::true( isset($d->aB) );
-	Assert::true( isset($d['cD']) );
+	$d['test-attr'] = 'test';
+	Assert::true( isset($d->testAttr) );
+	Assert::same( 'test', $d->testAttr );
+	Assert::true( isset($d['test-attr']) );
+	Assert::same( 'test', $d['test-attr'] );
 
-	unset($d->aB);
-	unset($d['cD']);
-
-	Assert::false( isset($d->aB) );
-	Assert::false( isset($d['cD']) );
+	unset($d['test-attr']);
+	Assert::false( isset($d->testAttr) );
+	Assert::false( isset($d['test-attr']) );
 });

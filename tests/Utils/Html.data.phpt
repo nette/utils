@@ -13,55 +13,49 @@ use Nette\Utils\Html,
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function() {
-	$el = Html::el('div');
-	$el->data = array('string' => 'string');
-	$el->data['empty'] = '';
-	$el->data['null'] = null;
-	$el->data['true'] = true;
-	$el->data['false'] = false;
-	$el->data['int'] = 42;
-	$el->data->list = array();
-	$el->data->list[] = 'one';
-	$el->{'data-list'}[] = 'two';
-	$el->data->dict = array('a' => 'A', 1 => 2);
-	$el->data->obj = new \stdClass;
-	$el->data->obj->a = 'A';
-	$el->data->obj->b = 'B';
+test(function() { // standard usage in combination with normal attributes
+	$el = Html::el('div', array('id' => 'id', 'data-will-be' => 'overwritten'));
+	$el->data = array('x' => 'x');
+	$el->data->testAttr = 'test';
 
-	Assert::same( '<div data-string="string" data-empty="" data-true="true" data-false="false" data-int="42" data-list=\'["one","two"]\' data-dict=\'{"a":"A","1":2}\' data-obj=\'{"a":"A","b":"B"}\'></div>', (string) $el );
-});
-
-
-test(function() { // direct
-	$el = Html::el('div');
-	$el->{'data-x'} = 'x';
-	$el->data['x'] = 'y';
-
-	Assert::same( '<div data-x="y"></div>', (string) $el );
+	Assert::type( 'Nette\Utils\HtmlDataset', $el->data );
+	Assert::same( 2, count($el->data) );
+	Assert::same( '<div id="id" data-x="x" data-test-attr="test"></div>', (string) $el );
 });
 
 
 test(function() { // function
-	$el = Html::el('div');
+	$el = Html::el('div', array('data-will-be' => 'overwritten'));
 	$el->data(array('a' => 'one'));
 	$el->data('b', 'two');
+	$el->setData('c', 'three');
+	$el->addData(array('d' => 'four'));
 
-	Assert::same( '<div data-a="one" data-b="two"></div>', (string) $el );
+	Assert::type( 'Nette\Utils\HtmlDataset', $el->getData() );
+	Assert::same( 4, count($el->getData()) );
+	Assert::same( 'one', $el->getData('a') );
+	Assert::same( '<div data-a="one" data-b="two" data-c="three" data-d="four"></div>', (string) $el );
 });
 
 
-test(function() {
-	$el = Html::el('div');
-	$el->data('top', NULL);
-	$el->data('active', FALSE);
-	$el->addData(array('x' => ''));
-	Assert::same( '<div data-active="false" data-x=""></div>', (string) $el );
-});
-
-
-test(function() {
+test(function() { // simple data attribute
 	$el = Html::el('div');
 	$el->data = 'simple';
+
 	Assert::same( '<div data="simple"></div>', (string) $el );
+});
+
+
+test(function() { // backward compatibility: direct assignment using dash-separated name
+	$el = Html::el('div');
+
+	$el->{'data-test-attr'} = 'test';
+	Assert::type( 'Nette\Utils\HtmlDataset', $el->data );
+	Assert::same( 1, count($el->data) );
+	Assert::same( 'test', $el->data->testAttr );
+	Assert::true( isset($el->{'data-test-attr'}) );
+	Assert::same( 'test', $el->{'data-test-attr'} );
+
+	unset($el->{'data-test-attr'});
+	Assert::false( isset($el->{'data-test-attr'}) );
 });
