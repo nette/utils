@@ -47,29 +47,34 @@ class Json
 	 */
 	public static function encode($value, $options = 0)
 	{
+		// workaround for detecting recursion, encoding INF, NAN or resource (5.3.x and 5.4.x) and suppressing invalid UTF-8 sequence warning (5.3.14 only)
 		if (PHP_VERSION_ID < 50500) {
-			set_error_handler(function($severity, $message) { // needed to receive 'recursion detected' error
+			set_error_handler(function($severity, $message) {
 				restore_error_handler();
 				throw new JsonException($message);
 			});
 		}
 
-		$json = json_encode(
-			$value,
-			PHP_VERSION_ID >= 50400 ? (JSON_UNESCAPED_UNICODE | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)) : 0
-		);
+		$options = PHP_VERSION_ID >= 50400 ? (JSON_UNESCAPED_UNICODE | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)) : 0;
+		$json = json_encode($value, $options);
+		$error = json_last_error();
 
 		if (PHP_VERSION_ID < 50500) {
 			restore_error_handler();
 		}
-		if ($error = json_last_error()) {
-			$message = isset(static::$messages[$error]) ? static::$messages[$error]
-				: (PHP_VERSION_ID >= 50500 ? json_last_error_msg() : 'Unknown error');
-			throw new JsonException($message, $error);
+
+		if ($error === JSON_ERROR_NONE) {
+			return str_replace(array("\xe2\x80\xa8", "\xe2\x80\xa9"), array('\u2028', '\u2029'), $json);
 		}
 
-		$json = str_replace(array("\xe2\x80\xa8", "\xe2\x80\xa9"), array('\u2028', '\u2029'), $json);
-		return $json;
+		// workaround for unavailable json_last_error_msg()
+		if (PHP_VERSION_ID < 50500) {
+			$message = (isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error');
+		} else {
+			$message = json_last_error_msg();
+		}
+
+		throw new JsonException($message, $error);
 	}
 
 
@@ -82,22 +87,49 @@ class Json
 	public static function decode($json, $options = 0)
 	{
 		$json = (string) $json;
-		if (!preg_match('##u', $json)) {
-			throw new JsonException('Invalid UTF-8 sequence', 5); // workaround for PHP < 5.3.3 & PECL JSON-C
+		$forceArray = (bool) ($options & self::FORCE_ARRAY);
+		$args = array($json, $forceArray, 512);
+
+		// workaround for PHP < 5.3.3 (bug #52262) & PECL JSON-C (https://github.com/json-c/json-c/issues/122)
+		if ((PHP_VERSION_ID < 50303 || defined('JSON_C_VERSION')) && !preg_match('##u', $json)) {
+			throw new JsonException('Invalid UTF-8 sequence', 5);
 		}
 
-		$args = array($json, (bool) ($options & self::FORCE_ARRAY));
-		$args[] = 512;
-		if (PHP_VERSION_ID >= 50400 && !(defined('JSON_C_VERSION') && PHP_INT_SIZE > 4)) { // not implemented in PECL JSON-C 1.3.2 for 64bit systems
+		// workaround for fatal error when object key starts with \u0000
+		if (/*PHP_VERSION_ID < 50600 &&*/ !$forceArray && preg_match('#[^\\\\]"\\\\u0000(?:[^"\\\\]|\\\\.)*+"\s*+:#', $json)) {
+			throw new JsonException(static::$messages[JSON_ERROR_CTRL_CHAR], JSON_ERROR_CTRL_CHAR);
+		}
+
+		// workaround for unavailable JSON_BIGINT_AS_STRING (not implemented in PECL JSON-C 1.3.2 for 64bit systems)
+		if (PHP_VERSION_ID >= 50400 && (!defined('JSON_C_VERSION') || PHP_INT_SIZE === 4)) {
 			$args[] = JSON_BIGINT_AS_STRING;
 		}
-		$value = call_user_func_array('json_decode', $args);
 
-		if ($value === NULL && $json !== '' && strcasecmp($json, 'null')) { // '' is not clearing json_last_error
-			$error = json_last_error();
-			throw new JsonException(isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error', $error);
+		$value = call_user_func_array('json_decode', $args);
+		$error = json_last_error();
+
+		// workaround for incorrect error code in PHP < 5.3.6 (bug #53963)
+		if (PHP_VERSION_ID < 50306 && $error === JSON_ERROR_NONE && $value === NULL && $json !== '' && strcasecmp(trim($json), 'null')) {
+			$error = JSON_ERROR_SYNTAX;
 		}
-		return $value;
+
+		// workaround for '' not clearing json_last_error in PHP < 5.3.7 (bug #54484)
+		if (PHP_VERSION_ID < 50307 && $json === '') {
+			$error = JSON_ERROR_NONE;
+		}
+
+		if ($error === JSON_ERROR_NONE) {
+			return $value;
+		}
+
+		// workaround for unavailable json_last_error_msg() in PHP < 5.5.0
+		if (PHP_VERSION_ID < 50500) {
+			$message = (isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error');
+		} else {
+			$message = json_last_error_msg();
+		}
+
+		throw new JsonException($message, $error);
 	}
 
 }
