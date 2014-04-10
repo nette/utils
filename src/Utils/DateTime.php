@@ -86,4 +86,27 @@ class DateTime extends \DateTime
 		return is_float($tmp = $ts * 1) ? $ts : $tmp;
 	}
 
+
+	/**
+	 * Returns new DateTime object formatted according to the specified format.
+	 * @param string The format the $time parameter should be in
+	 * @param string String representing the time
+	 * @param string|\DateTimeZone desired timezone (default timezone is used if NULL is passed)
+	 * @return DateTime
+	 */
+	public static function createFromFormat($format, $time, $timezone = NULL)
+	{
+		if ($timezone === NULL) {
+			$timezone = new \DateTimeZone(date_default_timezone_get());
+
+		} elseif (is_string($timezone)) {
+			$timezone = new \DateTimeZone($timezone);
+
+		} elseif (!$timezone instanceof \DateTimeZone) {
+			throw new Nette\InvalidArgumentException('Invalid timezone given');
+		}
+
+		return static::from(parent::createFromFormat($format, $time, $timezone));
+	}
+
 }
