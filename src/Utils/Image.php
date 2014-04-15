@@ -149,6 +149,8 @@ class Image extends Nette\Object
 	 * Opens image from file.
 	 * @param  string
 	 * @param  mixed  detected image format
+	 * @throws Nette\NotSupportedException if gd extension is not loaded
+	 * @throws UnknownImageFileException if file not found or file type is not known
 	 * @return Image
 	 */
 	public static function fromFile($file, & $format = NULL)
