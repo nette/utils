@@ -58,7 +58,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 		$el->setName($parts[0]);
 
 		if (is_array($attrs)) {
-			$el->attrs = $attrs;
+			$el->addAttributes($attrs);
 
 		} elseif ($attrs !== NULL) {
 			$el->setText($attrs);
@@ -66,7 +66,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 		if (isset($parts[1])) {
 			foreach (Strings::matchAll($parts[1] . ' ', '#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\\2|\s))?#i') as $m) {
-				$el->attrs[$m[1]] = isset($m[3]) ? $m[3] : TRUE;
+				$el->{$m[1]} = isset($m[3]) ? $m[3] : TRUE;
 			}
 		}
 
@@ -120,7 +120,9 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function addAttributes(array $attrs)
 	{
-		$this->attrs = array_merge($this->attrs, $attrs);
+		foreach ($attrs as $key => $value) {
+			$this->$key = $value;
+		}
 		return $this;
 	}
 
@@ -133,7 +135,16 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function __set($name, $value)
 	{
-		$this->attrs[$name] = $value;
+		if (!strncmp($name, 'data-', 5)) {
+			if (!isset($this->attrs['data'])) {
+				$this->attrs['data'] = new HtmlDataset;
+			}
+			$this->attrs['data']->{substr($name, 5)} = $value;
+		} elseif ($name === 'data' && (is_array($value) || $value instanceof \Traversable)) {
+			$this->attrs['data'] = new HtmlDataset($value);
+		} else {
+			$this->attrs[$name] = $value;
+		}
 	}
 
 
@@ -144,6 +155,13 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function &__get($name)
 	{
+		if (!strncmp($name, 'data-', 5)) {
+			$item = & $this->data->{substr($name, 5)};
+			return $item;
+		}
+		if ($name === 'data' && !isset($this->attrs['data'])) {
+			$this->attrs['data'] = new HtmlDataset;
+		}
 		return $this->attrs[$name];
 	}
 
@@ -155,7 +173,11 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function __isset($name)
 	{
-		return isset($this->attrs[$name]);
+		if (!strncmp($name, 'data-', 5)) {
+			return isset($this->attrs['data']->{substr($name, 5)});
+		} else {
+			return isset($this->attrs[$name]);
+		}
 	}
 
 
@@ -166,7 +188,11 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function __unset($name)
 	{
-		unset($this->attrs[$name]);
+		if (!strncmp($name, 'data-', 5)) {
+			unset($this->attrs['data']->{substr($name, 5)});
+		} else {
+			unset($this->attrs[$name]);
+		}
 	}
 
 
@@ -183,6 +209,9 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 			$m = substr($m, 3);
 			$m[0] = $m[0] | "\x20";
 			if ($p === 'get') {
+				if ($m === 'data' && count($args)) {
+					return isset($this->attrs[$m]->{$args[0]}) ? $this->attrs[$m]->{$args[0]} : NULL;
+				}
 				return isset($this->attrs[$m]) ? $this->attrs[$m] : NULL;
 
 			} elseif ($p === 'add') {
@@ -193,7 +222,19 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 		if (count($args) === 0) { // invalid
 
 		} elseif (count($args) === 1) { // set
-			$this->attrs[$m] = $args[0];
+			$this->$m = $args[0];
+
+		} elseif ($m === 'data') {
+			if (!isset($this->attrs['data'])) {
+				$this->attrs['data'] = new HtmlDataset;
+			}
+			if (is_array($args[0]) || $args[0] instanceof \Traversable) {
+				foreach ($args[0] as $key => $value) {
+					$this->attrs['data']->$key = $value;
+				}
+			} else {
+				$this->attrs['data']->{$args[0]} = $args[1];
+			}
 
 		} elseif ((string) $args[0] === '') {
 			$tmp = & $this->attrs[$m]; // appending empty value? -> ignore, but ensure it exists
@@ -515,17 +556,11 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				}
 				continue;
 
-			} elseif (is_array($value)) {
-				if ($key === 'data') {
-					foreach ($value as $k => $v) {
-						if ($v !== NULL && $v !== FALSE) {
-							$q = strpos($v, '"') === FALSE ? '"' : "'";
-							$s .= ' data-' . $k . '=' . $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $v) . $q;
-						}
-					}
-					continue;
-				}
+			} elseif ($key === 'data' && $value instanceof HtmlDataset) {
+				$s .= count($value) ? ' ' . (string) $value : '';
+				continue;
 
+			} elseif (is_array($value)) {
 				$tmp = NULL;
 				foreach ($value as $k => $v) {
 					if ($v != NULL) { // intentionally ==, skip NULLs & empty string
