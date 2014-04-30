@@ -42,6 +42,7 @@ test(function() { // function
 	$el->data('list', array(1,2,3));
 	$el->data('arr', array('a' => 1));
 
+	Assert::same( 'one', $el->{'data-a'} );
 	Assert::same( '<div data-a="one" data-b="two" data-list="[1,2,3]" data-arr=\'{"a":1}\'></div>', (string) $el );
 });
 
@@ -49,10 +50,11 @@ test(function() { // function
 test(function() { // special values
 	$el = Html::el('div');
 	$el->data('top', NULL);
-	$el->data('active', FALSE);
+	$el->data('t', TRUE);
+	$el->data('f', FALSE);
 	$el->data('x', '');
 
-	Assert::same( '<div data-x=""></div>', (string) $el );
+	Assert::same( '<div data-t="true" data-f="false" data-x=""></div>', (string) $el );
 });
 
 
