@@ -516,28 +516,35 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				continue;
 
 			} elseif (is_array($value)) {
-				if ($key === 'data') {
+				if ($key === 'data') { // deprecated
 					foreach ($value as $k => $v) {
 						if ($v !== NULL && $v !== FALSE) {
+							if (is_array($v)) {
+								$v = Json::encode($v);
+							}
 							$q = strpos($v, '"') === FALSE ? '"' : "'";
 							$s .= ' data-' . $k . '=' . $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $v) . $q;
 						}
 					}
 					continue;
-				}
 
-				$tmp = NULL;
-				foreach ($value as $k => $v) {
-					if ($v != NULL) { // intentionally ==, skip NULLs & empty string
-						//  composite 'style' vs. 'others'
-						$tmp[] = $v === TRUE ? $k : (is_string($k) ? $k . ':' . $v : $v);
+				} elseif (strncmp($key, 'data-', 5) === 0) {
+					$value = Json::encode($value);
+
+				} else {
+					$tmp = NULL;
+					foreach ($value as $k => $v) {
+						if ($v != NULL) { // intentionally ==, skip NULLs & empty string
+							//  composite 'style' vs. 'others'
+							$tmp[] = $v === TRUE ? $k : (is_string($k) ? $k . ':' . $v : $v);
+						}
 					}
-				}
-				if ($tmp === NULL) {
-					continue;
-				}
+					if ($tmp === NULL) {
+						continue;
+					}
 
-				$value = implode($key === 'style' || !strncmp($key, 'on', 2) ? ';' : ' ', $tmp);
+					$value = implode($key === 'style' || !strncmp($key, 'on', 2) ? ';' : ' ', $tmp);
+				}
 
 			} else {
 				$value = (string) $value;
