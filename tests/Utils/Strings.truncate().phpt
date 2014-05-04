@@ -13,7 +13,6 @@ use Nette\Utils\Strings,
 require __DIR__ . '/../bootstrap.php';
 
 
-iconv_set_encoding('internal_encoding', 'UTF-8');
 $s = "\xc5\x98ekn\xc4\x9bte, jak se (dnes) m\xc3\xa1te?"; // Řekněte, jak se (dnes) máte?
 
 Assert::same( '…', Strings::truncate($s, -1) ); // length=-1
