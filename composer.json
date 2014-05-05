@@ -30,10 +30,5 @@
 	"autoload": {
 		"classmap": ["src/"]
 	},
-	"minimum-stability": "dev",
-	"extra": {
-		"branch-alias": {
-			"dev-master": "2.2-dev"
-		}
-	}
+	"minimum-stability": "dev"
 }
