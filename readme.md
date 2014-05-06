@@ -1,6 +1,9 @@
 Nette Utility Classes
 =====================
 
+[![Downloads this Month](https://img.shields.io/packagist/dm/nette/utils.svg)](https://packagist.org/packages/nette/utils)
+[![Build Status](https://travis-ci.org/nette/utils.svg?branch=master)](https://travis-ci.org/nette/utils)
+
 Nette\Object: Strict classes
 ----------------------------
 
@@ -157,8 +160,3 @@ echo $circle->getCircumference(); // ≈ 62.8
 ```
 
 Extensions methods can also take parameters. They don't break encapsulation, because they only have access to the public members of the class. You can also connect them with interfaces, therefore every class implementing that interface will have that method available.
-
-
------
-
-[![Build Status](https://secure.travis-ci.org/nette/utils.png?branch=master)](http://travis-ci.org/nette/utils)
