@@ -161,19 +161,30 @@ class Image extends Nette\Object
 
 		$info = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
 
+		set_error_handler(function ($severity, $message) {
+			restore_error_handler();
+			throw new ImageException($message);
+		});
 		switch ($format = $info[2]) {
 			case self::JPEG:
-				return new static(imagecreatefromjpeg($file));
+				$resource = imagecreatefromjpeg($file);
+				break;
 
 			case self::PNG:
-				return new static(imagecreatefrompng($file));
+				$resource = imagecreatefrompng($file);
+				break;
 
 			case self::GIF:
-				return new static(imagecreatefromgif($file));
+				$resource = imagecreatefromgif($file);
+				break;
 
 			default:
+				restore_error_handler();
 				throw new UnknownImageFileException("Unknown image type or file '$file' not found.");
 		}
+		restore_error_handler();
+
+		return new static($resource);
 	}
 
 
@@ -204,7 +215,14 @@ class Image extends Nette\Object
 
 		$format = static::getFormatFromString($s);
 
-		return new static(imagecreatefromstring($s));
+		set_error_handler(function ($severity, $message) {
+			restore_error_handler();
+			throw new ImageException($message);
+		});
+		$resource = imagecreatefromstring($s);
+		restore_error_handler();
+
+		return new static($resource);
 	}
 
 
@@ -541,7 +559,7 @@ class Image extends Nette\Object
 				return imagegif($this->image, $file);
 
 			default:
-				throw new Nette\InvalidArgumentException('Unsupported image type.');
+				throw new Nette\InvalidArgumentException('Unsupported image type \'$type\'.');
 		}
 	}
 
@@ -586,7 +604,7 @@ class Image extends Nette\Object
 	public function send($type = self::JPEG, $quality = NULL)
 	{
 		if ($type !== self::GIF && $type !== self::PNG && $type !== self::JPEG) {
-			throw new Nette\InvalidArgumentException('Unsupported image type.');
+			throw new Nette\InvalidArgumentException('Unsupported image type \'$type\'.');
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
 		return $this->save(NULL, $quality, $type);
@@ -637,8 +655,16 @@ class Image extends Nette\Object
 
 
 /**
+ * The exception that is thrown when an image error occurs.
+ */
+class ImageException extends \Exception
+{
+}
+
+
+/**
  * The exception that indicates invalid image file.
  */
-class UnknownImageFileException extends \Exception
+class UnknownImageFileException extends ImageException
 {
 }

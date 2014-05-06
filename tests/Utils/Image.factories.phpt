@@ -25,6 +25,16 @@ test(function() {
 });
 
 
+Assert::exception(function () {
+	Image::fromFile('images/logo.png');
+}, 'Nette\Utils\UnknownImageFileException');
+
+
+Assert::exception(function () {
+	Image::fromFile('images/logo.tiff');
+}, 'Nette\Utils\UnknownImageFileException');
+
+
 test(function() {
 	$image = Image::fromBlank(200, 300, Image::rgb(255, 128, 0));
 	// blank
@@ -32,3 +42,8 @@ test(function() {
 
 	Assert::same( 300, $image->height );
 });
+
+
+Assert::exception(function () {
+	Image::fromString('abcdefg');
+}, 'Nette\Utils\ImageException');
