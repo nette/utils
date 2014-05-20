@@ -22,6 +22,9 @@ use Nette;
  * </code>
  *
  * @author     David Grudl
+ *
+ * @method Html class(string $className)
+ * @method Html style(string $style)
  */
 class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 {
