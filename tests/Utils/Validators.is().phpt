@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Validators::is()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Validators,

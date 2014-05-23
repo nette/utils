@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Iterators\Mapper
- *
- * @author     Matěj Koubík
  */
 
 use Nette\Iterators,

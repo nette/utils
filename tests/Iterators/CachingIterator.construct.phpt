@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Iterators\CachingIterator constructor.
- *
- * @author     David Grudl
  */
 
 use Nette\Iterators,

@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Arrays::insertBefore() & insertAfter()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Arrays,

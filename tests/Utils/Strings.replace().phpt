@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings::replace()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

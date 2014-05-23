@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\DateTime::from().
- *
- * @author     David Grudl
  */
 
 use Tester\Assert,

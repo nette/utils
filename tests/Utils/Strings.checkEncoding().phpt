@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings::checkEncoding()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

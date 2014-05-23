@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object reference to property.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

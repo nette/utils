@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings::normalizeNewLines()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

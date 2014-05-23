@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings and RegexpException run-time error.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

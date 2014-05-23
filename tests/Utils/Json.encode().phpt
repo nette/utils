@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Json::encode()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Json,

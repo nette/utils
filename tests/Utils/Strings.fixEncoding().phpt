@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings::fixEncoding()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

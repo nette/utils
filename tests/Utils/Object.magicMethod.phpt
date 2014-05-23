@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object magic @methods.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

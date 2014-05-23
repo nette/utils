@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Callback tests.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Callback,

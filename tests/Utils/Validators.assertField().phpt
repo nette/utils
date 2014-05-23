@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Validators::assertField()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Validators,

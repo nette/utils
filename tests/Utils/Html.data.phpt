@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Html user data attribute.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Html,

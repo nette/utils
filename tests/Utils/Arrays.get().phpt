@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Arrays::get()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Arrays,

@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Image drawing.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Image,

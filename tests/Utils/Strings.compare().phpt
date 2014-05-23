@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings::compare()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

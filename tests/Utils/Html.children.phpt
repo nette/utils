@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Html children usage.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Html,

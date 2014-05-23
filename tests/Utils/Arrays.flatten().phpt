@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Arrays::flatten()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Arrays,

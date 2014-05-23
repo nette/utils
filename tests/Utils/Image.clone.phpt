@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Image cloning.
- *
- * @author     MzK Olda Salek
  */
 
 use Nette\Utils\Image,

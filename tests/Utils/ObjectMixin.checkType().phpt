@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\ObjectMixin::checkType()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\ObjectMixin,

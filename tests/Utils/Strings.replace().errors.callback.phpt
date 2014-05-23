@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings and error in callback.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

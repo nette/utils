@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object undeclared method.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;
