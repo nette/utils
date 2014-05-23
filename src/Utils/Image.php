@@ -189,9 +189,7 @@ class Image extends Nette\Object
 
 
 	/**
-	 * Get format from the image stream in the string.
-	 * @param  string
-	 * @return mixed  detected image format
+	 * @deprecated
 	 */
 	public static function getFormatFromString($s)
 	{
@@ -213,7 +211,9 @@ class Image extends Nette\Object
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
-		$format = static::getFormatFromString($s);
+		if (func_num_args() > 1) {
+			$format = static::getFormatFromString($s);
+		}
 
 		set_error_handler(function ($severity, $message) {
 			restore_error_handler();
