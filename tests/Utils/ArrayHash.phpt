@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\ArrayHash basic usage.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\ArrayHash,

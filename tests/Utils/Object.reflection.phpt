@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object reflection.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

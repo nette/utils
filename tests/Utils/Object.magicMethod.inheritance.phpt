@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object magic @methods inheritance.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

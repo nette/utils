@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object closure properties.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

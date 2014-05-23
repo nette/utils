@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Html::__construct()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Html,

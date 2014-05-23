@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Arrays::grep() errors.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Arrays,

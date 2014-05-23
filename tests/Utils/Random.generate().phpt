@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Random::generate()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Random,

@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Arrays::getRef()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Arrays,

@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object extension method.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

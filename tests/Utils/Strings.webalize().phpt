@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings::webalize()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

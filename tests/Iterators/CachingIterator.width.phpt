@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Iterators\CachingIterator width.
- *
- * @author     David Grudl
  */
 
 use Nette\Iterators,

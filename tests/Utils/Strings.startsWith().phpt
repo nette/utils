@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings::startsWith()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Strings,

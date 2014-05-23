@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Validators::assert()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Validators,

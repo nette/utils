@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object magic @methods and types.
- *
- * @author     David Grudl
  */
 
 namespace Test;

@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object array property.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

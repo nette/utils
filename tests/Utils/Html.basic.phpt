@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Html basic usage.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Html,

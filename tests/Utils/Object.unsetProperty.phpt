@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object properties.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

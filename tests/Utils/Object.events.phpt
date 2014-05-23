@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Object event handlers.
- *
- * @author     David Grudl
  */
 
 use Tester\Assert;

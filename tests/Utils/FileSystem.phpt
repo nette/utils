@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\FileSystem basic usage.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\FileSystem,

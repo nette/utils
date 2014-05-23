@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Html style & class attribute.
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Html,

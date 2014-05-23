@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Validators::isInRange()
- *
- * @author     David Grudl
  */
 
 use Nette\Utils\Validators,

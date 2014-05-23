@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Utils\Strings::reverse()
- *
- * @author     bojovyletoun
  */
 
 use Nette\Utils\Strings,
