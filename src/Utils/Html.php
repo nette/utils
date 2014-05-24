@@ -523,7 +523,10 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 								$v = Json::encode($v);
 							}
 							$q = strpos($v, '"') === FALSE ? '"' : "'";
-							$s .= ' data-' . $k . '=' . $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $v) . $q;
+							$s .= ' data-' . $k . '='
+								. $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $v)
+								. (strpos($v, '`') !== FALSE && strpbrk($v, ' <>"\'') === FALSE ? ' ' : '')
+								. $q;
 						}
 					}
 					continue;
@@ -551,7 +554,10 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 			}
 
 			$q = strpos($value, '"') === FALSE ? '"' : "'";
-			$s .= ' ' . $key . '=' . $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $value) . $q;
+			$s .= ' ' . $key . '='
+				. $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $value)
+				. (strpos($value, '`') !== FALSE && strpbrk($value, ' <>"\'') === FALSE ? ' ' : '')
+				. $q;
 		}
 
 		$s = str_replace('@', '&#64;', $s);
