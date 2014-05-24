@@ -19,8 +19,9 @@ test(function() { // deprecated
 	$el->data['d'] = '';
 	$el->data['e'] = 'two';
 	$el->{'data-x'} = 'x';
+	$el->data['mxss'] = '``two';
 
-	Assert::same( '<div data-a="one" data-d="" data-e="two" data-x="x"></div>', (string) $el );
+	Assert::same( '<div data-a="one" data-d="" data-e="two" data-mxss="``two " data-x="x"></div>', (string) $el );
 });
 
 

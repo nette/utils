@@ -66,6 +66,7 @@ test(function() {
 
 test(function() { // attributes escaping
 	Assert::same( '<a one=\'"\' two="\'" three="<>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;') );
+	Assert::same( '<a one="``xx "></a>' , (string) Html::el('a')->one("``xx") ); // mXSS
 });
 
 
