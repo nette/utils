@@ -24,6 +24,9 @@
 		"ext-mbstring": "to use Strings::lower() etc...",
 		"ext-gd": "to use Image"
 	},
+	"conflict": {
+		"nette/nette": "<2.2"
+	},
 	"autoload": {
 		"classmap": ["src/"]
 	},
