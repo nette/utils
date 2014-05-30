@@ -214,6 +214,7 @@ test(function() {
 	Assert::true( Validators::is('', 'pattern') );
 	Assert::true( Validators::is('  123', 'pattern:\s+\d+') );
 	Assert::false( Validators::is('  123x', 'pattern:\s+\d+') );
+	Assert::true( Validators::is('John Doe', 'pattern:(John|Carl) Doe') );
 });
 
 
