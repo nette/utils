@@ -56,7 +56,7 @@ abstract class Object
 
 	/**
 	 * Access to reflection.
-	 * @return ReflectionClass
+	 * @return \ReflectionClass
 	 */
 	public static function getReflection()
 	{
