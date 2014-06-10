@@ -131,7 +131,7 @@ class FileSystem
 	 */
 	public static function isAbsolute($path)
 	{
-		return (bool) preg_match('#[/\\\\]|[a-zA-Z]:[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
+		return (bool) preg_match('#([a-z]:)?[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
 	}
 
 }
