@@ -130,13 +130,13 @@ class Strings
 
 
 	/**
-	 * Returns cutted string.
+	 * Returns part of haystack string cut when a needle is found.
 	 * @param string
 	 * @param string
 	 * @param int cut the string when nth occurence of needle appears. 0 returns whole haystack.
 	 * @param bool whether to return the part before/after the needle?
 	 * @param bool whether the needle should be included in the cutted string
-	 * @return string
+	 * @return string Returns the portion of string or FALSE when needle was not found.
 	 */
 	static function cut($haystack, $needle, $nthOccurence = 1, $beforeNeedle = FALSE, $includeNeedle = FALSE)
 	{
@@ -160,7 +160,10 @@ class Strings
 				}
 				return $res;
 			}
+		} else {
+			return false;
 		}
+
 
 		return $haystack;
 	}

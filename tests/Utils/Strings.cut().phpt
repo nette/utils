@@ -25,4 +25,6 @@ test(function () {
 	Assert::same('/system/file.test', Strings::cut($path, 'in', 1));
 
 	Assert::same($path, Strings::cut($path, '/', 0));
+
+	Assert::false(Strings::cut($path, 'not-in-string'));
 });
