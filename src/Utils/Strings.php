@@ -129,43 +129,68 @@ class Strings
 	}
 
 
-	/**
-	 * Returns part of haystack string cut when a needle is found.
-	 * @param string
-	 * @param string
-	 * @param int cut the string when nth occurence of needle appears. 0 returns whole haystack.
-	 * @param bool whether to return the part before/after the needle?
-	 * @param bool whether the needle should be included in the cutted string
-	 * @return string Returns the portion of string or FALSE when needle was not found.
-	 */
-	static function cut($haystack, $needle, $nthOccurence = 1, $beforeNeedle = FALSE, $includeNeedle = FALSE)
+	protected static function cut($haystack, $needle, $nthOccurence = 1, $beforeNeedle = FALSE)
 	{
+		$needleLen = strlen($needle);
 		if ($nthOccurence == 0) {
 			return $haystack;
-		} elseif (preg_match_all('#' . preg_quote($needle) . '#', $haystack, $matches, PREG_OFFSET_CAPTURE)) {
-			$n = abs($nthOccurence);
-			$pos = NULL;
-			foreach ($nthOccurence > 0 ? $matches[0] : array_reverse($matches[0]) as $match) {
-				if (!--$n) {
-					$pos = $match[1];
-					break;
-				}
-			}
-
-			if ($pos !== NULL) {
-				if ($beforeNeedle) {
-					$res = substr($haystack, 0, $includeNeedle ? $pos + strlen($needle) : $pos);
-				} else {
-					$res = substr($haystack, $includeNeedle ? $pos : $pos + strlen($needle));
-				}
-				return $res;
+		} elseif ($nthOccurence > 0) {
+			$fnc = 'strpos';
+			$offset = 0;
+			if ($needleLen == 0) {
+				return $beforeNeedle ? '' : $haystack;
 			}
 		} else {
-			return false;
+			$fnc = 'strrpos';
+			$offset = -1;
+			if ($needleLen == 0) {
+				return $beforeNeedle ? $haystack : '';
+			}
 		}
 
+		$haystackLen = strlen($haystack);
+		$n = abs($nthOccurence);
+		while (false !== ($offset = $fnc($haystack, $needle, $offset)) && --$n) {
+			if ($nthOccurence < 0) {
+				$offset = ($offset - $needleLen) - $haystackLen;
+			} else {
+				$offset++;
+			}
+		}
+		if ($offset !== FALSE) {
+			if ($beforeNeedle) {
+				return substr($haystack, 0, $offset);
+			} else {
+				return $offset + $needleLen == $haystackLen ? '' : substr($haystack, $offset + $needleLen);
+			}
+		}
+		return FALSE;
+	}
 
-		return $haystack;
+
+	/**
+	 * Returns part of $haystack before $nthOccurence of $needle.
+	 * @param string $haystack
+	 * @param string $needle
+	 * @param int $nthOccurence can be negative
+	 * @return string if needle is not present, FALSE is returned.
+	 */
+	public static function before($haystack, $needle, $nthOccurence = 1)
+	{
+		return self::cut($haystack, $needle, $nthOccurence, TRUE, FALSE);
+	}
+
+
+	/**
+	 * Returns part of $haystack after $nthOccurence of $needle.
+	 * @param string $haystack
+	 * @param string $needle
+	 * @param int $nthOccurence can be negative
+	 * @return string if needle is not present, FALSE is returned.
+	 */
+	public static function after($haystack, $needle, $nthOccurence = 1)
+	{
+		return self::cut($haystack, $needle, $nthOccurence, FALSE, FALSE);
 	}
 
 
