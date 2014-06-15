@@ -200,7 +200,7 @@ class Strings
 	{
 		$s = self::toAscii($s);
 		if ($lower) {
-			$s = strtolower($s);
+			$s = self::lower($s);
 		}
 		$s = preg_replace('#[^a-z0-9' . preg_quote($charlist, '#') . ']+#i', '-', $s);
 		$s = trim($s, '-');
