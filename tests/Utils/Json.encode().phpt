@@ -27,8 +27,8 @@ Assert::exception(function() {
 
 
 if (PHP_VERSION_ID >= 50400) {
-	// default JSON_UNESCAPED_UNICODE
-	Assert::same( "\"I\xc3\xb1t\xc3\xabrn\xc3\xa2ti\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n\"", Json::encode("I\xc3\xb1t\xc3\xabrn\xc3\xa2ti\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n") );
+	// default JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES
+	Assert::same( "\"/I\xc3\xb1t\xc3\xabrn\xc3\xa2ti\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n\"", Json::encode("/I\xc3\xb1t\xc3\xabrn\xc3\xa2ti\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n") );
 	Assert::same( '"\u2028\u2029"', Json::encode("\xe2\x80\xa8\xe2\x80\xa9") );
 
 	// JSON_PRETTY_PRINT
