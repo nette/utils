@@ -56,7 +56,7 @@ class Json
 
 		$json = json_encode(
 			$value,
-			PHP_VERSION_ID >= 50400 ? (JSON_UNESCAPED_UNICODE | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)) : 0
+			PHP_VERSION_ID >= 50400 ? (JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)) : 0
 		);
 
 		if (PHP_VERSION_ID < 50500) {
