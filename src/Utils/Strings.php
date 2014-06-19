@@ -198,10 +198,10 @@ class Strings
 	 */
 	public static function webalize($s, $charlist = NULL, $lower = TRUE)
 	{
-		$s = self::toAscii($s);
 		if ($lower) {
-			$s = strtolower($s);
+			$s = self::lower($s);
 		}
+		$s = self::toAscii($s);
 		$s = preg_replace('#[^a-z0-9' . preg_quote($charlist, '#') . ']+#i', '-', $s);
 		$s = trim($s, '-');
 		return $s;
