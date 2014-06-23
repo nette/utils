@@ -33,4 +33,13 @@ class Filter extends \FilterIterator
 		return call_user_func($this->callback, $this->current(), $this->key(), $this);
 	}
 
+
+	public function __call($name, $arguments) {
+		if (strtolower($name) === 'count') {
+			return iterator_count($this);
+		} else {
+			return parent::__call($name, $arguments);
+		}
+	}
+
 }
