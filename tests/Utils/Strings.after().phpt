@@ -28,4 +28,6 @@ test(function () { //after
 	Assert::same('a123456789b123456789c', Strings::after($foo, '789', -3));
 	Assert::same($foo, Strings::after($foo, '9', 0));
 	Assert::false(Strings::after($foo, 'not-in-string'));
+	Assert::false(Strings::after($foo, 'b', -2));
+	Assert::false(Strings::after($foo, 'b', 2));
 });
