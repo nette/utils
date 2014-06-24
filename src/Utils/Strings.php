@@ -177,7 +177,7 @@ class Strings
 	 */
 	public static function before($haystack, $needle, $nthOccurence = 1)
 	{
-		return self::cut($haystack, $needle, $nthOccurence, TRUE, FALSE);
+		return self::cut($haystack, $needle, $nthOccurence, TRUE);
 	}
 
 
@@ -190,7 +190,7 @@ class Strings
 	 */
 	public static function after($haystack, $needle, $nthOccurence = 1)
 	{
-		return self::cut($haystack, $needle, $nthOccurence, FALSE, FALSE);
+		return self::cut($haystack, $needle, $nthOccurence, FALSE);
 	}
 
 
