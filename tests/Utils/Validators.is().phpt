@@ -197,6 +197,7 @@ test(function() {
 	Assert::true( Validators::is('https://www.nette.org/path', 'url') );
 	Assert::true( Validators::is('https://example.c0m', 'url') );
 	Assert::true( Validators::is('https://example.l', 'url') );
+	Assert::true( Validators::is('bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK', 'url') );
 });
 
 
