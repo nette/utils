@@ -201,6 +201,19 @@ test(function() {
 
 
 test(function() {
+	Assert::false( Validators::is('', 'uri') );
+	Assert::false( Validators::is('hello', 'uri') );
+	Assert::false( Validators::is('nette.org', 'uri') );
+	Assert::false( Validators::is('mailto: gandalf@example.org', 'uri') );
+	Assert::false( Validators::is('invalid-scheme :gandalf@example.org', 'uri') );
+	Assert::false( Validators::is('invalid-scheme~:gandalf@example.org', 'uri') );
+	Assert::true( Validators::is('mailto:gandalf@example.org', 'uri') );
+	Assert::true( Validators::is('valid-scheme+.0:lalala', 'uri') );
+	Assert::true( Validators::is('bitcoin:mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn', 'uri') );
+});
+
+
+test(function() {
 	Assert::true( Validators::is(0, 'none') );
 	Assert::true( Validators::is('', 'none') );
 	Assert::true( Validators::is(NULL, 'none') );
