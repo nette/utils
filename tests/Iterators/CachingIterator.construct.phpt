@@ -43,7 +43,6 @@ test(function() { // ==> IteratorAggregate
 	), $tmp );
 });
 
-
 test(function() { // ==> Iterator
 	$arr = new ArrayObject(array('Nette', 'Framework'));
 	$tmp = array();
@@ -71,4 +70,22 @@ test(function() { // ==> object
 		$arr = dir('.');
 		foreach (new Iterators\CachingIterator($arr) as $k => $v);
 	}, 'InvalidArgumentException', NULL);
+});
+
+
+class RecursiveIteratorAggregate implements IteratorAggregate {
+	public function getIterator() {
+		return new ArrayObject(array('Nette', 'Framework'));
+	}
+}
+
+
+test(function() { // ==> recursive IteratorAggregate
+	$arr = new RecursiveIteratorAggregate;
+	$tmp = array();
+	foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
+	Assert::same( array(
+		'0 => Nette',
+		'1 => Framework',
+	), $tmp );
 });

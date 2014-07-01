@@ -39,14 +39,15 @@ class CachingIterator extends \CachingIterator implements \Countable
 		if (is_array($iterator) || $iterator instanceof \stdClass) {
 			$iterator = new \ArrayIterator($iterator);
 
-		} elseif ($iterator instanceof \Traversable) {
-			if ($iterator instanceof \IteratorAggregate) {
+		} elseif ($iterator instanceof \IteratorAggregate) {
+			do {
 				$iterator = $iterator->getIterator();
+			} while ($iterator instanceof \IteratorAggregate);
 
-			} elseif (!$iterator instanceof \Iterator) {
+		} elseif ($iterator instanceof \Traversable) {
+			if (!$iterator instanceof \Iterator) {
 				$iterator = new \IteratorIterator($iterator);
 			}
-
 		} else {
 			throw new Nette\InvalidArgumentException(sprintf('Invalid argument passed to %s; array or Traversable expected, %s given.', __CLASS__, is_object($iterator) ? get_class($iterator) : gettype($iterator)));
 		}
