@@ -197,7 +197,19 @@ test(function() {
 	Assert::true( Validators::is('https://www.nette.org/path', 'url') );
 	Assert::true( Validators::is('https://example.c0m', 'url') );
 	Assert::true( Validators::is('https://example.l', 'url') );
-	Assert::true( Validators::is('bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK', 'url') );
+});
+
+
+test(function() {
+	Assert::false( Validators::is('', 'uri') );
+	Assert::false( Validators::is('hello', 'uri') );
+	Assert::false( Validators::is('nette.org', 'uri') );
+	Assert::false( Validators::is('mailto: gandalf@example.org', 'uri') );
+	Assert::false( Validators::is('invalid-scheme :gandalf@example.org', 'uri') );
+	Assert::false( Validators::is('invalid-scheme~:gandalf@example.org', 'uri') );
+	Assert::true( Validators::is('mailto:gandalf@example.org', 'uri') );
+	Assert::true( Validators::is('valid-scheme+.0:lalala', 'uri') );
+	Assert::true( Validators::is('bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK', 'uri') );
 });
 
 

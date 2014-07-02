@@ -37,6 +37,7 @@ class Validators extends Nette\Object
 		'null' => 'is_null',
 		'email' => array(__CLASS__, 'isEmail'),
 		'url' => array(__CLASS__, 'isUrl'),
+		'uri' => array(__CLASS__, 'isUri'),
 		'none' => array(__CLASS__, 'isNone'),
 		'type' => array(__CLASS__, 'isType'),
 		'identifier' => array(__CLASS__, 'isPhpIdentifier'),
@@ -247,6 +248,9 @@ class Validators extends Nette\Object
 
 	/**
 	 * Finds whether a string is a valid URL.
+	 * 
+	 * This method considers only HTTP(S) URLs as valid. If you want
+	 * to accept more schemes use {@link isUri()}.
 	 * @param  string
 	 * @return bool
 	 */
@@ -256,6 +260,22 @@ class Validators extends Nette\Object
 		$domain = "[0-9$alpha](?:[-0-9$alpha]{0,61}[0-9$alpha])?";
 		$topDomain = "[$alpha](?:[-0-9$alpha]{0,17}[$alpha])?";
 		return (bool) preg_match("(^https?://(?:(?:$domain\\.)*$topDomain|\\d{1,3}\.\\d{1,3}\.\\d{1,3}\.\\d{1,3}|\[[0-9a-f:]{3,39}\])(:\\d{1,5})?(/\\S*)?\\z)i", $value);
+	}
+
+
+	/**
+	 * Finds whether a string is a valid URI.
+	 * 
+	 * This method accepts any URL which follows the
+	 * definition of RFC 1738. If you want to accept only HTTP(S)
+	 * use {@link isUrl()}.
+	 * @param  string
+	 * @return bool
+	 * @see isUrl()
+	 */
+	public static function isUri($value)
+	{
+		return (bool) preg_match('#^[a-z\d+\.-]+:\S+#i', $value);
 	}
 
 
