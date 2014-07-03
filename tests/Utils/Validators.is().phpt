@@ -209,7 +209,7 @@ test(function() {
 	Assert::false( Validators::is('invalid-scheme~:gandalf@example.org', 'uri') );
 	Assert::true( Validators::is('mailto:gandalf@example.org', 'uri') );
 	Assert::true( Validators::is('valid-scheme+.0:lalala', 'uri') );
-	Assert::true( Validators::is('bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK', 'uri') );
+	Assert::true( Validators::is('bitcoin:mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn', 'uri') );
 });
 
 
