@@ -495,6 +495,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/**
 	 * Returns element's attributes.
 	 * @return string
+	 * @internal
 	 */
 	public function attributes()
 	{
