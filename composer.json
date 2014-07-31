@@ -21,6 +21,7 @@
 	},
 	"suggest": {
 		"ext-iconv": "to use Strings::webalize() and toAscii()",
+		"ext-intl": "for script transliteration in Strings::webalize() and toAscii()",
 		"ext-mbstring": "to use Strings::lower() etc...",
 		"ext-gd": "to use Image"
 	},
