@@ -423,16 +423,7 @@ class Strings
 	 */
 	public static function split($subject, $pattern, $flags = 0)
 	{
-		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
-			restore_error_handler();
-			throw new RegexpException("$message in pattern: $pattern");
-		});
-		$res = preg_split($pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE);
-		restore_error_handler();
-		if (preg_last_error()) { // run-time error
-			throw new RegexpException(NULL, preg_last_error(), $pattern);
-		}
-		return $res;
+		return RegexpException::call('preg_split', array($pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE));
 	}
 
 
@@ -449,18 +440,9 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return NULL;
 		}
-		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
-			restore_error_handler();
-			throw new RegexpException("$message in pattern: $pattern");
-		});
-		$res = preg_match($pattern, $subject, $m, $flags, $offset);
-		restore_error_handler();
-		if (preg_last_error()) { // run-time error
-			throw new RegexpException(NULL, preg_last_error(), $pattern);
-		}
-		if ($res) {
-			return $m;
-		}
+		return RegexpException::call('preg_match', array($pattern, $subject, & $m, $flags, $offset))
+			? $m
+			: NULL;
 	}
 
 
@@ -477,19 +459,11 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return array();
 		}
-		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
-			restore_error_handler();
-			throw new RegexpException("$message in pattern: $pattern");
-		});
-		preg_match_all(
-			$pattern, $subject, $m,
+		RegexpException::call('preg_match_all', array(
+			$pattern, $subject, & $m,
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
 			$offset
-		);
-		restore_error_handler();
-		if (preg_last_error()) { // run-time error
-			throw new RegexpException(NULL, preg_last_error(), $pattern);
-		}
+		));
 		return $m;
 	}
 
@@ -512,60 +486,14 @@ class Strings
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
 
-			set_error_handler(function($severity, $message) use (& $tmp) { // preg_last_error does not return compile errors
-				restore_error_handler();
-				throw new RegexpException("$message in pattern: $tmp");
-			});
-			foreach ((array) $pattern as $tmp) {
-				preg_match($tmp, '');
-			}
-			restore_error_handler();
-
-			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
-			if ($res === NULL && preg_last_error()) { // run-time error
-				throw new RegexpException(NULL, preg_last_error(), $pattern);
-			}
-			return $res;
+			return RegexpException::call('preg_replace_callback', array($pattern, $replacement, $subject, $limit));
 
 		} elseif ($replacement === NULL && is_array($pattern)) {
 			$replacement = array_values($pattern);
 			$pattern = array_keys($pattern);
 		}
 
-		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
-			restore_error_handler();
-			throw new RegexpException("$message in pattern: " . implode(' or ', (array) $pattern));
-		});
-		$res = preg_replace($pattern, $replacement, $subject, $limit);
-		restore_error_handler();
-		if (preg_last_error()) { // run-time error
-			throw new RegexpException(NULL, preg_last_error(), implode(' or ', (array) $pattern));
-		}
-		return $res;
-	}
-
-}
-
-
-/**
- * The exception that indicates error of the last Regexp execution.
- */
-class RegexpException extends \Exception
-{
-	static public $messages = array(
-		PREG_INTERNAL_ERROR => 'Internal error',
-		PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
-		PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',
-		PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
-		5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point', // PREG_BAD_UTF8_OFFSET_ERROR
-	);
-
-	public function __construct($message, $code = NULL, $pattern = NULL)
-	{
-		if (!$message) {
-			$message = (isset(self::$messages[$code]) ? self::$messages[$code] : 'Unknown error') . ($pattern ? " (pattern: $pattern)" : '');
-		}
-		parent::__construct($message, $code);
+		return RegexpException::call('preg_replace', array($pattern, $replacement, $subject, $limit));
 	}
 
 }
