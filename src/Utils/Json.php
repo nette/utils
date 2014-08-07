@@ -47,21 +47,16 @@ class Json
 	 */
 	public static function encode($value, $options = 0)
 	{
+		$flags = PHP_VERSION_ID >= 50400 ? (JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)) : 0;
+
 		if (PHP_VERSION_ID < 50500) {
-			set_error_handler(function($severity, $message) { // needed to receive 'recursion detected' error
-				restore_error_handler();
+			$json = Callback::invokeSafe('json_encode', array($value, $flags), function($message) { // needed to receive 'recursion detected' error
 				throw new JsonException($message);
 			});
+		} else {
+			$json = json_encode($value, $flags);
 		}
 
-		$json = json_encode(
-			$value,
-			PHP_VERSION_ID >= 50400 ? (JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)) : 0
-		);
-
-		if (PHP_VERSION_ID < 50500) {
-			restore_error_handler();
-		}
 		if ($error = json_last_error()) {
 			$message = isset(static::$messages[$error]) ? static::$messages[$error]
 				: (PHP_VERSION_ID >= 50500 ? json_last_error_msg() : 'Unknown error');
