@@ -135,16 +135,7 @@ class Arrays
 	 */
 	public static function grep(array $arr, $pattern, $flags = 0)
 	{
-		set_error_handler(function($severity, $message) use ($pattern) { // preg_last_error does not return compile errors
-			restore_error_handler();
-			throw new RegexpException("$message in pattern: $pattern");
-		});
-		$res = preg_grep($pattern, $arr, $flags);
-		restore_error_handler();
-		if (preg_last_error()) { // run-time error
-			throw new RegexpException(NULL, preg_last_error(), $pattern);
-		}
-		return $res;
+		return Strings::pcre('preg_grep', array($pattern, $arr, $flags));
 	}
 
 
