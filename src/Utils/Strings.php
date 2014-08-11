@@ -426,7 +426,7 @@ class Strings
 	 */
 	public static function split($subject, $pattern, $flags = 0)
 	{
-		return RegexpException::call('preg_split', array($pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE));
+		return self::pcre('preg_split', array($pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE));
 	}
 
 
@@ -443,7 +443,7 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return NULL;
 		}
-		return RegexpException::call('preg_match', array($pattern, $subject, & $m, $flags, $offset))
+		return self::pcre('preg_match', array($pattern, $subject, & $m, $flags, $offset))
 			? $m
 			: NULL;
 	}
@@ -462,7 +462,7 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return array();
 		}
-		RegexpException::call('preg_match_all', array(
+		self::pcre('preg_match_all', array(
 			$pattern, $subject, & $m,
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
 			$offset
@@ -489,14 +489,47 @@ class Strings
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
 
-			return RegexpException::call('preg_replace_callback', array($pattern, $replacement, $subject, $limit));
+			return self::pcre('preg_replace_callback', array($pattern, $replacement, $subject, $limit));
 
 		} elseif ($replacement === NULL && is_array($pattern)) {
 			$replacement = array_values($pattern);
 			$pattern = array_keys($pattern);
 		}
 
-		return RegexpException::call('preg_replace', array($pattern, $replacement, $subject, $limit));
+		return self::pcre('preg_replace', array($pattern, $replacement, $subject, $limit));
 	}
 
+
+	/** @internal */
+	public static function pcre($func, $args)
+	{
+		static $messages = array(
+			PREG_INTERNAL_ERROR => 'Internal error',
+			PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
+			PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',
+			PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
+			5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point', // PREG_BAD_UTF8_OFFSET_ERROR
+		);
+		$res = Callback::invokeSafe($func, $args, function($message) use ($args) {
+			// compile-time error, not detectable by preg_last_error
+			throw new RegexpException($message . ' in pattern: ' . implode(' or ', (array) $args[0]));
+		});
+
+		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
+			&& ($res === NULL || !in_array($func, array('preg_filter', 'preg_replace_callback', 'preg_replace')))
+		) {
+			throw new RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error')
+				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);
+		}
+		return $res;
+	}
+
+}
+
+
+/**
+ * The exception that indicates error of the last Regexp execution.
+ */
+class RegexpException extends \Exception
+{
 }

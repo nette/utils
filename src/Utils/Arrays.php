@@ -135,7 +135,7 @@ class Arrays
 	 */
 	public static function grep(array $arr, $pattern, $flags = 0)
 	{
-		return RegexpException::call('preg_grep', array($pattern, $arr, $flags));
+		return Strings::pcre('preg_grep', array($pattern, $arr, $flags));
 	}
 
 
