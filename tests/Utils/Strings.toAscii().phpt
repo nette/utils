@@ -19,4 +19,3 @@ Assert::same( '"""\'\'\'>><<', Strings::toAscii("\xE2\x80\x9E\xE2\x80\x9C\xE2\x8
 if (class_exists('Transliterator') && \Transliterator::create('Any-Latin; Latin-ASCII')) {
 	Assert::same( 'Athena->Moskva', Strings::toAscii("\xCE\x91\xCE\xB8\xCE\xAE\xCE\xBD\xCE\xB1\xE2\x86\x92\xD0\x9C\xD0\xBE\xD1\x81\xD0\xBA\xD0\xB2\xD0\xB0") ); // Αθήνα→Москва
 }
-

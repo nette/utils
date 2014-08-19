@@ -215,4 +215,18 @@ class Arrays
 		return $res;
 	}
 
+
+	/**
+	 * Normalizes to associative array.
+	 * @return array
+	 */
+	public static function normalize(array $arr, $filling = NULL)
+	{
+		$res = array();
+		foreach ($arr as $k => $v) {
+			$res[is_int($k) ? $v : $k] = is_int($k) ? $filling : $v;
+		}
+		return $res;
+	}
+
 }
