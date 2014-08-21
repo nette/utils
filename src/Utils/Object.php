@@ -49,7 +49,7 @@ use Nette,
  *
  * @author     David Grudl
  *
- * @property-read Nette\Reflection\ClassType $reflection
+ * @property-read Nette\Reflection\ClassType|\ReflectionClass $reflection
  */
 abstract class Object
 {
