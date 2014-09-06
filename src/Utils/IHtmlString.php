@@ -9,13 +9,12 @@ namespace Nette\Utils;
 
 use Nette;
 
-
 interface IHtmlString
 {
 
-	/**
-	 * @return string in HTML format
-	 */
-	function __toString();
+    /**
+     * @return string in HTML format
+     */
+    public function __toString();
 
 }

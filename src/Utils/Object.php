@@ -8,8 +8,7 @@
 namespace Nette;
 
 use Nette,
-	Nette\Utils\ObjectMixin;
-
+    Nette\Utils\ObjectMixin;
 
 /**
  * Nette\Object is the ultimate ancestor of all instantiable classes.
@@ -42,7 +41,7 @@ use Nette,
  * Adding method to class (i.e. to all instances) works similar to JavaScript
  * prototype property. The syntax for adding a new method is:
  * <code>
- * MyClass::extensionMethod('newMethod', function(MyClass $obj, $arg, ...) { ... });
+ * MyClass::extensionMethod('newMethod', function (MyClass $obj, $arg, ...) { ... });
  * $obj = new MyClass;
  * $obj->newMethod($x);
  * </code>
@@ -54,111 +53,105 @@ use Nette,
 abstract class Object
 {
 
-	/**
-	 * Access to reflection.
-	 * @return Nette\Reflection\ClassType|\ReflectionClass
-	 */
-	public static function getReflection()
-	{
-		$class = class_exists('Nette\Reflection\ClassType') ? 'Nette\Reflection\ClassType' : 'ReflectionClass';
-		return new $class(get_called_class());
-	}
+    /**
+     * Access to reflection.
+     * @return Nette\Reflection\ClassType|\ReflectionClass
+     */
+    public static function getReflection()
+    {
+        $class = class_exists('Nette\Reflection\ClassType') ? 'Nette\Reflection\ClassType' : 'ReflectionClass';
 
+        return new $class(get_called_class());
+    }
 
-	/**
-	 * Call to undefined method.
-	 * @param  string  method name
-	 * @param  array   arguments
-	 * @return mixed
-	 * @throws MemberAccessException
-	 */
-	public function __call($name, $args)
-	{
-		return ObjectMixin::call($this, $name, $args);
-	}
+    /**
+     * Call to undefined method.
+     * @param  string  method name
+     * @param  array   arguments
+     * @return mixed
+     * @throws MemberAccessException
+     */
+    public function __call($name, $args)
+    {
+        return ObjectMixin::call($this, $name, $args);
+    }
 
+    /**
+     * Call to undefined static method.
+     * @param  string  method name (in lower case!)
+     * @param  array   arguments
+     * @return mixed
+     * @throws MemberAccessException
+     */
+    public static function __callStatic($name, $args)
+    {
+        return ObjectMixin::callStatic(get_called_class(), $name, $args);
+    }
 
-	/**
-	 * Call to undefined static method.
-	 * @param  string  method name (in lower case!)
-	 * @param  array   arguments
-	 * @return mixed
-	 * @throws MemberAccessException
-	 */
-	public static function __callStatic($name, $args)
-	{
-		return ObjectMixin::callStatic(get_called_class(), $name, $args);
-	}
+    /**
+     * Adding method to class.
+     * @param  string  method name
+     * @param  callable
+     * @return mixed
+     */
+    public static function extensionMethod($name, $callback = NULL)
+    {
+        if (strpos($name, '::') === FALSE) {
+            $class = get_called_class();
+        } else {
+            list($class, $name) = explode('::', $name);
+            $rc = new \ReflectionClass($class);
+            $class = $rc->getName();
+        }
+        if ($callback === NULL) {
+            return ObjectMixin::getExtensionMethod($class, $name);
+        } else {
+            ObjectMixin::setExtensionMethod($class, $name, $callback);
+        }
+    }
 
+    /**
+     * Returns property value. Do not call directly.
+     * @param  string  property name
+     * @return mixed                 property value
+     * @throws MemberAccessException if the property is not defined.
+     */
+    public function &__get($name)
+    {
+        return ObjectMixin::get($this, $name);
+    }
 
-	/**
-	 * Adding method to class.
-	 * @param  string  method name
-	 * @param  callable
-	 * @return mixed
-	 */
-	public static function extensionMethod($name, $callback = NULL)
-	{
-		if (strpos($name, '::') === FALSE) {
-			$class = get_called_class();
-		} else {
-			list($class, $name) = explode('::', $name);
-			$rc = new \ReflectionClass($class);
-			$class = $rc->getName();
-		}
-		if ($callback === NULL) {
-			return ObjectMixin::getExtensionMethod($class, $name);
-		} else {
-			ObjectMixin::setExtensionMethod($class, $name, $callback);
-		}
-	}
+    /**
+     * Sets value of a property. Do not call directly.
+     * @param  string  property name
+     * @param  mixed   property value
+     * @return void
+     * @throws MemberAccessException if the property is not defined or is read-only
+     */
+    public function __set($name, $value)
+    {
+        ObjectMixin::set($this, $name, $value);
+    }
 
+    /**
+     * Is property defined?
+     * @param  string  property name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return ObjectMixin::has($this, $name);
+    }
 
-	/**
-	 * Returns property value. Do not call directly.
-	 * @param  string  property name
-	 * @return mixed   property value
-	 * @throws MemberAccessException if the property is not defined.
-	 */
-	public function &__get($name)
-	{
-		return ObjectMixin::get($this, $name);
-	}
-
-
-	/**
-	 * Sets value of a property. Do not call directly.
-	 * @param  string  property name
-	 * @param  mixed   property value
-	 * @return void
-	 * @throws MemberAccessException if the property is not defined or is read-only
-	 */
-	public function __set($name, $value)
-	{
-		ObjectMixin::set($this, $name, $value);
-	}
-
-
-	/**
-	 * Is property defined?
-	 * @param  string  property name
-	 * @return bool
-	 */
-	public function __isset($name)
-	{
-		return ObjectMixin::has($this, $name);
-	}
-
-
-	/**
-	 * Access to undeclared property.
-	 * @param  string  property name
-	 * @return void
-	 * @throws MemberAccessException
-	 */
-	public function __unset($name)
-	{
-		ObjectMixin::remove($this, $name);
-	}
+    /**
+     * Access to undeclared property.
+     * @param  string  property name
+     * @return void
+     * @throws MemberAccessException
+     */
+    public function __unset($name)
+    {
+        ObjectMixin::remove($this, $name);
+    }
 
 }
