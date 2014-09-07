@@ -9,7 +9,6 @@ namespace Nette\Localization;
 
 use Nette;
 
-
 /**
  * Translator adapter.
  *
@@ -18,12 +17,12 @@ use Nette;
 interface ITranslator
 {
 
-	/**
-	 * Translates the given string.
-	 * @param  string   message
-	 * @param  int      plural count
-	 * @return string
-	 */
-	function translate($message, $count = NULL);
+    /**
+     * Translates the given string.
+     * @param  string   message
+     * @param  int      plural count
+     * @return string
+     */
+    public function translate($message, $count = NULL);
 
 }
