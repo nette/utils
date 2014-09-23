@@ -118,7 +118,8 @@ class Validators extends Nette\Object
 	 */
 	public static function is($value, $expected)
 	{
-		foreach (explode('|', $expected) as $item) {
+		$items = preg_split('#\|(?=' . implode('|', array_keys(static::$validators)) . '|$)#', $expected);
+		foreach ($items as $item) {
 			list($type) = $item = explode(':', $item, 2);
 			if (isset(static::$validators[$type])) {
 				if (!call_user_func(static::$validators[$type], $value)) {
@@ -129,7 +130,7 @@ class Validators extends Nette\Object
 					continue;
 				}
 			} elseif ($type === 'pattern') {
-				if (preg_match('|^' . (isset($item[1]) ? $item[1] : '') . '\z|', $value)) {
+				if (preg_match('#^' . (isset($item[1]) ? str_replace('#', '\#', $item[1]) : '') . '\z#', $value)) {
 					return TRUE;
 				}
 				continue;
