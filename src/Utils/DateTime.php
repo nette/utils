@@ -106,7 +106,12 @@ class DateTime extends \DateTime
 			throw new Nette\InvalidArgumentException('Invalid timezone given');
 		}
 
-		return static::from(parent::createFromFormat($format, $time, $timezone));
+		$dateTime = parent::createFromFormat($format, $time, $timezone);
+		if ($dateTime === FALSE) {
+			return FALSE;
+		}
+
+		return static::from($dateTime);
 	}
 
 }
