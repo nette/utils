@@ -48,7 +48,7 @@ class Arrays
 
 
 	/**
-	 * Returns reference to array item or $default if item is not set.
+	 * Returns reference to array item.
 	 * @return mixed
 	 */
 	public static function & getRef(& $arr, $key)
