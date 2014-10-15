@@ -23,3 +23,5 @@ Assert::same( 'Europe/Bratislava', DateTime::createFromFormat('Y', '2050', 'Euro
 Assert::error(function(){
 	DateTime::createFromFormat('Y-m-d H:i:s', '2050-08-13 11:40:00', 5);
 }, 'Nette\InvalidArgumentException', 'Invalid timezone given' );
+
+Assert::false(DateTime::createFromFormat('Y-m-d', '2014-10'));
