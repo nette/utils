@@ -59,12 +59,19 @@ class DateTime extends \DateTime
 	}
 
 
+	/**
+	 * @return string
+	 */
 	public function __toString()
 	{
 		return $this->format('Y-m-d H:i:s');
 	}
 
 
+	/**
+	 * @param  string
+	 * @return self
+	 */
 	public function modifyClone($modify = '')
 	{
 		$dolly = clone $this;
@@ -72,6 +79,10 @@ class DateTime extends \DateTime
 	}
 
 
+	/**
+	 * @param  int
+	 * @return self
+	 */
 	public function setTimestamp($timestamp)
 	{
 		$zone = $this->getTimezone();
@@ -80,6 +91,9 @@ class DateTime extends \DateTime
 	}
 
 
+	/**
+	 * @return int|string
+	 */
 	public function getTimestamp()
 	{
 		$ts = $this->format('U');
