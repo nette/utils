@@ -54,7 +54,7 @@ class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \Itera
 		if ($index === NULL) {
 			$this->list[] = $value;
 
-		} elseif ($index < 0 || $index >= count($this->list)) {
+		} elseif ($index < 0 || $index >= $this->count()) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 
 		} else {
@@ -71,7 +71,7 @@ class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \Itera
 	 */
 	public function offsetGet($index)
 	{
-		if ($index < 0 || $index >= count($this->list)) {
+		if ($index < 0 || $index >= $this->count()) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 		}
 		return $this->list[(int) $index];
@@ -85,7 +85,7 @@ class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \Itera
 	 */
 	public function offsetExists($index)
 	{
-		return $index >= 0 && $index < count($this->list);
+		return $index >= 0 && $index < $this->count();
 	}
 
 
@@ -97,7 +97,7 @@ class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \Itera
 	 */
 	public function offsetUnset($index)
 	{
-		if ($index < 0 || $index >= count($this->list)) {
+		if ($index < 0 || $index >= $this->count()) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 		}
 		array_splice($this->list, (int) $index, 1);
