@@ -11,7 +11,7 @@ use Nette;
 
 
 /**
- * Validation utilites.
+ * Validation utilities.
  *
  * @author     David Grudl
  */
@@ -96,6 +96,7 @@ class Validators extends Nette\Object
 	 * @param  array
 	 * @param  string  item
 	 * @param  string  expected types separated by pipe
+	 * @param  string
 	 * @return void
 	 */
 	public static function assertField($arr, $field, $expected = NULL, $label = "item '%' in array")

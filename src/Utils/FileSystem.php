@@ -21,6 +21,7 @@ class FileSystem
 	/**
 	 * Creates a directory.
 	 * @return void
+	 * @throws Nette\IOException
 	 */
 	public static function createDir($dir, $mode = 0777)
 	{
@@ -33,6 +34,7 @@ class FileSystem
 	/**
 	 * Copies a file or directory.
 	 * @return void
+	 * @throws Nette\IOException
 	 */
 	public static function copy($source, $dest, $overwrite = TRUE)
 	{
@@ -67,6 +69,7 @@ class FileSystem
 	/**
 	 * Deletes a file or directory.
 	 * @return void
+	 * @throws Nette\IOException
 	 */
 	public static function delete($path)
 	{
@@ -90,6 +93,8 @@ class FileSystem
 	/**
 	 * Renames a file or directory.
 	 * @return void
+	 * @throws Nette\IOException
+	 * @throws Nette\InvalidStateException if the target file or directory already exist
 	 */
 	public static function rename($name, $newName, $overwrite = TRUE)
 	{
@@ -111,7 +116,8 @@ class FileSystem
 
 	/**
 	 * Writes a string to a file.
-	 * @return bool
+	 * @return void
+	 * @throws Nette\IOException
 	 */
 	public static function write($file, $content, $mode = 0666)
 	{

@@ -48,8 +48,8 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/**
 	 * Static factory.
 	 * @param  string element name (or NULL)
-	 * @param  array|string element's attributes (or textual content)
-	 * @return Html
+	 * @param  array|string element's attributes or plain text content
+	 * @return self
 	 */
 	public static function el($name = NULL, $attrs = NULL)
 	{
@@ -230,7 +230,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Sets element's HTML content.
-	 * @param  string
+	 * @param  string raw HTML string
 	 * @return self
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -290,7 +290,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Adds new element's child.
-	 * @param  Html|string child node
+	 * @param  Html|string Html node or raw HTML string
 	 * @return self
 	 */
 	public function add($child)
@@ -302,8 +302,8 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	/**
 	 * Creates and adds a new Html child.
 	 * @param  string  elements's name
-	 * @param  array|string element's attributes (or textual content)
-	 * @return Html  created element
+	 * @param  array|string element's attributes or raw HTML string
+	 * @return self  created element
 	 */
 	public function create($name, $attrs = NULL)
 	{
@@ -314,11 +314,11 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Inserts child node.
-	 * @param  int
-	 * @param  Html node
+	 * @param  int|NULL position of NULL for appending
+	 * @param  Html|string Html node or raw HTML string
 	 * @param  bool
 	 * @return self
-	 * @throws \Exception
+	 * @throws Nette\InvalidArgumentException
 	 */
 	public function insert($index, $child, $replace = FALSE)
 	{
@@ -340,8 +340,8 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Inserts (replaces) child node (\ArrayAccess implementation).
-	 * @param  int
-	 * @param  Html node
+	 * @param  int|NULL position of NULL for appending
+	 * @param  Html|string Html node or raw HTML string
 	 * @return void
 	 */
 	public function offsetSet($index, $child)
@@ -352,8 +352,8 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Returns child node (\ArrayAccess implementation).
-	 * @param  int index
-	 * @return mixed
+	 * @param  int
+	 * @return self|string
 	 */
 	public function offsetGet($index)
 	{
@@ -363,7 +363,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Exists child node? (\ArrayAccess implementation).
-	 * @param  int index
+	 * @param  int
 	 * @return bool
 	 */
 	public function offsetExists($index)
@@ -374,7 +374,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Removes child node (\ArrayAccess implementation).
-	 * @param  int index
+	 * @param  int
 	 * @return void
 	 */
 	public function offsetUnset($index)
@@ -386,7 +386,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
-	 * Required by the \Countable interface.
+	 * Returns children count.
 	 * @return int
 	 */
 	public function count()
@@ -430,7 +430,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Renders element's start tag, content and end tag.
-	 * @param  int indent
+	 * @param  int
 	 * @return string
 	 */
 	public function render($indent = NULL)

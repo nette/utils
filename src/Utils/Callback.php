@@ -124,7 +124,7 @@ class Callback
 
 
 	/**
-	 * @return Nette\Reflection\GlobalFunction|Nette\Reflection\Method
+	 * @return \ReflectionMethod|\ReflectionFunction
 	 */
 	public static function toReflection($callable)
 	{
@@ -155,7 +155,6 @@ class Callback
 	{
 		return is_array($callable) ? is_string($callable[0]) : is_string($callable);
 	}
-
 
 
 	/**
