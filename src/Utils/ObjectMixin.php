@@ -49,7 +49,6 @@ class ObjectMixin
 	{
 		$class = get_class($_this);
 		$isProp = self::hasProperty($class, $name);
-		$methods = & self::getMethods($class);
 
 		if ($name === '') {
 			throw new MemberAccessException("Call to class '$class' method without name.");
@@ -66,7 +65,7 @@ class ObjectMixin
 				throw new Nette\UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) ." given.");
 			}
 
-		} elseif (isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
+		} elseif (($methods = & self::getMethods($class)) && isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
 			list($op, $rp, $type) = $methods[$name];
 			if (count($args) !== ($op === 'get' ? 0 : 1)) {
 				throw new Nette\InvalidArgumentException("$class::$name() expects " . ($op === 'get' ? 'no' : '1') . ' argument, ' . count($args) . ' given.');
@@ -230,7 +229,7 @@ class ObjectMixin
 			try {
 				$rp = new \ReflectionProperty($class, $name);
 				if ($rp->isPublic() && !$rp->isStatic()) {
-					$prop = preg_match('#^on[A-Z]#', $name) ? 'event' : TRUE;
+					$prop = $name >= 'onA' && $name < 'on_' ? 'event' : TRUE;
 				}
 			} catch (\ReflectionException $e) {}
 		}
