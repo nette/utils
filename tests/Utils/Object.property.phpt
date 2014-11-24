@@ -43,6 +43,16 @@ class TestClass extends Nette\Object
 		$this->bar = $value;
 	}
 
+	public function isAwesome()
+	{
+		return $this->foo === 'awesome';
+	}
+
+	public function areCool()
+	{
+		return $this->bar === 'cool';
+	}
+
 	public function gets() // or setupXyz, settle...
 	{
 		echo __METHOD__;
@@ -97,3 +107,9 @@ Assert::same( 'World', $obj->bar );
 Assert::exception(function() use ($obj) {
 	$val = $obj->bazz;
 }, 'Nette\MemberAccessException', 'Cannot read a write-only property TestClass::$bazz.');
+
+
+// isFoo && areFoo
+$obj = new TestClass('awesome', 'notCool');
+Assert::true( $obj->awesome );
+Assert::false( $obj->cool );
