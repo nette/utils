@@ -21,6 +21,10 @@ use Nette;
  * echo $el->startTag(), $el->endTag();
  * </code>
  *
+ * @method $this autofocus(boolean $state)
+ * @method $this class(string $class)
+ * @method $this style(string $style)
+ *
  * @author     David Grudl
  */
 class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
