@@ -64,6 +64,14 @@ test(function() {
 });
 
 
+test(function() { // small & big numbers
+	$el = Html::el('span');
+	$el->small = 1e-8;
+	$el->big = 1e20;
+	Assert::same( '<span small="0.00000001" big="100000000000000000000"></span>', (string) $el );
+});
+
+
 test(function() { // attributes escaping
 	Assert::same( '<a one=\'"\' two="\'" three="<>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;') );
 	Assert::same( '<a one="``xx "></a>' , (string) Html::el('a')->one("``xx") ); // mXSS
