@@ -550,6 +550,9 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 					$value = implode($key === 'style' || !strncmp($key, 'on', 2) ? ';' : ' ', $tmp);
 				}
 
+			} elseif (is_float($value)) {
+				$value = rtrim(rtrim(number_format($value, 10, '.', ''), '0'), '.');
+
 			} else {
 				$value = (string) $value;
 			}
