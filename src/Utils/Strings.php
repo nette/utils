@@ -172,7 +172,7 @@ class Strings
 	public static function toAscii($s)
 	{
 		$s = preg_replace('#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{2FF}\x{370}-\x{10FFFF}]#u', '', $s);
-		$s = strtr($s, '`\'"^~', "\x01\x02\x03\x04\x05");
+		$s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
 		$s = str_replace(array("\xE2\x80\x9E", "\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9A",
 			"\xE2\x80\x98", "\xE2\x80\x99", "\xC2\xBB", "\xC2\xAB"),
 			array("\x03", "\x03", "\x03", "\x02", "\x02", "\x02", ">>", "<<"), $s);
@@ -186,8 +186,8 @@ class Strings
 		} else {
 			$s = @iconv('UTF-8', 'ASCII//TRANSLIT', $s); // intentionally @
 		}
-		$s = str_replace(array('`', "'", '"', '^', '~'), '', $s);
-		return strtr($s, "\x01\x02\x03\x04\x05", '`\'"^~');
+		$s = str_replace(array('`', "'", '"', '^', '~', '?'), '', $s);
+		return strtr($s, "\x01\x02\x03\x04\x05\x06", '`\'"^~?');
 	}
 
 
