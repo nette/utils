@@ -124,6 +124,8 @@ class Strings
 		}
 		if (function_exists('mb_substr')) {
 			return mb_substr($s, $start, $length, 'UTF-8'); // MB is much faster
+		} elseif ($start < 0 && $length < 0) {
+			$start += self::length($s); // unifies iconv_substr behavior with mb_substr
 		}
 		return iconv_substr($s, $start, $length, 'UTF-8');
 	}
