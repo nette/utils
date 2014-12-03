@@ -62,13 +62,17 @@ class Strings
 
 	/**
 	 * Returns a specific character in UTF-8.
-	 * @param  int     codepoint
+	 * @param  int     code point (0x0 to 0xD7FF or 0xE000 to 0x10FFFF)
 	 * @return string
+	 * @throws Nette\InvalidArgumentException if code point is not in valid range
 	 */
 	public static function chr($code)
 	{
 		if (func_num_args() > 1 && strcasecmp(func_get_arg(1), 'UTF-8')) {
 			trigger_error(__METHOD__ . ' supports only UTF-8 encoding.', E_USER_DEPRECATED);
+		}
+		if ($code < 0 || ($code >= 0xD800 && $code <= 0xDFFF) || $code > 0x10FFFF) {
+			throw new Nette\InvalidArgumentException('Code point must be in range 0x0 to 0xD7FF or 0xE000 to 0x10FFFF.');
 		}
 		return iconv('UTF-32BE', 'UTF-8//IGNORE', pack('N', $code));
 	}
