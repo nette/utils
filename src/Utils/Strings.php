@@ -113,8 +113,8 @@ class Strings
 	/**
 	 * Returns a part of UTF-8 string.
 	 * @param  string
-	 * @param  int
-	 * @param  int
+	 * @param  int in characters (code points)
+	 * @param  int in characters (code points)
 	 * @return string
 	 */
 	public static function substring($s, $start, $length = NULL)
@@ -339,7 +339,8 @@ class Strings
 
 
 	/**
-	 * Returns UTF-8 string length.
+	 * Returns number of characters (not bytes) in UTF-8 string.
+	 * That is the number of Unicode code points which may differ from the number of graphemes.
 	 * @param  string
 	 * @return int
 	 */
