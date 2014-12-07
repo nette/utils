@@ -47,3 +47,7 @@ Assert::same( 'Řekněte, jak se (dnes) máte?', Strings::truncate($s, 29) ); //
 Assert::same( 'Řekněte, jak se (dnes) máte?', Strings::truncate($s, 30) ); // length=30
 Assert::same( 'Řekněte, jak se (dnes) máte?', Strings::truncate($s, 31) ); // length=31
 Assert::same( 'Řekněte, jak se (dnes) máte?', Strings::truncate($s, 32) ); // length=32
+
+// mañana, U+006E + U+0303 (combining character)
+Assert::same( "man\xCC\x83", Strings::truncate("man\xCC\x83ana", 4, '' ) );
+Assert::same( "man", Strings::truncate("man\xCC\x83ana", 3, '' ) );

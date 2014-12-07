@@ -62,13 +62,17 @@ class Strings
 
 	/**
 	 * Returns a specific character in UTF-8.
-	 * @param  int     codepoint
+	 * @param  int     code point (0x0 to 0xD7FF or 0xE000 to 0x10FFFF)
 	 * @return string
+	 * @throws Nette\InvalidArgumentException if code point is not in valid range
 	 */
 	public static function chr($code)
 	{
 		if (func_num_args() > 1 && strcasecmp(func_get_arg(1), 'UTF-8')) {
 			trigger_error(__METHOD__ . ' supports only UTF-8 encoding.', E_USER_DEPRECATED);
+		}
+		if ($code < 0 || ($code >= 0xD800 && $code <= 0xDFFF) || $code > 0x10FFFF) {
+			throw new Nette\InvalidArgumentException('Code point must be in range 0x0 to 0xD7FF or 0xE000 to 0x10FFFF.');
 		}
 		return iconv('UTF-32BE', 'UTF-8//IGNORE', pack('N', $code));
 	}
@@ -113,8 +117,8 @@ class Strings
 	/**
 	 * Returns a part of UTF-8 string.
 	 * @param  string
-	 * @param  int
-	 * @param  int
+	 * @param  int in characters (code points)
+	 * @param  int in characters (code points)
 	 * @return string
 	 */
 	public static function substring($s, $start, $length = NULL)
@@ -124,6 +128,8 @@ class Strings
 		}
 		if (function_exists('mb_substr')) {
 			return mb_substr($s, $start, $length, 'UTF-8'); // MB is much faster
+		} elseif ($start < 0 && $length < 0) {
+			$start += self::length($s); // unifies iconv_substr behavior with mb_substr
 		}
 		return iconv_substr($s, $start, $length, 'UTF-8');
 	}
@@ -170,7 +176,7 @@ class Strings
 	public static function toAscii($s)
 	{
 		$s = preg_replace('#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{2FF}\x{370}-\x{10FFFF}]#u', '', $s);
-		$s = strtr($s, '`\'"^~', "\x01\x02\x03\x04\x05");
+		$s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
 		$s = str_replace(array("\xE2\x80\x9E", "\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9A",
 			"\xE2\x80\x98", "\xE2\x80\x99", "\xC2\xBB", "\xC2\xAB"),
 			array("\x03", "\x03", "\x03", "\x02", "\x02", "\x02", ">>", "<<"), $s);
@@ -187,8 +193,8 @@ class Strings
 		} else {
 			$s = @iconv('UTF-8', 'ASCII//TRANSLIT', $s); // intentionally @
 		}
-		$s = str_replace(array('`', "'", '"', '^', '~'), '', $s);
-		return strtr($s, "\x01\x02\x03\x04\x05", '`\'"^~');
+		$s = str_replace(array('`', "'", '"', '^', '~', '?'), '', $s);
+		return strtr($s, "\x01\x02\x03\x04\x05\x06", '`\'"^~?');
 	}
 
 
@@ -342,7 +348,8 @@ class Strings
 
 
 	/**
-	 * Returns UTF-8 string length.
+	 * Returns number of characters (not bytes) in UTF-8 string.
+	 * That is the number of Unicode code points which may differ from the number of graphemes.
 	 * @param  string
 	 * @return int
 	 */
