@@ -282,81 +282,81 @@ $tests = array(
 				"",
 			),
 		),
-		'5  Illegal code positions' => array(
-			'5.1 Single UTF-16 surrogates' => array(
-				'5.1.1  U+D800 = ed a0 80' => array(
-					"\xED\xA0\x80",
-					"",
-				),
-				'5.1.2  U+DB7F = ed ad bf' => array(
-					"\xED\xAD\xBF",
-					"",
-				),
-				'5.1.3  U+DB80 = ed ae 80' => array(
-					"\xED\xAE\x80",
-					"",
-				),
-				'5.1.4  U+DBFF = ed af bf' => array(
-					"\xED\xAF\xBF",
-					"",
-				),
-				'5.1.5  U+DC00 = ed b0 80' => array(
-					"\xED\xB0\x80",
-					"",
-				),
-				'5.1.6  U+DF80 = ed be 80' => array(
-					"\xED\xBE\x80",
-					"",
-				),
-				'5.1.7  U+DFFF = ed bf bf' => array(
-					"\xED\xBF\xBF",
-					"",
-				),
+	),
+	'5  Illegal code positions' => array(
+		'5.1 Single UTF-16 surrogates' => array(
+			'5.1.1  U+D800 = ed a0 80' => array(
+				"\xED\xA0\x80",
+				"",
 			),
-			'5.2 Paired UTF-16 surrogates' => array(
-				'5.2.1  U+D800 U+DC00 = ed a0 80 ed b0 80' => array(
-					"\xED\xA0\x80\xED\xB0\x80",
-					"",
-				),
-				'5.2.2  U+D800 U+DFFF = ed a0 80 ed bf bf' => array(
-					"\xED\xA0\x80\xED\xBF\xBF",
-					"",
-				),
-				'5.2.3  U+DB7F U+DC00 = ed ad bf ed b0 80' => array(
-					"\xED\xAD\xBF\xED\xB0\x80",
-					"",
-				),
-				'5.2.4  U+DB7F U+DFFF = ed ad bf ed bf bf' => array(
-					"\xED\xAD\xBF\xED\xBF\xBF",
-					"",
-				),
-				'5.2.5  U+DB80 U+DC00 = ed ae 80 ed b0 80' => array(
-					"\xED\xAE\x80\xED\xB0\x80",
-					"",
-				),
-				'5.2.6  U+DB80 U+DFFF = ed ae 80 ed bf bf' => array(
-					"\xED\xAE\x80\xED\xBF\xBF",
-					"",
-				),
-				'5.2.7  U+DBFF U+DC00 = ed af bf ed b0 80' => array(
-					"\xED\xAF\xBF\xED\xB0\x80",
-					"",
-				),
-				'5.2.8  U+DBFF U+DFFF = ed af bf ed bf bf' => array(
-					"\xED\xAF\xBF\xED\xBF\xBF",
-					"",
-				),
+			'5.1.2  U+DB7F = ed ad bf' => array(
+				"\xED\xAD\xBF",
+				"",
 			),
-			// noncharacters are allowed according to http://www.unicode.org/versions/corrigendum9.html
-			'5.3 Other illegal code positions' => array(
-				'5.3.1  U+FFFE = ef bf be' => array(
-					"\xEF\xBF\xBE",
-					"\xEF\xBF\xBE",
-				),
-				'5.3.2  U+FFFF = ef bf bf' => array(
-					"\xEF\xBF\xBF",
-					"\xEF\xBF\xBF",
-				),
+			'5.1.3  U+DB80 = ed ae 80' => array(
+				"\xED\xAE\x80",
+				"",
+			),
+			'5.1.4  U+DBFF = ed af bf' => array(
+				"\xED\xAF\xBF",
+				"",
+			),
+			'5.1.5  U+DC00 = ed b0 80' => array(
+				"\xED\xB0\x80",
+				"",
+			),
+			'5.1.6  U+DF80 = ed be 80' => array(
+				"\xED\xBE\x80",
+				"",
+			),
+			'5.1.7  U+DFFF = ed bf bf' => array(
+				"\xED\xBF\xBF",
+				"",
+			),
+		),
+		'5.2 Paired UTF-16 surrogates' => array(
+			'5.2.1  U+D800 U+DC00 = ed a0 80 ed b0 80' => array(
+				"\xED\xA0\x80\xED\xB0\x80",
+				"",
+			),
+			'5.2.2  U+D800 U+DFFF = ed a0 80 ed bf bf' => array(
+				"\xED\xA0\x80\xED\xBF\xBF",
+				"",
+			),
+			'5.2.3  U+DB7F U+DC00 = ed ad bf ed b0 80' => array(
+				"\xED\xAD\xBF\xED\xB0\x80",
+				"",
+			),
+			'5.2.4  U+DB7F U+DFFF = ed ad bf ed bf bf' => array(
+				"\xED\xAD\xBF\xED\xBF\xBF",
+				"",
+			),
+			'5.2.5  U+DB80 U+DC00 = ed ae 80 ed b0 80' => array(
+				"\xED\xAE\x80\xED\xB0\x80",
+				"",
+			),
+			'5.2.6  U+DB80 U+DFFF = ed ae 80 ed bf bf' => array(
+				"\xED\xAE\x80\xED\xBF\xBF",
+				"",
+			),
+			'5.2.7  U+DBFF U+DC00 = ed af bf ed b0 80' => array(
+				"\xED\xAF\xBF\xED\xB0\x80",
+				"",
+			),
+			'5.2.8  U+DBFF U+DFFF = ed af bf ed bf bf' => array(
+				"\xED\xAF\xBF\xED\xBF\xBF",
+				"",
+			),
+		),
+		// noncharacters are allowed according to http://www.unicode.org/versions/corrigendum9.html
+		'5.3 Other illegal code positions' => array(
+			'5.3.1  U+FFFE = ef bf be' => array(
+				"\xEF\xBF\xBE",
+				"\xEF\xBF\xBE",
+			),
+			'5.3.2  U+FFFF = ef bf bf' => array(
+				"\xEF\xBF\xBF",
+				"\xEF\xBF\xBF",
 			),
 		),
 	),
@@ -364,6 +364,9 @@ $tests = array(
 
 if (PHP_VERSION_ID < 50400 && trim(ICONV_IMPL, '"') === 'libiconv') {
 	unset($tests['3  Malformed sequences']['3.2  Lonely start characters']);
+}
+if (PHP_VERSION_ID < 50400 && trim(ICONV_IMPL, '"') === 'libiconv') {
+	unset($tests['5  Illegal code positions']['5.3 Other illegal code positions']['5.3.1  U+FFFE = ef bf be']);
 }
 
 $stack = array($tests);
