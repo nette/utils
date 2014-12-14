@@ -139,7 +139,7 @@ class Strings
 
 	/**
 	 * Removes special controls characters and normalizes line endings and spaces.
-	 * @param  string  UTF-8 encoding or 8-bit
+	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
 	public static function normalize($s)
@@ -147,7 +147,7 @@ class Strings
 		$s = self::normalizeNewLines($s);
 
 		// remove control characters; leave \t + \n
-		$s = preg_replace('#[\x00-\x08\x0B-\x1F\x7F]+#', '', $s);
+		$s = preg_replace('#[\x00-\x08\x0B-\x1F\x7F-\x9F]+#u', '', $s);
 
 		// right trim
 		$s = preg_replace('#[\t ]+$#m', '', $s);
