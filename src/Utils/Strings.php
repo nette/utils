@@ -123,11 +123,13 @@ class Strings
 	 */
 	public static function substring($s, $start, $length = NULL)
 	{
-		if ($length === NULL) {
-			$length = self::length($s);
-		}
 		if (function_exists('mb_substr')) {
+			if ($length === NULL && PHP_VERSION_ID < 50408) {
+				$length = self::length($s);
+			}
 			return mb_substr($s, $start, $length, 'UTF-8'); // MB is much faster
+		} elseif ($length === NULL) {
+			$length = self::length($s);
 		} elseif ($start < 0 && $length < 0) {
 			$start += self::length($s); // unifies iconv_substr behavior with mb_substr
 		}
