@@ -24,9 +24,9 @@ use Nette;
  *
  * @method void alphaBlending(bool $on)
  * @method void antialias(bool $on)
- * @method void arc($x, $y, $w, $h, $s, $e, $color)
- * @method void char($font, $x, $y, $char, $color)
- * @method void charUp($font, $x, $y, $char, $color)
+ * @method void arc($x, $y, $w, $h, $start, $end, $color)
+ * @method void char(int $font, $x, $y, string $char, $color)
+ * @method void charUp(int $font, $x, $y, string $char, $color)
  * @method int colorAllocate($red, $green, $blue)
  * @method int colorAllocateAlpha($red, $green, $blue, $alpha)
  * @method int colorAt($x, $y)
@@ -42,7 +42,7 @@ use Nette;
  * @method void colorSet($index, $red, $green, $blue)
  * @method array colorsForIndex($index)
  * @method int colorsTotal()
- * @method int colorTransparent([$color])
+ * @method int colorTransparent($color = NULL)
  * @method void convolution(array $matrix, float $div, float $offset)
  * @method void copy(Image $src, $dstX, $dstY, $srcX, $srcY, $srcW, $srcH)
  * @method void copyMerge(Image $src, $dstX, $dstY, $srcX, $srcY, $srcW, $srcH, $opacity)
@@ -57,26 +57,16 @@ use Nette;
  * @method void filledPolygon(array $points, $numPoints, $color)
  * @method void filledRectangle($x1, $y1, $x2, $y2, $color)
  * @method void fillToBorder($x, $y, $border, $color)
- * @method void filter($filtertype [, ...])
- * @method int fontHeight($font)
- * @method int fontWidth($font)
- * @method array ftBBox($size, $angle, string $fontFile, string $text [, array $extrainfo])
- * @method array ftText($size, $angle, $x, $y, $col, string $fontFile, string $text [, array $extrainfo])
+ * @method void filter($filtertype)
+ * @method array ftText($size, $angle, $x, $y, $col, string $fontFile, string $text, array $extrainfo = NULL)
  * @method void gammaCorrect(float $inputgamma, float $outputgamma)
- * @method int interlace([$interlace])
+ * @method int interlace($interlace = NULL)
  * @method bool isTrueColor()
  * @method void layerEffect($effect)
  * @method void line($x1, $y1, $x2, $y2, $color)
- * @method int loadFont(string $file)
  * @method void paletteCopy(Image $source)
  * @method void polygon(array $points, $numPoints, $color)
- * @method array psBBox(string $text, $font, $size [, $space] [, $tightness] [, float $angle])
- * @method void psEncodeFont($fontIndex, string $encodingfile)
- * @method void psExtendFont($fontIndex, float $extend)
- * @method void psFreeFont($fontindex)
- * @method resource psLoadFont(string $filename)
- * @method void psSlantFont($fontIndex, float $slant)
- * @method array psText(string $text, $font, $size, $color, $backgroundColor, $x, $y [, $space] [, $tightness] [, float $angle] [, $antialiasSteps])
+ * @method array psText(string $text, $font, $size, $color, $backgroundColor, $x, $y, $space = NULL, $tightness = NULL, float $angle = NULL, $antialiasSteps = NULL)
  * @method void rectangle($x1, $y1, $x2, $y2, $col)
  * @method Image rotate(float $angle, $backgroundColor)
  * @method void saveAlpha(bool $saveflag)
@@ -88,9 +78,7 @@ use Nette;
  * @method void string($font, $x, $y, string $s, $col)
  * @method void stringUp($font, $x, $y, string $s, $col)
  * @method void trueColorToPalette(bool $dither, $ncolors)
- * @method array ttfBBox($size, $angle, string $fontfile, string $text)
  * @method array ttfText($size, $angle, $x, $y, $color, string $fontfile, string $text)
- * @method int types()
  * @property-read int $width
  * @property-read int $height
  * @property-read resource $imageResource
@@ -192,6 +180,7 @@ class Image extends Nette\Object
 	 * @param  string
 	 * @param  mixed  detected image format
 	 * @return Image
+	 * @throws ImageException
 	 */
 	public static function fromString($s, & $format = NULL)
 	{
@@ -600,7 +589,7 @@ class Image extends Nette\Object
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
-	 * @throws MemberAccessException
+	 * @throws Nette\MemberAccessException
 	 */
 	public function __call($name, $args)
 	{
