@@ -259,7 +259,7 @@ class Validators extends Nette\Object
 		$topDomain = "[$alpha](?:[-0-9$alpha]{0,17}[$alpha])?";
 
 		$basePath = "(?:(?:$subDomain+\\.)*?$domain\\.)?$topDomain";
-		return (bool) preg_match("(^https?://(?:$basePath|\\d{1,3}\.\\d{1,3}\.\\d{1,3}\.\\d{1,3}|\[[0-9a-f:]{3,39}\])(:\\d{1,5})?(/\\S*)?\\z)i", $value);
+		return (bool) preg_match("(^https?://(?:$basePath|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|\\[[0-9a-f:]{3,39}\\])(:\\d{1,5})?(/\\S*)?\\z)i", $value);
 	}
 
 
