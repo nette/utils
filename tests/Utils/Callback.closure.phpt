@@ -48,6 +48,12 @@ class Test
 		return __METHOD__ . " $nm $args[0]";
 	}
 
+	public function ref(& $a)
+	{
+		$a = __METHOD__;
+		return $a;
+	}
+
 }
 
 class TestChild extends Test
@@ -102,7 +108,7 @@ test(function() { // closure
 
 test(function() { // invokable object
 	$test = new Test;
-	Assert::same( $test, Callback::unwrap(Callback::closure($test)) );
+	Assert::same( array($test, '__invoke'), Callback::unwrap(Callback::closure($test)) );
 	Assert::same( 'Test::__invoke', Callback::toString($test) );
 	Assert::same( '{closure Test::__invoke}', Callback::toString(Callback::closure($test)) );
 	Assert::same( 'Test::__invoke', getName(Callback::toReflection($test)) );
@@ -134,7 +140,14 @@ test(function() { // object methods
 	Assert::same( 'Test::privateFun', getName(Callback::toReflection(array($test, 'privateFun'))) );
 	Assert::same( 'Test::privateFun', getName(Callback::toReflection(Callback::closure($test, 'privateFun'))) );
 
-	Assert::same( 'Test::__call privateFun *', Callback::closure($test, 'privateFun')->__invoke('*') ); // not called!
+	if (PHP_VERSION_ID < 50400) {
+		Assert::same( 'Test::__call privateFun *', Callback::closure($test, 'privateFun')->__invoke('*') ); // not called!
+	} else {
+		Assert::same( 'Test::privateFun*', Callback::closure($test, 'privateFun')->__invoke('*') );
+
+		Assert::same( 'Test::ref', call_user_func_array(Callback::closure($test, 'ref'), array(& $res)) );
+		Assert::same( 'Test::ref', $res );
+	}
 });
 
 
@@ -142,7 +155,7 @@ test(function() { // static methods
 	$test = new Test;
 	Assert::same( array('Test', 'publicStatic'), Callback::unwrap(Callback::closure('Test', 'publicStatic')) );
 	Assert::same( array('Test', 'publicStatic'), Callback::unwrap(Callback::closure(array('Test', 'publicStatic'))) );
-	Assert::same( 'Test::publicStatic', Callback::unwrap(Callback::closure('Test::publicStatic')) );
+	Assert::same( array('Test', 'publicStatic'), Callback::unwrap(Callback::closure('Test::publicStatic')) );
 
 	Assert::same( 'Test::publicStatic', Callback::toString(array('Test', 'publicStatic')) );
 	Assert::same( 'Test::publicStatic', Callback::toString(array($test, 'publicStatic')) );
@@ -158,12 +171,17 @@ test(function() { // static methods
 	Assert::same( 'Test::publicStatic*', Callback::closure($test, 'publicStatic')->__invoke('*') );
 
 
-	Assert::same( 'Test::privateStatic', Callback::unwrap(Callback::closure('Test::privateStatic')) );
+	Assert::same( array('Test', 'privateStatic'), Callback::unwrap(Callback::closure('Test::privateStatic')) );
 	Assert::same( 'Test::privateStatic', Callback::toString('Test::privateStatic') );
 	Assert::same( '{closure Test::privateStatic}', Callback::toString(Callback::closure('Test::privateStatic')) );
 	Assert::same( 'Test::privateStatic', getName(Callback::toReflection('Test::privateStatic')) );
 	Assert::same( 'Test::privateStatic', getName(Callback::toReflection(Callback::closure('Test::privateStatic'))) );
-	Assert::same( 'Test::__callStatic privateStatic *', Callback::closure('Test::privateStatic')->__invoke('*') ); // not called!
+
+	if (PHP_VERSION_ID < 50400) {
+		Assert::same( 'Test::__callStatic privateStatic *', Callback::closure('Test::privateStatic')->__invoke('*') ); // not called!
+	} else {
+		Assert::same( 'Test::privateStatic*', Callback::closure('Test::privateStatic')->__invoke('*') );
+	}
 });
 
 
@@ -174,7 +192,7 @@ test(function() { // magic methods
 	Assert::same( '{closure Test::magic}', Callback::toString(Callback::closure($test, 'magic')) );
 	Assert::same( 'Test::__call magic *', Callback::closure($test, 'magic')->__invoke('*') );
 
-	Assert::same( 'Test::magic', Callback::unwrap(Callback::closure('Test::magic')) );
+	Assert::same( array('Test', 'magic'), Callback::unwrap(Callback::closure('Test::magic')) );
 	Assert::same( 'Test::magic', Callback::toString('Test::magic') );
 	Assert::same( '{closure Test::magic}', Callback::toString(Callback::closure('Test::magic')) );
 	Assert::same( 'Test::__callStatic magic *', Callback::closure('Test::magic')->__invoke('*') );

@@ -27,8 +27,26 @@ class Callback
 	{
 		if ($m !== NULL) {
 			$callable = array($callable, $m);
+
+		} elseif (is_string($callable) && count($tmp = explode('::', $callable)) === 2) {
+			$callable = $tmp;
+
 		} elseif ($callable instanceof \Closure) {
 			return $callable;
+
+		} elseif (is_object($callable)) {
+			$callable = array($callable, '__invoke');
+		}
+
+		if (PHP_VERSION_ID >= 50400) {
+			if (is_string($callable) && function_exists($callable)) {
+				$r = new \ReflectionFunction($callable);
+				return $r->getClosure();
+
+			} elseif (is_array($callable) && method_exists($callable[0], $callable[1])) {
+				$r = new \ReflectionMethod($callable[0], $callable[1]);
+				return $r->getClosure($callable[0]);
+			}
 		}
 
 		self::check($callable);
@@ -155,15 +173,26 @@ class Callback
 
 
 	/**
-	 * Unwraps closure created by self::closure(), used i.e. by ObjectMixin in PHP < 5.4
+	 * Unwraps closure created by self::closure()
 	 * @internal
 	 * @return callable
 	 */
 	public static function unwrap(\Closure $closure)
 	{
-		$rm = new \ReflectionFunction($closure);
-		$vars = $rm->getStaticVariables();
-		return isset($vars['_callable_']) ? $vars['_callable_'] : $closure;
+		$r = new \ReflectionFunction($closure);
+		if (substr($r->getName(), -1) === '}') {
+			$vars = $r->getStaticVariables();
+			return isset($vars['_callable_']) ? $vars['_callable_'] : $closure;
+
+		} elseif ($obj = $r->getClosureThis()) {
+			return array($obj, $r->getName());
+
+		} elseif ($class = $r->getClosureScopeClass()) {
+			return array($class->getName(), $r->getName());
+
+		} else {
+			return $r->getName();
+		}
 	}
 
 }
