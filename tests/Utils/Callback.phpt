@@ -35,8 +35,12 @@ function getName($ref)
 
 
 test(function() {
-	Assert::same( 'undefined', Callback::unwrap(Callback::closure('undefined')) );
+	Assert::exception(function() {
+		Callback::closure('undefined');
+	}, 'Nette\InvalidArgumentException');
+
 	Assert::same( 'undefined', Callback::toString('undefined') );
+
 	Assert::exception(function() {
 		Callback::toReflection('undefined');
 	}, 'ReflectionException');

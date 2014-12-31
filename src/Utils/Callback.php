@@ -31,10 +31,9 @@ class Callback
 			return $callable;
 		}
 
-		self::check($callable, TRUE);
+		self::check($callable);
 		$_callable_ = $callable;
 		return function() use ($_callable_) {
-			Callback::check($_callable_);
 			return call_user_func_array($_callable_, func_get_args());
 		};
 	}
