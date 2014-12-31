@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\Utils\Callback tests.
+ * Test: Nette\Utils\Callback::invokeSafe()
  */
 
 use Nette\Utils\Callback,
