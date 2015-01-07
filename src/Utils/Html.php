@@ -275,7 +275,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	public function setText($text)
 	{
 		if (!is_array($text) && !$text instanceof self) {
-			$text = htmlspecialchars((string) $text, ENT_NOQUOTES);
+			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
 		}
 		return $this->setHtml($text);
 	}
