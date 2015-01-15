@@ -16,3 +16,4 @@ Assert::same( 'Zlutoucky kun', Strings::toAscii("Z\xCC\x8Clut\xCC\x8Couc\xCC\x8C
 Assert::same( 'Z `\'"^~?', Strings::toAscii("\xc5\xbd `'\"^~?") );
 Assert::same( '"""\'\'\'>><<^', Strings::toAscii("\xE2\x80\x9E\xE2\x80\x9C\xE2\x80\x9D\xE2\x80\x9A\xE2\x80\x98\xE2\x80\x99\xC2\xBB\xC2\xAB\xC2\xB0") ); // „“”‚‘’»«°
 Assert::same( '', Strings::toAscii("\xF0\x90\x80\x80") ); // U+10000
+Assert::same( '', Strings::toAscii("\xC2\xA4\xC2\xA6") ); // non-ASCII chars
