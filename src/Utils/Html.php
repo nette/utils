@@ -232,6 +232,21 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
+	 * Setter for data-* attributes. Booleans are converted to 'true' resp. 'false'.
+	 * @return self
+	 */
+	public function data($name, $value = NULL)
+	{
+		if (func_num_args() === 1) {
+			$this->attrs['data'] = $name;
+		} else {
+			$this->attrs["data-$name"] = is_bool($value) ? json_encode($value) : $value;
+		}
+		return $this;
+	}
+
+
+	/**
 	 * Sets element's HTML content.
 	 * @param  string raw HTML string
 	 * @return self
