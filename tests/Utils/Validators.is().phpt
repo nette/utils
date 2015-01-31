@@ -186,6 +186,9 @@ test(function() {
 	Assert::false( Validators::is('nette.org', 'url') );
 	Assert::false( Validators::is('http://nette.org0', 'url') );
 	Assert::false( Validators::is('http://nette.0org', 'url') );
+	Assert::false( Validators::is('http://_nette.org', 'url') );
+	Assert::false( Validators::is('http://www._nette.org', 'url') );
+	Assert::false( Validators::is('http://www.ne_tte.org', 'url') );
 	Assert::true( Validators::is('http://1.org', 'url') );
 	Assert::true( Validators::is('http://l.org', 'url') );
 	Assert::true( Validators::is('http://localhost', 'url') );
@@ -197,6 +200,9 @@ test(function() {
 	Assert::true( Validators::is('https://www.nette.org/path', 'url') );
 	Assert::true( Validators::is('https://example.c0m', 'url') );
 	Assert::true( Validators::is('https://example.l', 'url') );
+	Assert::true( Validators::is('http://one_two.example.com', 'url') );
+	Assert::true( Validators::is('http://_.example.com', 'url') );
+	Assert::true( Validators::is('http://_e_.example.com', 'url') );
 });
 
 
