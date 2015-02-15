@@ -236,4 +236,28 @@ class Arrays
 		return $res;
 	}
 
+
+	/**
+	 * Picks element from the array by key and return its value.
+	 * @param  array
+	 * @param  string|int array key
+	 * @param  mixed
+	 * @return mixed
+	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
+	 */
+	public static function pick(array & $arr, $key, $default = NULL)
+	{
+		if (array_key_exists($key, $arr)) {
+			$value = $arr[$key];
+			unset($arr[$key]);
+			return $value;
+
+		} elseif (func_num_args() < 3) {
+			throw new Nette\InvalidArgumentException("Missing item '$key'.");
+
+		} else {
+			return $default;
+		}
+	}
+
 }
