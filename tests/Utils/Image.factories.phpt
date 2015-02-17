@@ -26,12 +26,12 @@ test(function() {
 
 Assert::exception(function() {
 	Image::fromFile('images/missing.png');
-}, 'Nette\Utils\UnknownImageFileException', "Unknown image type or file 'images/missing.png' not found.");
+}, 'Nette\Utils\UnknownImageFileException', "File 'images/missing.png' not found.");
 
 
 Assert::exception(function() {
 	Image::fromFile('images/logo.tiff');
-}, 'Nette\Utils\UnknownImageFileException', "Unknown image type or file 'images/logo.tiff' not found.");
+}, 'Nette\Utils\UnknownImageFileException', "Unknown type of file 'images/logo.tiff'.");
 
 
 Assert::exception(function() {
