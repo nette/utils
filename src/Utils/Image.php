@@ -160,7 +160,7 @@ class Image extends Nette\Object
 				return new static(imagecreatefromgif($file));
 
 			default:
-				throw new UnknownImageFileException("Unknown image type or file '$file' not found.");
+				throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
 	}
 
