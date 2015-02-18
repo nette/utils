@@ -34,9 +34,6 @@ class Strings
 	 */
 	public static function checkEncoding($s)
 	{
-		if (func_num_args() > 1 && strcasecmp(func_get_arg(1), 'UTF-8')) {
-			trigger_error(__METHOD__ . ' supports only UTF-8 encoding.', E_USER_DEPRECATED);
-		}
 		return $s === self::fixEncoding($s);
 	}
 
@@ -48,9 +45,6 @@ class Strings
 	 */
 	public static function fixEncoding($s)
 	{
-		if (func_num_args() > 1 && strcasecmp(func_get_arg(1), 'UTF-8')) {
-			trigger_error(__METHOD__ . ' supports only UTF-8 encoding.', E_USER_DEPRECATED);
-		}
 		// removes xD800-xDFFF, x110000 and higher
 		if (PHP_VERSION_ID < 50400) {
 			return @iconv('UTF-16', 'UTF-8//IGNORE', iconv('UTF-8', 'UTF-16//IGNORE', $s)); // intentionally @
@@ -68,9 +62,6 @@ class Strings
 	 */
 	public static function chr($code)
 	{
-		if (func_num_args() > 1 && strcasecmp(func_get_arg(1), 'UTF-8')) {
-			trigger_error(__METHOD__ . ' supports only UTF-8 encoding.', E_USER_DEPRECATED);
-		}
 		if ($code < 0 || ($code >= 0xD800 && $code <= 0xDFFF) || $code > 0x10FFFF) {
 			throw new Nette\InvalidArgumentException('Code point must be in range 0x0 to 0xD7FF or 0xE000 to 0x10FFFF.');
 		}

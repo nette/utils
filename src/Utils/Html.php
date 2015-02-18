@@ -429,9 +429,6 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function getIterator()
 	{
-		if (func_num_args() && func_get_arg(0)) {
-			throw new Nette\DeprecatedException(__METHOD__ . " doesn't support deep iterator any more.");
-		}
 		return new \ArrayIterator($this->children);
 	}
 

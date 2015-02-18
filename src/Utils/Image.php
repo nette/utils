@@ -169,6 +169,7 @@ class Image extends Nette\Object
 	 */
 	public static function getFormatFromString($s)
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use finfo_buffer() instead.', E_USER_DEPRECATED);
 		$types = array('image/jpeg' => self::JPEG, 'image/gif' => self::GIF, 'image/png' => self::PNG);
 		$type = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $s);
 		return isset($types[$type]) ? $types[$type] : NULL;
@@ -189,7 +190,8 @@ class Image extends Nette\Object
 		}
 
 		if (func_num_args() > 1) {
-			$format = static::getFormatFromString($s);
+			trigger_error(__METHOD__ . '() second argument $format is deprecated; use finfo_buffer() instead.', E_USER_DEPRECATED);
+			$format = @static::getFormatFromString($s);
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', array($s), function($message) {
