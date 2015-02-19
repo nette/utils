@@ -16,6 +16,17 @@ if (!extension_loaded('gd')) {
 }
 
 
+$rectangle = Image::fromBlank(100, 100, Image::rgb(255, 255, 255, 127));
+$rectangle->filledRectangle(25, 25, 74, 74, Image::rgb(255, 0, 0, 63));
+
+$image = Image::fromBlank(200, 100, Image::rgb(0, 255, 0));
+$image->place($rectangle, 50, 0, 63);
+
+$image2 = Image::fromBlank(200, 100, Image::rgb(0, 255, 0));
+$image2->place(Image::fromBlank(50, 50, Image::rgb(80, 173, 0)), 75, 25);
+
+Assert::same($image2->toString(Image::PNG, 0), $image->toString(Image::PNG, 0));
+
 ob_start();
 
 $image = Image::fromBlank(200, 100, Image::rgb(255, 128, 0, 60));
