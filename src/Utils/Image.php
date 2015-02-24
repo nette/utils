@@ -487,8 +487,18 @@ class Image extends Nette\Object
 			);
 
 		} elseif ($opacity <> 0) {
+			$cutting = imagecreatetruecolor($image->getWidth(), $image->getHeight());
+			imagecopy(
+				$cutting, $this->image,
+				0, 0, $left, $top, $image->getWidth(), $image->getHeight()
+			);
+			imagecopy(
+				$cutting, $image->getImageResource(),
+				0, 0, 0, 0, $image->getWidth(), $image->getHeight()
+			);
+
 			imagecopymerge(
-				$this->image, $image->getImageResource(),
+				$this->image, $cutting,
 				$left, $top, 0, 0, $image->getWidth(), $image->getHeight(),
 				$opacity
 			);
