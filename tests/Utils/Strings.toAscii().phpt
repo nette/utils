@@ -18,3 +18,4 @@ Assert::same( '"""\'\'\'>><<^', Strings::toAscii("\xE2\x80\x9E\xE2\x80\x9C\xE2\x
 Assert::same( '', Strings::toAscii("\xF0\x90\x80\x80") ); // U+10000
 Assert::same( '', Strings::toAscii("\xC2\xA4") ); // non-ASCII char
 Assert::same( 'a b', Strings::toAscii("a\xC2\xA0b") ); // non-breaking space
+Assert::same( 'Tarikh', Strings::toAscii("Ta\xCA\xBErikh") ); // Taʾrikh
