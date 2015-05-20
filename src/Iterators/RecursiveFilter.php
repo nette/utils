@@ -14,12 +14,14 @@ use Nette;
  * RecursiveCallbackFilterIterator for PHP < 5.4.
  *
  * @author     David Grudl
+ * @deprecated use RecursiveCallbackFilterIterator
  */
 class RecursiveFilter extends Filter implements \RecursiveIterator
 {
 
 	public function __construct(\RecursiveIterator $iterator, $callback)
 	{
+		trigger_error(__CLASS__ . ' is deprecated, use RecursiveCallbackFilterIterator.', E_USER_WARNING);
 		parent::__construct($iterator, $callback);
 	}
 
