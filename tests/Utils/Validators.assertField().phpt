@@ -11,7 +11,7 @@ use Nette\Utils\Validators,
 require __DIR__ . '/../bootstrap.php';
 
 
-$arr = array('first' => TRUE);
+$arr = ['first' => TRUE];
 
 Assert::exception(function() use ($arr) {
 	Validators::assertField(NULL, 'foo', 'foo');

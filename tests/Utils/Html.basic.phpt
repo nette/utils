@@ -98,7 +98,7 @@ test(function() { // email obfuscate
 
 
 test(function() { // href with query
-	Assert::same( '<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', array('a' => 10)) );
+	Assert::same( '<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', ['a' => 10]) );
 });
 
 

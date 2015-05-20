@@ -11,13 +11,13 @@ use Nette\Utils\Arrays,
 require __DIR__ . '/../bootstrap.php';
 
 
-$arr  = array(
+$arr  = [
 	NULL => 'first',
 	1 => 'second',
-	7 => array(
+	7 => [
 		'item' => 'third',
-	),
-);
+	],
+];
 
 test(function() use ($arr) { // Single item
 
@@ -33,14 +33,14 @@ test(function() use ($arr) { // Single item
 
 test(function() use ($arr) { // Traversing
 
-	Assert::same( array(
+	Assert::same( [
 		'' => 'first',
 		1 => 'second',
-		7 => array(
+		7 => [
 			'item' => 'third',
-		),
-	), Arrays::get($arr, array()) );
+		],
+	], Arrays::get($arr, []) );
 
 
-	Assert::same( 'third', Arrays::get($arr, array(7, 'item')) );
+	Assert::same( 'third', Arrays::get($arr, [7, 'item']) );
 });

@@ -11,33 +11,33 @@ use Nette\Utils\Arrays,
 require __DIR__ . '/../bootstrap.php';
 
 
-$res = Arrays::flatten(array(
-	2 => array('a', array('b')),
-	4 => array('c', 'd'),
+$res = Arrays::flatten([
+	2 => ['a', ['b']],
+	4 => ['c', 'd'],
 	'e',
-));
+]);
 
-Assert::same(array(
+Assert::same([
 	0 => 'a',
 	1 => 'b',
 	2 => 'c',
 	3 => 'd',
 	4 => 'e',
-), $res);
+], $res);
 
-$res = Arrays::flatten(array(
+$res = Arrays::flatten([
 	5 => 'a',
-	10 => array(
+	10 => [
 		'z' => 'b',
 		1 => 'c',
-	),
+	],
 	'y' => 'd',
 	'z' => 'e',
-), TRUE);
+], TRUE);
 
-Assert::same(array(
+Assert::same([
 	5 => 'a',
 	'z' => 'e',
 	1 => 'c',
 	'y' => 'd',
-), $res);
+], $res);

@@ -11,19 +11,19 @@ use Nette\Utils\Arrays,
 require __DIR__ . '/../bootstrap.php';
 
 
-$arr  = array(
+$arr  = [
 	NULL => 'first',
 	FALSE => 'second',
 	1 => 'third',
 	7 => 'fourth'
-);
+];
 
-Assert::same( array(
+Assert::same( [
 	'' => 'first',
 	0 => 'second',
 	1 => 'third',
 	7 => 'fourth',
-), $arr );
+], $arr );
 
 
 Assert::same( 2, Arrays::searchKey($arr, '1') );

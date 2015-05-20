@@ -46,120 +46,120 @@ function assertConverts($type, $vals)
 
 $resource = fopen(__FILE__, 'r');
 
-assertAccepts('', array(NULL, TRUE, FALSE, 0, 0.0, 0.1, 1, 12, '', 'true', 'false', '-123', '123x', '+1.2', '1.0', array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));
-assertAccepts('mixed', array(NULL, TRUE, FALSE, 0, 0.0, 0.1, 1, 12, '', 'true', 'false', '-123', '123x', '+1.2', '1.0', array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));
+assertAccepts('', [NULL, TRUE, FALSE, 0, 0.0, 0.1, 1, 12, '', 'true', 'false', '-123', '123x', '+1.2', '1.0', [], [1, 2], ['a', 'b'], new stdClass, new StrClass, $resource]);
+assertAccepts('mixed', [NULL, TRUE, FALSE, 0, 0.0, 0.1, 1, 12, '', 'true', 'false', '-123', '123x', '+1.2', '1.0', [], [1, 2], ['a', 'b'], new stdClass, new StrClass, $resource]);
 
-assertAccepts('scalar', array(TRUE, FALSE, 0, 0.0, 0.1, 1, 12, '', 'true', 'false', '-123', '123x', '+1.2', '1.0'));
-assertRejects('scalar', array(NULL, array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));
+assertAccepts('scalar', [TRUE, FALSE, 0, 0.0, 0.1, 1, 12, '', 'true', 'false', '-123', '123x', '+1.2', '1.0']);
+assertRejects('scalar', [NULL, [], [1, 2], ['a', 'b'], new stdClass, new StrClass, $resource]);
 
-assertAccepts('boolean', array(TRUE, FALSE));
-assertAccepts('bool', array(TRUE, FALSE));
-assertRejects('bool', array(array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));
-assertConverts('bool', array(
-	array(NULL, FALSE),
-	array(0, FALSE),
-	array(0.0, FALSE),
-	array(0.1, TRUE),
-	array(1, TRUE),
-	array(12, TRUE),
-	array('', FALSE),
-	array('0', FALSE),
-	array('false', TRUE),
-	array('-123', TRUE),
-	array('123x', TRUE),
-));
+assertAccepts('boolean', [TRUE, FALSE]);
+assertAccepts('bool', [TRUE, FALSE]);
+assertRejects('bool', [[], [1, 2], ['a', 'b'], new stdClass, new StrClass, $resource]);
+assertConverts('bool', [
+	[NULL, FALSE],
+	[0, FALSE],
+	[0.0, FALSE],
+	[0.1, TRUE],
+	[1, TRUE],
+	[12, TRUE],
+	['', FALSE],
+	['0', FALSE],
+	['false', TRUE],
+	['-123', TRUE],
+	['123x', TRUE],
+]);
 
-assertAccepts('string', array('', 'true', 'false', '-123', '123x', '+1.2', '1.0'));
-assertRejects('string', array(array(), array(1, 2), array('a', 'b'), new stdClass, $resource));
-assertConverts('string', array(
-	array(NULL, ''),
-	array(TRUE, '1'),
-	array(FALSE, ''),
-	array(0, '0'),
-	array(0.0, '0'),
-	array(0.1, '0.1'),
-	array(1, '1'),
-	array(12, '12'),
-	array(new StrClass, '1'),
-));
+assertAccepts('string', ['', 'true', 'false', '-123', '123x', '+1.2', '1.0']);
+assertRejects('string', [[], [1, 2], ['a', 'b'], new stdClass, $resource]);
+assertConverts('string', [
+	[NULL, ''],
+	[TRUE, '1'],
+	[FALSE, ''],
+	[0, '0'],
+	[0.0, '0'],
+	[0.1, '0.1'],
+	[1, '1'],
+	[12, '12'],
+	[new StrClass, '1'],
+]);
 
-assertAccepts('integer', array(0, 1, 12));
-assertAccepts('int', array(0, 1, 12));
-assertRejects('int', array(0.1, '', 'true', 'false', '123x', '+1.2', array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));
-assertConverts('int', array(
-	array(NULL, 0),
-	array(TRUE, 1),
-	array(FALSE, 0),
-	array(0.0, 0),
-	array('-123', -123),
-	array('1.0', 1),
-));
+assertAccepts('integer', [0, 1, 12]);
+assertAccepts('int', [0, 1, 12]);
+assertRejects('int', [0.1, '', 'true', 'false', '123x', '+1.2', [], [1, 2], ['a', 'b'], new stdClass, new StrClass, $resource]);
+assertConverts('int', [
+	[NULL, 0],
+	[TRUE, 1],
+	[FALSE, 0],
+	[0.0, 0],
+	['-123', -123],
+	['1.0', 1],
+]);
 
-assertAccepts('float', array(0.0, 0.1));
-assertRejects('float', array('', 'true', 'false', '123x', array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));
-assertConverts('float', array(
-	array(NULL, 0.0),
-	array(TRUE, 1.0),
-	array(FALSE, 0.0),
-	array(0, 0.0),
-	array(1, 1.0),
-	array(12, 12.0),
-	array('-123', -123.0),
-	array('+1.2', 1.2),
-	array('1.0', 1.0),
-));
+assertAccepts('float', [0.0, 0.1]);
+assertRejects('float', ['', 'true', 'false', '123x', [], [1, 2], ['a', 'b'], new stdClass, new StrClass, $resource]);
+assertConverts('float', [
+	[NULL, 0.0],
+	[TRUE, 1.0],
+	[FALSE, 0.0],
+	[0, 0.0],
+	[1, 1.0],
+	[12, 12.0],
+	['-123', -123.0],
+	['+1.2', 1.2],
+	['1.0', 1.0],
+]);
 
-assertAccepts('array', array(array(), array(1, 2), array('a', 'b')));
-assertRejects('array', array(NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', new stdClass, new StrClass, $resource));
+assertAccepts('array', [[], [1, 2], ['a', 'b']]);
+assertRejects('array', [NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', new stdClass, new StrClass, $resource]);
 
-assertAccepts('object', array(new stdClass, new StrClass));
-assertRejects('object', array(NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', array(), array(1, 2), array('a', 'b'), $resource));
+assertAccepts('object', [new stdClass, new StrClass]);
+assertRejects('object', [NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', [], [1, 2], ['a', 'b'], $resource]);
 
-assertAccepts('callable', array(array(new StrClass, '__toString')));
-assertRejects('callable', array(NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));
+assertAccepts('callable', [[new StrClass, '__toString']]);
+assertRejects('callable', [NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', [], [1, 2], ['a', 'b'], new stdClass, new StrClass, $resource]);
 
-assertAccepts('resource', array($resource));
-assertRejects('resource', array(NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass));
+assertAccepts('resource', [$resource]);
+assertRejects('resource', [NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', [], [1, 2], ['a', 'b'], new stdClass, new StrClass]);
 
-assertAccepts('stdClass', array(new stdClass));
-assertRejects('stdClass', array(NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', array(), array(1, 2), array('a', 'b'), new StrClass, $resource));
+assertAccepts('stdClass', [new stdClass]);
+assertRejects('stdClass', [NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', [], [1, 2], ['a', 'b'], new StrClass, $resource]);
 
-assertAccepts('null', array(NULL));
-assertAccepts('NULL', array(NULL));
-assertRejects('NULL', array(TRUE, FALSE, 0, 0.1, 12, '', '123x', array(), array(1, 2), array('a', 'b'), new stdClass, new StrClass, $resource));
+assertAccepts('null', [NULL]);
+assertAccepts('NULL', [NULL]);
+assertRejects('NULL', [TRUE, FALSE, 0, 0.1, 12, '', '123x', [], [1, 2], ['a', 'b'], new stdClass, new StrClass, $resource]);
 
-assertAccepts('int[]', array(array(), array(1, 2)));
-assertRejects('int[]', array(NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', array('a', 'b'), new stdClass, new StrClass, $resource));
-assertConverts('int[]', array(
-	array(array('1'), array(1)),
-));
+assertAccepts('int[]', [[], [1, 2]]);
+assertRejects('int[]', [NULL, TRUE, FALSE, 0, 0.1, 12, '', '123x', ['a', 'b'], new stdClass, new StrClass, $resource]);
+assertConverts('int[]', [
+	[['1'], [1]],
+]);
 
-$val = array('1', new stdClass);
+$val = ['1', new stdClass];
 ObjectMixin::checkType($val, 'int[]');
-Assert::equal( array('1', new stdClass), $val ); // do not modify
+Assert::equal( ['1', new stdClass], $val ); // do not modify
 
-assertAccepts('array|string', array('', '123x', array(), array(1, 2), array('a', 'b')));
-assertRejects('array|string', array(new stdClass, $resource));
-assertConverts('array|string', array(
-	array(NULL, ''),
-	array(TRUE, '1'),
-	array(FALSE, ''),
-	array(0, '0'),
-	array(0.0, '0'),
-	array(0.1, '0.1'),
-	array(1, '1'),
-	array(12, '12'),
-	array(new StrClass, '1'),
-));
+assertAccepts('array|string', ['', '123x', [], [1, 2], ['a', 'b']]);
+assertRejects('array|string', [new stdClass, $resource]);
+assertConverts('array|string', [
+	[NULL, ''],
+	[TRUE, '1'],
+	[FALSE, ''],
+	[0, '0'],
+	[0.0, '0'],
+	[0.1, '0.1'],
+	[1, '1'],
+	[12, '12'],
+	[new StrClass, '1'],
+]);
 
 
-assertAccepts('string|bool|NULL', array(NULL, TRUE, FALSE, '', '123x'));
-assertRejects('string|bool|NULL', array(array(), array(1, 2), array('a', 'b'), new stdClass, $resource));
-assertConverts('string|bool|NULL', array(
-	array(0, '0'),
-	array(0.0, '0'),
-	array(0.1, '0.1'),
-	array(1, '1'),
-	array(12, '12'),
-	array(new StrClass, '1'),
-));
+assertAccepts('string|bool|NULL', [NULL, TRUE, FALSE, '', '123x']);
+assertRejects('string|bool|NULL', [[], [1, 2], ['a', 'b'], new stdClass, $resource]);
+assertConverts('string|bool|NULL', [
+	[0, '0'],
+	[0.0, '0'],
+	[0.1, '0.1'],
+	[1, '1'],
+	[12, '12'],
+	[new StrClass, '1'],
+]);

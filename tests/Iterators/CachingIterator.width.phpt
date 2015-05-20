@@ -12,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test(function() {
-	$arr = array('The', 'Nette', 'Framework');
+	$arr = ['The', 'Nette', 'Framework'];
 
 	$iterator = new Iterators\CachingIterator($arr);
 	$iterator->rewind();
@@ -50,7 +50,7 @@ test(function() {
 
 
 test(function() {
-	$iterator = new Iterators\CachingIterator(array());
+	$iterator = new Iterators\CachingIterator([]);
 	Assert::false( $iterator->isFirst(0) );
 	Assert::true( $iterator->isLast(0) );
 	Assert::false( $iterator->isFirst(1) );

@@ -17,7 +17,7 @@ require __DIR__ . '/../bootstrap.php';
  */
 class TestClass extends Nette\Object
 {
-	protected $items = array();
+	protected $items = [];
 
 	public function abc()
 	{

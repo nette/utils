@@ -11,10 +11,10 @@ use Nette\Iterators,
 require __DIR__ . '/../bootstrap.php';
 
 
-$arr = array(
+$arr = [
 	'Nette' => 'Framework',
 	'David' => 'Grudl',
-);
+];
 
 $callback = function($item, $key) {
 	return $key . ': ' . $item;

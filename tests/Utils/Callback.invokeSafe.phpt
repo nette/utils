@@ -17,19 +17,19 @@ set_error_handler(function($severity, $message) use (& $res) {
 
 
 // no error
-Callback::invokeSafe('trim', array(''), function() {});
+Callback::invokeSafe('trim', [''], function() {});
 
 trigger_error('OK1', E_USER_WARNING);
 Assert::same('OK1', $res);
 
 
 // skipped error
-Callback::invokeSafe('trim', array(array()), function() {});
+Callback::invokeSafe('trim', [[]], function() {});
 Assert::same('OK1', $res);
 
 
 // ignored error
-Callback::invokeSafe('trim', array(array()), function() {
+Callback::invokeSafe('trim', [[]], function() {
 	return FALSE;
 });
 Assert::same('trim() expects parameter 1 to be string, array given', $res);
@@ -37,7 +37,7 @@ Assert::same('trim() expects parameter 1 to be string, array given', $res);
 
 // error -> exception
 Assert::exception(function() {
-	Callback::invokeSafe('trim', array(array()), function($message, $severity) {
+	Callback::invokeSafe('trim', [[]], function($message, $severity) {
 		throw new Exception($message, $severity);
 	});
 }, 'Exception', 'trim() expects parameter 1 to be string, array given', E_WARNING);
@@ -47,9 +47,9 @@ Assert::same('OK2', $res);
 
 
 // error inside
-Callback::invokeSafe('preg_replace_callback', array('#.#', function(){
+Callback::invokeSafe('preg_replace_callback', ['#.#', function(){
 	$a++;
-}, 'x'), function() {
+}, 'x'], function() {
 	throw new Exception('Should not be thrown');
 });
 
@@ -58,9 +58,9 @@ Assert::same('Undefined variable: a', $res);
 
 // exception inside
 Assert::exception(function() {
-	Callback::invokeSafe('preg_replace_callback', array('#.#', function(){
+	Callback::invokeSafe('preg_replace_callback', ['#.#', function(){
 		throw new Exception('in callback');
-	}, 'x'), function() {});
+	}, 'x'], function() {});
 }, 'Exception', 'in callback');
 
 trigger_error('OK3', E_USER_WARNING);

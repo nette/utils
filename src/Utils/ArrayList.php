@@ -19,7 +19,7 @@ use Nette;
  */
 class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAggregate
 {
-	private $list = array();
+	private $list = [];
 
 
 	/**

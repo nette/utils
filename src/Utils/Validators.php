@@ -17,30 +17,30 @@ use Nette;
  */
 class Validators extends Nette\Object
 {
-	protected static $validators = array(
+	protected static $validators = [
 		'bool' => 'is_bool',
 		'boolean' => 'is_bool',
 		'int' => 'is_int',
 		'integer' => 'is_int',
 		'float' => 'is_float',
 		'number' => NULL, // is_int || is_float,
-		'numeric' => array(__CLASS__, 'isNumeric'),
-		'numericint' => array(__CLASS__, 'isNumericInt'),
+		'numeric' => [__CLASS__, 'isNumeric'],
+		'numericint' => [__CLASS__, 'isNumericInt'],
 		'string' =>  'is_string',
-		'unicode' => array(__CLASS__, 'isUnicode'),
+		'unicode' => [__CLASS__, 'isUnicode'],
 		'array' => 'is_array',
-		'list' => array('Nette\Utils\Arrays', 'isList'),
+		'list' => ['Nette\Utils\Arrays', 'isList'],
 		'object' => 'is_object',
 		'resource' => 'is_resource',
 		'scalar' => 'is_scalar',
-		'callable' => array(__CLASS__, 'isCallable'),
+		'callable' => [__CLASS__, 'isCallable'],
 		'null' => 'is_null',
-		'email' => array(__CLASS__, 'isEmail'),
-		'url' => array(__CLASS__, 'isUrl'),
-		'uri' => array(__CLASS__, 'isUri'),
-		'none' => array(__CLASS__, 'isNone'),
-		'type' => array(__CLASS__, 'isType'),
-		'identifier' => array(__CLASS__, 'isPhpIdentifier'),
+		'email' => [__CLASS__, 'isEmail'],
+		'url' => [__CLASS__, 'isUrl'],
+		'uri' => [__CLASS__, 'isUri'],
+		'none' => [__CLASS__, 'isNone'],
+		'type' => [__CLASS__, 'isType'],
+		'identifier' => [__CLASS__, 'isPhpIdentifier'],
 		'pattern' => NULL,
 		'alnum' => 'ctype_alnum',
 		'alpha' => 'ctype_alpha',
@@ -49,11 +49,11 @@ class Validators extends Nette\Object
 		'upper' => 'ctype_upper',
 		'space' => 'ctype_space',
 		'xdigit' => 'ctype_xdigit',
-	);
+	];
 
-	protected static $counters = array(
+	protected static $counters = [
 		'string' =>  'strlen',
-		'unicode' => array('Nette\Utils\Strings', 'length'),
+		'unicode' => ['Nette\Utils\Strings', 'length'],
 		'array' => 'count',
 		'list' => 'count',
 		'alnum' => 'strlen',
@@ -63,7 +63,7 @@ class Validators extends Nette\Object
 		'space' => 'strlen',
 		'upper' => 'strlen',
 		'xdigit' => 'strlen',
-	);
+	];
 
 
 	/**
@@ -76,7 +76,7 @@ class Validators extends Nette\Object
 	public static function assert($value, $expected, $label = 'variable')
 	{
 		if (!static::is($value, $expected)) {
-			$expected = str_replace(array('|', ':'), array(' or ', ' in range '), $expected);
+			$expected = str_replace(['|', ':'], [' or ', ' in range '], $expected);
 			if (is_array($value)) {
 				$type = 'array(' . count($value) . ')';
 			} elseif (is_object($value)) {

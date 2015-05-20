@@ -11,7 +11,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class TestClass extends Nette\Object
 {
-	private $items = array();
+	private $items = [];
 
 	public function & getItems()
 	{
@@ -28,4 +28,4 @@ class TestClass extends Nette\Object
 
 $obj = new TestClass;
 $obj->items[] = 'test';
-Assert::same( array('test'), $obj->items );
+Assert::same( ['test'], $obj->items );

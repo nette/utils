@@ -37,7 +37,7 @@ class Arrays
 	 */
 	public static function get(array $arr, $key, $default = NULL)
 	{
-		foreach (is_array($key) ? $key : array($key) as $k) {
+		foreach (is_array($key) ? $key : [$key] as $k) {
 			if (is_array($arr) && array_key_exists($k, $arr)) {
 				$arr = $arr[$k];
 			} else {
@@ -60,7 +60,7 @@ class Arrays
 	 */
 	public static function & getRef(& $arr, $key)
 	{
-		foreach (is_array($key) ? $key : array($key) as $k) {
+		foreach (is_array($key) ? $key : [$key] as $k) {
 			if (is_array($arr) || $arr === NULL) {
 				$arr = & $arr[$k];
 			} else {
@@ -93,7 +93,7 @@ class Arrays
 	 */
 	public static function searchKey($arr, $key)
 	{
-		$foo = array($key => NULL);
+		$foo = [$key => NULL];
 		return array_search(key($foo), array_keys($arr), TRUE);
 	}
 
@@ -142,7 +142,7 @@ class Arrays
 	 */
 	public static function grep(array $arr, $pattern, $flags = 0)
 	{
-		return Strings::pcre('preg_grep', array($pattern, $arr, $flags));
+		return Strings::pcre('preg_grep', [$pattern, $arr, $flags]);
 	}
 
 
@@ -152,7 +152,7 @@ class Arrays
 	 */
 	public static function flatten(array $arr, $preserveKeys = FALSE)
 	{
-		$res = array();
+		$res = [];
 		$cb = $preserveKeys
 			? function($v, $k) use (& $res) { $res[$k] = $v; }
 			: function($v) use (& $res) { $res[] = $v; };
@@ -181,11 +181,11 @@ class Arrays
 			? $path
 			: preg_split('#(\[\]|->|=|\|)#', $path, NULL, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-		if (!$parts || $parts[0] === '=' || $parts[0] === '|' || $parts === array('->')) {
+		if (!$parts || $parts[0] === '=' || $parts[0] === '|' || $parts === ['->']) {
 			throw new Nette\InvalidArgumentException("Invalid path '$path'.");
 		}
 
-		$res = $parts[0] === '->' ? new \stdClass : array();
+		$res = $parts[0] === '->' ? new \stdClass : [];
 
 		foreach ($arr as $rowOrig) {
 			$row = (array) $rowOrig;
@@ -229,7 +229,7 @@ class Arrays
 	 */
 	public static function normalize(array $arr, $filling = NULL)
 	{
-		$res = array();
+		$res = [];
 		foreach ($arr as $k => $v) {
 			$res[is_int($k) ? $v : $k] = is_int($k) ? $filling : $v;
 		}

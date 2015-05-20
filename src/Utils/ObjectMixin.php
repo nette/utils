@@ -24,7 +24,7 @@ class ObjectMixin
 	/** @var array (name => 'event' | TRUE)  used by hasProperty() */
 	private static $props;
 
-	/** @var array (name => array(type => callback))  used by get|setExtensionMethod() */
+	/** @var array (name => [type => callback])  used by get|setExtensionMethod() */
 	private static $extMethods;
 
 
@@ -262,7 +262,7 @@ class ObjectMixin
 			(?: \(  [ \t]* ([^)$\s]+)  )?
 		()~mx', $rc->getDocComment(), $matches, PREG_SET_ORDER);
 
-		$methods = array();
+		$methods = [];
 		foreach ($matches as $m) {
 			list(, $op, $prop, $type) = $m;
 			$name = $op . $prop;
@@ -277,7 +277,7 @@ class ObjectMixin
 				if ($rc->inNamespace() && preg_match('#^[A-Z]\w+(\[|\||\z)#', $type)) {
 					$type = $rc->getNamespaceName() . '\\' . $type;
 				}
-				$methods[$name] = array($op, $rp, $type);
+				$methods[$name] = [$op, $rp, $type];
 			}
 		}
 		return $methods;
@@ -313,7 +313,7 @@ class ObjectMixin
 				return FALSE;
 			}
 			$type = substr($type, 0, -2);
-			$res = array();
+			$res = [];
 			foreach ($val as $k => $v) {
 				if (!self::checkType($v, $type)) {
 					return FALSE;
@@ -380,7 +380,7 @@ class ObjectMixin
 			return $cache;
 		}
 
-		foreach (array($class) + class_parents($class) + class_implements($class) as $cl) {
+		foreach ([$class] + class_parents($class) + class_implements($class) as $cl) {
 			if (isset($list[$cl])) {
 				return $cache = $list[$cl];
 			}

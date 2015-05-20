@@ -30,7 +30,7 @@ Assert::same( "I\xc3\xb1", Strings::findPrefix("I\xc3\xb1", "I\xc3\xb1") );
 Assert::same( "I", Strings::findPrefix("I\xc3\xb2", "I\xc3\xb1") );
 Assert::same( "I", Strings::findPrefix("I\xc4\xb1", "I\xc3\xb1") );
 
-Assert::same( '', Strings::findPrefix(array('', '')) );
-Assert::same( '', Strings::findPrefix(array('', '', '')) );
-Assert::same( '', Strings::findPrefix(array('a', '', '')) );
-Assert::same( 'ab', Strings::findPrefix(array('ab1', 'ab', 'ab2')) );
+Assert::same( '', Strings::findPrefix(['', '']) );
+Assert::same( '', Strings::findPrefix(['', '', '']) );
+Assert::same( '', Strings::findPrefix(['a', '', '']) );
+Assert::same( 'ab', Strings::findPrefix(['ab1', 'ab', 'ab2']) );

@@ -11,11 +11,11 @@ use Nette\Utils\Arrays,
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::same( array(
+Assert::same( [
 	1 => '1',
-), Arrays::grep(array('a', '1', 'c'), '#\d#') );
+], Arrays::grep(['a', '1', 'c'], '#\d#') );
 
-Assert::same( array(
+Assert::same( [
 	0 => 'a',
 	2 => 'c',
-), Arrays::grep(array('a', '1', 'c'), '#\d#', PREG_GREP_INVERT) );
+], Arrays::grep(['a', '1', 'c'], '#\d#', PREG_GREP_INVERT) );

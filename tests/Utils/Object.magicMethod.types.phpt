@@ -29,7 +29,7 @@ class TestClass extends Nette\Object
 	public $enabled;
 
 	/** @var TestClass[] */
-	public $items = array();
+	public $items = [];
 }
 
 
@@ -47,16 +47,16 @@ Assert::exception(function() use ($obj) {
 }, 'Nette\InvalidArgumentException', 'Argument passed to Test\TestClass::setEnabled() must be bool, object given.');
 
 
-$obj->setItems(array(new TestClass));
-Assert::equal( array(new TestClass), $obj->items );
+$obj->setItems([new TestClass]);
+Assert::equal( [new TestClass], $obj->items );
 
 Assert::exception(function() use ($obj) {
-	$obj->setItems(array(1));
+	$obj->setItems([1]);
 }, 'Nette\InvalidArgumentException', 'Argument passed to Test\TestClass::setItems() must be Test\TestClass[], array given.');
 
 
 $obj->addItem(new TestClass);
-Assert::equal( array(new TestClass, new TestClass), $obj->items );
+Assert::equal( [new TestClass, new TestClass], $obj->items );
 
 Assert::exception(function() use ($obj) {
 	$obj->addItem(1);

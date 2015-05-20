@@ -109,26 +109,26 @@ test(function() {
 
 test(function() {
 	Assert::false( Validators::is(NULL, 'array') );
-	Assert::true( Validators::is(array(), 'array') );
-	Assert::true( Validators::is(array(), 'array:0') );
-	Assert::true( Validators::is(array(1), 'array:1') );
-	Assert::true( Validators::is(array(1), 'array:0..') );
-	Assert::true( Validators::is(array(), 'array:..1') );
+	Assert::true( Validators::is([], 'array') );
+	Assert::true( Validators::is([], 'array:0') );
+	Assert::true( Validators::is([1], 'array:1') );
+	Assert::true( Validators::is([1], 'array:0..') );
+	Assert::true( Validators::is([], 'array:..1') );
 });
 
 
 test(function() {
 	Assert::false( Validators::is(NULL, 'list') );
-	Assert::true( Validators::is(array(), 'list') );
-	Assert::true( Validators::is(array(1), 'list') );
-	Assert::true( Validators::is(array('a', 'b', 'c'), 'list') );
-	Assert::false( Validators::is(array(4 => 1, 2, 3), 'list') );
-	Assert::false( Validators::is(array(1 => 'a', 0 => 'b'), 'list') );
-	Assert::false( Validators::is(array('key' => 'value'), 'list') );
-	$arr = array();
+	Assert::true( Validators::is([], 'list') );
+	Assert::true( Validators::is([1], 'list') );
+	Assert::true( Validators::is(['a', 'b', 'c'], 'list') );
+	Assert::false( Validators::is([4 => 1, 2, 3], 'list') );
+	Assert::false( Validators::is([1 => 'a', 0 => 'b'], 'list') );
+	Assert::false( Validators::is(['key' => 'value'], 'list') );
+	$arr = [];
 	$arr[] = & $arr;
 	Assert::true( Validators::is($arr, 'list') );
-	Assert::false( Validators::is(array(1,2,3), 'list:4') );
+	Assert::false( Validators::is([1,2,3], 'list:4') );
 });
 
 
@@ -140,19 +140,19 @@ test(function() {
 
 test(function() {
 	Assert::false( Validators::is(NULL, 'scalar') );
-	Assert::false( Validators::is(array(), 'scalar') );
+	Assert::false( Validators::is([], 'scalar') );
 	Assert::true( Validators::is(1, 'scalar') );
 });
 
 
 test(function() {
 	Assert::false( Validators::is(NULL, 'callable') );
-	Assert::false( Validators::is(array(), 'callable') );
+	Assert::false( Validators::is([], 'callable') );
 	Assert::false( Validators::is(1, 'callable') );
 	Assert::false( Validators::is('', 'callable') );
 	Assert::true( Validators::is('hello', 'callable') );
-	Assert::false( Validators::is(array('hello'), 'callable') );
-	Assert::true( Validators::is(array('hello', 'world'), 'callable') );
+	Assert::false( Validators::is(['hello'], 'callable') );
+	Assert::true( Validators::is(['hello', 'world'], 'callable') );
 });
 
 
@@ -225,7 +225,7 @@ test(function() {
 	Assert::true( Validators::is(NULL, 'none') );
 	Assert::true( Validators::is(FALSE, 'none') );
 	Assert::false( Validators::is('0', 'none') );
-	Assert::true( Validators::is(array(), 'none') );
+	Assert::true( Validators::is([], 'none') );
 });
 
 

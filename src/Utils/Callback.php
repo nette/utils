@@ -26,7 +26,7 @@ class Callback
 	public static function closure($callable, $m = NULL)
 	{
 		if ($m !== NULL) {
-			$callable = array($callable, $m);
+			$callable = [$callable, $m];
 
 		} elseif (is_string($callable) && count($tmp = explode('::', $callable)) === 2) {
 			$callable = $tmp;
@@ -35,7 +35,7 @@ class Callback
 			return $callable;
 
 		} elseif (is_object($callable)) {
-			$callable = array($callable, '__invoke');
+			$callable = [$callable, '__invoke'];
 		}
 
 		if (PHP_VERSION_ID >= 50400) {
@@ -72,7 +72,7 @@ class Callback
 	 * Invokes callback with an array of parameters.
 	 * @return mixed
 	 */
-	public static function invokeArgs($callable, array $args = array())
+	public static function invokeArgs($callable, array $args = [])
 	{
 		self::check($callable);
 		return call_user_func_array($callable, $args);
@@ -185,10 +185,10 @@ class Callback
 			return isset($vars['_callable_']) ? $vars['_callable_'] : $closure;
 
 		} elseif ($obj = $r->getClosureThis()) {
-			return array($obj, $r->getName());
+			return [$obj, $r->getName()];
 
 		} elseif ($class = $r->getClosureScopeClass()) {
-			return array($class->getName(), $r->getName());
+			return [$class->getName(), $r->getName()];
 
 		} else {
 			return $r->getName();

@@ -24,7 +24,7 @@ class TestClass extends Nette\Object
 
 	protected $enabled;
 
-	private $items = array();
+	private $items = [];
 }
 
 
@@ -45,9 +45,9 @@ Assert::same( 22, $obj->enabled );
 
 // adder
 Assert::same( $obj, $obj->addItem('world') );
-Assert::same( array('world'), $obj->items );
-Assert::same( array('world'), $obj->getItems() );
+Assert::same( ['world'], $obj->items );
+Assert::same( ['world'], $obj->getItems() );
 
-Assert::same( $obj, $obj->setItems(array()) );
-Assert::same( array(), $obj->items );
-Assert::same( array(), $obj->getItems() );
+Assert::same( $obj, $obj->setItems([]) );
+Assert::same( [], $obj->items );
+Assert::same( [], $obj->getItems() );

@@ -12,12 +12,12 @@ require __DIR__ . '/../bootstrap.php';
 
 
 Assert::false( Arrays::isList(NULL) );
-Assert::true( Arrays::isList(array()) );
-Assert::true( Arrays::isList(array(1)) );
-Assert::true( Arrays::isList(array('a', 'b', 'c')) );
-Assert::false( Arrays::isList(array(4 => 1, 2, 3)) );
-Assert::false( Arrays::isList(array(1 => 'a', 0 => 'b')) );
-Assert::false( Arrays::isList(array('key' => 'value')) );
-$arr = array();
+Assert::true( Arrays::isList([]) );
+Assert::true( Arrays::isList([1]) );
+Assert::true( Arrays::isList(['a', 'b', 'c']) );
+Assert::false( Arrays::isList([4 => 1, 2, 3]) );
+Assert::false( Arrays::isList([1 => 'a', 0 => 'b']) );
+Assert::false( Arrays::isList(['key' => 'value']) );
+$arr = [];
 $arr[] = & $arr;
 Assert::true( Arrays::isList($arr) );

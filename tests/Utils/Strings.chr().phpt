@@ -22,7 +22,7 @@ Assert::same( "\xEF\xBF\xBF", Strings::chr(0x00FFFF) );
 Assert::same( "\xF0\x90\x80\x80", Strings::chr(0x010000) );
 Assert::same( "\xF4\x8F\xBF\xBF", Strings::chr(0x10FFFF) );
 
-foreach (array(-1, 0xD800, 0xDFFF, 0x110000) as $code) {
+foreach ([-1, 0xD800, 0xDFFF, 0x110000] as $code) {
 	Assert::exception(function() use ($code) {
 		Strings::chr($code);
 	}, 'Nette\InvalidArgumentException', 'Code point must be in range 0x0 to 0xD7FF or 0xE000 to 0x10FFFF.');

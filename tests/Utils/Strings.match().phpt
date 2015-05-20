@@ -13,10 +13,10 @@ require __DIR__ . '/../bootstrap.php';
 
 Assert::null( Strings::match('hello world!', '#([E-L])+#') );
 
-Assert::same( array('hell', 'l'), Strings::match('hello world!', '#([e-l])+#') );
+Assert::same( ['hell', 'l'], Strings::match('hello world!', '#([e-l])+#') );
 
-Assert::same( array('hell'), Strings::match('hello world!', '#[e-l]+#') );
+Assert::same( ['hell'], Strings::match('hello world!', '#[e-l]+#') );
 
-Assert::same( array(array('hell', 0)), Strings::match('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
+Assert::same( [['hell', 0]], Strings::match('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
 
-Assert::same( array('ll'), Strings::match('hello world!', '#[e-l]+#', NULL, 2) );
+Assert::same( ['ll'], Strings::match('hello world!', '#[e-l]+#', NULL, 2) );

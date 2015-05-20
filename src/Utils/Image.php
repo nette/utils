@@ -124,12 +124,12 @@ class Image extends Nette\Object
 	 */
 	public static function rgb($red, $green, $blue, $transparency = 0)
 	{
-		return array(
+		return [
 			'red' => max(0, min(255, (int) $red)),
 			'green' => max(0, min(255, (int) $green)),
 			'blue' => max(0, min(255, (int) $blue)),
 			'alpha' => max(0, min(127, (int) $transparency)),
-		);
+		];
 	}
 
 
@@ -147,18 +147,18 @@ class Image extends Nette\Object
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
-		static $funcs = array(
+		static $funcs = [
 			self::JPEG => 'imagecreatefromjpeg',
 			self::PNG => 'imagecreatefrompng',
 			self::GIF => 'imagecreatefromgif',
-		);
+		];
 		$info = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
 		$format = $info[2];
 
 		if (!isset($funcs[$format])) {
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
-		return new static(Callback::invokeSafe($funcs[$format], array($file), function($message) {
+		return new static(Callback::invokeSafe($funcs[$format], [$file], function($message) {
 			throw new ImageException($message);
 		}));
 	}
@@ -170,7 +170,7 @@ class Image extends Nette\Object
 	public static function getFormatFromString($s)
 	{
 		trigger_error(__METHOD__ . '() is deprecated; use finfo_buffer() instead.', E_USER_DEPRECATED);
-		$types = array('image/jpeg' => self::JPEG, 'image/gif' => self::GIF, 'image/png' => self::PNG);
+		$types = ['image/jpeg' => self::JPEG, 'image/gif' => self::GIF, 'image/png' => self::PNG];
 		$type = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $s);
 		return isset($types[$type]) ? $types[$type] : NULL;
 	}
@@ -194,7 +194,7 @@ class Image extends Nette\Object
 			$format = @static::getFormatFromString($s);
 		}
 
-		return new static(Callback::invokeSafe('imagecreatefromstring', array($s), function($message) {
+		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function($message) {
 			throw new ImageException($message);
 		}));
 	}
@@ -221,7 +221,7 @@ class Image extends Nette\Object
 
 		$image = imagecreatetruecolor($width, $height);
 		if (is_array($color)) {
-			$color += array('alpha' => 0);
+			$color += ['alpha' => 0];
 			$color = imagecolorallocatealpha($image, $color['red'], $color['green'], $color['blue'], $color['alpha']);
 			imagealphablending($image, FALSE);
 			imagefilledrectangle($image, 0, 0, $width - 1, $height - 1, $color);
@@ -365,7 +365,7 @@ class Image extends Nette\Object
 				throw new Nette\InvalidArgumentException('At least width or height must be specified.');
 			}
 
-			$scale = array();
+			$scale = [];
 			if ($newWidth > 0) { // fit width
 				$scale[] = $newWidth / $srcWidth;
 			}
@@ -375,7 +375,7 @@ class Image extends Nette\Object
 			}
 
 			if ($flags & self::FILL) {
-				$scale = array(max($scale));
+				$scale = [max($scale)];
 			}
 
 			if ($flags & self::SHRINK_ONLY) {
@@ -387,7 +387,7 @@ class Image extends Nette\Object
 			$newHeight = round($srcHeight * $scale);
 		}
 
-		return array(max((int) $newWidth, 1), max((int) $newHeight, 1));
+		return [max((int) $newWidth, 1), max((int) $newHeight, 1)];
 	}
 
 
@@ -441,7 +441,7 @@ class Image extends Nette\Object
 		}
 		$newWidth = min((int) $newWidth, $srcWidth - $left);
 		$newHeight = min((int) $newHeight, $srcHeight - $top);
-		return array($left, $top, $newWidth, $newHeight);
+		return [$left, $top, $newWidth, $newHeight];
 	}
 
 
@@ -451,11 +451,11 @@ class Image extends Nette\Object
 	 */
 	public function sharpen()
 	{
-		imageconvolution($this->image, array( // my magic numbers ;)
-			array( -1, -1, -1 ),
-			array( -1, 24, -1 ),
-			array( -1, -1, -1 ),
-		), 16, 0);
+		imageconvolution($this->image, [ // my magic numbers ;)
+			[ -1, -1, -1 ],
+			[ -1, 24, -1 ],
+			[ -1, -1, -1 ],
+		], 16, 0);
 		return $this;
 	}
 

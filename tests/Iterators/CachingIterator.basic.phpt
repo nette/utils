@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 
 test(function() { // ==> Two items in array
 
-	$arr = array('Nette', 'Framework');
+	$arr = ['Nette', 'Framework'];
 
 	$iterator = new Iterators\CachingIterator($arr);
 	$iterator->rewind();
@@ -40,7 +40,7 @@ test(function() { // ==> Two items in array
 
 
 test(function() {
-	$arr = array('Nette');
+	$arr = ['Nette'];
 
 	$iterator = new Iterators\CachingIterator($arr);
 	$iterator->rewind();
@@ -61,7 +61,7 @@ test(function() {
 
 
 test(function() {
-	$arr = array();
+	$arr = [];
 
 	$iterator = new Iterators\CachingIterator($arr);
 	$iterator->next();

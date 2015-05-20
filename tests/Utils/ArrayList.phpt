@@ -40,19 +40,19 @@ test(function() {
 	Assert::same( $jack, $list[1] );
 
 
-	Assert::same( array(
+	Assert::same( [
 		$mary,
 		$jack,
-	), iterator_to_array($list) );
+	], iterator_to_array($list) );
 
 
 	foreach ($list as $key => $person) {
 		$tmp[] = $key . ' => ' . $person->sayHi();
 	}
-	Assert::same( array(
+	Assert::same( [
 		'0 => My name is Mary',
 		'1 => My name is Jack',
-	), $tmp );
+	], $tmp );
 
 
 	Assert::same( 2, $list->count() );
@@ -68,7 +68,7 @@ test(function() {
 	}, 'OutOfRangeException', 'Offset invalid or out of range');
 
 	unset($list[1]);
-	Assert::same( array(
+	Assert::same( [
 		$mary,
-	), iterator_to_array($list) );
+	], iterator_to_array($list) );
 });

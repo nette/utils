@@ -32,20 +32,20 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	private $isEmpty;
 
 	/** @var array  element's attributes */
-	public $attrs = array();
+	public $attrs = [];
 
 	/** @var array  of Html | string nodes */
-	protected $children = array();
+	protected $children = [];
 
 	/** @var bool  use XHTML syntax? */
 	public static $xhtml = FALSE;
 
 	/** @var array  empty (void) elements */
-	public static $emptyElements = array(
+	public static $emptyElements = [
 		'img' => 1, 'hr' => 1, 'br' => 1, 'input' => 1, 'meta' => 1, 'area' => 1, 'embed' => 1, 'keygen' => 1,
 		'source' => 1, 'base' => 1, 'col' => 1, 'link' => 1, 'param' => 1, 'basefont' => 1, 'frame' => 1,
 		'isindex' => 1, 'wbr' => 1, 'command' => 1, 'track' => 1,
-	);
+	];
 
 
 	/**
@@ -205,7 +205,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 			$this->attrs[$m][$args[0]] = $args[1];
 
 		} else {
-			$this->attrs[$m] = array($this->attrs[$m], $args[0] => $args[1]);
+			$this->attrs[$m] = [$this->attrs[$m], $args[0] => $args[1]];
 		}
 
 		return $this;
@@ -345,7 +345,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				$this->children[] = $child;
 
 			} else { // insert or replace
-				array_splice($this->children, (int) $index, $replace ? 1 : 0, array($child));
+				array_splice($this->children, (int) $index, $replace ? 1 : 0, [$child]);
 			}
 
 		} else {
@@ -419,7 +419,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function removeChildren()
 	{
-		$this->children = array();
+		$this->children = [];
 	}
 
 
@@ -540,7 +540,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 							}
 							$q = strpos($v, '"') === FALSE ? '"' : "'";
 							$s .= ' data-' . $k . '='
-								. $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $v)
+								. $q . str_replace(['&', $q], ['&amp;', $q === '"' ? '&quot;' : '&#39;'], $v)
 								. (strpos($v, '`') !== FALSE && strpbrk($v, ' <>"\'') === FALSE ? ' ' : '')
 								. $q;
 						}
@@ -574,7 +574,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 			$q = strpos($value, '"') === FALSE ? '"' : "'";
 			$s .= ' ' . $key . '='
-				. $q . str_replace(array('&', $q), array('&amp;', $q === '"' ? '&quot;' : '&#39;'), $value)
+				. $q . str_replace(['&', $q], ['&amp;', $q === '"' ? '&quot;' : '&#39;'], $value)
 				. (strpos($value, '`') !== FALSE && strpbrk($value, ' <>"\'') === FALSE ? ' ' : '')
 				. $q;
 		}

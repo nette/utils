@@ -21,13 +21,13 @@ class Json
 	const PRETTY = 2;
 
 	/** @var array */
-	private static $messages = array(
+	private static $messages = [
 		JSON_ERROR_DEPTH => 'The maximum stack depth has been exceeded',
 		JSON_ERROR_STATE_MISMATCH => 'Syntax error, malformed JSON',
 		JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
 		JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON',
 		5 /*JSON_ERROR_UTF8*/ => 'Invalid UTF-8 sequence', // exists since 5.3.3, but is returned since 5.3.1
-	);
+	];
 
 
 	/**
@@ -50,7 +50,7 @@ class Json
 		$flags = PHP_VERSION_ID >= 50400 ? (JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)) : 0;
 
 		if (PHP_VERSION_ID < 50500) {
-			$json = Callback::invokeSafe('json_encode', array($value, $flags), function($message) { // needed to receive 'recursion detected' error
+			$json = Callback::invokeSafe('json_encode', [$value, $flags], function($message) { // needed to receive 'recursion detected' error
 				throw new JsonException($message);
 			});
 		} else {
@@ -63,7 +63,7 @@ class Json
 			throw new JsonException($message, $error);
 		}
 
-		$json = str_replace(array("\xe2\x80\xa8", "\xe2\x80\xa9"), array('\u2028', '\u2029'), $json);
+		$json = str_replace(["\xe2\x80\xa8", "\xe2\x80\xa9"], ['\u2028', '\u2029'], $json);
 		return $json;
 	}
 
@@ -85,7 +85,7 @@ class Json
 		if (!$forceArray && preg_match('#(?<=[^\\\\]")\\\\u0000(?:[^"\\\\]|\\\\.)*+"\s*+:#', $json)) { // workaround for json_decode fatal error when object key starts with \u0000
 			throw new JsonException(static::$messages[JSON_ERROR_CTRL_CHAR]);
 		}
-		$args = array($json, $forceArray, 512);
+		$args = [$json, $forceArray, 512];
 		if (PHP_VERSION_ID >= 50400 && !(defined('JSON_C_VERSION') && PHP_INT_SIZE > 4)) { // not implemented in PECL JSON-C 1.3.2 for 64bit systems
 			$args[] = JSON_BIGINT_AS_STRING;
 		}

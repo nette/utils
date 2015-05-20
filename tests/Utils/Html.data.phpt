@@ -28,8 +28,8 @@ test(function() { // deprecated
 test(function() { // direct
 	$el = Html::el('div');
 	$el->{'data-x'} = 'x';
-	$el->{'data-list'} = array(1,2,3);
-	$el->{'data-arr'} = array('a' => 1);
+	$el->{'data-list'} = [1,2,3];
+	$el->{'data-arr'} = ['a' => 1];
 
 	Assert::same( '<div data-x="x" data-list="[1,2,3]" data-arr=\'{"a":1}\'></div>', (string) $el );
 });
@@ -39,8 +39,8 @@ test(function() { // function
 	$el = Html::el('div');
 	$el->data('a', 'one');
 	$el->data('b', 'two');
-	$el->data('list', array(1,2,3));
-	$el->data('arr', array('a' => 1));
+	$el->data('list', [1,2,3]);
+	$el->data('arr', ['a' => 1]);
 
 	Assert::same( 'one', $el->{'data-a'} );
 	Assert::same( '<div data-a="one" data-b="two" data-list="[1,2,3]" data-arr=\'{"a":1}\'></div>', (string) $el );

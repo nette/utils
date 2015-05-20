@@ -43,25 +43,25 @@ test(function() {
 	Assert::same( $jack, $list->j );
 
 
-	Assert::same( array(
+	Assert::same( [
 		'm' => $mary,
 		'j' => $jack,
-	), iterator_to_array($list) );
+	], iterator_to_array($list) );
 
 
-	Assert::same( array(
+	Assert::same( [
 		'm' => $mary,
 		'j' => $jack,
-	), (array) $list );
+	], (array) $list );
 
 
 	foreach ($list as $key => $person) {
 		$tmp[] = $key . ' => ' . $person->sayHi();
 	}
-	Assert::same( array(
+	Assert::same( [
 		'm => My name is Mary',
 		'j => My name is Jack',
-	), $tmp );
+	], $tmp );
 
 
 	Assert::same( 2, $list->count() );
@@ -69,21 +69,21 @@ test(function() {
 
 
 	unset($list['j']);
-	Assert::same( array(
+	Assert::same( [
 		'm' => $mary,
-	), iterator_to_array($list) );
+	], iterator_to_array($list) );
 });
 
 
 test(function() {
 	$mary = new Person('Mary');
-	$list = ArrayHash::from(array(
+	$list = ArrayHash::from([
 		'm' => $mary,
 		'j' => 'Jack',
-		'children' => array(
+		'children' => [
 			'c' => 'John',
-		),
-	), FALSE);
+		],
+	], FALSE);
 	Assert::type( 'Nette\Utils\ArrayHash', $list );
 	Assert::type( 'array', $list['children'] );
 });
@@ -91,13 +91,13 @@ test(function() {
 
 test(function() {
 	$mary = new Person('Mary');
-	$list = ArrayHash::from(array(
+	$list = ArrayHash::from([
 		'm' => $mary,
 		'j' => 'Jack',
-		'children' => array(
+		'children' => [
 			'c' => 'John',
-		),
-	));
+		],
+	]);
 	Assert::type( 'Nette\Utils\ArrayHash', $list );
 	Assert::same( $mary, $list['m'] );
 	Assert::same( 'Jack', $list['j'] );
@@ -108,10 +108,10 @@ test(function() {
 	Assert::same( 'Jim', $list['children']['c'] );
 
 
-	Assert::same( array(
+	Assert::same( [
 		'm' => $mary,
 		'j' => 'Jack',
 		'children' => $list['children'],
 		'c' => 'Jim',
-	), iterator_to_array(new RecursiveIteratorIterator($list, RecursiveIteratorIterator::SELF_FIRST)) );
+	], iterator_to_array(new RecursiveIteratorIterator($list, RecursiveIteratorIterator::SELF_FIRST)) );
 });

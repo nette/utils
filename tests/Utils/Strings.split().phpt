@@ -11,18 +11,18 @@ use Nette\Utils\Strings,
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::same( array(
+Assert::same( [
 	'a',
 	',',
 	'b',
 	',',
 	'c',
-), Strings::split('a, b, c', '#(,)\s*#') );
+], Strings::split('a, b, c', '#(,)\s*#') );
 
-Assert::same( array(
+Assert::same( [
 	'a',
 	',',
 	'b',
 	',',
 	'c',
-), Strings::split('a, b, c', '#(,)\s*#', PREG_SPLIT_NO_EMPTY) );
+], Strings::split('a, b, c', '#(,)\s*#', PREG_SPLIT_NO_EMPTY) );

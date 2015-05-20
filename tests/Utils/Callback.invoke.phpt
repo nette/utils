@@ -28,13 +28,13 @@ class Test
 }
 
 
-$cb = array(new Test, 'fun');
+$cb = [new Test, 'fun'];
 Assert::same( 'Test::fun*', Callback::invoke($cb, '*') );
-Assert::same( 'Test::fun*', Callback::invokeArgs($cb, array('*')) );
+Assert::same( 'Test::fun*', Callback::invokeArgs($cb, ['*']) );
 
 
-$cb = array(new Test, 'ref');
-Assert::same( 'Test::ref', Callback::invokeArgs($cb, array(& $ref)) );
+$cb = [new Test, 'ref'];
+Assert::same( 'Test::ref', Callback::invokeArgs($cb, [& $ref]) );
 Assert::same( 'Test::ref', $ref );
 
 

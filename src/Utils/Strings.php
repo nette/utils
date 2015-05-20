@@ -157,7 +157,7 @@ class Strings
 	 */
 	public static function normalizeNewLines($s)
 	{
-		return str_replace(array("\r\n", "\r"), "\n", $s);
+		return str_replace(["\r\n", "\r"], "\n", $s);
 	}
 
 
@@ -171,16 +171,16 @@ class Strings
 		$s = preg_replace('#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{2FF}\x{370}-\x{10FFFF}]#u', '', $s);
 		$s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
 		$s = str_replace(
-			array("\xE2\x80\x9E", "\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9A", "\xE2\x80\x98", "\xE2\x80\x99", "\xC2\xB0"),
-			array("\x03", "\x03", "\x03", "\x02", "\x02", "\x02", "\x04"), $s
+			["\xE2\x80\x9E", "\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9A", "\xE2\x80\x98", "\xE2\x80\x99", "\xC2\xB0"],
+			["\x03", "\x03", "\x03", "\x02", "\x02", "\x02", "\x04"], $s
 		);
 		if (class_exists('Transliterator') && $transliterator = \Transliterator::create('Any-Latin; Latin-ASCII')) {
 			$s = $transliterator->transliterate($s);
 		}
 		if (ICONV_IMPL === 'glibc') {
 			$s = str_replace(
-				array("\xC2\xBB", "\xC2\xAB", "\xE2\x80\xA6", "\xE2\x84\xA2", "\xC2\xA9", "\xC2\xAE"),
-				array('>>', '<<', '...', 'TM', '(c)', '(R)'), $s
+				["\xC2\xBB", "\xC2\xAB", "\xE2\x80\xA6", "\xE2\x84\xA2", "\xC2\xA9", "\xC2\xAE"],
+				['>>', '<<', '...', 'TM', '(c)', '(R)'], $s
 			);
 			$s = @iconv('UTF-8', 'WINDOWS-1250//TRANSLIT//IGNORE', $s); // intentionally @
 			$s = strtr($s, "\xa5\xa3\xbc\x8c\xa7\x8a\xaa\x8d\x8f\x8e\xaf\xb9\xb3\xbe\x9c\x9a\xba\x9d\x9f\x9e"
@@ -193,7 +193,7 @@ class Strings
 		} else {
 			$s = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s); // intentionally @
 		}
-		$s = str_replace(array('`', "'", '"', '^', '~', '?'), '', $s);
+		$s = str_replace(['`', "'", '"', '^', '~', '?'], '', $s);
 		return strtr($s, "\x01\x02\x03\x04\x05\x06", '`\'"^~?');
 	}
 
@@ -443,7 +443,7 @@ class Strings
 	 */
 	public static function split($subject, $pattern, $flags = 0)
 	{
-		return self::pcre('preg_split', array($pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE));
+		return self::pcre('preg_split', [$pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE]);
 	}
 
 
@@ -460,7 +460,7 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return NULL;
 		}
-		return self::pcre('preg_match', array($pattern, $subject, & $m, $flags, $offset))
+		return self::pcre('preg_match', [$pattern, $subject, & $m, $flags, $offset])
 			? $m
 			: NULL;
 	}
@@ -477,13 +477,13 @@ class Strings
 	public static function matchAll($subject, $pattern, $flags = 0, $offset = 0)
 	{
 		if ($offset > strlen($subject)) {
-			return array();
+			return [];
 		}
-		self::pcre('preg_match_all', array(
+		self::pcre('preg_match_all', [
 			$pattern, $subject, & $m,
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
 			$offset
-		));
+		]);
 		return $m;
 	}
 
@@ -506,34 +506,34 @@ class Strings
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
 
-			return self::pcre('preg_replace_callback', array($pattern, $replacement, $subject, $limit));
+			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit]);
 
 		} elseif ($replacement === NULL && is_array($pattern)) {
 			$replacement = array_values($pattern);
 			$pattern = array_keys($pattern);
 		}
 
-		return self::pcre('preg_replace', array($pattern, $replacement, $subject, $limit));
+		return self::pcre('preg_replace', [$pattern, $replacement, $subject, $limit]);
 	}
 
 
 	/** @internal */
 	public static function pcre($func, $args)
 	{
-		static $messages = array(
+		static $messages = [
 			PREG_INTERNAL_ERROR => 'Internal error',
 			PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
 			PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',
 			PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
 			5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point', // PREG_BAD_UTF8_OFFSET_ERROR
-		);
+		];
 		$res = Callback::invokeSafe($func, $args, function($message) use ($args) {
 			// compile-time error, not detectable by preg_last_error
 			throw new RegexpException($message . ' in pattern: ' . implode(' or ', (array) $args[0]));
 		});
 
 		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
-			&& ($res === NULL || !in_array($func, array('preg_filter', 'preg_replace_callback', 'preg_replace')))
+			&& ($res === NULL || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace']))
 		) {
 			throw new RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error')
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);

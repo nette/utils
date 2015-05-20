@@ -12,28 +12,28 @@ require __DIR__ . '/../bootstrap.php';
 
 
 Assert::same(
-	array(
+	[
 		'first' => NULL,
 		'a' => 'second',
-		'd' => array('third'),
+		'd' => ['third'],
 		'fourth' => NULL,
-	),
-	Arrays::normalize(array(
+	],
+	Arrays::normalize([
 		1 => 'first',
 		'a' => 'second',
-		'd' => array('third'),
+		'd' => ['third'],
 		7 => 'fourth'
-	))
+	])
 );
 
 
 Assert::same(
-	array(
+	[
 		'first' => TRUE,
 		'' => 'second',
-	),
-	Arrays::normalize(array(
+	],
+	Arrays::normalize([
 		1 => 'first',
 		'' => 'second',
-	), TRUE)
+	], TRUE)
 );
