@@ -140,14 +140,10 @@ test(function() { // object methods
 	Assert::same( 'Test::privateFun', getName(Callback::toReflection([$test, 'privateFun'])) );
 	Assert::same( 'Test::privateFun', getName(Callback::toReflection(Callback::closure($test, 'privateFun'))) );
 
-	if (PHP_VERSION_ID < 50400) {
-		Assert::same( 'Test::__call privateFun *', Callback::closure($test, 'privateFun')->__invoke('*') ); // not called!
-	} else {
-		Assert::same( 'Test::privateFun*', Callback::closure($test, 'privateFun')->__invoke('*') );
+	Assert::same( 'Test::privateFun*', Callback::closure($test, 'privateFun')->__invoke('*') );
 
-		Assert::same( 'Test::ref', call_user_func_array(Callback::closure($test, 'ref'), [& $res]) );
-		Assert::same( 'Test::ref', $res );
-	}
+	Assert::same( 'Test::ref', call_user_func_array(Callback::closure($test, 'ref'), [& $res]) );
+	Assert::same( 'Test::ref', $res );
 });
 
 
@@ -177,11 +173,7 @@ test(function() { // static methods
 	Assert::same( 'Test::privateStatic', getName(Callback::toReflection('Test::privateStatic')) );
 	Assert::same( 'Test::privateStatic', getName(Callback::toReflection(Callback::closure('Test::privateStatic'))) );
 
-	if (PHP_VERSION_ID < 50400) {
-		Assert::same( 'Test::__callStatic privateStatic *', Callback::closure('Test::privateStatic')->__invoke('*') ); // not called!
-	} else {
-		Assert::same( 'Test::privateStatic*', Callback::closure('Test::privateStatic')->__invoke('*') );
-	}
+	Assert::same( 'Test::privateStatic*', Callback::closure('Test::privateStatic')->__invoke('*') );
 });
 
 

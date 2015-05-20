@@ -362,12 +362,6 @@ $tests = [
 	],
 ];
 
-if (PHP_VERSION_ID < 50400 && trim(ICONV_IMPL, '"') === 'libiconv') {
-	unset($tests['3  Malformed sequences']['3.2  Lonely start characters']);
-}
-if (PHP_VERSION_ID < 50400 && trim(ICONV_IMPL, '"') === 'libiconv') {
-	unset($tests['5  Illegal code positions']['5.3 Other illegal code positions']['5.3.1  U+FFFE = ef bf be']);
-}
 
 $stack = [$tests];
 while ($item = array_pop($stack)) {

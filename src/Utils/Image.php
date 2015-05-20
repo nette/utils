@@ -86,19 +86,19 @@ use Nette;
 class Image extends Nette\Object
 {
 	/** {@link resize()} only shrinks images */
-	const SHRINK_ONLY = 1;
+	const SHRINK_ONLY = 0b0001;
 
 	/** {@link resize()} will ignore aspect ratio */
-	const STRETCH = 2;
+	const STRETCH = 0b0010;
 
 	/** {@link resize()} fits in given area so its dimensions are less than or equal to the required dimensions */
-	const FIT = 0;
+	const FIT = 0b0000;
 
 	/** {@link resize()} fills given area so its dimensions are greater than or equal to the required dimensions */
-	const FILL = 4;
+	const FILL = 0b0100;
 
 	/** {@link resize()} fills given area exactly */
-	const EXACT = 8;
+	const EXACT = 0b1000;
 
 	/** @int image types {@link send()} */
 	const JPEG = IMAGETYPE_JPEG,

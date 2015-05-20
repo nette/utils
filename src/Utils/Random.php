@@ -31,12 +31,10 @@ class Random
 		}, $charlist));
 		$chLen = strlen($charlist);
 
-		if (function_exists('openssl_random_pseudo_bytes')
-			&& (PHP_VERSION_ID >= 50400 || !defined('PHP_WINDOWS_VERSION_BUILD')) // slow in PHP 5.3 & Windows
-		) {
+		if (function_exists('openssl_random_pseudo_bytes')) {
 			$rand3 = openssl_random_pseudo_bytes($length);
 		}
-		if (empty($rand3) && function_exists('mcrypt_create_iv') && (PHP_VERSION_ID >= 50307 || !defined('PHP_WINDOWS_VERSION_BUILD'))) { // PHP bug #52523
+		if (empty($rand3) && function_exists('mcrypt_create_iv')) {
 			$rand3 = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
 		}
 		if (empty($rand3) && @is_readable('/dev/urandom')) {

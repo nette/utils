@@ -38,15 +38,11 @@ class Callback
 			$callable = [$callable, '__invoke'];
 		}
 
-		if (PHP_VERSION_ID >= 50400) {
-			if (is_string($callable) && function_exists($callable)) {
-				$r = new \ReflectionFunction($callable);
-				return $r->getClosure();
+		if (is_string($callable) && function_exists($callable)) {
+			return (new \ReflectionFunction($callable))->getClosure();
 
-			} elseif (is_array($callable) && method_exists($callable[0], $callable[1])) {
-				$r = new \ReflectionMethod($callable[0], $callable[1]);
-				return $r->getClosure($callable[0]);
-			}
+		} elseif (is_array($callable) && method_exists($callable[0], $callable[1])) {
+			return (new \ReflectionMethod($callable[0], $callable[1]))->getClosure($callable[0]);
 		}
 
 		self::check($callable);

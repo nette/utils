@@ -130,8 +130,7 @@ class ObjectMixin
 
 		} elseif (isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname])) { // property getter
 			if ($methods[$m] === 0) {
-				$rm = new \ReflectionMethod($class, $m);
-				$methods[$m] = $rm->returnsReference();
+				$methods[$m] = (new \ReflectionMethod($class, $m))->returnsReference();
 			}
 			if ($methods[$m] === TRUE) {
 				return $_this->$m();

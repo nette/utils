@@ -281,7 +281,7 @@ class Validators extends Nette\Object
 	 */
 	public static function isType($type)
 	{
-		return class_exists($type) || interface_exists($type) || (PHP_VERSION_ID >= 50400 && trait_exists($type));
+		return class_exists($type) || interface_exists($type) || trait_exists($type);
 	}
 
 
