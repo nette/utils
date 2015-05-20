@@ -2,7 +2,7 @@ Nette Utility Classes
 =====================
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/nette/utils.svg)](https://packagist.org/packages/nette/utils)
-[![Build Status](https://travis-ci.org/nette/utils.svg?branch=master)](https://travis-ci.org/nette/utils)
+[![Build Status](https://travis-ci.org/nette/utils.svg?branch=v2.3)](https://travis-ci.org/nette/utils)
 
 Nette\Object: Strict classes
 ----------------------------
