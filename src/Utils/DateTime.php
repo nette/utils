@@ -18,7 +18,7 @@ use Nette;
  *
  * @author     David Grudl
  */
-class DateTime extends \DateTime
+class DateTime extends \DateTime implements \JsonSerializable
 {
 	/** minute in seconds */
 	const MINUTE = 60;
@@ -124,6 +124,16 @@ class DateTime extends \DateTime
 
 		$date = parent::createFromFormat($format, $time, $timezone);
 		return $date ? static::from($date) : FALSE;
+	}
+
+
+	/**
+	 * Returns JSON representation in ISO 8601 (used by JavaScript).
+	 * @return string
+	 */
+	public function jsonSerialize()
+	{
+		return $this->format('c');
 	}
 
 }
