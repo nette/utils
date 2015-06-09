@@ -236,4 +236,40 @@ class Arrays
 		return $res;
 	}
 
+	public static function findKey(array $arr, $callback)
+	{
+		foreach ($arr as $key => $value) {
+			if (call_user_func($callback, $value, $key, $arr)) {
+				return $key;
+			}
+		}
+		return FALSE;
+	}
+
+	public static function find(array $arr, $callback)
+	{
+		$key = self::findKey($arr, $callback);
+		return ($key !== FALSE ? $arr[$key] : FALSE);
+	}
+
+	public static function some(array $arr, $callback)
+	{
+		return self::findKey($arr, $callback) !== FALSE;
+	}
+
+	public static function every(array $arr, $callback)
+	{
+		foreach ($arr as $key => $value) {
+			if (!call_user_func($callback, $value, $key, $arr)) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+
+	public static function map(array $arr, $callback)
+	{
+		return array_map($callback, $arr);
+	}
+
 }
