@@ -164,18 +164,6 @@ class Image extends Nette\Object
 
 
 	/**
-	 * @deprecated
-	 */
-	public static function getFormatFromString($s)
-	{
-		trigger_error(__METHOD__ . '() is deprecated; use finfo_buffer() instead.', E_USER_DEPRECATED);
-		$types = ['image/jpeg' => self::JPEG, 'image/gif' => self::GIF, 'image/png' => self::PNG];
-		$type = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $s);
-		return isset($types[$type]) ? $types[$type] : NULL;
-	}
-
-
-	/**
 	 * Create a new image from the image stream in the string.
 	 * @param  string
 	 * @param  mixed  detected image format
