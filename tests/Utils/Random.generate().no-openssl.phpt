@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Test: Nette\Utils\Random::generate()
+ * Test: Nette\Utils\Random::generate() without openssl
+ * @phpIni disable_functions=openssl_random_pseudo_bytes
  */
 
 use Nette\Utils\Random,
@@ -9,6 +10,11 @@ use Nette\Utils\Random,
 
 
 require __DIR__ . '/../bootstrap.php';
+
+
+if (!extension_loaded('openssl')) {
+	Tester\Environment::skip('Requires PHP extension OpenSSL.');
+}
 
 
 Assert::same( 10, strlen(Random::generate()) );

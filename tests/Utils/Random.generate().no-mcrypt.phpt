@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Test: Nette\Utils\Random::generate()
+ * Test: Nette\Utils\Random::generate() without openssl and mcrypt
+ * @phpIni disable_functions=openssl_random_pseudo_bytes,mcrypt_create_iv
  */
 
 use Nette\Utils\Random,
@@ -9,6 +10,11 @@ use Nette\Utils\Random,
 
 
 require __DIR__ . '/../bootstrap.php';
+
+
+if (!extension_loaded('mcrypt')) {
+	Tester\Environment::skip('Requires PHP extension mcrypt.');
+}
 
 
 Assert::same( 10, strlen(Random::generate()) );

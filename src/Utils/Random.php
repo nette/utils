@@ -26,6 +26,10 @@ class Random
 	 */
 	public static function generate($length = 10, $charlist = '0-9a-z')
 	{
+		if ($length === 0) {
+			return ''; // mcrypt_create_iv does not support zero length
+		}
+
 		$charlist = str_shuffle(preg_replace_callback('#.-.#', function($m) {
 			return implode('', range($m[0][0], $m[0][2]));
 		}, $charlist));
