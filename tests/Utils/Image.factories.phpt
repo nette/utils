@@ -47,9 +47,10 @@ test(function() {
 
 
 test(function() {
-	$image = Image::fromString(Image::EMPTY_GIF);
+	$image = Image::fromString(Image::EMPTY_GIF, $format);
 	Assert::same( 1, $image->getWidth() );
 	Assert::same( 1, $image->getHeight() );
+	Assert::same( Image::GIF, $format );
 });
 
 

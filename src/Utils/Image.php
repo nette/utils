@@ -190,7 +190,6 @@ class Image extends Nette\Object
 		}
 
 		if (func_num_args() > 1) {
-			trigger_error(__METHOD__ . '() second argument $format is deprecated; use finfo_buffer() instead.', E_USER_DEPRECATED);
 			$format = @static::getFormatFromString($s);
 		}
 
