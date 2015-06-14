@@ -152,8 +152,7 @@ class Image extends Nette\Object
 			self::PNG => 'imagecreatefrompng',
 			self::GIF => 'imagecreatefromgif',
 		];
-		$info = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
-		$format = $info[2];
+		$format = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
 
 		if (!isset($funcs[$format])) {
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
@@ -190,8 +189,8 @@ class Image extends Nette\Object
 		}
 
 		if (func_num_args() > 1) {
-			trigger_error(__METHOD__ . '() second argument $format is deprecated; use finfo_buffer() instead.', E_USER_DEPRECATED);
-			$format = @static::getFormatFromString($s);
+			$tmp = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
+			$format = in_array($tmp, [self::JPEG, self::PNG, self::GIF], TRUE) ? $tmp : NULL;
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function($message) {
