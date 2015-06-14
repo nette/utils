@@ -26,12 +26,19 @@ class Random
 	 */
 	public static function generate($length = 10, $charlist = '0-9a-z')
 	{
+		if ($length === 0) {
+			return ''; // random_bytes and mcrypt_create_iv do not support zero length
+		}
+
 		$charlist = str_shuffle(preg_replace_callback('#.-.#', function($m) {
 			return implode('', range($m[0][0], $m[0][2]));
 		}, $charlist));
 		$chLen = strlen($charlist);
 
-		if (function_exists('openssl_random_pseudo_bytes')) {
+		if (PHP_VERSION_ID >= 70000) {
+			$rand3 = random_bytes($length);
+		}
+		if (empty($rand3) && function_exists('openssl_random_pseudo_bytes')) {
 			$rand3 = openssl_random_pseudo_bytes($length);
 		}
 		if (empty($rand3) && function_exists('mcrypt_create_iv')) {
