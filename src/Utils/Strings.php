@@ -435,6 +435,68 @@ class Strings
 
 
 	/**
+	 * Returns part of $haystack before $nth occurence of $needle.
+	 * @param  string
+	 * @param  string
+	 * @param  int  negative value means searching from the end
+	 * @return string|FALSE  returns FALSE if the needle was not found
+	 */
+	public static function before($haystack, $needle, $nth = 1)
+	{
+		$pos = self::pos($haystack, $needle, $nth);
+		return $pos === FALSE
+			? FALSE
+			: substr($haystack, 0, $pos);
+	}
+
+
+	/**
+	 * Returns part of $haystack after $nth occurence of $needle.
+	 * @param  string
+	 * @param  string
+	 * @param  int  negative value means searching from the end
+	 * @return string|FALSE  returns FALSE if the needle was not found
+	 */
+	public static function after($haystack, $needle, $nth = 1)
+	{
+		$pos = self::pos($haystack, $needle, $nth);
+		return $pos === FALSE
+			? FALSE
+			: (string) substr($haystack, $pos + strlen($needle));
+	}
+
+
+	/**
+	 * Returns position of $nth occurence of $needle in $haystack.
+	 * @return int|FALSE  offset in bytes or FALSE if the needle was not found
+	 */
+	private static function pos($haystack, $needle, $nth = 1)
+	{
+		if (!$nth) {
+			return FALSE;
+		} elseif ($nth > 0) {
+			if (strlen($needle) === 0) {
+				return 0;
+			}
+			$pos = 0;
+			while (FALSE !== ($pos = strpos($haystack, $needle, $pos)) && --$nth) {
+				$pos++;
+			}
+		} else {
+			$len = strlen($haystack);
+			if (strlen($needle) === 0) {
+				return $len;
+			}
+			$pos = $len - 1;
+			while (FALSE !== ($pos = strrpos($haystack, $needle, $pos - $len)) && ++$nth) {
+				$pos--;
+			}
+		}
+		return $pos;
+	}
+
+
+	/**
 	 * Splits string by a regular expression.
 	 * @param  string
 	 * @param  string
