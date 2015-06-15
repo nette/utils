@@ -3,6 +3,8 @@ Nette Utility Classes
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/nette/utils.svg)](https://packagist.org/packages/nette/utils)
 [![Build Status](https://travis-ci.org/nette/utils.svg?branch=master)](https://travis-ci.org/nette/utils)
+[![Latest Stable Version](https://poser.pugx.org/nette/utils/v/stable)](https://github.com/nette/utils/releases)
+[![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/utils/blob/master/license.md)
 
 Nette\Object: Strict classes
 ----------------------------
