@@ -139,7 +139,7 @@ class Image extends Nette\Object
 	 * @param  mixed  detected image format
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws UnknownImageFileException if file not found or file type is not known
-	 * @return Image
+	 * @return self
 	 */
 	public static function fromFile($file, & $format = NULL)
 	{
@@ -167,7 +167,7 @@ class Image extends Nette\Object
 	 * Create a new image from the image stream in the string.
 	 * @param  string
 	 * @param  mixed  detected image format
-	 * @return Image
+	 * @return self
 	 * @throws ImageException
 	 */
 	public static function fromString($s, & $format = NULL)
@@ -192,7 +192,7 @@ class Image extends Nette\Object
 	 * @param  int
 	 * @param  int
 	 * @param  array
-	 * @return Image
+	 * @return self
 	 */
 	public static function fromBlank($width, $height, $color = NULL)
 	{

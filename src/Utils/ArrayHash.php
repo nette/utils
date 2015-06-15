@@ -21,7 +21,7 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * @param  array to wrap
 	 * @param  bool
-	 * @return ArrayHash
+	 * @return self
 	 */
 	public static function from($arr, $recursive = TRUE)
 	{
