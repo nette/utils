@@ -124,6 +124,71 @@ class Strings
 	}
 
 
+	protected static function cut($haystack, $needle, $nthOccurence = 1, $beforeNeedle = FALSE)
+	{
+		$needleLen = strlen($needle);
+		if ($nthOccurence == 0) {
+			return $haystack;
+		} elseif ($nthOccurence > 0) {
+			$fnc = 'strpos';
+			$offset = 0;
+			if ($needleLen == 0) {
+				return $beforeNeedle ? '' : $haystack;
+			}
+		} else {
+			$fnc = 'strrpos';
+			$offset = -1;
+			if ($needleLen == 0) {
+				return $beforeNeedle ? $haystack : '';
+			}
+		}
+
+		$haystackLen = strlen($haystack);
+		$n = abs($nthOccurence);
+		while (false !== ($offset = $fnc($haystack, $needle, $offset)) && --$n) {
+			if ($nthOccurence < 0) {
+				$offset = ($offset - $needleLen) - $haystackLen;
+			} else {
+				$offset++;
+			}
+		}
+		if ($offset !== FALSE) {
+			if ($beforeNeedle) {
+				return substr($haystack, 0, $offset);
+			} else {
+				return $offset + $needleLen == $haystackLen ? '' : substr($haystack, $offset + $needleLen);
+			}
+		}
+		return FALSE;
+	}
+
+
+	/**
+	 * Returns part of $haystack before $nthOccurence of $needle.
+	 * @param string $haystack
+	 * @param string $needle
+	 * @param int $nthOccurence can be negative
+	 * @return string if needle is not present, FALSE is returned.
+	 */
+	public static function before($haystack, $needle, $nthOccurence = 1)
+	{
+		return self::cut($haystack, $needle, $nthOccurence, TRUE);
+	}
+
+
+	/**
+	 * Returns part of $haystack after $nthOccurence of $needle.
+	 * @param string $haystack
+	 * @param string $needle
+	 * @param int $nthOccurence can be negative
+	 * @return string if needle is not present, FALSE is returned.
+	 */
+	public static function after($haystack, $needle, $nthOccurence = 1)
+	{
+		return self::cut($haystack, $needle, $nthOccurence, FALSE);
+	}
+
+
 	/**
 	 * Removes special controls characters and normalizes line endings and spaces.
 	 * @param  string  UTF-8 encoding
