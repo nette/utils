@@ -467,9 +467,22 @@ class Strings
 	 * @param  string
 	 * @param  string
 	 * @param  int  negative value means searching from the end
-	 * @return string|FALSE  returns FALSE if the needle was not found
+	 * @return int|FALSE  offset in characters or FALSE if the needle was not found
 	 */
-	public static function pos($haystack, $needle, $nth = 1)
+	public static function indexOf($haystack, $needle, $nth = 1)
+	{
+		$pos = self::pos($haystack, $needle, $nth);
+		return $pos === FALSE
+			? FALSE
+			: self::length(substr($haystack, 0, $pos));
+	}
+
+
+	/**
+	 * Returns position of $nth occurence of $needle in $haystack.
+	 * @return int|FALSE  offset in bytes or FALSE if the needle was not found
+	 */
+	private static function pos($haystack, $needle, $nth = 1)
 	{
 		if (!$nth) {
 			return FALSE;
