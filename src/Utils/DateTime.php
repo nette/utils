@@ -10,9 +10,6 @@ namespace Nette\Utils;
 use Nette;
 
 
-// workaround for changed signature of createFromFormat in PHP 7
-@call_user_func(function() {
-
 /**
  * DateTime.
  *
@@ -128,5 +125,3 @@ class DateTime extends \DateTime
 	}
 
 }
-
-});
