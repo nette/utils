@@ -4,8 +4,8 @@
  * Test: Nette\Utils\Strings::reverse()
  */
 
-use Nette\Utils\Strings,
-	Tester\Assert;
+use Nette\Utils\Strings;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -19,5 +19,5 @@ $r2 = Strings::reverse($t2);
 Assert::same($t1, $r2);
 Assert::same($t2, $r1);
 
-Assert::same( "ana\xC3\xB1am", Strings::reverse("ma\xC3\xB1ana") );   // mañana -> anañam, U+00F1
-Assert::same( "ana\xCC\x83nam", Strings::reverse("man\xCC\x83ana") ); // mañana -> anãnam, U+006E + U+0303 (combining character)
+Assert::same("ana\xC3\xB1am", Strings::reverse("ma\xC3\xB1ana"));   // mañana -> anañam, U+00F1
+Assert::same("ana\xCC\x83nam", Strings::reverse("man\xCC\x83ana")); // mañana -> anãnam, U+006E + U+0303 (combining character)

@@ -4,8 +4,8 @@
  * Test: Nette\Utils\Image cloning.
  */
 
-use Nette\Utils\Image,
-	Tester\Assert;
+use Nette\Utils\Image;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -19,5 +19,5 @@ if (!extension_loaded('gd')) {
 $original = Image::fromFile(__DIR__.'/images/logo.gif');
 
 $dolly = clone $original;
-Assert::notSame( $dolly->getImageResource(), $original->getImageResource() );
-Assert::same( $dolly->toString(Image::GIF), $original->toString(Image::GIF) );
+Assert::notSame($dolly->getImageResource(), $original->getImageResource());
+Assert::same($dolly->toString(Image::GIF), $original->toString(Image::GIF));

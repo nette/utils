@@ -7,8 +7,8 @@
 
 namespace Nette\Iterators;
 
-use Nette,
-	Nette\Utils\ObjectMixin;
+use Nette;
+use Nette\Utils\ObjectMixin;
 
 
 /**

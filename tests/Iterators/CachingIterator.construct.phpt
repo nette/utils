@@ -4,88 +4,102 @@
  * Test: Nette\Iterators\CachingIterator constructor.
  */
 
-use Nette\Iterators,
-	Tester\Assert;
+use Nette\Iterators;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function() { // ==> array
+test(function () { // ==> array
 	$arr = array('Nette', 'Framework');
 	$tmp = array();
-	foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
-	Assert::same( array(
+	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
+		$tmp[] = "$k => $v";
+	}
+	Assert::same(array(
 		'0 => Nette',
 		'1 => Framework',
-	), $tmp );
+	), $tmp);
 });
 
 
-test(function() { // ==> stdClass
+test(function () { // ==> stdClass
 	$arr = (object) array('Nette', 'Framework');
 	$tmp = array();
-	foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
-	Assert::same( array(
+	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
+		$tmp[] = "$k => $v";
+	}
+	Assert::same(array(
 		'0 => Nette',
 		'1 => Framework',
-	), $tmp );
+	), $tmp);
 });
 
 
-test(function() { // ==> IteratorAggregate
+test(function () { // ==> IteratorAggregate
 	$arr = new ArrayObject(array('Nette', 'Framework'));
 	$tmp = array();
-	foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
-	Assert::same( array(
+	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
+		$tmp[] = "$k => $v";
+	}
+	Assert::same(array(
 		'0 => Nette',
 		'1 => Framework',
-	), $tmp );
+	), $tmp);
 });
 
-test(function() { // ==> Iterator
+test(function () { // ==> Iterator
 	$arr = new ArrayObject(array('Nette', 'Framework'));
 	$tmp = array();
-	foreach (new Iterators\CachingIterator($arr->getIterator()) as $k => $v) $tmp[] = "$k => $v";
-	Assert::same( array(
+	foreach (new Iterators\CachingIterator($arr->getIterator()) as $k => $v) {
+		$tmp[] = "$k => $v";
+	}
+	Assert::same(array(
 		'0 => Nette',
 		'1 => Framework',
-	), $tmp );
+	), $tmp);
 });
 
 
-test(function() { // ==> SimpleXMLElement
+test(function () { // ==> SimpleXMLElement
 	$arr = new SimpleXMLElement('<feed><item>Nette</item><item>Framework</item></feed>');
 	$tmp = array();
-	foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
-	Assert::same( array(
+	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
+		$tmp[] = "$k => $v";
+	}
+	Assert::same(array(
 		'item => Nette',
 		'item => Framework',
-	), $tmp );
+	), $tmp);
 });
 
 
-test(function() { // ==> object
-	Assert::exception(function() {
+test(function () { // ==> object
+	Assert::exception(function () {
 		$arr = dir('.');
 		foreach (new Iterators\CachingIterator($arr) as $k => $v);
 	}, 'InvalidArgumentException', NULL);
 });
 
 
-class RecursiveIteratorAggregate implements IteratorAggregate {
-	public function getIterator() {
+class RecursiveIteratorAggregate implements IteratorAggregate
+{
+	public function getIterator()
+	{
 		return new ArrayObject(array('Nette', 'Framework'));
 	}
 }
 
 
-test(function() { // ==> recursive IteratorAggregate
+test(function () { // ==> recursive IteratorAggregate
 	$arr = new RecursiveIteratorAggregate;
 	$tmp = array();
-	foreach (new Iterators\CachingIterator($arr) as $k => $v) $tmp[] = "$k => $v";
-	Assert::same( array(
+	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
+		$tmp[] = "$k => $v";
+	}
+	Assert::same(array(
 		'0 => Nette',
 		'1 => Framework',
-	), $tmp );
+	), $tmp);
 });
