@@ -36,21 +36,21 @@ class TestClass extends Nette\Object
 
 $obj1 = new TestClass(1);
 $method = $obj1->publicMethod;
-Assert::same( "1 2 3", $method(2, 3) );
+Assert::same("1 2 3", $method(2, 3));
 
 $rm = new ReflectionFunction($method);
-Assert::same( $obj1, $rm->getClosureThis() );
-Assert::same( 'publicMethod', $rm->getName() );
-Assert::same( 2, $rm->getNumberOfParameters() );
+Assert::same($obj1, $rm->getClosureThis());
+Assert::same('publicMethod', $rm->getName());
+Assert::same(2, $rm->getNumberOfParameters());
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	$obj = new TestClass;
 	$method = $obj->protectedMethod;
 }, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$protectedMethod.');
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	$obj = new TestClass;
 	$method = $obj->privateMethod;
 }, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$privateMethod.');

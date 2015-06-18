@@ -33,13 +33,13 @@ class ChildClass extends ParentClass
 $obj = new ChildClass;
 
 $obj->setA('hello');
-Assert::same( 'hello', $obj->getA() );
+Assert::same('hello', $obj->getA());
 
-Assert::exception(function() use ($obj) {
+Assert::exception(function () use ($obj) {
 	$obj->setC(123);
 }, 'Nette\MemberAccessException', 'Call to undefined method ChildClass::setC().');
 
 
-Assert::exception(function() use ($obj) {
+Assert::exception(function () use ($obj) {
 	$obj->setB(123);
 }, 'Nette\MemberAccessException', 'Call to undefined method ChildClass::setB().');

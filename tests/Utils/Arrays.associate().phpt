@@ -4,9 +4,9 @@
  * Test: Nette\Utils\Arrays::associate()
  */
 
-use Nette\Utils\Arrays,
-	Nette\Utils\DateTime,
-	Tester\Assert;
+use Nette\Utils\Arrays;
+use Nette\Utils\DateTime;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -48,7 +48,7 @@ Assert::same(
 	Arrays::associate($arr, 'name=age')
 );
 
-Assert::same( // path as array
+Assert::same(// path as array
 	['John' => 22, 'Mary' => NULL, 'Paul' => 44],
 	Arrays::associate($arr, ['name', '=', 'age'])
 );

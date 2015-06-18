@@ -184,7 +184,7 @@ class Strings
 				. "\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8"
 				. "\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf8\xf9\xfa\xfb\xfc\xfd\xfe"
 				. "\x96\xa0\x8b\x97\x9b\xa6\xad\xb7",
-				"ALLSSSSTZZZallssstzzzRAAAALCCCEEEEIIDDNNOOOOxRUUUUYTsraaaalccceeeeiiddnnooooruuuuyt- <->|-.");
+				'ALLSSSSTZZZallssstzzzRAAAALCCCEEEEIIDDNNOOOOxRUUUUYTsraaaalccceeeeiiddnnooooruuuuyt- <->|-.');
 			$s = preg_replace('#[^\x00-\x7F]++#', '', $s);
 		} else {
 			$s = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s); // intentionally @
@@ -343,7 +343,7 @@ class Strings
 		for ($i = 0; $i < strlen($first); $i++) {
 			foreach ($strings as $s) {
 				if (!isset($s[$i]) || $first[$i] !== $s[$i]) {
-					while ($i && $first[$i-1] >= "\x80" && $first[$i] >= "\x80" && $first[$i] < "\xC0") {
+					while ($i && $first[$i - 1] >= "\x80" && $first[$i] >= "\x80" && $first[$i] < "\xC0") {
 						$i--;
 					}
 					return substr($first, 0, $i);
@@ -556,7 +556,7 @@ class Strings
 		self::pcre('preg_match_all', [
 			$pattern, $subject, & $m,
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
-			$offset
+			$offset,
 		]);
 		return $m;
 	}
@@ -601,7 +601,7 @@ class Strings
 			PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
 			5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point', // PREG_BAD_UTF8_OFFSET_ERROR
 		];
-		$res = Callback::invokeSafe($func, $args, function($message) use ($args) {
+		$res = Callback::invokeSafe($func, $args, function ($message) use ($args) {
 			// compile-time error, not detectable by preg_last_error
 			throw new RegexpException($message . ' in pattern: ' . implode(' or ', (array) $args[0]));
 		});

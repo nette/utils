@@ -4,8 +4,8 @@
  * Test: Nette\Utils\Arrays::flatten()
  */
 
-use Nette\Utils\Arrays,
-	Tester\Assert;
+use Nette\Utils\Arrays;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

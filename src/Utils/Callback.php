@@ -47,7 +47,7 @@ class Callback
 
 		self::check($callable);
 		$_callable_ = $callable;
-		return function() use ($_callable_) {
+		return function () use ($_callable_) {
 			return call_user_func_array($_callable_, func_get_args());
 		};
 	}
@@ -81,7 +81,7 @@ class Callback
 	 */
 	public static function invokeSafe($function, array $args, $onError)
 	{
-		$prev = set_error_handler(function($severity, $message, $file) use ($onError, & $prev) {
+		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, & $prev) {
 			if ($file === __FILE__ && $onError($message, $severity) !== FALSE) {
 				return;
 			} elseif ($prev) {

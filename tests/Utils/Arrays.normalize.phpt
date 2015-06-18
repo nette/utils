@@ -4,8 +4,8 @@
  * Test: Nette\Utils\Arrays::searchKey()
  */
 
-use Nette\Utils\Arrays,
-	Tester\Assert;
+use Nette\Utils\Arrays;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -22,7 +22,7 @@ Assert::same(
 		1 => 'first',
 		'a' => 'second',
 		'd' => ['third'],
-		7 => 'fourth'
+		7 => 'fourth',
 	])
 );
 

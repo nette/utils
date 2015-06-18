@@ -4,8 +4,8 @@
  * Test: Nette\Utils\Image alpha channel.
  */
 
-use Nette\Utils\Image,
-	Tester\Assert;
+use Nette\Utils\Image;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

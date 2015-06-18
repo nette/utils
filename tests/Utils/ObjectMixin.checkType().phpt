@@ -4,8 +4,8 @@
  * Test: Nette\Utils\ObjectMixin::checkType()
  */
 
-use Nette\Utils\ObjectMixin,
-	Tester\Assert;
+use Nette\Utils\ObjectMixin;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -22,24 +22,24 @@ class StrClass
 function assertAccepts($type, $vals)
 {
 	foreach ($vals as $key => $val) {
-		Assert::true( ObjectMixin::checkType($val, $type) );
-		Assert::same( $vals[$key], $val);
+		Assert::true(ObjectMixin::checkType($val, $type));
+		Assert::same($vals[$key], $val);
 	}
 }
 
 function assertRejects($type, $vals)
 {
 	foreach ($vals as $key => $val) {
-		Assert::false( ObjectMixin::checkType($val, $type) );
-		Assert::same( $vals[$key], $val);
+		Assert::false(ObjectMixin::checkType($val, $type));
+		Assert::same($vals[$key], $val);
 	}
 }
 
 function assertConverts($type, $vals)
 {
 	foreach ($vals as $val) {
-		Assert::true( ObjectMixin::checkType($val[0], $type) );
-		Assert::same( $val[1], $val[0]);
+		Assert::true(ObjectMixin::checkType($val[0], $type));
+		Assert::same($val[1], $val[0]);
 	}
 }
 
@@ -136,7 +136,7 @@ assertConverts('int[]', [
 
 $val = ['1', new stdClass];
 ObjectMixin::checkType($val, 'int[]');
-Assert::equal( ['1', new stdClass], $val ); // do not modify
+Assert::equal(['1', new stdClass], $val); // do not modify
 
 assertAccepts('array|string', ['', '123x', [], [1, 2], ['a', 'b']]);
 assertRejects('array|string', [new stdClass, $resource]);

@@ -4,26 +4,26 @@
  * Test: Nette\Utils\Arrays::renameKey()
  */
 
-use Nette\Utils\Arrays,
-	Tester\Assert;
+use Nette\Utils\Arrays;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
-$arr  = [
+$arr = [
 	NULL => 'first',
 	FALSE => 'second',
 	1 => 'third',
-	7 => 'fourth'
+	7 => 'fourth',
 ];
 
-Assert::same( [
+Assert::same([
 	'' => 'first',
 	0 => 'second',
 	1 => 'third',
 	7 => 'fourth',
-], $arr );
+], $arr);
 
 
 Arrays::renameKey($arr, '1', 'new1');
@@ -32,9 +32,9 @@ Arrays::renameKey($arr, NULL, 'new3');
 Arrays::renameKey($arr, '', 'new4');
 Arrays::renameKey($arr, 'undefined', 'new5');
 
-Assert::same( [
+Assert::same([
 	'new3' => 'first',
 	'new2' => 'second',
 	'new1' => 'third',
 	7 => 'fourth',
-], $arr );
+], $arr);

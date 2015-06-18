@@ -30,7 +30,7 @@ class Random
 			return ''; // random_bytes and mcrypt_create_iv do not support zero length
 		}
 
-		$charlist = str_shuffle(preg_replace_callback('#.-.#', function($m) {
+		$charlist = str_shuffle(preg_replace_callback('#.-.#', function ($m) {
 			return implode('', range($m[0][0], $m[0][2]));
 		}, $charlist));
 		$chLen = strlen($charlist);

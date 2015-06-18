@@ -26,7 +26,7 @@ class Validators extends Nette\Object
 		'number' => NULL, // is_int || is_float,
 		'numeric' => [__CLASS__, 'isNumeric'],
 		'numericint' => [__CLASS__, 'isNumericInt'],
-		'string' =>  'is_string',
+		'string' => 'is_string',
 		'unicode' => [__CLASS__, 'isUnicode'],
 		'array' => 'is_array',
 		'list' => ['Nette\Utils\Arrays', 'isList'],
@@ -52,7 +52,7 @@ class Validators extends Nette\Object
 	];
 
 	protected static $counters = [
-		'string' =>  'strlen',
+		'string' => 'strlen',
 		'unicode' => ['Nette\Utils\Strings', 'length'],
 		'array' => 'count',
 		'list' => 'count',

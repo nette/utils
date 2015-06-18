@@ -50,7 +50,7 @@ class Json
 		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0);
 
 		if (PHP_VERSION_ID < 50500) {
-			$json = Callback::invokeSafe('json_encode', [$value, $flags], function($message) { // needed to receive 'recursion detected' error
+			$json = Callback::invokeSafe('json_encode', [$value, $flags], function ($message) { // needed to receive 'recursion detected' error
 				throw new JsonException($message);
 			});
 		} else {

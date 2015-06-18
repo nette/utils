@@ -4,8 +4,8 @@
  * Test: Nette\Utils\Callback::invoke() and invokeArgs()
  */
 
-use Nette\Utils\Callback,
-	Tester\Assert;
+use Nette\Utils\Callback;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -29,20 +29,20 @@ class Test
 
 
 $cb = [new Test, 'fun'];
-Assert::same( 'Test::fun*', Callback::invoke($cb, '*') );
-Assert::same( 'Test::fun*', Callback::invokeArgs($cb, ['*']) );
+Assert::same('Test::fun*', Callback::invoke($cb, '*'));
+Assert::same('Test::fun*', Callback::invokeArgs($cb, ['*']));
 
 
 $cb = [new Test, 'ref'];
-Assert::same( 'Test::ref', Callback::invokeArgs($cb, [& $ref]) );
-Assert::same( 'Test::ref', $ref );
+Assert::same('Test::ref', Callback::invokeArgs($cb, [& $ref]));
+Assert::same('Test::ref', $ref);
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	Callback::invoke('undefined');
 }, 'Nette\InvalidArgumentException', "Callback 'undefined' is not callable.");
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	Callback::invokeArgs('undefined');
 }, 'Nette\InvalidArgumentException', "Callback 'undefined' is not callable.");

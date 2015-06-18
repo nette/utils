@@ -4,8 +4,8 @@
  * Test: Nette\Object extension method via interface.
  */
 
-use Nette\Object,
-	Tester\Assert;
+use Nette\Object;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -39,4 +39,4 @@ Object::extensionMethod('IFirst::join', 'IFirst_join');
 Object::extensionMethod('ISecond::join', 'ISecond_join');
 
 $obj = new TestClass;
-Assert::same( 'ISecond_join says Hello*World', $obj->join('*') );
+Assert::same('ISecond_join says Hello*World', $obj->join('*'));

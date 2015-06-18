@@ -4,8 +4,8 @@
  * Test: Nette\Utils\Image factories.
  */
 
-use Nette\Utils\Image,
-	Tester\Assert;
+use Nette\Utils\Image;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -16,41 +16,41 @@ if (!extension_loaded('gd')) {
 }
 
 
-test(function() {
+test(function () {
 	$image = Image::fromFile('images/logo.gif', $format);
-	Assert::same( 176, $image->getWidth() );
-	Assert::same( 104, $image->getHeight() );
-	Assert::same( Image::GIF, $format );
+	Assert::same(176, $image->getWidth());
+	Assert::same(104, $image->getHeight());
+	Assert::same(Image::GIF, $format);
 });
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	Image::fromFile('images/missing.png');
 }, 'Nette\Utils\UnknownImageFileException', "File 'images/missing.png' not found.");
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	Image::fromFile('images/logo.tiff');
 }, 'Nette\Utils\UnknownImageFileException', "Unknown type of file 'images/logo.tiff'.");
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	Image::fromFile('images/bad.gif');
 }, 'Nette\Utils\ImageException', '%a% not a valid GIF file');
 
 
-test(function() {
+test(function () {
 	$image = Image::fromBlank(200, 300, Image::rgb(255, 128, 0));
-	Assert::same( 200, $image->getWidth() );
-	Assert::same( 300, $image->getHeight() );
+	Assert::same(200, $image->getWidth());
+	Assert::same(300, $image->getHeight());
 });
 
 
-test(function() {
+test(function () {
 	$image = Image::fromString(Image::EMPTY_GIF, $format);
-	Assert::same( 1, $image->getWidth() );
-	Assert::same( 1, $image->getHeight() );
-	Assert::same( Image::GIF, $format );
+	Assert::same(1, $image->getWidth());
+	Assert::same(1, $image->getHeight());
+	Assert::same(Image::GIF, $format);
 });
 
 
