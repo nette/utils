@@ -26,7 +26,7 @@ class Random
 	 */
 	public static function generate($length = 10, $charlist = '0-9a-z')
 	{
-		$charlist = str_shuffle(preg_replace_callback('#.-.#', function($m) {
+		$charlist = str_shuffle(preg_replace_callback('#.-.#', function ($m) {
 			return implode('', range($m[0][0], $m[0][2]));
 		}, $charlist));
 		$chLen = strlen($charlist);

@@ -15,18 +15,18 @@ class TestClass extends Nette\Object
 }
 
 
-test(function() {
+test(function () {
 	$obj = new TestClass;
 	unset($obj->foo);
-	Assert::false( isset($obj->foo) );
+	Assert::false(isset($obj->foo));
 
 	// re-set
 	$obj->foo = 'hello';
-	Assert::same( 'hello', $obj->foo );
+	Assert::same('hello', $obj->foo);
 });
 
 
-test(function() {
+test(function () {
 	// double unset
 	$obj = new TestClass;
 	unset($obj->foo);
@@ -34,9 +34,9 @@ test(function() {
 });
 
 
-test(function() {
+test(function () {
 	// reading of unset property
-	Assert::exception(function() {
+	Assert::exception(function () {
 		$obj = new TestClass;
 		unset($obj->foo);
 		$val = $obj->foo;

@@ -4,32 +4,32 @@
  * Test: Nette\Utils\Strings::matchAll()
  */
 
-use Nette\Utils\Strings,
-	Tester\Assert;
+use Nette\Utils\Strings;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::same( array(), Strings::matchAll('hello world!', '#([E-L])+#') );
+Assert::same(array(), Strings::matchAll('hello world!', '#([E-L])+#'));
 
-Assert::same( array(
+Assert::same(array(
 	array('hell', 'l'),
 	array('l', 'l'),
-), Strings::matchAll('hello world!', '#([e-l])+#') );
+), Strings::matchAll('hello world!', '#([e-l])+#'));
 
-Assert::same( array(
+Assert::same(array(
 	array('hell'),
 	array('l'),
-), Strings::matchAll('hello world!', '#[e-l]+#') );
+), Strings::matchAll('hello world!', '#[e-l]+#'));
 
-Assert::same( array(
+Assert::same(array(
 	array(
 		array('hell', 0),
 	),
 	array(
 		array('l', 9),
 	),
-), Strings::matchAll('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE) );
+), Strings::matchAll('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE));
 
-Assert::same( array(array('ll', 'l')), Strings::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2) );
+Assert::same(array(array('ll', 'l')), Strings::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2));

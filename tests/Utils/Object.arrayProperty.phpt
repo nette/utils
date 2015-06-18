@@ -28,4 +28,4 @@ class TestClass extends Nette\Object
 
 $obj = new TestClass;
 $obj->items[] = 'test';
-Assert::same( array('test'), $obj->items );
+Assert::same(array('test'), $obj->items);

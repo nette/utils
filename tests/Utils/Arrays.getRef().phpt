@@ -4,14 +4,14 @@
  * Test: Nette\Utils\Arrays::getRef()
  */
 
-use Nette\Utils\Arrays,
-	Tester\Assert;
+use Nette\Utils\Arrays;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
-$arr  = array(
+$arr = array(
 	NULL => 'first',
 	1 => 'second',
 	7 => array(
@@ -19,58 +19,58 @@ $arr  = array(
 	),
 );
 
-test(function() use ($arr) { // Single item
+test(function () use ($arr) { // Single item
 
 	$dolly = $arr;
 	$item = & Arrays::getRef($dolly, NULL);
 	$item = 'changed';
-	Assert::same( array(
+	Assert::same(array(
 		'' => 'changed',
 		1 => 'second',
 		7 => array(
 			'item' => 'third',
 		),
-	), $dolly );
+	), $dolly);
 
 
 	$dolly = $arr;
 	$item = & Arrays::getRef($dolly, 'undefined');
 	$item = 'changed';
-	Assert::same( array(
+	Assert::same(array(
 		'' => 'first',
 		1 => 'second',
 		7 => array(
 			'item' => 'third',
 		),
 		'undefined' => 'changed',
-	), $dolly );
+	), $dolly);
 });
 
 
-test(function() use ($arr) { // Traversing
+test(function () use ($arr) { // Traversing
 
 	$dolly = $arr;
 	$item = & Arrays::getRef($dolly, array());
 	$item = 'changed';
-	Assert::same( 'changed', $dolly );
+	Assert::same('changed', $dolly);
 
 
 	$dolly = $arr;
 	$item = & Arrays::getRef($dolly, array(7, 'item'));
 	$item = 'changed';
-	Assert::same( array(
+	Assert::same(array(
 		'' => 'first',
 		1 => 'second',
 		7 => array(
 			'item' => 'changed',
 		),
-	), $dolly );
+	), $dolly);
 });
 
 
-test(function() use ($arr) { // Error
+test(function () use ($arr) { // Error
 
-	Assert::exception(function() use ($arr) {
+	Assert::exception(function () use ($arr) {
 		$dolly = $arr;
 		$item = & Arrays::getRef($dolly, array(7, 'item', 3));
 	}, 'InvalidArgumentException', 'Traversed item is not an array.');

@@ -14,7 +14,7 @@ class TestClass extends Nette\Object
 }
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	$obj = new TestClass;
 	$obj->undeclared();
 }, 'Nette\MemberAccessException', 'Call to undefined method TestClass::undeclared().');

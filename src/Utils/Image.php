@@ -431,10 +431,12 @@ class Image extends Nette\Object
 			$top = round(($srcHeight - $newHeight) / 100 * $top);
 		}
 		if ($left < 0) {
-			$newWidth += $left; $left = 0;
+			$newWidth += $left;
+			$left = 0;
 		}
 		if ($top < 0) {
-			$newHeight += $top; $top = 0;
+			$newHeight += $top;
+			$top = 0;
 		}
 		$newWidth = min((int) $newWidth, $srcWidth - $left);
 		$newHeight = min((int) $newHeight, $srcHeight - $top);
@@ -449,9 +451,9 @@ class Image extends Nette\Object
 	public function sharpen()
 	{
 		imageconvolution($this->image, array( // my magic numbers ;)
-			array( -1, -1, -1 ),
-			array( -1, 24, -1 ),
-			array( -1, -1, -1 ),
+			array(-1, -1, -1),
+			array(-1, 24, -1),
+			array(-1, -1, -1),
 		), 16, 0);
 		return $this;
 	}
@@ -483,7 +485,7 @@ class Image extends Nette\Object
 				$left, $top, 0, 0, $image->getWidth(), $image->getHeight()
 			);
 
-		} elseif ($opacity <> 0) {
+		} elseif ($opacity != 0) {
 			$cutting = imagecreatetruecolor($image->getWidth(), $image->getHeight());
 			imagecopy(
 				$cutting, $this->image,
