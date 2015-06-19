@@ -23,7 +23,7 @@ test(function () use ($arr) { // Single item
 	Assert::same('first', Arrays::pick($arr, 1));
 	Assert::same('x', Arrays::pick($arr, 1, 'x'));
 	Assert::exception(function () use ($arr) {
-		Arrays::get($arr, 'undefined');
+		Arrays::pick($arr, 'undefined');
 	}, 'Nette\InvalidArgumentException', "Missing item 'undefined'.");
 	Assert::same([2 => 'second'], $arr);
 });
