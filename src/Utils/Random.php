@@ -7,8 +7,6 @@
 
 namespace Nette\Utils;
 
-use Nette;
-
 
 /**
  * Secure random string generator.

@@ -7,8 +7,6 @@
 
 namespace Nette\Iterators;
 
-use Nette;
-
 
 /**
  * RecursiveCallbackFilterIterator for PHP < 5.4.
