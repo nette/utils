@@ -136,7 +136,7 @@ class Image extends Nette\Object
 	 * @param  string
 	 * @param  mixed  detected image format
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
-	 * @throws UnknownImageFileException if file not found or file type is not known
+	 * @throws Nette\UnknownImageFileException if file not found or file type is not known
 	 * @return self
 	 */
 	public static function fromFile($file, & $format = NULL)
@@ -153,10 +153,10 @@ class Image extends Nette\Object
 		$format = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
 
 		if (!isset($funcs[$format])) {
-			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
+			throw new Nette\UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
 		return new static(Callback::invokeSafe($funcs[$format], [$file], function ($message) {
-			throw new ImageException($message);
+			throw new Nette\ImageException($message);
 		}));
 	}
 
@@ -166,7 +166,7 @@ class Image extends Nette\Object
 	 * @param  string
 	 * @param  mixed  detected image format
 	 * @return self
-	 * @throws ImageException
+	 * @throws Nette\ImageException
 	 */
 	public static function fromString($s, & $format = NULL)
 	{
@@ -180,7 +180,7 @@ class Image extends Nette\Object
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function ($message) {
-			throw new ImageException($message);
+			throw new Nette\ImageException($message);
 		}));
 	}
 

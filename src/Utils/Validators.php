@@ -84,7 +84,7 @@ class Validators extends Nette\Object
 			} else {
 				$type = gettype($value);
 			}
-			throw new AssertionException("The $label expects to be $expected, $type given.");
+			throw new Nette\AssertionException("The $label expects to be $expected, $type given.");
 		}
 	}
 
@@ -101,7 +101,7 @@ class Validators extends Nette\Object
 	{
 		self::assert($arr, 'array', 'first argument');
 		if (!array_key_exists($field, $arr)) {
-			throw new AssertionException('Missing ' . str_replace('%', $field, $label) . '.');
+			throw new Nette\AssertionException('Missing ' . str_replace('%', $field, $label) . '.');
 
 		} elseif ($expected) {
 			static::assert($arr[$field], $expected, str_replace('%', $field, $label));
