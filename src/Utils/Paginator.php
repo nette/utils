@@ -13,8 +13,6 @@ use Nette;
 /**
  * Paginating math.
  *
- * @author     David Grudl
- *
  * @property   int $page
  * @property-read int $firstPage
  * @property-read int|NULL $lastPage

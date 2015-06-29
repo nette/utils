@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * JSON encoder and decoder.
- *
- * @author     David Grudl
  */
 class Json
 {

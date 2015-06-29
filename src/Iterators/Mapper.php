@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Applies the callback to the elements of the inner iterator.
- *
- * @author     David Grudl
  */
 class Mapper extends \IteratorIterator
 {

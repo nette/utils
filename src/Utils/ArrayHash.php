@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Provides objects to work as array.
- *
- * @author     David Grudl
  */
 class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \IteratorAggregate
 {

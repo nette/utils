@@ -13,8 +13,6 @@ use Nette\MemberAccessException;
 
 /**
  * Nette\Object behaviour mixin.
- *
- * @author     David Grudl
  */
 class ObjectMixin
 {
