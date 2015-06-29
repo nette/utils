@@ -293,11 +293,3 @@ class Validators extends Nette\Object
 	}
 
 }
-
-
-/**
- * The exception that indicates assertion error.
- */
-class AssertionException extends \Exception
-{
-}

@@ -113,3 +113,43 @@ class UnexpectedValueException extends \UnexpectedValueException
 class StaticClassException extends \LogicException
 {
 }
+
+
+/**
+ * The exception that is thrown when an image error occurs.
+ */
+class ImageException extends \Exception
+{
+}
+
+
+/**
+ * The exception that indicates invalid image file.
+ */
+class UnknownImageFileException extends ImageException
+{
+}
+
+
+/**
+ * The exception that indicates error of JSON encoding/decoding.
+ */
+class JsonException extends \Exception
+{
+}
+
+
+/**
+ * The exception that indicates error of the last Regexp execution.
+ */
+class RegexpException extends \Exception
+{
+}
+
+
+/**
+ * The exception that indicates assertion error.
+ */
+class AssertionException extends \Exception
+{
+}
