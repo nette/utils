@@ -602,11 +602,3 @@ class Strings
 	}
 
 }
-
-
-/**
- * The exception that indicates error of the last Regexp execution.
- */
-class RegexpException extends \Exception
-{
-}

@@ -635,19 +635,3 @@ class Image extends Nette\Object
 	}
 
 }
-
-
-/**
- * The exception that is thrown when an image error occurs.
- */
-class ImageException extends \Exception
-{
-}
-
-
-/**
- * The exception that indicates invalid image file.
- */
-class UnknownImageFileException extends ImageException
-{
-}
