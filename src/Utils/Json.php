@@ -49,7 +49,7 @@ class Json
 
 		if (PHP_VERSION_ID < 50500) {
 			$json = Callback::invokeSafe('json_encode', [$value, $flags], function ($message) { // needed to receive 'recursion detected' error
-				throw new JsonException($message);
+				throw new Nette\JsonException($message);
 			});
 		} else {
 			$json = json_encode($value, $flags);
@@ -58,7 +58,7 @@ class Json
 		if ($error = json_last_error()) {
 			$message = isset(static::$messages[$error]) ? static::$messages[$error]
 				: (PHP_VERSION_ID >= 50500 ? json_last_error_msg() : 'Unknown error');
-			throw new JsonException($message, $error);
+			throw new Nette\JsonException($message, $error);
 		}
 
 		$json = str_replace(["\xe2\x80\xa8", "\xe2\x80\xa9"], ['\u2028', '\u2029'], $json);
@@ -76,12 +76,12 @@ class Json
 	{
 		$json = (string) $json;
 		if (defined('JSON_C_VERSION') && !preg_match('##u', $json)) {
-			throw new JsonException('Invalid UTF-8 sequence', 5);
+			throw new Nette\JsonException('Invalid UTF-8 sequence', 5);
 		}
 
 		$forceArray = (bool) ($options & self::FORCE_ARRAY);
 		if (!$forceArray && preg_match('#(?<=[^\\\\]")\\\\u0000(?:[^"\\\\]|\\\\.)*+"\s*+:#', $json)) { // workaround for json_decode fatal error when object key starts with \u0000
-			throw new JsonException(static::$messages[JSON_ERROR_CTRL_CHAR]);
+			throw new Nette\JsonException(static::$messages[JSON_ERROR_CTRL_CHAR]);
 		}
 		$args = [$json, $forceArray, 512];
 		if (!defined('JSON_C_VERSION') || PHP_INT_SIZE === 4) { // not implemented in PECL JSON-C 1.3.2 for 64bit systems
@@ -91,7 +91,7 @@ class Json
 
 		if ($value === NULL && $json !== '' && strcasecmp($json, 'null')) { // '' is not clearing json_last_error
 			$error = json_last_error();
-			throw new JsonException(isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error', $error);
+			throw new Nette\JsonException(isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error', $error);
 		}
 		return $value;
 	}

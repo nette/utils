@@ -601,13 +601,13 @@ class Strings
 		];
 		$res = Callback::invokeSafe($func, $args, function ($message) use ($args) {
 			// compile-time error, not detectable by preg_last_error
-			throw new RegexpException($message . ' in pattern: ' . implode(' or ', (array) $args[0]));
+			throw new Nette\RegexpException($message . ' in pattern: ' . implode(' or ', (array) $args[0]));
 		});
 
 		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
 			&& ($res === NULL || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace']))
 		) {
-			throw new RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error')
+			throw new Nette\RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error')
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);
 		}
 		return $res;
