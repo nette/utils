@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Array tools library.
- *
- * @author     David Grudl
  */
 class Arrays
 {

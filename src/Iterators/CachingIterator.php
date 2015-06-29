@@ -14,8 +14,6 @@ use Nette\Utils\ObjectMixin;
 /**
  * Smarter caching iterator.
  *
- * @author     David Grudl
- *
  * @property-read bool $first
  * @property-read bool $last
  * @property-read bool $empty

@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * CallbackFilterIterator for PHP < 5.4.
- *
- * @author     David Grudl
  * @deprecated use CallbackFilterIterator
  */
 class Filter extends \FilterIterator

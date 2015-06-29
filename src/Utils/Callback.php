@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * PHP callable tools.
- *
- * @author     David Grudl
  */
 class Callback
 {

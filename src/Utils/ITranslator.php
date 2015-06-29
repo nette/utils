@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Translator adapter.
- *
- * @author     David Grudl
  */
 interface ITranslator
 {

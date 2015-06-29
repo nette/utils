@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * File system tool.
- *
- * @author     David Grudl
  */
 class FileSystem
 {

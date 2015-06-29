@@ -20,8 +20,6 @@ use Nette;
  * $image->send();
  * </code>
  *
- * @author     David Grudl
- *
  * @method void alphaBlending(bool $on)
  * @method void antialias(bool $on)
  * @method void arc($x, $y, $w, $h, $start, $end, $color)

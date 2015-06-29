@@ -47,8 +47,6 @@ use Nette\Utils\ObjectMixin;
  * $obj->newMethod($x);
  * </code>
  *
- * @author     David Grudl
- *
  * @property-read Nette\Reflection\ClassType|\ReflectionClass $reflection
  */
 abstract class Object

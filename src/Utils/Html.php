@@ -20,8 +20,6 @@ use Nette;
  *
  * echo $el->startTag(), $el->endTag();
  * </code>
- *
- * @author     David Grudl
  */
 class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 {

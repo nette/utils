@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * String tools library.
- *
- * @author     David Grudl
  */
 class Strings
 {

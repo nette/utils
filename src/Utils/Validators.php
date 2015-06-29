@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Validation utilities.
- *
- * @author     David Grudl
  */
 class Validators extends Nette\Object
 {

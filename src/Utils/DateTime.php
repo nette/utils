@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * DateTime.
- *
- * @author     David Grudl
  */
 class DateTime extends \DateTime implements \JsonSerializable
 {
