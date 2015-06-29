@@ -7,8 +7,6 @@
 
 namespace Nette;
 
-use Nette;
-
 
 /**
  * The exception that is thrown when the value of an argument is

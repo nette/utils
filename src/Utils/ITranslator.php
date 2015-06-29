@@ -7,8 +7,6 @@
 
 namespace Nette\Localization;
 
-use Nette;
-
 
 /**
  * Translator adapter.
