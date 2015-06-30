@@ -40,7 +40,7 @@ class Random
 		if (empty($rand3) && function_exists('mcrypt_create_iv')) {
 			$rand3 = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
 		}
-		if (empty($rand3) && @is_readable('/dev/urandom')) {
+		if (empty($rand3) && !defined('PHP_WINDOWS_VERSION_BUILD') && is_readable('/dev/urandom')) {
 			$rand3 = file_get_contents('/dev/urandom', FALSE, NULL, -1, $length);
 		}
 		if (empty($rand3)) {
