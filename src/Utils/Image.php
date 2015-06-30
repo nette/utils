@@ -98,7 +98,7 @@ class Image extends Nette\Object
 	/** {@link resize()} fills given area exactly */
 	const EXACT = 8;
 
-	/** @int image types {@link send()} */
+	/** image types */
 	const JPEG = IMAGETYPE_JPEG,
 		PNG = IMAGETYPE_PNG,
 		GIF = IMAGETYPE_GIF;
@@ -188,7 +188,7 @@ class Image extends Nette\Object
 		}
 
 		if (func_num_args() > 1) {
-			$format = @static::getFormatFromString($s);
+			$format = @static::getFormatFromString($s); // @ suppress trigger_error
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', array($s), function ($message) {
