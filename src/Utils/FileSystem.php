@@ -57,7 +57,7 @@ class FileSystem
 
 		} else {
 			static::createDir(dirname($dest));
-			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === FALSE) {
+			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === FALSE) { // @ is escalated to exception
 				throw new Nette\IOException("Unable to copy file '$source' to '$dest'.");
 			}
 		}
@@ -73,7 +73,7 @@ class FileSystem
 	{
 		if (is_file($path) || is_link($path)) {
 			$func = DIRECTORY_SEPARATOR === '\\' && is_dir($path) ? 'rmdir' : 'unlink';
-			if (!@$func($path)) {
+			if (!@$func($path)) { // @ is escalated to exception
 				throw new Nette\IOException("Unable to delete '$path'.");
 			}
 
@@ -81,7 +81,7 @@ class FileSystem
 			foreach (new \FilesystemIterator($path) as $item) {
 				static::delete($item);
 			}
-			if (!@rmdir($path)) {
+			if (!@rmdir($path)) { // @ is escalated to exception
 				throw new Nette\IOException("Unable to delete directory '$path'.");
 			}
 		}
@@ -105,7 +105,7 @@ class FileSystem
 		} else {
 			static::createDir(dirname($newName));
 			static::delete($newName);
-			if (!@rename($name, $newName)) {
+			if (!@rename($name, $newName)) { // @ is escalated to exception
 				throw new Nette\IOException("Unable to rename file or directory '$name' to '$newName'.");
 			}
 		}
@@ -120,10 +120,10 @@ class FileSystem
 	public static function write($file, $content, $mode = 0666)
 	{
 		static::createDir(dirname($file));
-		if (@file_put_contents($file, $content) === FALSE) {
+		if (@file_put_contents($file, $content) === FALSE) { // @ is escalated to exception
 			throw new Nette\IOException("Unable to write file '$file'.");
 		}
-		if ($mode !== NULL && !@chmod($file, $mode)) {
+		if ($mode !== NULL && !@chmod($file, $mode)) { // @ is escalated to exception
 			throw new Nette\IOException("Unable to chmod file '$file'.");
 		}
 	}

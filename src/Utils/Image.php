@@ -98,7 +98,7 @@ class Image extends Nette\Object
 	/** {@link resize()} fills given area exactly */
 	const EXACT = 0b1000;
 
-	/** @int image types {@link send()} */
+	/** image types */
 	const JPEG = IMAGETYPE_JPEG,
 		PNG = IMAGETYPE_PNG,
 		GIF = IMAGETYPE_GIF;
