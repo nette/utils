@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 
 Assert::exception(function () {
 	Arrays::grep(['a', '1', 'c'], '#*#');
-}, 'Nette\Utils\RegexpException', 'preg_grep(): Compilation failed: nothing to repeat at offset 0 in pattern: #*#');
+}, 'Nette\Utils\RegexpException', 'Compilation failed: nothing to repeat at offset 0 in pattern: #*#');
 
 
 Assert::exception(function () {

@@ -75,12 +75,13 @@ class Callback
 
 	/**
 	 * Invokes internal PHP function with own error handler.
+	 * @param  string
 	 * @return mixed
 	 */
 	public static function invokeSafe($function, array $args, $onError)
 	{
-		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, & $prev) {
-			if ($file === __FILE__ && $onError($message, $severity) !== FALSE) {
+		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, & $prev, $function) {
+			if ($file === __FILE__ && $onError(str_replace("$function(): ", '', $message), $severity) !== FALSE) {
 				return;
 			} elseif ($prev) {
 				return call_user_func_array($prev, func_get_args());
