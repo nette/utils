@@ -56,7 +56,7 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if traversed item is not an array
 	 */
-	public static function & getRef(& $arr, $key)
+	public static function & getRef(array & $arr, $key)
 	{
 		foreach (is_array($key) ? $key : [$key] as $k) {
 			if (is_array($arr) || $arr === NULL) {
@@ -73,7 +73,7 @@ class Arrays
 	 * Recursively appends elements of remaining keys from the second array to the first.
 	 * @return array
 	 */
-	public static function mergeTree($arr1, $arr2)
+	public static function mergeTree(array $arr1, array $arr2)
 	{
 		$res = $arr1 + $arr2;
 		foreach (array_intersect_key($arr1, $arr2) as $k => $v) {
@@ -89,7 +89,7 @@ class Arrays
 	 * Searches the array for a given key and returns the offset if successful.
 	 * @return int|FALSE offset if it is found, FALSE otherwise
 	 */
-	public static function searchKey($arr, $key)
+	public static function searchKey(array $arr, $key)
 	{
 		$foo = [$key => NULL];
 		return array_search(key($foo), array_keys($arr), TRUE);
