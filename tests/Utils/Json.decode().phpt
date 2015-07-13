@@ -33,7 +33,7 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	Json::decode("\x00");
-}, 'Nette\Utils\JsonException', version_compare(phpversion('json'), '1.3', '>=') ? 'Syntax error, malformed JSON' : 'Unexpected control character found');
+}, 'Nette\Utils\JsonException', defined('JSON_C_VERSION') ? 'Syntax error, malformed JSON' : 'Unexpected control character found');
 
 
 Assert::exception(function () {
