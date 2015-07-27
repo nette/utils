@@ -517,7 +517,15 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 		}
 
 		$s = '';
-		foreach ($this->attrs as $key => $value) {
+		$attrs = $this->attrs;
+		if (isset($attrs['data']) && is_array($attrs['data'])) { // deprecated
+			foreach ($attrs['data'] as $key => $value) {
+				$attrs['data-' . $key] = $value;
+			}
+			unset($attrs['data']);
+		}
+
+		foreach ($attrs as $key => $value) {
 			if ($value === NULL || $value === FALSE) {
 				continue;
 
@@ -530,22 +538,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				continue;
 
 			} elseif (is_array($value)) {
-				if ($key === 'data') { // deprecated
-					foreach ($value as $k => $v) {
-						if ($v !== NULL && $v !== FALSE) {
-							if (is_array($v)) {
-								$v = Json::encode($v);
-							}
-							$q = strpos($v, '"') === FALSE ? '"' : "'";
-							$s .= ' data-' . $k . '='
-								. $q . str_replace(['&', $q], ['&amp;', $q === '"' ? '&quot;' : '&#39;'], $v)
-								. (strpos($v, '`') !== FALSE && strpbrk($v, ' <>"\'') === FALSE ? ' ' : '')
-								. $q;
-						}
-					}
-					continue;
-
-				} elseif (strncmp($key, 'data-', 5) === 0) {
+				if (strncmp($key, 'data-', 5) === 0) {
 					$value = Json::encode($value);
 
 				} else {
