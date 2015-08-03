@@ -516,7 +516,7 @@ class Image extends Nette\Object
 	public function save($file = NULL, $quality = NULL, $type = NULL)
 	{
 		if ($type === NULL) {
-			switch (strtolower(pathinfo($file, PATHINFO_EXTENSION))) {
+			switch (strtolower($ext = pathinfo($file, PATHINFO_EXTENSION))) {
 				case 'jpg':
 				case 'jpeg':
 					$type = self::JPEG;
@@ -526,6 +526,8 @@ class Image extends Nette\Object
 					break;
 				case 'gif':
 					$type = self::GIF;
+				default:
+					throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
 			}
 		}
 
@@ -542,7 +544,7 @@ class Image extends Nette\Object
 				return imagegif($this->image, $file);
 
 			default:
-				throw new Nette\InvalidArgumentException('Unsupported image type \'$type\'.');
+				throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
 	}
 
@@ -586,8 +588,8 @@ class Image extends Nette\Object
 	 */
 	public function send($type = self::JPEG, $quality = NULL)
 	{
-		if ($type !== self::GIF && $type !== self::PNG && $type !== self::JPEG) {
-			throw new Nette\InvalidArgumentException('Unsupported image type \'$type\'.');
+		if (!in_array($type, array(self::JPEG, self::PNG, self::GIF), TRUE)) {
+			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
 		return $this->save(NULL, $quality, $type);
