@@ -101,7 +101,8 @@ class Image extends Nette\Object
 	/** image types */
 	const JPEG = IMAGETYPE_JPEG,
 		PNG = IMAGETYPE_PNG,
-		GIF = IMAGETYPE_GIF;
+		GIF = IMAGETYPE_GIF,
+		WEBP = -1;
 
 	const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
@@ -514,6 +515,8 @@ class Image extends Nette\Object
 					break;
 				case 'gif':
 					$type = self::GIF;
+				case 'webp':
+					$type = self::WEBP;
 				default:
 					throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
 			}
@@ -530,6 +533,9 @@ class Image extends Nette\Object
 
 			case self::GIF:
 				return imagegif($this->image, $file);
+
+			case self::WEBP:
+				return imagewebp($this->image, $file);
 
 			default:
 				throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
@@ -576,10 +582,10 @@ class Image extends Nette\Object
 	 */
 	public function send($type = self::JPEG, $quality = NULL)
 	{
-		if (!in_array($type, [self::JPEG, self::PNG, self::GIF], TRUE)) {
+		if (!in_array($type, [self::JPEG, self::PNG, self::GIF, self::WEBP], TRUE)) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
-		header('Content-Type: ' . image_type_to_mime_type($type));
+		header('Content-Type: ' . ($type === self::WEBP ? 'image/webp' : image_type_to_mime_type($type)));
 		return $this->save(NULL, $quality, $type);
 	}
 
