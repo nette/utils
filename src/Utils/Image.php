@@ -526,6 +526,7 @@ class Image extends Nette\Object
 					break;
 				case 'gif':
 					$type = self::GIF;
+					break;
 				default:
 					throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
 			}
