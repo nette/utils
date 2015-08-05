@@ -73,6 +73,10 @@ test(function () { // small & big numbers
 
 
 test(function () { // attributes escaping
+	Html::$xhtml = TRUE;
+	Assert::same('<a one=\'"\' two="\'" three="&lt;>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;'));
+
+	Html::$xhtml = FALSE;
 	Assert::same('<a one=\'"\' two="\'" three="<>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;'));
 	Assert::same('<a one="``xx "></a>', (string) Html::el('a')->one('``xx')); // mXSS
 });
