@@ -16,6 +16,6 @@ interface IHtmlString
 	/**
 	 * @return string in HTML format
 	 */
-	function __toString();
+	function __toString(): string;
 
 }
