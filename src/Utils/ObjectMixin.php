@@ -30,7 +30,7 @@ class ObjectMixin
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictGet($class, $name)
+	public static function strictGet(string $class, string $name)
 	{
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
@@ -44,7 +44,7 @@ class ObjectMixin
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictSet($class, $name)
+	public static function strictSet(string $class, string $name)
 	{
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
@@ -58,7 +58,7 @@ class ObjectMixin
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictCall($class, $method, $additionalMethods = [])
+	public static function strictCall(string $class, string $method, array $additionalMethods = [])
 	{
 		$hint = self::getSuggestion(array_merge(
 			get_class_methods($class),
@@ -76,7 +76,7 @@ class ObjectMixin
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictStaticCall($class, $method)
+	public static function strictStaticCall(string $class, string $method)
 	{
 		$hint = self::getSuggestion(
 			array_filter((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), function ($m) { return $m->isStatic(); }),
@@ -97,7 +97,7 @@ class ObjectMixin
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
-	public static function call($_this, $name, $args)
+	public static function call($_this, string $name, array $args)
 	{
 		$class = get_class($_this);
 		$isProp = self::hasProperty($class, $name);
@@ -154,7 +154,7 @@ class ObjectMixin
 	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public static function callStatic($class, $method, $args)
+	public static function callStatic(string $class, string $method, array $args)
 	{
 		self::strictStaticCall($class, $method);
 	}
@@ -167,7 +167,7 @@ class ObjectMixin
 	 * @return mixed   property value
 	 * @throws MemberAccessException if the property is not defined.
 	 */
-	public static function &get($_this, $name)
+	public static function &get($_this, string $name)
 	{
 		$class = get_class($_this);
 		$uname = ucfirst($name);
@@ -211,7 +211,7 @@ class ObjectMixin
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
-	public static function set($_this, $name, $value)
+	public static function set($_this, string $name, $value)
 	{
 		$class = get_class($_this);
 		$uname = ucfirst($name);
@@ -242,7 +242,7 @@ class ObjectMixin
 	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public static function remove($_this, $name)
+	public static function remove($_this, string $name)
 	{
 		$class = get_class($_this);
 		if (!self::hasProperty($class, $name)) {
@@ -257,7 +257,7 @@ class ObjectMixin
 	 * @param  string  property name
 	 * @return bool
 	 */
-	public static function has($_this, $name)
+	public static function has($_this, string $name): bool
 	{
 		$name = ucfirst($name);
 		$methods = &self::getMethods(get_class($_this));
@@ -272,7 +272,7 @@ class ObjectMixin
 	 * Returns array of magic properties defined by annotation @property.
 	 * @return array of [name => bit mask]
 	 */
-	public static function getMagicProperties($class)
+	public static function getMagicProperties(string $class): array
 	{
 		static $cache;
 		$props = &$cache[$class];
@@ -319,7 +319,7 @@ class ObjectMixin
 	 * Returns array of magic methods defined by annotation @method.
 	 * @return array
 	 */
-	public static function getMagicMethods($class)
+	public static function getMagicMethods(string $class): array
 	{
 		$rc = new \ReflectionClass($class);
 		preg_match_all('~^
@@ -359,7 +359,7 @@ class ObjectMixin
 	 * @return bool
 	 * @internal
 	 */
-	public static function checkType(&$val, $type)
+	public static function checkType(&$val, string $type): bool
 	{
 		if (strpos($type, '|') !== FALSE) {
 			$found = NULL;
@@ -431,7 +431,7 @@ class ObjectMixin
 	 * @param  mixed   callable
 	 * @return void
 	 */
-	public static function setExtensionMethod($class, $name, $callback)
+	public static function setExtensionMethod(string $class, string $name, /*callable*/ $callback)
 	{
 		$name = strtolower($name);
 		self::$extMethods[$name][$class] = Callback::check($callback);
@@ -445,7 +445,7 @@ class ObjectMixin
 	 * @param  string
 	 * @return mixed
 	 */
-	public static function getExtensionMethod($class, $name)
+	public static function getExtensionMethod(string $class, string $name)
 	{
 		$list = &self::$extMethods[strtolower($name)];
 		$cache = &$list[''][$class];
@@ -467,7 +467,7 @@ class ObjectMixin
 	 * @param  string
 	 * @return array
 	 */
-	public static function getExtensionMethods($class)
+	public static function getExtensionMethods(string $class): array
 	{
 		$res = [];
 		foreach (array_keys(self::$extMethods) as $name) {
@@ -487,7 +487,7 @@ class ObjectMixin
 	 * @return string|NULL
 	 * @internal
 	 */
-	public static function getSuggestion(array $possibilities, $value)
+	public static function getSuggestion(array $possibilities, string $value)
 	{
 		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '', $value);
 		$best = NULL;
@@ -506,7 +506,7 @@ class ObjectMixin
 	}
 
 
-	private static function parseFullDoc(\ReflectionClass $rc, $pattern)
+	private static function parseFullDoc(\ReflectionClass $rc, string $pattern): array
 	{
 		do {
 			$doc[] = $rc->getDocComment();
@@ -525,7 +525,7 @@ class ObjectMixin
 	 * @return bool|'event'
 	 * @internal
 	 */
-	public static function hasProperty($class, $name)
+	public static function hasProperty(string $class, string $name)
 	{
 		static $cache;
 		$prop = &$cache[$class][$name];
@@ -547,7 +547,7 @@ class ObjectMixin
 	 * Returns array of public (static, non-static and magic) methods.
 	 * @return array
 	 */
-	private static function &getMethods($class)
+	private static function &getMethods(string $class): array
 	{
 		static $cache;
 		if (!isset($cache[$class])) {

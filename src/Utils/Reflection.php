@@ -29,7 +29,7 @@ class Reflection
 	 * @param  string
 	 * @return bool
 	 */
-	public static function isBuiltinType($type)
+	public static function isBuiltinType(string $type): bool
 	{
 		return isset(self::$builtinTypes[strtolower($type)]);
 	}
@@ -88,7 +88,7 @@ class Reflection
 	 * Returns declaring class or trait.
 	 * @return \ReflectionClass
 	 */
-	public static function getPropertyDeclaringClass(\ReflectionProperty $prop)
+	public static function getPropertyDeclaringClass(\ReflectionProperty $prop): \ReflectionClass
 	{
 		foreach ($prop->getDeclaringClass()->getTraits() as $trait) {
 			if ($trait->hasProperty($prop->getName())) {
@@ -103,7 +103,7 @@ class Reflection
 	 * Are documentation comments available?
 	 * @return bool
 	 */
-	public static function areCommentsAvailable()
+	public static function areCommentsAvailable(): bool
 	{
 		static $res;
 		return $res === NULL
@@ -115,7 +115,7 @@ class Reflection
 	/**
 	 * @return string
 	 */
-	public static function toString(\Reflector $ref)
+	public static function toString(\Reflector $ref): string
 	{
 		if ($ref instanceof \ReflectionClass) {
 			return $ref->getName();
@@ -139,7 +139,7 @@ class Reflection
 	 * @return string  full name
 	 * @throws Nette\InvalidArgumentException
 	 */
-	public static function expandClassName($name, \ReflectionClass $rc)
+	public static function expandClassName(string $name, \ReflectionClass $rc): string
 	{
 		$lower = strtolower($name);
 		if (empty($name)) {
@@ -173,7 +173,7 @@ class Reflection
 	/**
 	 * @return array of [alias => class]
 	 */
-	public static function getUseStatements(\ReflectionClass $class)
+	public static function getUseStatements(\ReflectionClass $class): array
 	{
 		static $cache = [];
 		if (!isset($cache[$name = $class->getName()])) {
@@ -193,7 +193,7 @@ class Reflection
 	 * @param  string
 	 * @return array of [class => [alias => class, ...]]
 	 */
-	private static function parseUseStatements($code, $forClass = NULL)
+	private static function parseUseStatements(string $code, string $forClass = NULL): array
 	{
 		$tokens = token_get_all($code);
 		$namespace = $class = $classLevel = $level = NULL;

@@ -27,7 +27,7 @@ trait SmartObject
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
-	public function __call($name, $args)
+	public function __call(string $name, array $args)
 	{
 		$class = get_class($this);
 
@@ -50,7 +50,7 @@ trait SmartObject
 	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public static function __callStatic($name, $args)
+	public static function __callStatic(string $name, array $args)
 	{
 		ObjectMixin::strictStaticCall(get_called_class(), $name);
 	}
@@ -60,7 +60,7 @@ trait SmartObject
 	 * @return mixed   property value
 	 * @throws MemberAccessException if the property is not defined.
 	 */
-	public function &__get($name)
+	public function &__get(string $name)
 	{
 		$class = get_class($this);
 
@@ -85,7 +85,7 @@ trait SmartObject
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
-	public function __set($name, $value)
+	public function __set(string $name, $value)
 	{
 		$class = get_class($this);
 
@@ -108,7 +108,7 @@ trait SmartObject
 	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public function __unset($name)
+	public function __unset(string $name)
 	{
 		$class = get_class($this);
 		if (!ObjectMixin::hasProperty($class, $name)) {
@@ -117,10 +117,7 @@ trait SmartObject
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function __isset($name)
+	public function __isset(string $name): bool
 	{
 		return isset(ObjectMixin::getMagicProperties(get_class($this))[$name]);
 	}

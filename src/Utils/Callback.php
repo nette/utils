@@ -25,7 +25,7 @@ class Callback
 	 * @param  string  method
 	 * @return \Closure
 	 */
-	public static function closure($callable, $m = NULL)
+	public static function closure($callable, string $m = NULL): \Closure
 	{
 		if ($m !== NULL) {
 			$callable = [$callable, $m];
@@ -82,7 +82,7 @@ class Callback
 	 * @param  string
 	 * @return mixed
 	 */
-	public static function invokeSafe($function, array $args, $onError)
+	public static function invokeSafe(string $function, array $args, callable $onError)
 	{
 		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, &$prev, $function) {
 			if ($file === '' && defined('HHVM_VERSION')) { // https://github.com/facebook/hhvm/issues/4625
@@ -108,7 +108,7 @@ class Callback
 	/**
 	 * @return callable
 	 */
-	public static function check($callable, $syntax = FALSE)
+	public static function check($callable, bool $syntax = FALSE)
 	{
 		if (!is_callable($callable, $syntax)) {
 			throw new Nette\InvalidArgumentException($syntax
@@ -123,7 +123,7 @@ class Callback
 	/**
 	 * @return string
 	 */
-	public static function toString($callable)
+	public static function toString($callable): string
 	{
 		if ($callable instanceof \Closure) {
 			$inner = self::unwrap($callable);
@@ -137,10 +137,7 @@ class Callback
 	}
 
 
-	/**
-	 * @return \ReflectionMethod|\ReflectionFunction
-	 */
-	public static function toReflection($callable)
+	public static function toReflection($callable): \ReflectionFunctionAbstract
 	{
 		if ($callable instanceof \Closure) {
 			$callable = self::unwrap($callable);
@@ -163,7 +160,7 @@ class Callback
 	/**
 	 * @return bool
 	 */
-	public static function isStatic($callable)
+	public static function isStatic(callable $callable): bool
 	{
 		return is_array($callable) ? is_string($callable[0]) : is_string($callable);
 	}
@@ -174,7 +171,7 @@ class Callback
 	 * @internal
 	 * @return callable
 	 */
-	public static function unwrap(\Closure $closure)
+	public static function unwrap(\Closure $closure): callable
 	{
 		$r = new \ReflectionFunction($closure);
 		if (substr($r->getName(), -1) === '}') {

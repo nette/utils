@@ -29,7 +29,7 @@ trait StaticClass
 	 * Call to undefined static method.
 	 * @throws MemberAccessException
 	 */
-	public static function __callStatic($name, $args)
+	public static function __callStatic(string $name, array $args)
 	{
 		Utils\ObjectMixin::strictStaticCall(get_called_class(), $name);
 	}

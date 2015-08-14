@@ -26,7 +26,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	 * Returns an iterator over all items.
 	 * @return \ArrayIterator
 	 */
-	public function getIterator()
+	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->list);
 	}
@@ -36,7 +36,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	 * Returns items count.
 	 * @return int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count($this->list);
 	}
@@ -83,7 +83,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	 * @param  int
 	 * @return bool
 	 */
-	public function offsetExists($index)
+	public function offsetExists($index): bool
 	{
 		return $index >= 0 && $index < count($this->list);
 	}

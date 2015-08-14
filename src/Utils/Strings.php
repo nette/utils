@@ -28,7 +28,7 @@ class Strings
 	 * @param  string  byte stream to check
 	 * @return bool
 	 */
-	public static function checkEncoding($s)
+	public static function checkEncoding(string $s): bool
 	{
 		return $s === self::fixEncoding($s);
 	}
@@ -39,7 +39,7 @@ class Strings
 	 * @param  string  byte stream to fix
 	 * @return string
 	 */
-	public static function fixEncoding($s)
+	public static function fixEncoding(string $s): string
 	{
 		// removes xD800-xDFFF, x110000 and higher
 		return htmlspecialchars_decode(htmlspecialchars($s, ENT_NOQUOTES | ENT_IGNORE, 'UTF-8'), ENT_NOQUOTES);
@@ -52,7 +52,7 @@ class Strings
 	 * @return string
 	 * @throws Nette\InvalidArgumentException if code point is not in valid range
 	 */
-	public static function chr($code)
+	public static function chr(int $code): string
 	{
 		if ($code < 0 || ($code >= 0xD800 && $code <= 0xDFFF) || $code > 0x10FFFF) {
 			throw new Nette\InvalidArgumentException('Code point must be in range 0x0 to 0xD7FF or 0xE000 to 0x10FFFF.');
@@ -67,7 +67,7 @@ class Strings
 	 * @param  string
 	 * @return bool
 	 */
-	public static function startsWith($haystack, $needle)
+	public static function startsWith(string $haystack, string $needle): bool
 	{
 		return strncmp($haystack, $needle, strlen($needle)) === 0;
 	}
@@ -79,7 +79,7 @@ class Strings
 	 * @param  string
 	 * @return bool
 	 */
-	public static function endsWith($haystack, $needle)
+	public static function endsWith(string $haystack, string $needle): bool
 	{
 		return strlen($needle) === 0 || substr($haystack, -strlen($needle)) === $needle;
 	}
@@ -91,7 +91,7 @@ class Strings
 	 * @param  string
 	 * @return bool
 	 */
-	public static function contains($haystack, $needle)
+	public static function contains(string $haystack, string $needle): bool
 	{
 		return strpos($haystack, $needle) !== FALSE;
 	}
@@ -104,7 +104,7 @@ class Strings
 	 * @param  int in characters (code points)
 	 * @return string
 	 */
-	public static function substring($s, $start, $length = NULL)
+	public static function substring(string $s, int $start, int $length = NULL): string
 	{
 		if (function_exists('mb_substr')) {
 			return mb_substr($s, $start, $length, 'UTF-8'); // MB is much faster
@@ -122,7 +122,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function normalize($s)
+	public static function normalize(string $s): string
 	{
 		$s = self::normalizeNewLines($s);
 
@@ -144,7 +144,7 @@ class Strings
 	 * @param  string  UTF-8 encoding or 8-bit
 	 * @return string
 	 */
-	public static function normalizeNewLines($s)
+	public static function normalizeNewLines(string $s): string
 	{
 		return str_replace(["\r\n", "\r"], "\n", $s);
 	}
@@ -155,7 +155,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string  ASCII
 	 */
-	public static function toAscii($s)
+	public static function toAscii(string $s): string
 	{
 		static $transliterator = NULL;
 		if ($transliterator === NULL && class_exists('Transliterator', FALSE)) {
@@ -199,7 +199,7 @@ class Strings
 	 * @param  bool
 	 * @return string
 	 */
-	public static function webalize($s, $charlist = NULL, $lower = TRUE)
+	public static function webalize(string $s, string $charlist = NULL, bool $lower = TRUE): string
 	{
 		$s = self::toAscii($s);
 		if ($lower) {
@@ -218,7 +218,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function truncate(string $s, int $maxLen, string $append = "\u{2026}")
+	public static function truncate(string $s, int $maxLen, string $append = "\u{2026}"): string
 	{
 		if (self::length($s) > $maxLen) {
 			$maxLen = $maxLen - self::length($append);
@@ -243,7 +243,7 @@ class Strings
 	 * @param  string
 	 * @return string
 	 */
-	public static function indent($s, $level = 1, $chars = "\t")
+	public static function indent(string $s, int $level = 1, string $chars = "\t"): string
 	{
 		if ($level > 0) {
 			$s = self::replace($s, '#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level));
@@ -257,7 +257,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function lower($s)
+	public static function lower(string $s): string
 	{
 		return mb_strtolower($s, 'UTF-8');
 	}
@@ -268,7 +268,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function firstLower($s)
+	public static function firstLower(string $s): string
 	{
 		return self::lower(self::substring($s, 0, 1)) . self::substring($s, 1);
 	}
@@ -279,7 +279,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function upper($s)
+	public static function upper(string $s): string
 	{
 		return mb_strtoupper($s, 'UTF-8');
 	}
@@ -290,7 +290,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function firstUpper($s)
+	public static function firstUpper(string $s): string
 	{
 		return self::upper(self::substring($s, 0, 1)) . self::substring($s, 1);
 	}
@@ -301,7 +301,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function capitalize($s)
+	public static function capitalize(string $s): string
 	{
 		return mb_convert_case($s, MB_CASE_TITLE, 'UTF-8');
 	}
@@ -314,7 +314,7 @@ class Strings
 	 * @param  int
 	 * @return bool
 	 */
-	public static function compare($left, $right, $len = NULL)
+	public static function compare(string $left, string $right, int $len = NULL): bool
 	{
 		if ($len < 0) {
 			$left = self::substring($left, $len, -$len);
@@ -332,7 +332,7 @@ class Strings
 	 * @param  string|array
 	 * @return string
 	 */
-	public static function findPrefix(...$strings)
+	public static function findPrefix(...$strings): string
 	{
 		if (is_array($strings[0])) {
 			$strings = $strings[0];
@@ -358,7 +358,7 @@ class Strings
 	 * @param  string
 	 * @return int
 	 */
-	public static function length($s)
+	public static function length(string $s): int
 	{
 		return function_exists('mb_strlen') ? mb_strlen($s, 'UTF-8') : strlen(utf8_decode($s));
 	}
@@ -370,7 +370,7 @@ class Strings
 	 * @param  string
 	 * @return string
 	 */
-	public static function trim($s, $charlist = self::TRIM_CHARACTERS)
+	public static function trim(string $s, string $charlist = self::TRIM_CHARACTERS): string
 	{
 		$charlist = preg_quote($charlist, '#');
 		return self::replace($s, '#^['.$charlist.']+|['.$charlist.']+\z#u', '');
@@ -384,7 +384,7 @@ class Strings
 	 * @param  string
 	 * @return string
 	 */
-	public static function padLeft($s, $length, $pad = ' ')
+	public static function padLeft(string $s, int $length, string $pad = ' '): string
 	{
 		$length = max(0, $length - self::length($s));
 		$padLen = self::length($pad);
@@ -399,7 +399,7 @@ class Strings
 	 * @param  string
 	 * @return string
 	 */
-	public static function padRight($s, $length, $pad = ' ')
+	public static function padRight(string $s, int $length, string $pad = ' '): string
 	{
 		$length = max(0, $length - self::length($s));
 		$padLen = self::length($pad);
@@ -412,7 +412,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function reverse($s)
+	public static function reverse(string $s): string
 	{
 		return iconv('UTF-32LE', 'UTF-8', strrev(iconv('UTF-8', 'UTF-32BE', $s)));
 	}
@@ -425,7 +425,7 @@ class Strings
 	 * @param  int  negative value means searching from the end
 	 * @return string|FALSE  returns FALSE if the needle was not found
 	 */
-	public static function before($haystack, $needle, $nth = 1)
+	public static function before(string $haystack, string $needle, int $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
 		return $pos === FALSE
@@ -441,7 +441,7 @@ class Strings
 	 * @param  int  negative value means searching from the end
 	 * @return string|FALSE  returns FALSE if the needle was not found
 	 */
-	public static function after($haystack, $needle, $nth = 1)
+	public static function after(string $haystack, string $needle, int $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
 		return $pos === FALSE
@@ -457,7 +457,7 @@ class Strings
 	 * @param  int  negative value means searching from the end
 	 * @return int|FALSE  offset in characters or FALSE if the needle was not found
 	 */
-	public static function indexOf($haystack, $needle, $nth = 1)
+	public static function indexOf(string $haystack, string $needle, int $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
 		return $pos === FALSE
@@ -470,7 +470,7 @@ class Strings
 	 * Returns position of $nth occurence of $needle in $haystack.
 	 * @return int|FALSE  offset in bytes or FALSE if the needle was not found
 	 */
-	private static function pos($haystack, $needle, $nth = 1)
+	private static function pos(string $haystack, string $needle, int $nth = 1)
 	{
 		if (!$nth) {
 			return FALSE;
@@ -503,7 +503,7 @@ class Strings
 	 * @param  int
 	 * @return array
 	 */
-	public static function split($subject, $pattern, $flags = 0)
+	public static function split(string $subject, string $pattern, int $flags = 0): array
 	{
 		return self::pcre('preg_split', [$pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE]);
 	}
@@ -517,7 +517,7 @@ class Strings
 	 * @param  int  offset in bytes
 	 * @return mixed
 	 */
-	public static function match($subject, $pattern, $flags = 0, $offset = 0)
+	public static function match(string $subject, string $pattern, int $flags = 0, int $offset = 0)
 	{
 		if ($offset > strlen($subject)) {
 			return NULL;
@@ -536,7 +536,7 @@ class Strings
 	 * @param  int  offset in bytes
 	 * @return array
 	 */
-	public static function matchAll($subject, $pattern, $flags = 0, $offset = 0)
+	public static function matchAll(string $subject, string $pattern, int $flags = 0, int $offset = 0): array
 	{
 		if ($offset > strlen($subject)) {
 			return [];
@@ -558,7 +558,7 @@ class Strings
 	 * @param  int
 	 * @return string
 	 */
-	public static function replace($subject, $pattern, $replacement = NULL, $limit = -1)
+	public static function replace(string $subject, $pattern, $replacement = NULL, int $limit = -1): string
 	{
 		if (is_object($replacement) || is_array($replacement)) {
 			if (!is_callable($replacement, FALSE, $textual)) {
@@ -576,7 +576,7 @@ class Strings
 
 
 	/** @internal */
-	public static function pcre($func, $args)
+	public static function pcre(string $func, array $args)
 	{
 		static $messages = [
 			PREG_INTERNAL_ERROR => 'Internal error',
