@@ -33,7 +33,7 @@ Assert::exception(function () {
 
 // frequency check
 $phpdbgLog = defined('PHPDBG_VERSION') && @phpdbg_end_oplog(); // memory leak workaround
-$length = 1e6;
+$length = (int) 1e6;
 $delta = 0.1;
 $s = Nette\Utils\Random::generate($length, "\x01-\xFF");
 $freq = count_chars($s);

@@ -50,7 +50,7 @@ class Paginator
 	 * @param  int
 	 * @return static
 	 */
-	public function setPage($page)
+	public function setPage(int $page)
 	{
 		$this->page = (int) $page;
 		return $this;
@@ -61,7 +61,7 @@ class Paginator
 	 * Returns current page number.
 	 * @return int
 	 */
-	public function getPage()
+	public function getPage(): int
 	{
 		return $this->base + $this->getPageIndex();
 	}
@@ -71,7 +71,7 @@ class Paginator
 	 * Returns first page number.
 	 * @return int
 	 */
-	public function getFirstPage()
+	public function getFirstPage(): int
 	{
 		return $this->base;
 	}
@@ -92,7 +92,7 @@ class Paginator
 	 * @param  int
 	 * @return static
 	 */
-	public function setBase($base)
+	public function setBase(int $base)
 	{
 		$this->base = (int) $base;
 		return $this;
@@ -103,7 +103,7 @@ class Paginator
 	 * Returns first page (base) number.
 	 * @return int
 	 */
-	public function getBase()
+	public function getBase(): int
 	{
 		return $this->base;
 	}
@@ -113,7 +113,7 @@ class Paginator
 	 * Returns zero-based page number.
 	 * @return int
 	 */
-	protected function getPageIndex()
+	protected function getPageIndex(): int
 	{
 		$index = max(0, $this->page - $this->base);
 		return $this->itemCount === NULL ? $index : min($index, max(0, $this->getPageCount() - 1));
@@ -124,7 +124,7 @@ class Paginator
 	 * Is the current page the first one?
 	 * @return bool
 	 */
-	public function isFirst()
+	public function isFirst(): bool
 	{
 		return $this->getPageIndex() === 0;
 	}
@@ -134,7 +134,7 @@ class Paginator
 	 * Is the current page the last one?
 	 * @return bool
 	 */
-	public function isLast()
+	public function isLast(): bool
 	{
 		return $this->itemCount === NULL ? FALSE : $this->getPageIndex() >= $this->getPageCount() - 1;
 	}
@@ -155,7 +155,7 @@ class Paginator
 	 * @param  int
 	 * @return static
 	 */
-	public function setItemsPerPage($itemsPerPage)
+	public function setItemsPerPage(int $itemsPerPage)
 	{
 		$this->itemsPerPage = max(1, (int) $itemsPerPage);
 		return $this;
@@ -166,7 +166,7 @@ class Paginator
 	 * Returns the number of items to display on a single page.
 	 * @return int
 	 */
-	public function getItemsPerPage()
+	public function getItemsPerPage(): int
 	{
 		return $this->itemsPerPage;
 	}
@@ -177,7 +177,7 @@ class Paginator
 	 * @param  int (or NULL as infinity)
 	 * @return static
 	 */
-	public function setItemCount($itemCount)
+	public function setItemCount(int $itemCount = NULL)
 	{
 		$this->itemCount = ($itemCount === FALSE || $itemCount === NULL) ? NULL : max(0, (int) $itemCount);
 		return $this;
@@ -198,7 +198,7 @@ class Paginator
 	 * Returns the absolute index of the first item on current page.
 	 * @return int
 	 */
-	public function getOffset()
+	public function getOffset(): int
 	{
 		return $this->getPageIndex() * $this->itemsPerPage;
 	}
