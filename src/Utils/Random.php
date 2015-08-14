@@ -25,7 +25,7 @@ class Random
 	 * @param  string
 	 * @return string
 	 */
-	public static function generate($length = 10, $charlist = '0-9a-z')
+	public static function generate(int $length = 10, string $charlist = '0-9a-z'): string
 	{
 		$charlist = count_chars(preg_replace_callback('#.-.#', function (array $m) {
 			return implode('', range($m[0][0], $m[0][2]));
