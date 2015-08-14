@@ -202,7 +202,7 @@ trait SmartObject
 	 * @return Reflection\ClassType|\ReflectionClass
 	 * @deprecated
 	 */
-	public static function getReflection()
+	public static function getReflection(): \ReflectionClass
 	{
 		trigger_error(get_called_class() . '::getReflection() is deprecated' . ObjectMixin::getSource(), E_USER_DEPRECATED);
 		$class = class_exists(Reflection\ClassType::class) ? Reflection\ClassType::class : \ReflectionClass::class;
@@ -214,7 +214,7 @@ trait SmartObject
 	 * @return mixed
 	 * @deprecated use Nette\Utils\ObjectMixin::setExtensionMethod()
 	 */
-	public static function extensionMethod($name, $callback = NULL)
+	public static function extensionMethod(string $name, $callback = NULL)
 	{
 		if (strpos($name, '::') === FALSE) {
 			$class = get_called_class();
