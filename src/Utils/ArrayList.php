@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette\Utils;
 
 use Nette;
@@ -22,7 +24,7 @@ class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \Itera
 	 * Returns an iterator over all items.
 	 * @return \ArrayIterator
 	 */
-	public function getIterator()
+	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->list);
 	}
@@ -32,7 +34,7 @@ class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \Itera
 	 * Returns items count.
 	 * @return int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count($this->list);
 	}

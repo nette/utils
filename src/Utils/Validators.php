@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette\Utils;
 
 use Nette;
@@ -71,7 +73,7 @@ class Validators extends Nette\Object
 	 * @param  string  label
 	 * @return void
 	 */
-	public static function assert($value, $expected, $label = 'variable')
+	public static function assert($value, string $expected, string $label = 'variable')
 	{
 		if (!static::is($value, $expected)) {
 			$expected = str_replace(['|', ':'], [' or ', ' in range '], $expected);
@@ -97,7 +99,7 @@ class Validators extends Nette\Object
 	 * @param  string
 	 * @return void
 	 */
-	public static function assertField($arr, $field, $expected = NULL, $label = "item '%' in array")
+	public static function assertField($arr, string $field, string $expected = NULL, string $label = "item '%' in array")
 	{
 		self::assert($arr, 'array', 'first argument');
 		if (!array_key_exists($field, $arr)) {
@@ -115,7 +117,7 @@ class Validators extends Nette\Object
 	 * @param  string  expected types separated by pipe with optional ranges
 	 * @return bool
 	 */
-	public static function is($value, $expected)
+	public static function is($value, string $expected): bool
 	{
 		foreach (explode('|', $expected) as $item) {
 			list($type) = $item = explode(':', $item, 2);
@@ -158,7 +160,7 @@ class Validators extends Nette\Object
 	 * Finds whether a value is an integer.
 	 * @return bool
 	 */
-	public static function isNumericInt($value)
+	public static function isNumericInt($value): bool
 	{
 		return is_int($value) || is_string($value) && preg_match('#^-?[0-9]+\z#', $value);
 	}
@@ -168,7 +170,7 @@ class Validators extends Nette\Object
 	 * Finds whether a string is a floating point number in decimal base.
 	 * @return bool
 	 */
-	public static function isNumeric($value)
+	public static function isNumeric($value): bool
 	{
 		return is_float($value) || is_int($value) || is_string($value) && preg_match('#^-?[0-9]*[.]?[0-9]+\z#', $value);
 	}
@@ -178,7 +180,7 @@ class Validators extends Nette\Object
 	 * Finds whether a value is a syntactically correct callback.
 	 * @return bool
 	 */
-	public static function isCallable($value)
+	public static function isCallable($value): bool
 	{
 		return $value && is_callable($value, TRUE);
 	}
@@ -189,7 +191,7 @@ class Validators extends Nette\Object
 	 * @param  string
 	 * @return bool
 	 */
-	public static function isUnicode($value)
+	public static function isUnicode($value): bool
 	{
 		return is_string($value) && preg_match('##u', $value);
 	}
@@ -199,7 +201,7 @@ class Validators extends Nette\Object
 	 * Finds whether a value is "falsy".
 	 * @return bool
 	 */
-	public static function isNone($value)
+	public static function isNone($value): bool
 	{
 		return $value == NULL; // intentionally ==
 	}
@@ -210,7 +212,7 @@ class Validators extends Nette\Object
 	 * @param  array
 	 * @return bool
 	 */
-	public static function isList($value)
+	public static function isList($value): bool
 	{
 		return Arrays::isList($value);
 	}
@@ -222,7 +224,7 @@ class Validators extends Nette\Object
 	 * @param  array  min and max value pair
 	 * @return bool
 	 */
-	public static function isInRange($value, $range)
+	public static function isInRange($value, array $range): bool
 	{
 		return (!isset($range[0]) || $range[0] === '' || $value >= $range[0])
 			&& (!isset($range[1]) || $range[1] === '' || $value <= $range[1]);
@@ -234,7 +236,7 @@ class Validators extends Nette\Object
 	 * @param  string
 	 * @return bool
 	 */
-	public static function isEmail($value)
+	public static function isEmail(string $value): bool
 	{
 		$atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
 		$alpha = "a-z\x80-\xFF"; // superset of IDN
@@ -252,7 +254,7 @@ class Validators extends Nette\Object
 	 * @param  string
 	 * @return bool
 	 */
-	public static function isUrl($value)
+	public static function isUrl(string $value): bool
 	{
 		$alpha = "a-z\x80-\xFF";
 		return (bool) preg_match("(^
@@ -273,7 +275,7 @@ class Validators extends Nette\Object
 	 * @param  string
 	 * @return bool
 	 */
-	public static function isUri($value)
+	public static function isUri(string $value): bool
 	{
 		return (bool) preg_match('#^[a-z\d+\.-]+:\S+\z#i', $value);
 	}
@@ -284,9 +286,9 @@ class Validators extends Nette\Object
 	 * @param  string
 	 * @return bool
 	 */
-	public static function isType($type)
+	public static function isType(string $type): bool
 	{
-		return class_exists($type) || interface_exists($type) || trait_exists($type);
+		return class_exists($type) || interface_exists($type) || (PHP_VERSION_ID >= 50400 && trait_exists($type));
 	}
 
 
@@ -294,7 +296,7 @@ class Validators extends Nette\Object
 	 * Checks whether the input is a valid PHP identifier.
 	 * @return bool
 	 */
-	public static function isPhpIdentifier($value)
+	public static function isPhpIdentifier(string $value): bool
 	{
 		return is_string($value) && preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\z#', $value);
 	}

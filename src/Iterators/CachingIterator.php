@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette\Iterators;
 
 use Nette;
@@ -56,7 +58,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * @param  int  grid width
 	 * @return bool
 	 */
-	public function isFirst($width = NULL)
+	public function isFirst(int $width = NULL): bool
 	{
 		return $this->counter === 1 || ($width && $this->counter !== 0 && (($this->counter - 1) % $width) === 0);
 	}
@@ -67,7 +69,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * @param  int  grid width
 	 * @return bool
 	 */
-	public function isLast($width = NULL)
+	public function isLast(int $width = NULL): bool
 	{
 		return !$this->hasNext() || ($width && ($this->counter % $width) === 0);
 	}
@@ -77,7 +79,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * Is the iterator empty?
 	 * @return bool
 	 */
-	public function isEmpty()
+	public function isEmpty(): bool
 	{
 		return $this->counter === 0;
 	}
@@ -87,7 +89,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * Is the counter odd?
 	 * @return bool
 	 */
-	public function isOdd()
+	public function isOdd(): bool
 	{
 		return $this->counter % 2 === 1;
 	}
@@ -97,7 +99,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * Is the counter even?
 	 * @return bool
 	 */
-	public function isEven()
+	public function isEven(): bool
 	{
 		return $this->counter % 2 === 0;
 	}
@@ -107,7 +109,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * Returns the counter.
 	 * @return int
 	 */
-	public function getCounter()
+	public function getCounter(): int
 	{
 		return $this->counter;
 	}
@@ -117,7 +119,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * Returns the count of elements.
 	 * @return int
 	 */
-	public function count()
+	public function count(): int
 	{
 		$inner = $this->getInnerIterator();
 		if ($inner instanceof \Countable) {
@@ -195,7 +197,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * @return mixed   property value
 	 * @throws Nette\MemberAccessException if the property is not defined.
 	 */
-	public function &__get($name)
+	public function &__get(string $name)
 	{
 		return ObjectMixin::get($this, $name);
 	}
@@ -208,7 +210,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * @return void
 	 * @throws Nette\MemberAccessException if the property is not defined or is read-only
 	 */
-	public function __set($name, $value)
+	public function __set(string $name, $value)
 	{
 		ObjectMixin::set($this, $name, $value);
 	}
@@ -219,7 +221,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * @param  string  property name
 	 * @return bool
 	 */
-	public function __isset($name)
+	public function __isset(string $name): bool
 	{
 		return ObjectMixin::has($this, $name);
 	}
@@ -231,7 +233,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * @return void
 	 * @throws Nette\MemberAccessException
 	 */
-	public function __unset($name)
+	public function __unset(string $name)
 	{
 		ObjectMixin::remove($this, $name);
 	}

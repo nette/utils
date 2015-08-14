@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette;
 
 use Nette;
@@ -70,7 +72,7 @@ abstract class Object
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
-	public function __call($name, $args)
+	public function __call(string $name, array $args)
 	{
 		return ObjectMixin::call($this, $name, $args);
 	}
@@ -95,7 +97,7 @@ abstract class Object
 	 * @param  callable
 	 * @return mixed
 	 */
-	public static function extensionMethod($name, $callback = NULL)
+	public static function extensionMethod(string $name, callable $callback = NULL)
 	{
 		if (strpos($name, '::') === FALSE) {
 			$class = get_called_class();
@@ -117,7 +119,7 @@ abstract class Object
 	 * @return mixed   property value
 	 * @throws MemberAccessException if the property is not defined.
 	 */
-	public function &__get($name)
+	public function &__get(string $name)
 	{
 		return ObjectMixin::get($this, $name);
 	}
@@ -130,7 +132,7 @@ abstract class Object
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
-	public function __set($name, $value)
+	public function __set(string $name, $value)
 	{
 		ObjectMixin::set($this, $name, $value);
 	}
@@ -141,7 +143,7 @@ abstract class Object
 	 * @param  string  property name
 	 * @return bool
 	 */
-	public function __isset($name)
+	public function __isset(string $name): bool
 	{
 		return ObjectMixin::has($this, $name);
 	}
@@ -153,7 +155,7 @@ abstract class Object
 	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public function __unset($name)
+	public function __unset(string $name)
 	{
 		ObjectMixin::remove($this, $name);
 	}

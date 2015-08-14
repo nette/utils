@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette\Utils;
 
 use Nette;
@@ -124,7 +126,7 @@ class Image extends Nette\Object
 	 * @param  int  transparency 0..127
 	 * @return array
 	 */
-	public static function rgb($red, $green, $blue, $transparency = 0)
+	public static function rgb(int $red, int $green, int $blue, int $transparency = 0): array
 	{
 		return [
 			'red' => max(0, min(255, (int) $red)),
@@ -143,7 +145,7 @@ class Image extends Nette\Object
 	 * @throws UnknownImageFileException if file not found or file type is not known
 	 * @return self
 	 */
-	public static function fromFile($file, & $format = NULL)
+	public static function fromFile(string $file, & $format = NULL): self
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -159,7 +161,7 @@ class Image extends Nette\Object
 		if (!isset($funcs[$format])) {
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
-		return new static(Callback::invokeSafe($funcs[$format], [$file], function ($message) {
+		return new static(Callback::invokeSafe($funcs[$format], [$file], function (string $message) {
 			throw new ImageException($message);
 		}));
 	}
@@ -172,7 +174,7 @@ class Image extends Nette\Object
 	 * @return self
 	 * @throws ImageException
 	 */
-	public static function fromString($s, & $format = NULL)
+	public static function fromString(string $s, & $format = NULL): self
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -183,7 +185,7 @@ class Image extends Nette\Object
 			$format = in_array($tmp, [self::JPEG, self::PNG, self::GIF], TRUE) ? $tmp : NULL;
 		}
 
-		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function ($message) {
+		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function (string $message) {
 			throw new ImageException($message);
 		}));
 	}
@@ -196,7 +198,7 @@ class Image extends Nette\Object
 	 * @param  array
 	 * @return self
 	 */
-	public static function fromBlank($width, $height, $color = NULL)
+	public static function fromBlank(int $width, int $height, array $color = NULL): self
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -235,7 +237,7 @@ class Image extends Nette\Object
 	 * Returns image width.
 	 * @return int
 	 */
-	public function getWidth()
+	public function getWidth(): int
 	{
 		return imagesx($this->image);
 	}
@@ -245,7 +247,7 @@ class Image extends Nette\Object
 	 * Returns image height.
 	 * @return int
 	 */
-	public function getHeight()
+	public function getHeight(): int
 	{
 		return imagesy($this->image);
 	}
@@ -256,7 +258,7 @@ class Image extends Nette\Object
 	 * @param  resource
 	 * @return self
 	 */
-	protected function setImageResource($image)
+	protected function setImageResource($image): self
 	{
 		if (!is_resource($image) || get_resource_type($image) !== 'gd') {
 			throw new Nette\InvalidArgumentException('Image is not valid.');
@@ -283,7 +285,7 @@ class Image extends Nette\Object
 	 * @param  int    flags
 	 * @return self
 	 */
-	public function resize($width, $height, $flags = self::FIT)
+	public function resize($width, $height, int $flags = self::FIT): self
 	{
 		if ($flags & self::EXACT) {
 			return $this->resize($width, $height, self::FILL)->crop('50%', '50%', $width, $height);
@@ -317,7 +319,7 @@ class Image extends Nette\Object
 	 * @param  int    flags
 	 * @return array
 	 */
-	public static function calculateSize($srcWidth, $srcHeight, $newWidth, $newHeight, $flags = self::FIT)
+	public static function calculateSize($srcWidth, $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
 	{
 		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
 			$newWidth = (int) round($srcWidth / 100 * abs($newWidth));
@@ -382,7 +384,7 @@ class Image extends Nette\Object
 	 * @param  mixed  height in pixels or percent
 	 * @return self
 	 */
-	public function crop($left, $top, $width, $height)
+	public function crop($left, $top, $width, $height): self
 	{
 		list($r['x'], $r['y'], $r['width'], $r['height'])
 			= static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
@@ -407,7 +409,7 @@ class Image extends Nette\Object
 	 * @param  mixed  height in pixels or percent
 	 * @return array
 	 */
-	public static function calculateCutout($srcWidth, $srcHeight, $left, $top, $newWidth, $newHeight)
+	public static function calculateCutout($srcWidth, $srcHeight, $left, $top, $newWidth, $newHeight): array
 	{
 		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
 			$newWidth = (int) round($srcWidth / 100 * $newWidth);
@@ -439,7 +441,7 @@ class Image extends Nette\Object
 	 * Sharpen image.
 	 * @return self
 	 */
-	public function sharpen()
+	public function sharpen(): self
 	{
 		imageconvolution($this->image, [ // my magic numbers ;)
 			[-1, -1, -1],
@@ -458,7 +460,7 @@ class Image extends Nette\Object
 	 * @param  int  opacity 0..100
 	 * @return self
 	 */
-	public function place(Image $image, $left = 0, $top = 0, $opacity = 100)
+	public function place(Image $image, $left = 0, $top = 0, int $opacity = 100): self
 	{
 		$opacity = max(0, min(100, (int) $opacity));
 
@@ -504,7 +506,7 @@ class Image extends Nette\Object
 	 * @param  int  optional image type
 	 * @return bool TRUE on success or FALSE on failure.
 	 */
-	public function save($file = NULL, $quality = NULL, $type = NULL)
+	public function save(string $file = NULL, int $quality = NULL, int $type = NULL): bool
 	{
 		if ($type === NULL) {
 			switch (strtolower($ext = pathinfo($file, PATHINFO_EXTENSION))) {
@@ -547,7 +549,7 @@ class Image extends Nette\Object
 	 * @param  int  quality 0..100 (for JPEG and PNG)
 	 * @return string
 	 */
-	public function toString($type = self::JPEG, $quality = NULL)
+	public function toString(int $type = self::JPEG, int $quality = NULL): string
 	{
 		ob_start();
 		$this->save(NULL, $quality, $type);
@@ -559,7 +561,7 @@ class Image extends Nette\Object
 	 * Outputs image to string.
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		try {
 			return $this->toString();
@@ -578,7 +580,7 @@ class Image extends Nette\Object
 	 * @param  int  quality 0..100 (for JPEG and PNG)
 	 * @return bool TRUE on success or FALSE on failure.
 	 */
-	public function send($type = self::JPEG, $quality = NULL)
+	public function send(int $type = self::JPEG, int $quality = NULL): bool
 	{
 		if (!in_array($type, [self::JPEG, self::PNG, self::GIF], TRUE)) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
@@ -596,7 +598,7 @@ class Image extends Nette\Object
 	 * @return mixed
 	 * @throws Nette\MemberAccessException
 	 */
-	public function __call($name, $args)
+	public function __call(string $name, array $args)
 	{
 		$function = 'image' . $name;
 		if (!function_exists($function)) {

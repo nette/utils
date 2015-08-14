@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette\Utils;
 
 use Nette;
@@ -34,7 +36,7 @@ class Json
 	 * @param  int  accepts Json::PRETTY
 	 * @return string
 	 */
-	public static function encode($value, $options = 0)
+	public static function encode($value, int $options = 0): string
 	{
 		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0);
 
@@ -54,7 +56,7 @@ class Json
 	 * @param  int  accepts Json::FORCE_ARRAY
 	 * @return mixed
 	 */
-	public static function decode($json, $options = 0)
+	public static function decode(string $json, int $options = 0)
 	{
 		$json = (string) $json;
 		if (defined('JSON_C_VERSION') && !preg_match('##u', $json)) {

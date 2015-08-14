@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette\Utils;
 
 use Nette;
@@ -21,7 +23,7 @@ class FileSystem
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function createDir($dir, $mode = 0777)
+	public static function createDir(string $dir, int $mode = 0777)
 	{
 		if (!is_dir($dir) && !@mkdir($dir, $mode, TRUE)) { // intentionally @; not atomic
 			throw new Nette\IOException("Unable to create directory '$dir'.");
@@ -34,7 +36,7 @@ class FileSystem
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function copy($source, $dest, $overwrite = TRUE)
+	public static function copy(string $source, string $dest, bool $overwrite = TRUE)
 	{
 		if (stream_is_local($source) && !file_exists($source)) {
 			throw new Nette\IOException("File or directory '$source' not found.");
@@ -69,7 +71,7 @@ class FileSystem
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function delete($path)
+	public static function delete(string $path)
 	{
 		if (is_file($path) || is_link($path)) {
 			$func = DIRECTORY_SEPARATOR === '\\' && is_dir($path) ? 'rmdir' : 'unlink';
@@ -94,7 +96,7 @@ class FileSystem
 	 * @throws Nette\IOException
 	 * @throws Nette\InvalidStateException if the target file or directory already exist
 	 */
-	public static function rename($name, $newName, $overwrite = TRUE)
+	public static function rename(string $name, string $newName, bool $overwrite = TRUE)
 	{
 		if (!$overwrite && file_exists($newName)) {
 			throw new Nette\InvalidStateException("File or directory '$newName' already exists.");
@@ -117,7 +119,7 @@ class FileSystem
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function write($file, $content, $mode = 0666)
+	public static function write(string $file, $content, int $mode = 0666)
 	{
 		static::createDir(dirname($file));
 		if (@file_put_contents($file, $content) === FALSE) { // @ is escalated to exception
@@ -133,7 +135,7 @@ class FileSystem
 	 * Is path absolute?
 	 * @return bool
 	 */
-	public static function isAbsolute($path)
+	public static function isAbsolute(string $path): bool
 	{
 		return (bool) preg_match('#([a-z]:)?[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
 	}
