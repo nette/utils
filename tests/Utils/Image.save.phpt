@@ -20,8 +20,8 @@ $main = Image::fromFile('images/logo.gif');
 
 
 Assert::exception(function () use ($main) { // invalid image type
-	$main->save('foo', NULL, 'jpg');
-}, 'Nette\InvalidArgumentException', 'Unsupported image type \'jpg\'.');
+	$main->save('foo', NULL, IMG_WBMP);
+}, 'Nette\InvalidArgumentException', sprintf('Unsupported image type \'%d\'.', IMG_WBMP));
 
 
 Assert::exception(function () use ($main) { // invalid file extension

@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-ini_set('pcre.backtrack_limit', 3); // forces PREG_BACKTRACK_LIMIT_ERROR
+ini_set('pcre.backtrack_limit', '3'); // forces PREG_BACKTRACK_LIMIT_ERROR
 
 Assert::exception(function () {
 	Strings::split('0123456789', '#.*\d\d#');

@@ -17,13 +17,13 @@ use Nette\MemberAccessException;
 class ObjectMixin
 {
 	/** @var array (name => 0 | bool | array)  used by getMethods() */
-	private static $methods;
+	private static $methods = [];
 
 	/** @var array (name => 'event' | TRUE)  used by hasProperty() */
-	private static $props;
+	private static $props = [];
 
 	/** @var array (name => [type => callback])  used by get|setExtensionMethod() */
-	private static $extMethods;
+	private static $extMethods = [];
 
 
 	/**
@@ -258,7 +258,7 @@ class ObjectMixin
 			(?: [^\s(]+  [ \t]+ )?
 			(set|get|is|add)  ([A-Z]\w*)  [ \t]*
 			(?: \(  [ \t]* ([^)$\s]+)  )?
-		()~mx', $rc->getDocComment(), $matches, PREG_SET_ORDER);
+		()~mx', (string) $rc->getDocComment(), $matches, PREG_SET_ORDER);
 
 		$methods = [];
 		foreach ($matches as $m) {
@@ -270,10 +270,10 @@ class ObjectMixin
 				if ($op === 'get' || $op === 'is') {
 					$type = NULL;
 					$op = 'get';
-				} elseif (!$type && preg_match('#@var[ \t]+(\S+)' . ($op === 'add' ? '\[\]#' : '#'), $rp->getDocComment(), $m)) {
+				} elseif (!$type && preg_match('#@var[ \t]+(\S+)' . ($op === 'add' ? '\[\]#' : '#'), (string) $rp->getDocComment(), $m)) {
 					$type = $m[1];
 				}
-				if ($rc->inNamespace() && preg_match('#^[A-Z]\w+(\[|\||\z)#', $type)) {
+				if ($rc->inNamespace() && preg_match('#^[A-Z]\w+(\[|\||\z)#', (string) $type)) {
 					$type = $rc->getNamespaceName() . '\\' . $type;
 				}
 				$methods[$name] = [$op, $rp, $type];

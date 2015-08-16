@@ -102,7 +102,7 @@ class Arrays
 	 */
 	public static function insertBefore(array & $arr, $key, array $inserted)
 	{
-		$offset = self::searchKey($arr, $key);
+		$offset = (int) self::searchKey($arr, $key);
 		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
 	}
 
@@ -177,7 +177,7 @@ class Arrays
 	{
 		$parts = is_array($path)
 			? $path
-			: preg_split('#(\[\]|->|=|\|)#', $path, NULL, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+			: preg_split('#(\[\]|->|=|\|)#', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
 		if (!$parts || $parts[0] === '=' || $parts[0] === '|' || $parts === ['->']) {
 			throw new Nette\InvalidArgumentException("Invalid path '$path'.");

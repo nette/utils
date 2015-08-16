@@ -55,7 +55,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	public static function el($name = NULL, $attrs = NULL)
 	{
 		$el = new static;
-		$parts = explode(' ', $name, 2);
+		$parts = explode(' ', (string) $name, 2);
 		$el->setName($parts[0]);
 
 		if (is_array($attrs)) {
@@ -175,7 +175,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * Overloaded setter for element's attribute.
 	 * @param  string  HTML attribute name
 	 * @param  array   (string) HTML attribute value or pair?
-	 * @return self
+	 * @return mixed
 	 */
 	public function __call($m, $args)
 	{
@@ -219,7 +219,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	public function href($path, $query = NULL)
 	{
 		if ($query) {
-			$query = http_build_query($query, NULL, '&');
+			$query = http_build_query($query, '', '&');
 			if ($query !== '') {
 				$path .= '?' . $query;
 			}
