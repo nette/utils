@@ -205,7 +205,7 @@ class Strings
 		if ($lower) {
 			$s = strtolower($s);
 		}
-		$s = preg_replace('#[^a-z0-9' . preg_quote($charlist, '#') . ']+#i', '-', $s);
+		$s = preg_replace('#[^a-z0-9' . ($charlist !== NULL ? preg_quote($charlist, '#') : '') . ']+#i', '-', $s);
 		$s = trim($s, '-');
 		return $s;
 	}
@@ -388,7 +388,7 @@ class Strings
 	{
 		$length = max(0, $length - self::length($s));
 		$padLen = self::length($pad);
-		return str_repeat($pad, $length / $padLen) . self::substring($pad, 0, $length % $padLen) . $s;
+		return str_repeat($pad, (int) ($length / $padLen)) . self::substring($pad, 0, $length % $padLen) . $s;
 	}
 
 
@@ -403,7 +403,7 @@ class Strings
 	{
 		$length = max(0, $length - self::length($s));
 		$padLen = self::length($pad);
-		return $s . str_repeat($pad, $length / $padLen) . self::substring($pad, 0, $length % $padLen);
+		return $s . str_repeat($pad, (int) ($length / $padLen)) . self::substring($pad, 0, $length % $padLen);
 	}
 
 

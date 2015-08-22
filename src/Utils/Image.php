@@ -321,15 +321,15 @@ class Image extends Nette\Object
 	 */
 	public static function calculateSize($srcWidth, $srcHeight, $newWidth, $newHeight, $flags = self::FIT)
 	{
-		if (substr($newWidth, -1) === '%') {
-			$newWidth = round($srcWidth / 100 * abs($newWidth));
+		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
+			$newWidth = (int) round($srcWidth / 100 * abs($newWidth));
 			$percents = TRUE;
 		} else {
 			$newWidth = (int) abs($newWidth);
 		}
 
-		if (substr($newHeight, -1) === '%') {
-			$newHeight = round($srcHeight / 100 * abs($newHeight));
+		if (is_string($newHeight) && substr($newHeight, -1) === '%') {
+			$newHeight = (int) round($srcHeight / 100 * abs($newHeight));
 			$flags |= empty($percents) ? 0 : self::STRETCH;
 		} else {
 			$newHeight = (int) abs($newHeight);
@@ -341,8 +341,8 @@ class Image extends Nette\Object
 			}
 
 			if ($flags & self::SHRINK_ONLY) {
-				$newWidth = round($srcWidth * min(1, $newWidth / $srcWidth));
-				$newHeight = round($srcHeight * min(1, $newHeight / $srcHeight));
+				$newWidth = (int) round($srcWidth * min(1, $newWidth / $srcWidth));
+				$newHeight = (int) round($srcHeight * min(1, $newHeight / $srcHeight));
 			}
 
 		} else {  // proportional
@@ -368,11 +368,11 @@ class Image extends Nette\Object
 			}
 
 			$scale = min($scale);
-			$newWidth = round($srcWidth * $scale);
-			$newHeight = round($srcHeight * $scale);
+			$newWidth = (int) round($srcWidth * $scale);
+			$newHeight = (int) round($srcHeight * $scale);
 		}
 
-		return [max((int) $newWidth, 1), max((int) $newHeight, 1)];
+		return [max($newWidth, 1), max($newHeight, 1)];
 	}
 
 
@@ -406,17 +406,17 @@ class Image extends Nette\Object
 	 */
 	public static function calculateCutout($srcWidth, $srcHeight, $left, $top, $newWidth, $newHeight)
 	{
-		if (substr($newWidth, -1) === '%') {
-			$newWidth = round($srcWidth / 100 * $newWidth);
+		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
+			$newWidth = (int) round($srcWidth / 100 * $newWidth);
 		}
-		if (substr($newHeight, -1) === '%') {
-			$newHeight = round($srcHeight / 100 * $newHeight);
+		if (is_string($newHeight) && substr($newHeight, -1) === '%') {
+			$newHeight = (int) round($srcHeight / 100 * $newHeight);
 		}
-		if (substr($left, -1) === '%') {
-			$left = round(($srcWidth - $newWidth) / 100 * $left);
+		if (is_string($left) && substr($left, -1) === '%') {
+			$left = (int) round(($srcWidth - $newWidth) / 100 * $left);
 		}
-		if (substr($top, -1) === '%') {
-			$top = round(($srcHeight - $newHeight) / 100 * $top);
+		if (is_string($top) && substr($top, -1) === '%') {
+			$top = (int) round(($srcHeight - $newHeight) / 100 * $top);
 		}
 		if ($left < 0) {
 			$newWidth += $left;
@@ -426,8 +426,8 @@ class Image extends Nette\Object
 			$newHeight += $top;
 			$top = 0;
 		}
-		$newWidth = min((int) $newWidth, $srcWidth - $left);
-		$newHeight = min((int) $newHeight, $srcHeight - $top);
+		$newWidth = min($newWidth, $srcWidth - $left);
+		$newHeight = min($newHeight, $srcHeight - $top);
 		return [$left, $top, $newWidth, $newHeight];
 	}
 
@@ -459,12 +459,12 @@ class Image extends Nette\Object
 	{
 		$opacity = max(0, min(100, (int) $opacity));
 
-		if (substr($left, -1) === '%') {
-			$left = round(($this->getWidth() - $image->getWidth()) / 100 * $left);
+		if (is_string($left) && substr($left, -1) === '%') {
+			$left = (int) round(($this->getWidth() - $image->getWidth()) / 100 * $left);
 		}
 
-		if (substr($top, -1) === '%') {
-			$top = round(($this->getHeight() - $image->getHeight()) / 100 * $top);
+		if (is_string($top) && substr($top, -1) === '%') {
+			$top = (int) round(($this->getHeight() - $image->getHeight()) / 100 * $top);
 		}
 
 		if ($opacity === 100) {

@@ -19,4 +19,4 @@ Assert::same(['hell'], Strings::match('hello world!', '#[e-l]+#'));
 
 Assert::same([['hell', 0]], Strings::match('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE));
 
-Assert::same(['ll'], Strings::match('hello world!', '#[e-l]+#', NULL, 2));
+Assert::same(['ll'], Strings::match('hello world!', '#[e-l]+#', 0, 2));
