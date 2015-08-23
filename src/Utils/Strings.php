@@ -335,10 +335,10 @@ class Strings
 	 * @param  string|array
 	 * @return string
 	 */
-	public static function findPrefix($strings)
+	public static function findPrefix(...$strings)
 	{
-		if (!is_array($strings)) {
-			$strings = func_get_args();
+		if (is_array($strings[0])) {
+			$strings = $strings[0];
 		}
 		$first = array_shift($strings);
 		for ($i = 0; $i < strlen($first); $i++) {
