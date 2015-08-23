@@ -16,14 +16,14 @@ Assert::same('"ok"', Json::encode('ok'));
 
 Assert::exception(function () {
 	Json::encode(["bad utf\xFF"]);
-}, 'Nette\Utils\JsonException', '%a?%Invalid UTF-8 sequence%a?%');
+}, Nette\Utils\JsonException::class, '%a?%Invalid UTF-8 sequence%a?%');
 
 
 Assert::exception(function () {
 	$arr = ['recursive'];
 	$arr[] = & $arr;
 	Json::encode($arr);
-}, 'Nette\Utils\JsonException', '%a?%ecursion detected');
+}, Nette\Utils\JsonException::class, '%a?%ecursion detected');
 
 
 // default JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES
@@ -37,5 +37,5 @@ Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], Json::PRETTY
 if (PHP_VERSION_ID >= 50500) {
 	Assert::exception(function () {
 		Json::encode(NAN);
-	}, 'Nette\Utils\JsonException', 'Inf and NaN cannot be JSON encoded');
+	}, Nette\Utils\JsonException::class, 'Inf and NaN cannot be JSON encoded');
 }

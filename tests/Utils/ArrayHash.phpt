@@ -84,7 +84,7 @@ test(function () {
 			'c' => 'John',
 		],
 	], FALSE);
-	Assert::type('Nette\Utils\ArrayHash', $list);
+	Assert::type(Nette\Utils\ArrayHash::class, $list);
 	Assert::type('array', $list['children']);
 });
 
@@ -98,10 +98,10 @@ test(function () {
 			'c' => 'John',
 		],
 	]);
-	Assert::type('Nette\Utils\ArrayHash', $list);
+	Assert::type(Nette\Utils\ArrayHash::class, $list);
 	Assert::same($mary, $list['m']);
 	Assert::same('Jack', $list['j']);
-	Assert::type('Nette\Utils\ArrayHash', $list['children']);
+	Assert::type(Nette\Utils\ArrayHash::class, $list['children']);
 	Assert::same('John', $list['children']['c']);
 
 	$list['children']['c'] = 'Jim';

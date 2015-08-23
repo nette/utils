@@ -24,22 +24,22 @@ Assert::same(['a' => 1], Json::decode('{"a":1}', Json::FORCE_ARRAY));
 
 Assert::exception(function () {
 	Json::decode('{');
-}, 'Nette\Utils\JsonException', 'Syntax error, malformed JSON');
+}, Nette\Utils\JsonException::class, 'Syntax error, malformed JSON');
 
 
 Assert::exception(function () {
 	Json::decode('{}}');
-}, 'Nette\Utils\JsonException', 'Syntax error, malformed JSON');
+}, Nette\Utils\JsonException::class, 'Syntax error, malformed JSON');
 
 
 Assert::exception(function () {
 	Json::decode("\x00");
-}, 'Nette\Utils\JsonException', defined('JSON_C_VERSION') ? 'Syntax error, malformed JSON' : 'Unexpected control character found');
+}, Nette\Utils\JsonException::class, defined('JSON_C_VERSION') ? 'Syntax error, malformed JSON' : 'Unexpected control character found');
 
 
 Assert::exception(function () {
 	Json::decode('{"\u0000": 1}');
-}, 'Nette\Utils\JsonException', 'Unexpected control character found');
+}, Nette\Utils\JsonException::class, 'Unexpected control character found');
 
 
 Assert::same(["\x00" => 1], Json::decode('{"\u0000": 1}', Json::FORCE_ARRAY));
@@ -49,7 +49,7 @@ Assert::equal((object) ["\"\x00" => 1], Json::decode('{"\"\u0000": 1}'));
 
 Assert::exception(function () {
 	Json::decode("\"\xC1\xBF\"");
-}, 'Nette\Utils\JsonException', 'Invalid UTF-8 sequence');
+}, Nette\Utils\JsonException::class, 'Invalid UTF-8 sequence');
 
 
 // default JSON_BIGINT_AS_STRING

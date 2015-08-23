@@ -47,10 +47,10 @@ Assert::same(2, $rm->getNumberOfParameters());
 Assert::exception(function () {
 	$obj = new TestClass;
 	$method = $obj->protectedMethod;
-}, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$protectedMethod.');
+}, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$protectedMethod.');
 
 
 Assert::exception(function () {
 	$obj = new TestClass;
 	$method = $obj->privateMethod;
-}, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$privateMethod.');
+}, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$privateMethod.');

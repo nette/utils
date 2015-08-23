@@ -27,7 +27,7 @@ class Validators extends Nette\Object
 		'string' => 'is_string',
 		'unicode' => [__CLASS__, 'isUnicode'],
 		'array' => 'is_array',
-		'list' => ['Nette\Utils\Arrays', 'isList'],
+		'list' => [Arrays::class, 'isList'],
 		'object' => 'is_object',
 		'resource' => 'is_resource',
 		'scalar' => 'is_scalar',
@@ -51,7 +51,7 @@ class Validators extends Nette\Object
 
 	protected static $counters = [
 		'string' => 'strlen',
-		'unicode' => ['Nette\Utils\Strings', 'length'],
+		'unicode' => [Strings::class, 'length'],
 		'array' => 'count',
 		'list' => 'count',
 		'alnum' => 'strlen',

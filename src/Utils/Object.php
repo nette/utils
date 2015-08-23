@@ -58,7 +58,7 @@ abstract class Object
 	 */
 	public static function getReflection()
 	{
-		$class = class_exists('Nette\Reflection\ClassType') ? 'Nette\Reflection\ClassType' : 'ReflectionClass';
+		$class = class_exists(Nette\Reflection\ClassType::class) ? Nette\Reflection\ClassType::class : 'ReflectionClass';
 		return new $class(get_called_class());
 	}
 

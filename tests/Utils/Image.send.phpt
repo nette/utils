@@ -21,4 +21,4 @@ $main = Image::fromFile('images/logo.gif');
 
 Assert::exception(function () use ($main) { // invalid image type
 	$main->send(IMG_WBMP);
-}, 'Nette\InvalidArgumentException', sprintf('Unsupported image type \'%d\'.', IMG_WBMP));
+}, Nette\InvalidArgumentException::class, sprintf('Unsupported image type \'%d\'.', IMG_WBMP));

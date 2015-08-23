@@ -37,9 +37,9 @@ Assert::same('hello', $obj->getA());
 
 Assert::exception(function () use ($obj) {
 	$obj->setC(123);
-}, 'Nette\MemberAccessException', 'Call to undefined method ChildClass::setC().');
+}, Nette\MemberAccessException::class, 'Call to undefined method ChildClass::setC().');
 
 
 Assert::exception(function () use ($obj) {
 	$obj->setB(123);
-}, 'Nette\MemberAccessException', 'Call to undefined method ChildClass::setB().');
+}, Nette\MemberAccessException::class, 'Call to undefined method ChildClass::setB().');

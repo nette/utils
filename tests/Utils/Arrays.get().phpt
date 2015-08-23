@@ -27,7 +27,7 @@ test(function () use ($arr) { // Single item
 	Assert::same('x', Arrays::get($arr, 'undefined', 'x'));
 	Assert::exception(function () use ($arr) {
 		Arrays::get($arr, 'undefined');
-	}, 'Nette\InvalidArgumentException', "Missing item 'undefined'.");
+	}, Nette\InvalidArgumentException::class, "Missing item 'undefined'.");
 });
 
 

@@ -26,17 +26,17 @@ test(function () {
 
 Assert::exception(function () {
 	Image::fromFile('images/missing.png');
-}, 'Nette\Utils\UnknownImageFileException', "File 'images/missing.png' not found.");
+}, Nette\Utils\UnknownImageFileException::class, "File 'images/missing.png' not found.");
 
 
 Assert::exception(function () {
 	Image::fromFile('images/logo.tiff');
-}, 'Nette\Utils\UnknownImageFileException', "Unknown type of file 'images/logo.tiff'.");
+}, Nette\Utils\UnknownImageFileException::class, "Unknown type of file 'images/logo.tiff'.");
 
 
 Assert::exception(function () {
 	Image::fromFile('images/bad.gif');
-}, 'Nette\Utils\ImageException', '%a% not a valid GIF file');
+}, Nette\Utils\ImageException::class, '%a% not a valid GIF file');
 
 
 test(function () {
@@ -56,4 +56,4 @@ test(function () {
 
 Assert::exception(function () {
 	Image::fromString('abcdefg');
-}, 'Nette\Utils\ImageException');
+}, Nette\Utils\ImageException::class);

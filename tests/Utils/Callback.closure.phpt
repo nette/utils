@@ -84,7 +84,7 @@ test(function () { // global function
 
 	Assert::exception(function () {
 		Callback::closure('undefined');
-	}, 'Nette\InvalidArgumentException', "Callback 'undefined' is not callable.");
+	}, Nette\InvalidArgumentException::class, "Callback 'undefined' is not callable.");
 
 	Assert::exception(function () {
 		Callback::toReflection('undefined');

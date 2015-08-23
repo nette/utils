@@ -38,17 +38,17 @@ test(function () {
 	Assert::exception(function () {
 		$obj = new TestClass(123);
 		$obj->public();
-	}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::public().');
+	}, Nette\MemberAccessException::class, 'Call to undefined method TestClass::public().');
 
 
 	Assert::exception(function () {
 		$obj = new TestClass(function () {});
 		$obj->protected();
-	}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::protected().');
+	}, Nette\MemberAccessException::class, 'Call to undefined method TestClass::protected().');
 
 
 	Assert::exception(function () {
 		$obj = new TestClass(function () {});
 		$obj->private();
-	}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::private().');
+	}, Nette\MemberAccessException::class, 'Call to undefined method TestClass::private().');
 });

@@ -40,9 +40,9 @@ Assert::same('Test::ref', $ref);
 
 Assert::exception(function () {
 	Callback::invoke('undefined');
-}, 'Nette\InvalidArgumentException', "Callback 'undefined' is not callable.");
+}, Nette\InvalidArgumentException::class, "Callback 'undefined' is not callable.");
 
 
 Assert::exception(function () {
 	Callback::invokeArgs('undefined');
-}, 'Nette\InvalidArgumentException', "Callback 'undefined' is not callable.");
+}, Nette\InvalidArgumentException::class, "Callback 'undefined' is not callable.");
