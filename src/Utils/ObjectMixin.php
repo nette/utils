@@ -261,8 +261,7 @@ class ObjectMixin
 		()~mx', (string) $rc->getDocComment(), $matches, PREG_SET_ORDER);
 
 		$methods = [];
-		foreach ($matches as $m) {
-			list(, $op, $prop, $type) = $m;
+		foreach ($matches as list(, $op, $prop, $type)) {
 			$name = $op . $prop;
 			$prop = strtolower($prop[0]) . substr($prop, 1) . ($op === 'add' ? 's' : '');
 			if ($rc->hasProperty($prop) && ($rp = $rc->getProperty($prop)) && !$rp->isStatic()) {
