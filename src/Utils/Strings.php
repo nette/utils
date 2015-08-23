@@ -16,6 +16,9 @@ use Nette;
 class Strings
 {
 
+	const TRIM_CHARACTERS = " \t\n\r\0\x0B\xC2\xA0";
+
+
 	/**
 	 * Static class - cannot be instantiated.
 	 */
@@ -370,7 +373,7 @@ class Strings
 	 * @param  string
 	 * @return string
 	 */
-	public static function trim($s, $charlist = " \t\n\r\0\x0B\xC2\xA0")
+	public static function trim($s, $charlist = self::TRIM_CHARACTERS)
 	{
 		$charlist = preg_quote($charlist, '#');
 		return self::replace($s, '#^['.$charlist.']+|['.$charlist.']+\z#u', '');
