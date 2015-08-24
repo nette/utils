@@ -19,13 +19,13 @@ class DateTime extends \DateTime implements \JsonSerializable
 	const MINUTE = 60;
 
 	/** hour in seconds */
-	const HOUR = 3600;
+	const HOUR = 60 * self::MINUTE;
 
 	/** day in seconds */
-	const DAY = 86400;
+	const DAY = 24 * self::HOUR;
 
 	/** week in seconds */
-	const WEEK = 604800;
+	const WEEK = 7 * self::DAY;
 
 	/** average month in seconds */
 	const MONTH = 2629800;
