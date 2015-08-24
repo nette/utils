@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\DateTime::createFromFormat().
+ * Test: Nette\Utils\DateTime::createFromFormat().
  */
 
 use Tester\Assert;
