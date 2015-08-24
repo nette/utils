@@ -36,12 +36,12 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 	/**
 	 * DateTime object factory.
-	 * @param  string|int|\DateTime
+	 * @param  string|int|\DateTimeInterface
 	 * @return self
 	 */
 	public static function from($time)
 	{
-		if ($time instanceof \DateTime || $time instanceof \DateTimeInterface) {
+		if ($time instanceof \DateTimeInterface) {
 			return new static($time->format('Y-m-d H:i:s'), $time->getTimezone());
 
 		} elseif (is_numeric($time)) {
