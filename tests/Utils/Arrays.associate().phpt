@@ -193,14 +193,30 @@ Assert::same(
 
 // allowes objects in keys
 Assert::equal(
-	['2014-02-05 00:00:00' => new DateTime('2014-02-05')],
+	['2014-02-05 nette' => new Foo('2014-02-05')],
 	Arrays::associate($arr = [
-		['date' => new DateTime('2014-02-05')],
+		['date' => new Foo('2014-02-05')],
 	], 'date=date')
 );
 Assert::equal(
-	(object) ['2014-02-05 00:00:00' => new DateTime('2014-02-05')],
+	(object) ['2014-02-05 nette' => new Foo('2014-02-05')],
 	Arrays::associate($arr = [
-		['date' => new DateTime('2014-02-05')],
+		['date' => new Foo('2014-02-05')],
 	], '->date=date')
 );
+
+
+class Foo
+{
+	private $value;
+
+	public function __construct($value)
+	{
+		$this->value = $value;
+	}
+
+	public function __toString()
+	{
+		return $this->value . ' nette';
+	}
+}
