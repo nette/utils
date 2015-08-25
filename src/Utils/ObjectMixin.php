@@ -126,7 +126,7 @@ class ObjectMixin
 		if ($name === '') {
 			throw new MemberAccessException("Cannot read a class '$class' property without name.");
 
-		} elseif (isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname])) { // property getter
+		} elseif (isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname]) || isset($methods[$m = 'are' . $uname])) { // property getter
 			if ($methods[$m] === 0) {
 				$methods[$m] = (new \ReflectionMethod($class, $m))->returnsReference();
 			}
