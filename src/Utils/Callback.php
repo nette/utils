@@ -45,8 +45,8 @@ class Callback
 
 		self::check($callable);
 		$_callable_ = $callable;
-		return function () use ($_callable_) {
-			return call_user_func_array($_callable_, func_get_args());
+		return function (...$args) use ($_callable_) {
+			return $_callable_(...$args);
 		};
 	}
 
@@ -55,10 +55,10 @@ class Callback
 	 * Invokes callback.
 	 * @return mixed
 	 */
-	public static function invoke($callable)
+	public static function invoke($callable, ...$args)
 	{
 		self::check($callable);
-		return call_user_func_array($callable, array_slice(func_get_args(), 1));
+		return call_user_func_array($callable, $args);
 	}
 
 
@@ -87,13 +87,13 @@ class Callback
 			if ($file === __FILE__ && $onError(str_replace("$function(): ", '', $message), $severity) !== FALSE) {
 				return;
 			} elseif ($prev) {
-				return call_user_func_array($prev, func_get_args());
+				return $prev(...func_get_args());
 			}
 			return FALSE;
 		});
 
 		try {
-			$res = call_user_func_array($function, $args);
+			$res = $function(...$args);
 			restore_error_handler();
 			return $res;
 
