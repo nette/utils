@@ -12,8 +12,8 @@ require __DIR__ . '/../bootstrap.php';
 /**
  * @method self addItem()
  * @method self setItems()
- * @method getItems
- * @method getAbc
+ * @method getItems()
+ * @method getAbc()
  */
 class TestClass extends Nette\Object
 {
@@ -29,12 +29,17 @@ class TestClass extends Nette\Object
 Assert::exception(function () {
 	$obj = new TestClass;
 	$obj->setAbc();
-}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::setAbc().');
+}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::setAbc(), did you mean getAbc()?');
 
 Assert::exception(function () {
 	$obj = new TestClass;
 	$obj->abc();
 }, 'Nette\MemberAccessException', PHP_VERSION_ID != 50303 ? 'Call to undefined method parent::abc().' : 'Call to undefined static method TestClass::abc().'); // PHP bug #52713 (exclusive to PHP 5.3.3)
+
+Assert::exception(function () {
+	$obj = new TestClass;
+	$obj->adItem();
+}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::adItem(), did you mean addItem()?');
 
 
 // Wrong parameters count

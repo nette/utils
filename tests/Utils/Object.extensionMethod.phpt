@@ -32,3 +32,8 @@ Assert::same(
 	array(),
 	Nette\Utils\ObjectMixin::getExtensionMethods('Nette\Object')
 );
+
+Assert::exception(function () {
+	$obj = new TestClass;
+	$obj->joi();
+}, 'Nette\MemberAccessException', 'Call to undefined method TestClass::joi(), did you mean join()?');
