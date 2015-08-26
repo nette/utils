@@ -34,8 +34,6 @@ Assert::same('"\u2028\u2029"', Json::encode("\xe2\x80\xa8\xe2\x80\xa9"));
 Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], Json::PRETTY));
 
 
-if (PHP_VERSION_ID >= 50500) {
-	Assert::exception(function () {
-		Json::encode(NAN);
-	}, Nette\Utils\JsonException::class, 'Inf and NaN cannot be JSON encoded');
-}
+Assert::exception(function () {
+	Json::encode(NAN);
+}, Nette\Utils\JsonException::class, 'Inf and NaN cannot be JSON encoded');
