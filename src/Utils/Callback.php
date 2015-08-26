@@ -147,7 +147,7 @@ class Callback
 			$callable = $callable->getNative();
 		}
 
-		$class = class_exists('Nette\Reflection\Method') ? 'Nette\Reflection\Method' : 'ReflectionMethod';
+		$class = class_exists(Nette\Reflection\Method::class) ? Nette\Reflection\Method::class : 'ReflectionMethod';
 		if (is_string($callable) && strpos($callable, '::')) {
 			return new $class($callable);
 		} elseif (is_array($callable)) {
@@ -155,7 +155,7 @@ class Callback
 		} elseif (is_object($callable) && !$callable instanceof \Closure) {
 			return new $class($callable, '__invoke');
 		} else {
-			$class = class_exists('Nette\Reflection\GlobalFunction') ? 'Nette\Reflection\GlobalFunction' : 'ReflectionFunction';
+			$class = class_exists(Nette\Reflection\GlobalFunction::class) ? Nette\Reflection\GlobalFunction::class : 'ReflectionFunction';
 			return new $class($callable);
 		}
 	}

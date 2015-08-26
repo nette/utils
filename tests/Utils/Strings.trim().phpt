@@ -18,4 +18,4 @@ Assert::same('e',  Strings::trim("\xc5\x98e-", "\xc5\x98-")); // Ře-
 
 Assert::exception(function () {
 	Strings::trim("\xC2x\xA0");
-}, 'Nette\Utils\RegexpException', NULL);
+}, Nette\Utils\RegexpException::class, NULL);

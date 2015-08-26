@@ -65,7 +65,7 @@ Assert::same('hello world', $obj->foo);
 // Undeclared property writing
 Assert::exception(function () use ($obj) {
 	$obj->undeclared = 'value';
-}, 'Nette\MemberAccessException', 'Cannot write to an undeclared property TestClass::$undeclared.');
+}, Nette\MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$undeclared.');
 
 
 // Undeclared property reading
@@ -75,7 +75,7 @@ Assert::false(isset($obj->undeclared));
 
 Assert::exception(function () use ($obj) {
 	$val = $obj->s;
-}, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$s.');
+}, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$s.');
 
 
 // Read-only property
@@ -85,7 +85,7 @@ Assert::same('World', $obj->bar);
 
 Assert::exception(function () use ($obj) {
 	$obj->bar = 'value';
-}, 'Nette\MemberAccessException', 'Cannot write to a read-only property TestClass::$bar.');
+}, Nette\MemberAccessException::class, 'Cannot write to a read-only property TestClass::$bar.');
 
 
 // write-only property
@@ -96,4 +96,4 @@ Assert::same('World', $obj->bar);
 
 Assert::exception(function () use ($obj) {
 	$val = $obj->bazz;
-}, 'Nette\MemberAccessException', 'Cannot read a write-only property TestClass::$bazz.');
+}, Nette\MemberAccessException::class, 'Cannot read a write-only property TestClass::$bazz.');

@@ -21,9 +21,9 @@ $main = Image::fromFile('images/logo.gif');
 
 Assert::exception(function () use ($main) { // invalid image type
 	$main->save('foo', NULL, IMG_WBMP);
-}, 'Nette\InvalidArgumentException', sprintf('Unsupported image type \'%d\'.', IMG_WBMP));
+}, Nette\InvalidArgumentException::class, sprintf('Unsupported image type \'%d\'.', IMG_WBMP));
 
 
 Assert::exception(function () use ($main) { // invalid file extension
 	$main->save('foo.psd');
-}, 'Nette\InvalidArgumentException', 'Unsupported file extension \'psd\'.');
+}, Nette\InvalidArgumentException::class, 'Unsupported file extension \'psd\'.');

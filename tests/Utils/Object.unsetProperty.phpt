@@ -40,5 +40,5 @@ test(function () {
 		$obj = new TestClass;
 		unset($obj->foo);
 		$val = $obj->foo;
-	}, 'Nette\MemberAccessException', 'Cannot read an undeclared property TestClass::$foo.');
+	}, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$foo.');
 });
