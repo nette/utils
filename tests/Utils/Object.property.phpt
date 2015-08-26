@@ -13,6 +13,8 @@ class TestClass extends Nette\Object
 {
 	private $foo, $bar;
 
+	public $declared;
+
 	function __construct($foo = NULL, $bar = NULL)
 	{
 		$this->foo = $foo;
@@ -65,7 +67,7 @@ Assert::same('hello world', $obj->foo);
 // Undeclared property writing
 Assert::exception(function () use ($obj) {
 	$obj->undeclared = 'value';
-}, Nette\MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$undeclared.');
+}, Nette\MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$undeclared, did you mean $declared?');
 
 
 // Undeclared property reading
@@ -74,8 +76,8 @@ Assert::false(isset($obj->s));
 Assert::false(isset($obj->undeclared));
 
 Assert::exception(function () use ($obj) {
-	$val = $obj->s;
-}, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$s.');
+	$val = $obj->undeclared;
+}, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$undeclared, did you mean $declared?');
 
 
 // Read-only property
