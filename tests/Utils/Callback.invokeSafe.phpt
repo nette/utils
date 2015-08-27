@@ -24,23 +24,23 @@ Assert::same('OK1', $res);
 
 
 // skipped error
-Callback::invokeSafe('trim', [[]], function () {});
+Callback::invokeSafe('preg_match', ['ab', 'foo'], function () {});
 Assert::same('OK1', $res);
 
 
 // ignored error
-Callback::invokeSafe('trim', [[]], function () {
+Callback::invokeSafe('preg_match', ['ab', 'foo'], function () {
 	return FALSE;
 });
-Assert::same('trim() expects parameter 1 to be string, array given', $res);
+Assert::same('preg_match(): Delimiter must not be alphanumeric or backslash', $res);
 
 
 // error -> exception
 Assert::exception(function () {
-	Callback::invokeSafe('trim', [[]], function ($message, $severity) {
+	Callback::invokeSafe('preg_match', ['ab', 'foo'], function ($message, $severity) {
 		throw new Exception($message, $severity);
 	});
-}, 'Exception', 'trim() expects parameter 1 to be string, array given', E_WARNING);
+}, 'Exception', 'Delimiter must not be alphanumeric or backslash', E_WARNING);
 
 trigger_error('OK2', E_USER_WARNING);
 Assert::same('OK2', $res);
