@@ -207,7 +207,7 @@ class Image extends Nette\Object
 		$image = imagecreatetruecolor($width, $height);
 		if (is_array($color)) {
 			$color += ['alpha' => 0];
-			$color = imagecolorallocatealpha($image, $color['red'], $color['green'], $color['blue'], $color['alpha']);
+			$color = imagecolorresolvealpha($image, $color['red'], $color['green'], $color['blue'], $color['alpha']);
 			imagealphablending($image, FALSE);
 			imagefilledrectangle($image, 0, 0, $width - 1, $height - 1, $color);
 			imagealphablending($image, TRUE);
@@ -603,6 +603,9 @@ class Image extends Nette\Object
 
 				} elseif (is_array($value) && isset($value['red'])) { // rgb
 					$args[$key] = imagecolorallocatealpha(
+						$this->image,
+						$value['red'], $value['green'], $value['blue'], $value['alpha']
+					) ?: imagecolorresolvealpha(
 						$this->image,
 						$value['red'], $value['green'], $value['blue'], $value['alpha']
 					);
