@@ -40,7 +40,10 @@ class Random
 		if (function_exists('openssl_random_pseudo_bytes')
 			&& (PHP_VERSION_ID >= 50400 || !defined('PHP_WINDOWS_VERSION_BUILD')) // slow in PHP 5.3 & Windows
 		) {
-			$bytes = openssl_random_pseudo_bytes($length);
+			$bytes = openssl_random_pseudo_bytes($length, $secure);
+			if (!$secure) {
+				$bytes = '';
+			}
 		}
 		if (strlen($bytes) < $length && function_exists('mcrypt_create_iv') && (PHP_VERSION_ID >= 50307 || !$windows)) { // PHP bug #52523
 			$bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
