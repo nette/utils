@@ -36,7 +36,10 @@ class Random
 			$bytes = (string) random_bytes($length);
 		}
 		if (strlen($bytes) < $length && function_exists('openssl_random_pseudo_bytes')) {
-			$bytes = (string) openssl_random_pseudo_bytes($length);
+			$bytes = (string) openssl_random_pseudo_bytes($length, $secure);
+			if (!$secure) {
+				$bytes = '';
+			}
 		}
 		if (strlen($bytes) < $length && function_exists('mcrypt_create_iv')) {
 			$bytes = (string) mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
