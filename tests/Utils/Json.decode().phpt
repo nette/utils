@@ -13,7 +13,6 @@ require __DIR__ . '/../bootstrap.php';
 
 Assert::same('ok', Json::decode('"ok"'));
 Assert::null(Json::decode('null'));
-Assert::null(Json::decode('NULL'));
 Assert::null(Json::decode(' null'));
 
 
@@ -24,6 +23,11 @@ Assert::same(['a' => 1], Json::decode('{"a":1}', Json::FORCE_ARRAY));
 Assert::exception(function () {
 	Json::decode('');
 }, Nette\Utils\JsonException::class, 'Syntax error');
+
+
+Assert::exception(function () {
+	Json::decode('NULL');
+}, Nette\Utils\JsonException::class, 'Syntax error, malformed JSON');
 
 
 Assert::exception(function () {
