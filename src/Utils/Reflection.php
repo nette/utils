@@ -38,7 +38,7 @@ class Reflection
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func)
 	{
-		if (PHP_VERSION_ID >= 70000 && $func->hasReturnType()) {
+		if ($func->hasReturnType()) {
 			$type = (string) $func->getReturnType();
 			return strtolower($type) === 'self' ? $func->getDeclaringClass()->getName() : $type;
 		}
@@ -50,20 +50,9 @@ class Reflection
 	 */
 	public static function getParameterType(\ReflectionParameter $param)
 	{
-		if (PHP_VERSION_ID >= 70000) {
-			$type = $param->hasType() ? (string) $param->getType() : NULL;
+		if ($param->hasType()) {
+			$type = (string) $param->getType();
 			return strtolower($type) === 'self' ? $param->getDeclaringClass()->getName() : $type;
-		} elseif ($param->isArray() || $param->isCallable()) {
-			return $param->isArray() ? 'array' : 'callable';
-		} else {
-			try {
-				return ($ref = $param->getClass()) ? $ref->getName() : NULL;
-			} catch (\ReflectionException $e) {
-				if (preg_match('#Class (.+) does not exist#', $e->getMessage(), $m)) {
-					return $m[1];
-				}
-				throw $e;
-			}
 		}
 	}
 

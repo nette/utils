@@ -2,7 +2,6 @@
 
 /**
  * Test: Parsing PHP 7 group use statements.
- * @phpVersion 7
  */
 
 use Nette\Utils\Reflection;
