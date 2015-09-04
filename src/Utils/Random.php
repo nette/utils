@@ -26,9 +26,9 @@ class Random
 			return ''; // random_bytes and mcrypt_create_iv do not support zero length
 		}
 
-		$charlist = preg_replace_callback('#.-.#', function (array $m) {
+		$charlist = count_chars(preg_replace_callback('#.-.#', function (array $m) {
 			return implode('', range($m[0][0], $m[0][2]));
-		}, $charlist);
+		}, $charlist), 3);
 		$chLen = strlen($charlist);
 
 		$bytes = $res = '';
