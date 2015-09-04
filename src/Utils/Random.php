@@ -31,11 +31,16 @@ class Random
 		}, $charlist), 3);
 		$chLen = strlen($charlist);
 
-		$bytes = $res = '';
+		$res = '';
 		if (PHP_VERSION_ID >= 70000) {
-			$bytes = (string) random_bytes($length);
+			for ($i = 0; $i < $length; $i++) {
+				$res .= $charlist[random_int(0, $chLen - 1)];
+			}
+			return $res;
 		}
-		if (strlen($bytes) < $length && function_exists('openssl_random_pseudo_bytes')) {
+
+		$bytes = '';
+		if (function_exists('openssl_random_pseudo_bytes')) {
 			$bytes = (string) openssl_random_pseudo_bytes($length, $secure);
 			if (!$secure) {
 				$bytes = '';
