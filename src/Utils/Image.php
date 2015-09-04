@@ -390,13 +390,7 @@ class Image
 	{
 		list($r['x'], $r['y'], $r['width'], $r['height'])
 			= static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
-		if (PHP_VERSION_ID > 50611) { // PHP bug #67447
-			$this->image = imagecrop($this->image, $r);
-		} else {
-			$newImage = static::fromBlank($r['width'], $r['height'], self::RGB(0, 0, 0, 127))->getImageResource();
-			imagecopy($newImage, $this->image, 0, 0, $r['x'], $r['y'], $r['width'], $r['height']);
-			$this->image = $newImage;
-		}
+		$this->image = imagecrop($this->image, $r);
 		return $this;
 	}
 
@@ -574,9 +568,6 @@ class Image
 		try {
 			return $this->toString();
 		} catch (\Throwable $e) {
-		} catch (\Exception $e) {
-		}
-		if (isset($e)) {
 			if (func_num_args()) {
 				throw $e;
 			}
