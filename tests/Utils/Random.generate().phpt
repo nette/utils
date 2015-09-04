@@ -21,3 +21,13 @@ Assert::truthy(preg_match('#^[0-9]+$#', Random::generate(1000, '0-9')));
 Assert::truthy(preg_match('#^[0a-z12]+$#', Random::generate(1000, '0a-z12')));
 Assert::truthy(preg_match('#^[-a]+$#', Random::generate(1000, '-a')));
 Assert::truthy(preg_match('#^[0]+$#', Random::generate(1000, '000')));
+
+// frequency check
+$length = 1e6;
+$delta = 0.1;
+$s = Nette\Utils\Random::generate($length, "\x01-\xFF");
+$freq = count_chars($s);
+Assert::same(0, $freq[0]);
+for ($i = 1; $i < 255; $i++) {
+	Assert::true($freq[$i] < $length / 255 * (1 + $delta) && $freq[$i] > $length / 255 * (1 - $delta));
+}
