@@ -2,7 +2,6 @@
 
 /**
  * Test: Nette\Utils\Reflection::getReturnType
- * @phpversion 7
  */
 
 namespace NS

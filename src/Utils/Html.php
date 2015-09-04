@@ -559,9 +559,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		try {
 			return $this->render();
 		} catch (\Throwable $e) {
-		} catch (\Exception $e) {
+			trigger_error("Exception in " . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 		}
-		trigger_error("Exception in " . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 	}
 
 

@@ -2,7 +2,6 @@
 
 /**
  * Test: Ingnoring PHP 7 non-class use statements.
- * @phpVersion 7
  */
 
 use Nette\Utils\Reflection;

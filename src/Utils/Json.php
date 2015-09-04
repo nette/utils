@@ -55,22 +55,7 @@ class Json
 	public static function decode($json, $options = 0)
 	{
 		$forceArray = (bool) ($options & self::FORCE_ARRAY);
-		$flags = JSON_BIGINT_AS_STRING;
-
-		if (PHP_VERSION_ID < 70000) {
-			$json = (string) $json;
-			if ($json === '') {
-				throw new JsonException('Syntax error');
-			} elseif (!$forceArray && preg_match('#(?<=[^\\\\]")\\\\u0000(?:[^"\\\\]|\\\\.)*+"\s*+:#', $json)) {
-				throw new JsonException('The decoded property name is invalid'); // fatal error when object key starts with \u0000
-			} elseif (defined('JSON_C_VERSION') && !preg_match('##u', $json)) {
-				throw new JsonException('Invalid UTF-8 sequence', 5);
-			} elseif (defined('JSON_C_VERSION') && PHP_INT_SIZE === 8) {
-				$flags &= ~JSON_BIGINT_AS_STRING; // not implemented in PECL JSON-C 1.3.2 for 64bit systems
-			}
-		}
-
-		$value = json_decode($json, $forceArray, 512, $flags);
+		$value = json_decode($json, $forceArray, 512, JSON_BIGINT_AS_STRING);
 		if ($error = json_last_error()) {
 			throw new JsonException(json_last_error_msg(), $error);
 		}

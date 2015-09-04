@@ -454,7 +454,7 @@ class Strings
 		$pos = self::pos($haystack, $needle, $nth);
 		return $pos === FALSE
 			? FALSE
-			: (string) substr($haystack, $pos + strlen($needle));
+			: substr($haystack, $pos + strlen($needle));
 	}
 
 
