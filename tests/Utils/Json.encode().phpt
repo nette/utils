@@ -16,7 +16,7 @@ Assert::same('"ok"', Json::encode('ok'));
 
 Assert::exception(function () {
 	Json::encode(["bad utf\xFF"]);
-}, Nette\Utils\JsonException::class, '%a?%Invalid UTF-8 sequence%a?%');
+}, Nette\Utils\JsonException::class, 'Malformed UTF-8 characters, possibly incorrectly encoded');
 
 
 Assert::exception(function () {

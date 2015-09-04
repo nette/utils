@@ -27,27 +27,27 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	Json::decode('NULL');
-}, Nette\Utils\JsonException::class, 'Syntax error, malformed JSON');
+}, Nette\Utils\JsonException::class, 'Syntax error');
 
 
 Assert::exception(function () {
 	Json::decode('{');
-}, Nette\Utils\JsonException::class, 'Syntax error, malformed JSON');
+}, Nette\Utils\JsonException::class, 'Syntax error');
 
 
 Assert::exception(function () {
 	Json::decode('{}}');
-}, Nette\Utils\JsonException::class, 'Syntax error, malformed JSON');
+}, Nette\Utils\JsonException::class, PHP_VERSION_ID < 70000 ? 'State mismatch (invalid or malformed JSON)' : 'Syntax error');
 
 
 Assert::exception(function () {
 	Json::decode("\x00");
-}, Nette\Utils\JsonException::class, defined('JSON_C_VERSION') ? 'Syntax error, malformed JSON' : 'Unexpected control character found');
+}, Nette\Utils\JsonException::class, defined('JSON_C_VERSION') ? 'Syntax error' : 'Control character error, possibly incorrectly encoded');
 
 
 Assert::exception(function () {
 	Json::decode('{"\u0000": 1}');
-}, Nette\Utils\JsonException::class, 'Unexpected control character found');
+}, Nette\Utils\JsonException::class, 'The decoded property name is invalid');
 
 
 Assert::same(["\x00" => 1], Json::decode('{"\u0000": 1}', Json::FORCE_ARRAY));
@@ -57,7 +57,7 @@ Assert::equal((object) ["\"\x00" => 1], Json::decode('{"\"\u0000": 1}'));
 
 Assert::exception(function () {
 	Json::decode("\"\xC1\xBF\"");
-}, Nette\Utils\JsonException::class, 'Invalid UTF-8 sequence');
+}, Nette\Utils\JsonException::class, 'Malformed UTF-8 characters, possibly incorrectly encoded');
 
 
 // default JSON_BIGINT_AS_STRING

@@ -18,15 +18,6 @@ class Json
 	const FORCE_ARRAY = 0b0001;
 	const PRETTY = 0b0010;
 
-	/** @var array */
-	private static $messages = [
-		JSON_ERROR_DEPTH => 'The maximum stack depth has been exceeded',
-		JSON_ERROR_STATE_MISMATCH => 'Syntax error, malformed JSON',
-		JSON_ERROR_CTRL_CHAR => 'Unexpected control character found',
-		JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON',
-		JSON_ERROR_UTF8 => 'Invalid UTF-8 sequence',
-	];
-
 
 	/**
 	 * Static class - cannot be instantiated.
@@ -48,10 +39,8 @@ class Json
 		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0);
 
 		$json = json_encode($value, $flags);
-
 		if ($error = json_last_error()) {
-			$message = isset(static::$messages[$error]) ? static::$messages[$error] : json_last_error_msg();
-			throw new JsonException($message, $error);
+			throw new JsonException(json_last_error_msg(), $error);
 		}
 
 		$json = str_replace(["\xe2\x80\xa8", "\xe2\x80\xa9"], ['\u2028', '\u2029'], $json);
@@ -75,18 +64,14 @@ class Json
 		}
 
 		$forceArray = (bool) ($options & self::FORCE_ARRAY);
-		if (!$forceArray && preg_match('#(?<=[^\\\\]")\\\\u0000(?:[^"\\\\]|\\\\.)*+"\s*+:#', $json)) { // workaround for json_decode fatal error when object key starts with \u0000
-			throw new JsonException(static::$messages[JSON_ERROR_CTRL_CHAR]);
+		if (PHP_VERSION_ID < 70000 && !$forceArray && preg_match('#(?<=[^\\\\]")\\\\u0000(?:[^"\\\\]|\\\\.)*+"\s*+:#', $json)) {
+			throw new JsonException('The decoded property name is invalid'); // workaround for json_decode fatal error when object key starts with \u0000
 		}
-		$args = [$json, $forceArray, 512];
-		if (!defined('JSON_C_VERSION') || PHP_INT_SIZE === 4) { // not implemented in PECL JSON-C 1.3.2 for 64bit systems
-			$args[] = JSON_BIGINT_AS_STRING;
-		}
-		$value = json_decode(...$args);
+		$flags = !defined('JSON_C_VERSION') || PHP_INT_SIZE === 4 ? JSON_BIGINT_AS_STRING : 0; // not implemented in PECL JSON-C 1.3.2 for 64bit systems
 
-		if ($value === NULL && $json !== '' && trim($json, " \t\n\r") !== 'null') { // '' is not clearing json_last_error
-			$error = json_last_error();
-			throw new JsonException(isset(static::$messages[$error]) ? static::$messages[$error] : 'Unknown error', $error);
+		$value = json_decode($json, $forceArray, 512, $flags);
+		if ($error = json_last_error()) {
+			throw new JsonException(json_last_error_msg(), $error);
 		}
 		return $value;
 	}
