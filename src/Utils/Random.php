@@ -7,6 +7,8 @@
 
 namespace Nette\Utils;
 
+use Nette;
+
 
 /**
  * Secure random string generator.
@@ -22,14 +24,16 @@ class Random
 	 */
 	public static function generate($length = 10, $charlist = '0-9a-z')
 	{
-		if ($length === 0) {
-			return ''; // random_bytes and mcrypt_create_iv do not support zero length
-		}
-
 		$charlist = count_chars(preg_replace_callback('#.-.#', function (array $m) {
 			return implode('', range($m[0][0], $m[0][2]));
 		}, $charlist), 3);
 		$chLen = strlen($charlist);
+
+		if ($length < 1) {
+			throw new Nette\InvalidArgumentException('Length must be greater than zero.');
+		} elseif ($chLen < 2) {
+			throw new Nette\InvalidArgumentException('Character list must contain as least two chars.');
+		}
 
 		$res = '';
 		if (PHP_VERSION_ID >= 70000) {
