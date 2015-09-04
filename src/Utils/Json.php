@@ -70,6 +70,8 @@ class Json
 		$json = (string) $json;
 		if (defined('JSON_C_VERSION') && !preg_match('##u', $json)) {
 			throw new JsonException('Invalid UTF-8 sequence', 5);
+		} elseif ($json === '') { // for PHP < 7
+			throw new JsonException('Syntax error');
 		}
 
 		$forceArray = (bool) ($options & self::FORCE_ARRAY);

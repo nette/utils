@@ -12,7 +12,6 @@ require __DIR__ . '/../bootstrap.php';
 
 
 Assert::same('ok', Json::decode('"ok"'));
-Assert::null(Json::decode(''));
 Assert::null(Json::decode('null'));
 Assert::null(Json::decode('NULL'));
 Assert::null(Json::decode(' null'));
@@ -20,6 +19,11 @@ Assert::null(Json::decode(' null'));
 
 Assert::equal((object) ['a' => 1], Json::decode('{"a":1}'));
 Assert::same(['a' => 1], Json::decode('{"a":1}', Json::FORCE_ARRAY));
+
+
+Assert::exception(function () {
+	Json::decode('');
+}, Nette\Utils\JsonException::class, 'Syntax error');
 
 
 Assert::exception(function () {
