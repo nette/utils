@@ -26,17 +26,27 @@ class Random
 	 */
 	public static function generate($length = 10, $charlist = '0-9a-z')
 	{
-		if ($length === 0) {
-			return ''; // mcrypt_create_iv does not support zero length
-		}
-
 		$charlist = count_chars(preg_replace_callback('#.-.#', function ($m) {
 			return implode('', range($m[0][0], $m[0][2]));
 		}, $charlist), 3);
 		$chLen = strlen($charlist);
 
+		if ($length < 1) {
+			return ''; // mcrypt_create_iv does not support zero length
+		} elseif ($chLen < 2) {
+			return str_repeat($charlist, $length); // random_int does not support empty interval
+		}
+
+		$res = '';
+		if (PHP_VERSION_ID >= 70000) {
+			for ($i = 0; $i < $length; $i++) {
+				$res .= $charlist[random_int(0, $chLen - 1)];
+			}
+			return $res;
+		}
+
 		$windows = defined('PHP_WINDOWS_VERSION_BUILD');
-		$bytes = $res = '';
+		$bytes = '';
 		if (function_exists('openssl_random_pseudo_bytes')
 			&& (PHP_VERSION_ID >= 50400 || !defined('PHP_WINDOWS_VERSION_BUILD')) // slow in PHP 5.3 & Windows
 		) {
