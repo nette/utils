@@ -388,4 +388,21 @@ class ObjectMixin
 		return $cache = FALSE;
 	}
 
+
+	/**
+	 * Returns extension methods.
+	 * @param  string
+	 * @return array
+	 */
+	public static function getExtensionMethods($class)
+	{
+		$res = array();
+		foreach (array_keys(self::$extMethods) as $name) {
+			if ($cb = self::getExtensionMethod($class, $name)) {
+				$res[$name] = $cb;
+			}
+		}
+		return $res;
+	}
+
 }
