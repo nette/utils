@@ -35,8 +35,18 @@ function ISecond_join(ISecond $that, $separator)
 }
 
 
-Object::extensionMethod('IFirst::join', 'IFirst_join');
 Object::extensionMethod('ISecond::join', 'ISecond_join');
+Object::extensionMethod('IFirst::join', 'IFirst_join');
 
 $obj = new TestClass;
 Assert::same('ISecond_join says Hello*World', $obj->join('*'));
+
+Assert::same(
+	['join' => 'ISecond_join'],
+	Nette\Utils\ObjectMixin::getExtensionMethods(TestClass::class)
+);
+
+Assert::same(
+	['join' => 'IFirst_join'],
+	Nette\Utils\ObjectMixin::getExtensionMethods(IFirst::class)
+);
