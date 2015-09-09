@@ -277,12 +277,15 @@ class ObjectMixin
 		preg_match_all('~^
 			[ \t*]*  @method  [ \t]+
 			(?: [^\s(]+  [ \t]+ )?
-			(set|get|is|add)  ([A-Z]\w*)  [ \t]*
-			(?: \(  [ \t]* ([^)$\s]+)  )?
+			(set|get|is|add)  ([A-Z]\w*)
+			(?: ([ \t]* \()  [ \t]* ([^)$\s]*)  )?
 		()~mx', (string) $rc->getDocComment(), $matches, PREG_SET_ORDER);
 
 		$methods = [];
-		foreach ($matches as list(, $op, $prop, $type)) {
+		foreach ($matches as list(, $op, $prop, $bracket, $type)) {
+			if ($bracket !== '(') {
+				trigger_error("Bracket must be immediately after @method $op$prop() in class $class.", E_USER_WARNING);
+			}
 			$name = $op . $prop;
 			$prop = strtolower($prop[0]) . substr($prop, 1) . ($op === 'add' ? 's' : '');
 			if ($rc->hasProperty($prop) && ($rp = $rc->getProperty($prop)) && !$rp->isStatic()) {

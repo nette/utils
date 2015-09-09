@@ -19,8 +19,8 @@ require __DIR__ . '/../bootstrap.php';
  * @method getName()
  * @method addItem()
  * @method self setItems()
- * @method getItems
- * @method setEnabled (bool)
+ * @method getItems()
+ * @method setEnabled(bool)
  */
 class TestClass extends Nette\Object
 {
