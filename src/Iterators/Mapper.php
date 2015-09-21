@@ -28,7 +28,7 @@ class Mapper extends \IteratorIterator
 
 	public function current()
 	{
-		return call_user_func($this->callback, parent::current(), parent::key());
+		return ($this->callback)(parent::current(), parent::key());
 	}
 
 }

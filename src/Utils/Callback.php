@@ -59,7 +59,7 @@ class Callback
 	public static function invoke($callable, ...$args)
 	{
 		self::check($callable);
-		return call_user_func_array($callable, $args);
+		return $callable(...$args);
 	}
 
 
@@ -70,7 +70,7 @@ class Callback
 	public static function invokeArgs($callable, array $args = [])
 	{
 		self::check($callable);
-		return call_user_func_array($callable, $args);
+		return $callable(...$args);
 	}
 
 

@@ -101,7 +101,7 @@ test(function () { // closure
 	Assert::same($closure, Callback::unwrap($closure));
 	Assert::same('{closure}', Callback::toString($closure));
 	Assert::same('{closure}', getName(Callback::toReflection($closure)));
-	Assert::same('{closure}', call_user_func_array(Callback::closure($closure), [&$res]));
+	Assert::same('{closure}', Callback::closure($closure)(...[&$res]));
 	Assert::same('{closure}', $res);
 });
 
@@ -142,7 +142,7 @@ test(function () { // object methods
 
 	Assert::same('Test::privateFun*', Callback::closure($test, 'privateFun')->__invoke('*'));
 
-	Assert::same('Test::ref', call_user_func_array(Callback::closure($test, 'ref'), [&$res]));
+	Assert::same('Test::ref', Callback::closure($test, 'ref')(...[&$res]));
 	Assert::same('Test::ref', $res);
 });
 
