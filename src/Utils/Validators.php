@@ -130,7 +130,7 @@ class Validators
 
 			list($type) = $item = explode(':', $item, 2);
 			if (isset(static::$validators[$type])) {
-				if (!call_user_func(static::$validators[$type], $value)) {
+				if (!static::$validators[$type]($value)) {
 					continue;
 				}
 			} elseif ($type === 'pattern') {
@@ -145,7 +145,7 @@ class Validators
 			if (isset($item[1])) {
 				$length = $value;
 				if (isset(static::$counters[$type])) {
-					$length = call_user_func(static::$counters[$type], $value);
+					$length = static::$counters[$type]($value);
 				}
 				$range = explode('..', $item[1]);
 				if (!isset($range[1])) {
