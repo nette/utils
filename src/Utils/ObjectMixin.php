@@ -113,7 +113,7 @@ class ObjectMixin
 			}
 
 		} elseif ($isProp && $_this->$name instanceof \Closure) { // closure in property
-			return call_user_func_array($_this->$name, $args);
+			return ($_this->$name)(...$args);
 
 		} elseif (($methods = &self::getMethods($class)) && isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
 			list($op, $rp, $type) = $methods[$name];
@@ -412,7 +412,7 @@ class ObjectMixin
 			case 'callable':
 			case 'resource':
 			case 'null':
-				return call_user_func("is_$type", $val);
+				return ("is_$type")($val);
 			default:
 				return $val instanceof $type;
 		}
