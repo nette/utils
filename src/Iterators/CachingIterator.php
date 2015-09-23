@@ -22,9 +22,6 @@ use Nette\Utils\ObjectMixin;
  * @property-read int $counter
  * @property-read mixed $nextKey
  * @property-read mixed $nextValue
- * @property-read $innerIterator
- * @property   $flags
- * @property-read $cache
  */
 class CachingIterator extends \CachingIterator implements \Countable
 {
