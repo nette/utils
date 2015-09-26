@@ -47,6 +47,7 @@ use Nette;
  * @method void copyMergeGray(Image $src, $dstX, $dstY, $srcX, $srcY, $srcW, $srcH, $opacity)
  * @method void copyResampled(Image $src, $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH)
  * @method void copyResized(Image $src, $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH)
+ * @method Image cropAuto(int $mode = -1, float $threshold = .5, int $color = -1)
  * @method void dashedLine($x1, $y1, $x2, $y2, $color)
  * @method void ellipse($cx, $cy, $w, $h, $color)
  * @method void fill($x, $y, $color)
@@ -56,6 +57,7 @@ use Nette;
  * @method void filledRectangle($x1, $y1, $x2, $y2, $color)
  * @method void fillToBorder($x, $y, $border, $color)
  * @method void filter($filtertype)
+ * @method void flip(int $mode)
  * @method array ftText($size, $angle, $x, $y, $col, string $fontFile, string $text, array $extrainfo = NULL)
  * @method void gammaCorrect(float $inputgamma, float $outputgamma)
  * @method int interlace($interlace = NULL)
@@ -63,11 +65,13 @@ use Nette;
  * @method void layerEffect($effect)
  * @method void line($x1, $y1, $x2, $y2, $color)
  * @method void paletteCopy(Image $source)
+ * @method void paletteToTrueColor()
  * @method void polygon(array $points, $numPoints, $color)
  * @method array psText(string $text, $font, $size, $color, $backgroundColor, $x, $y, $space = NULL, $tightness = NULL, float $angle = NULL, $antialiasSteps = NULL)
  * @method void rectangle($x1, $y1, $x2, $y2, $col)
  * @method Image rotate(float $angle, $backgroundColor)
  * @method void saveAlpha(bool $saveflag)
+ * @method Image scale(int $newWidth, int $newHeight = -1, int $mode = IMG_BILINEAR_FIXED)
  * @method void setBrush(Image $brush)
  * @method void setPixel($x, $y, $color)
  * @method void setStyle(array $style)
@@ -297,14 +301,8 @@ class Image extends Nette\Object
 			$this->image = $newImage;
 		}
 
-		if ($width < 0 || $height < 0) { // flip is processed in two steps for better quality
-			$newImage = static::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
-			imagecopyresampled(
-				$newImage, $this->image,
-				0, 0, $width < 0 ? $newWidth - 1 : 0, $height < 0 ? $newHeight - 1 : 0,
-				$newWidth, $newHeight, $width < 0 ? -$newWidth : $newWidth, $height < 0 ? -$newHeight : $newHeight
-			);
-			$this->image = $newImage;
+		if ($width < 0 || $height < 0) {
+			imageflip($this->image, $width < 0 ? ($height < 0 ? IMG_FLIP_BOTH : IMG_FLIP_HORIZONTAL) : IMG_FLIP_VERTICAL);
 		}
 		return $this;
 	}
@@ -386,10 +384,15 @@ class Image extends Nette\Object
 	 */
 	public function crop($left, $top, $width, $height)
 	{
-		list($left, $top, $width, $height) = static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
-		$newImage = static::fromBlank($width, $height, self::RGB(0, 0, 0, 127))->getImageResource();
-		imagecopy($newImage, $this->image, 0, 0, $left, $top, $width, $height);
-		$this->image = $newImage;
+		list($r['x'], $r['y'], $r['width'], $r['height'])
+			= static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
+		if (PHP_VERSION_ID > 50611) { // PHP bug #67447
+			$this->image = imagecrop($this->image, $r);
+		} else {
+			$newImage = static::fromBlank($r['width'], $r['height'], self::RGB(0, 0, 0, 127))->getImageResource();
+			imagecopy($newImage, $this->image, 0, 0, $r['x'], $r['y'], $r['width'], $r['height']);
+			$this->image = $newImage;
+		}
 		return $this;
 	}
 
