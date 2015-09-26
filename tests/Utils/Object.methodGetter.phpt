@@ -31,6 +31,9 @@ class TestClass extends Nette\Object
 	{
 	}
 
+	public function getWithoutParameters()
+	{}
+
 }
 
 
@@ -54,3 +57,9 @@ Assert::exception(function () {
 	$obj = new TestClass;
 	$method = $obj->privateMethod;
 }, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$privateMethod.');
+
+
+Assert::error(function () {
+	$obj = new TestClass;
+	$method = $obj->getWithoutParameters;
+}, E_USER_WARNING, 'Did you forgot parentheses after getWithoutParameters in ' . __FILE__ . ':' . (__LINE__ - 1) . '?');
