@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object magic @methods inheritance.
+ * @phpVersion 5.3.2
  */
 
 use Tester\Assert;
