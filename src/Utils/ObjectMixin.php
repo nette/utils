@@ -148,6 +148,16 @@ class ObjectMixin
 			}
 
 		} elseif (isset($methods[$name])) { // public method as closure getter
+			if (preg_match('#^(is|get|has)([A-Z]|$)#', $name) && !(new \ReflectionMethod($class, $name))->getNumberOfRequiredParameters()) {
+				$source = '';
+				foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $item) {
+					if (isset($item['file']) && dirname($item['file']) !== __DIR__) {
+						$source = " in $item[file]:$item[line]";
+						break;
+					}
+				}
+				trigger_error("Did you forgot parentheses after $name$source?", E_USER_WARNING);
+			}
 			$val = Callback::closure($_this, $name);
 			return $val;
 
