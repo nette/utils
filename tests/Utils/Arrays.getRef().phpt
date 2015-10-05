@@ -73,5 +73,5 @@ test(function () use ($arr) { // Error
 	Assert::exception(function () use ($arr) {
 		$dolly = $arr;
 		$item = & Arrays::getRef($dolly, [7, 'item', 3]);
-	}, 'InvalidArgumentException', 'Traversed item is not an array.');
+	}, InvalidArgumentException::class, 'Traversed item is not an array.');
 });

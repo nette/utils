@@ -61,11 +61,11 @@ test(function () {
 
 	Assert::exception(function () use ($list) {
 		unset($list[-1]);
-	}, 'OutOfRangeException', 'Offset invalid or out of range');
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
 
 	Assert::exception(function () use ($list) {
 		unset($list[2]);
-	}, 'OutOfRangeException', 'Offset invalid or out of range');
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
 
 	unset($list[1]);
 	Assert::same([

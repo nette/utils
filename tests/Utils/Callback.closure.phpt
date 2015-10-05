@@ -88,7 +88,7 @@ test(function () { // global function
 
 	Assert::exception(function () {
 		Callback::toReflection('undefined');
-	}, 'ReflectionException', 'Function undefined() does not exist');
+	}, ReflectionException::class, 'Function undefined() does not exist');
 });
 
 
@@ -191,9 +191,9 @@ test(function () { // magic methods
 
 	Assert::exception(function () {
 		Callback::toReflection([new Test, 'magic']);
-	}, 'ReflectionException', 'Method Test::magic() does not exist');
+	}, ReflectionException::class, 'Method Test::magic() does not exist');
 
 	Assert::exception(function () {
 		Callback::toReflection(Callback::closure(new Test, 'magic'));
-	}, 'ReflectionException', 'Method Test::magic() does not exist');
+	}, ReflectionException::class, 'Method Test::magic() does not exist');
 });
