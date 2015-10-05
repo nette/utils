@@ -42,7 +42,7 @@ class Circle extends Nette\Object
 
 Whereas the former code executed successfully (although it contained an error), the latter did not:
 
-![](http://files.nette.org/git/doc-2.1/debugger-circle.png)
+![](https://files.nette.org/git/doc-2.1/debugger-circle.png)
 
 Class `Nette\Object` made `Circle` more strict and threw an exception when you tried to access an undeclared property. And `Tracy\Debugger` displayed error message about it. Line of code with fatal typo is now highlighted and error message has meaningful description: *Cannot write to an undeclared property Circle::$raduis*. Programmer can now fix the mistake he might have otherwise missed and which could be a real pain to find later.
 
