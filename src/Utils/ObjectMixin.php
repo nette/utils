@@ -156,7 +156,7 @@ class ObjectMixin
 						break;
 					}
 				}
-				trigger_error("Did you forgot parentheses after $name$source?", E_USER_WARNING);
+				trigger_error("Did you forget parentheses after $name$source?", E_USER_WARNING);
 			}
 			$val = Callback::closure($_this, $name);
 			return $val;

@@ -62,4 +62,4 @@ Assert::exception(function () {
 Assert::error(function () {
 	$obj = new TestClass;
 	$method = $obj->getWithoutParameters;
-}, E_USER_WARNING, 'Did you forgot parentheses after getWithoutParameters in ' . __FILE__ . ':' . (__LINE__ - 1) . '?');
+}, E_USER_WARNING, 'Did you forget parentheses after getWithoutParameters in ' . __FILE__ . ':' . (__LINE__ - 1) . '?');
