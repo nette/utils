@@ -16,7 +16,7 @@ use Nette;
 class Json
 {
 	const FORCE_ARRAY = 0b0001;
-	const PRETTY = 0b0010;
+	const PRETTY = JSON_PRETTY_PRINT;
 
 
 	/**
@@ -36,9 +36,7 @@ class Json
 	 */
 	public static function encode($value, $options = 0)
 	{
-		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0);
-
-		$json = json_encode($value, $flags);
+		$json = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | $options);
 		if ($error = json_last_error()) {
 			throw new JsonException(json_last_error_msg(), $error);
 		}
