@@ -572,6 +572,7 @@ class Strings
 	{
 		if (is_object($replacement) || is_array($replacement)) {
 			if ($replacement instanceof Nette\Callback) {
+				trigger_error('Nette\Callback is deprecated, use PHP callback.', E_USER_DEPRECATED);
 				$replacement = $replacement->getNative();
 			}
 			if (!is_callable($replacement, FALSE, $textual)) {

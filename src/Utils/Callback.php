@@ -144,6 +144,7 @@ class Callback
 		if ($callable instanceof \Closure) {
 			$callable = self::unwrap($callable);
 		} elseif ($callable instanceof Nette\Callback) {
+			trigger_error('Nette\Callback is deprecated.', E_USER_DEPRECATED);
 			$callable = $callable->getNative();
 		}
 
