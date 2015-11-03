@@ -8,6 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
+use function is_array, is_object, is_string;
 
 
 /**
