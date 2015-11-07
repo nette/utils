@@ -446,9 +446,9 @@ class ObjectMixin
 	public static function getSuggestion(array $items, $value)
 	{
 		$best = NULL;
-		$min = (int) (strlen($value) / 4) + 2;
+		$min = (strlen($value) / 4 + 1) * 10 + .1;
 		foreach (array_unique($items) as $item) {
-			if (($len = levenshtein($item, $value)) > 0 && $len < $min) {
+			if (($len = levenshtein($item, $value, 10, 11, 10)) > 0 && $len < $min) {
 				$min = $len;
 				$best = $item;
 			}
