@@ -498,6 +498,92 @@ class Image extends Nette\Object
 
 
 	/**
+	 * Merge two true colour images with variable opacity while maintaining alpha transparency of both images.
+	 * @param  Image
+	 * @param  mixed  x-coordinate of destination point
+	 * @param  mixed  y-coordinate of destination point
+	 * @param  mixed  x-coordinate of source point
+	 * @param  mixed  y-coordinate of source point
+	 * @param  mixed  source width
+	 * @param  mixed  source height
+	 * @param  int  opacity 0..100
+	 * @see  http://forums.devnetwork.net/viewtopic.php?f=1&t=103330#p553333
+	 */
+	public function copyMergeAlpha(Image $image, $dstX, $dstY, $srcX, $srcY, $srcWidth, $srcHeight, $opacity)
+	{
+		$opacity /= 100;
+		$opacity = max(min(1, $opacity), 0);
+
+		if ($opacity == 0) {
+			return $this;
+		}
+
+		if ($opacity < 1) {
+			$srcCopy = self::fromBlank($srcWidth, $srcHeight);
+			$srcCopy->alphaBlending(FALSE);
+			$srcCopy->saveAlpha(TRUE);
+			$srcCopy->copy($this->getImageResource(), 0, 0, $srcX, $srcY, $srcWidth, $srcHeight);
+
+			$maxTransparency = 0;
+
+			for ($y = 0; $y < $srcHeight; $y++) {
+				for ($x = 0; $x < $srcWidth; $x++) {
+					$srcC = $srcCopy->colorAt($x, $y);
+					$srcA = ($srcC >> 24) & 0xFF;
+					$maxTransparency = $srcA > $maxTransparency ? $srcA : $maxTransparency;
+				}
+			}
+
+			// src has no transparency? set it to use full alpha range
+			$maxTransparency = $maxTransparency == 0 ? 127 : $maxTransparency;
+
+			// $maxTransparency is now being reused as the correction factor to apply based on the original transparency range of src
+			$maxTransparency /= 127;
+
+			for ($y = 0; $y < $srcHeight; $y++) {
+				for ($x = 0; $x < $srcWidth; $x++) {
+					$srcC = $srcCopy->colorAt($srcX + $x, $srcY + $y);
+					$srcA = ($srcC >> 24) & 0xFF;
+					$srcR = ($srcC >> 16) & 0xFF;
+					$srcG = ($srcC >> 8) & 0xFF;
+					$srcB = ($srcC) & 0xFF;
+
+					// alpha channel compensation
+					$srcA = ($srcA + 127 - (127 * $opacity)) * $maxTransparency;
+					$srcA = ($srcA > 127) ? 127 : (int) $srcA;
+
+					// get and set this pixel's adjusted RGBA colour index
+					$rgba = $srcCopy->colorAllocateAlpha($srcR, $srcG, $srcB, $srcA);
+
+					// imagecolorallocatealpha returns -1 for PHP versions prior to 5.1.3 when allocation failed
+					if ($rgba === FALSE || $rgba == -1) {
+						$rgba = $srcCopy->colorClosestAlpha($srcR, $srcG, $srcB, $srcA);
+					}
+
+					$srcCopy->setPixel($x, $y, $rgba);
+				}
+			}
+
+			// call imagecopy passing our alpha adjusted image as src
+			$image->copy($srcCopy, $dstX, $dstY, 0, 0, $srcWidth, $srcHeight);
+
+			$this->setImageResource($image->getImageResource());
+
+			$srcCopy->destroy();
+
+			return $this;
+		}
+
+		// no opacity adjustment required so pass straight through to imagecopy rather than imagecopymerge to retain alpha channels
+		$image->copy($this->getImageResource(), $dstX, $dstY, $srcX, $srcY, $srcWidth, $srcHeight);
+
+		$this->setImageResource($image->getImageResource());
+
+		return $this;
+	}
+
+
+	/**
 	 * Saves image to the file.
 	 * @param  string  filename
 	 * @param  int  quality 0..100 (for JPEG and PNG)
