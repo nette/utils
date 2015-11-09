@@ -41,8 +41,13 @@ test(function () { // copy
 	FileSystem::copy(TEMP_DIR . '/3/file', TEMP_DIR . '/3/x/file');
 	Assert::same('Hello', file_get_contents(TEMP_DIR . '/3/x/file'));
 
-	FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/y/file');
-	Assert::true(is_file(TEMP_DIR . '/3/x/y/file'));
+	if (getenv('SKIP_ONLINE_TESTS')) {
+		FileSystem::copy(__FILE__, TEMP_DIR . '/3/x/y/file');
+		Assert::true(is_file(TEMP_DIR . '/3/x/y/file'));
+	} else {
+		FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/y/file');
+		Assert::true(is_file(TEMP_DIR . '/3/x/y/file'));
+	}
 
 	FileSystem::write(TEMP_DIR . '/5/newfile', 'World');
 
@@ -51,10 +56,17 @@ test(function () { // copy
 	}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
 	Assert::same('Hello', file_get_contents(TEMP_DIR . '/3/x/file'));
 
-	Assert::exception(function () {
-		FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/file', FALSE);
-	}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
-	Assert::same('Hello', file_get_contents(TEMP_DIR . '/3/x/file'));
+	if (getenv('SKIP_ONLINE_TESTS')) {
+		Assert::exception(function () {
+			FileSystem::copy(__FILE__, TEMP_DIR . '/3/x/file', FALSE);
+		}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
+		Assert::same('Hello', file_get_contents(TEMP_DIR . '/3/x/file'));
+	} else {
+		Assert::exception(function () {
+			FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/file', FALSE);
+		}, 'Nette\InvalidStateException', "File or directory '%a%' already exists.");
+		Assert::same('Hello', file_get_contents(TEMP_DIR . '/3/x/file'));
+	}
 
 	FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file');
 	Assert::same('World', file_get_contents(TEMP_DIR . '/3/x/file'));
