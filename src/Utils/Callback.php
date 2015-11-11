@@ -79,13 +79,14 @@ class Callback
 	 * @param  string
 	 * @return mixed
 	 */
-	public static function invokeSafe($function, array $args, $onError)
+	public static function invokeSafe($function, array $args, callable $onError, $checkReturnValue = TRUE)
 	{
-		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, & $prev, $function) {
+		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, & $prev, $function, & $checkReturnValue) {
 			if ($file === '' && defined('HHVM_VERSION')) { // https://github.com/facebook/hhvm/issues/4625
 				$file = func_get_arg(5)[1]['file'];
 			}
 			if ($file === __FILE__) {
+				$checkReturnValue = FALSE;
 				$msg = preg_replace("#^$function\(.*?\): #", '', $message);
 				if ($onError($msg, $severity) !== FALSE) {
 					return;
@@ -95,7 +96,11 @@ class Callback
 		});
 
 		try {
-			return $function(...$args);
+			$res = $function(...$args);
+			if ($checkReturnValue && $res === FALSE) {
+				$onError(NULL, NULL);
+			}
+			return $res;
 		} finally {
 			restore_error_handler();
 		}

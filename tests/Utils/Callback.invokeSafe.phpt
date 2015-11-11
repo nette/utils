@@ -24,15 +24,20 @@ Assert::same('OK1', $res);
 
 
 // skipped error
-Callback::invokeSafe('preg_match', ['ab', 'foo'], function () {});
+$counter = 0;
+Callback::invokeSafe('preg_match', ['ab', 'foo'], function () use (& $counter) { $counter++; });
 Assert::same('OK1', $res);
+Assert::same(1, $counter);
 
 
 // ignored error
-Callback::invokeSafe('preg_match', ['ab', 'foo'], function () {
+$counter = 0;
+Callback::invokeSafe('preg_match', ['ab', 'foo'], function () use (& $counter) {
+	$counter++;
 	return FALSE;
 });
 Assert::same('preg_match(): Delimiter must not be alphanumeric or backslash', $res);
+Assert::same(1, $counter);
 
 
 // error -> exception
@@ -65,3 +70,13 @@ Assert::exception(function () {
 
 trigger_error('OK3', E_USER_WARNING);
 Assert::same('OK3', $res);
+
+
+// checking return value
+$counter = 0;
+Callback::invokeSafe('strpos', ['a', 'b'], function () use (& $counter) { $counter++; });
+Assert::same(1, $counter);
+
+$counter = 0;
+Callback::invokeSafe('strpos', ['a', 'b'], function () use (& $counter) { $counter++; }, FALSE);
+Assert::same(0, $counter);
