@@ -84,12 +84,13 @@ class Callback
 			if ($file === '' && defined('HHVM_VERSION')) { // https://github.com/facebook/hhvm/issues/4625
 				$file = func_get_arg(5)[1]['file'];
 			}
-			if ($file === __FILE__ && $onError(str_replace("$function(): ", '', $message), $severity) !== FALSE) {
-				return;
-			} elseif ($prev) {
-				return $prev(...func_get_args());
+			if ($file === __FILE__) {
+				$msg = preg_replace("#^$function\(.*?\): #", '', $message);
+				if ($onError($msg, $severity) !== FALSE) {
+					return;
+				}
 			}
-			return FALSE;
+			return $prev ? $prev(...func_get_args()) : FALSE;
 		});
 
 		try {
