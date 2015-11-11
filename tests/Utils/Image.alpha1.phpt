@@ -33,4 +33,4 @@ $image = Image::fromBlank(200, 100, Image::rgb(255, 128, 0, 60));
 $image->crop(0, 0, '60%', '60%');
 $image->send(Image::PNG, 0);
 
-Assert::same(file_get_contents(__DIR__ . '/Image.alpha1.expect'), ob_get_clean());
+Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha1.png'), ob_get_clean());

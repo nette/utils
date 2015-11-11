@@ -30,11 +30,11 @@ $image->filledEllipse(187, 125, $radius, $radius, Image::rgb(0, 0, 255, 75));
 
 $image->copyResampled($image, 200, 200, 0, 0, 80, 80, $size, $size);
 
-Assert::same(file_get_contents(__DIR__ . '/Image.drawing.expect'), $image->toString(Image::PNG, 0));
+Assert::same(file_get_contents(__DIR__ . '/expected/Image.drawing.1.png'), $image->toString(Image::PNG, 0));
 
 
 // palette-based image
 $image = Image::fromFile(__DIR__.'/images/logo.gif');
 $image->filledEllipse(100, 50, 50, 50, Image::rgb(255, 255, 0, 75));
 $image->filledEllipse(100, 150, 50, 50, Image::rgb(255, 255, 0, 75));
-Assert::same(file_get_contents(__DIR__ . '/Image.drawing2.expect'), $image->toString(Image::PNG, 0));
+Assert::same(file_get_contents(__DIR__ . '/expected/Image.drawing.2.png'), $image->toString(Image::PNG, 0));
