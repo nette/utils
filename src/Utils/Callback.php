@@ -71,12 +71,13 @@ class Callback
 	public static function invokeSafe($function, array $args, $onError)
 	{
 		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, & $prev, $function) {
-			if ($file === __FILE__ && $onError(str_replace("$function(): ", '', $message), $severity) !== FALSE) {
-				return;
-			} elseif ($prev) {
-				return call_user_func_array($prev, func_get_args());
+			if ($file === __FILE__) {
+				$msg = preg_replace("#^$function\(.*?\): #", '', $message);
+				if ($onError($msg, $severity) !== FALSE) {
+					return;
+				}
 			}
-			return FALSE;
+			return $prev ? call_user_func_array($prev, func_get_args()) : FALSE;
 		});
 
 		try {
