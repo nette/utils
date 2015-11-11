@@ -58,9 +58,9 @@ class FileSystem
 
 		} else {
 			static::createDir(dirname($dest));
-			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === FALSE) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to copy file '$source' to '$dest'.");
-			}
+			Callback::invokeSafe('stream_copy_to_stream', [fopen($source, 'r'), fopen($dest, 'w')], function ($message) use ($source, $dest) {
+				throw new Nette\IOException("Unable to copy file '$source' to '$dest'. $message.");
+			});
 		}
 	}
 
@@ -74,17 +74,17 @@ class FileSystem
 	{
 		if (is_file($path) || is_link($path)) {
 			$func = DIRECTORY_SEPARATOR === '\\' && is_dir($path) ? 'rmdir' : 'unlink';
-			if (!@$func($path)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to delete '$path'.");
-			}
+			Callback::invokeSafe($func, [$path], function ($message) use ($path) {
+				throw new Nette\IOException("Unable to delete '$path'. $message.");
+			});
 
 		} elseif (is_dir($path)) {
 			foreach (new \FilesystemIterator($path) as $item) {
 				static::delete($item->getPathname());
 			}
-			if (!@rmdir($path)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to delete directory '$path'.");
-			}
+			Callback::invokeSafe('rmdir', [$path], function ($message) use ($path) {
+				throw new Nette\IOException("Unable to delete directory '$path'. $message.");
+			});
 		}
 	}
 
@@ -106,9 +106,9 @@ class FileSystem
 		} else {
 			static::createDir(dirname($newName));
 			static::delete($newName);
-			if (!@rename($name, $newName)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to rename file or directory '$name' to '$newName'.");
-			}
+			Callback::invokeSafe('rename', [$name, $newName], function ($message) use ($name, $newName) {
+				throw new Nette\IOException("Unable to rename file or directory '$name' to '$newName'. $message.");
+			});
 		}
 	}
 
@@ -136,11 +136,13 @@ class FileSystem
 	public static function write($file, $content, $mode = 0666)
 	{
 		static::createDir(dirname($file));
-		if (@file_put_contents($file, $content) === FALSE) { // @ is escalated to exception
-			throw new Nette\IOException("Unable to write file '$file'.");
-		}
-		if ($mode !== NULL && !@chmod($file, $mode)) { // @ is escalated to exception
-			throw new Nette\IOException("Unable to chmod file '$file'.");
+		Callback::invokeSafe('file_put_contents', [$file, $content], function ($message) use ($file) {
+			throw new Nette\IOException("Unable to write file '$file'. $message.");
+		});
+		if ($mode !== NULL) {
+			Callback::invokeSafe('chmod', [$file, $mode], function ($message) use ($file)  {
+				throw new Nette\IOException("Unable to chmod file '$file'. $message.");
+			});
 		}
 	}
 

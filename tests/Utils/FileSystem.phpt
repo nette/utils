@@ -123,7 +123,7 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	FileSystem::rename(TEMP_DIR . '/9', TEMP_DIR . '/9');
-}, Nette\IOException::class, "Unable to rename file or directory '%a%' to '%a%'.");
+}, Nette\IOException::class, "Unable to rename file or directory '%a%' to '%a%'. %a%.");
 
 
 test(function () { // isAbsolute
