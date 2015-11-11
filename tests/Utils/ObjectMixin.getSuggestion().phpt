@@ -23,7 +23,11 @@ Assert::same(NULL, ObjectMixin::getSuggestion(array('aaa', 'bbb'), 'abc'));
 Assert::same('bar', ObjectMixin::getSuggestion(array('foo', 'bar', 'baz'), 'baz'));
 Assert::same('abcd', ObjectMixin::getSuggestion(array('abcd'), 'acbd'));
 Assert::same('abcd', ObjectMixin::getSuggestion(array('abcd'), 'axbd'));
-Assert::same(NULL, ObjectMixin::getSuggestion(array('abcd'), 'axyd'));
+Assert::same(NULL, ObjectMixin::getSuggestion(array('abcd'), 'axyd')); // 'tags' vs 'this'
+Assert::same(NULL, ObjectMixin::getSuggestion(array('setItem'), 'item'));
+Assert::same('setItem', ObjectMixin::getSuggestion(array('setItem'), 'Item'));
+Assert::same('setItem', ObjectMixin::getSuggestion(array('setItem'), 'addItem'));
+Assert::same(NULL, ObjectMixin::getSuggestion(array('addItem'), 'addItem'));
 
 
 /*
