@@ -162,13 +162,18 @@ class Strings
 	 */
 	public static function toAscii($s)
 	{
+		static $transliterator = NULL;
+		if ($transliterator === NULL && class_exists('Transliterator', FALSE)) {
+			$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
+		}
+
 		$s = preg_replace('#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{2FF}\x{370}-\x{10FFFF}]#u', '', $s);
 		$s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
 		$s = str_replace(
 			["\xE2\x80\x9E", "\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9A", "\xE2\x80\x98", "\xE2\x80\x99", "\xC2\xB0"],
 			["\x03", "\x03", "\x03", "\x02", "\x02", "\x02", "\x04"], $s
 		);
-		if (class_exists('Transliterator') && $transliterator = \Transliterator::create('Any-Latin; Latin-ASCII')) {
+		if ($transliterator !== NULL) {
 			$s = $transliterator->transliterate($s);
 		}
 		if (ICONV_IMPL === 'glibc') {
