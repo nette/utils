@@ -310,3 +310,9 @@ test(function () {
 	Assert::true(Validators::is('Item', 'identifier'));
 	Assert::false(Validators::is('0Item', 'identifier'));
 });
+
+test(function () {
+	Assert::true(Validators::is('', 'string:0|email'));
+	Assert::true(Validators::is('foo@bar.com', 'string:0|email'));
+	Assert::false(Validators::is('foo', 'string:0|email'));
+});
