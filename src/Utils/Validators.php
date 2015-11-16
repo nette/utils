@@ -137,14 +137,15 @@ class Validators extends Nette\Object
 			}
 
 			if (isset($item[1])) {
+				$length = $value;
 				if (isset(static::$counters[$type])) {
-					$value = call_user_func(static::$counters[$type], $value);
+					$length = call_user_func(static::$counters[$type], $value);
 				}
 				$range = explode('..', $item[1]);
 				if (!isset($range[1])) {
 					$range[1] = $range[0];
 				}
-				if (($range[0] !== '' && $value < $range[0]) || ($range[1] !== '' && $value > $range[1])) {
+				if (($range[0] !== '' && $length < $range[0]) || ($range[1] !== '' && $length > $range[1])) {
 					continue;
 				}
 			}
