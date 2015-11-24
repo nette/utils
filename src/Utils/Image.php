@@ -563,7 +563,10 @@ class Image extends Nette\Object
 	{
 		try {
 			return $this->toString();
+		} catch (\Throwable $e) {
 		} catch (\Exception $e) {
+		}
+		if (isset($e)) {
 			if (func_num_args()) {
 				throw $e;
 			}
