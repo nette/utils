@@ -83,6 +83,9 @@ class Callback
 			restore_error_handler();
 			return $res;
 
+		} catch (\Throwable $e) {
+			restore_error_handler();
+			throw $e;
 		} catch (\Exception $e) {
 			restore_error_handler();
 			throw $e;
