@@ -549,7 +549,7 @@ class Image extends Nette\Object
 	 */
 	public function toString($type = self::JPEG, $quality = NULL)
 	{
-		ob_start();
+		ob_start(NULL, 0, PHP_OUTPUT_HANDLER_REMOVABLE);
 		$this->save(NULL, $quality, $type);
 		return ob_get_clean();
 	}
@@ -629,7 +629,7 @@ class Image extends Nette\Object
 
 	public function __clone()
 	{
-		ob_start();
+		ob_start(NULL, 0, PHP_OUTPUT_HANDLER_REMOVABLE);
 		imagegd2($this->image);
 		$this->setImageResource(imagecreatefromstring(ob_get_clean()));
 	}
