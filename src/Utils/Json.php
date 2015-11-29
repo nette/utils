@@ -36,7 +36,9 @@ class Json
 	 */
 	public static function encode($value, $options = 0)
 	{
-		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0);
+		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+			| ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)
+			| (PHP_VERSION_ID >= 50606 ? JSON_PRESERVE_ZERO_FRACTION : 0);
 
 		$json = json_encode($value, $flags);
 		if ($error = json_last_error()) {

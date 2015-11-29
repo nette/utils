@@ -37,3 +37,7 @@ Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], Json::PRETTY
 Assert::exception(function () {
 	Json::encode(NAN);
 }, Nette\Utils\JsonException::class, 'Inf and NaN cannot be JSON encoded');
+
+
+// JSON_PRESERVE_ZERO_FRACTION
+Assert::same(PHP_VERSION_ID < 50606 ? '1' : '1.0', Json::encode(1.0));
