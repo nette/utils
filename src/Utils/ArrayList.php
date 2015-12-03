@@ -99,4 +99,15 @@ class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \Itera
 		array_splice($this->list, (int) $index, 1);
 	}
 
+
+	/**
+	 * Prepends a item.
+	 * @param  mixed
+	 * @return void
+	 */
+	public function prepend($value)
+	{
+		array_unshift($this->list, $value);
+	}
+
 }

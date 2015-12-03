@@ -71,4 +71,7 @@ test(function () {
 	Assert::same([
 		$mary,
 	], iterator_to_array($list));
+
+	$list->prepend('First');
+	Assert::same('First', $list[0], 'Value "First" should be on the start of the array');
 });
