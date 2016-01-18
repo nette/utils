@@ -476,7 +476,12 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	public function __toString()
 	{
-		return $this->render();
+		try {
+			return $this->render();
+		} catch (\Throwable $e) {
+		} catch (\Exception $e) {
+		}
+		trigger_error("Exception in " . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 	}
 
 
