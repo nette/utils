@@ -24,22 +24,26 @@ Assert::exception(function () {
 }, Nette\IOException::class, "Unable to create directory ''.");
 
 
-test(function () { // write
+test(function () { // write + read
 	FileSystem::write(TEMP_DIR . '/2/file', 'Hello');
 	Assert::true(is_file(TEMP_DIR . '/2/file'));
-	Assert::same('Hello', file_get_contents(TEMP_DIR . '/2/file'));
+	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/2/file'));
 });
 
 Assert::exception(function () {
 	FileSystem::write('', 'Hello');
 }, Nette\IOException::class, "Unable to create directory ''.");
 
+Assert::exception(function () {
+	FileSystem::read('');
+}, Nette\IOException::class, "Unable to read file ''.");
+
 
 test(function () { // copy
 	FileSystem::write(TEMP_DIR . '/3/file', 'Hello');
 
 	FileSystem::copy(TEMP_DIR . '/3/file', TEMP_DIR . '/3/x/file');
-	Assert::same('Hello', file_get_contents(TEMP_DIR . '/3/x/file'));
+	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
 	FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/y/file');
 	Assert::true(is_file(TEMP_DIR . '/3/x/y/file'));
@@ -49,15 +53,15 @@ test(function () { // copy
 	Assert::exception(function () {
 		FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file', FALSE);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::same('Hello', file_get_contents(TEMP_DIR . '/3/x/file'));
+	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
 	Assert::exception(function () {
 		FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/file', FALSE);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::same('Hello', file_get_contents(TEMP_DIR . '/3/x/file'));
+	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
 	FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file');
-	Assert::same('World', file_get_contents(TEMP_DIR . '/3/x/file'));
+	Assert::same('World', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
 	Assert::exception(function () {
 		FileSystem::copy(TEMP_DIR . '/5', TEMP_DIR . '/3', FALSE);
@@ -90,21 +94,21 @@ test(function () { // rename
 	FileSystem::write(TEMP_DIR . '/8/file', 'Hello');
 	FileSystem::rename(TEMP_DIR . '/8', TEMP_DIR . '/9');
 	FileSystem::rename(TEMP_DIR . '/9/file', TEMP_DIR . '/9/x/file');
-	Assert::same('Hello', file_get_contents(TEMP_DIR . '/9/x/file'));
+	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/9/x/file'));
 
 	FileSystem::write(TEMP_DIR . '/8/newfile', 'World');
 	Assert::exception(function () {
 		FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file', FALSE);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::same('Hello', file_get_contents(TEMP_DIR . '/9/x/file'));
+	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/9/x/file'));
 	FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file');
-	Assert::same('World', file_get_contents(TEMP_DIR . '/9/x/file'));
+	Assert::same('World', FileSystem::read(TEMP_DIR . '/9/x/file'));
 
 	FileSystem::createDir(TEMP_DIR . '/10/');
 	Assert::exception(function () {
 		FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9', FALSE);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::same('World', file_get_contents(TEMP_DIR . '/9/x/file'));
+	Assert::same('World', FileSystem::read(TEMP_DIR . '/9/x/file'));
 
 	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9');
 	Assert::false(file_exists(TEMP_DIR . '/9/x/file'));

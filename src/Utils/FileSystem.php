@@ -113,6 +113,21 @@ class FileSystem
 
 
 	/**
+	 * Reads file content.
+	 * @return string
+	 * @throws Nette\IOException
+	 */
+	public static function read($file)
+	{
+		$content = @file_get_contents($file); // @ is escalated to exception
+		if ($content === FALSE) {
+			throw new Nette\IOException("Unable to read file '$file'.");
+		}
+		return $content;
+	}
+
+
+	/**
 	 * Writes a string to a file.
 	 * @return void
 	 * @throws Nette\IOException
