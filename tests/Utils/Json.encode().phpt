@@ -40,4 +40,4 @@ Assert::exception(function () {
 
 
 // JSON_PRESERVE_ZERO_FRACTION
-Assert::same(PHP_VERSION_ID < 50606 ? '1' : '1.0', Json::encode(1.0));
+Assert::same(defined('JSON_PRESERVE_ZERO_FRACTION') ? '1.0' : '1', Json::encode(1.0));

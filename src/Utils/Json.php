@@ -38,7 +38,7 @@ class Json
 	{
 		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
 			| ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)
-			| (PHP_VERSION_ID >= 50606 ? JSON_PRESERVE_ZERO_FRACTION : 0);
+			| (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0); // since PHP 5.6.6 & PECL JSON-C 1.3.7
 
 		$json = json_encode($value, $flags);
 		if ($error = json_last_error()) {
