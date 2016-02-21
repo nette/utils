@@ -330,7 +330,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Inserts child node.
-	 * @param  int|NULL position of NULL for appending
+	 * @param  int|NULL position or NULL for appending
 	 * @param  Html|string Html node or raw HTML string
 	 * @param  bool
 	 * @return self
@@ -356,7 +356,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Inserts (replaces) child node (\ArrayAccess implementation).
-	 * @param  int|NULL position of NULL for appending
+	 * @param  int|NULL position or NULL for appending
 	 * @param  Html|string Html node or raw HTML string
 	 * @return void
 	 */
@@ -412,7 +412,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
-	 * Removed all children.
+	 * Removes all children.
 	 * @return void
 	 */
 	public function removeChildren()
@@ -422,7 +422,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
-	 * Iterates over a elements.
+	 * Iterates over elements.
 	 * @return \ArrayIterator
 	 */
 	public function getIterator()
@@ -432,7 +432,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
-	 * Returns all of children.
+	 * Returns all children.
 	 * @return array
 	 */
 	public function getChildren()
