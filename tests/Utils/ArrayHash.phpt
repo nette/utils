@@ -181,3 +181,12 @@ test(function () { // undeclared fields
 		$row['undef'];
 	}, E_NOTICE, 'Undefined property: Nette\Utils\ArrayHash::$undef');
 });
+
+
+test(function () { // PHP 7 changed behavior https://3v4l.org/2A1pf
+	$hash = ArrayHash::from([1, 2, 3]);
+	foreach ($hash as $key => $value) {
+		unset($hash->$key);
+	}
+	Assert::count(0, $hash);
+});
