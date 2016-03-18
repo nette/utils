@@ -115,3 +115,69 @@ test(function () {
 		'c' => 'Jim',
 	], iterator_to_array(new RecursiveIteratorIterator($list, RecursiveIteratorIterator::SELF_FIRST)));
 });
+
+
+test(function () { // numeric fields
+	$row = ArrayHash::from([1, 2]);
+
+	foreach ($row as $key => $value) {
+		$keys[] = $key;
+	}
+	Assert::same(['0', '1'], $keys);
+
+	Assert::same(1, $row->{0});
+	Assert::same(1, $row->{'0'});
+	Assert::same(1, $row[0]);
+	Assert::same(1, $row['0']);
+	Assert::true(isset($row->{0}));
+	Assert::true(isset($row->{'0'}));
+	Assert::true(isset($row[0]));
+	Assert::true(isset($row['0']));
+
+	Assert::same(2, $row->{1});
+	Assert::same(2, $row->{'1'});
+	Assert::same(2, $row[1]);
+	Assert::same(2, $row['1']);
+	Assert::true(isset($row->{1}));
+	Assert::true(isset($row->{'1'}));
+	Assert::true(isset($row[1]));
+	Assert::true(isset($row['1']));
+
+	Assert::false(isset($row->{2}));
+	Assert::false(isset($row->{'2'}));
+	Assert::false(isset($row[2]));
+	Assert::false(isset($row['2']));
+
+	$row[3] = 'new';
+	Assert::same('new', $row->{3});
+	Assert::same('new', $row->{'3'});
+	Assert::same('new', $row[3]);
+	Assert::same('new', $row['3']);
+
+	unset($row[3]);
+	Assert::false(isset($row->{3}));
+	Assert::false(isset($row->{'3'}));
+	Assert::false(isset($row[3]));
+	Assert::false(isset($row['3']));
+});
+
+
+test(function () { // null fields
+	$row = ArrayHash::from(['null' => NULL]);
+	Assert::null($row->null);
+	Assert::null($row['null']);
+	Assert::false(isset($row->null));
+	Assert::false(isset($row['null']));
+});
+
+
+test(function () { // undeclared fields
+	$row = new ArrayHash;
+	Assert::error(function () use ($row) {
+		$row->undef;
+	}, E_NOTICE, 'Undefined property: Nette\Utils\ArrayHash::$undef');
+
+	Assert::error(function () use ($row) {
+		$row['undef'];
+	}, E_NOTICE, 'Undefined property: Nette\Utils\ArrayHash::$undef');
+});
