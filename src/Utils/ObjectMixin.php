@@ -476,8 +476,9 @@ class ObjectMixin
 	/**
 	 * Checks if the public non-static property exists.
 	 * @return bool|'event'
+	 * @internal
 	 */
-	private static function hasProperty($class, $name)
+	public static function hasProperty($class, $name)
 	{
 		static $cache;
 		$prop = & $cache[$class][$name];
@@ -498,8 +499,9 @@ class ObjectMixin
 	/**
 	 * Returns array of public (static, non-static and magic) methods.
 	 * @return array
+	 * @internal
 	 */
-	private static function & getMethods($class)
+	public static function & getMethods($class)
 	{
 		static $cache;
 		if (!isset($cache[$class])) {
