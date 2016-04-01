@@ -107,7 +107,9 @@ class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \Itera
 	 */
 	public function prepend($value)
 	{
-		array_unshift($this->list, $value);
+		$first = array_slice($this->list, 0, 1);
+		$this->offsetSet(0, $value);
+		array_splice($this->list, 1, 0, $first);
 	}
 
 }
