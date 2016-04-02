@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette\Utils;
 
 use Nette;
@@ -43,7 +45,7 @@ class ObjectMixin
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
-	public static function call($_this, $name, $args)
+	public static function call($_this, string $name, array $args)
 	{
 		$class = get_class($_this);
 		$isProp = self::hasProperty($class, $name);
@@ -110,7 +112,7 @@ class ObjectMixin
 	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public static function callStatic($class, $method, $args)
+	public static function callStatic(string $class, string $method, array $args)
 	{
 		$hint = self::getSuggestion(array_filter(
 			get_class_methods($class),
@@ -127,7 +129,7 @@ class ObjectMixin
 	 * @return mixed   property value
 	 * @throws MemberAccessException if the property is not defined.
 	 */
-	public static function & get($_this, $name)
+	public static function & get($_this, string $name)
 	{
 		$class = get_class($_this);
 		$uname = ucfirst($name);
@@ -182,7 +184,7 @@ class ObjectMixin
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
-	public static function set($_this, $name, $value)
+	public static function set($_this, string $name, $value)
 	{
 		$class = get_class($_this);
 		$uname = ucfirst($name);
@@ -217,7 +219,7 @@ class ObjectMixin
 	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public static function remove($_this, $name)
+	public static function remove($_this, string $name)
 	{
 		$class = get_class($_this);
 		if (!self::hasProperty($class, $name)) { // strict class
@@ -232,7 +234,7 @@ class ObjectMixin
 	 * @param  string  property name
 	 * @return bool
 	 */
-	public static function has($_this, $name)
+	public static function has($_this, string $name): bool
 	{
 		$name = ucfirst($name);
 		$methods = & self::getMethods(get_class($_this));
@@ -244,7 +246,7 @@ class ObjectMixin
 	 * Checks if the public non-static property exists.
 	 * @return mixed
 	 */
-	private static function hasProperty($class, $name)
+	private static function hasProperty(string $class, string $name)
 	{
 		$prop = & self::$props[$class][$name];
 		if ($prop === NULL) {
@@ -265,7 +267,7 @@ class ObjectMixin
 	 * Returns array of public (static, non-static and magic) methods.
 	 * @return array
 	 */
-	private static function & getMethods($class)
+	private static function & getMethods(string $class)
 	{
 		if (!isset(self::$methods[$class])) {
 			self::$methods[$class] = array_fill_keys(get_class_methods($class), 0) + self::getMagicMethods($class);
@@ -281,7 +283,7 @@ class ObjectMixin
 	 * Returns array of magic methods defined by annotation @method.
 	 * @return array
 	 */
-	public static function getMagicMethods($class)
+	public static function getMagicMethods(string $class): array
 	{
 		$rc = new \ReflectionClass($class);
 		preg_match_all('~^
@@ -321,7 +323,7 @@ class ObjectMixin
 	 * @return bool
 	 * @internal
 	 */
-	public static function checkType(& $val, $type)
+	public static function checkType(& $val, string $type): bool
 	{
 		if (strpos($type, '|') !== FALSE) {
 			$found = NULL;
@@ -390,7 +392,7 @@ class ObjectMixin
 	 * @param  mixed   callable
 	 * @return void
 	 */
-	public static function setExtensionMethod($class, $name, $callback)
+	public static function setExtensionMethod(string $class, string $name, callable $callback)
 	{
 		$name = strtolower($name);
 		self::$extMethods[$name][$class] = Callback::check($callback);
@@ -404,7 +406,7 @@ class ObjectMixin
 	 * @param  string
 	 * @return mixed
 	 */
-	public static function getExtensionMethod($class, $name)
+	public static function getExtensionMethod(string $class, string $name)
 	{
 		$list = & self::$extMethods[strtolower($name)];
 		$cache = & $list[''][$class];

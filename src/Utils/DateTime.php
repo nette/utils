@@ -5,6 +5,8 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types = 1);
+
 namespace Nette\Utils;
 
 use Nette;
@@ -39,7 +41,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 * @param  string|int|\DateTimeInterface
 	 * @return self
 	 */
-	public static function from($time)
+	public static function from($time): self
 	{
 		if ($time instanceof \DateTimeInterface) {
 			return new static($time->format('Y-m-d H:i:s'), $time->getTimezone());
@@ -59,7 +61,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->format('Y-m-d H:i:s');
 	}
@@ -69,7 +71,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 * @param  string
 	 * @return self
 	 */
-	public function modifyClone($modify = '')
+	public function modifyClone(string $modify = ''): self
 	{
 		$dolly = clone $this;
 		return $modify ? $dolly->modify($modify) : $dolly;
@@ -80,7 +82,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 * @param  int
 	 * @return self
 	 */
-	public function setTimestamp($timestamp)
+	public function setTimestamp($timestamp): self
 	{
 		$zone = $this->getTimezone();
 		$this->__construct('@' . $timestamp);
@@ -126,7 +128,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 * Returns JSON representation in ISO 8601 (used by JavaScript).
 	 * @return string
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize(): string
 	{
 		return $this->format('c');
 	}

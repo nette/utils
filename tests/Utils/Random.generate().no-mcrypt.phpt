@@ -5,6 +5,8 @@
  * @phpIni disable_functions=openssl_random_pseudo_bytes,mcrypt_create_iv
  */
 
+declare(strict_types = 1);
+
 use Nette\Utils\Random;
 use Tester\Assert;
 
