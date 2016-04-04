@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\SmartObject closure properties.
+ * Test: Nette\SmartObject closure properties (deprecated)
  */
 
 use Tester\Assert;
@@ -26,12 +26,18 @@ class TestClass
 }
 
 
+Assert::error(function () {
+	$obj = new TestClass(function () {});
+	$obj->public(1, 2);
+}, E_USER_DEPRECATED, 'Invoking closure in property via $obj->public() is deprecated in ' . __FILE__ . ':' . (__LINE__ - 1));
+
+
 test(function () {
 	$obj = new TestClass(function ($a, $b) {
 		return "$a $b";
 	});
 
-	Assert::same('1 2', $obj->public(1, 2));
+	Assert::same('1 2', @$obj->public(1, 2));
 });
 
 

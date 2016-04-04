@@ -44,6 +44,7 @@ trait SmartObject
 			}
 
 		} elseif ($isProp && $this->$name instanceof \Closure) { // closure in property
+			trigger_error("Invoking closure in property via \$obj->$name() is deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			return call_user_func_array($this->$name, $args);
 
 		} elseif (($methods = & ObjectMixin::getMethods($class)) && isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
