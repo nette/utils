@@ -113,9 +113,7 @@ trait SmartObject
 			}
 
 		} elseif (isset($methods[$name])) { // public method as closure getter
-			if (preg_match('#^(is|get|has)([A-Z]|$)#', $name) && !(new \ReflectionMethod($class, $name))->getNumberOfRequiredParameters()) {
-				trigger_error("Did you forget parentheses after $name" . ObjectMixin::getSource() . '?', E_USER_WARNING);
-			}
+			trigger_error("Accessing methods as properties via \$obj->$name is deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			$val = Callback::closure($this, $name);
 			return $val;
 

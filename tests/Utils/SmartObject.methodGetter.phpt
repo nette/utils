@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\SmartObject closure properties.
+ * Test: Nette\SmartObject closure properties (deprecated)
  */
 
 use Tester\Assert;
@@ -39,8 +39,15 @@ class TestClass
 }
 
 
+// deprecated
+Assert::error(function () {
+	$obj = new TestClass;
+	$obj->publicMethod;
+}, E_USER_DEPRECATED, 'Accessing methods as properties via $obj->publicMethod is deprecated in ' . __FILE__ . ':' . (__LINE__ - 1));
+
+
 $obj1 = new TestClass(1);
-$method = $obj1->publicMethod;
+$method = @$obj1->publicMethod;
 Assert::same("1 2 3", $method(2, 3));
 
 $rm = new ReflectionFunction($method);
@@ -59,9 +66,3 @@ Assert::exception(function () {
 	$obj = new TestClass;
 	$method = $obj->privateMethod;
 }, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$privateMethod.');
-
-
-Assert::error(function () {
-	$obj = new TestClass;
-	$method = $obj->getWithoutParameters;
-}, E_USER_WARNING, 'Did you forget parentheses after getWithoutParameters in ' . __FILE__ . ':' . (__LINE__ - 1) . '?');
