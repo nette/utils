@@ -63,12 +63,12 @@ class ObjectMixin
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictCall($class, $method)
+	public static function strictCall($class, $method, $additionalMethods = [])
 	{
 		$hint = self::getSuggestion(array_merge(
 			get_class_methods($class),
 			self::parseFullDoc(new \ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:\S+[ \t]+)??(\w+)\(~m'),
-			array_keys(self::getExtensionMethods($class))
+			$additionalMethods
 		), $method);
 
 		if (method_exists($class, $method)) { // called parent::$method()
@@ -146,7 +146,7 @@ class ObjectMixin
 			return Callback::invoke($cb, $_this, ...$args);
 
 		} else {
-			self::strictCall($class, $name);
+			self::strictCall($class, $name, array_keys(self::getExtensionMethods($class)));
 		}
 	}
 

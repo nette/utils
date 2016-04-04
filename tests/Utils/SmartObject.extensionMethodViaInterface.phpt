@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\SmartObject extension method via interface.
+ * Test: Nette\SmartObject extension method via interface (deprecated)
  */
 
 use Nette\SmartObject;
@@ -37,11 +37,11 @@ function ISecond_join(ISecond $that, $separator)
 }
 
 
-SmartObject::extensionMethod('ISecond::join', 'ISecond_join');
-SmartObject::extensionMethod('IFirst::join', 'IFirst_join');
+@SmartObject::extensionMethod('ISecond::join', 'ISecond_join');
+@SmartObject::extensionMethod('IFirst::join', 'IFirst_join');
 
 $obj = new TestClass;
-Assert::same('ISecond_join says Hello*World', $obj->join('*'));
+Assert::same('ISecond_join says Hello*World', @$obj->join('*'));
 
 Assert::same(
 	['join' => 'ISecond_join'],
@@ -56,4 +56,4 @@ Assert::same(
 Assert::exception(function () {
 	$obj = new TestClass;
 	$obj->joi();
-}, Nette\MemberAccessException::class, 'Call to undefined method TestClass::joi(), did you mean join()?');
+}, Nette\MemberAccessException::class, 'Call to undefined method TestClass::joi().');

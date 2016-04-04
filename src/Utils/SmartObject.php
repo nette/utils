@@ -69,6 +69,7 @@ trait SmartObject
 			return $this;
 
 		} elseif ($cb = ObjectMixin::getExtensionMethod($class, $name)) { // extension methods
+			trigger_error("Extension methods such as $class::$name() are deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			return Callback::invoke($cb, $this, ...$args);
 
 		} else {
@@ -193,6 +194,7 @@ trait SmartObject
 
 	/**
 	 * @return mixed
+	 * @deprecated use Nette\Utils\ObjectMixin::setExtensionMethod()
 	 */
 	public static function extensionMethod($name, $callback = NULL)
 	{
@@ -202,6 +204,7 @@ trait SmartObject
 			list($class, $name) = explode('::', $name);
 			$class = (new \ReflectionClass($class))->getName();
 		}
+		trigger_error("Extension methods such as $class::$name() are deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 		if ($callback === NULL) {
 			return ObjectMixin::getExtensionMethod($class, $name);
 		} else {
