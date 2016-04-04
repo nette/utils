@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\SmartObject magic @methods inheritance.
+ * Test: Nette\SmartObject magic @methods inheritance (deprecated)
  */
 
 use Tester\Assert;
@@ -34,8 +34,8 @@ class ChildClass extends ParentClass
 
 $obj = new ChildClass;
 
-$obj->setA('hello');
-Assert::same('hello', $obj->getA());
+@$obj->setA('hello');
+Assert::same('hello', @$obj->getA());
 
 Assert::exception(function () use ($obj) {
 	$obj->setC(123);

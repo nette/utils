@@ -48,6 +48,7 @@ trait SmartObject
 			return call_user_func_array($this->$name, $args);
 
 		} elseif (($methods = & ObjectMixin::getMethods($class)) && isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
+			trigger_error("Magic methods such as $class::$name() are deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			list($op, $rp, $type) = $methods[$name];
 			if (count($args) !== ($op === 'get' ? 0 : 1)) {
 				throw new InvalidArgumentException("$class::$name() expects " . ($op === 'get' ? 'no' : '1') . ' argument, ' . count($args) . ' given.');
