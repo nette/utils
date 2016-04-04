@@ -180,9 +180,11 @@ trait SmartObject
 
 	/**
 	 * @return Reflection\ClassType|\ReflectionClass
+	 * @deprecated
 	 */
 	public static function getReflection()
 	{
+		trigger_error(get_called_class() . '::getReflection() is deprecated' . ObjectMixin::getSource(), E_USER_DEPRECATED);
 		$class = class_exists(Reflection\ClassType::class) ? Reflection\ClassType::class : \ReflectionClass::class;
 		return new $class(get_called_class());
 	}
