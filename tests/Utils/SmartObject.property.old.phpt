@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\SmartObject properties.
+ * Test: Nette\SmartObject properties (deprecated)
  */
 
 use Tester\Assert;
@@ -9,12 +9,6 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-/**
- * @property int $foo
- * @property int $bar
- * @property int $bazz
- * @property int $s
- */
 class TestClass
 {
 	use Nette\SmartObject;
@@ -43,7 +37,7 @@ class TestClass
 		$this->foo = $foo;
 	}
 
-	protected function getBar()
+	public function getBar()
 	{
 		return $this->bar;
 	}
@@ -62,16 +56,25 @@ class TestClass
 }
 
 
+Assert::error(function () {
+	$obj = new TestClass;
+	$obj->foo = 'hello';
+}, E_USER_DEPRECATED, 'Missing annotation @property for TestClass::$foo used in ' . __FILE__ . ':' . (__LINE__ - 1));
+
+Assert::error(function () {
+	$obj = new TestClass;
+	$val = $obj->foo;
+}, E_USER_DEPRECATED, 'Missing annotation @property for TestClass::$foo used in ' . __FILE__ . ':' . (__LINE__ - 1));
+
+
 $obj = new TestClass;
-$obj->foo = 'hello';
-Assert::same('hello', $obj->foo);
-Assert::error(function () use ($obj) {
-	$val = $obj->Foo;
-}, E_USER_DEPRECATED, 'Missing annotation @property for TestClass::$Foo used in ' . __FILE__ . ':' . (__LINE__ - 1));
+@$obj->foo = 'hello';
+Assert::same('hello', @$obj->foo);
+Assert::same('hello', @$obj->Foo);
 
 
-$obj->foo .= ' world';
-Assert::same('hello world', $obj->foo);
+@$obj->foo .= ' world';
+Assert::same('hello world', @$obj->foo);
 
 
 // Undeclared property writing
@@ -93,7 +96,7 @@ Assert::exception(function () use ($obj) {
 // Read-only property
 $obj = new TestClass('Hello', 'World');
 Assert::true(isset($obj->bar));
-Assert::same('World', $obj->bar);
+Assert::same('World', @$obj->bar);
 
 Assert::exception(function () use ($obj) {
 	$obj->bar = 'value';
@@ -102,9 +105,9 @@ Assert::exception(function () use ($obj) {
 
 // write-only property
 $obj = new TestClass;
-Assert::true(isset($obj->bazz));
-$obj->bazz = 'World';
-Assert::same('World', $obj->bar);
+Assert::false(isset($obj->bazz));
+@$obj->bazz = 'World';
+Assert::same('World', @$obj->bar);
 
 Assert::exception(function () use ($obj) {
 	$val = $obj->bazz;

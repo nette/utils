@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\SmartObject reference to property.
+ * Test: Nette\SmartObject reference to property (deprecated)
  */
 
 use Tester\Assert;
@@ -9,9 +9,6 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-/**
- * @property string $foo
- */
 class TestClass
 {
 	use Nette\SmartObject;
@@ -32,7 +29,7 @@ class TestClass
 
 
 $obj = new TestClass;
-$obj->foo = 'hello';
+@$obj->foo = 'hello';
 @$x = & $obj->foo;
 $x = 'changed by reference';
-Assert::same('hello', $obj->foo);
+Assert::same('hello', @$obj->foo);

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\SmartObject array property.
+ * Test: Nette\SmartObject array property (deprecated)
  */
 
 use Tester\Assert;
@@ -9,9 +9,6 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-/**
- * @property array $items
- */
 class TestClass
 {
 	use Nette\SmartObject;
@@ -32,5 +29,5 @@ class TestClass
 
 
 $obj = new TestClass;
-$obj->items[] = 'test';
-Assert::same(['test'], $obj->items);
+@$obj->items[] = 'test';
+Assert::same(['test'], @$obj->items);

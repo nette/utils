@@ -270,6 +270,57 @@ class ObjectMixin
 	}
 
 
+	/********************* magic @properties ****************d*g**/
+
+
+	/**
+	 * Returns array of magic properties defined by annotation @property.
+	 * @return array of [name => bit mask]
+	 */
+	public static function getMagicProperties($class)
+	{
+		static $cache;
+		$props = & $cache[$class];
+		if ($props !== NULL) {
+			return $props;
+		}
+
+		$rc = new \ReflectionClass($class);
+		preg_match_all(
+			'~^  [ \t*]*  @property(|-read|-write)  [ \t]+  [^\s$]+  [ \t]+  \$  (\w+)  ()~mx',
+			(string) $rc->getDocComment(), $matches, PREG_SET_ORDER
+		);
+
+		$props = [];
+		foreach ($matches as list(, $type, $name)) {
+			$uname = ucfirst($name);
+			$write = $type !== '-read'
+				&& $rc->hasMethod($nm = 'set' . $uname)
+				&& ($rm = $rc->getMethod($nm)) && $rm->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
+			$read = $type !== '-write'
+				&& ($rc->hasMethod($nm = 'get' . $uname) || $rc->hasMethod($nm = 'is' . $uname))
+				&& ($rm = $rc->getMethod($nm)) && $rm->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
+
+			if ($read || $write) {
+				$props[$name] = $read << 0 | ($nm[0] === 'g') << 1 | $rm->returnsReference() << 2 | $write << 3;
+			}
+		}
+
+		if ($parent = get_parent_class($class)) {
+			$props += self::getMagicProperties($parent);
+		}
+		return $props;
+	}
+
+
+	/** @internal */
+	public static function getMagicProperty($class, $name)
+	{
+		$props = self::getMagicProperties($class);
+		return isset($props[$name]) ? $props[$name] : NULL;
+	}
+
+
 	/********************* magic @methods ****************d*g**/
 
 

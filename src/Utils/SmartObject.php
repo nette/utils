@@ -96,12 +96,24 @@ trait SmartObject
 	{
 		$class = get_class($this);
 		$uname = ucfirst($name);
-		$methods = & ObjectMixin::getMethods($class);
 
-		if ($name === '') {
+		if ($prop = ObjectMixin::getMagicProperty($class, $name)) { // property getter
+			if (!($prop & 0b0001)) {
+				throw new MemberAccessException("Cannot read a write-only property $class::\$$name.");
+			}
+			$m = ($prop & 0b0010 ? 'get' : 'is') . $uname;
+			if ($prop & 0b0100) { // return by reference
+				return $this->$m();
+			} else {
+				$val = $this->$m();
+				return $val;
+			}
+
+		} elseif ($name === '') {
 			throw new MemberAccessException("Cannot read a class '$class' property without name.");
 
-		} elseif (isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname])) { // property getter
+		} elseif (($methods = & ObjectMixin::getMethods($class)) && isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname])) { // old property getter
+			trigger_error("Missing annotation @property for $class::\$$name used" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			if ($methods[$m] === 0) {
 				$methods[$m] = (new \ReflectionMethod($class, $m))->returnsReference();
 			}
@@ -134,15 +146,21 @@ trait SmartObject
 	{
 		$class = get_class($this);
 		$uname = ucfirst($name);
-		$methods = & ObjectMixin::getMethods($class);
 
-		if ($name === '') {
-			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
-
-		} elseif (ObjectMixin::hasProperty($class, $name)) { // unsetted property
+		if (ObjectMixin::hasProperty($class, $name)) { // unsetted property
 			$this->$name = $value;
 
-		} elseif (isset($methods[$m = 'set' . $uname])) { // property setter
+		} elseif ($prop = ObjectMixin::getMagicProperty($class, $name)) { // property setter
+			if (!($prop & 0b1000)) {
+				throw new MemberAccessException("Cannot write to a read-only property $class::\$$name.");
+			}
+			$this->{'set' . $name}($value);
+
+		} elseif ($name === '') {
+			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
+
+		} elseif (($methods = & ObjectMixin::getMethods($class)) && isset($methods[$m = 'set' . $uname])) { // old property setter
+			trigger_error("Missing annotation @property for $class::\$$name used" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			$this->$m($value);
 
 		} elseif (isset($methods['get' . $uname]) || isset($methods['is' . $uname])) { // property setter
@@ -172,9 +190,9 @@ trait SmartObject
 	 */
 	public function __isset($name)
 	{
-		$name = ucfirst($name);
-		$methods = & ObjectMixin::getMethods(get_class($this));
-		return $name !== '' && (isset($methods['get' . $name]) || isset($methods['is' . $name]));
+		$uname = ucfirst($name);
+		return ObjectMixin::getMagicProperty(get_class($this), $name)
+			|| ($name !== '' && ($methods = ObjectMixin::getMethods(get_class($this))) && (isset($methods['get' . $uname]) || isset($methods['is' . $uname])));
 	}
 
 
