@@ -15,6 +15,7 @@ use Nette;
  */
 class FileSystem
 {
+	use Nette\StaticClass;
 
 	/**
 	 * Creates a directory.

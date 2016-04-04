@@ -15,6 +15,8 @@ use Nette;
  */
 class DateTime extends \DateTime implements \JsonSerializable
 {
+	use Nette\SmartObject;
+
 	/** minute in seconds */
 	const MINUTE = 60;
 

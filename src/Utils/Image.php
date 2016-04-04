@@ -85,8 +85,10 @@ use Nette;
  * @property-read int $height
  * @property-read resource $imageResource
  */
-class Image extends Nette\Object
+class Image
 {
+	use Nette\SmartObject;
+
 	/** {@link resize()} only shrinks images */
 	const SHRINK_ONLY = 0b0001;
 
@@ -603,7 +605,7 @@ class Image extends Nette\Object
 	{
 		$function = 'image' . $name;
 		if (!function_exists($function)) {
-			return parent::__call($name, $args);
+			ObjectMixin::strictCall(get_class($this), $name);
 		}
 
 		foreach ($args as $key => $value) {

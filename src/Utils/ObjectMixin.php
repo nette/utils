@@ -16,17 +16,10 @@ use Nette\MemberAccessException;
  */
 class ObjectMixin
 {
+	use Nette\StaticClass;
+
 	/** @var array [name => [type => callback]] used by extension methods */
 	private static $extMethods = [];
-
-
-	/**
-	 * Static class - cannot be instantiated.
-	 */
-	final public function __construct()
-	{
-		throw new Nette\StaticClassException;
-	}
 
 
 	/********************* strictness ****************d*g**/

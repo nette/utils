@@ -15,6 +15,7 @@ use Nette;
  */
 class Callback
 {
+	use Nette\StaticClass;
 
 	/**
 	 * @param  mixed   class, object, callable

@@ -13,8 +13,10 @@ use Nette;
 /**
  * Provides the base class for a generic list (items can be accessed by index).
  */
-class ArrayList extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAggregate
+class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 {
+	use Nette\SmartObject;
+
 	private $list = [];
 
 
