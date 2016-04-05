@@ -37,9 +37,10 @@ class ObjectMixin
 	 */
 	public static function strictGet($class, $name)
 	{
+		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
-			array_keys(get_class_vars($class)),
-			self::parseFullDoc($class, '~^[ \t*]*@property(?:-read)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m')
+			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), function ($p) { return !$p->isStatic(); }),
+			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-read)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m')
 		), $name);
 		throw new MemberAccessException("Cannot read an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
 	}
@@ -50,9 +51,10 @@ class ObjectMixin
 	 */
 	public static function strictSet($class, $name)
 	{
+		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
-			array_keys(get_class_vars($class)),
-			self::parseFullDoc($class, '~^[ \t*]*@property(?:-write)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m')
+			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), function ($p) { return !$p->isStatic(); }),
+			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-write)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m')
 		), $name);
 		throw new MemberAccessException("Cannot write to an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
 	}
@@ -65,7 +67,7 @@ class ObjectMixin
 	{
 		$hint = self::getSuggestion(array_merge(
 			get_class_methods($class),
-			self::parseFullDoc($class, '~^[ \t*]*@method[ \t]+(?:\S+[ \t]+)??(\w+)\(~m'),
+			self::parseFullDoc(new \ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:\S+[ \t]+)??(\w+)\(~m'),
 			array_keys(self::getExtensionMethods($class))
 		), $method);
 
@@ -81,10 +83,10 @@ class ObjectMixin
 	 */
 	public static function strictStaticCall($class, $method)
 	{
-		$hint = self::getSuggestion(array_filter(
-			get_class_methods($class),
-			function ($m) use ($class) { return (new \ReflectionMethod($class, $m))->isStatic(); }
-		), $method);
+		$hint = self::getSuggestion(
+			array_filter((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), function ($m) { return $m->isStatic(); }),
+			$method
+		);
 		throw new MemberAccessException("Call to undefined static method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
 	}
 
@@ -443,12 +445,13 @@ class ObjectMixin
 	 * @return string|NULL
 	 * @internal
 	 */
-	public static function getSuggestion(array $items, $value)
+	public static function getSuggestion(array $possibilities, $value)
 	{
 		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '', $value);
 		$best = NULL;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
-		foreach (array_unique($items) as $item) {
+		foreach (array_unique($possibilities, SORT_REGULAR) as $item) {
+			$item = $item instanceof \Reflector ? $item->getName() : $item;
 			if ($item !== $value && (
 				($len = levenshtein($item, $value, 10, 11, 10)) < $min
 				|| ($len = levenshtein(preg_replace($re, '', $item), $norm, 10, 11, 10) + 20) < $min
@@ -461,9 +464,8 @@ class ObjectMixin
 	}
 
 
-	private static function parseFullDoc($class, $pattern)
+	private static function parseFullDoc(\ReflectionClass $rc, $pattern)
 	{
-		$rc = new \ReflectionClass($class);
 		do {
 			$doc[] = $rc->getDocComment();
 		} while ($rc = $rc->getParentClass());

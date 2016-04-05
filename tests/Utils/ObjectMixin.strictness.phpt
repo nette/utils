@@ -80,9 +80,9 @@ Assert::exception(function () {
 	ObjectMixin::strictSet('TestClass', 'publicX');
 }, MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$publicX, did you mean $public?');
 
-Assert::exception(function () {
+Assert::exception(function () { // suggest only non-static property
 	ObjectMixin::strictSet('TestClass', 'publicStaticX');
-}, MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$publicStaticX, did you mean $publicStatic?');
+}, MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$publicStaticX.');
 
 Assert::exception(function () { // suggest only public property
 	ObjectMixin::strictSet('TestClass', 'protectedX');
@@ -98,9 +98,9 @@ Assert::exception(function () {
 	ObjectMixin::strictGet('TestClass', 'publicX');
 }, MemberAccessException::class, 'Cannot read an undeclared property TestClass::$publicX, did you mean $public?');
 
-Assert::exception(function () {
+Assert::exception(function () { // suggest only non-static property
 	ObjectMixin::strictGet('TestClass', 'publicStaticX');
-}, MemberAccessException::class, 'Cannot read an undeclared property TestClass::$publicStaticX, did you mean $publicStatic?');
+}, MemberAccessException::class, 'Cannot read an undeclared property TestClass::$publicStaticX.');
 
 Assert::exception(function () { // suggest only public property
 	ObjectMixin::strictGet('TestClass', 'protectedX');
