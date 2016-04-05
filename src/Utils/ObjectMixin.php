@@ -48,9 +48,6 @@ class ObjectMixin
 		if ($name === '') {
 			throw new MemberAccessException("Call to class '$class' method without name.");
 
-		} elseif ($isProp && $_this->$name instanceof \Closure) { // closure in property
-			return call_user_func_array($_this->$name, $args);
-
 		} elseif ($isProp === 'event') { // calling event handlers
 			if (is_array($_this->$name) || $_this->$name instanceof \Traversable) {
 				foreach ($_this->$name as $handler) {
@@ -59,6 +56,9 @@ class ObjectMixin
 			} elseif ($_this->$name !== NULL) {
 				throw new Nette\UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) . ' given.');
 			}
+
+		} elseif ($isProp && $_this->$name instanceof \Closure) { // closure in property
+			return call_user_func_array($_this->$name, $args);
 
 		} elseif (($methods = & self::getMethods($class)) && isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
 			list($op, $rp, $type) = $methods[$name];

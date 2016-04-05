@@ -30,11 +30,17 @@ test(function () {
 	});
 
 	Assert::same('1 2', $obj->public(1, 2));
-	Assert::same('1 2', $obj->onPublic(1, 2));
 });
 
 
 test(function () {
+	Assert::exception(function () {
+		$obj = new TestClass(123);
+		$obj->onPublic = function () {}; // accidentally forgotten []
+		$obj->onPublic(1, 2);
+	}, Nette\UnexpectedValueException::class, 'Property TestClass::$onPublic must be array or NULL, object given.');
+
+
 	Assert::exception(function () {
 		$obj = new TestClass(123);
 		$obj->public();
