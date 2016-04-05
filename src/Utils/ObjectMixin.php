@@ -310,14 +310,6 @@ class ObjectMixin
 	}
 
 
-	/** @internal */
-	public static function getMagicProperty($class, $name)
-	{
-		$props = self::getMagicProperties($class);
-		return isset($props[$name]) ? $props[$name] : NULL;
-	}
-
-
 	/********************* magic @methods ****************d*g**/
 
 
@@ -552,9 +544,8 @@ class ObjectMixin
 	/**
 	 * Returns array of public (static, non-static and magic) methods.
 	 * @return array
-	 * @internal
 	 */
-	public static function &getMethods($class)
+	private static function &getMethods($class)
 	{
 		static $cache;
 		if (!isset($cache[$class])) {
@@ -567,8 +558,7 @@ class ObjectMixin
 	}
 
 
-	/** @internal */
-	public static function getSource()
+	private static function getSource()
 	{
 		foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $item) {
 			if (isset($item['file']) && dirname($item['file']) !== __DIR__) {
