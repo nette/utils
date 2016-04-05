@@ -620,9 +620,7 @@ class Image extends Nette\Object
 				);
 			}
 		}
-		array_unshift($args, $this->image);
-
-		$res = $function(...$args);
+		$res = $function($this->image, ...$args);
 		return is_resource($res) && get_resource_type($res) === 'gd' ? $this->setImageResource($res) : $res;
 	}
 

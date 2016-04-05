@@ -16,13 +16,7 @@ use Nette\MemberAccessException;
  */
 class ObjectMixin
 {
-	/** @var array (name => 0 | bool | array)  used by getMethods() */
-	private static $methods = [];
-
-	/** @var array (name => 'event' | TRUE)  used by hasProperty() */
-	private static $props = [];
-
-	/** @var array (name => [type => callback])  used by get|setExtensionMethod() */
+	/** @var array [name => [type => callback]] used by extension methods */
 	private static $extMethods = [];
 
 
@@ -33,6 +27,9 @@ class ObjectMixin
 	{
 		throw new Nette\StaticClassException;
 	}
+
+
+	/********************* Nette\Object ****************d*g**/
 
 
 	/**
@@ -84,8 +81,7 @@ class ObjectMixin
 			return $_this;
 
 		} elseif ($cb = self::getExtensionMethod($class, $name)) { // extension methods
-			array_unshift($args, $_this);
-			return Callback::invokeArgs($cb, $args);
+			return Callback::invoke($cb, $_this, ...$args);
 
 		} else {
 			$hint = self::getSuggestion(array_merge(
@@ -240,41 +236,7 @@ class ObjectMixin
 	}
 
 
-	/**
-	 * Checks if the public non-static property exists.
-	 * @return mixed
-	 */
-	private static function hasProperty($class, $name)
-	{
-		$prop = & self::$props[$class][$name];
-		if ($prop === NULL) {
-			$prop = FALSE;
-			try {
-				$rp = new \ReflectionProperty($class, $name);
-				if ($rp->isPublic() && !$rp->isStatic()) {
-					$prop = $name >= 'onA' && $name < 'on_' ? 'event' : TRUE;
-				}
-			} catch (\ReflectionException $e) {
-			}
-		}
-		return $prop;
-	}
-
-
-	/**
-	 * Returns array of public (static, non-static and magic) methods.
-	 * @return array
-	 */
-	private static function & getMethods($class)
-	{
-		if (!isset(self::$methods[$class])) {
-			self::$methods[$class] = array_fill_keys(get_class_methods($class), 0) + self::getMagicMethods($class);
-			if ($parent = get_parent_class($class)) {
-				self::$methods[$class] += self::getMethods($parent);
-			}
-		}
-		return self::$methods[$class];
-	}
+	/********************* magic @methods ****************d*g**/
 
 
 	/**
@@ -383,6 +345,9 @@ class ObjectMixin
 	}
 
 
+	/********************* extension methods ****************d*g**/
+
+
 	/**
 	 * Adds a method to class.
 	 * @param  string
@@ -438,6 +403,9 @@ class ObjectMixin
 	}
 
 
+	/********************* utilities ****************d*g**/
+
+
 	/**
 	 * Finds the best suggestion (for 8-bit encoding).
 	 * @return string|NULL
@@ -468,6 +436,45 @@ class ObjectMixin
 			$doc[] = $rc->getDocComment();
 		} while ($rc = $rc->getParentClass());
 		return preg_match_all($pattern, implode($doc), $m) ? $m[1] : [];
+	}
+
+
+	/**
+	 * Checks if the public non-static property exists.
+	 * @return bool|'event'
+	 */
+	private static function hasProperty($class, $name)
+	{
+		static $cache;
+		$prop = & $cache[$class][$name];
+		if ($prop === NULL) {
+			$prop = FALSE;
+			try {
+				$rp = new \ReflectionProperty($class, $name);
+				if ($rp->isPublic() && !$rp->isStatic()) {
+					$prop = $name >= 'onA' && $name < 'on_' ? 'event' : TRUE;
+				}
+			} catch (\ReflectionException $e) {
+			}
+		}
+		return $prop;
+	}
+
+
+	/**
+	 * Returns array of public (static, non-static and magic) methods.
+	 * @return array
+	 */
+	private static function & getMethods($class)
+	{
+		static $cache;
+		if (!isset($cache[$class])) {
+			$cache[$class] = array_fill_keys(get_class_methods($class), 0) + self::getMagicMethods($class);
+			if ($parent = get_parent_class($class)) {
+				$cache[$class] += self::getMethods($parent);
+			}
+		}
+		return $cache[$class];
 	}
 
 }
