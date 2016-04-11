@@ -15,6 +15,7 @@ use Nette;
  */
 class Random
 {
+	use Nette\StaticClass;
 
 	/**
 	 * Generate random string.

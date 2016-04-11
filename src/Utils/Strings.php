@@ -15,17 +15,9 @@ use Nette;
  */
 class Strings
 {
+	use Nette\StaticClass;
 
 	const TRIM_CHARACTERS = " \t\n\r\0\x0B\xC2\xA0";
-
-
-	/**
-	 * Static class - cannot be instantiated.
-	 */
-	final public function __construct()
-	{
-		throw new Nette\StaticClassException;
-	}
 
 
 	/**

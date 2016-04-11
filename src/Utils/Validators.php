@@ -13,8 +13,10 @@ use Nette;
 /**
  * Validation utilities.
  */
-class Validators extends Nette\Object
+class Validators
 {
+	use Nette\StaticClass;
+
 	protected static $validators = [
 		'bool' => 'is_bool',
 		'boolean' => 'is_bool',

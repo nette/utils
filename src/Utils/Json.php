@@ -15,17 +15,10 @@ use Nette;
  */
 class Json
 {
+	use Nette\StaticClass;
+
 	const FORCE_ARRAY = 0b0001;
 	const PRETTY = 0b0010;
-
-
-	/**
-	 * Static class - cannot be instantiated.
-	 */
-	final public function __construct()
-	{
-		throw new Nette\StaticClassException;
-	}
 
 
 	/**

@@ -21,8 +21,10 @@ use Nette;
  * echo $el->startTag(), $el->endTag();
  * </code>
  */
-class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
+class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 {
+	use Nette\SmartObject;
+
 	/** @var string  element's name */
 	private $name;
 

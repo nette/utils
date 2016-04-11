@@ -15,15 +15,7 @@ use Nette;
  */
 class Arrays
 {
-
-	/**
-	 * Static class - cannot be instantiated.
-	 */
-	final public function __construct()
-	{
-		throw new Nette\StaticClassException;
-	}
-
+	use Nette\StaticClass;
 
 	/**
 	 * Returns item from array or $default if item is not set.
