@@ -23,7 +23,7 @@ $image = Image::fromBlank(200, 100, Image::rgb(0, 255, 0));
 $image->place($rectangle, 50, 0, 63);
 
 $image2 = Image::fromBlank(200, 100, Image::rgb(0, 255, 0));
-$image2->place(Image::fromBlank(50, 50, Image::rgb(80, 173, 0)), 75, 25);
+$image2->place(Image::fromBlank(50, 50, Image::rgb(80, 174, 0)), 75, 25);
 
 Assert::same($image2->toString(Image::PNG, 0), $image->toString(Image::PNG, 0));
 
@@ -33,4 +33,4 @@ $image = Image::fromBlank(200, 100, Image::rgb(255, 128, 0, 60));
 $image->crop(0, 0, '60%', '60%');
 $image->send(Image::PNG, 0);
 
-Assert::same(file_get_contents(__DIR__ . '/Image.alpha1.expect'), ob_get_clean());
+Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha1.png'), ob_get_clean());

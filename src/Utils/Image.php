@@ -463,38 +463,47 @@ class Image
 	public function place(Image $image, $left = 0, $top = 0, $opacity = 100)
 	{
 		$opacity = max(0, min(100, (int) $opacity));
+		if ($opacity === 0) {
+			return $this;
+		}
+
+		$width = $image->getWidth();
+		$height = $image->getHeight();
 
 		if (is_string($left) && substr($left, -1) === '%') {
-			$left = (int) round(($this->getWidth() - $image->getWidth()) / 100 * $left);
+			$left = (int) round(($this->getWidth() - $width) / 100 * $left);
 		}
 
 		if (is_string($top) && substr($top, -1) === '%') {
-			$top = (int) round(($this->getHeight() - $image->getHeight()) / 100 * $top);
+			$top = (int) round(($this->getHeight() - $height) / 100 * $top);
 		}
 
-		if ($opacity === 100) {
-			imagecopy(
-				$this->image, $image->getImageResource(),
-				$left, $top, 0, 0, $image->getWidth(), $image->getHeight()
-			);
+		$output = $input = $image->image;
+		if ($opacity < 100) {
+			for ($i = 0; $i < 128; $i++) {
+				$tbl[$i] = round(127 - (127 - $i) * $opacity / 100);
+			}
 
-		} elseif ($opacity != 0) {
-			$cutting = imagecreatetruecolor($image->getWidth(), $image->getHeight());
-			imagecopy(
-				$cutting, $this->image,
-				0, 0, $left, $top, $image->getWidth(), $image->getHeight()
-			);
-			imagecopy(
-				$cutting, $image->getImageResource(),
-				0, 0, 0, 0, $image->getWidth(), $image->getHeight()
-			);
-
-			imagecopymerge(
-				$this->image, $cutting,
-				$left, $top, 0, 0, $image->getWidth(), $image->getHeight(),
-				$opacity
-			);
+			$output = imagecreatetruecolor($width, $height);
+			imagealphablending($output, FALSE);
+			if (!$image->isTrueColor()) {
+				$input = $output;
+				imagefilledrectangle($output, 0, 0, $width, $height, imagecolorallocatealpha($output, 0, 0, 0, 127));
+				imagecopy($output, $image->image, 0, 0, 0, 0, $width, $height);
+			}
+			for ($x = 0; $x < $width; $x++) {
+				for ($y = 0; $y < $height; $y++) {
+					$c = \imagecolorat($input, $x, $y);
+					$c = ($c & 0xFFFFFF) + ($tbl[$c >> 24] << 24);
+					\imagesetpixel($output, $x, $y, $c);
+				}
+			}
 		}
+
+		imagecopy(
+			$this->image, $output,
+			$left, $top, 0, 0, $width, $height
+		);
 		return $this;
 	}
 
