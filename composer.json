@@ -17,7 +17,7 @@
 		"php": ">=5.6.0"
 	},
 	"require-dev": {
-		"nette/tester": "~1.0",
+		"nette/tester": "~1.7",
 		"tracy/tracy": "^2.3"
 	},
 	"suggest": {
