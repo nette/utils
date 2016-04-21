@@ -28,7 +28,9 @@ Assert::exception(function () {
 	Random::generate(1, '000');
 }, Nette\InvalidArgumentException::class, 'Character list must contain as least two chars.');
 
+
 // frequency check
+$phpdbgLog = defined('PHPDBG_VERSION') && @phpdbg_end_oplog(); // memory leak workaround
 $length = 1e6;
 $delta = 0.1;
 $s = Nette\Utils\Random::generate($length, "\x01-\xFF");
@@ -36,4 +38,7 @@ $freq = count_chars($s);
 Assert::same(0, $freq[0]);
 for ($i = 1; $i < 255; $i++) {
 	Assert::true($freq[$i] < $length / 255 * (1 + $delta) && $freq[$i] > $length / 255 * (1 - $delta));
+}
+if ($phpdbgLog) {
+	phpdbg_start_oplog();
 }

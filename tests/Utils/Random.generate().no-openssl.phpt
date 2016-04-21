@@ -3,6 +3,7 @@
 /**
  * Test: Nette\Utils\Random::generate() without openssl
  * @phpIni disable_functions=openssl_random_pseudo_bytes
+ * @phpversion <7
  */
 
 use Nette\Utils\Random;
