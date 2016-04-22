@@ -498,6 +498,7 @@ class Image
 					\imagesetpixel($output, $x, $y, $c);
 				}
 			}
+			imagealphablending($output, TRUE);
 		}
 
 		imagecopy(
