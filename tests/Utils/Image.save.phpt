@@ -16,7 +16,7 @@ if (!extension_loaded('gd')) {
 }
 
 
-$main = Image::fromFile('images/logo.gif');
+$main = Image::fromFile(__DIR__ . '/images/logo.gif');
 
 
 Assert::exception(function () use ($main) { // invalid image type

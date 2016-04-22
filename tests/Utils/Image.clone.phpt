@@ -16,7 +16,7 @@ if (!extension_loaded('gd')) {
 }
 
 
-$original = Image::fromFile(__DIR__.'/images/logo.gif');
+$original = Image::fromFile(__DIR__ . '/images/logo.gif');
 
 $dolly = clone $original;
 Assert::notSame($dolly->getImageResource(), $original->getImageResource());

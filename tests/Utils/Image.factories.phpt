@@ -17,7 +17,7 @@ if (!extension_loaded('gd')) {
 
 
 test(function () {
-	$image = Image::fromFile('images/logo.gif', $format);
+	$image = Image::fromFile(__DIR__ . '/images/logo.gif', $format);
 	Assert::same(176, $image->getWidth());
 	Assert::same(104, $image->getHeight());
 	Assert::same(Image::GIF, $format);
@@ -30,12 +30,12 @@ Assert::exception(function () {
 
 
 Assert::exception(function () {
-	Image::fromFile('images/logo.tiff');
-}, Nette\Utils\UnknownImageFileException::class, "Unknown type of file 'images/logo.tiff'.");
+	Image::fromFile(__DIR__ . '/images/logo.tiff');
+}, Nette\Utils\UnknownImageFileException::class, "Unknown type of file '%a%images/logo.tiff'.");
 
 
 Assert::exception(function () {
-	Image::fromFile('images/bad.gif');
+	Image::fromFile(__DIR__ . '/images/bad.gif');
 }, Nette\Utils\ImageException::class, '%a% not a valid GIF file');
 
 

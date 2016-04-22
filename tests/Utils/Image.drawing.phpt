@@ -34,7 +34,7 @@ Assert::same(file_get_contents(__DIR__ . '/expected/Image.drawing.1.png'), $imag
 
 
 // palette-based image
-$image = Image::fromFile(__DIR__.'/images/logo.gif');
+$image = Image::fromFile(__DIR__ . '/images/logo.gif');
 $image->filledEllipse(100, 50, 50, 50, Image::rgb(255, 255, 0, 75));
 $image->filledEllipse(100, 150, 50, 50, Image::rgb(255, 255, 0, 75));
 Assert::same(file_get_contents(__DIR__ . '/expected/Image.drawing.2.png'), $image->toString(Image::PNG, 0));
