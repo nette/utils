@@ -58,6 +58,18 @@ test(function () { // special values
 });
 
 
+test(function () { // setter
+	$el = Html::el('div');
+	$el->setAttribute('data-x', 'x');
+	$el->setAttribute('data-list', [1,2,3]);
+	$el->setAttribute('data-arr', ['a' => 1]);
+	$el->setAttribute('top', NULL);
+	$el->setAttribute('active', FALSE);
+
+	Assert::same('<div data-x="x" data-list="[1,2,3]" data-arr=\'{"a":1}\'></div>', (string) $el);
+});
+
+
 test(function () {
 	$el = Html::el('div');
 	$el->data = 'simple';
@@ -65,4 +77,7 @@ test(function () {
 
 	$el->data('simple2');
 	Assert::same('<div data="simple2"></div>', (string) $el);
+
+	$el->setAttribute('data', 'simple3');
+	Assert::same('<div data="simple3"></div>', (string) $el);
 });

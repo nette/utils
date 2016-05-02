@@ -129,6 +129,74 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 
 	/**
+	 * Adds one element's attribute.
+	 * @param  string    HTML attribute name
+	 * @param  mixed     HTML attribute value
+	 * @param  mixed     HTML attribute value's data
+	 * @return self
+	 */
+	public function appendAttribute($name, $value, $data = TRUE)
+	{
+		if (is_array($value)) {
+			// allow append & replace existing values with new ones
+			$prev = [];
+			if (isset($this->attrs[$name])) {
+				$prev = (array) $this->attrs[$name];
+			}
+
+			$this->attrs[$name] = array_merge($prev, $value);
+
+		} elseif ((string) $value === '') {
+			$tmp = & $this->attrs[$name]; // appending empty value? -> ignore, but ensure it exists
+
+		} elseif (!isset($this->attrs[$name]) || is_array($this->attrs[$name])) { // needs array
+			$this->attrs[$name][$value] = $data;
+
+		} else {
+			$this->attrs[$name] = [$this->attrs[$name] => TRUE, $value => $data];
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Sets one element's attribute.
+	 * @param  string    HTML attribute name
+	 * @param  mixed     HTML attribute value
+	 * @return self
+	 */
+	public function setAttribute($name, $value)
+	{
+		$this->attrs[$name] = $value;
+		return $this;
+	}
+
+
+	/**
+	 * Gets one element's attribute.
+	 * @param  string    HTML attribute name
+	 * @return mixed     HTML attribute value
+	 */
+	public function getAttribute($name)
+	{
+		return isset($this->attrs[$name]) ? $this->attrs[$name] : NULL;
+	}
+
+
+	/**
+	 * Unsets one element's attribute.
+	 * @param  string    HTML attribute name
+	 * @return self
+	 */
+	public function removeAttribute($name)
+	{
+		unset($this->attrs[$name]);
+		return $this;
+	}
+
+
+	/**
 	 * Overloaded setter for element's attribute.
 	 * @param  string    HTML attribute name
 	 * @param  mixed     HTML attribute value
@@ -186,7 +254,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 			$m = substr($m, 3);
 			$m[0] = $m[0] | "\x20";
 			if ($p === 'get') {
-				return isset($this->attrs[$m]) ? $this->attrs[$m] : NULL;
+				return $this->getAttribute($m);
 
 			} elseif ($p === 'add') {
 				$args[] = TRUE;
@@ -196,16 +264,10 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		if (count($args) === 0) { // invalid
 
 		} elseif (count($args) === 1) { // set
-			$this->attrs[$m] = $args[0];
+			$this->setAttribute($m, $args[0]);
 
-		} elseif ((string) $args[0] === '') {
-			$tmp = & $this->attrs[$m]; // appending empty value? -> ignore, but ensure it exists
-
-		} elseif (!isset($this->attrs[$m]) || is_array($this->attrs[$m])) { // needs array
-			$this->attrs[$m][$args[0]] = $args[1];
-
-		} else {
-			$this->attrs[$m] = [$this->attrs[$m], $args[0] => $args[1]];
+		} else { // add
+			$this->appendAttribute($m, $args[0], $args[1]);
 		}
 
 		return $this;
