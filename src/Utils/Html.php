@@ -129,6 +129,68 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 
 	/**
+	 * Appends value to element's attribute.
+	 * @param  string
+	 * @param  string|array value to append
+	 * @param  string|bool  value option
+	 * @return self
+	 */
+	public function appendAttribute($name, $value, $option = TRUE)
+	{
+		if (is_array($value)) {
+			$prev = isset($this->attrs[$name]) ? (array) $this->attrs[$name] : [];
+			$this->attrs[$name] = $value + $prev;
+
+		} elseif ((string) $value === '') {
+			$tmp = & $this->attrs[$name]; // appending empty value? -> ignore, but ensure it exists
+
+		} elseif (!isset($this->attrs[$name]) || is_array($this->attrs[$name])) { // needs array
+			$this->attrs[$name][$value] = $option;
+
+		} else {
+			$this->attrs[$name] = [$this->attrs[$name] => TRUE, $value => $option];
+		}
+		return $this;
+	}
+
+
+	/**
+	 * Sets element's attribute.
+	 * @param  string
+	 * @param  mixed
+	 * @return self
+	 */
+	public function setAttribute($name, $value)
+	{
+		$this->attrs[$name] = $value;
+		return $this;
+	}
+
+
+	/**
+	 * Returns element's attribute.
+	 * @param  string
+	 * @return mixed
+	 */
+	public function getAttribute($name)
+	{
+		return isset($this->attrs[$name]) ? $this->attrs[$name] : NULL;
+	}
+
+
+	/**
+	 * Unsets element's attribute.
+	 * @param  string
+	 * @return self
+	 */
+	public function removeAttribute($name)
+	{
+		unset($this->attrs[$name]);
+		return $this;
+	}
+
+
+	/**
 	 * Overloaded setter for element's attribute.
 	 * @param  string    HTML attribute name
 	 * @param  mixed     HTML attribute value
@@ -198,14 +260,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		} elseif (count($args) === 1) { // set
 			$this->attrs[$m] = $args[0];
 
-		} elseif ((string) $args[0] === '') {
-			$tmp = & $this->attrs[$m]; // appending empty value? -> ignore, but ensure it exists
-
-		} elseif (!isset($this->attrs[$m]) || is_array($this->attrs[$m])) { // needs array
-			$this->attrs[$m][$args[0]] = $args[1];
-
-		} else {
-			$this->attrs[$m] = [$this->attrs[$m], $args[0] => $args[1]];
+		} else { // add
+			$this->appendAttribute($m, $args[0], $args[1]);
 		}
 
 		return $this;

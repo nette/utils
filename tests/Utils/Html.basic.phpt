@@ -22,10 +22,36 @@ test(function () {
 
 test(function () {
 	Html::$xhtml = TRUE;
+	$el = Html::el('img')->setAttribute('src', 'image.gif')->setAttribute('alt', '');
+	Assert::same('<img src="image.gif" alt="" />', (string) $el);
+	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
+	Assert::same('', $el->endTag());
+});
+
+
+test(function () {
+	Html::$xhtml = TRUE;
 	$el = Html::el('img')->accesskey(0, TRUE)->alt('alt', FALSE);
 	Assert::same('<img accesskey="0" />', (string) $el);
 	Assert::same('<img accesskey="0 1" />', (string) $el->accesskey(1, TRUE));
+	Assert::same('<img accesskey="0" />', (string) $el->accesskey(1, FALSE));
+	Assert::same('<img accesskey="0" />', (string) $el->accesskey(0, TRUE));
 	Assert::same('<img accesskey="0" />', (string) $el->accesskey(0));
+
+	unset($el->accesskey);
+	Assert::same('<img />', (string) $el);
+});
+
+
+test(function () {
+	Html::$xhtml = TRUE;
+	$el = Html::el('img')->appendAttribute('accesskey', 0)->setAttribute('alt', FALSE);
+	Assert::same('<img accesskey="0" />', (string) $el);
+	Assert::same('<img accesskey="0 1" />', (string) $el->appendAttribute('accesskey', 1));
+	Assert::same('<img accesskey="0" />', (string) $el->appendAttribute('accesskey', 1, FALSE));
+	Assert::same('<img accesskey="0" />', (string) $el->appendAttribute('accesskey', 0));
+	Assert::same('<img accesskey="0" />', (string) $el->setAttribute('accesskey', 0));
+	Assert::same('<img />', (string) $el->removeAttribute('accesskey'));
 });
 
 
@@ -46,7 +72,9 @@ test(function () {
 	Assert::same('<img src="image.gif" alt="alt2">', (string) $el);
 	Assert::same('image.gif', $el->getSrc());
 	Assert::null($el->getTitle());
+	Assert::null($el->getAttribute('title'));
 	Assert::same('alt2', $el->getAlt());
+	Assert::same('alt2', $el->getAttribute('alt'));
 
 	$el->addAlt('alt3');
 	Assert::same('<img src="image.gif" alt="alt2 alt3">', (string) $el);
@@ -109,4 +137,15 @@ test(function () { // href with query
 test(function () { // isset
 	Assert::false(isset(Html::el('a')->id));
 	Assert::true(isset(Html::el('a')->id('')->id));
+
+	Html::el('a')->id = NULL;
+	Assert::false(isset(Html::el('a')->id));
+});
+
+
+test(function () { // isset
+	Assert::true(isset(Html::el('a')->setAttribute('id', '')->id));
+	Assert::false(isset(Html::el('a')->removeAttribute('id')->id));
+	Assert::true(isset(Html::el('a')->setAttribute('id', '')->id));
+	Assert::false(isset(Html::el('a')->setAttribute('id', NULL)->id));
 });
