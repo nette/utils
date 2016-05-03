@@ -582,6 +582,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		$s = '';
 		$attrs = $this->attrs;
 		if (isset($attrs['data']) && is_array($attrs['data'])) { // deprecated
+			trigger_error('Expanded attribute "data" is deprecated.', E_USER_DEPRECATED);
 			foreach ($attrs['data'] as $key => $value) {
 				$attrs['data-' . $key] = $value;
 			}
