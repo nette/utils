@@ -4,7 +4,7 @@ php:
     - 7.0
 
 script:
-    - vendor/bin/tester tests -s -p php -c tests/php-unix.ini $coverage
+    - vendor/bin/tester tests -s -c tests/php-unix.ini $coverage
     - php temp/code-checker/src/code-checker.php --short-arrays
 
 after_failure:
