@@ -421,6 +421,7 @@ class Strings
 	 */
 	public static function random($length = 10, $charlist = '0-9a-z')
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use Nette\Utils\Random::generate()', E_USER_DEPRECATED);
 		return Random::generate($length, $charlist);
 	}
 
