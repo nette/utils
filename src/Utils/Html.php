@@ -363,13 +363,35 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 
 	/**
+	 * @deprecated
+	 */
+	public function add($child)
+	{
+		trigger_error(__METHOD__ . '() is deprecated, use addHtml() or addText() instead.', E_USER_DEPRECATED);
+		return $this->addHtml($child);
+	}
+
+
+	/**
 	 * Adds new element's child.
 	 * @param  Html|string Html node or raw HTML string
 	 * @return self
 	 */
-	public function add($child)
+	public function addHtml($child)
 	{
 		return $this->insert(NULL, $child);
+	}
+
+
+	/**
+	 * Appends plain-text string to element content.
+	 * @param  string plain-text string
+	 * @return self
+	 */
+	public function addText($text)
+	{
+		$text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
+		return $this->insert(NULL, $text);
 	}
 
 

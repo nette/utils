@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 test(function () { // add
 	$el = Html::el('ul');
 	$el->create('li')->setText('one');
-	$el->add(Html::el('li')->setText('two'))->class('hello');
+	$el->addHtml(Html::el('li')->setText('two'))->class('hello');
 	Assert::same('<ul class="hello"><li>one</li><li>two</li></ul>', (string) $el);
 
 
@@ -31,15 +31,18 @@ test(function () { // add
 
 test(function () {
 	$el = Html::el(NULL);
-	$el->add(Html::el('p')->setText('one'));
-	$el->add(Html::el('p')->setText('two'));
-	Assert::same('<p>one</p><p>two</p>', (string) $el);
+	$el->addHtml(Html::el('p')->setText('one'));
+	$el->addText('<p>two</p>');
+	$el->addHtml('<p>three</p>');
+	Assert::same('<p>one</p>&lt;p&gt;two&lt;/p&gt;<p>three</p>', (string) $el);
 
 
 	// ==> Get child:
-	Assert::true(isset($el[1]));
-	Assert::same('<p>two</p>', (string) $el[1]);
-	Assert::false(isset($el[2]));
+	Assert::true(isset($el[0]));
+	Assert::same('<p>one</p>', (string) $el[0]);
+	Assert::same('&lt;p&gt;two&lt;/p&gt;', (string) $el[1]);
+	Assert::same('<p>three</p>', (string) $el[2]);
+	Assert::false(isset($el[3]));
 });
 
 
