@@ -38,3 +38,12 @@ function test(\Closure $function)
 	before();
 	$function();
 }
+
+
+class RemoteStream /* extends \streamWrapper */
+{
+	public function stream_open() { return TRUE; }
+	public function url_stat() { return FALSE; }
+}
+
+stream_wrapper_register('remote', 'RemoteStream', STREAM_IS_URL);
