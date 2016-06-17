@@ -40,12 +40,14 @@ Assert::exception(function () {
 
 
 test(function () { // copy
+	Assert::false(stream_is_local('remote://example.com'));
+
 	FileSystem::write(TEMP_DIR . '/3/file', 'Hello');
 
 	FileSystem::copy(TEMP_DIR . '/3/file', TEMP_DIR . '/3/x/file');
 	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
-	FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/y/file');
+	FileSystem::copy('remote://example.com', TEMP_DIR . '/3/x/y/file');
 	Assert::true(is_file(TEMP_DIR . '/3/x/y/file'));
 
 	FileSystem::write(TEMP_DIR . '/5/newfile', 'World');
@@ -56,7 +58,7 @@ test(function () { // copy
 	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
 	Assert::exception(function () {
-		FileSystem::copy('http://example.com', TEMP_DIR . '/3/x/file', FALSE);
+		FileSystem::copy('remote://example.com', TEMP_DIR . '/3/x/file', FALSE);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
 	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
@@ -135,4 +137,5 @@ test(function () { // isAbsolute
 	Assert::true(FileSystem::isAbsolute('d:\file'));
 	Assert::true(FileSystem::isAbsolute('D:\file'));
 	Assert::true(FileSystem::isAbsolute('http://file'));
+	Assert::true(FileSystem::isAbsolute('remote://file'));
 });
