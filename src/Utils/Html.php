@@ -311,7 +311,30 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 */
 	public function add($child)
 	{
+		return $this->addHtml($child);
+	}
+
+
+	/**
+	 * Adds new element's child.
+	 * @param  Html|string Html node or raw HTML string
+	 * @return self
+	 */
+	public function addHtml($child)
+	{
 		return $this->insert(NULL, $child);
+	}
+
+
+	/**
+	 * Appends plain-text string to element content.
+	 * @param  string plain-text string
+	 * @return self
+	 */
+	public function addText($text)
+	{
+		$text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
+		return $this->insert(NULL, $text);
 	}
 
 
