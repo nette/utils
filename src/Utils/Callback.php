@@ -95,16 +95,9 @@ class Callback
 		});
 
 		try {
-			$res = $function(...$args);
+			return $function(...$args);
+		} finally {
 			restore_error_handler();
-			return $res;
-
-		} catch (\Throwable $e) {
-			restore_error_handler();
-			throw $e;
-		} catch (\Exception $e) {
-			restore_error_handler();
-			throw $e;
 		}
 	}
 
