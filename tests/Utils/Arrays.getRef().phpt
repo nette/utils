@@ -19,7 +19,7 @@ $arr = [
 	],
 ];
 
-test(function () use ($arr) { // Single item
+(function () use ($arr) { // Single item
 
 	$dolly = $arr;
 	$item = &Arrays::getRef($dolly, NULL);
@@ -44,10 +44,10 @@ test(function () use ($arr) { // Single item
 		],
 		'undefined' => 'changed',
 	], $dolly);
-});
+})();
 
 
-test(function () use ($arr) { // Traversing
+(function () use ($arr) { // Traversing
 
 	$dolly = $arr;
 	$item = &Arrays::getRef($dolly, []);
@@ -65,13 +65,13 @@ test(function () use ($arr) { // Traversing
 			'item' => 'changed',
 		],
 	], $dolly);
-});
+})();
 
 
-test(function () use ($arr) { // Error
+(function () use ($arr) { // Error
 
 	Assert::exception(function () use ($arr) {
 		$dolly = $arr;
 		$item = &Arrays::getRef($dolly, [7, 'item', 3]);
 	}, InvalidArgumentException::class, 'Traversed item is not an array.');
-});
+})();

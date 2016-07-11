@@ -17,7 +17,7 @@ $arr = [
 	2 => 'second',
 ];
 
-test(function () use ($arr) { // Single item
+(function () use ($arr) { // Single item
 
 	Assert::same('null', Arrays::pick($arr, NULL));
 	Assert::same('first', Arrays::pick($arr, 1));
@@ -26,4 +26,4 @@ test(function () use ($arr) { // Single item
 		Arrays::pick($arr, 'undefined');
 	}, Nette\InvalidArgumentException::class, "Missing item 'undefined'.");
 	Assert::same([2 => 'second'], $arr);
-});
+})();

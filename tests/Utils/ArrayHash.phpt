@@ -28,7 +28,7 @@ class Person
 }
 
 
-test(function () {
+(function () {
 	$list = new ArrayHash;
 	$jack = new Person('Jack');
 	$mary = new Person('Mary');
@@ -72,10 +72,10 @@ test(function () {
 	Assert::same([
 		'm' => $mary,
 	], iterator_to_array($list));
-});
+})();
 
 
-test(function () {
+(function () {
 	$mary = new Person('Mary');
 	$list = ArrayHash::from([
 		'm' => $mary,
@@ -86,10 +86,10 @@ test(function () {
 	], FALSE);
 	Assert::type(Nette\Utils\ArrayHash::class, $list);
 	Assert::type('array', $list['children']);
-});
+})();
 
 
-test(function () {
+(function () {
 	$mary = new Person('Mary');
 	$list = ArrayHash::from([
 		'm' => $mary,
@@ -114,10 +114,10 @@ test(function () {
 		'children' => $list['children'],
 		'c' => 'Jim',
 	], iterator_to_array(new RecursiveIteratorIterator($list, RecursiveIteratorIterator::SELF_FIRST)));
-});
+})();
 
 
-test(function () { // numeric fields
+(function () { // numeric fields
 	$row = ArrayHash::from([1, 2]);
 
 	foreach ($row as $key => $value) {
@@ -159,19 +159,19 @@ test(function () { // numeric fields
 	Assert::false(isset($row->{'3'}));
 	Assert::false(isset($row[3]));
 	Assert::false(isset($row['3']));
-});
+})();
 
 
-test(function () { // null fields
+(function () { // null fields
 	$row = ArrayHash::from(['null' => NULL]);
 	Assert::null($row->null);
 	Assert::null($row['null']);
 	Assert::false(isset($row->null));
 	Assert::false(isset($row['null']));
-});
+})();
 
 
-test(function () { // undeclared fields
+(function () { // undeclared fields
 	$row = new ArrayHash;
 	Assert::error(function () use ($row) {
 		$row->undef;
@@ -180,13 +180,13 @@ test(function () { // undeclared fields
 	Assert::error(function () use ($row) {
 		$row['undef'];
 	}, E_NOTICE, 'Undefined property: Nette\Utils\ArrayHash::$undef');
-});
+})();
 
 
-test(function () { // PHP 7 changed behavior https://3v4l.org/2A1pf
+(function () { // PHP 7 changed behavior https://3v4l.org/2A1pf
 	$hash = ArrayHash::from([1, 2, 3]);
 	foreach ($hash as $key => $value) {
 		unset($hash->$key);
 	}
 	Assert::count(0, $hash);
-});
+})();

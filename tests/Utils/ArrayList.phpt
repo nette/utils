@@ -28,7 +28,7 @@ class Person
 }
 
 
-test(function () {
+(function () {
 	$list = new ArrayList;
 	$jack = new Person('Jack');
 	$mary = new Person('Mary');
@@ -74,4 +74,4 @@ test(function () {
 
 	$list->prepend('First');
 	Assert::same('First', $list[0], 'Value "First" should be on the start of the array');
-});
+})();

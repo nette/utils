@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // ==> array
+(function () { // ==> array
 	$arr = ['Nette', 'Framework'];
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
@@ -21,10 +21,10 @@ test(function () { // ==> array
 		'0 => Nette',
 		'1 => Framework',
 	], $tmp);
-});
+})();
 
 
-test(function () { // ==> stdClass
+(function () { // ==> stdClass
 	$arr = (object) ['Nette', 'Framework'];
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
@@ -34,10 +34,10 @@ test(function () { // ==> stdClass
 		'0 => Nette',
 		'1 => Framework',
 	], $tmp);
-});
+})();
 
 
-test(function () { // ==> IteratorAggregate
+(function () { // ==> IteratorAggregate
 	$arr = new ArrayObject(['Nette', 'Framework']);
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
@@ -47,9 +47,10 @@ test(function () { // ==> IteratorAggregate
 		'0 => Nette',
 		'1 => Framework',
 	], $tmp);
-});
+})();
 
-test(function () { // ==> Iterator
+
+(function () { // ==> Iterator
 	$arr = new ArrayObject(['Nette', 'Framework']);
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr->getIterator()) as $k => $v) {
@@ -59,10 +60,10 @@ test(function () { // ==> Iterator
 		'0 => Nette',
 		'1 => Framework',
 	], $tmp);
-});
+})();
 
 
-test(function () { // ==> SimpleXMLElement
+(function () { // ==> SimpleXMLElement
 	$arr = new SimpleXMLElement('<feed><item>Nette</item><item>Framework</item></feed>');
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
@@ -72,15 +73,15 @@ test(function () { // ==> SimpleXMLElement
 		'item => Nette',
 		'item => Framework',
 	], $tmp);
-});
+})();
 
 
-test(function () { // ==> object
+(function () { // ==> object
 	Assert::exception(function () {
 		$arr = dir('.');
 		foreach (new Iterators\CachingIterator($arr) as $k => $v);
 	}, InvalidArgumentException::class, NULL);
-});
+})();
 
 
 class RecursiveIteratorAggregate implements IteratorAggregate
@@ -92,7 +93,7 @@ class RecursiveIteratorAggregate implements IteratorAggregate
 }
 
 
-test(function () { // ==> recursive IteratorAggregate
+(function () { // ==> recursive IteratorAggregate
 	$arr = new RecursiveIteratorAggregate;
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
@@ -102,4 +103,4 @@ test(function () { // ==> recursive IteratorAggregate
 		'0 => Nette',
 		'1 => Framework',
 	], $tmp);
-});
+})();

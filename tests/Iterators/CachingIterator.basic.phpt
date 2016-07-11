@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // ==> Two items in array
+(function () { // ==> Two items in array
 
 	$arr = ['Nette', 'Framework'];
 
@@ -36,10 +36,10 @@ test(function () { // ==> Two items in array
 	Assert::false($iterator->isLast());
 	Assert::same(1, $iterator->getCounter());
 	Assert::false($iterator->isEmpty());
-});
+})();
 
 
-test(function () {
+(function () {
 	$arr = ['Nette'];
 
 	$iterator = new Iterators\CachingIterator($arr);
@@ -57,10 +57,10 @@ test(function () {
 	Assert::true($iterator->isLast());
 	Assert::same(1, $iterator->getCounter());
 	Assert::false($iterator->isEmpty());
-});
+})();
 
 
-test(function () {
+(function () {
 	$arr = [];
 
 	$iterator = new Iterators\CachingIterator($arr);
@@ -70,4 +70,4 @@ test(function () {
 	Assert::true($iterator->isLast());
 	Assert::same(0, $iterator->getCounter());
 	Assert::true($iterator->isEmpty());
-});
+})();

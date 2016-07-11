@@ -71,7 +71,7 @@ function getName($ref)
 }
 
 
-test(function () { // global function
+(function () { // global function
 	Assert::same('trim', Callback::unwrap(Callback::closure('trim')));
 	Assert::same('trim', Callback::toString('trim'));
 	Assert::same('{closure trim}', Callback::toString(Callback::closure('trim')));
@@ -89,10 +89,10 @@ test(function () { // global function
 	Assert::exception(function () {
 		Callback::toReflection('undefined');
 	}, ReflectionException::class, 'Function undefined() does not exist');
-});
+})();
 
 
-test(function () { // closure
+(function () { // closure
 	$closure = function (&$a) {
 		$a = __FUNCTION__;
 		return $a;
@@ -103,10 +103,10 @@ test(function () { // closure
 	Assert::same('{closure}', getName(Callback::toReflection($closure)));
 	Assert::same('{closure}', call_user_func_array(Callback::closure($closure), [&$res]));
 	Assert::same('{closure}', $res);
-});
+})();
 
 
-test(function () { // invokable object
+(function () { // invokable object
 	$test = new Test;
 	Assert::same([$test, '__invoke'], Callback::unwrap(Callback::closure($test)));
 	Assert::same('Test::__invoke', Callback::toString($test));
@@ -114,10 +114,10 @@ test(function () { // invokable object
 	Assert::same('Test::__invoke', getName(Callback::toReflection($test)));
 	Assert::same('Test::__invoke', getName(Callback::toReflection(Callback::closure($test))));
 	Assert::same('Test::__invoke*', Callback::closure($test)->__invoke('*'));
-});
+})();
 
 
-test(function () { // object methods
+(function () { // object methods
 	$test = new Test;
 	Assert::same([$test, 'publicFun'], Callback::unwrap(Callback::closure($test, 'publicFun')));
 	Assert::same([$test, 'publicFun'], Callback::unwrap(Callback::closure([$test, 'publicFun'])));
@@ -144,10 +144,10 @@ test(function () { // object methods
 
 	Assert::same('Test::ref', call_user_func_array(Callback::closure($test, 'ref'), [&$res]));
 	Assert::same('Test::ref', $res);
-});
+})();
 
 
-test(function () { // static methods
+(function () { // static methods
 	$test = new Test;
 	Assert::same(['Test', 'publicStatic'], Callback::unwrap(Callback::closure('Test', 'publicStatic')));
 	Assert::same(['Test', 'publicStatic'], Callback::unwrap(Callback::closure(['Test', 'publicStatic'])));
@@ -174,10 +174,10 @@ test(function () { // static methods
 	Assert::same('Test::privateStatic', getName(Callback::toReflection(Callback::closure('Test::privateStatic'))));
 
 	Assert::same('Test::privateStatic*', Callback::closure('Test::privateStatic')->__invoke('*'));
-});
+})();
 
 
-test(function () { // magic methods
+(function () { // magic methods
 	$test = new Test;
 	Assert::same([$test, 'magic'], Callback::unwrap(Callback::closure($test, 'magic')));
 	Assert::same('Test::magic', Callback::toString([$test, 'magic']));
@@ -196,4 +196,4 @@ test(function () { // magic methods
 	Assert::exception(function () {
 		Callback::toReflection(Callback::closure(new Test, 'magic'));
 	}, ReflectionException::class, 'Method Test::magic() does not exist');
-});
+})();

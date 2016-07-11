@@ -23,12 +23,6 @@ register_shutdown_function(function () {
 });
 
 
-function test(\Closure $function)
-{
-	$function();
-}
-
-
 class RemoteStream /* extends \streamWrapper */
 {
 	public function stream_open() { return TRUE; }

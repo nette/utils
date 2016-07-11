@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+(function () {
 	$arr = [];
 	$log = [];
 	$res = Arrays::every(
@@ -20,9 +20,9 @@ test(function () {
 	);
 	Assert::true($res);
 	Assert::same([], $log);
-});
+})();
 
-test(function () {
+(function () {
 	$arr = [];
 	$log = [];
 	$res = Arrays::every(
@@ -31,9 +31,9 @@ test(function () {
 	);
 	Assert::true($res);
 	Assert::same([], $log);
-});
+})();
 
-test(function () {
+(function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::every(
@@ -42,9 +42,9 @@ test(function () {
 	);
 	Assert::false($res);
 	Assert::same([['a', 0, $arr]], $log);
-});
+})();
 
-test(function () {
+(function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::every(
@@ -53,9 +53,9 @@ test(function () {
 	);
 	Assert::true($res);
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
-});
+})();
 
-test(function () {
+(function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::every(
@@ -64,9 +64,9 @@ test(function () {
 	);
 	Assert::false($res);
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
-});
+})();
 
-test(function () {
+(function () {
 	$arr = ['x' => 'a', 'y' => 'b'];
 	$log = [];
 	$res = Arrays::every(
@@ -75,4 +75,4 @@ test(function () {
 	);
 	Assert::true($res);
 	Assert::same([['a', 'x', $arr], ['b', 'y', $arr]], $log);
-});
+})();

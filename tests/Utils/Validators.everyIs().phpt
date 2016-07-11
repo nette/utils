@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+(function () {
 	class Abc {}
 
 	Assert::true(Validators::everyIs([], 'int'));
@@ -36,10 +36,10 @@ test(function () {
 	Assert::true(Validators::everyIs([[1], [2, 3]], 'int[]'));
 	Assert::true(Validators::everyIs([['ABCD', 'EFGH'], ['IJKL']], 'string:4[]'));
 	Assert::false(Validators::everyIs([['ABCD', 'EFGH'], ['IJKLM']], 'string:4[]'));
-});
+})();
 
 
-test(function () {
+(function () {
 	$gen = function () {
 		yield 1;
 		yield 2;
@@ -52,4 +52,4 @@ test(function () {
 	$var->b = 2;
 	$var->c = 3;
 	Assert::false(Validators::everyIs($var, 'int'));
-});
+})();

@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+(function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -25,10 +25,10 @@ test(function () {
 	Assert::same(6, $paginator->offset);
 	Assert::same(0, $paginator->countdownOffset);
 	Assert::same(1, $paginator->length);
-});
+})();
 
 
-test(function () {
+(function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -39,10 +39,10 @@ test(function () {
 	Assert::same(0, $paginator->offset);
 	Assert::same(1, $paginator->countdownOffset);
 	Assert::same(6, $paginator->length);
-});
+})();
 
 
-test(function () {
+(function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 7;
@@ -56,10 +56,10 @@ test(function () {
 	Assert::same(0, $paginator->offset);
 	Assert::same(0, $paginator->countdownOffset);
 	Assert::same(7, $paginator->length);
-});
+})();
 
 
-test(function () {
+(function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = -1;
 	$paginator->itemsPerPage = 7;
@@ -73,10 +73,10 @@ test(function () {
 	Assert::same(0, $paginator->offset);
 	Assert::same(0, $paginator->countdownOffset);
 	Assert::same(0, $paginator->length);
-});
+})();
 
 
-test(function () {
+(function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -90,10 +90,10 @@ test(function () {
 	Assert::same(6, $paginator->offset);
 	Assert::same(0, $paginator->countdownOffset);
 	Assert::same(1, $paginator->length);
-});
+})();
 
 
-test(function () {
+(function () {
 	$paginator = new Paginator;
 
 	// ItemCount: 0
@@ -117,10 +117,10 @@ test(function () {
 	$paginator->setPage(2);
 	Assert::false($paginator->isFirst());
 	Assert::true($paginator->isLast());
-});
+})();
 
 
-test(function () {
+(function () {
 	$paginator = new Paginator;
 	$paginator->itemsPerPage = 6;
 	$paginator->base = 0;
@@ -133,4 +133,4 @@ test(function () {
 	Assert::same(18, $paginator->offset);
 	Assert::null($paginator->countdownOffset);
 	Assert::same(6, $paginator->length);
-});
+})();

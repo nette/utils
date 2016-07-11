@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(TRUE, 'int'));
 	Assert::false(Validators::is('1', 'int'));
 	Assert::true(Validators::is(1, 'integer'));
@@ -28,26 +28,26 @@ test(function () {
 	Assert::true(Validators::is(1, 'int:..1'));
 	Assert::true(Validators::is(0, 'int:..0'));
 	Assert::true(Validators::is(-1, 'int:..0'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(TRUE, 'float'));
 	Assert::false(Validators::is('1', 'float'));
 	Assert::false(Validators::is(1, 'float'));
 	Assert::true(Validators::is(1.0, 'float'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(TRUE, 'number'));
 	Assert::false(Validators::is('1', 'number'));
 	Assert::true(Validators::is(1, 'number'));
 	Assert::true(Validators::is(1.0, 'number'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(TRUE, 'numeric'));
 	Assert::true(Validators::is('1', 'numeric'));
 	Assert::true(Validators::is('-1', 'numeric'));
@@ -56,10 +56,10 @@ test(function () {
 	Assert::false(Validators::is('1e6', 'numeric'));
 	Assert::true(Validators::is(1, 'numeric'));
 	Assert::true(Validators::is(1.0, 'numeric'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(TRUE, 'numericint'));
 	Assert::true(Validators::is('1', 'numericint'));
 	Assert::true(Validators::is('-1', 'numericint'));
@@ -68,10 +68,10 @@ test(function () {
 	Assert::false(Validators::is('1e6', 'numericint'));
 	Assert::true(Validators::is(1, 'numericint'));
 	Assert::false(Validators::is(1.0, 'numericint'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(1, 'bool'));
 	Assert::true(Validators::is(TRUE, 'bool'));
 	Assert::true(Validators::is(FALSE, 'bool'));
@@ -81,10 +81,10 @@ test(function () {
 	Assert::false(Validators::is(FALSE, 'bool:1'));
 	Assert::true(Validators::is(FALSE, 'bool:0'));
 	Assert::true(Validators::is(FALSE, 'bool:0..1'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(1, 'string'));
 	Assert::true(Validators::is('', 'string'));
 	Assert::true(Validators::is('hello', 'string'));
@@ -92,10 +92,10 @@ test(function () {
 	Assert::false(Validators::is('hello', 'string:4'));
 	Assert::true(Validators::is('hello', 'string:4..'));
 	Assert::false(Validators::is('hello', 'string:1..4'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(1, 'unicode'));
 	Assert::true(Validators::is('', 'unicode'));
 	Assert::true(Validators::is('hello', 'unicode'));
@@ -104,20 +104,20 @@ test(function () {
 	Assert::false(Validators::is('hello', 'unicode:4'));
 	Assert::true(Validators::is('hello', 'unicode:4..'));
 	Assert::false(Validators::is('hello', 'unicode:1..4'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(NULL, 'array'));
 	Assert::true(Validators::is([], 'array'));
 	Assert::true(Validators::is([], 'array:0'));
 	Assert::true(Validators::is([1], 'array:1'));
 	Assert::true(Validators::is([1], 'array:0..'));
 	Assert::true(Validators::is([], 'array:..1'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(NULL, 'list'));
 	Assert::true(Validators::is([], 'list'));
 	Assert::true(Validators::is([1], 'list'));
@@ -129,23 +129,23 @@ test(function () {
 	$arr[] = &$arr;
 	Assert::true(Validators::is($arr, 'list'));
 	Assert::false(Validators::is([1, 2, 3], 'list:4'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(NULL, 'object'));
 	Assert::true(Validators::is(new stdClass, 'object'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(NULL, 'scalar'));
 	Assert::false(Validators::is([], 'scalar'));
 	Assert::true(Validators::is(1, 'scalar'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(NULL, 'callable'));
 	Assert::false(Validators::is([], 'callable'));
 	Assert::false(Validators::is(1, 'callable'));
@@ -153,16 +153,16 @@ test(function () {
 	Assert::true(Validators::is('hello', 'callable'));
 	Assert::false(Validators::is(['hello'], 'callable'));
 	Assert::true(Validators::is(['hello', 'world'], 'callable'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is(0, 'null'));
 	Assert::true(Validators::is(NULL, 'null'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'email'));
 	Assert::false(Validators::is('hello', 'email'));
 	Assert::true(Validators::is('hello@world.cz', 'email'));
@@ -177,10 +177,10 @@ test(function () {
 	Assert::false(Validators::is('péter@esterházy.hu', 'email'));
 	Assert::true(Validators::is('hello@1.c0m', 'email'));
 	Assert::true(Validators::is('hello@1.c', 'email'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'url'));
 	Assert::false(Validators::is('hello', 'url'));
 	Assert::false(Validators::is('nette.org', 'url'));
@@ -203,10 +203,10 @@ test(function () {
 	Assert::true(Validators::is('http://one_two.example.com', 'url'));
 	Assert::true(Validators::is('http://_.example.com', 'url'));
 	Assert::true(Validators::is('http://_e_.example.com', 'url'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'uri'));
 	Assert::false(Validators::is('hello', 'uri'));
 	Assert::false(Validators::is('nette.org', 'uri'));
@@ -216,109 +216,110 @@ test(function () {
 	Assert::true(Validators::is('mailto:gandalf@example.org', 'uri'));
 	Assert::true(Validators::is('valid-scheme+.0:lalala', 'uri'));
 	Assert::true(Validators::is('bitcoin:mipcBbFg9gMiCh81Kj8tqqdgoZub1ZJRfn', 'uri'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::true(Validators::is(0, 'none'));
 	Assert::true(Validators::is('', 'none'));
 	Assert::true(Validators::is(NULL, 'none'));
 	Assert::true(Validators::is(FALSE, 'none'));
 	Assert::false(Validators::is('0', 'none'));
 	Assert::true(Validators::is([], 'none'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::true(Validators::is('', 'pattern'));
 	Assert::true(Validators::is('  123', 'pattern:\s+\d+'));
 	Assert::false(Validators::is('  123x', 'pattern:\s+\d+'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'alnum'));
 	Assert::false(Validators::is('a-1', 'alnum'));
 	Assert::true(Validators::is('a1', 'alnum'));
 	Assert::true(Validators::is('a1', 'alnum:2'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'alpha'));
 	Assert::false(Validators::is('a1', 'alpha'));
 	Assert::true(Validators::is('aA', 'alpha'));
 	Assert::true(Validators::is('aA', 'alpha:1..3'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'digit'));
 	Assert::false(Validators::is('123x', 'digit'));
 	Assert::true(Validators::is('123', 'digit'));
 	Assert::false(Validators::is('123', 'digit:..2'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'lower'));
 	Assert::false(Validators::is('Hello', 'lower'));
 	Assert::true(Validators::is('hello', 'lower'));
 	Assert::false(Validators::is('hello', 'lower:9'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'upper'));
 	Assert::false(Validators::is('Hello', 'upper'));
 	Assert::true(Validators::is('HELLO', 'upper'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'space'));
 	Assert::false(Validators::is(' 1', 'space'));
 	Assert::true(Validators::is(" \t\r\n", 'space'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::false(Validators::is('', 'xdigit'));
 	Assert::false(Validators::is('123x', 'xdigit'));
 	Assert::true(Validators::is('123aA', 'xdigit'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::true(Validators::is(1.0, 'int|float'));
 	Assert::true(Validators::is(1, 'int|float'));
 	Assert::false(Validators::is('1', 'int|float'));
-});
+})();
 
 
-test(function () {
+(function () {
 	class rimmer {}
 	interface kryton { }
 
 	Assert::true(Validators::is('rimmer', 'type'));
 	Assert::true(Validators::is('kryton', 'type'));
 	Assert::false(Validators::is('1', 'type'));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::true(Validators::is('Item', 'identifier'));
 	Assert::false(Validators::is('0Item', 'identifier'));
-});
+})();
 
-test(function () {
+
+(function () {
 	Assert::true(Validators::is('', 'string:0|email'));
 	Assert::true(Validators::is('foo@bar.com', 'string:0|email'));
 	Assert::false(Validators::is('foo', 'string:0|email'));
-});
+})();
 
 
-test(function () {
+(function () {
 	$gen = function () {
 		yield;
 	};
@@ -329,10 +330,10 @@ test(function () {
 	Assert::false(Validators::is(1, 'iterable'));
 	Assert::false(Validators::is(3.14, 'iterable'));
 	Assert::false(Validators::is(new stdClass(), 'iterable'));
-});
+})();
 
 
-test(function () {
+(function () {
 	class Abc {}
 
 	Assert::true(Validators::is([], 'int[]'));
@@ -355,4 +356,4 @@ test(function () {
 
 	Assert::true(Validators::is([['ABCD', 'EFGH'], ['IJKL']], 'string:4[][]'));
 	Assert::false(Validators::is([['ABCD', 'EFGH'], ['IJKLM']], 'string:4[][]'));
-});
+})();

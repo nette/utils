@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // add
+(function () { // add
 	$el = Html::el('ul');
 	$el->create('li')->setText('one');
 	$el->addHtml(Html::el('li')->setText('two'))->class('hello');
@@ -26,10 +26,10 @@ test(function () { // add
 			<li>two</li>
 		</ul>
 ', $el->render(2), 'indentation');
-});
+})();
 
 
-test(function () {
+(function () {
 	$el = Html::el(NULL);
 	$el->addHtml(Html::el('p')->setText('one'));
 	$el->addText('<p>two</p>');
@@ -43,10 +43,10 @@ test(function () {
 	Assert::same('&lt;p&gt;two&lt;/p&gt;', (string) $el[1]);
 	Assert::same('<p>three</p>', (string) $el[2]);
 	Assert::false(isset($el[3]));
-});
+})();
 
 
-test(function () { // ==> Iterator:
+(function () { // ==> Iterator:
 	$el = Html::el('select');
 	$el->create('optgroup')->label('Main')->create('option')->setText('sub one')->create('option')->setText('sub two');
 	$el->create('option')->setText('Item');
@@ -54,4 +54,4 @@ test(function () { // ==> Iterator:
 	Assert::same(2, count($el));
 	Assert::same('optgroup', $el[0]->getName());
 	Assert::same('option', $el[1]->getName());
-});
+})();

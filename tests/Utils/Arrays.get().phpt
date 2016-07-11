@@ -19,7 +19,7 @@ $arr = [
 	],
 ];
 
-test(function () use ($arr) { // Single item
+(function () use ($arr) { // Single item
 
 	Assert::same('first', Arrays::get($arr, NULL));
 	Assert::same('second', Arrays::get($arr, 1));
@@ -28,10 +28,10 @@ test(function () use ($arr) { // Single item
 	Assert::exception(function () use ($arr) {
 		Arrays::get($arr, 'undefined');
 	}, Nette\InvalidArgumentException::class, "Missing item 'undefined'.");
-});
+})();
 
 
-test(function () use ($arr) { // Traversing
+(function () use ($arr) { // Traversing
 
 	Assert::same([
 		'' => 'first',
@@ -43,4 +43,4 @@ test(function () use ($arr) { // Traversing
 
 
 	Assert::same('third', Arrays::get($arr, [7, 'item']));
-});
+})();

@@ -11,24 +11,24 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // createDir
+(function () { // createDir
 	FileSystem::createDir(TEMP_DIR . '/1/b/');
 	Assert::true(is_dir(TEMP_DIR . '/1/b'));
 
 	FileSystem::createDir(TEMP_DIR . '/1/');
 
-});
+})();
 
 Assert::exception(function () {
 	FileSystem::createDir('');
 }, Nette\IOException::class, "Unable to create directory ''.%A%");
 
 
-test(function () { // write + read
+(function () { // write + read
 	FileSystem::write(TEMP_DIR . '/2/file', 'Hello');
 	Assert::true(is_file(TEMP_DIR . '/2/file'));
 	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/2/file'));
-});
+})();
 
 Assert::exception(function () {
 	FileSystem::write('', 'Hello');
@@ -39,7 +39,7 @@ Assert::exception(function () {
 }, Nette\IOException::class, "Unable to read file ''.");
 
 
-test(function () { // copy
+(function () { // copy
 	Assert::false(stream_is_local('remote://example.com'));
 
 	FileSystem::write(TEMP_DIR . '/3/file', 'Hello');
@@ -74,14 +74,14 @@ test(function () { // copy
 	FileSystem::copy(TEMP_DIR . '/5', TEMP_DIR . '/3');
 	Assert::false(file_exists(TEMP_DIR . '/3/x/y'));
 	Assert::true(is_file(TEMP_DIR . '/3/newfile'));
-});
+})();
 
 Assert::exception(function () {
 	FileSystem::copy(TEMP_DIR . '/6', TEMP_DIR . '/3');
 }, Nette\IOException::class, "File or directory '%S%' not found.");
 
 
-test(function () { // delete
+(function () { // delete
 	FileSystem::write(TEMP_DIR . '/7/file', 'Hello');
 	FileSystem::delete(TEMP_DIR . '/7/file');
 	Assert::true(is_dir(TEMP_DIR . '/7'));
@@ -89,10 +89,10 @@ test(function () { // delete
 	FileSystem::write(TEMP_DIR . '/7/file', 'Hello');
 	FileSystem::delete(TEMP_DIR . '/7');
 	Assert::false(file_exists(TEMP_DIR . '/7'));
-});
+})();
 
 
-test(function () { // rename
+(function () { // rename
 	FileSystem::write(TEMP_DIR . '/8/file', 'Hello');
 	FileSystem::rename(TEMP_DIR . '/8', TEMP_DIR . '/9');
 	FileSystem::rename(TEMP_DIR . '/9/file', TEMP_DIR . '/9/x/file');
@@ -115,7 +115,7 @@ test(function () { // rename
 	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9');
 	Assert::false(file_exists(TEMP_DIR . '/9/x/file'));
 	Assert::false(file_exists(TEMP_DIR . '/10'));
-});
+})();
 
 Assert::exception(function () {
 	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9');
@@ -126,7 +126,7 @@ Assert::exception(function () {
 }, Nette\IOException::class, "Unable to rename file or directory '%a%' to '%a%'.");
 
 
-test(function () { // isAbsolute
+(function () { // isAbsolute
 	Assert::false(FileSystem::isAbsolute(''));
 	Assert::true(FileSystem::isAbsolute('\\'));
 	Assert::true(FileSystem::isAbsolute('//'));
@@ -138,4 +138,4 @@ test(function () { // isAbsolute
 	Assert::true(FileSystem::isAbsolute('D:\file'));
 	Assert::true(FileSystem::isAbsolute('http://file'));
 	Assert::true(FileSystem::isAbsolute('remote://file'));
-});
+})();

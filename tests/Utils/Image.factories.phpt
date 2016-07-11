@@ -16,15 +16,15 @@ if (!extension_loaded('gd')) {
 }
 
 
-test(function () {
+(function () {
 	$image = Image::fromFile(__DIR__ . '/images/logo.gif', $format);
 	Assert::same(176, $image->getWidth());
 	Assert::same(104, $image->getHeight());
 	Assert::same(Image::GIF, $format);
-});
+})();
 
 
-test(function () {
+(function () {
 	if (!function_exists('imagecreatefromwebp')) {
 		return;
 	}
@@ -32,7 +32,7 @@ test(function () {
 	Assert::same(176, $image->getWidth());
 	Assert::same(104, $image->getHeight());
 	Assert::same(Image::WEBP, $format);
-});
+})();
 
 
 Assert::exception(function () {
@@ -50,19 +50,19 @@ Assert::exception(function () {
 }, Nette\Utils\ImageException::class, '%a% not a valid GIF file');
 
 
-test(function () {
+(function () {
 	$image = Image::fromBlank(200, 300, Image::rgb(255, 128, 0));
 	Assert::same(200, $image->getWidth());
 	Assert::same(300, $image->getHeight());
-});
+})();
 
 
-test(function () {
+(function () {
 	$image = Image::fromString(Image::EMPTY_GIF, $format);
 	Assert::same(1, $image->getWidth());
 	Assert::same(1, $image->getHeight());
 	Assert::same(Image::GIF, $format);
-});
+})();
 
 
 Assert::exception(function () {

@@ -15,7 +15,7 @@ class TestClass extends Nette\Object
 }
 
 
-test(function () {
+(function () {
 	$obj = new TestClass;
 	unset($obj->foo);
 	Assert::false(isset($obj->foo));
@@ -23,22 +23,22 @@ test(function () {
 	// re-set
 	$obj->foo = 'hello';
 	Assert::same('hello', $obj->foo);
-});
+})();
 
 
-test(function () {
+(function () {
 	// double unset
 	$obj = new TestClass;
 	unset($obj->foo);
 	unset($obj->foo);
-});
+})();
 
 
-test(function () {
+(function () {
 	// reading of unset property
 	Assert::exception(function () {
 		$obj = new TestClass;
 		unset($obj->foo);
 		$val = $obj->foo;
 	}, Nette\MemberAccessException::class, 'Cannot read an undeclared property TestClass::$foo.');
-});
+})();

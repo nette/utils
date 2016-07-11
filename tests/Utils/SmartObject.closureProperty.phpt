@@ -32,16 +32,16 @@ Assert::error(function () {
 }, E_USER_DEPRECATED, 'Invoking closure in property via $obj->public() is deprecated in ' . __FILE__ . ':' . (__LINE__ - 1));
 
 
-test(function () {
+(function () {
 	$obj = new TestClass(function ($a, $b) {
 		return "$a $b";
 	});
 
 	Assert::same('1 2', @$obj->public(1, 2));
-});
+})();
 
 
-test(function () {
+(function () {
 	Assert::exception(function () {
 		$obj = new TestClass(123);
 		$obj->onPublic = function () {}; // accidentally forgotten []
@@ -65,4 +65,4 @@ test(function () {
 		$obj = new TestClass(function () {});
 		$obj->private();
 	}, Nette\MemberAccessException::class, 'Call to undefined method TestClass::private().');
-});
+})();

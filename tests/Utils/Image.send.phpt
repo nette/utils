@@ -19,7 +19,7 @@ if (!extension_loaded('gd')) {
 $main = Image::fromFile(__DIR__ . '/images/alpha1.png');
 
 
-test(function () use ($main) {
+(function () use ($main) {
 	ob_start();
 	$main->send();
 	$data = ob_get_clean();
@@ -28,10 +28,10 @@ test(function () use ($main) {
 	if (PHP_SAPI !== 'cli') {
 		Assert::contains('Content-Type: image/jpeg', headers_list());
 	}
-});
+})();
 
 
-test(function () use ($main) {
+(function () use ($main) {
 	ob_start();
 	$main->send(Image::PNG);
 	$data = ob_get_clean();
@@ -40,10 +40,10 @@ test(function () use ($main) {
 	if (PHP_SAPI !== 'cli') {
 		Assert::contains('Content-Type: image/png', headers_list());
 	}
-});
+})();
 
 
-test(function () use ($main) {
+(function () use ($main) {
 	if (!function_exists('imagewebp')) {
 		return;
 	}
@@ -56,7 +56,7 @@ test(function () use ($main) {
 	if (PHP_SAPI !== 'cli') {
 		Assert::contains('Content-Type: image/webp', headers_list());
 	}
-});
+})();
 
 
 Assert::exception(function () use ($main) { // invalid image type
