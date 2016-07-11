@@ -11,20 +11,6 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // deprecated
-	$el = Html::el('div');
-	$el->data['a'] = 'one';
-	$el->data['b'] = NULL;
-	$el->data['c'] = FALSE;
-	$el->data['d'] = '';
-	$el->data['e'] = 'two';
-	$el->{'data-x'} = 'x';
-	$el->data['mxss'] = '``two';
-
-	Assert::same('<div data-x="x" data-a="one" data-d="" data-e="two" data-mxss="``two "></div>', @(string) $el);
-});
-
-
 test(function () { // direct
 	$el = Html::el('div');
 	$el->{'data-x'} = 'x';
