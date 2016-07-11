@@ -23,19 +23,8 @@ register_shutdown_function(function () {
 });
 
 
-function before(\Closure $function = NULL)
-{
-	static $val;
-	if (!func_num_args()) {
-		return ($val ? $val() : NULL);
-	}
-	$val = $function;
-}
-
-
 function test(\Closure $function)
 {
-	before();
 	$function();
 }
 
