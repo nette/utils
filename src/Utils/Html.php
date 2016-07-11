@@ -367,16 +367,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 
 	/**
-	 * @deprecated
-	 */
-	public function add($child)
-	{
-		trigger_error(__METHOD__ . '() is deprecated, use addHtml() or addText() instead.', E_USER_DEPRECATED);
-		return $this->addHtml($child);
-	}
-
-
-	/**
 	 * Adds new element's child.
 	 * @param  IHtmlString|string  Html node or raw HTML string
 	 * @return static
@@ -610,14 +600,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 		$s = '';
 		$attrs = $this->attrs;
-		if (isset($attrs['data']) && is_array($attrs['data'])) { // deprecated
-			trigger_error('Expanded attribute "data" is deprecated.', E_USER_DEPRECATED);
-			foreach ($attrs['data'] as $key => $value) {
-				$attrs['data-' . $key] = $value;
-			}
-			unset($attrs['data']);
-		}
-
 		foreach ($attrs as $key => $value) {
 			if ($value === null || $value === false) {
 				continue;

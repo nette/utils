@@ -416,17 +416,6 @@ class Strings
 
 
 	/**
-	 * Use Nette\Utils\Random::generate
-	 * @deprecated
-	 */
-	public static function random($length = 10, $charlist = '0-9a-z')
-	{
-		trigger_error(__METHOD__ . '() is deprecated, use Nette\Utils\Random::generate()', E_USER_DEPRECATED);
-		return Random::generate($length, $charlist);
-	}
-
-
-	/**
 	 * Returns part of $haystack before $nth occurence of $needle.
 	 * @param  string
 	 * @param  string
@@ -569,14 +558,9 @@ class Strings
 	public static function replace($subject, $pattern, $replacement = null, $limit = -1)
 	{
 		if (is_object($replacement) || is_array($replacement)) {
-			if ($replacement instanceof Nette\Callback) {
-				trigger_error('Nette\Callback is deprecated, use PHP callback.', E_USER_DEPRECATED);
-				$replacement = $replacement->getNative();
-			}
 			if (!is_callable($replacement, false, $textual)) {
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
-
 			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit]);
 
 		} elseif ($replacement === null && is_array($pattern)) {
