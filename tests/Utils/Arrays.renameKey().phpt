@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Arrays::renameKey()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Arrays;
 use Tester\Assert;
 

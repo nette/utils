@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Reflection::getReturnType
  */
 
+declare(strict_types=1);
+
 namespace NS
 {
 	use Test\B;

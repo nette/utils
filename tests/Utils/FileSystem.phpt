@@ -4,6 +4,8 @@
  * Test: Nette\Utils\FileSystem basic usage.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\FileSystem;
 use Tester\Assert;
 

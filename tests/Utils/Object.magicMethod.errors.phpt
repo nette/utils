@@ -4,6 +4,8 @@
  * Test: Nette\Object magic @methods errors.
  */
 
+declare(strict_types=1);
+
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';

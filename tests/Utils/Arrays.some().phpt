@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Arrays::some()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Arrays;
 use Tester\Assert;
 

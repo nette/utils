@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Validators::assert()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Validators;
 use Tester\Assert;
 

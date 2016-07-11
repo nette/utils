@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Paginator Base:0 Page:3 test.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Paginator;
 use Tester\Assert;
 

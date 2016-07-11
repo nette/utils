@@ -4,6 +4,8 @@
  * Test: Expanding class alias to FQN.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Reflection;
 use Tester\Assert;
 

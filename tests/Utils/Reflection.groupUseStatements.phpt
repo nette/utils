@@ -4,6 +4,8 @@
  * Test: Parsing PHP 7 group use statements.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Reflection;
 use Tester\Assert;
 

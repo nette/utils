@@ -4,6 +4,8 @@
  * Test: Nette\Utils\ObjectMixin: strictness
  */
 
+declare(strict_types=1);
+
 use Tester\Assert;
 use Nette\Utils\ObjectMixin;
 use Nette\MemberAccessException;
