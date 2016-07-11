@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Image save method exceptions.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Image;
 use Tester\Assert;
 

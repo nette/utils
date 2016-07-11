@@ -5,6 +5,8 @@
  * @phpVersion 7
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Reflection;
 use Tester\Assert;
 

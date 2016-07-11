@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Strings and RegexpException run-time error.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Strings;
 use Tester\Assert;
 

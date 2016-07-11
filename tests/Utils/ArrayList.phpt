@@ -4,6 +4,8 @@
  * Test: Nette\Utils\ArrayList basic usage.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\ArrayList;
 use Tester\Assert;
 

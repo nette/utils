@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Arrays::associate()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Arrays;
 use Nette\Utils\DateTime;
 use Tester\Assert;

@@ -4,6 +4,8 @@
  * Test: Nette\Object closure properties.
  */
 
+declare(strict_types=1);
+
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';

@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Reflection::getPropertyDeclaringClass
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Reflection;
 use Tester\Assert;
 

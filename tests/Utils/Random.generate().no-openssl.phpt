@@ -6,6 +6,8 @@
  * @phpversion <7
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Random;
 use Tester\Assert;
 

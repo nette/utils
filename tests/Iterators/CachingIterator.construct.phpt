@@ -4,6 +4,8 @@
  * Test: Nette\Iterators\CachingIterator constructor.
  */
 
+declare(strict_types=1);
+
 use Nette\Iterators;
 use Tester\Assert;
 
