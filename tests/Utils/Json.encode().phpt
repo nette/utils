@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Json::encode()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Json;
 use Tester\Assert;
 

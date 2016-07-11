@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Callback::invoke() and invokeArgs()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Callback;
 use Tester\Assert;
 

@@ -4,6 +4,8 @@
  * Test: Nette\Object extension method via interface.
  */
 
+declare(strict_types=1);
+
 use Nette\Object;
 use Tester\Assert;
 

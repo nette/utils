@@ -4,6 +4,8 @@
  * Test: Nette\Utils\ObjectMixin::getSuggestion()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\ObjectMixin;
 use Tester\Assert;
 

@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Reflection::getParameterDefaultValue()
  */
 
+declare(strict_types=1);
+
 namespace NS {
 	define('DEFINED', 123);
 	define('NS_DEFINED', 'xxx');

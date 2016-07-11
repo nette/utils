@@ -4,6 +4,8 @@
  * Test: Nette\Utils\DateTime & JSON.
  */
 
+declare(strict_types=1);
+
 use Tester\Assert;
 use Nette\Utils\DateTime;
 

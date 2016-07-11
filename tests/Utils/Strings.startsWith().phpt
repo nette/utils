@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Strings::startsWith()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Strings;
 use Tester\Assert;
 
@@ -11,7 +13,9 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::true(Strings::startsWith('123', NULL), "startsWith('123', NULL)");
+Assert::exception(function () {
+	Strings::startsWith('123', NULL);
+}, TypeError::class);
 Assert::true(Strings::startsWith('123', ''), "startsWith('123', '')");
 Assert::true(Strings::startsWith('123', '1'), "startsWith('123', '1')");
 Assert::false(Strings::startsWith('123', '2'), "startsWith('123', '2')");

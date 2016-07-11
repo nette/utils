@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Strings::endsWith()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Strings;
 use Tester\Assert;
 
@@ -11,7 +13,9 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::true(Strings::endsWith('123', NULL), "endsWith('123', NULL)");
+Assert::exception(function () {
+	Strings::endsWith('123', NULL);
+}, TypeError::class);
 Assert::true(Strings::endsWith('123', ''), "endsWith('123', '')");
 Assert::true(Strings::endsWith('123', '3'), "endsWith('123', '3')");
 Assert::false(Strings::endsWith('123', '2'), "endsWith('123', '2')");

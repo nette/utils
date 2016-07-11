@@ -4,6 +4,8 @@
  * Test: Nette\Object magic @methods and types.
  */
 
+declare(strict_types=1);
+
 namespace Test;
 
 use Nette;

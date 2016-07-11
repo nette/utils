@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Validators::isInRange()
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Validators;
 use Tester\Assert;
 

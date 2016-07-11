@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Html user data attribute.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Html;
 use Tester\Assert;
 

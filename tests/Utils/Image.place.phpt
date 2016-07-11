@@ -4,6 +4,8 @@
  * Test: Nette\Utils\Image place image.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\Image;
 use Tester\Assert;
 
