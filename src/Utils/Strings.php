@@ -375,6 +375,40 @@ class Strings
 
 
 	/**
+	 * Replaces $s at the start with $replacement
+	 * @param  string
+	 * @param  string
+	 * @param  string
+	 * @return string
+	 */
+	public static function replacePrefix($s, $search, $replacement = '')
+	{
+		if (strncmp($s, $search, strlen($search)) === 0) {
+			$s = $replacement . substr($s, strlen($search));
+		}
+
+		return $s;
+	}
+
+
+	/**
+	 * Replaces $s at the end with $replacement
+	 * @param  string
+	 * @param  string
+	 * @param  string
+	 * @return string
+	 */
+	public static function replaceSuffix($s, $search, $replacement = '')
+	{
+		if (substr($s, -strlen($search)) === $search) {
+			$s = substr($s, 0, -strlen($search)) . $replacement;
+		}
+
+		return $s;
+	}
+
+
+	/**
 	 * Pad a string to a certain length with another string.
 	 * @param  string  UTF-8 encoding
 	 * @param  int
