@@ -412,16 +412,16 @@ class Image
 	public static function calculateCutout($srcWidth, $srcHeight, $left, $top, $newWidth, $newHeight)
 	{
 		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
-			$newWidth = (int) round($srcWidth / 100 * $newWidth);
+			$newWidth = (int) round($srcWidth / 100 * substr($newWidth, 0, -1));
 		}
 		if (is_string($newHeight) && substr($newHeight, -1) === '%') {
-			$newHeight = (int) round($srcHeight / 100 * $newHeight);
+			$newHeight = (int) round($srcHeight / 100 * substr($newHeight, 0, -1));
 		}
 		if (is_string($left) && substr($left, -1) === '%') {
-			$left = (int) round(($srcWidth - $newWidth) / 100 * $left);
+			$left = (int) round(($srcWidth - $newWidth) / 100 * substr($left, 0, -1));
 		}
 		if (is_string($top) && substr($top, -1) === '%') {
-			$top = (int) round(($srcHeight - $newHeight) / 100 * $top);
+			$top = (int) round(($srcHeight - $newHeight) / 100 * substr($top, 0, -1));
 		}
 		if ($left < 0) {
 			$newWidth += $left;
