@@ -419,16 +419,16 @@ class Image extends Nette\Object
 	public static function calculateCutout($srcWidth, $srcHeight, $left, $top, $newWidth, $newHeight)
 	{
 		if (substr($newWidth, -1) === '%') {
-			$newWidth = round($srcWidth / 100 * $newWidth);
+			$newWidth = round($srcWidth / 100 * substr($newWidth, 0, -1));
 		}
 		if (substr($newHeight, -1) === '%') {
-			$newHeight = round($srcHeight / 100 * $newHeight);
+			$newHeight = round($srcHeight / 100 * substr($newHeight, 0, -1));
 		}
 		if (substr($left, -1) === '%') {
-			$left = round(($srcWidth - $newWidth) / 100 * $left);
+			$left = round(($srcWidth - $newWidth) / 100 * substr($left, 0, -1));
 		}
 		if (substr($top, -1) === '%') {
-			$top = round(($srcHeight - $newHeight) / 100 * $top);
+			$top = round(($srcHeight - $newHeight) / 100 * substr($top, 0, -1));
 		}
 		if ($left < 0) {
 			$newWidth += $left;
