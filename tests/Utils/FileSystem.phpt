@@ -21,7 +21,7 @@ test(function () { // createDir
 
 Assert::exception(function () {
 	FileSystem::createDir('');
-}, 'Nette\IOException', "Unable to create directory ''.");
+}, 'Nette\IOException', "Unable to create directory ''.%A%");
 
 
 test(function () { // write
@@ -32,7 +32,7 @@ test(function () { // write
 
 Assert::exception(function () {
 	FileSystem::write('', 'Hello');
-}, 'Nette\IOException', "Unable to create directory ''.");
+}, 'Nette\IOException', "Unable to create directory ''.%A%");
 
 
 test(function () { // copy
