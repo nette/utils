@@ -24,8 +24,8 @@ class FileSystem
 	 */
 	public static function createDir($dir, $mode = 0777)
 	{
-		if (!is_dir($dir) && !@mkdir($dir, $mode, TRUE)) { // intentionally @; not atomic
-			throw new Nette\IOException("Unable to create directory '$dir'.");
+		if (!is_dir($dir) && !@mkdir($dir, $mode, TRUE) && !is_dir($dir)) { // @ - dir may already exist
+			throw new Nette\IOException("Unable to create directory '$dir'. " . error_get_last()['message']);
 		}
 	}
 

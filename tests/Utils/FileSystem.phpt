@@ -21,7 +21,7 @@ test(function () { // createDir
 
 Assert::exception(function () {
 	FileSystem::createDir('');
-}, Nette\IOException::class, "Unable to create directory ''.");
+}, Nette\IOException::class, "Unable to create directory ''.%A%");
 
 
 test(function () { // write + read
@@ -32,7 +32,7 @@ test(function () { // write + read
 
 Assert::exception(function () {
 	FileSystem::write('', 'Hello');
-}, Nette\IOException::class, "Unable to create directory ''.");
+}, Nette\IOException::class, "Unable to create directory ''.%A%");
 
 Assert::exception(function () {
 	FileSystem::read('');
