@@ -27,61 +27,38 @@ class ObjectMixin
 
 
 	/**
-	 * @throws MemberAccessException
+	 * @deprecated  use ObjectHelpers::strictGet()
 	 */
 	public static function strictGet($class, $name)
 	{
-		$rc = new \ReflectionClass($class);
-		$hint = self::getSuggestion(array_merge(
-			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), function ($p) { return !$p->isStatic(); }),
-			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-read)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m')
-		), $name);
-		throw new MemberAccessException("Cannot read an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
+		ObjectHelpers::strictGet($class, $name);
 	}
 
 
 	/**
-	 * @throws MemberAccessException
+	 * @deprecated  use ObjectHelpers::strictSet()
 	 */
 	public static function strictSet($class, $name)
 	{
-		$rc = new \ReflectionClass($class);
-		$hint = self::getSuggestion(array_merge(
-			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), function ($p) { return !$p->isStatic(); }),
-			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-write)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m')
-		), $name);
-		throw new MemberAccessException("Cannot write to an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
+		ObjectHelpers::strictSet($class, $name);
 	}
 
 
 	/**
-	 * @throws MemberAccessException
+	 * @deprecated  use ObjectHelpers::strictCall()
 	 */
 	public static function strictCall($class, $method, $additionalMethods = [])
 	{
-		$hint = self::getSuggestion(array_merge(
-			get_class_methods($class),
-			self::parseFullDoc(new \ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:\S+[ \t]+)??(\w+)\(~m'),
-			$additionalMethods
-		), $method);
-
-		if (method_exists($class, $method)) { // called parent::$method()
-			$class = 'parent';
-		}
-		throw new MemberAccessException("Call to undefined method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
+		ObjectHelpers::strictCall($class, $method, $additionalMethods);
 	}
 
 
 	/**
-	 * @throws MemberAccessException
+	 * @deprecated  use ObjectHelpers::strictStaticCall()
 	 */
 	public static function strictStaticCall($class, $method)
 	{
-		$hint = self::getSuggestion(
-			array_filter((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), function ($m) { return $m->isStatic(); }),
-			$method
-		);
-		throw new MemberAccessException("Call to undefined static method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
+		ObjectHelpers::strictStaticCall($class, $method);
 	}
 
 
@@ -99,7 +76,7 @@ class ObjectMixin
 	public static function call($_this, $name, $args)
 	{
 		$class = get_class($_this);
-		$isProp = self::hasProperty($class, $name);
+		$isProp = ObjectHelpers::hasProperty($class, $name);
 
 		if ($name === '') {
 			throw new MemberAccessException("Call to class '$class' method without name.");
@@ -140,7 +117,7 @@ class ObjectMixin
 			return Callback::invoke($cb, $_this, ...$args);
 
 		} else {
-			self::strictCall($class, $name, array_keys(self::getExtensionMethods($class)));
+			ObjectHelpers::strictCall($class, $name, array_keys(self::getExtensionMethods($class)));
 		}
 	}
 
@@ -197,7 +174,7 @@ class ObjectMixin
 			throw new MemberAccessException("Cannot read a write-only property $class::\$$name.");
 
 		} else {
-			self::strictGet($class, $name);
+			ObjectHelpers::strictGet($class, $name);
 		}
 	}
 
@@ -219,7 +196,7 @@ class ObjectMixin
 		if ($name === '') {
 			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
 
-		} elseif (self::hasProperty($class, $name)) { // unsetted property
+		} elseif (ObjectHelpers::hasProperty($class, $name)) { // unsetted property
 			$_this->$name = $value;
 
 		} elseif (isset($methods[$m = 'set' . $uname])) { // property setter
@@ -229,7 +206,7 @@ class ObjectMixin
 			throw new MemberAccessException("Cannot write to a read-only property $class::\$$name.");
 
 		} else {
-			self::strictSet($class, $name);
+			ObjectHelpers::strictSet($class, $name);
 		}
 	}
 
@@ -244,7 +221,7 @@ class ObjectMixin
 	public static function remove($_this, $name)
 	{
 		$class = get_class($_this);
-		if (!self::hasProperty($class, $name)) {
+		if (!ObjectHelpers::hasProperty($class, $name)) {
 			throw new MemberAccessException("Cannot unset the property $class::\$$name.");
 		}
 	}
@@ -268,53 +245,18 @@ class ObjectMixin
 
 
 	/**
-	 * Returns array of magic properties defined by annotation @property.
-	 * @return array of [name => bit mask]
+	 * @deprecated  use ObjectHelpers::strictStaticCall()
 	 */
 	public static function getMagicProperties($class)
 	{
-		static $cache;
-		$props = &$cache[$class];
-		if ($props !== null) {
-			return $props;
-		}
-
-		$rc = new \ReflectionClass($class);
-		preg_match_all(
-			'~^  [ \t*]*  @property(|-read|-write)  [ \t]+  [^\s$]+  [ \t]+  \$  (\w+)  ()~mx',
-			(string) $rc->getDocComment(), $matches, PREG_SET_ORDER
-		);
-
-		$props = [];
-		foreach ($matches as list(, $type, $name)) {
-			$uname = ucfirst($name);
-			$write = $type !== '-read'
-				&& $rc->hasMethod($nm = 'set' . $uname)
-				&& ($rm = $rc->getMethod($nm)) && $rm->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
-			$read = $type !== '-write'
-				&& ($rc->hasMethod($nm = 'get' . $uname) || $rc->hasMethod($nm = 'is' . $uname))
-				&& ($rm = $rc->getMethod($nm)) && $rm->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
-
-			if ($read || $write) {
-				$props[$name] = $read << 0 | ($nm[0] === 'g') << 1 | $rm->returnsReference() << 2 | $write << 3;
-			}
-		}
-
-		foreach ($rc->getTraits() as $trait) {
-			$props += self::getMagicProperties($trait->getName());
-		}
-
-		if ($parent = get_parent_class($class)) {
-			$props += self::getMagicProperties($parent);
-		}
-		return $props;
+		return ObjectHelpers::getMagicProperties($class);
 	}
 
 
 	/** @internal */
 	public static function getMagicProperty($class, $name)
 	{
-		$props = self::getMagicProperties($class);
+		$props = ObjectHelpers::getMagicProperties($class);
 		return isset($props[$name]) ? $props[$name] : null;
 	}
 
@@ -490,63 +432,20 @@ class ObjectMixin
 
 
 	/**
-	 * Finds the best suggestion (for 8-bit encoding).
-	 * @return string|null
-	 * @internal
+	 * @deprecated  use ObjectHelpers::getSuggestion()
 	 */
 	public static function getSuggestion(array $possibilities, $value)
 	{
-		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '', $value);
-		$best = null;
-		$min = (strlen($value) / 4 + 1) * 10 + .1;
-		foreach (array_unique($possibilities, SORT_REGULAR) as $item) {
-			$item = $item instanceof \Reflector ? $item->getName() : $item;
-			if ($item !== $value && (
-				($len = levenshtein($item, $value, 10, 11, 10)) < $min
-				|| ($len = levenshtein(preg_replace($re, '', $item), $norm, 10, 11, 10) + 20) < $min
-			)) {
-				$min = $len;
-				$best = $item;
-			}
-		}
-		return $best;
-	}
-
-
-	private static function parseFullDoc(\ReflectionClass $rc, $pattern)
-	{
-		do {
-			$doc[] = $rc->getDocComment();
-			$traits = $rc->getTraits();
-			while ($trait = array_pop($traits)) {
-				$doc[] = $trait->getDocComment();
-				$traits += $trait->getTraits();
-			}
-		} while ($rc = $rc->getParentClass());
-		return preg_match_all($pattern, implode($doc), $m) ? $m[1] : [];
+		return ObjectHelpers::getSuggestion($possibilities, $value);
 	}
 
 
 	/**
-	 * Checks if the public non-static property exists.
-	 * @return bool|'event'
-	 * @internal
+	 * @deprecated  use ObjectHelpers::hasProperty()
 	 */
 	public static function hasProperty($class, $name)
 	{
-		static $cache;
-		$prop = &$cache[$class][$name];
-		if ($prop === null) {
-			$prop = false;
-			try {
-				$rp = new \ReflectionProperty($class, $name);
-				if ($rp->isPublic() && !$rp->isStatic()) {
-					$prop = $name >= 'onA' && $name < 'on_' ? 'event' : true;
-				}
-			} catch (\ReflectionException $e) {
-			}
-		}
-		return $prop;
+		return ObjectHelpers::hasProperty($class, $name);
 	}
 
 
