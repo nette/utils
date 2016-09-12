@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Test: Nette\Utils\ObjectMixin: strictness
+ * Test: Nette\Utils\ObjectHelpers: strictness
  */
 
 declare(strict_types=1);
 
 use Tester\Assert;
-use Nette\Utils\ObjectMixin;
+use Nette\Utils\ObjectHelpers;
 use Nette\MemberAccessException;
 
 require __DIR__ . '/../bootstrap.php';
@@ -45,65 +45,65 @@ class TestChild extends TestClass
 
 // calling
 Assert::exception(function () {
-	ObjectMixin::strictCall('TestClass', 'undeclared');
+	ObjectHelpers::strictCall('TestClass', 'undeclared');
 }, MemberAccessException::class, 'Call to undefined method TestClass::undeclared().');
 
 Assert::exception(function () {
-	ObjectMixin::strictStaticCall('TestClass', 'undeclared');
+	ObjectHelpers::strictStaticCall('TestClass', 'undeclared');
 }, MemberAccessException::class, 'Call to undefined static method TestClass::undeclared().');
 
 Assert::exception(function () {
-	ObjectMixin::strictCall('TestChild', 'callParent');
+	ObjectHelpers::strictCall('TestChild', 'callParent');
 }, MemberAccessException::class, 'Call to undefined method parent::callParent().');
 
 Assert::exception(function () {
-	ObjectMixin::strictCall('TestClass', 'publicMethodX');
+	ObjectHelpers::strictCall('TestClass', 'publicMethodX');
 }, MemberAccessException::class, 'Call to undefined method TestClass::publicMethodX(), did you mean publicMethod()?');
 
 Assert::exception(function () { // suggest static method
-	ObjectMixin::strictCall('TestClass', 'publicMethodStaticX');
+	ObjectHelpers::strictCall('TestClass', 'publicMethodStaticX');
 }, MemberAccessException::class, 'Call to undefined method TestClass::publicMethodStaticX(), did you mean publicMethodStatic()?');
 
 Assert::exception(function () { // suggest static method
-	ObjectMixin::strictStaticCall('TestClass', 'publicMethodStaticX');
+	ObjectHelpers::strictStaticCall('TestClass', 'publicMethodStaticX');
 }, MemberAccessException::class, 'Call to undefined static method TestClass::publicMethodStaticX(), did you mean publicMethodStatic()?');
 
 Assert::exception(function () { // suggest only public method
-	ObjectMixin::strictCall('TestClass', 'protectedMethodX');
+	ObjectHelpers::strictCall('TestClass', 'protectedMethodX');
 }, MemberAccessException::class, 'Call to undefined method TestClass::protectedMethodX().');
 
 
 // writing
 Assert::exception(function () {
-	ObjectMixin::strictSet('TestClass', 'undeclared');
+	ObjectHelpers::strictSet('TestClass', 'undeclared');
 }, MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$undeclared.');
 
 Assert::exception(function () {
-	ObjectMixin::strictSet('TestClass', 'publicX');
+	ObjectHelpers::strictSet('TestClass', 'publicX');
 }, MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$publicX, did you mean $public?');
 
 Assert::exception(function () { // suggest only non-static property
-	ObjectMixin::strictSet('TestClass', 'publicStaticX');
+	ObjectHelpers::strictSet('TestClass', 'publicStaticX');
 }, MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$publicStaticX.');
 
 Assert::exception(function () { // suggest only public property
-	ObjectMixin::strictSet('TestClass', 'protectedX');
+	ObjectHelpers::strictSet('TestClass', 'protectedX');
 }, MemberAccessException::class, 'Cannot write to an undeclared property TestClass::$protectedX.');
 
 
 // reading
 Assert::exception(function () {
-	ObjectMixin::strictGet('TestClass', 'undeclared');
+	ObjectHelpers::strictGet('TestClass', 'undeclared');
 }, MemberAccessException::class, 'Cannot read an undeclared property TestClass::$undeclared.');
 
 Assert::exception(function () {
-	ObjectMixin::strictGet('TestClass', 'publicX');
+	ObjectHelpers::strictGet('TestClass', 'publicX');
 }, MemberAccessException::class, 'Cannot read an undeclared property TestClass::$publicX, did you mean $public?');
 
 Assert::exception(function () { // suggest only non-static property
-	ObjectMixin::strictGet('TestClass', 'publicStaticX');
+	ObjectHelpers::strictGet('TestClass', 'publicStaticX');
 }, MemberAccessException::class, 'Cannot read an undeclared property TestClass::$publicStaticX.');
 
 Assert::exception(function () { // suggest only public property
-	ObjectMixin::strictGet('TestClass', 'protectedX');
+	ObjectHelpers::strictGet('TestClass', 'protectedX');
 }, MemberAccessException::class, 'Cannot read an undeclared property TestClass::$protectedX.');
