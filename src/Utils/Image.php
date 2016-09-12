@@ -578,7 +578,7 @@ class Image
 	{
 		$function = 'image' . $name;
 		if (!function_exists($function)) {
-			ObjectMixin::strictCall(get_class($this), $name);
+			ObjectHelpers::strictCall(get_class($this), $name);
 		}
 
 		foreach ($args as $key => $value) {

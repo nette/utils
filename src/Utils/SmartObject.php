@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Nette;
 
 use Nette\Utils\Callback;
-use Nette\Utils\ObjectMixin;
+use Nette\Utils\ObjectHelpers;
 
 
 /**
@@ -30,7 +30,7 @@ trait SmartObject
 	{
 		$class = get_class($this);
 
-		if (ObjectMixin::hasProperty($class, $name) === 'event') { // calling event handlers
+		if (ObjectHelpers::hasProperty($class, $name) === 'event') { // calling event handlers
 			if (is_array($this->$name) || $this->$name instanceof \Traversable) {
 				foreach ($this->$name as $handler) {
 					Callback::invokeArgs($handler, $args);
@@ -40,7 +40,7 @@ trait SmartObject
 			}
 
 		} else {
-			ObjectMixin::strictCall($class, $name);
+			ObjectHelpers::strictCall($class, $name);
 		}
 	}
 
@@ -50,7 +50,7 @@ trait SmartObject
 	 */
 	public static function __callStatic(string $name, array $args)
 	{
-		ObjectMixin::strictStaticCall(get_called_class(), $name);
+		ObjectHelpers::strictStaticCall(get_called_class(), $name);
 	}
 
 
@@ -62,7 +62,7 @@ trait SmartObject
 	{
 		$class = get_class($this);
 
-		if ($prop = ObjectMixin::getMagicProperties($class)[$name] ?? NULL) { // property getter
+		if ($prop = ObjectHelpers::getMagicProperties($class)[$name] ?? NULL) { // property getter
 			if (!($prop & 0b0001)) {
 				throw new MemberAccessException("Cannot read a write-only property $class::\$$name.");
 			}
@@ -74,7 +74,7 @@ trait SmartObject
 				return $val;
 			}
 		} else {
-			ObjectMixin::strictGet($class, $name);
+			ObjectHelpers::strictGet($class, $name);
 		}
 	}
 
@@ -87,17 +87,17 @@ trait SmartObject
 	{
 		$class = get_class($this);
 
-		if (ObjectMixin::hasProperty($class, $name)) { // unsetted property
+		if (ObjectHelpers::hasProperty($class, $name)) { // unsetted property
 			$this->$name = $value;
 
-		} elseif ($prop = ObjectMixin::getMagicProperties($class)[$name] ?? NULL) { // property setter
+		} elseif ($prop = ObjectHelpers::getMagicProperties($class)[$name] ?? NULL) { // property setter
 			if (!($prop & 0b1000)) {
 				throw new MemberAccessException("Cannot write to a read-only property $class::\$$name.");
 			}
 			$this->{'set' . $name}($value);
 
 		} else {
-			ObjectMixin::strictSet($class, $name);
+			ObjectHelpers::strictSet($class, $name);
 		}
 	}
 
@@ -109,7 +109,7 @@ trait SmartObject
 	public function __unset(string $name)
 	{
 		$class = get_class($this);
-		if (!ObjectMixin::hasProperty($class, $name)) {
+		if (!ObjectHelpers::hasProperty($class, $name)) {
 			throw new MemberAccessException("Cannot unset the property $class::\$$name.");
 		}
 	}
@@ -117,7 +117,7 @@ trait SmartObject
 
 	public function __isset(string $name): bool
 	{
-		return isset(ObjectMixin::getMagicProperties(get_class($this))[$name]);
+		return isset(ObjectHelpers::getMagicProperties(get_class($this))[$name]);
 	}
 
 }

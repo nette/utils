@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Test: Nette\Utils\ObjectMixin::getMagicProperties()
+ * Test: Nette\Utils\ObjectHelpers::getMagicProperties()
  */
 
 declare(strict_types=1);
 
-use Nette\Utils\ObjectMixin;
+use Nette\Utils\ObjectHelpers;
 use Tester\Assert;
 
 
@@ -84,7 +84,7 @@ class TestClass
 
 
 
-Assert::same([], ObjectMixin::getMagicProperties('stdClass'));
+Assert::same([], ObjectHelpers::getMagicProperties('stdClass'));
 Assert::same([
 	'getter' => 0b0011,
 	'getter2' => 0b0101,
@@ -94,7 +94,7 @@ Assert::same([
 	'protected' => 0b0011,
 	'read' => 0b0011,
 	'write' => 0b1000,
-], ObjectMixin::getMagicProperties('TestClass'));
+], ObjectHelpers::getMagicProperties('TestClass'));
 
 
 
@@ -116,5 +116,5 @@ class ChildClass extends ParentClass
 	{}
 }
 
-Assert::same([], ObjectMixin::getMagicProperties('ParentClass'));
-Assert::same(['foo' => 0b0011], ObjectMixin::getMagicProperties('ChildClass'));
+Assert::same([], ObjectHelpers::getMagicProperties('ParentClass'));
+Assert::same(['foo' => 0b0011], ObjectHelpers::getMagicProperties('ChildClass'));
