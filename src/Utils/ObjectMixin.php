@@ -299,6 +299,10 @@ class ObjectMixin
 			}
 		}
 
+		foreach ($rc->getTraits() as $trait) {
+			$props += self::getMagicProperties($trait->getName());
+		}
+
 		if ($parent = get_parent_class($class)) {
 			$props += self::getMagicProperties($parent);
 		}
@@ -324,13 +328,19 @@ class ObjectMixin
 	public static function getMagicMethods($class)
 	{
 		$rc = new \ReflectionClass($class);
+		$reflections = $rc->getTraits();
+		$reflections[] = $rc;
+		$doc = "";
+		/** @var \ReflectionClass $docRc */
+		foreach ($reflections as $docRc) {
+			$doc .= $docRc->getDocComment() . "\n";
+		}
 		preg_match_all('~^
 			[ \t*]*  @method  [ \t]+
 			(?: [^\s(]+  [ \t]+ )?
 			(set|get|is|add)  ([A-Z]\w*)
 			(?: ([ \t]* \()  [ \t]* ([^)$\s]*)  )?
-		()~mx', (string) $rc->getDocComment(), $matches, PREG_SET_ORDER);
-
+		()~mx', $doc, $matches, PREG_SET_ORDER);
 		$methods = [];
 		foreach ($matches as list(, $op, $prop, $bracket, $type)) {
 			if ($bracket !== '(') {
@@ -512,6 +522,9 @@ class ObjectMixin
 	{
 		do {
 			$doc[] = $rc->getDocComment();
+			foreach ($rc->getTraits() as $traitRc) {
+				$doc[] = $traitRc->getDocComment();
+			}
 		} while ($rc = $rc->getParentClass());
 		return preg_match_all($pattern, implode($doc), $m) ? $m[1] : [];
 	}
