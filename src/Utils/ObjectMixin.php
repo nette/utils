@@ -299,6 +299,10 @@ class ObjectMixin
 			}
 		}
 
+		foreach ($rc->getTraits() as $trait) {
+			$props += self::getMagicProperties($trait->getName());
+		}
+
 		if ($parent = get_parent_class($class)) {
 			$props += self::getMagicProperties($parent);
 		}
@@ -512,6 +516,11 @@ class ObjectMixin
 	{
 		do {
 			$doc[] = $rc->getDocComment();
+			$traits = $rc->getTraits();
+			while ($trait = array_pop($traits)) {
+				$doc[] = $trait->getDocComment();
+				$traits += $trait->getTraits();
+			}
 		} while ($rc = $rc->getParentClass());
 		return preg_match_all($pattern, implode($doc), $m) ? $m[1] : [];
 	}
