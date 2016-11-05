@@ -316,3 +316,17 @@ test(function () {
 	Assert::true(Validators::is('foo@bar.com', 'string:0|email'));
 	Assert::false(Validators::is('foo', 'string:0|email'));
 });
+
+
+test(function () {
+	$gen = function () {
+		yield;
+	};
+
+	Assert::true(Validators::is([1, 2, 3], 'iterable'));
+	Assert::true(Validators::is(new ArrayIterator([1, 2, 3]), 'iterable'));
+	Assert::true(Validators::is($gen(), 'iterable'));
+	Assert::false(Validators::is(1, 'iterable'));
+	Assert::false(Validators::is(3.14, 'iterable'));
+	Assert::false(Validators::is(new stdClass(), 'iterable'));
+});

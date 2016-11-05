@@ -49,6 +49,7 @@ class Validators
 		'upper' => 'ctype_upper',
 		'space' => 'ctype_space',
 		'xdigit' => 'ctype_xdigit',
+		'iterable' => [__CLASS__, 'isIterable'],
 	];
 
 	protected static $counters = [
@@ -306,6 +307,16 @@ class Validators
 	public static function isPhpIdentifier($value)
 	{
 		return is_string($value) && preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\z#', $value);
+	}
+
+
+	/**
+	 * Returns true if value is iterable (array or instance of Traversable).
+	 * @return bool
+	 */
+	private static function isIterable($value)
+	{
+		return is_array($value) || $value instanceof \Traversable;
 	}
 
 }
