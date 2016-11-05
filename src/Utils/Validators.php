@@ -155,6 +155,26 @@ class Validators
 		}
 		return FALSE;
 	}
+	
+	
+	/**
+	 * Finds whether all values are of expected type.
+	 * @param  array|\Traversable
+	 * @param  string  expected types separated by pipe with optional ranges
+	 * @return bool
+	 */
+	public static function isListOfType($list, $expected) {
+		if (!is_array($list) && !$list instanceof \Traversable) {
+			return FALSE;
+		}
+		
+		foreach ($list as $value) {
+			if (!static::is($value, $expected)) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
 
 
 	/**
