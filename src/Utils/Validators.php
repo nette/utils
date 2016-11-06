@@ -163,13 +163,13 @@ class Validators
 	 * @param  string  expected types separated by pipe with optional ranges
 	 * @return bool
 	 */
-	public static function isListOfType($list, $expected) {
-		if (!is_array($list) && !$list instanceof \Traversable) {
+	public static function isIterableOfType($value, $expected) {
+		if (!is_array($value) && !$value instanceof \Traversable) {
 			return FALSE;
 		}
 
-		foreach ($list as $value) {
-			if (!static::is($value, $expected)) {
+		foreach ($value as $v) {
+			if (!static::is($v, $expected)) {
 				return FALSE;
 			}
 		}
