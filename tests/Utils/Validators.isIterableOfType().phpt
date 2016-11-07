@@ -47,3 +47,10 @@ test(function () {
 	Assert::true(Validators::isIterableOfType([], 'int'));
 	Assert::true(Validators::isIterableOfType(new ArrayIterator([]), 'int'));
 });
+
+test(function () {
+	class A {}
+
+	Assert::true(Validators::isIterableOfType([new A], A::class));
+	Assert::false(Validators::isIterableOfType([new A, new stdClass], A::class));
+});

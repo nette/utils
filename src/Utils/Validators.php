@@ -49,6 +49,7 @@ class Validators
 		'upper' => 'ctype_upper',
 		'space' => 'ctype_space',
 		'xdigit' => 'ctype_xdigit',
+		'iterable' => [__CLASS__, 'isIterable'],
 	];
 
 	protected static $counters = [
@@ -164,7 +165,7 @@ class Validators
 	 * @return bool
 	 */
 	public static function isIterableOfType($value, $expected) {
-		if (!is_array($value) && !$value instanceof \Traversable) {
+		if (!static::isIterable($value)) {
 			return FALSE;
 		}
 
@@ -320,6 +321,22 @@ class Validators
 	public static function isPhpIdentifier($value)
 	{
 		return is_string($value) && preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\z#', $value);
+	}
+
+
+	/**
+	 * Returns true if value is iterable (array or instance of Traversable).
+	 * Implementation of PHP 7.1 is_iterable.
+	 * @param  mixed
+	 * @return bool
+	 */
+	private static function isIterable($value)
+	{
+		if (function_exists('is_iterable')) {
+			return is_iterable($value);
+		} else {
+			return is_array($value) || $value instanceof \Traversable;
+		}
 	}
 
 }
