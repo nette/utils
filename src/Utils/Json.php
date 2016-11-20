@@ -38,7 +38,10 @@ class Json
 			throw new JsonException(json_last_error_msg(), $error);
 		}
 
-		$json = str_replace(["\xe2\x80\xa8", "\xe2\x80\xa9"], ['\u2028', '\u2029'], $json);
+		if (PHP_VERSION_ID < 70100) {
+			$json = str_replace(["\xe2\x80\xa8", "\xe2\x80\xa9"], ['\u2028', '\u2029'], $json);
+		}
+
 		return $json;
 	}
 
