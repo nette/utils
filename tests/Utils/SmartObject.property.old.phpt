@@ -59,12 +59,12 @@ class TestClass
 Assert::error(function () {
 	$obj = new TestClass;
 	$obj->foo = 'hello';
-}, E_USER_DEPRECATED, 'Missing annotation @property for TestClass::$foo used in ' . __FILE__ . ':' . (__LINE__ - 1));
+}, E_USER_DEPRECATED, 'Add annotation @property for TestClass::$foo or use setFoo() in ' . __FILE__ . ':' . (__LINE__ - 1));
 
 Assert::error(function () {
 	$obj = new TestClass;
 	$val = $obj->foo;
-}, E_USER_DEPRECATED, 'Missing annotation @property for TestClass::$foo used in ' . __FILE__ . ':' . (__LINE__ - 1));
+}, E_USER_DEPRECATED, 'Add annotation @property for TestClass::$foo or use getFoo() in ' . __FILE__ . ':' . (__LINE__ - 1));
 
 
 $obj = new TestClass;

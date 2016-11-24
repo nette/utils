@@ -67,7 +67,7 @@ $obj->foo = 'hello';
 Assert::same('hello', $obj->foo);
 Assert::error(function () use ($obj) {
 	$val = $obj->Foo;
-}, E_USER_DEPRECATED, 'Missing annotation @property for TestClass::$Foo used in ' . __FILE__ . ':' . (__LINE__ - 1));
+}, E_USER_DEPRECATED, 'Add annotation @property for TestClass::$Foo or use getFoo() in ' . __FILE__ . ':' . (__LINE__ - 1));
 
 
 $obj->foo .= ' world';
