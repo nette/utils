@@ -52,7 +52,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Static factory.
 	 * @param  string element name (or NULL)
 	 * @param  array|string element's attributes or plain text content
-	 * @return self
+	 * @return static
 	 */
 	public static function el($name = NULL, $attrs = NULL)
 	{
@@ -81,7 +81,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Changes element's name.
 	 * @param  string
 	 * @param  bool  Is element empty?
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public function setName($name, $isEmpty = NULL)
@@ -119,7 +119,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Sets multiple attributes.
 	 * @param  array
-	 * @return self
+	 * @return static
 	 */
 	public function addAttributes(array $attrs)
 	{
@@ -133,7 +133,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * @param  string
 	 * @param  string|array value to append
 	 * @param  string|bool  value option
-	 * @return self
+	 * @return static
 	 */
 	public function appendAttribute($name, $value, $option = TRUE)
 	{
@@ -158,7 +158,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Sets element's attribute.
 	 * @param  string
 	 * @param  mixed
-	 * @return self
+	 * @return static
 	 */
 	public function setAttribute($name, $value)
 	{
@@ -181,7 +181,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Unsets element's attribute.
 	 * @param  string
-	 * @return self
+	 * @return static
 	 */
 	public function removeAttribute($name)
 	{
@@ -272,7 +272,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Special setter for element's attribute.
 	 * @param  string path
 	 * @param  array query
-	 * @return self
+	 * @return static
 	 */
 	public function href($path, $query = NULL)
 	{
@@ -289,7 +289,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Setter for data-* attributes. Booleans are converted to 'true' resp. 'false'.
-	 * @return self
+	 * @return static
 	 */
 	public function data($name, $value = NULL)
 	{
@@ -305,7 +305,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Sets element's HTML content.
 	 * @param  string raw HTML string
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public function setHtml($html)
@@ -340,7 +340,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Sets element's textual content.
 	 * @param  string
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public function setText($text)
@@ -375,7 +375,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Adds new element's child.
 	 * @param  Html|string Html node or raw HTML string
-	 * @return self
+	 * @return static
 	 */
 	public function addHtml($child)
 	{
@@ -386,7 +386,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Appends plain-text string to element content.
 	 * @param  string plain-text string
-	 * @return self
+	 * @return static
 	 */
 	public function addText($text)
 	{
@@ -399,7 +399,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Creates and adds a new Html child.
 	 * @param  string  elements's name
 	 * @param  array|string element's attributes or raw HTML string
-	 * @return self  created element
+	 * @return static  created element
 	 */
 	public function create($name, $attrs = NULL)
 	{
@@ -413,7 +413,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * @param  int|NULL position or NULL for appending
 	 * @param  Html|string Html node or raw HTML string
 	 * @param  bool
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public function insert($index, $child, $replace = FALSE)
@@ -449,7 +449,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Returns child node (\ArrayAccess implementation).
 	 * @param  int
-	 * @return self|string
+	 * @return static|string
 	 */
 	public function offsetGet($index)
 	{

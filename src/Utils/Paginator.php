@@ -46,7 +46,7 @@ class Paginator
 	/**
 	 * Sets current page number.
 	 * @param  int
-	 * @return self
+	 * @return static
 	 */
 	public function setPage($page)
 	{
@@ -88,7 +88,7 @@ class Paginator
 	/**
 	 * Sets first page (base) number.
 	 * @param  int
-	 * @return self
+	 * @return static
 	 */
 	public function setBase($base)
 	{
@@ -151,7 +151,7 @@ class Paginator
 	/**
 	 * Sets the number of items to display on a single page.
 	 * @param  int
-	 * @return self
+	 * @return static
 	 */
 	public function setItemsPerPage($itemsPerPage)
 	{
@@ -173,7 +173,7 @@ class Paginator
 	/**
 	 * Sets the total number of items.
 	 * @param  int (or NULL as infinity)
-	 * @return self
+	 * @return static
 	 */
 	public function setItemCount($itemCount)
 	{

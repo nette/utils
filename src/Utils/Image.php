@@ -143,7 +143,7 @@ class Image
 	 * @param  mixed  detected image format
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws UnknownImageFileException if file not found or file type is not known
-	 * @return self
+	 * @return static
 	 */
 	public static function fromFile($file, & $format = NULL)
 	{
@@ -171,7 +171,7 @@ class Image
 	 * Create a new image from the image stream in the string.
 	 * @param  string
 	 * @param  mixed  detected image format
-	 * @return self
+	 * @return static
 	 * @throws ImageException
 	 */
 	public static function fromString($s, & $format = NULL)
@@ -196,7 +196,7 @@ class Image
 	 * @param  int
 	 * @param  int
 	 * @param  array
-	 * @return self
+	 * @return static
 	 */
 	public static function fromBlank($width, $height, $color = NULL)
 	{
@@ -256,7 +256,7 @@ class Image
 	/**
 	 * Sets image resource.
 	 * @param  resource
-	 * @return self
+	 * @return static
 	 */
 	protected function setImageResource($image)
 	{
@@ -283,7 +283,7 @@ class Image
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
 	 * @param  int    flags
-	 * @return self
+	 * @return static
 	 */
 	public function resize($width, $height, $flags = self::FIT)
 	{
@@ -382,7 +382,7 @@ class Image
 	 * @param  mixed  y-offset in pixels or percent
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
-	 * @return self
+	 * @return static
 	 */
 	public function crop($left, $top, $width, $height)
 	{
@@ -439,7 +439,7 @@ class Image
 
 	/**
 	 * Sharpen image.
-	 * @return self
+	 * @return static
 	 */
 	public function sharpen()
 	{
@@ -458,7 +458,7 @@ class Image
 	 * @param  mixed  x-coordinate in pixels or percent
 	 * @param  mixed  y-coordinate in pixels or percent
 	 * @param  int  opacity 0..100
-	 * @return self
+	 * @return static
 	 */
 	public function place(Image $image, $left = 0, $top = 0, $opacity = 100)
 	{
