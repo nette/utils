@@ -24,4 +24,4 @@ Assert::same('1978-05-05 00:00:00', (string) DateTime::from('1978-05-05'));
 
 Assert::type('DateTime', DateTime::from(new DateTime('1978-05-05')));
 
-Assert::same('1978-05-05 00:00:00', (string) DateTime::from(new DateTime('1978-05-05')));
+Assert::same('1978-05-05 12:00:00.123450', DateTime::from(new DateTime('1978-05-05 12:00:00.12345'))->format('Y-m-d H:i:s.u'));

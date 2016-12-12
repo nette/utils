@@ -44,7 +44,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	public static function from($time)
 	{
 		if ($time instanceof \DateTimeInterface) {
-			return new static($time->format('Y-m-d H:i:s'), $time->getTimezone());
+			return new static($time->format('Y-m-d H:i:s.u'), $time->getTimezone());
 
 		} elseif (is_numeric($time)) {
 			if ($time <= self::YEAR) {
