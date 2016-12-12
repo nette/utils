@@ -37,7 +37,7 @@ class DateTime extends \DateTime
 	/**
 	 * DateTime object factory.
 	 * @param  string|int|\DateTime
-	 * @return self
+	 * @return static
 	 */
 	public static function from($time)
 	{
@@ -68,7 +68,7 @@ class DateTime extends \DateTime
 
 	/**
 	 * @param  string
-	 * @return self
+	 * @return static
 	 */
 	public function modifyClone($modify = '')
 	{
@@ -79,7 +79,7 @@ class DateTime extends \DateTime
 
 	/**
 	 * @param  int
-	 * @return self
+	 * @return static
 	 */
 	public function setTimestamp($timestamp)
 	{
@@ -104,7 +104,7 @@ class DateTime extends \DateTime
 	 * @param string The format the $time parameter should be in
 	 * @param string String representing the time
 	 * @param string|\DateTimeZone desired timezone (default timezone is used if NULL is passed)
-	 * @return self|FALSE
+	 * @return static|FALSE
 	 */
 	public static function createFromFormat($format, $time, $timezone = NULL)
 	{

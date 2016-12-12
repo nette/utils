@@ -44,7 +44,7 @@ class Paginator extends Nette\Object
 	/**
 	 * Sets current page number.
 	 * @param  int
-	 * @return self
+	 * @return static
 	 */
 	public function setPage($page)
 	{
@@ -86,7 +86,7 @@ class Paginator extends Nette\Object
 	/**
 	 * Sets first page (base) number.
 	 * @param  int
-	 * @return self
+	 * @return static
 	 */
 	public function setBase($base)
 	{
@@ -149,7 +149,7 @@ class Paginator extends Nette\Object
 	/**
 	 * Sets the number of items to display on a single page.
 	 * @param  int
-	 * @return self
+	 * @return static
 	 */
 	public function setItemsPerPage($itemsPerPage)
 	{
@@ -171,7 +171,7 @@ class Paginator extends Nette\Object
 	/**
 	 * Sets the total number of items.
 	 * @param  int (or NULL as infinity)
-	 * @return self
+	 * @return static
 	 */
 	public function setItemCount($itemCount)
 	{
