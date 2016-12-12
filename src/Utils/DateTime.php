@@ -59,6 +59,20 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 
 	/**
+	 * Creates DateTime object.
+	 * @return static
+	 */
+	public static function fromParts($year, $month, $day, $hour = 0, $minute = 0, $second = 0)
+	{
+		$s = sprintf("%04d-%02d-%02d %02d:%02d:%02.5f", $year, $month, $day, $hour, $minute, $second);
+		if (!checkdate($month, $day, $year) || $hour < 0 || $hour > 23 || $minute < 0 || $minute > 59 || $second < 0 || $second >= 60) {
+			throw new Nette\InvalidArgumentException("Invalid date '$s'");
+		}
+		return new static($s);
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function __toString()
