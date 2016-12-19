@@ -155,6 +155,26 @@ class Validators
 
 
 	/**
+	 * Finds whether all values are of expected type.
+	 * @param  array|\Traversable
+	 * @param  string  expected types separated by pipe with optional ranges
+	 * @return bool
+	 */
+	public static function everyIs($values, $expected)
+	{
+		if (!self::isIterable($values)) {
+			return FALSE;
+		}
+		foreach ($values as $value) {
+			if (!static::is($value, $expected)) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+
+
+	/**
 	 * Finds whether a value is an integer or a float.
 	 * @return bool
 	 */
