@@ -330,3 +330,29 @@ test(function () {
 	Assert::false(Validators::is(3.14, 'iterable'));
 	Assert::false(Validators::is(new stdClass(), 'iterable'));
 });
+
+
+test(function () {
+	class Abc {}
+
+	Assert::true(Validators::is([], 'int[]'));
+	Assert::true(Validators::is(new ArrayIterator([]), 'int[]'));
+	Assert::false(Validators::is(1, 'int[]'));
+	Assert::false(Validators::is(2.15, 'int[]'));
+	Assert::true(Validators::is(2.15, 'float|int[]'));
+	Assert::true(Validators::is(2.15, 'int[]|float'));
+	Assert::true(Validators::is([1, 2, 3], 'int[]'));
+	Assert::false(Validators::is([1, 2, 3], 'int[][]'));
+	Assert::true(Validators::is([[1], [2, 3]], 'int[][]'));
+	Assert::false(Validators::is([1, 2.15, 3], 'int[]'));
+	Assert::true(Validators::is([1, 2.15, 3], 'number[]'));
+
+	Assert::true(Validators::is([new Abc], 'Abc[]'));
+	Assert::false(Validators::is([new Abc, new stdClass], 'Abc[]'));
+
+	Assert::true(Validators::is(['ABCD', 'EFGH', 'IJKL'], 'string:4[]'));
+	Assert::false(Validators::is(['ABCD', 'EFGH', 'IJKLM'], 'string:4[]'));
+
+	Assert::true(Validators::is([['ABCD', 'EFGH'], ['IJKL']], 'string:4[][]'));
+	Assert::false(Validators::is([['ABCD', 'EFGH'], ['IJKLM']], 'string:4[][]'));
+});

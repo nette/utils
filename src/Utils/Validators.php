@@ -121,6 +121,13 @@ class Validators
 	public static function is($value, $expected)
 	{
 		foreach (explode('|', $expected) as $item) {
+			if (substr($item, -2) === '[]') {
+				if (self::everyIs($value, substr($item, 0, -2))) {
+					return TRUE;
+				}
+				continue;
+			}
+
 			list($type) = $item = explode(':', $item, 2);
 			if (isset(static::$validators[$type])) {
 				if (!call_user_func(static::$validators[$type], $value)) {
