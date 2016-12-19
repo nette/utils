@@ -250,4 +250,48 @@ class Arrays
 		}
 	}
 
+
+	/**
+	 * Tests whether some element in the array passes the callback test.
+	 * @return bool
+	 */
+	public static function some(array $arr, callable $callback)
+	{
+		foreach ($arr as $k => $v) {
+			if ($callback($v, $k, $arr)) {
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+
+
+	/**
+	 * Tests whether all elements in the array pass the callback test.
+	 * @return bool
+	 */
+	public static function every(array $arr, callable $callback)
+	{
+		foreach ($arr as $k => $v) {
+			if (!$callback($v, $k, $arr)) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+
+
+	/**
+	 * Applies the callback to the elements of the array.
+	 * @return array
+	 */
+	public static function map(array $arr, callable $callback)
+	{
+		$res = [];
+		foreach ($arr as $k => $v) {
+			$res[$k] = $callback($v, $k, $arr);
+		}
+		return $res;
+	}
+
 }
