@@ -23,7 +23,7 @@ class Validators
 		'int' => 'is_int',
 		'integer' => 'is_int',
 		'float' => 'is_float',
-		'number' => NULL, // is_int || is_float,
+		'number' => [__CLASS__, 'isNumber'],
 		'numeric' => [__CLASS__, 'isNumeric'],
 		'numericint' => [__CLASS__, 'isNumericInt'],
 		'string' => 'is_string',
@@ -125,10 +125,6 @@ class Validators
 				if (!call_user_func(static::$validators[$type], $value)) {
 					continue;
 				}
-			} elseif ($type === 'number') {
-				if (!is_int($value) && !is_float($value)) {
-					continue;
-				}
 			} elseif ($type === 'pattern') {
 				if (preg_match('|^' . (isset($item[1]) ? $item[1] : '') . '\z|', $value)) {
 					return TRUE;
@@ -154,6 +150,16 @@ class Validators
 			return TRUE;
 		}
 		return FALSE;
+	}
+
+
+	/**
+	 * Finds whether a value is an integer or a float.
+	 * @return bool
+	 */
+	public static function isNumber($value)
+	{
+		return is_int($value) || is_float($value);
 	}
 
 
