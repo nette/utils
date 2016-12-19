@@ -105,7 +105,8 @@ class Image
 	const EXACT = 0b1000;
 
 	/** image types */
-	const JPEG = IMAGETYPE_JPEG,
+	const
+		JPEG = IMAGETYPE_JPEG,
 		PNG = IMAGETYPE_PNG,
 		GIF = IMAGETYPE_GIF;
 
@@ -113,6 +114,8 @@ class Image
 
 	/** @deprecated */
 	const ENLARGE = 0;
+
+	static private $formats = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif'];
 
 	/** @var resource */
 	private $image;
@@ -151,17 +154,12 @@ class Image
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
-		static $funcs = [
-			self::JPEG => 'imagecreatefromjpeg',
-			self::PNG => 'imagecreatefrompng',
-			self::GIF => 'imagecreatefromgif',
-		];
 		$format = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
-
-		if (!isset($funcs[$format])) {
+		if (!isset(self::$formats[$format])) {
+			$format = NULL;
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
-		return new static(Callback::invokeSafe($funcs[$format], [$file], function ($message) {
+		return new static(Callback::invokeSafe('imagecreatefrom' . self::$formats[$format], [$file], function ($message) {
 			throw new ImageException($message);
 		}));
 	}
@@ -182,7 +180,7 @@ class Image
 
 		if (func_num_args() > 1) {
 			$tmp = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
-			$format = in_array($tmp, [self::JPEG, self::PNG, self::GIF], TRUE) ? $tmp : NULL;
+			$format = isset(self::$formats[$tmp]) ? $tmp : NULL;
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function ($message) {
@@ -519,20 +517,12 @@ class Image
 	public function save($file = NULL, $quality = NULL, $type = NULL)
 	{
 		if ($type === NULL) {
-			switch (strtolower($ext = pathinfo($file, PATHINFO_EXTENSION))) {
-				case 'jpg':
-				case 'jpeg':
-					$type = self::JPEG;
-					break;
-				case 'png':
-					$type = self::PNG;
-					break;
-				case 'gif':
-					$type = self::GIF;
-					break;
-				default:
+			$extensions = array_flip(self::$formats) + ['jpg' => self::JPEG];
+			$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+			if (!isset($extensions[$ext])) {
 					throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
 			}
+			$type = $extensions[$ext];
 		}
 
 		switch ($type) {
@@ -595,10 +585,10 @@ class Image
 	 */
 	public function send($type = self::JPEG, $quality = NULL)
 	{
-		if (!in_array($type, [self::JPEG, self::PNG, self::GIF], TRUE)) {
+		if (!isset(self::$formats[$type])) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
-		header('Content-Type: ' . image_type_to_mime_type($type));
+		header('Content-Type: image/' . self::$formats[$type]);
 		return $this->save(NULL, $quality, $type);
 	}
 

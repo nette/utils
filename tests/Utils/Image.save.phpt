@@ -16,7 +16,21 @@ if (!extension_loaded('gd')) {
 }
 
 
-$main = Image::fromFile(__DIR__ . '/images/logo.gif');
+$main = Image::fromFile(__DIR__ . '/images/alpha1.png');
+
+
+test(function () use ($main) {
+	$main->save(TEMP_DIR . '/foo.png');
+	Assert::true(is_file(TEMP_DIR . '/foo.png'));
+	Assert::same(IMAGETYPE_PNG, getimagesize(TEMP_DIR . '/foo.png')[2]);
+});
+
+
+test(function () use ($main) {
+	$main->save(TEMP_DIR . '/foo.x', NULL, Image::PNG);
+	Assert::true(is_file(TEMP_DIR . '/foo.x'));
+	Assert::same(IMAGETYPE_PNG, getimagesize(TEMP_DIR . '/foo.x')[2]);
+});
 
 
 Assert::exception(function () use ($main) { // invalid image type
