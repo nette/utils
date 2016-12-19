@@ -43,6 +43,22 @@ test(function () use ($main) {
 });
 
 
+test(function () use ($main) {
+	if (!function_exists('imagewebp')) {
+		return;
+	}
+
+	ob_start();
+	$main->send(Image::WEBP);
+	$data = ob_get_clean();
+
+	Assert::contains('WEBP', $data);
+	if (PHP_SAPI !== 'cli') {
+		Assert::contains('Content-Type: image/webp', headers_list());
+	}
+});
+
+
 Assert::exception(function () use ($main) { // invalid image type
 	$main->send(IMG_WBMP);
 }, Nette\InvalidArgumentException::class, sprintf('Unsupported image type \'%d\'.', IMG_WBMP));

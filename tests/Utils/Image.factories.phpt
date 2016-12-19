@@ -24,6 +24,17 @@ test(function () {
 });
 
 
+test(function () {
+	if (!function_exists('imagecreatefromwebp')) {
+		return;
+	}
+	$image = Image::fromFile(__DIR__ . '/images/logo.webp', $format);
+	Assert::same(176, $image->getWidth());
+	Assert::same(104, $image->getHeight());
+	Assert::same(Image::WEBP, $format);
+});
+
+
 Assert::exception(function () {
 	Image::fromFile('images/missing.png');
 }, Nette\Utils\UnknownImageFileException::class, "File 'images/missing.png' not found.");
