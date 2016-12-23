@@ -27,7 +27,14 @@ class Callback
 	{
 		if ($method !== NULL) {
 			$callable = [$callable, $method];
+		}
 
+		if (PHP_VERSION_ID >= 70100) {
+			try {
+				return \Closure::fromCallable($callable);
+			} catch (\TypeError $e) {
+				throw new Nette\InvalidArgumentException($e->getMessage());
+			}
 		} elseif (is_string($callable) && count($tmp = explode('::', $callable)) === 2) {
 			$callable = $tmp;
 
