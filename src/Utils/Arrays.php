@@ -38,7 +38,7 @@ class Arrays
 	public static function get(array $arr, $key, $default = NULL)
 	{
 		foreach (is_array($key) ? $key : array($key) as $k) {
-			if (is_array($arr) && array_key_exists($k, $arr)) {
+			if (array_key_exists($k, $arr)) {
 				$arr = $arr[$k];
 			} else {
 				if (func_num_args() < 3) {
