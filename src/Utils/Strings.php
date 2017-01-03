@@ -115,6 +115,43 @@ class Strings
 
 
 	/**
+	 * Returns cutted string.
+	 * @param string
+	 * @param string
+	 * @param int cut the string when nth occurence of needle appears. 0 returns whole haystack.
+	 * @param bool whether to return the part before/after the needle?
+	 * @param bool whether the needle should be included in the cutted string
+	 * @return string
+	 */
+	static function cut($haystack, $needle, $nthOccurence = 1, $beforeNeedle = FALSE, $includeNeedle = FALSE)
+	{
+		if ($nthOccurence == 0) {
+			return $haystack;
+		} elseif (preg_match_all('#' . preg_quote($needle) . '#', $haystack, $matches, PREG_OFFSET_CAPTURE)) {
+			$n = abs($nthOccurence);
+			$pos = NULL;
+			foreach ($nthOccurence > 0 ? $matches[0] : array_reverse($matches[0]) as $match) {
+				if (!--$n) {
+					$pos = $match[1];
+					break;
+				}
+			}
+
+			if ($pos !== NULL) {
+				if ($beforeNeedle) {
+					$res = substr($haystack, 0, $includeNeedle ? $pos + strlen($needle) : $pos);
+				} else {
+					$res = substr($haystack, $includeNeedle ? $pos : $pos + strlen($needle));
+				}
+				return $res;
+			}
+		}
+
+		return $haystack;
+	}
+
+
+	/**
 	 * Removes special controls characters and normalizes line endings and spaces.
 	 * @param  string  UTF-8 encoding
 	 * @return string

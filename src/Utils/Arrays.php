@@ -62,6 +62,23 @@ class Arrays
 
 
 	/**
+	 * Returns item from array or $default if item is not set.
+	 * @var string $path path delimited by dot to elemnt (e.g. "settings.nette.debug")
+	 * @return mixed
+	 */
+	public static function lookup($arr, $path, $default = NULL)
+	{
+		$args = explode('.', $path);
+		$lvl = array_shift($args);
+		$param = isset($arr[$lvl]) ? $arr[$lvl] : $default;
+		while ($lvl = array_shift($args)) {
+			$param = isset($param[$lvl]) ? $param[$lvl] : $default;
+		}
+		return $param;
+	}
+
+
+	/**
 	 * Recursively appends elements of remaining keys from the second array to the first.
 	 * @return array
 	 */
