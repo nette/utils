@@ -178,7 +178,7 @@ class Arrays
 		$res = $parts[0] === '->' ? new \stdClass : [];
 
 		foreach ($arr as $rowOrig) {
-			$row = (array) $rowOrig;
+			$row = $rowOrig instanceof \Traversable ? iterator_to_array($rowOrig) : (array) $rowOrig;
 			$x = & $res;
 
 			for ($i = 0; $i < count($parts); $i++) {
