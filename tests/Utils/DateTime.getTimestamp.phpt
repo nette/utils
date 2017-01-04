@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\Utils\DateTime & JSON.
+ * Test: Nette\Utils\DateTime::getTimestamp().
  */
 
 use Tester\Assert;
@@ -14,4 +14,6 @@ error_reporting(error_reporting() & ~E_USER_DEPRECATED);
 
 date_default_timezone_set('Europe/Prague');
 
-Assert::same('"1978-01-23T11:40:00+01:00"', json_encode(DateTime::from(254400000)));
+$timestamp = 123456789;
+$dt = DateTime::from($timestamp);
+Assert::same($timestamp, $dt->getTimestamp());

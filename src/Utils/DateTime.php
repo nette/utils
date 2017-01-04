@@ -7,10 +7,12 @@
 
 namespace Nette\Utils;
 
+use DateTimeZone;
 use Nette;
 
 
 /**
+ * @deprecated Use Nette\Utils\DateHelpers.
  * DateTime.
  */
 class DateTime extends \DateTime implements \JsonSerializable
@@ -18,23 +20,28 @@ class DateTime extends \DateTime implements \JsonSerializable
 	use Nette\SmartObject;
 
 	/** minute in seconds */
-	const MINUTE = 60;
+	const MINUTE = DateHelpers::MINUTE;
 
 	/** hour in seconds */
-	const HOUR = 60 * self::MINUTE;
+	const HOUR = DateHelpers::HOUR;
 
 	/** day in seconds */
-	const DAY = 24 * self::HOUR;
+	const DAY = DateHelpers::DAY;
 
 	/** week in seconds */
-	const WEEK = 7 * self::DAY;
+	const WEEK = DateHelpers::WEEK;
 
 	/** average month in seconds */
-	const MONTH = 2629800;
+	const MONTH = DateHelpers::MONTH;
 
 	/** average year in seconds */
-	const YEAR = 31557600;
+	const YEAR = DateHelpers::YEAR;
 
+	public function __construct($time = 'now', DateTimeZone $timezone = NULL)
+	{
+		trigger_error('Class ' . __CLASS__ . ' is deprecated, please use ' . DateHelpers::class . ' instead.', E_USER_DEPRECATED);
+		parent::__construct($time, $timezone);
+	}
 
 	/**
 	 * DateTime object factory.
@@ -87,8 +94,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 */
 	public function modifyClone($modify = '')
 	{
-		$dolly = clone $this;
-		return $modify ? $dolly->modify($modify) : $dolly;
+		return DateHelpers::modifyClone($this, $modify);
 	}
 
 
@@ -98,9 +104,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 */
 	public function setTimestamp($timestamp)
 	{
-		$zone = $this->getTimezone();
-		$this->__construct('@' . $timestamp);
-		return $this->setTimeZone($zone);
+		return DateHelpers::setTimestamp($this, $timestamp);
 	}
 
 
@@ -109,8 +113,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 */
 	public function getTimestamp()
 	{
-		$ts = $this->format('U');
-		return is_float($tmp = $ts * 1) ? $ts : $tmp;
+		return DateHelpers::getTimestamp($this);
 	}
 
 
