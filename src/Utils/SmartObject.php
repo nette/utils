@@ -8,6 +8,7 @@
 namespace Nette;
 
 use Nette\Utils\Callback;
+use Nette\Utils\IExtensibleMethods;
 use Nette\Utils\ObjectMixin;
 
 
@@ -69,7 +70,9 @@ trait SmartObject
 			return $this;
 
 		} elseif ($cb = ObjectMixin::getExtensionMethod($class, $name)) { // extension methods
-			trigger_error("Extension methods such as $class::$name() are deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
+			if ( !is_a($class, IExtensibleMethods::class, TRUE)) {
+				trigger_error("Extension methods such as $class::$name() are deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
+			}
 			return Callback::invoke($cb, $this, ...$args);
 
 		} else {
