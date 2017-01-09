@@ -13,7 +13,7 @@ class TestClass extends Nette\Object
 {
 	public $onPublic;
 
-	//static public $onPublicStatic;
+	static public $onPublicStatic;
 
 	protected $onProtected;
 

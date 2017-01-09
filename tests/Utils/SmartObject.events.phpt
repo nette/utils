@@ -15,7 +15,7 @@ class TestClass
 
 	public $onPublic;
 
-	//static public $onPublicStatic;
+	static public $onPublicStatic;
 
 	protected $onProtected;
 
