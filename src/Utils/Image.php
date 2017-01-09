@@ -509,9 +509,10 @@ class Image
 	 * @param  string  filename
 	 * @param  int  quality (0..100 for JPEG and WEBP, 0..9 for PNG)
 	 * @param  int  optional image type
-	 * @return bool TRUE on success or FALSE on failure.
+	 * @return void
+	 * @throws ImageException
 	 */
-	public function save(string $file = NULL, int $quality = NULL, int $type = NULL): bool
+	public function save(string $file = NULL, int $quality = NULL, int $type = NULL)
 	{
 		if ($type === NULL) {
 			$extensions = array_flip(self::$formats) + ['jpg' => self::JPEG];
@@ -525,21 +526,28 @@ class Image
 		switch ($type) {
 			case self::JPEG:
 				$quality = $quality === NULL ? 85 : max(0, min(100, (int) $quality));
-				return imagejpeg($this->image, $file, $quality);
+				$success = imagejpeg($this->image, $file, $quality);
+				break;
 
 			case self::PNG:
 				$quality = $quality === NULL ? 9 : max(0, min(9, (int) $quality));
-				return imagepng($this->image, $file, $quality);
+				$success = imagepng($this->image, $file, $quality);
+				break;
 
 			case self::GIF:
-				return imagegif($this->image, $file);
+				$success = imagegif($this->image, $file);
+				break;
 
 			case self::WEBP:
 				$quality = $quality === NULL ? 80 : max(0, min(100, (int) $quality));
-				return imagewebp($this->image, $file, $quality);
+				$success = imagewebp($this->image, $file, $quality);
+				break;
 
 			default:
 				throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
+		}
+		if (!$success) {
+			throw new ImageException(error_get_last()['message']);
 		}
 	}
 
@@ -579,9 +587,10 @@ class Image
 	 * Outputs image to browser.
 	 * @param  int  image type
 	 * @param  int  quality (0..100 for JPEG and WEBP, 0..9 for PNG)
-	 * @return bool TRUE on success or FALSE on failure.
+	 * @return void
+	 * @throws ImageException
 	 */
-	public function send(int $type = self::JPEG, int $quality = NULL): bool
+	public function send(int $type = self::JPEG, int $quality = NULL)
 	{
 		if (!isset(self::$formats[$type])) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
