@@ -117,6 +117,8 @@ class StaticClassException extends \LogicException
 
 namespace Nette\Utils;
 
+use Nette;
+
 
 /**
  * The exception that is thrown when an image error occurs.
@@ -154,5 +156,13 @@ class RegexpException extends \Exception
  * The exception that indicates assertion error.
  */
 class AssertionException extends \Exception
+{
+}
+
+
+/**
+ * The exception indicates that item is not present in collection.
+ */
+class ItemNotFoundException extends Nette\ArgumentOutOfRangeException
 {
 }
