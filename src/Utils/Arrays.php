@@ -78,12 +78,12 @@ class Arrays
 
 	/**
 	 * Searches the array for a given key and returns the offset if successful.
-	 * @return int|FALSE offset if it is found, FALSE otherwise
+	 * @return int|NULL offset if it is found, NULL otherwise
 	 */
 	public static function searchKey(array $arr, $key)
 	{
 		$foo = [$key => NULL];
-		return array_search(key($foo), array_keys($arr), TRUE);
+		return ($tmp = array_search(key($foo), array_keys($arr), TRUE)) === FALSE ? NULL : $tmp;
 	}
 
 
@@ -105,7 +105,7 @@ class Arrays
 	public static function insertAfter(array &$arr, $key, array $inserted)
 	{
 		$offset = self::searchKey($arr, $key);
-		$offset = $offset === FALSE ? count($arr) : $offset + 1;
+		$offset = $offset === NULL ? count($arr) : $offset + 1;
 		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
 	}
 
@@ -117,7 +117,7 @@ class Arrays
 	public static function renameKey(array &$arr, $oldKey, $newKey)
 	{
 		$offset = self::searchKey($arr, $oldKey);
-		if ($offset !== FALSE) {
+		if ($offset !== NULL) {
 			$keys = array_keys($arr);
 			$keys[$offset] = $newKey;
 			$arr = array_combine($keys, $arr);
