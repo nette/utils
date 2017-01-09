@@ -530,7 +530,7 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return NULL;
 		}
-		return self::pcre('preg_match', [$pattern, $subject, & $m, $flags, $offset])
+		return self::pcre('preg_match', [$pattern, $subject, &$m, $flags, $offset])
 			? $m
 			: NULL;
 	}
@@ -550,7 +550,7 @@ class Strings
 			return [];
 		}
 		self::pcre('preg_match_all', [
-			$pattern, $subject, & $m,
+			$pattern, $subject, &$m,
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
 			$offset,
 		]);

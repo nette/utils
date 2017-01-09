@@ -142,7 +142,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 			$this->attrs[$name] = $value + $prev;
 
 		} elseif ((string) $value === '') {
-			$tmp = & $this->attrs[$name]; // appending empty value? -> ignore, but ensure it exists
+			$tmp = &$this->attrs[$name]; // appending empty value? -> ignore, but ensure it exists
 
 		} elseif (!isset($this->attrs[$name]) || is_array($this->attrs[$name])) { // needs array
 			$this->attrs[$name][$value] = $option;

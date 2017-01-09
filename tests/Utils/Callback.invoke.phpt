@@ -19,7 +19,7 @@ class Test
 		return __METHOD__ . $a;
 	}
 
-	public function ref(& $a)
+	public function ref(&$a)
 	{
 		$a = __METHOD__;
 		return $a;
@@ -34,7 +34,7 @@ Assert::same('Test::fun*', Callback::invokeArgs($cb, ['*']));
 
 
 $cb = [new Test, 'ref'];
-Assert::same('Test::ref', Callback::invokeArgs($cb, [& $ref]));
+Assert::same('Test::ref', Callback::invokeArgs($cb, [&$ref]));
 Assert::same('Test::ref', $ref);
 
 

@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-set_error_handler(function ($severity, $message) use (& $res) {
+set_error_handler(function ($severity, $message) use (&$res) {
 	$res = $message;
 });
 

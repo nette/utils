@@ -19,5 +19,5 @@ Assert::false(Arrays::isList([4 => 1, 2, 3]));
 Assert::false(Arrays::isList([1 => 'a', 0 => 'b']));
 Assert::false(Arrays::isList(['key' => 'value']));
 $arr = [];
-$arr[] = & $arr;
+$arr[] = &$arr;
 Assert::true(Arrays::isList($arr));

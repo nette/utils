@@ -28,6 +28,6 @@ class TestClass extends Nette\Object
 
 $obj = new TestClass;
 $obj->foo = 'hello';
-@$x = & $obj->foo;
+@$x = &$obj->foo;
 $x = 'changed by reference';
 Assert::same('hello', $obj->foo);

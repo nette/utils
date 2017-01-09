@@ -13,7 +13,7 @@ class TestClass extends Nette\Object
 {
 	private $items = [];
 
-	public function & getItems()
+	public function &getItems()
 	{
 		return $this->items;
 	}

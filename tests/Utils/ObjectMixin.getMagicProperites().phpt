@@ -33,7 +33,7 @@ class TestClass
 	function getGetter()
 	{}
 
-	function & isGetter2()
+	function &isGetter2()
 	{}
 
 	function setSetter()

@@ -47,7 +47,7 @@ trait SmartObject
 			trigger_error("Invoking closure in property via \$obj->$name() is deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			return call_user_func_array($this->$name, $args);
 
-		} elseif (($methods = & ObjectMixin::getMethods($class)) && isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
+		} elseif (($methods = &ObjectMixin::getMethods($class)) && isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
 			trigger_error("Magic methods such as $class::$name() are deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			list($op, $rp, $type) = $methods[$name];
 			if (count($args) !== ($op === 'get' ? 0 : 1)) {
@@ -92,7 +92,7 @@ trait SmartObject
 	 * @return mixed   property value
 	 * @throws MemberAccessException if the property is not defined.
 	 */
-	public function & __get($name)
+	public function &__get($name)
 	{
 		$class = get_class($this);
 		$uname = ucfirst($name);
@@ -112,7 +112,7 @@ trait SmartObject
 		} elseif ($name === '') {
 			throw new MemberAccessException("Cannot read a class '$class' property without name.");
 
-		} elseif (($methods = & ObjectMixin::getMethods($class)) && isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname])) { // old property getter
+		} elseif (($methods = &ObjectMixin::getMethods($class)) && isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname])) { // old property getter
 			trigger_error("Add annotation @property for $class::\$$name or use $m()" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			if ($methods[$m] === 0) {
 				$methods[$m] = (new \ReflectionMethod($class, $m))->returnsReference();
@@ -159,7 +159,7 @@ trait SmartObject
 		} elseif ($name === '') {
 			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
 
-		} elseif (($methods = & ObjectMixin::getMethods($class)) && isset($methods[$m = 'set' . $uname])) { // old property setter
+		} elseif (($methods = &ObjectMixin::getMethods($class)) && isset($methods[$m = 'set' . $uname])) { // old property setter
 			trigger_error("Add annotation @property for $class::\$$name or use $m()" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			$this->$m($value);
 

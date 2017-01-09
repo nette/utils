@@ -18,7 +18,7 @@ class TestClass
 
 	private $items = [];
 
-	public function & getItems()
+	public function &getItems()
 	{
 		return $this->items;
 	}

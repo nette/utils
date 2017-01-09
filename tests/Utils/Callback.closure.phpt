@@ -48,7 +48,7 @@ class Test
 		return __METHOD__ . " $nm $args[0]";
 	}
 
-	public function ref(& $a)
+	public function ref(&$a)
 	{
 		$a = __METHOD__;
 		return $a;
@@ -93,7 +93,7 @@ test(function () { // global function
 
 
 test(function () { // closure
-	$closure = function (& $a) {
+	$closure = function (&$a) {
 		$a = __FUNCTION__;
 		return $a;
 	};
@@ -101,7 +101,7 @@ test(function () { // closure
 	Assert::same($closure, Callback::unwrap($closure));
 	Assert::same('{closure}', Callback::toString($closure));
 	Assert::same('{closure}', getName(Callback::toReflection($closure)));
-	Assert::same('{closure}', call_user_func_array(Callback::closure($closure), [& $res]));
+	Assert::same('{closure}', call_user_func_array(Callback::closure($closure), [&$res]));
 	Assert::same('{closure}', $res);
 });
 
@@ -142,7 +142,7 @@ test(function () { // object methods
 
 	Assert::same('Test::privateFun*', Callback::closure($test, 'privateFun')->__invoke('*'));
 
-	Assert::same('Test::ref', call_user_func_array(Callback::closure($test, 'ref'), [& $res]));
+	Assert::same('Test::ref', call_user_func_array(Callback::closure($test, 'ref'), [&$res]));
 	Assert::same('Test::ref', $res);
 });
 

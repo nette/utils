@@ -48,11 +48,11 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if traversed item is not an array
 	 */
-	public static function & getRef(array & $arr, $key)
+	public static function &getRef(array &$arr, $key)
 	{
 		foreach (is_array($key) ? $key : [$key] as $k) {
 			if (is_array($arr) || $arr === NULL) {
-				$arr = & $arr[$k];
+				$arr = &$arr[$k];
 			} else {
 				throw new Nette\InvalidArgumentException('Traversed item is not an array.');
 			}
@@ -92,7 +92,7 @@ class Arrays
 	 * Inserts new array before item specified by key.
 	 * @return void
 	 */
-	public static function insertBefore(array & $arr, $key, array $inserted)
+	public static function insertBefore(array &$arr, $key, array $inserted)
 	{
 		$offset = (int) self::searchKey($arr, $key);
 		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
@@ -103,7 +103,7 @@ class Arrays
 	 * Inserts new array after item specified by key.
 	 * @return void
 	 */
-	public static function insertAfter(array & $arr, $key, array $inserted)
+	public static function insertAfter(array &$arr, $key, array $inserted)
 	{
 		$offset = self::searchKey($arr, $key);
 		$offset = $offset === FALSE ? count($arr) : $offset + 1;
@@ -115,7 +115,7 @@ class Arrays
 	 * Renames key in array.
 	 * @return void
 	 */
-	public static function renameKey(array & $arr, $oldKey, $newKey)
+	public static function renameKey(array &$arr, $oldKey, $newKey)
 	{
 		$offset = self::searchKey($arr, $oldKey);
 		if ($offset !== FALSE) {
@@ -144,8 +144,8 @@ class Arrays
 	{
 		$res = [];
 		$cb = $preserveKeys
-			? function ($v, $k) use (& $res) { $res[$k] = $v; }
-			: function ($v) use (& $res) { $res[] = $v; };
+			? function ($v, $k) use (&$res) { $res[$k] = $v; }
+			: function ($v) use (&$res) { $res[] = $v; };
 		array_walk_recursive($arr, $cb);
 		return $res;
 	}
@@ -179,12 +179,12 @@ class Arrays
 
 		foreach ($arr as $rowOrig) {
 			$row = (array) $rowOrig;
-			$x = & $res;
+			$x = &$res;
 
 			for ($i = 0; $i < count($parts); $i++) {
 				$part = $parts[$i];
 				if ($part === '[]') {
-					$x = & $x[];
+					$x = &$x[];
 
 				} elseif ($part === '=') {
 					if (isset($parts[++$i])) {
@@ -194,13 +194,13 @@ class Arrays
 
 				} elseif ($part === '->') {
 					if (isset($parts[++$i])) {
-						$x = & $x->{$row[$parts[$i]]};
+						$x = &$x->{$row[$parts[$i]]};
 					} else {
 						$row = is_object($rowOrig) ? $rowOrig : (object) $row;
 					}
 
 				} elseif ($part !== '|') {
-					$x = & $x[(string) $row[$part]];
+					$x = &$x[(string) $row[$part]];
 				}
 			}
 
@@ -235,7 +235,7 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
-	public static function pick(array & $arr, $key, $default = NULL)
+	public static function pick(array &$arr, $key, $default = NULL)
 	{
 		if (array_key_exists($key, $arr)) {
 			$value = $arr[$key];

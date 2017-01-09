@@ -21,7 +21,7 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	$arr = ['recursive'];
-	$arr[] = & $arr;
+	$arr[] = &$arr;
 	Json::encode($arr);
 }, Nette\Utils\JsonException::class, '%a?%ecursion detected');
 

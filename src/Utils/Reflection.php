@@ -272,7 +272,7 @@ class Reflection
 	}
 
 
-	private static function fetch(& $tokens, $take)
+	private static function fetch(&$tokens, $take)
 	{
 		$res = NULL;
 		while ($token = current($tokens)) {

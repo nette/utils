@@ -126,7 +126,7 @@ test(function () {
 	Assert::false(Validators::is([1 => 'a', 0 => 'b'], 'list'));
 	Assert::false(Validators::is(['key' => 'value'], 'list'));
 	$arr = [];
-	$arr[] = & $arr;
+	$arr[] = &$arr;
 	Assert::true(Validators::is($arr, 'list'));
 	Assert::false(Validators::is([1, 2, 3], 'list:4'));
 });
