@@ -6,60 +6,68 @@
 
 declare(strict_types=1);
 
-use Nette\Utils\Reflection;
-use Tester\Assert;
+namespace NS {
+	define('DEFINED', 123);
+	const CONSTANT = 456;
 
-require __DIR__ . '/../bootstrap.php';
-
-
-define('DEFINED', 123);
-
-interface Bar
-{
-	const DEFINED = 'xyz';
-}
-
-class Foo
-{
-	const DEFINED = 'abc';
-
-	function method(
-		$a,
-		$b = self::DEFINED,
-		$c = Foo::DEFINED,
-		$d = SELF::DEFINED,
-		$e = bar::DEFINED,
-		$f = self::UNDEFINED,
-		$g = Undefined::ANY,
-		$h = DEFINED,
-		$i = UNDEFINED)
+	interface Bar
 	{
+		const DEFINED = 'xyz';
+	}
+
+	class Foo
+	{
+		const DEFINED = 'abc';
+
+		function method(
+			$a,
+			$b = self::DEFINED,
+			$c = Foo::DEFINED,
+			$d = SELF::DEFINED,
+			$e = bar::DEFINED,
+			$f = self::UNDEFINED,
+			$g = Undefined::ANY,
+			$h = DEFINED,
+			$i = UNDEFINED,
+			$j = CONSTANT)
+		{
+		}
 	}
 }
 
 
-Assert::exception(function () {
-	Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'a'));
-}, ReflectionException::class);
+namespace {
+	use Nette\Utils\Reflection;
+	use Tester\Assert;
 
-Assert::same(Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'b')));
+	require __DIR__ . '/../bootstrap.php';
 
-Assert::same(Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'c')));
 
-Assert::same(Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'd')));
+	Assert::exception(function () {
+		Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'a'));
+	}, ReflectionException::class);
 
-Assert::same(Bar::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'e')));
+	Assert::same(NS\Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'b')));
 
-Assert::exception(function () {
-	Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'f'));
-}, ReflectionException::class, 'Unable to resolve constant Foo::UNDEFINED used as default value of $f in Foo::method().');
+	Assert::same(NS\Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'c')));
 
-Assert::exception(function () {
-	Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'g'));
-}, ReflectionException::class, 'Unable to resolve constant Undefined::ANY used as default value of $g in Foo::method().');
+	Assert::same(NS\Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'd')));
 
-Assert::same(DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'h')));
+	Assert::same(NS\Bar::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'e')));
 
-Assert::exception(function () {
-	Reflection::getParameterDefaultValue(new ReflectionParameter(['Foo', 'method'], 'i'));
-}, ReflectionException::class, 'Unable to resolve constant UNDEFINED used as default value of $i in Foo::method().');
+	Assert::exception(function () {
+		Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'f'));
+	}, ReflectionException::class, 'Unable to resolve constant NS\Foo::UNDEFINED used as default value of $f in NS\Foo::method().');
+
+	Assert::exception(function () {
+		Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'g'));
+	}, ReflectionException::class, 'Unable to resolve constant NS\Undefined::ANY used as default value of $g in NS\Foo::method().');
+
+	Assert::same(DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'h')));
+
+	Assert::exception(function () {
+		Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'i'));
+	}, ReflectionException::class, 'Unable to resolve constant NS\UNDEFINED used as default value of $i in NS\Foo::method().');
+
+	Assert::same(NS\CONSTANT, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'j')));
+}

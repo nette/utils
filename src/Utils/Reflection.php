@@ -72,8 +72,14 @@ class Reflection
 				$const = $param->getDeclaringClass()->getName() . '::' . $pair[1];
 			}
 			if (!defined($const)) {
-				$name = self::toString($param);
-				throw new \ReflectionException("Unable to resolve constant $const used as default value of $name.");
+				// Workaround for PHP bug #73632
+				$pos = strrpos($const, '\\');
+				if ($pos === FALSE || !defined(substr($const, $pos + 1))) {
+					$name = self::toString($param);
+					throw new \ReflectionException("Unable to resolve constant $const used as default value of $name.");
+				} else {
+					$const = substr($const, $pos + 1);
+				}
 			}
 			return constant($const);
 		}
