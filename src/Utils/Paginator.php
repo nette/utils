@@ -39,7 +39,7 @@ class Paginator
 	private $itemsPerPage = 1;
 
 	/** @var int */
-	private $page;
+	private $page = 1;
 
 	/** @var int|NULL */
 	private $itemCount;
