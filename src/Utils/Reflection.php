@@ -75,14 +75,17 @@ class Reflection
 	public static function getParameterDefaultValue(\ReflectionParameter $param)
 	{
 		if ($param->isDefaultValueConstant()) {
-			$const = $param->getDefaultValueConstantName();
+			$const = $orig = $param->getDefaultValueConstantName();
 			$pair = explode('::', $const);
 			if (isset($pair[1]) && strtolower($pair[0]) === 'self') {
 				$const = $param->getDeclaringClass()->getName() . '::' . $pair[1];
 			}
 			if (!defined($const)) {
-				$name = self::toString($param);
-				throw new \ReflectionException("Unable to resolve constant $const used as default value of $name.");
+				$const = substr((string) strrchr($const, '\\'), 1);
+				if (isset($pair[1]) || !defined($const)) {
+					$name = self::toString($param);
+					throw new \ReflectionException("Unable to resolve constant $orig used as default value of $name.");
+				}
 			}
 			return constant($const);
 		}
