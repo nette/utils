@@ -116,7 +116,7 @@ class Image
 	/** @deprecated */
 	const ENLARGE = 0;
 
-	static private $formats = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp'];
+	private static $formats = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp'];
 
 	/** @var resource */
 	private $image;
