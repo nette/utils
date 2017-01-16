@@ -11,21 +11,21 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::same('ŤOUŤOUŤŽLU', Strings::padLeft("\xc5\xbdLU", 10, "\xc5\xa4OU"));
-Assert::same('ŤOUŤOUŽLU', Strings::padLeft("\xc5\xbdLU", 9, "\xc5\xa4OU"));
-Assert::same('ŽLU', Strings::padLeft("\xc5\xbdLU", 3, "\xc5\xa4OU"));
-Assert::same('ŽLU', Strings::padLeft("\xc5\xbdLU", 0, "\xc5\xa4OU"));
-Assert::same('ŽLU', Strings::padLeft("\xc5\xbdLU", -1, "\xc5\xa4OU"));
-Assert::same('ŤŤŤŤŤŤŤŽLU', Strings::padLeft("\xc5\xbdLU", 10, "\xc5\xa4"));
-Assert::same('ŽLU', Strings::padLeft("\xc5\xbdLU", 3, "\xc5\xa4"));
-Assert::same('       ŽLU', Strings::padLeft("\xc5\xbdLU", 10));
+Assert::same('ŤOUŤOUŤŽLU', Strings::padLeft("\u{17D}LU", 10, "\u{164}OU"));
+Assert::same('ŤOUŤOUŽLU', Strings::padLeft("\u{17D}LU", 9, "\u{164}OU"));
+Assert::same('ŽLU', Strings::padLeft("\u{17D}LU", 3, "\u{164}OU"));
+Assert::same('ŽLU', Strings::padLeft("\u{17D}LU", 0, "\u{164}OU"));
+Assert::same('ŽLU', Strings::padLeft("\u{17D}LU", -1, "\u{164}OU"));
+Assert::same('ŤŤŤŤŤŤŤŽLU', Strings::padLeft("\u{17D}LU", 10, "\u{164}"));
+Assert::same('ŽLU', Strings::padLeft("\u{17D}LU", 3, "\u{164}"));
+Assert::same('       ŽLU', Strings::padLeft("\u{17D}LU", 10));
 
 
-Assert::same('ŽLUŤOUŤOUŤ', Strings::padRight("\xc5\xbdLU", 10, "\xc5\xa4OU"));
-Assert::same('ŽLUŤOUŤOU', Strings::padRight("\xc5\xbdLU", 9, "\xc5\xa4OU"));
-Assert::same('ŽLU', Strings::padRight("\xc5\xbdLU", 3, "\xc5\xa4OU"));
-Assert::same('ŽLU', Strings::padRight("\xc5\xbdLU", 0, "\xc5\xa4OU"));
-Assert::same('ŽLU', Strings::padRight("\xc5\xbdLU", -1, "\xc5\xa4OU"));
-Assert::same('ŽLUŤŤŤŤŤŤŤ', Strings::padRight("\xc5\xbdLU", 10, "\xc5\xa4"));
-Assert::same('ŽLU', Strings::padRight("\xc5\xbdLU", 3, "\xc5\xa4"));
-Assert::same('ŽLU       ', Strings::padRight("\xc5\xbdLU", 10));
+Assert::same('ŽLUŤOUŤOUŤ', Strings::padRight("\u{17D}LU", 10, "\u{164}OU"));
+Assert::same('ŽLUŤOUŤOU', Strings::padRight("\u{17D}LU", 9, "\u{164}OU"));
+Assert::same('ŽLU', Strings::padRight("\u{17D}LU", 3, "\u{164}OU"));
+Assert::same('ŽLU', Strings::padRight("\u{17D}LU", 0, "\u{164}OU"));
+Assert::same('ŽLU', Strings::padRight("\u{17D}LU", -1, "\u{164}OU"));
+Assert::same('ŽLUŤŤŤŤŤŤŤ', Strings::padRight("\u{17D}LU", 10, "\u{164}"));
+Assert::same('ŽLU', Strings::padRight("\u{17D}LU", 3, "\u{164}"));
+Assert::same('ŽLU       ', Strings::padRight("\u{17D}LU", 10));

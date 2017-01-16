@@ -11,10 +11,10 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::same('x',  Strings::trim(" \t\n\r\x00\x0B\xC2\xA0x"));
+Assert::same('x',  Strings::trim(" \t\n\r\x00\x0B\u{A0}x"));
 Assert::same('a b',  Strings::trim(' a b '));
 Assert::same(' a b ',  Strings::trim(' a b ', ''));
-Assert::same('e',  Strings::trim("\xc5\x98e-", "\xc5\x98-")); // Ře-
+Assert::same('e',  Strings::trim("\u{158}e-", "\u{158}-")); // Ře-
 
 Assert::exception(function () {
 	Strings::trim("\xC2x\xA0");

@@ -25,10 +25,10 @@ Assert::same('a', Strings::findPrefix('a', 'ab'));
 Assert::same('a', Strings::findPrefix('aa', 'ab'));
 Assert::same('ab', Strings::findPrefix('ab', 'ab'));
 
-Assert::same("I\xc3\xb1e", Strings::findPrefix("I\xc3\xb1e", "I\xc3\xb1e"));
-Assert::same("I\xc3\xb1", Strings::findPrefix("I\xc3\xb1", "I\xc3\xb1"));
-Assert::same('I', Strings::findPrefix("I\xc3\xb2", "I\xc3\xb1"));
-Assert::same('I', Strings::findPrefix("I\xc4\xb1", "I\xc3\xb1"));
+Assert::same("I\u{F1}e", Strings::findPrefix("I\u{F1}e", "I\u{F1}e"));
+Assert::same("I\u{F1}", Strings::findPrefix("I\u{F1}", "I\u{F1}"));
+Assert::same('I', Strings::findPrefix("I\u{F2}", "I\u{F1}"));
+Assert::same('I', Strings::findPrefix("I\u{131}", "I\u{F1}"));
 
 Assert::same('', Strings::findPrefix(['', '']));
 Assert::same('', Strings::findPrefix(['', '', '']));

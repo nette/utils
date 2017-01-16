@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$s = "\xc5\x98ekn\xc4\x9bte, jak se (dnes) m\xc3\xa1te?"; // Řekněte, jak se (dnes) máte?
+$s = "\u{158}ekn\u{11B}te, jak se (dnes) m\u{E1}te?"; // Řekněte, jak se (dnes) máte?
 
 Assert::same('…', Strings::truncate($s, -1)); // length=-1
 Assert::same('…', Strings::truncate($s, 0)); // length=0
@@ -49,5 +49,5 @@ Assert::same('Řekněte, jak se (dnes) máte?', Strings::truncate($s, 31)); // l
 Assert::same('Řekněte, jak se (dnes) máte?', Strings::truncate($s, 32)); // length=32
 
 // mañana, U+006E + U+0303 (combining character)
-Assert::same("man\xCC\x83", Strings::truncate("man\xCC\x83ana", 4, ''));
-Assert::same('man', Strings::truncate("man\xCC\x83ana", 3, ''));
+Assert::same("man\u{303}", Strings::truncate("man\u{303}ana", 4, ''));
+Assert::same('man', Strings::truncate("man\u{303}ana", 3, ''));

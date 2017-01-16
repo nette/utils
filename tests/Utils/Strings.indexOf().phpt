@@ -33,8 +33,8 @@ test(function () {
 
 
 test(function () {
-	$foo = "I\xc3\xb1t\xc3\xabrn\xc3\xa2ti\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n"; // Iñtërnâtiônàlizætiøn
+	$foo = "I\u{F1}t\u{EB}rn\u{E2}ti\u{F4}n\u{E0}liz\u{E6}ti\u{F8}n"; // Iñtërnâtiônàlizætiøn
 	Assert::same(7, Strings::indexOf($foo, 'ti', 1));
 	Assert::same(16, Strings::indexOf($foo, 'ti', 2));
-	Assert::same(3, Strings::indexOf($foo, "\xc3\xab"));
+	Assert::same(3, Strings::indexOf($foo, "\u{EB}"));
 });

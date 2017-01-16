@@ -18,7 +18,7 @@ class Strings
 {
 	use Nette\StaticClass;
 
-	const TRIM_CHARACTERS = " \t\n\r\0\x0B\xC2\xA0";
+	const TRIM_CHARACTERS = " \t\n\r\0\x0B\u{A0}";
 
 
 	/**
@@ -163,7 +163,7 @@ class Strings
 		$s = preg_replace('#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{2FF}\x{370}-\x{10FFFF}]#u', '', $s);
 		$s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
 		$s = str_replace(
-			["\xE2\x80\x9E", "\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9A", "\xE2\x80\x98", "\xE2\x80\x99", "\xC2\xB0"],
+			["\u{201E}", "\u{201C}", "\u{201D}", "\u{201A}", "\u{2018}", "\u{2019}", "\u{B0}"],
 			["\x03", "\x03", "\x03", "\x02", "\x02", "\x02", "\x04"], $s
 		);
 		if ($transliterator !== NULL) {
@@ -171,7 +171,7 @@ class Strings
 		}
 		if (ICONV_IMPL === 'glibc') {
 			$s = str_replace(
-				["\xC2\xBB", "\xC2\xAB", "\xE2\x80\xA6", "\xE2\x84\xA2", "\xC2\xA9", "\xC2\xAE"],
+				["\u{BB}", "\u{AB}", "\u{2026}", "\u{2122}", "\u{A9}", "\u{AE}"],
 				['>>', '<<', '...', 'TM', '(c)', '(R)'], $s
 			);
 			$s = iconv('UTF-8', 'WINDOWS-1250//TRANSLIT//IGNORE', $s);
@@ -216,7 +216,7 @@ class Strings
 	 * @param  string  UTF-8 encoding
 	 * @return string
 	 */
-	public static function truncate($s, $maxLen, $append = "\xE2\x80\xA6")
+	public static function truncate(string $s, int $maxLen, string $append = "\u{2026}")
 	{
 		if (self::length($s) > $maxLen) {
 			$maxLen = $maxLen - self::length($append);
@@ -592,7 +592,7 @@ class Strings
 		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
 			&& ($res === NULL || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace']))
 		) {
-			throw new RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error')
+			throw new RegexpException(($messages[$code] ?? 'Unknown error')
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);
 		}
 		return $res;

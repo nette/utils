@@ -33,7 +33,7 @@ test(function () {
 
 
 test(function () {
-	$foo = "I\xc3\xb1t\xc3\xabrn\xc3\xa2ti\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n"; // Iñtërnâtiônàlizætiøn
-	Assert::same("\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n", Strings::after($foo, 'ti', 1));
-	Assert::same("\xc3\xb8n", Strings::after($foo, 'ti', 2));
+	$foo = "I\u{F1}t\u{EB}rn\u{E2}ti\u{F4}n\u{E0}liz\u{E6}ti\u{F8}n"; // Iñtërnâtiônàlizætiøn
+	Assert::same("\u{F4}n\u{E0}liz\u{E6}ti\u{F8}n", Strings::after($foo, 'ti', 1));
+	Assert::same("\u{F8}n", Strings::after($foo, 'ti', 2));
 });

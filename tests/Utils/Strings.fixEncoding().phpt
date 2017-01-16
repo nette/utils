@@ -14,8 +14,8 @@ require __DIR__ . '/../bootstrap.php';
 // http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt
 $tests = [
 	'1  Some correct UTF-8 text' => [
-		"\xCE\xBA\xE1\xBD\xB9\xCF\x83\xCE\xBC\xCE\xB5",
-		"\xCE\xBA\xE1\xBD\xB9\xCF\x83\xCE\xBC\xCE\xB5",
+		"\u{3BA}\u{1F79}\u{3C3}\u{3BC}\u{3B5}",
+		"\u{3BA}\u{1F79}\u{3C3}\u{3BC}\u{3B5}",
 	],
 	'2  Boundary condition test cases' => [
 		'2.1  First possible sequence of a certain length' => [
@@ -24,16 +24,16 @@ $tests = [
 				"\x00",
 			],
 			'2.1.2  2 bytes (U-00000080)' => [
-				"\xC2\x80",
-				"\xC2\x80",
+				"\u{80}",
+				"\u{80}",
 			],
 			'2.1.3  3 bytes (U-00000800)' => [
-				"\xE0\xA0\x80",
-				"\xE0\xA0\x80",
+				"\u{800}",
+				"\u{800}",
 			],
 			'2.1.4  4 bytes (U-00010000)' => [
-				"\xF0\x90\x80\x80",
-				"\xF0\x90\x80\x80",
+				"\u{10000}",
+				"\u{10000}",
 			],
 			'2.1.5  5 bytes (U-00200000)' => [
 				"\xF8\x88\x80\x80\x80",
@@ -50,12 +50,12 @@ $tests = [
 				"\x7F",
 			],
 			'2.2.2  2 bytes (U-000007FF)' => [
-				"\xDF\xBF",
-				"\xDF\xBF",
+				"\u{7FF}",
+				"\u{7FF}",
 			],
 			'2.2.3  3 bytes (U-0000FFFF)' => [
-				"\xEF\xBF\xBF",
-				"\xEF\xBF\xBF",
+				"\u{FFFF}",
+				"\u{FFFF}",
 			],
 			'2.2.4  4 bytes (U-001FFFFF)' => [
 				"\xF7\xBF\xBF\xBF",
@@ -72,20 +72,20 @@ $tests = [
 		],
 		'2.3  Other boundary conditions' => [
 			'2.3.1  U-0000D7FF' => [
-				"\xED\x9F\xBF",
-				"\xED\x9F\xBF",
+				"\u{D7FF}",
+				"\u{D7FF}",
 			],
 			'2.3.2  U-0000E000' => [
-				"\xEE\x80\x80",
-				"\xEE\x80\x80",
+				"\u{E000}",
+				"\u{E000}",
 			],
 			'2.3.3  U-0000FFFD' => [
-				"\xEF\xBF\xBD",
-				"\xEF\xBF\xBD",
+				"\u{FFFD}",
+				"\u{FFFD}",
 			],
 			'2.3.4  U-0010FFFF' => [
-				"\xF4\x8F\xBF\xBF",
-				"\xF4\x8F\xBF\xBF",
+				"\u{10FFFF}",
+				"\u{10FFFF}",
 			],
 			'2.3.5  U-00110000' => [
 				"\xF4\x90\x80\x80",
@@ -351,12 +351,12 @@ $tests = [
 		// noncharacters are allowed according to http://www.unicode.org/versions/corrigendum9.html
 		'5.3 Other illegal code positions' => [
 			'5.3.1  U+FFFE = ef bf be' => [
-				"\xEF\xBF\xBE",
-				"\xEF\xBF\xBE",
+				"\u{FFFE}",
+				"\u{FFFE}",
 			],
 			'5.3.2  U+FFFF = ef bf bf' => [
-				"\xEF\xBF\xBF",
-				"\xEF\xBF\xBF",
+				"\u{FFFF}",
+				"\u{FFFF}",
 			],
 		],
 	],

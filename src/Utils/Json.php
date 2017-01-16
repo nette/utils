@@ -39,7 +39,7 @@ class Json
 		}
 
 		if (PHP_VERSION_ID < 70100) {
-			$json = str_replace(["\xe2\x80\xa8", "\xe2\x80\xa9"], ['\u2028', '\u2029'], $json);
+			$json = str_replace(["\u{2028}", "\u{2029}"], ['\u2028', '\u2029'], $json);
 		}
 
 		return $json;

@@ -20,5 +20,5 @@ Assert::true(Strings::compare('xy', 'xx', 1));
 Assert::false(Strings::compare('xy', 'yy', 1));
 Assert::true(Strings::compare('xy', 'yy', -1));
 Assert::true(Strings::compare('xy', 'yy', -1));
-Assert::true(Strings::compare("I\xc3\xb1t\xc3\xabrn\xc3\xa2ti\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n", "I\xc3\x91T\xc3\x8bRN\xc3\x82TI\xc3\x94N\xc3\x80LIZ\xc3\x86TI\xc3\x98N")); // Iñtërnâtiônàlizætiøn
-Assert::true(Strings::compare("I\xc3\xb1t\xc3\xabrn\xc3\xa2ti\xc3\xb4n\xc3\xa0liz\xc3\xa6ti\xc3\xb8n", "I\xc3\x91T\xc3\x8bRN\xc3\x82TI\xc3\x94N\xc3\x80LIZ\xc3\x86TI\xc3\x98N", 10));
+Assert::true(Strings::compare("I\u{F1}t\u{EB}rn\u{E2}ti\u{F4}n\u{E0}liz\u{E6}ti\u{F8}n", "I\u{D1}T\u{CB}RN\u{C2}TI\u{D4}N\u{C0}LIZ\u{C6}TI\u{D8}N")); // Iñtërnâtiônàlizætiøn
+Assert::true(Strings::compare("I\u{F1}t\u{EB}rn\u{E2}ti\u{F4}n\u{E0}liz\u{E6}ti\u{F8}n", "I\u{D1}T\u{CB}RN\u{C2}TI\u{D4}N\u{C0}LIZ\u{C6}TI\u{D8}N", 10));

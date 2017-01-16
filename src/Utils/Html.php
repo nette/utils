@@ -70,7 +70,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 		if (isset($parts[1])) {
 			foreach (Strings::matchAll($parts[1] . ' ', '#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\\2|\s))?#i') as $m) {
-				$el->attrs[$m[1]] = isset($m[3]) ? $m[3] : TRUE;
+				$el->attrs[$m[1]] = $m[3] ?? TRUE;
 			}
 		}
 
@@ -175,7 +175,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 */
 	public function getAttribute($name)
 	{
-		return isset($this->attrs[$name]) ? $this->attrs[$name] : NULL;
+		return $this->attrs[$name] ?? NULL;
 	}
 
 
@@ -249,7 +249,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 			$m = substr($m, 3);
 			$m[0] = $m[0] | "\x20";
 			if ($p === 'get') {
-				return isset($this->attrs[$m]) ? $this->attrs[$m] : NULL;
+				return $this->attrs[$m] ?? NULL;
 
 			} elseif ($p === 'add') {
 				$args[] = TRUE;
