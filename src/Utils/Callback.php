@@ -177,7 +177,7 @@ class Callback
 		$r = new \ReflectionFunction($closure);
 		if (substr($r->getName(), -1) === '}') {
 			$vars = $r->getStaticVariables();
-			return isset($vars['_callable_']) ? $vars['_callable_'] : $closure;
+			return $vars['_callable_'] ?? $closure;
 
 		} elseif ($obj = $r->getClosureThis()) {
 			return [$obj, $r->getName()];

@@ -592,7 +592,7 @@ class Strings
 		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
 			&& ($res === NULL || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace']))
 		) {
-			throw new RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error')
+			throw new RegexpException(($messages[$code] ?? 'Unknown error')
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);
 		}
 		return $res;

@@ -134,7 +134,7 @@ class Validators
 					continue;
 				}
 			} elseif ($type === 'pattern') {
-				if (preg_match('|^' . (isset($item[1]) ? $item[1] : '') . '\z|', $value)) {
+				if (preg_match('|^' . ($item[1] ?? '') . '\z|', $value)) {
 					return TRUE;
 				}
 				continue;
