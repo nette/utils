@@ -144,16 +144,14 @@ class Callback
 			$callable = self::unwrap($callable);
 		}
 
-		$class = class_exists(Nette\Reflection\Method::class) ? Nette\Reflection\Method::class : 'ReflectionMethod';
 		if (is_string($callable) && strpos($callable, '::')) {
-			return new $class($callable);
+			return new \ReflectionMethod($callable);
 		} elseif (is_array($callable)) {
-			return new $class($callable[0], $callable[1]);
+			return new \ReflectionMethod($callable[0], $callable[1]);
 		} elseif (is_object($callable) && !$callable instanceof \Closure) {
-			return new $class($callable, '__invoke');
+			return new \ReflectionMethod($callable, '__invoke');
 		} else {
-			$class = class_exists(Nette\Reflection\GlobalFunction::class) ? Nette\Reflection\GlobalFunction::class : 'ReflectionFunction';
-			return new $class($callable);
+			return new \ReflectionFunction($callable);
 		}
 	}
 
