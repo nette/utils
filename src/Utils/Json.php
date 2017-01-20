@@ -21,7 +21,7 @@ class Json
 
 	const FORCE_ARRAY = 0b0001;
 	const PRETTY = 0b0010;
-
+	const UGLY = 0b0011;
 
 	/**
 	 * Returns the JSON representation of a value.
@@ -31,9 +31,9 @@ class Json
 	 */
 	public static function encode($value, int $options = 0): string
 	{
-		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+		$flags = $options & self::UGLY ? 0 : (JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
 			| ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)
-			| (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0); // since PHP 5.6.6 & PECL JSON-C 1.3.7
+			| (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0)); // since PHP 5.6.6 & PECL JSON-C 1.3.7
 
 		$json = json_encode($value, $flags);
 		if ($error = json_last_error()) {
