@@ -22,9 +22,7 @@ class Arrays
 
 	/**
 	 * Returns item from array or $default if item is not set.
-	 * @param  array
-	 * @param  string|int|array one or more keys
-	 * @param  mixed
+	 * @param  string|int|array $key one or more keys
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
@@ -46,8 +44,7 @@ class Arrays
 
 	/**
 	 * Returns reference to array item.
-	 * @param  array
-	 * @param  string|int|array one or more keys
+	 * @param  string|int|array $key one or more keys
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if traversed item is not an array
 	 */
@@ -66,7 +63,6 @@ class Arrays
 
 	/**
 	 * Recursively appends elements of remaining keys from the second array to the first.
-	 * @return array
 	 */
 	public static function mergeTree(array $arr1, array $arr2): array
 	{
@@ -131,7 +127,6 @@ class Arrays
 
 	/**
 	 * Returns array entries that match the pattern.
-	 * @return array
 	 */
 	public static function grep(array $arr, string $pattern, int $flags = 0): array
 	{
@@ -141,7 +136,6 @@ class Arrays
 
 	/**
 	 * Returns flattened array.
-	 * @return array
 	 */
 	public static function flatten(array $arr, bool $preserveKeys = FALSE): array
 	{
@@ -156,7 +150,6 @@ class Arrays
 
 	/**
 	 * Finds whether a variable is a zero-based integer indexed array.
-	 * @return bool
 	 */
 	public static function isList($value): bool
 	{
@@ -218,7 +211,6 @@ class Arrays
 
 	/**
 	 * Normalizes to associative array.
-	 * @return array
 	 */
 	public static function normalize(array $arr, $filling = NULL): array
 	{
@@ -232,9 +224,7 @@ class Arrays
 
 	/**
 	 * Picks element from the array by key and return its value.
-	 * @param  array
-	 * @param  string|int array key
-	 * @param  mixed
+	 * @param  string|int $key array key
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
@@ -256,7 +246,6 @@ class Arrays
 
 	/**
 	 * Tests whether some element in the array passes the callback test.
-	 * @return bool
 	 */
 	public static function some(array $arr, callable $callback): bool
 	{
@@ -271,7 +260,6 @@ class Arrays
 
 	/**
 	 * Tests whether all elements in the array pass the callback test.
-	 * @return bool
 	 */
 	public static function every(array $arr, callable $callback): bool
 	{
@@ -286,7 +274,6 @@ class Arrays
 
 	/**
 	 * Applies the callback to the elements of the array.
-	 * @return array
 	 */
 	public static function map(array $arr, callable $callback): array
 	{

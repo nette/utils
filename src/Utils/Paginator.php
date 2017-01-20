@@ -47,7 +47,6 @@ class Paginator
 
 	/**
 	 * Sets current page number.
-	 * @param  int
 	 * @return static
 	 */
 	public function setPage(int $page)
@@ -59,7 +58,6 @@ class Paginator
 
 	/**
 	 * Returns current page number.
-	 * @return int
 	 */
 	public function getPage(): int
 	{
@@ -69,7 +67,6 @@ class Paginator
 
 	/**
 	 * Returns first page number.
-	 * @return int
 	 */
 	public function getFirstPage(): int
 	{
@@ -89,7 +86,6 @@ class Paginator
 
 	/**
 	 * Sets first page (base) number.
-	 * @param  int
 	 * @return static
 	 */
 	public function setBase(int $base)
@@ -101,7 +97,6 @@ class Paginator
 
 	/**
 	 * Returns first page (base) number.
-	 * @return int
 	 */
 	public function getBase(): int
 	{
@@ -111,7 +106,6 @@ class Paginator
 
 	/**
 	 * Returns zero-based page number.
-	 * @return int
 	 */
 	protected function getPageIndex(): int
 	{
@@ -122,7 +116,6 @@ class Paginator
 
 	/**
 	 * Is the current page the first one?
-	 * @return bool
 	 */
 	public function isFirst(): bool
 	{
@@ -132,7 +125,6 @@ class Paginator
 
 	/**
 	 * Is the current page the last one?
-	 * @return bool
 	 */
 	public function isLast(): bool
 	{
@@ -152,7 +144,6 @@ class Paginator
 
 	/**
 	 * Sets the number of items to display on a single page.
-	 * @param  int
 	 * @return static
 	 */
 	public function setItemsPerPage(int $itemsPerPage)
@@ -164,7 +155,6 @@ class Paginator
 
 	/**
 	 * Returns the number of items to display on a single page.
-	 * @return int
 	 */
 	public function getItemsPerPage(): int
 	{
@@ -174,7 +164,6 @@ class Paginator
 
 	/**
 	 * Sets the total number of items.
-	 * @param  int (or NULL as infinity)
 	 * @return static
 	 */
 	public function setItemCount(int $itemCount = NULL)
@@ -196,7 +185,6 @@ class Paginator
 
 	/**
 	 * Returns the absolute index of the first item on current page.
-	 * @return int
 	 */
 	public function getOffset(): int
 	{

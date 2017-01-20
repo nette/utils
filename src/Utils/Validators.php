@@ -70,10 +70,7 @@ class Validators
 
 
 	/**
-	 * Throws exception if a variable is of unexpected type.
-	 * @param  mixed
-	 * @param  string  expected types separated by pipe
-	 * @param  string  label
+	 * Throws exception if a variable is of unexpected type (separated by pipe).
 	 * @return void
 	 */
 	public static function assert($value, string $expected, string $label = 'variable')
@@ -95,11 +92,8 @@ class Validators
 
 
 	/**
-	 * Throws exception if an array field is missing or of unexpected type.
+	 * Throws exception if an array field is missing or of unexpected type (separated by pipe).
 	 * @param  array
-	 * @param  string  item
-	 * @param  string  expected types separated by pipe
-	 * @param  string
 	 * @return void
 	 */
 	public static function assertField($arr, $field, string $expected = NULL, string $label = "item '%' in array")
@@ -115,10 +109,7 @@ class Validators
 
 
 	/**
-	 * Finds whether a variable is of expected type.
-	 * @param  mixed
-	 * @param  string  expected types separated by pipe with optional ranges
-	 * @return bool
+	 * Finds whether a variable is of expected type (separated by pipe).
 	 */
 	public static function is($value, string $expected): bool
 	{
@@ -164,10 +155,8 @@ class Validators
 
 
 	/**
-	 * Finds whether all values are of expected type.
-	 * @param  array|\Traversable
-	 * @param  string  expected types separated by pipe with optional ranges
-	 * @return bool
+	 * Finds whether all values are of expected type (separated by pipe).
+	 * @param  iterable
 	 */
 	public static function everyIs($values, string $expected): bool
 	{
@@ -185,7 +174,6 @@ class Validators
 
 	/**
 	 * Finds whether a value is an integer or a float.
-	 * @return bool
 	 */
 	public static function isNumber($value): bool
 	{
@@ -195,7 +183,6 @@ class Validators
 
 	/**
 	 * Finds whether a value is an integer.
-	 * @return bool
 	 */
 	public static function isNumericInt($value): bool
 	{
@@ -205,7 +192,6 @@ class Validators
 
 	/**
 	 * Finds whether a string is a floating point number in decimal base.
-	 * @return bool
 	 */
 	public static function isNumeric($value): bool
 	{
@@ -215,7 +201,6 @@ class Validators
 
 	/**
 	 * Finds whether a value is a syntactically correct callback.
-	 * @return bool
 	 */
 	public static function isCallable($value): bool
 	{
@@ -225,8 +210,6 @@ class Validators
 
 	/**
 	 * Finds whether a value is an UTF-8 encoded string.
-	 * @param  string
-	 * @return bool
 	 */
 	public static function isUnicode($value): bool
 	{
@@ -236,7 +219,6 @@ class Validators
 
 	/**
 	 * Finds whether a value is "falsy".
-	 * @return bool
 	 */
 	public static function isNone($value): bool
 	{
@@ -246,8 +228,6 @@ class Validators
 
 	/**
 	 * Finds whether a variable is a zero-based integer indexed array.
-	 * @param  array
-	 * @return bool
 	 */
 	public static function isList($value): bool
 	{
@@ -256,10 +236,7 @@ class Validators
 
 
 	/**
-	 * Is a value in specified range?
-	 * @param  mixed
-	 * @param  array  min and max value pair
-	 * @return bool
+	 * Is a value in specified min and max value pair?
 	 */
 	public static function isInRange($value, array $range): bool
 	{
@@ -270,8 +247,6 @@ class Validators
 
 	/**
 	 * Finds whether a string is a valid email address.
-	 * @param  string
-	 * @return bool
 	 */
 	public static function isEmail(string $value): bool
 	{
@@ -288,8 +263,6 @@ class Validators
 
 	/**
 	 * Finds whether a string is a valid http(s) URL.
-	 * @param  string
-	 * @return bool
 	 */
 	public static function isUrl(string $value): bool
 	{
@@ -309,8 +282,6 @@ class Validators
 
 	/**
 	 * Finds whether a string is a valid URI according to RFC 1738.
-	 * @param  string
-	 * @return bool
 	 */
 	public static function isUri(string $value): bool
 	{
@@ -320,8 +291,6 @@ class Validators
 
 	/**
 	 * Checks whether the input is a class, interface or trait.
-	 * @param  string
-	 * @return bool
 	 */
 	public static function isType(string $type): bool
 	{
@@ -331,7 +300,6 @@ class Validators
 
 	/**
 	 * Checks whether the input is a valid PHP identifier.
-	 * @return bool
 	 */
 	public static function isPhpIdentifier(string $value): bool
 	{
@@ -341,7 +309,6 @@ class Validators
 
 	/**
 	 * Returns true if value is iterable (array or instance of Traversable).
-	 * @return bool
 	 */
 	private static function isIterable($value): bool
 	{

@@ -24,7 +24,6 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Returns an iterator over all items.
-	 * @return \ArrayIterator
 	 */
 	public function getIterator(): \ArrayIterator
 	{
@@ -34,7 +33,6 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Returns items count.
-	 * @return int
 	 */
 	public function count(): int
 	{
@@ -45,7 +43,6 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	/**
 	 * Replaces or appends a item.
 	 * @param  int|NULL
-	 * @param  mixed
 	 * @return void
 	 * @throws Nette\OutOfRangeException
 	 */
@@ -81,7 +78,6 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	/**
 	 * Determines whether a item exists.
 	 * @param  int
-	 * @return bool
 	 */
 	public function offsetExists($index): bool
 	{
@@ -106,7 +102,6 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Prepends a item.
-	 * @param  mixed
 	 * @return void
 	 */
 	public function prepend($value)

@@ -56,29 +56,24 @@ class CachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Is the current element the first one?
-	 * @param  int  grid width
-	 * @return bool
 	 */
-	public function isFirst(int $width = NULL): bool
+	public function isFirst(int $gridWidth = NULL): bool
 	{
-		return $this->counter === 1 || ($width && $this->counter !== 0 && (($this->counter - 1) % $width) === 0);
+		return $this->counter === 1 || ($gridWidth && $this->counter !== 0 && (($this->counter - 1) % $gridWidth) === 0);
 	}
 
 
 	/**
 	 * Is the current element the last one?
-	 * @param  int  grid width
-	 * @return bool
 	 */
-	public function isLast(int $width = NULL): bool
+	public function isLast(int $gridWidth = NULL): bool
 	{
-		return !$this->hasNext() || ($width && ($this->counter % $width) === 0);
+		return !$this->hasNext() || ($gridWidth && ($this->counter % $gridWidth) === 0);
 	}
 
 
 	/**
 	 * Is the iterator empty?
-	 * @return bool
 	 */
 	public function isEmpty(): bool
 	{
@@ -88,7 +83,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Is the counter odd?
-	 * @return bool
 	 */
 	public function isOdd(): bool
 	{
@@ -98,7 +92,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Is the counter even?
-	 * @return bool
 	 */
 	public function isEven(): bool
 	{
@@ -108,7 +101,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Returns the counter.
-	 * @return int
 	 */
 	public function getCounter(): int
 	{
@@ -118,7 +110,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Returns the count of elements.
-	 * @return int
 	 */
 	public function count(): int
 	{

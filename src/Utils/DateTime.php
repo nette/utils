@@ -74,9 +74,6 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function __toString(): string
 	{
 		return $this->format('Y-m-d H:i:s');
@@ -84,7 +81,6 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 
 	/**
-	 * @param  string
 	 * @return static
 	 */
 	public function modifyClone(string $modify = '')
@@ -118,9 +114,9 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 	/**
 	 * Returns new DateTime object formatted according to the specified format.
-	 * @param string The format the $time parameter should be in
-	 * @param string String representing the time
-	 * @param string|\DateTimeZone desired timezone (default timezone is used if NULL is passed)
+	 * @param  string The format the $time parameter should be in
+	 * @param  string String representing the time
+	 * @param  string|\DateTimeZone desired timezone (default timezone is used if NULL is passed)
 	 * @return static|FALSE
 	 */
 	public static function createFromFormat($format, $time, $timezone = NULL)
@@ -142,7 +138,6 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 	/**
 	 * Returns JSON representation in ISO 8601 (used by JavaScript).
-	 * @return string
 	 */
 	public function jsonSerialize(): string
 	{

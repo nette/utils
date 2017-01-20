@@ -21,9 +21,6 @@ class Random
 
 	/**
 	 * Generate random string.
-	 * @param  int
-	 * @param  string
-	 * @return string
 	 */
 	public static function generate(int $length = 10, string $charlist = '0-9a-z'): string
 	{

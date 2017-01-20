@@ -117,7 +117,6 @@ class FileSystem
 
 	/**
 	 * Reads file content.
-	 * @return string
 	 * @throws Nette\IOException
 	 */
 	public static function read(string $file): string
@@ -149,7 +148,6 @@ class FileSystem
 
 	/**
 	 * Is path absolute?
-	 * @return bool
 	 */
 	public static function isAbsolute(string $path): bool
 	{

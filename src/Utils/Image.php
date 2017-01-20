@@ -122,12 +122,7 @@ class Image
 
 
 	/**
-	 * Returns RGB color.
-	 * @param  int  red 0..255
-	 * @param  int  green 0..255
-	 * @param  int  blue 0..255
-	 * @param  int  transparency 0..127
-	 * @return array
+	 * Returns RGB color (0..255) and transparency (0..127).
 	 */
 	public static function rgb(int $red, int $green, int $blue, int $transparency = 0): array
 	{
@@ -142,27 +137,25 @@ class Image
 
 	/**
 	 * Opens image from file.
-	 * @param  string
-	 * @param  mixed  detected image format
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws UnknownImageFileException if file not found or file type is not known
 	 * @return static
 	 */
-	public static function fromFile(string $file, int &$format = NULL)
+	public static function fromFile(string $file, int &$detectedFormat = NULL)
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
-		$format = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
-		if (!$format && PHP_VERSION_ID < 70100 && @file_get_contents($file, FALSE, NULL, 8, 4) === 'WEBP') { // @ - may not exists
-			$format = self::WEBP;
+		$detectedFormat = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
+		if (!$detectedFormat && PHP_VERSION_ID < 70100 && @file_get_contents($file, FALSE, NULL, 8, 4) === 'WEBP') { // @ - may not exists
+			$detectedFormat = self::WEBP;
 		}
-		if (!isset(self::$formats[$format])) {
-			$format = NULL;
+		if (!isset(self::$formats[$detectedFormat])) {
+			$detectedFormat = NULL;
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
-		return new static(Callback::invokeSafe('imagecreatefrom' . self::$formats[$format], [$file], function (string $message) {
+		return new static(Callback::invokeSafe('imagecreatefrom' . self::$formats[$detectedFormat], [$file], function (string $message) {
 			throw new ImageException($message);
 		}));
 	}
@@ -170,12 +163,10 @@ class Image
 
 	/**
 	 * Create a new image from the image stream in the string.
-	 * @param  string
-	 * @param  mixed  detected image format
 	 * @return static
 	 * @throws ImageException
 	 */
-	public static function fromString(string $s, int &$format = NULL)
+	public static function fromString(string $s, int &$detectedFormat = NULL)
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -183,7 +174,7 @@ class Image
 
 		if (func_num_args() > 1) {
 			$tmp = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
-			$format = isset(self::$formats[$tmp]) ? $tmp : NULL;
+			$detectedFormat = isset(self::$formats[$tmp]) ? $tmp : NULL;
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function (string $message) {
@@ -194,9 +185,6 @@ class Image
 
 	/**
 	 * Creates blank image.
-	 * @param  int
-	 * @param  int
-	 * @param  array
 	 * @return static
 	 */
 	public static function fromBlank(int $width, int $height, array $color = NULL)
@@ -234,7 +222,6 @@ class Image
 
 	/**
 	 * Returns image width.
-	 * @return int
 	 */
 	public function getWidth(): int
 	{
@@ -244,7 +231,6 @@ class Image
 
 	/**
 	 * Returns image height.
-	 * @return int
 	 */
 	public function getHeight(): int
 	{
@@ -281,7 +267,6 @@ class Image
 	 * Resizes image.
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
-	 * @param  int    flags
 	 * @return static
 	 */
 	public function resize($width, $height, int $flags = self::FIT)
@@ -311,12 +296,8 @@ class Image
 
 	/**
 	 * Calculates dimensions of resized image.
-	 * @param  mixed  source width
-	 * @param  mixed  source height
-	 * @param  mixed  width in pixels or percent
-	 * @param  mixed  height in pixels or percent
-	 * @param  int    flags
-	 * @return array
+	 * @param  mixed  $newWidth in pixels or percent
+	 * @param  mixed  $newHeight in pixels or percent
 	 */
 	public static function calculateSize(int $srcWidth, int $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
 	{
@@ -394,13 +375,12 @@ class Image
 
 	/**
 	 * Calculates dimensions of cutout in image.
-	 * @param  mixed  source width
-	 * @param  mixed  source height
+	 * @param  int
+	 * @param  int
 	 * @param  mixed  x-offset in pixels or percent
 	 * @param  mixed  y-offset in pixels or percent
 	 * @param  mixed  width in pixels or percent
 	 * @param  mixed  height in pixels or percent
-	 * @return array
 	 */
 	public static function calculateCutout(int $srcWidth, int $srcHeight, $left, $top, $newWidth, $newHeight): array
 	{
@@ -503,10 +483,7 @@ class Image
 
 
 	/**
-	 * Saves image to the file.
-	 * @param  string  filename
-	 * @param  int  quality (0..100 for JPEG and WEBP, 0..9 for PNG)
-	 * @param  int  optional image type
+	 * Saves image to the file. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
 	 * @return bool TRUE on success or FALSE on failure.
 	 */
 	public function save(string $file = NULL, int $quality = NULL, int $type = NULL): bool
@@ -543,10 +520,7 @@ class Image
 
 
 	/**
-	 * Outputs image to string.
-	 * @param  int  image type
-	 * @param  int  quality (0..100 for JPEG and WEBP, 0..9 for PNG)
-	 * @return string
+	 * Outputs image to string. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
 	 */
 	public function toString(int $type = self::JPEG, int $quality = NULL): string
 	{
@@ -558,7 +532,6 @@ class Image
 
 	/**
 	 * Outputs image to string.
-	 * @return string
 	 */
 	public function __toString(): string
 	{
@@ -574,9 +547,7 @@ class Image
 
 
 	/**
-	 * Outputs image to browser.
-	 * @param  int  image type
-	 * @param  int  quality (0..100 for JPEG and WEBP, 0..9 for PNG)
+	 * Outputs image to browser. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
 	 * @return bool TRUE on success or FALSE on failure.
 	 */
 	public function send(int $type = self::JPEG, int $quality = NULL): bool
@@ -591,9 +562,6 @@ class Image
 
 	/**
 	 * Call to undefined method.
-	 *
-	 * @param  string  method name
-	 * @param  array   arguments
 	 * @return mixed
 	 * @throws Nette\MemberAccessException
 	 */
