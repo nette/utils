@@ -52,7 +52,7 @@ class Paginator
 	 */
 	public function setPage(int $page)
 	{
-		$this->page = (int) $page;
+		$this->page = $page;
 		return $this;
 	}
 
@@ -94,7 +94,7 @@ class Paginator
 	 */
 	public function setBase(int $base)
 	{
-		$this->base = (int) $base;
+		$this->base = $base;
 		return $this;
 	}
 
@@ -157,7 +157,7 @@ class Paginator
 	 */
 	public function setItemsPerPage(int $itemsPerPage)
 	{
-		$this->itemsPerPage = max(1, (int) $itemsPerPage);
+		$this->itemsPerPage = max(1, $itemsPerPage);
 		return $this;
 	}
 
@@ -179,7 +179,7 @@ class Paginator
 	 */
 	public function setItemCount(int $itemCount = NULL)
 	{
-		$this->itemCount = ($itemCount === FALSE || $itemCount === NULL) ? NULL : max(0, (int) $itemCount);
+		$this->itemCount = $itemCount === NULL ? NULL : max(0, $itemCount);
 		return $this;
 	}
 

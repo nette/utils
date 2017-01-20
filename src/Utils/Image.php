@@ -132,10 +132,10 @@ class Image
 	public static function rgb(int $red, int $green, int $blue, int $transparency = 0): array
 	{
 		return [
-			'red' => max(0, min(255, (int) $red)),
-			'green' => max(0, min(255, (int) $green)),
-			'blue' => max(0, min(255, (int) $blue)),
-			'alpha' => max(0, min(127, (int) $transparency)),
+			'red' => max(0, min(255, $red)),
+			'green' => max(0, min(255, $green)),
+			'blue' => max(0, min(255, $blue)),
+			'alpha' => max(0, min(127, $transparency)),
 		];
 	}
 
@@ -162,7 +162,7 @@ class Image
 			$format = NULL;
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
-		return new static(Callback::invokeSafe('imagecreatefrom' . self::$formats[$format], [$file], function ($message) {
+		return new static(Callback::invokeSafe('imagecreatefrom' . self::$formats[$format], [$file], function (string $message) {
 			throw new ImageException($message);
 		}));
 	}
@@ -186,7 +186,7 @@ class Image
 			$format = isset(self::$formats[$tmp]) ? $tmp : NULL;
 		}
 
-		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function ($message) {
+		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function (string $message) {
 			throw new ImageException($message);
 		}));
 	}
@@ -205,14 +205,12 @@ class Image
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
-		$width = (int) $width;
-		$height = (int) $height;
 		if ($width < 1 || $height < 1) {
 			throw new Nette\InvalidArgumentException('Image width and height must be greater than zero.');
 		}
 
 		$image = imagecreatetruecolor($width, $height);
-		if (is_array($color)) {
+		if ($color) {
 			$color += ['alpha' => 0];
 			$color = imagecolorresolvealpha($image, $color['red'], $color['green'], $color['blue'], $color['alpha']);
 			imagealphablending($image, FALSE);
@@ -457,7 +455,7 @@ class Image
 	 */
 	public function place(Image $image, $left = 0, $top = 0, int $opacity = 100)
 	{
-		$opacity = max(0, min(100, (int) $opacity));
+		$opacity = max(0, min(100, $opacity));
 		if ($opacity === 0) {
 			return $this;
 		}
@@ -524,18 +522,18 @@ class Image
 
 		switch ($type) {
 			case self::JPEG:
-				$quality = $quality === NULL ? 85 : max(0, min(100, (int) $quality));
+				$quality = $quality === NULL ? 85 : max(0, min(100, $quality));
 				return imagejpeg($this->image, $file, $quality);
 
 			case self::PNG:
-				$quality = $quality === NULL ? 9 : max(0, min(9, (int) $quality));
+				$quality = $quality === NULL ? 9 : max(0, min(9, $quality));
 				return imagepng($this->image, $file, $quality);
 
 			case self::GIF:
 				return imagegif($this->image, $file);
 
 			case self::WEBP:
-				$quality = $quality === NULL ? 80 : max(0, min(100, (int) $quality));
+				$quality = $quality === NULL ? 80 : max(0, min(100, $quality));
 				return imagewebp($this->image, $file, $quality);
 
 			default:

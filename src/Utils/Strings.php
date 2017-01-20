@@ -586,7 +586,7 @@ class Strings
 			PREG_BAD_UTF8_OFFSET_ERROR => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point',
 			6 => 'Failed due to limited JIT stack space', // PREG_JIT_STACKLIMIT_ERROR
 		];
-		$res = Callback::invokeSafe($func, $args, function ($message) use ($args) {
+		$res = Callback::invokeSafe($func, $args, function (string $message) use ($args) {
 			// compile-time error, not detectable by preg_last_error
 			throw new RegexpException($message . ' in pattern: ' . implode(' or ', (array) $args[0]));
 		});

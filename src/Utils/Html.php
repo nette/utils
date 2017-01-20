@@ -89,12 +89,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 */
 	public function setName(string $name, bool $isEmpty = NULL)
 	{
-		if ($name !== NULL && !is_string($name)) {
-			throw new Nette\InvalidArgumentException(sprintf('Name must be string or NULL, %s given.', gettype($name)));
-		}
-
 		$this->name = $name;
-		$this->isEmpty = $isEmpty === NULL ? isset(static::$emptyElements[$name]) : (bool) $isEmpty;
+		$this->isEmpty = $isEmpty === NULL ? isset(static::$emptyElements[$name]) : $isEmpty;
 		return $this;
 	}
 
@@ -351,7 +347,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		if (!is_array($text) && !$text instanceof self) {
 			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
 		}
-		return $this->setHtml($text);
+		return $this->setHtml((string) $text);
 	}
 
 
@@ -416,7 +412,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 				$this->children[] = $child;
 
 			} else { // insert or replace
-				array_splice($this->children, (int) $index, $replace ? 1 : 0, [$child]);
+				array_splice($this->children, $index, $replace ? 1 : 0, [$child]);
 			}
 
 		} else {
