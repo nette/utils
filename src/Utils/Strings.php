@@ -25,8 +25,6 @@ class Strings
 
 	/**
 	 * Checks if the string is valid for UTF-8 encoding.
-	 * @param  string  byte stream to check
-	 * @return bool
 	 */
 	public static function checkEncoding(string $s): bool
 	{
@@ -36,8 +34,6 @@ class Strings
 
 	/**
 	 * Removes invalid code unit sequences from UTF-8 string.
-	 * @param  string  byte stream to fix
-	 * @return string
 	 */
 	public static function fixEncoding(string $s): string
 	{
@@ -47,9 +43,7 @@ class Strings
 
 
 	/**
-	 * Returns a specific character in UTF-8.
-	 * @param  int     code point (0x0 to 0xD7FF or 0xE000 to 0x10FFFF)
-	 * @return string
+	 * Returns a specific character in UTF-8 from code point (0x0 to 0xD7FF or 0xE000 to 0x10FFFF).
 	 * @throws Nette\InvalidArgumentException if code point is not in valid range
 	 */
 	public static function chr(int $code): string
@@ -63,9 +57,6 @@ class Strings
 
 	/**
 	 * Starts the $haystack string with the prefix $needle?
-	 * @param  string
-	 * @param  string
-	 * @return bool
 	 */
 	public static function startsWith(string $haystack, string $needle): bool
 	{
@@ -75,9 +66,6 @@ class Strings
 
 	/**
 	 * Ends the $haystack string with the suffix $needle?
-	 * @param  string
-	 * @param  string
-	 * @return bool
 	 */
 	public static function endsWith(string $haystack, string $needle): bool
 	{
@@ -87,9 +75,6 @@ class Strings
 
 	/**
 	 * Does $haystack contain $needle?
-	 * @param  string
-	 * @param  string
-	 * @return bool
 	 */
 	public static function contains(string $haystack, string $needle): bool
 	{
@@ -99,10 +84,6 @@ class Strings
 
 	/**
 	 * Returns a part of UTF-8 string.
-	 * @param  string
-	 * @param  int in characters (code points)
-	 * @param  int in characters (code points)
-	 * @return string
 	 */
 	public static function substring(string $s, int $start, int $length = NULL): string
 	{
@@ -118,9 +99,7 @@ class Strings
 
 
 	/**
-	 * Removes special controls characters and normalizes line endings and spaces.
-	 * @param  string  UTF-8 encoding
-	 * @return string
+	 * Removes special controls characters and normalizes line endings and spaces in UTF-8 string.
 	 */
 	public static function normalize(string $s): string
 	{
@@ -141,8 +120,6 @@ class Strings
 
 	/**
 	 * Standardize line endings to unix-like.
-	 * @param  string  UTF-8 encoding or 8-bit
-	 * @return string
 	 */
 	public static function normalizeNewLines(string $s): string
 	{
@@ -151,9 +128,7 @@ class Strings
 
 
 	/**
-	 * Converts to ASCII.
-	 * @param  string  UTF-8 encoding
-	 * @return string  ASCII
+	 * Converts UTF-8 string to ASCII.
 	 */
 	public static function toAscii(string $s): string
 	{
@@ -193,11 +168,7 @@ class Strings
 
 
 	/**
-	 * Converts to web safe characters [a-z0-9-] text.
-	 * @param  string  UTF-8 encoding
-	 * @param  string  allowed characters
-	 * @param  bool
-	 * @return string
+	 * Converts UTF-8 string to web safe characters [a-z0-9-] text.
 	 */
 	public static function webalize(string $s, string $charlist = NULL, bool $lower = TRUE): string
 	{
@@ -212,11 +183,7 @@ class Strings
 
 
 	/**
-	 * Truncates string to maximal length.
-	 * @param  string  UTF-8 encoding
-	 * @param  int
-	 * @param  string  UTF-8 encoding
-	 * @return string
+	 * Truncates UTF-8 string to maximal length.
 	 */
 	public static function truncate(string $s, int $maxLen, string $append = "\u{2026}"): string
 	{
@@ -237,11 +204,7 @@ class Strings
 
 
 	/**
-	 * Indents the content from the left.
-	 * @param  string  UTF-8 encoding or 8-bit
-	 * @param  int
-	 * @param  string
-	 * @return string
+	 * Indents UTF-8 string from the left.
 	 */
 	public static function indent(string $s, int $level = 1, string $chars = "\t"): string
 	{
@@ -253,9 +216,7 @@ class Strings
 
 
 	/**
-	 * Convert to lower case.
-	 * @param  string  UTF-8 encoding
-	 * @return string
+	 * Converts UTF-8 string to lower case.
 	 */
 	public static function lower(string $s): string
 	{
@@ -264,9 +225,7 @@ class Strings
 
 
 	/**
-	 * Convert first character to lower case.
-	 * @param  string  UTF-8 encoding
-	 * @return string
+	 * Converts first character to lower case.
 	 */
 	public static function firstLower(string $s): string
 	{
@@ -275,9 +234,7 @@ class Strings
 
 
 	/**
-	 * Convert to upper case.
-	 * @param  string  UTF-8 encoding
-	 * @return string
+	 * Converts UTF-8 string to upper case.
 	 */
 	public static function upper(string $s): string
 	{
@@ -286,9 +243,7 @@ class Strings
 
 
 	/**
-	 * Convert first character to upper case.
-	 * @param  string  UTF-8 encoding
-	 * @return string
+	 * Converts first character to upper case.
 	 */
 	public static function firstUpper(string $s): string
 	{
@@ -297,9 +252,7 @@ class Strings
 
 
 	/**
-	 * Capitalize string.
-	 * @param  string  UTF-8 encoding
-	 * @return string
+	 * Capitalizes UTF-8 string.
 	 */
 	public static function capitalize(string $s): string
 	{
@@ -309,10 +262,6 @@ class Strings
 
 	/**
 	 * Case-insensitive compares UTF-8 strings.
-	 * @param  string
-	 * @param  string
-	 * @param  int
-	 * @return bool
 	 */
 	public static function compare(string $left, string $right, int $len = NULL): bool
 	{
@@ -330,7 +279,6 @@ class Strings
 	/**
 	 * Finds the length of common prefix of strings.
 	 * @param  string|array
-	 * @return string
 	 */
 	public static function findPrefix(...$strings): string
 	{
@@ -355,8 +303,6 @@ class Strings
 	/**
 	 * Returns number of characters (not bytes) in UTF-8 string.
 	 * That is the number of Unicode code points which may differ from the number of graphemes.
-	 * @param  string
-	 * @return int
 	 */
 	public static function length(string $s): int
 	{
@@ -365,10 +311,7 @@ class Strings
 
 
 	/**
-	 * Strips whitespace.
-	 * @param  string  UTF-8 encoding
-	 * @param  string
-	 * @return string
+	 * Strips whitespace from UTF-8 string.
 	 */
 	public static function trim(string $s, string $charlist = self::TRIM_CHARACTERS): string
 	{
@@ -378,11 +321,7 @@ class Strings
 
 
 	/**
-	 * Pad a string to a certain length with another string.
-	 * @param  string  UTF-8 encoding
-	 * @param  int
-	 * @param  string
-	 * @return string
+	 * Pad a UTF-8 string to a certain length with another string.
 	 */
 	public static function padLeft(string $s, int $length, string $pad = ' '): string
 	{
@@ -393,11 +332,7 @@ class Strings
 
 
 	/**
-	 * Pad a string to a certain length with another string.
-	 * @param  string  UTF-8 encoding
-	 * @param  int
-	 * @param  string
-	 * @return string
+	 * Pad a UTF-8 string to a certain length with another string.
 	 */
 	public static function padRight(string $s, int $length, string $pad = ' '): string
 	{
@@ -409,8 +344,6 @@ class Strings
 
 	/**
 	 * Reverse string.
-	 * @param  string  UTF-8 encoding
-	 * @return string
 	 */
 	public static function reverse(string $s): string
 	{
@@ -419,10 +352,7 @@ class Strings
 
 
 	/**
-	 * Returns part of $haystack before $nth occurence of $needle.
-	 * @param  string
-	 * @param  string
-	 * @param  int  negative value means searching from the end
+	 * Returns part of $haystack before $nth occurence of $needle (negative value means searching from the end).
 	 * @return string|FALSE  returns FALSE if the needle was not found
 	 */
 	public static function before(string $haystack, string $needle, int $nth = 1)
@@ -435,10 +365,7 @@ class Strings
 
 
 	/**
-	 * Returns part of $haystack after $nth occurence of $needle.
-	 * @param  string
-	 * @param  string
-	 * @param  int  negative value means searching from the end
+	 * Returns part of $haystack after $nth occurence of $needle (negative value means searching from the end).
 	 * @return string|FALSE  returns FALSE if the needle was not found
 	 */
 	public static function after(string $haystack, string $needle, int $nth = 1)
@@ -451,10 +378,7 @@ class Strings
 
 
 	/**
-	 * Returns position of $nth occurence of $needle in $haystack.
-	 * @param  string
-	 * @param  string
-	 * @param  int  negative value means searching from the end
+	 * Returns position of $nth occurence of $needle in $haystack (negative value means searching from the end).
 	 * @return int|FALSE  offset in characters or FALSE if the needle was not found
 	 */
 	public static function indexOf(string $haystack, string $needle, int $nth = 1)
@@ -498,10 +422,6 @@ class Strings
 
 	/**
 	 * Splits string by a regular expression.
-	 * @param  string
-	 * @param  string
-	 * @param  int
-	 * @return array
 	 */
 	public static function split(string $subject, string $pattern, int $flags = 0): array
 	{
@@ -510,12 +430,8 @@ class Strings
 
 
 	/**
-	 * Performs a regular expression match.
-	 * @param  string
-	 * @param  string
-	 * @param  int  can be PREG_OFFSET_CAPTURE (returned in bytes)
-	 * @param  int  offset in bytes
-	 * @return mixed
+	 * Performs a regular expression match. Accepts flag PREG_OFFSET_CAPTURE (returned in bytes).
+	 * @return array|NULL
 	 */
 	public static function match(string $subject, string $pattern, int $flags = 0, int $offset = 0)
 	{
@@ -529,12 +445,7 @@ class Strings
 
 
 	/**
-	 * Performs a global regular expression match.
-	 * @param  string
-	 * @param  string
-	 * @param  int  can be PREG_OFFSET_CAPTURE (returned in bytes); PREG_SET_ORDER is default
-	 * @param  int  offset in bytes
-	 * @return array
+	 * Performs a global regular expression match. Accepts flag PREG_OFFSET_CAPTURE (returned in bytes), PREG_SET_ORDER is default.
 	 */
 	public static function matchAll(string $subject, string $pattern, int $flags = 0, int $offset = 0): array
 	{
@@ -555,8 +466,6 @@ class Strings
 	 * @param  string
 	 * @param  string|array
 	 * @param  string|callable
-	 * @param  int
-	 * @return string
 	 */
 	public static function replace(string $subject, $pattern, $replacement = NULL, int $limit = -1): string
 	{

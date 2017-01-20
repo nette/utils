@@ -19,8 +19,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 {
 
 	/**
-	 * @param  array to wrap
-	 * @param  bool
 	 * @return static
 	 */
 	public static function from(array $arr, bool $recursive = TRUE)
@@ -39,7 +37,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Returns an iterator over all items.
-	 * @return \RecursiveArrayIterator
 	 */
 	public function getIterator(): \RecursiveArrayIterator
 	{
@@ -49,7 +46,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Returns items count.
-	 * @return int
 	 */
 	public function count(): int
 	{
@@ -82,7 +78,6 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Determines whether a item exists.
-	 * @return bool
 	 */
 	public function offsetExists($key): bool
 	{

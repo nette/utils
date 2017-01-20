@@ -25,10 +25,6 @@ class Reflection
 	];
 
 
-	/**
-	 * @param  string
-	 * @return bool
-	 */
 	public static function isBuiltinType(string $type): bool
 	{
 		return isset(self::$builtinTypes[strtolower($type)]);
@@ -86,7 +82,6 @@ class Reflection
 
 	/**
 	 * Returns declaring class or trait.
-	 * @return \ReflectionClass
 	 */
 	public static function getPropertyDeclaringClass(\ReflectionProperty $prop): \ReflectionClass
 	{
@@ -101,7 +96,6 @@ class Reflection
 
 	/**
 	 * Are documentation comments available?
-	 * @return bool
 	 */
 	public static function areCommentsAvailable(): bool
 	{
@@ -112,9 +106,6 @@ class Reflection
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public static function toString(\Reflector $ref): string
 	{
 		if ($ref instanceof \ReflectionClass) {
@@ -135,8 +126,6 @@ class Reflection
 
 	/**
 	 * Expands class name into full name.
-	 * @param  string
-	 * @return string  full name
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public static function expandClassName(string $name, \ReflectionClass $rc): string
@@ -189,9 +178,7 @@ class Reflection
 
 
 	/**
-	 * Parses PHP code.
-	 * @param  string
-	 * @return array of [class => [alias => class, ...]]
+	 * Parses PHP code to [class => [alias => class, ...]]
 	 */
 	private static function parseUseStatements(string $code, string $forClass = NULL): array
 	{

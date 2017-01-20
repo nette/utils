@@ -92,8 +92,6 @@ class ObjectMixin
 	/**
 	 * __call() implementation.
 	 * @param  object
-	 * @param  string
-	 * @param  array
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
@@ -148,10 +146,6 @@ class ObjectMixin
 
 	/**
 	 * __callStatic() implementation.
-	 * @param  string
-	 * @param  string
-	 * @param  array
-	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public static function callStatic(string $class, string $method, array $args)
@@ -163,8 +157,7 @@ class ObjectMixin
 	/**
 	 * __get() implementation.
 	 * @param  object
-	 * @param  string  property name
-	 * @return mixed   property value
+	 * @return mixed
 	 * @throws MemberAccessException if the property is not defined.
 	 */
 	public static function &get($_this, string $name)
@@ -206,8 +199,6 @@ class ObjectMixin
 	/**
 	 * __set() implementation.
 	 * @param  object
-	 * @param  string  property name
-	 * @param  mixed   property value
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
@@ -238,7 +229,6 @@ class ObjectMixin
 	/**
 	 * __unset() implementation.
 	 * @param  object
-	 * @param  string  property name
 	 * @return void
 	 * @throws MemberAccessException
 	 */
@@ -254,8 +244,6 @@ class ObjectMixin
 	/**
 	 * __isset() implementation.
 	 * @param  object
-	 * @param  string  property name
-	 * @return bool
 	 */
 	public static function has($_this, string $name): bool
 	{
@@ -269,8 +257,7 @@ class ObjectMixin
 
 
 	/**
-	 * Returns array of magic properties defined by annotation @property.
-	 * @return array of [name => bit mask]
+	 * Returns array [name => bit mask] of magic properties defined by annotation @property.
 	 */
 	public static function getMagicProperties(string $class): array
 	{
@@ -317,7 +304,6 @@ class ObjectMixin
 
 	/**
 	 * Returns array of magic methods defined by annotation @method.
-	 * @return array
 	 */
 	public static function getMagicMethods(string $class): array
 	{
@@ -356,7 +342,6 @@ class ObjectMixin
 
 	/**
 	 * Finds whether a variable is of expected type and do non-data-loss conversion.
-	 * @return bool
 	 * @internal
 	 */
 	public static function checkType(&$val, string $type): bool
@@ -426,9 +411,6 @@ class ObjectMixin
 
 	/**
 	 * Adds a method to class.
-	 * @param  string
-	 * @param  string
-	 * @param  mixed   callable
 	 * @return void
 	 */
 	public static function setExtensionMethod(string $class, string $name, /*callable*/ $callback)
@@ -441,8 +423,6 @@ class ObjectMixin
 
 	/**
 	 * Returns extension method.
-	 * @param  string
-	 * @param  string
 	 * @return mixed
 	 */
 	public static function getExtensionMethod(string $class, string $name)
@@ -464,8 +444,6 @@ class ObjectMixin
 
 	/**
 	 * Returns extension methods.
-	 * @param  string
-	 * @return array
 	 */
 	public static function getExtensionMethods(string $class): array
 	{
@@ -545,7 +523,6 @@ class ObjectMixin
 
 	/**
 	 * Returns array of public (static, non-static and magic) methods.
-	 * @return array
 	 */
 	private static function &getMethods(string $class): array
 	{

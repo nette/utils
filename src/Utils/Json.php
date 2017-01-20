@@ -24,15 +24,12 @@ class Json
 
 
 	/**
-	 * Returns the JSON representation of a value.
-	 * @param  mixed
-	 * @param  int  accepts Json::PRETTY
-	 * @return string
+	 * Returns the JSON representation of a value. Accepts flag Json::PRETTY.
 	 */
-	public static function encode($value, int $options = 0): string
+	public static function encode($value, int $flags = 0): string
 	{
 		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-			| ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)
+			| ($flags & self::PRETTY ? JSON_PRETTY_PRINT : 0)
 			| (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0); // since PHP 5.6.6 & PECL JSON-C 1.3.7
 
 		$json = json_encode($value, $flags);
@@ -49,14 +46,12 @@ class Json
 
 
 	/**
-	 * Decodes a JSON string.
-	 * @param  string
-	 * @param  int  accepts Json::FORCE_ARRAY
+	 * Decodes a JSON string. Accepts flag Json::FORCE_ARRAY.
 	 * @return mixed
 	 */
-	public static function decode(string $json, int $options = 0)
+	public static function decode(string $json, int $flags = 0)
 	{
-		$forceArray = (bool) ($options & self::FORCE_ARRAY);
+		$forceArray = (bool) ($flags & self::FORCE_ARRAY);
 		$value = json_decode($json, $forceArray, 512, JSON_BIGINT_AS_STRING);
 		if ($error = json_last_error()) {
 			throw new JsonException(json_last_error_msg(), $error);

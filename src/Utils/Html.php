@@ -53,8 +53,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Static factory.
-	 * @param  string element name (or NULL)
-	 * @param  array|string element's attributes or plain text content
+	 * @param  array|string $attrs element's attributes or plain text content
 	 * @return static
 	 */
 	public static function el(string $name = NULL, $attrs = NULL)
@@ -82,8 +81,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Changes element's name.
-	 * @param  string
-	 * @param  bool  Is element empty?
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -97,7 +94,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns element's name.
-	 * @return string
 	 */
 	public function getName(): string
 	{
@@ -107,7 +103,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Is element empty?
-	 * @return bool
 	 */
 	public function isEmpty(): bool
 	{
@@ -117,7 +112,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets multiple attributes.
-	 * @param  array
 	 * @return static
 	 */
 	public function addAttributes(array $attrs)
@@ -129,9 +123,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Appends value to element's attribute.
-	 * @param  string
-	 * @param  string|array value to append
-	 * @param  string|bool  value option
 	 * @return static
 	 */
 	public function appendAttribute(string $name, $value, $option = TRUE)
@@ -155,8 +146,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's attribute.
-	 * @param  string
-	 * @param  mixed
 	 * @return static
 	 */
 	public function setAttribute(string $name, $value)
@@ -168,7 +157,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns element's attribute.
-	 * @param  string
 	 * @return mixed
 	 */
 	public function getAttribute(string $name)
@@ -179,7 +167,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Unsets element's attribute.
-	 * @param  string
 	 * @return static
 	 */
 	public function removeAttribute(string $name)
@@ -191,8 +178,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Overloaded setter for element's attribute.
-	 * @param  string    HTML attribute name
-	 * @param  mixed     HTML attribute value
 	 * @return void
 	 */
 	public function __set(string $name, $value)
@@ -203,8 +188,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Overloaded getter for element's attribute.
-	 * @param  string    HTML attribute name
-	 * @return mixed     HTML attribute value
+	 * @return mixed
 	 */
 	public function &__get(string $name)
 	{
@@ -214,8 +198,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Overloaded tester for element's attribute.
-	 * @param  string    HTML attribute name
-	 * @return bool
 	 */
 	public function __isset(string $name): bool
 	{
@@ -225,7 +207,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Overloaded unsetter for element's attribute.
-	 * @param  string    HTML attribute name
 	 * @return void
 	 */
 	public function __unset(string $name)
@@ -236,8 +217,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Overloaded setter for element's attribute.
-	 * @param  string  HTML attribute name
-	 * @param  array   (string) HTML attribute value or pair?
 	 * @return mixed
 	 */
 	public function __call(string $m, array $args)
@@ -269,8 +248,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Special setter for element's attribute.
-	 * @param  string path
-	 * @param  array query
 	 * @return static
 	 */
 	public function href(string $path, array $query = NULL)
@@ -303,7 +280,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's HTML content.
-	 * @param  string raw HTML string
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -320,7 +296,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns element's HTML content.
-	 * @return string
 	 */
 	public function getHtml(): string
 	{
@@ -338,7 +313,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's textual content.
-	 * @param  string
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -353,7 +327,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns element's textual content.
-	 * @return string
 	 */
 	public function getText(): string
 	{
@@ -363,7 +336,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Adds new element's child.
-	 * @param  Html|string Html node or raw HTML string
+	 * @param  Html|string  Html node or raw HTML string
 	 * @return static
 	 */
 	public function addHtml($child)
@@ -374,7 +347,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Appends plain-text string to element content.
-	 * @param  string plain-text string
 	 * @return static
 	 */
 	public function addText(string $text)
@@ -386,8 +358,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Creates and adds a new Html child.
-	 * @param  string  elements's name
-	 * @param  array|string element's attributes or raw HTML string
+	 * @param  array|string $attrs  element's attributes or raw HTML string
 	 * @return static  created element
 	 */
 	public function create(string $name, $attrs = NULL)
@@ -399,9 +370,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Inserts child node.
-	 * @param  int|NULL position or NULL for appending
-	 * @param  Html|string Html node or raw HTML string
-	 * @param  bool
+	 * @param  Html|string $child Html node or raw HTML string
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -449,7 +418,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Exists child node? (\ArrayAccess implementation).
 	 * @param  int
-	 * @return bool
 	 */
 	public function offsetExists($index): bool
 	{
@@ -472,7 +440,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns children count.
-	 * @return int
 	 */
 	public function count(): int
 	{
@@ -492,7 +459,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Iterates over elements.
-	 * @return \ArrayIterator
 	 */
 	public function getIterator(): \ArrayIterator
 	{
@@ -502,7 +468,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns all children.
-	 * @return array
 	 */
 	public function getChildren(): array
 	{
@@ -512,8 +477,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Renders element's start tag, content and end tag.
-	 * @param  int
-	 * @return string
 	 */
 	public function render(int $indent = NULL): string
 	{
@@ -555,7 +518,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns element's start tag.
-	 * @return string
 	 */
 	public function startTag(): string
 	{
@@ -570,7 +532,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns element's end tag.
-	 * @return string
 	 */
 	public function endTag(): string
 	{
@@ -580,7 +541,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns element's attributes.
-	 * @return string
 	 * @internal
 	 */
 	public function attributes(): string

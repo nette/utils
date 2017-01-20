@@ -18,9 +18,6 @@ interface ITranslator
 
 	/**
 	 * Translates the given string.
-	 * @param  string   message
-	 * @param  int      plural count
-	 * @return string
 	 */
 	function translate($message, int $count = NULL): string;
 

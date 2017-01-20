@@ -21,14 +21,12 @@ class Callback
 	use Nette\StaticClass;
 
 	/**
-	 * @param  mixed   class, object, callable
-	 * @param  string  method
-	 * @return \Closure
+	 * @param  string|object|callable  class, object, callable
 	 */
-	public static function closure($callable, string $m = NULL): \Closure
+	public static function closure($callable, string $method = NULL): \Closure
 	{
-		if ($m !== NULL) {
-			$callable = [$callable, $m];
+		if ($method !== NULL) {
+			$callable = [$callable, $method];
 
 		} elseif (is_string($callable) && count($tmp = explode('::', $callable)) === 2) {
 			$callable = $tmp;
@@ -79,7 +77,6 @@ class Callback
 
 	/**
 	 * Invokes internal PHP function with own error handler.
-	 * @param  string
 	 * @return mixed
 	 */
 	public static function invokeSafe(string $function, array $args, callable $onError)
@@ -120,9 +117,6 @@ class Callback
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public static function toString($callable): string
 	{
 		if ($callable instanceof \Closure) {
@@ -157,9 +151,6 @@ class Callback
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public static function isStatic(callable $callable): bool
 	{
 		return is_array($callable) ? is_string($callable[0]) : is_string($callable);
@@ -169,7 +160,6 @@ class Callback
 	/**
 	 * Unwraps closure created by self::closure()
 	 * @internal
-	 * @return callable
 	 */
 	public static function unwrap(\Closure $closure): callable
 	{

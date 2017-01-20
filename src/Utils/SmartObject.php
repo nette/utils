@@ -24,7 +24,6 @@ trait SmartObject
 {
 
 	/**
-	 * @return mixed
 	 * @throws MemberAccessException
 	 */
 	public function __call(string $name, array $args)
@@ -47,7 +46,6 @@ trait SmartObject
 
 
 	/**
-	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public static function __callStatic(string $name, array $args)
@@ -57,7 +55,7 @@ trait SmartObject
 
 
 	/**
-	 * @return mixed   property value
+	 * @return mixed
 	 * @throws MemberAccessException if the property is not defined.
 	 */
 	public function &__get(string $name)
