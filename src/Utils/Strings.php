@@ -353,51 +353,51 @@ class Strings
 
 	/**
 	 * Returns part of $haystack before $nth occurence of $needle (negative value means searching from the end).
-	 * @return string|FALSE  returns FALSE if the needle was not found
+	 * @return string|NULL  returns NULL if the needle was not found
 	 */
 	public static function before(string $haystack, string $needle, int $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
-		return $pos === FALSE
-			? FALSE
+		return $pos === NULL
+			? NULL
 			: substr($haystack, 0, $pos);
 	}
 
 
 	/**
 	 * Returns part of $haystack after $nth occurence of $needle (negative value means searching from the end).
-	 * @return string|FALSE  returns FALSE if the needle was not found
+	 * @return string|NULL  returns NULL if the needle was not found
 	 */
 	public static function after(string $haystack, string $needle, int $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
-		return $pos === FALSE
-			? FALSE
+		return $pos === NULL
+			? NULL
 			: substr($haystack, $pos + strlen($needle));
 	}
 
 
 	/**
 	 * Returns position of $nth occurence of $needle in $haystack (negative value means searching from the end).
-	 * @return int|FALSE  offset in characters or FALSE if the needle was not found
+	 * @return int|NULL  offset in characters or NULL if the needle was not found
 	 */
 	public static function indexOf(string $haystack, string $needle, int $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
-		return $pos === FALSE
-			? FALSE
+		return $pos === NULL
+			? NULL
 			: self::length(substr($haystack, 0, $pos));
 	}
 
 
 	/**
 	 * Returns position of $nth occurence of $needle in $haystack.
-	 * @return int|FALSE  offset in bytes or FALSE if the needle was not found
+	 * @return int|NULL  offset in bytes or NULL if the needle was not found
 	 */
 	private static function pos(string $haystack, string $needle, int $nth = 1)
 	{
 		if (!$nth) {
-			return FALSE;
+			return NULL;
 		} elseif ($nth > 0) {
 			if (strlen($needle) === 0) {
 				return 0;
@@ -416,7 +416,7 @@ class Strings
 				$pos--;
 			}
 		}
-		return $pos;
+		return $pos === FALSE ? NULL : $pos;
 	}
 
 
