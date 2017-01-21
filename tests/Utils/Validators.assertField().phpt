@@ -17,7 +17,7 @@ $arr = ['first' => TRUE];
 
 Assert::exception(function () use ($arr) {
 	Validators::assertField(NULL, 'foo', 'foo');
-}, Nette\Utils\AssertionException::class, 'The first argument expects to be array, NULL given.');
+}, TypeError::class);
 
 Assert::exception(function () use ($arr) {
 	Validators::assertField($arr, 'second', 'int');
