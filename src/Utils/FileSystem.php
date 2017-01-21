@@ -15,7 +15,7 @@ use Nette;
 /**
  * File system tool.
  */
-class FileSystem
+final class FileSystem
 {
 	use Nette\StaticClass;
 

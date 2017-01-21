@@ -17,7 +17,7 @@ use Nette\MemberAccessException;
  * Nette\Object behaviour mixin.
  * @deprecated
  */
-class ObjectMixin
+final class ObjectMixin
 {
 	use Nette\StaticClass;
 
