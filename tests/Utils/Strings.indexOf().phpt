@@ -27,10 +27,10 @@ test(function () {
 	Assert::same(27, Strings::indexOf($foo, '789', 3));
 	Assert::same(9, Strings::indexOf($foo, '9', -3));
 	Assert::same(7, Strings::indexOf($foo, '789', -3));
-	Assert::false(Strings::indexOf($foo, '9', 0));
-	Assert::false(Strings::indexOf($foo, 'not-in-string'));
-	Assert::false(Strings::indexOf($foo, 'b', -2));
-	Assert::false(Strings::indexOf($foo, 'b', 2));
+	Assert::null(Strings::indexOf($foo, '9', 0));
+	Assert::null(Strings::indexOf($foo, 'not-in-string'));
+	Assert::null(Strings::indexOf($foo, 'b', -2));
+	Assert::null(Strings::indexOf($foo, 'b', 2));
 });
 
 
