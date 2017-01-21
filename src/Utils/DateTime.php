@@ -117,7 +117,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 * @param  string The format the $time parameter should be in
 	 * @param  string String representing the time
 	 * @param  string|\DateTimeZone desired timezone (default timezone is used if NULL is passed)
-	 * @return static|FALSE
+	 * @return static|NULL
 	 */
 	public static function createFromFormat($format, $time, $timezone = NULL)
 	{
@@ -132,7 +132,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 		}
 
 		$date = parent::createFromFormat($format, $time, $timezone);
-		return $date ? static::from($date) : FALSE;
+		return $date ? static::from($date) : NULL;
 	}
 
 
