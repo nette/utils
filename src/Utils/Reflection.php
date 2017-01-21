@@ -15,7 +15,7 @@ use Nette;
 /**
  * PHP reflection helpers.
  */
-class Reflection
+final class Reflection
 {
 	use Nette\StaticClass;
 

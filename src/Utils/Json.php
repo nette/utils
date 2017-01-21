@@ -15,7 +15,7 @@ use Nette;
 /**
  * JSON encoder and decoder.
  */
-class Json
+final class Json
 {
 	use Nette\StaticClass;
 

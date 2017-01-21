@@ -16,7 +16,7 @@ use function is_array, is_object, is_string;
 /**
  * PHP callable tools.
  */
-class Callback
+final class Callback
 {
 	use Nette\StaticClass;
 

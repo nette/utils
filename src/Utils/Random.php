@@ -15,7 +15,7 @@ use Nette;
 /**
  * Secure random string generator.
  */
-class Random
+final class Random
 {
 	use Nette\StaticClass;
 
