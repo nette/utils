@@ -119,7 +119,7 @@ class Validators
 				continue;
 			}
 
-			list($type) = $item = explode(':', $item, 2);
+			[$type] = $item = explode(':', $item, 2);
 			if (isset(static::$validators[$type])) {
 				if (!static::$validators[$type]($value)) {
 					continue;

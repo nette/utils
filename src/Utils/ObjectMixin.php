@@ -40,7 +40,7 @@ final class ObjectMixin
 			throw new MemberAccessException("Call to class '$class' method without name.");
 
 		} elseif ($isProp === 'event') { // calling event handlers
-			if (is_array($_this->$name) || $_this->$name instanceof \Traversable) {
+			if (is_iterable($_this->$name)) {
 				foreach ($_this->$name as $handler) {
 					$handler(...$args);
 				}
@@ -52,7 +52,7 @@ final class ObjectMixin
 			return ($_this->$name)(...$args);
 
 		} elseif (($methods = &self::getMethods($class)) && isset($methods[$name]) && is_array($methods[$name])) { // magic @methods
-			list($op, $rp, $type) = $methods[$name];
+			[$op, $rp, $type] = $methods[$name];
 			if (count($args) !== ($op === 'get' ? 0 : 1)) {
 				throw new Nette\InvalidArgumentException("$class::$name() expects " . ($op === 'get' ? 'no' : '1') . ' argument, ' . count($args) . ' given.');
 
@@ -206,7 +206,7 @@ final class ObjectMixin
 		()~mx', (string) $rc->getDocComment(), $matches, PREG_SET_ORDER);
 
 		$methods = [];
-		foreach ($matches as list(, $op, $prop, $bracket, $type)) {
+		foreach ($matches as [, $op, $prop, $bracket, $type]) {
 			if ($bracket !== '(') {
 				trigger_error("Bracket must be immediately after @method $op$prop() in class $class.", E_USER_WARNING);
 			}

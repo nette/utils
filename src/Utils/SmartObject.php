@@ -30,7 +30,7 @@ trait SmartObject
 		$class = get_class($this);
 
 		if (ObjectHelpers::hasProperty($class, $name) === 'event') { // calling event handlers
-			if (is_array($this->$name) || $this->$name instanceof \Traversable) {
+			if (is_iterable($this->$name)) {
 				foreach ($this->$name as $handler) {
 					$handler(...$args);
 				}

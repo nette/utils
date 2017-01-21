@@ -102,7 +102,7 @@ abstract class Object
 		if (strpos($name, '::') === false) {
 			$class = get_called_class();
 		} else {
-			list($class, $name) = explode('::', $name);
+			[$class, $name] = explode('::', $name);
 			$class = (new \ReflectionClass($class))->getName();
 		}
 		if ($callback === null) {

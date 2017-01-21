@@ -19,9 +19,9 @@ final class Json
 {
 	use Nette\StaticClass;
 
-	const FORCE_ARRAY = 0b0001;
+	public const FORCE_ARRAY = 0b0001;
 
-	const PRETTY = 0b0010;
+	public const PRETTY = 0b0010;
 
 
 	/**

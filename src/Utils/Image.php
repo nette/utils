@@ -92,28 +92,28 @@ class Image
 	use Nette\SmartObject;
 
 	/** {@link resize()} only shrinks images */
-	const SHRINK_ONLY = 0b0001;
+	public const SHRINK_ONLY = 0b0001;
 
 	/** {@link resize()} will ignore aspect ratio */
-	const STRETCH = 0b0010;
+	public const STRETCH = 0b0010;
 
 	/** {@link resize()} fits in given area so its dimensions are less than or equal to the required dimensions */
-	const FIT = 0b0000;
+	public const FIT = 0b0000;
 
 	/** {@link resize()} fills given area so its dimensions are greater than or equal to the required dimensions */
-	const FILL = 0b0100;
+	public const FILL = 0b0100;
 
 	/** {@link resize()} fills given area exactly */
-	const EXACT = 0b1000;
+	public const EXACT = 0b1000;
 
 	/** image types */
-	const
+	public const
 		JPEG = IMAGETYPE_JPEG,
 		PNG = IMAGETYPE_PNG,
 		GIF = IMAGETYPE_GIF,
 		WEBP = 18; // IMAGETYPE_WEBP is available as of PHP 7.1
 
-	const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
+	public const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
 	private static $formats = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp'];
 
@@ -272,7 +272,7 @@ class Image
 			return $this->resize($width, $height, self::FILL)->crop('50%', '50%', $width, $height);
 		}
 
-		list($newWidth, $newHeight) = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
+		[$newWidth, $newHeight] = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
 
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
 			$newImage = static::fromBlank($newWidth, $newHeight, self::RGB(0, 0, 0, 127))->getImageResource();
@@ -363,7 +363,7 @@ class Image
 	 */
 	public function crop($left, $top, $width, $height)
 	{
-		list($r['x'], $r['y'], $r['width'], $r['height'])
+		[$r['x'], $r['y'], $r['width'], $r['height']]
 			= static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
 		$this->image = imagecrop($this->image, $r);
 		return $this;

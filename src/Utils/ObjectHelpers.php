@@ -99,7 +99,7 @@ final class ObjectHelpers
 		);
 
 		$props = [];
-		foreach ($matches as list(, $type, $name)) {
+		foreach ($matches as [, $type, $name]) {
 			$uname = ucfirst($name);
 			$write = $type !== '-read'
 				&& $rc->hasMethod($nm = 'set' . $uname)
