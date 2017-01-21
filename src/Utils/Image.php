@@ -148,9 +148,6 @@ class Image
 		}
 
 		$detectedFormat = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
-		if (!$detectedFormat && PHP_VERSION_ID < 70100 && @file_get_contents($file, false, null, 8, 4) === 'WEBP') { // @ - may not exists
-			$detectedFormat = self::WEBP;
-		}
 		if (!isset(self::$formats[$detectedFormat])) {
 			$detectedFormat = null;
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");

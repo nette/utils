@@ -2,7 +2,6 @@
 
 /**
  * Test: Nette\Utils\Reflection::getParameterType
- * @phpVersion 7.1
  */
 
 declare(strict_types=1);

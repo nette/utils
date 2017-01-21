@@ -92,7 +92,7 @@ test(function () { // global function
 
 	Assert::exception(function () {
 		Callback::closure('undefined');
-	}, Nette\InvalidArgumentException::class, PHP_VERSION_ID >= 70100 ? "%a% function 'undefined' not found %a%" : "Callback 'undefined' is not callable.");
+	}, Nette\InvalidArgumentException::class, "%a% function 'undefined' not found %a%");
 
 	Assert::exception(function () {
 		Callback::toReflection('undefined');
@@ -148,7 +148,7 @@ test(function () { // object methods
 	Assert::same('Test::privateFun', getName(Callback::toReflection([$test, 'privateFun'])));
 	Assert::same('Test::privateFun', getName(Callback::toReflection(Callback::closure($test, 'privateFun'))));
 
-	Assert::same(PHP_VERSION_ID >= 70100 ? 'Test::__call privateFun *' : 'Test::privateFun*', Callback::closure($test, 'privateFun')->__invoke('*'));
+	Assert::same('Test::__call privateFun *', Callback::closure($test, 'privateFun')->__invoke('*'));
 
 	Assert::same('Test::ref', Callback::closure($test, 'ref')(...[&$res]));
 	Assert::same('Test::ref', $res);
@@ -181,7 +181,7 @@ test(function () { // static methods
 	Assert::same('Test::privateStatic', getName(Callback::toReflection('Test::privateStatic')));
 	Assert::same('Test::privateStatic', getName(Callback::toReflection(Callback::closure('Test::privateStatic'))));
 
-	Assert::same(PHP_VERSION_ID >= 70100 ? 'Test::__callStatic privateStatic *' : 'Test::privateStatic*', Callback::closure('Test::privateStatic')->__invoke('*'));
+	Assert::same('Test::__callStatic privateStatic *', Callback::closure('Test::privateStatic')->__invoke('*'));
 });
 
 

@@ -37,11 +37,6 @@ final class Json
 		if ($error = json_last_error()) {
 			throw new JsonException(json_last_error_msg(), $error);
 		}
-
-		if (PHP_VERSION_ID < 70100) {
-			$json = str_replace(["\u{2028}", "\u{2029}"], ['\u2028', '\u2029'], $json);
-		}
-
 		return $json;
 	}
 
@@ -57,7 +52,6 @@ final class Json
 		if ($error = json_last_error()) {
 			throw new JsonException(json_last_error_msg(), $error);
 		}
-
 		return $value;
 	}
 }

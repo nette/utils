@@ -75,10 +75,10 @@ final class Reflection
 		if ($param->isDefaultValueConstant()) {
 			$const = $orig = $param->getDefaultValueConstantName();
 			$pair = explode('::', $const);
-			if (isset($pair[1]) && strtolower($pair[0]) === 'self') {
-				$pair[0] = $param->getDeclaringClass()->getName();
-			}
-			if (isset($pair[1]) && PHP_VERSION_ID >= 70100) {
+			if (isset($pair[1])) {
+				if (strtolower($pair[0]) === 'self') {
+					$pair[0] = $param->getDeclaringClass()->getName();
+				}
 				try {
 					$rcc = new \ReflectionClassConstant($pair[0], $pair[1]);
 				} catch (\ReflectionException $e) {
@@ -86,11 +86,10 @@ final class Reflection
 					throw new \ReflectionException("Unable to resolve constant $orig used as default value of $name.", 0, $e);
 				}
 				return $rcc->getValue();
-			}
-			$const = implode('::', $pair);
-			if (!defined($const)) {
+
+			} elseif (!defined($const)) {
 				$const = substr((string) strrchr($const, '\\'), 1);
-				if (isset($pair[1]) || !defined($const)) {
+				if (!defined($const)) {
 					$name = self::toString($param);
 					throw new \ReflectionException("Unable to resolve constant $orig used as default value of $name.");
 				}

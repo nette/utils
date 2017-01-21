@@ -25,38 +25,11 @@ final class Callback
 	 */
 	public static function closure($callable, string $method = null): \Closure
 	{
-		if ($method !== null) {
-			$callable = [$callable, $method];
+		try {
+			return \Closure::fromCallable($method === null ? $callable : [$callable, $method]);
+		} catch (\TypeError $e) {
+			throw new Nette\InvalidArgumentException($e->getMessage());
 		}
-
-		if (PHP_VERSION_ID >= 70100) {
-			try {
-				return \Closure::fromCallable($callable);
-			} catch (\TypeError $e) {
-				throw new Nette\InvalidArgumentException($e->getMessage());
-			}
-		} elseif (is_string($callable) && count($tmp = explode('::', $callable)) === 2) {
-			$callable = $tmp;
-
-		} elseif ($callable instanceof \Closure) {
-			return $callable;
-
-		} elseif (is_object($callable)) {
-			$callable = [$callable, '__invoke'];
-		}
-
-		if (is_string($callable) && function_exists($callable)) {
-			return (new \ReflectionFunction($callable))->getClosure();
-
-		} elseif (is_array($callable) && method_exists($callable[0], $callable[1])) {
-			return (new \ReflectionMethod($callable[0], $callable[1]))->getClosure($callable[0]);
-		}
-
-		self::check($callable);
-		$_callable_ = $callable;
-		return function (...$args) use ($_callable_) {
-			return $_callable_(...$args);
-		};
 	}
 
 
@@ -169,8 +142,7 @@ final class Callback
 	{
 		$r = new \ReflectionFunction($closure);
 		if (substr($r->getName(), -1) === '}') {
-			$vars = $r->getStaticVariables();
-			return $vars['_callable_'] ?? $closure;
+			return $closure;
 
 		} elseif ($obj = $r->getClosureThis()) {
 			return [$obj, $r->getName()];
