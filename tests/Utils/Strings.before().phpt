@@ -26,10 +26,10 @@ test(function () {
 	Assert::same('0123456789a123456789b123456', Strings::before($foo, '789', 3));
 	Assert::same('012345678', Strings::before($foo, '9', -3));
 	Assert::same('0123456', Strings::before($foo, '789', -3));
-	Assert::false(Strings::before($foo, '9', 0));
-	Assert::false(Strings::before($foo, 'not-in-string'));
-	Assert::false(Strings::before($foo, 'b', -2));
-	Assert::false(Strings::before($foo, 'b', 2));
+	Assert::null(Strings::before($foo, '9', 0));
+	Assert::null(Strings::before($foo, 'not-in-string'));
+	Assert::null(Strings::before($foo, 'b', -2));
+	Assert::null(Strings::before($foo, 'b', 2));
 });
 
 
