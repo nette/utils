@@ -111,7 +111,7 @@ class Validators
 	{
 		foreach (explode('|', $expected) as $item) {
 			if (substr($item, -2) === '[]') {
-				if (self::everyIs($value, substr($item, 0, -2))) {
+				if (is_iterable($value) && self::everyIs($value, substr($item, 0, -2))) {
 					return true;
 				}
 				continue;
@@ -152,13 +152,9 @@ class Validators
 
 	/**
 	 * Finds whether all values are of expected type (separated by pipe).
-	 * @param  iterable
 	 */
-	public static function everyIs($values, string $expected): bool
+	public static function everyIs(iterable $values, string $expected): bool
 	{
-		if (!is_iterable($values)) {
-			return false;
-		}
 		foreach ($values as $value) {
 			if (!static::is($value, $expected)) {
 				return false;

@@ -21,8 +21,6 @@ test(function () {
 	Assert::true(Validators::everyIs([], 'int'));
 	Assert::true(Validators::everyIs(new ArrayIterator([]), 'int'));
 
-	Assert::false(Validators::everyIs(1, 'int'));
-	Assert::false(Validators::everyIs(2.15, 'int'));
 	Assert::true(Validators::everyIs([1, 2, 3], 'int'));
 	Assert::false(Validators::everyIs([1, 2.15, 3], 'int'));
 	Assert::true(Validators::everyIs([1, 2.15, 3], 'int|float'));
@@ -50,10 +48,11 @@ test(function () {
 		yield 3;
 	};
 	Assert::true(Validators::everyIs($gen(), 'int'));
+});
 
+
+Assert::exception(function () {
 	$var = new stdClass;
 	$var->a = 1;
-	$var->b = 2;
-	$var->c = 3;
-	Assert::false(Validators::everyIs($var, 'int'));
-});
+	Validators::everyIs($var, 'int');
+}, TypeError::class);
