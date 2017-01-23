@@ -23,7 +23,7 @@ final class ObjectHelpers
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictGet(string $class, string $name)
+	public static function strictGet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
@@ -37,7 +37,7 @@ final class ObjectHelpers
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictSet(string $class, string $name)
+	public static function strictSet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
@@ -51,7 +51,7 @@ final class ObjectHelpers
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictCall(string $class, string $method, array $additionalMethods = [])
+	public static function strictCall(string $class, string $method, array $additionalMethods = []): void
 	{
 		$hint = self::getSuggestion(array_merge(
 			get_class_methods($class),
@@ -69,7 +69,7 @@ final class ObjectHelpers
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function strictStaticCall(string $class, string $method)
+	public static function strictStaticCall(string $class, string $method): void
 	{
 		$hint = self::getSuggestion(
 			array_filter((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), function ($m) { return $m->isStatic(); }),
@@ -126,10 +126,9 @@ final class ObjectHelpers
 
 	/**
 	 * Finds the best suggestion (for 8-bit encoding).
-	 * @return string|null
 	 * @internal
 	 */
-	public static function getSuggestion(array $possibilities, string $value)
+	public static function getSuggestion(array $possibilities, string $value): ?string
 	{
 		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '', $value);
 		$best = null;

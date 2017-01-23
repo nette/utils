@@ -178,9 +178,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Overloaded setter for element's attribute.
-	 * @return void
 	 */
-	final public function __set(string $name, $value)
+	final public function __set(string $name, $value): void
 	{
 		$this->attrs[$name] = $value;
 	}
@@ -207,9 +206,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Overloaded unsetter for element's attribute.
-	 * @return void
 	 */
-	final public function __unset(string $name)
+	final public function __unset(string $name): void
 	{
 		unset($this->attrs[$name]);
 	}
@@ -394,9 +392,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Inserts (replaces) child node (\ArrayAccess implementation).
 	 * @param  int|null position or null for appending
 	 * @param  Html|string Html node or raw HTML string
-	 * @return void
 	 */
-	final public function offsetSet($index, $child)
+	final public function offsetSet($index, $child): void
 	{
 		$this->insert($index, $child, true);
 	}
@@ -426,9 +423,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Removes child node (\ArrayAccess implementation).
 	 * @param  int
-	 * @return void
 	 */
-	public function offsetUnset($index)
+	public function offsetUnset($index): void
 	{
 		if (isset($this->children[$index])) {
 			array_splice($this->children, (int) $index, 1);
@@ -447,9 +443,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Removes all children.
-	 * @return void
 	 */
-	public function removeChildren()
+	public function removeChildren(): void
 	{
 		$this->children = [];
 	}

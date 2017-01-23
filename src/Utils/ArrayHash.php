@@ -55,9 +55,8 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Replaces or appends a item.
-	 * @return void
 	 */
-	public function offsetSet($key, $value)
+	public function offsetSet($key, $value): void
 	{
 		if (!is_scalar($key)) { // prevents null
 			throw new Nette\InvalidArgumentException(sprintf('Key must be either a string or an integer, %s given.', gettype($key)));
@@ -87,9 +86,8 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Removes the element from this list.
-	 * @return void
 	 */
-	public function offsetUnset($key)
+	public function offsetUnset($key): void
 	{
 		unset($this->$key);
 	}

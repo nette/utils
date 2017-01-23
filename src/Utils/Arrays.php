@@ -80,7 +80,7 @@ class Arrays
 	 * Searches the array for a given key and returns the offset if successful.
 	 * @return int|null offset if it is found, null otherwise
 	 */
-	public static function searchKey(array $arr, $key)
+	public static function searchKey(array $arr, $key): ?int
 	{
 		$foo = [$key => null];
 		return ($tmp = array_search(key($foo), array_keys($arr), true)) === false ? null : $tmp;
@@ -89,9 +89,8 @@ class Arrays
 
 	/**
 	 * Inserts new array before item specified by key.
-	 * @return void
 	 */
-	public static function insertBefore(array &$arr, $key, array $inserted)
+	public static function insertBefore(array &$arr, $key, array $inserted): void
 	{
 		$offset = (int) self::searchKey($arr, $key);
 		$arr = array_slice($arr, 0, $offset, true) + $inserted + array_slice($arr, $offset, count($arr), true);
@@ -100,9 +99,8 @@ class Arrays
 
 	/**
 	 * Inserts new array after item specified by key.
-	 * @return void
 	 */
-	public static function insertAfter(array &$arr, $key, array $inserted)
+	public static function insertAfter(array &$arr, $key, array $inserted): void
 	{
 		$offset = self::searchKey($arr, $key);
 		$offset = $offset === null ? count($arr) : $offset + 1;
@@ -112,9 +110,8 @@ class Arrays
 
 	/**
 	 * Renames key in array.
-	 * @return void
 	 */
-	public static function renameKey(array &$arr, $oldKey, $newKey)
+	public static function renameKey(array &$arr, $oldKey, $newKey): void
 	{
 		$offset = self::searchKey($arr, $oldKey);
 		if ($offset !== null) {

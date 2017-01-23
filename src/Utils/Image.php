@@ -481,10 +481,9 @@ class Image
 
 	/**
 	 * Saves image to the file. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
-	 * @return void
 	 * @throws ImageException
 	 */
-	public function save(string $file = null, int $quality = null, int $type = null)
+	public function save(string $file = null, int $quality = null, int $type = null): void
 	{
 		if ($type === null) {
 			$extensions = array_flip(self::$formats) + ['jpg' => self::JPEG];
@@ -553,10 +552,9 @@ class Image
 
 	/**
 	 * Outputs image to browser. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
-	 * @return void
 	 * @throws ImageException
 	 */
-	public function send(int $type = self::JPEG, int $quality = null)
+	public function send(int $type = self::JPEG, int $quality = null): void
 	{
 		if (!isset(self::$formats[$type])) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");

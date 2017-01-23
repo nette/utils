@@ -135,10 +135,9 @@ final class ObjectMixin
 	/**
 	 * __set() implementation.
 	 * @param  object
-	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
-	public static function set($_this, string $name, $value)
+	public static function set($_this, string $name, $value): void
 	{
 		$class = get_class($_this);
 		$uname = ucfirst($name);
@@ -165,10 +164,9 @@ final class ObjectMixin
 	/**
 	 * __unset() implementation.
 	 * @param  object
-	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public static function remove($_this, string $name)
+	public static function remove($_this, string $name): void
 	{
 		$class = get_class($_this);
 		if (!ObjectHelpers::hasProperty($class, $name)) {
@@ -301,9 +299,8 @@ final class ObjectMixin
 
 	/**
 	 * Adds a method to class.
-	 * @return void
 	 */
-	public static function setExtensionMethod(string $class, string $name, /*callable*/ $callback)
+	public static function setExtensionMethod(string $class, string $name, /*callable*/ $callback): void
 	{
 		$name = strtolower($name);
 		self::$extMethods[$name][$class] = Callback::check($callback);
@@ -379,10 +376,7 @@ final class ObjectMixin
 	/********************* moved to ObjectHelpers ****************d*g**/
 
 
-	/**
-	 * @return string|null
-	 */
-	public static function getSuggestion(array $possibilities, string $value)
+	public static function getSuggestion(array $possibilities, string $value): ?string
 	{
 		return ObjectHelpers::getSuggestion($possibilities, $value);
 	}
@@ -391,7 +385,7 @@ final class ObjectMixin
 	/**
 	 * @deprecated  use ObjectHelpers::strictGet()
 	 */
-	public static function strictGet(string $class, string $name)
+	public static function strictGet(string $class, string $name): void
 	{
 		ObjectHelpers::strictGet($class, $name);
 	}
@@ -400,7 +394,7 @@ final class ObjectMixin
 	/**
 	 * @deprecated  use ObjectHelpers::strictSet()
 	 */
-	public static function strictSet(string $class, string $name)
+	public static function strictSet(string $class, string $name): void
 	{
 		ObjectHelpers::strictSet($class, $name);
 	}
@@ -409,7 +403,7 @@ final class ObjectMixin
 	/**
 	 * @deprecated  use ObjectHelpers::strictCall()
 	 */
-	public static function strictCall(string $class, string $method, array $additionalMethods = [])
+	public static function strictCall(string $class, string $method, array $additionalMethods = []): void
 	{
 		ObjectHelpers::strictCall($class, $method, $additionalMethods);
 	}
@@ -418,7 +412,7 @@ final class ObjectMixin
 	/**
 	 * @deprecated  use ObjectHelpers::strictStaticCall()
 	 */
-	public static function strictStaticCall(string $class, string $method)
+	public static function strictStaticCall(string $class, string $method): void
 	{
 		ObjectHelpers::strictStaticCall($class, $method);
 	}

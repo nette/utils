@@ -31,10 +31,7 @@ final class Reflection
 	}
 
 
-	/**
-	 * @return string|null
-	 */
-	public static function getReturnType(\ReflectionFunctionAbstract $func)
+	public static function getReturnType(\ReflectionFunctionAbstract $func): ?string
 	{
 		return $func->hasReturnType()
 			? self::normalizeType((string) $func->getReturnType(), $func)
@@ -42,10 +39,7 @@ final class Reflection
 	}
 
 
-	/**
-	 * @return string|null
-	 */
-	public static function getParameterType(\ReflectionParameter $param)
+	public static function getParameterType(\ReflectionParameter $param): ?string
 	{
 		return $param->hasType()
 			? self::normalizeType((string) $param->getType(), $param)
