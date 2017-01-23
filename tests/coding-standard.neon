@@ -1,5 +1,5 @@
 includes:
-	- ../temp/coding-standard/coding-standard-php70.neon
+	- ../temp/coding-standard/coding-standard-php71.neon
 
 parameters:
 	skip:
