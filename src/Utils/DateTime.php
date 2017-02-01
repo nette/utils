@@ -28,13 +28,13 @@ class DateTime extends \DateTime implements \JsonSerializable
 	/** day in seconds */
 	const DAY = 24 * self::HOUR;
 
-	/** week in seconds */
+	/** @deprecated */
 	const WEEK = 7 * self::DAY;
 
-	/** average month in seconds */
+	/** @deprecated */
 	const MONTH = 2629800;
 
-	/** average year in seconds */
+	/** @deprecated */
 	const YEAR = 31557600;
 
 
@@ -50,6 +50,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 		} elseif (is_numeric($time)) {
 			if ($time <= self::YEAR) {
+				trigger_error(__METHOD__ . '() and relative timestamp is deprecated.', E_USER_DEPRECATED);
 				$time += time();
 			}
 			return (new static('@' . $time))->setTimeZone(new \DateTimeZone(date_default_timezone_get()));
