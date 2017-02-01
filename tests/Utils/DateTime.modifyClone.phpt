@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\DateTime::modifyClone().
+ * Test: Nette\Utils\DateTime::modifyClone().
  */
 
 declare(strict_types=1);
