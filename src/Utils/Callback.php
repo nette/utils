@@ -95,7 +95,7 @@ class Callback
 		});
 
 		try {
-			return $function(...$args);
+			return call_user_func_array($function, $args); // https://github.com/sektioneins/suhosin/issues/114
 		} finally {
 			restore_error_handler();
 		}
