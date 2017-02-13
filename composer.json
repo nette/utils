@@ -28,7 +28,7 @@
 		"ext-mbstring": "to use Strings::lower() etc...",
 		"ext-xml": "to use Strings::length() etc. when mbstring is not available",
 		"ext-gd": "to use Image",
-		"https://nette.org/donate": "\u001b[1;37;42m Please consider supporting Nette via a donation \u001b[0m"
+		"https://nette.org/donate": "Please consider supporting Nette via a donation"
 	},
 	"conflict": {
 		"nette/nette": "<2.2"
