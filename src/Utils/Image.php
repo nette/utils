@@ -219,7 +219,7 @@ class Image
 		imagesavealpha($image, TRUE);
 	}
 
-	
+
 	/**
 	 * Destroy image resource if any.
 	 */
@@ -230,7 +230,7 @@ class Image
 		}
 	}
 
-	
+
 	/**
 	 * Returns image width.
 	 */
