@@ -219,7 +219,18 @@ class Image
 		imagesavealpha($image, TRUE);
 	}
 
+	
+	/**
+	 * Destroy image resource if any.
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->image)) {
+			imagedestroy($this->image);
+		}
+	}
 
+	
 	/**
 	 * Returns image width.
 	 */
