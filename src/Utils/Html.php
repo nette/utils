@@ -478,7 +478,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Renders element's start tag, content and end tag.
 	 */
-	final public function render(int $indent = NULL): string
+	final public function render(int $indent = NULL, string $indentChar = "\t"): string
 	{
 		$s = $this->startTag();
 
@@ -500,7 +500,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		}
 
 		if ($indent !== NULL) {
-			return "\n" . str_repeat("\t", $indent - 1) . $s . "\n" . str_repeat("\t", max(0, $indent - 2));
+			return "\n" . str_repeat($indentChar, $indent - 1) . $s . "\n" . str_repeat($indentChar, max(0, $indent - 2));
 		}
 		return $s;
 	}
