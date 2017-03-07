@@ -95,7 +95,7 @@ class Callback
 		});
 
 		try {
-			return $function(...$args);
+			return call_user_func_array($function, $args);
 		} finally {
 			restore_error_handler();
 		}
