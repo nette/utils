@@ -36,10 +36,9 @@ final class Reflection
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func)
 	{
-		if ($func->hasReturnType()) {
-			$type = (string) $func->getReturnType();
-			return strtolower($type) === 'self' ? $func->getDeclaringClass()->getName() : $type;
-		}
+		return $func->hasReturnType()
+			? self::normalizeType((string) $func->getReturnType(), $func)
+			: NULL;
 	}
 
 
@@ -48,9 +47,21 @@ final class Reflection
 	 */
 	public static function getParameterType(\ReflectionParameter $param)
 	{
-		if ($param->hasType()) {
-			$type = (string) $param->getType();
-			return strtolower($type) === 'self' ? $param->getDeclaringClass()->getName() : $type;
+		return $param->hasType()
+			? self::normalizeType((string) $param->getType(), $param)
+			: NULL;
+	}
+
+
+	private static function normalizeType(string $type, $reflection): string
+	{
+		$lower = strtolower($type);
+		if ($lower === 'self') {
+			return $reflection->getDeclaringClass()->getName();
+		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
+			return $reflection->getDeclaringClass()->getParentClass()->getName();
+		} else {
+			return $type;
 		}
 	}
 
