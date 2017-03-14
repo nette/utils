@@ -38,10 +38,9 @@ class Reflection
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func)
 	{
-		if (PHP_VERSION_ID >= 70000 && $func->hasReturnType()) {
-			$type = (string) $func->getReturnType();
-			return strtolower($type) === 'self' ? $func->getDeclaringClass()->getName() : $type;
-		}
+		return PHP_VERSION_ID >= 70000 && $func->hasReturnType()
+			? self::normalizeType((string) $func->getReturnType(), $func)
+			: NULL;
 	}
 
 
@@ -51,8 +50,9 @@ class Reflection
 	public static function getParameterType(\ReflectionParameter $param)
 	{
 		if (PHP_VERSION_ID >= 70000) {
-			$type = $param->hasType() ? (string) $param->getType() : NULL;
-			return strtolower($type) === 'self' ? $param->getDeclaringClass()->getName() : $type;
+			return $param->hasType()
+				? self::normalizeType((string) $param->getType(), $param)
+				: NULL;
 		} elseif ($param->isArray() || $param->isCallable()) {
 			return $param->isArray() ? 'array' : 'callable';
 		} else {
@@ -64,6 +64,19 @@ class Reflection
 				}
 				throw $e;
 			}
+		}
+	}
+
+
+	private static function normalizeType($type, $reflection)
+	{
+		$lower = strtolower($type);
+		if ($lower === 'self') {
+			return $reflection->getDeclaringClass()->getName();
+		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
+			return $reflection->getDeclaringClass()->getParentClass()->getName();
+		} else {
+			return $type;
 		}
 	}
 
