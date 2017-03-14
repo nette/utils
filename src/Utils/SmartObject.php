@@ -113,7 +113,7 @@ trait SmartObject
 			throw new MemberAccessException("Cannot read a class '$class' property without name.");
 
 		} elseif (($methods = &ObjectMixin::getMethods($class)) && isset($methods[$m = 'get' . $uname]) || isset($methods[$m = 'is' . $uname])) { // old property getter
-			trigger_error("Add annotation @property for $class::\$$name or use $m()" . ObjectMixin::getSource(), E_USER_DEPRECATED);
+			trigger_error("Use $m() or add annotation @property for $class::\$$name" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			if ($methods[$m] === 0) {
 				$methods[$m] = (new \ReflectionMethod($class, $m))->returnsReference();
 			}
@@ -160,7 +160,7 @@ trait SmartObject
 			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
 
 		} elseif (($methods = &ObjectMixin::getMethods($class)) && isset($methods[$m = 'set' . $uname])) { // old property setter
-			trigger_error("Add annotation @property for $class::\$$name or use $m()" . ObjectMixin::getSource(), E_USER_DEPRECATED);
+			trigger_error("Use $m() or add annotation @property for $class::\$$name" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			$this->$m($value);
 
 		} elseif (isset($methods['get' . $uname]) || isset($methods['is' . $uname])) { // property setter
