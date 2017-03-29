@@ -261,7 +261,8 @@ class Validators
 	 */
 	public static function isInRange($value, $range)
 	{
-		return (!isset($range[0]) || $range[0] === '' || $value >= $range[0])
+		return $value !== NULL
+			&& (!isset($range[0]) || $range[0] === '' || $value >= $range[0])
 			&& (!isset($range[1]) || $range[1] === '' || $value <= $range[1]);
 	}
 
