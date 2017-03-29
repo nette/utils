@@ -239,8 +239,8 @@ class Validators
 	public static function isInRange($value, array $range): bool
 	{
 		return $value !== NULL
-			&& (!isset($range[0]) || $range[0] === '' || $value >= $range[0])
-			&& (!isset($range[1]) || $range[1] === '' || $value <= $range[1]);
+			&& (!isset($range[0]) || (is_string($range[0]) ? (string) $value >= $range[0] : is_numeric($value) && $value * 1 >= $range[0]))
+			&& (!isset($range[1]) || (is_string($range[1]) ? (string) $value <= $range[1] : is_numeric($value) && $value * 1 <= $range[1]));
 	}
 
 
