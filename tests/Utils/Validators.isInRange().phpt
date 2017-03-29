@@ -29,3 +29,6 @@ Assert::true(Validators::isInRange(-1, ['', 2]));
 
 Assert::true(Validators::isInRange(1, [-1, NULL]));
 Assert::true(Validators::isInRange(1, [-1, '']));
+
+Assert::false(Validators::isInRange(NULL, [0, 1]));
+Assert::false(Validators::isInRange(NULL, ['0', 'b']));
