@@ -244,6 +244,10 @@ class Validators
 		$limit = $range[0] ?? $range[1];
 		if (is_string($limit)) {
 			$value = (string) $value;
+		} elseif ($limit instanceof \DateTimeInterface) {
+			if (!$value instanceof \DateTimeInterface) {
+				return FALSE;
+			}
 		} elseif (is_numeric($value)) {
 			$value *= 1;
 		} else {

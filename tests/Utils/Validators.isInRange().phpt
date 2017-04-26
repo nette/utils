@@ -48,3 +48,8 @@ Assert::false(Validators::isInRange('a', [NULL, 9]));
 Assert::true(Validators::isInRange('1', [NULL, 9]));
 Assert::false(Validators::isInRange(10, ['a', NULL]));
 Assert::true(Validators::isInRange(10, [NULL, 'a']));
+
+Assert::false(Validators::isInRange(new DateTimeImmutable('2017-04-26'), [new DateTime('2017-04-20'), new DateTime('2017-04-23')]));
+Assert::true(Validators::isInRange(new DateTimeImmutable('2017-04-26'), [new DateTime('2017-04-20'), new DateTime('2017-04-30')]));
+Assert::false(Validators::isInRange(new DateTimeImmutable('2017-04-26'), [10, NULL]));
+Assert::false(Validators::isInRange(new DateTimeImmutable('2017-04-26'), [NULL, 10]));
