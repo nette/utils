@@ -30,6 +30,10 @@ Assert::true(Validators::isInRange(-1, ['', 2]));
 Assert::true(Validators::isInRange(1, [-1, NULL]));
 Assert::false(Validators::isInRange(1, [-1, '']));
 
+Assert::false(Validators::isInRange(0, [NULL, NULL]));
+Assert::false(Validators::isInRange('', [NULL, NULL]));
+Assert::false(Validators::isInRange(10, [NULL, NULL]));
+
 Assert::false(Validators::isInRange(NULL, [0, 1]));
 Assert::false(Validators::isInRange(NULL, ['0', 'b']));
 
