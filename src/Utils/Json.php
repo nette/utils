@@ -60,4 +60,63 @@ final class Json
 		return $value;
 	}
 
+
+	/**
+	 * Safely decodes a JSON string.
+	 * @param  string
+	 * @param  int  accepts Json::FORCE_ARRAY
+	 * @param  float
+	 * @return mixed
+	 */
+	public static function decodeSafe($json, $options = 0, $timeLimit = 2.0)
+	{
+		$timeLimit += microtime(true);
+
+		$json = preg_replace_callback('#"(?:\\\\.|[^"\\\\])*"#', function($m) use (&$salt) {
+			if ($salt === null || !mt_rand(0, 100)) {
+				$salt = Nette\Utils\Random::generate(3, 'a-zA-Z');
+			}
+			return '"' . $salt . substr($m[0], 1);
+		}, $json);
+
+		$value = static::decode($json, $options);
+
+		$queue = array(& $value);
+		while (list($key, $val) = each($queue)) {
+			if (is_string($val)) {
+				if (ctype_alpha($val[0])) {
+					$queue[$key] = substr($val, 3);
+				}
+			} elseif (is_array($val)) {
+				$iterations = 0;
+				$cleaned = array();
+				foreach ($val as $k => $v) {
+					$k = substr($k, 3);
+					$cleaned[$k] = $v;
+					$queue[] = & $cleaned[$k];
+					if (++$iterations % 1000 === 0 && microtime(true) > $timeLimit) {
+						throw new JsonException('Time limit exceeded');
+					}
+				}
+				$queue[$key] = $cleaned;
+			} elseif (is_object($val)) {
+				$iterations = 0;
+				$cleaned = new \stdClass;
+				foreach ((array) $val as $k => $v) {
+					$k = substr($k, 3);
+					if (substr($k, 0) === "\0") {
+						throw new JsonException(static::$messages[JSON_ERROR_CTRL_CHAR]);
+					}
+					$cleaned->$k = $v;
+					$queue[] = & $cleaned->$k;
+					if (++$iterations % 1000 === 0 && microtime(true) > $timeLimit) {
+						throw new JsonException('Time limit exceeded');
+					}
+				}
+				$queue[$key] = $cleaned;
+			}
+		}
+		return $value;
+	}
+
 }
