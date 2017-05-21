@@ -62,6 +62,11 @@ Assert::exception(function () {
 }, Nette\Utils\JsonException::class, 'Malformed UTF-8 characters, possibly incorrectly encoded');
 
 
+Assert::exception(function() {
+	Json::decode('"\uD811\uD811"');
+}, 'Nette\Utils\JsonException');
+
+
 // default JSON_BIGINT_AS_STRING
 if (defined('JSON_C_VERSION')) {
 	if (PHP_INT_SIZE > 4) {
