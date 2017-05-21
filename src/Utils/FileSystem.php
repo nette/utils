@@ -87,6 +87,14 @@ final class FileSystem
 			if (!@rmdir($path)) { // @ is escalated to exception
 				throw new Nette\IOException("Unable to delete directory '$path'.");
 			}
+		} elseif ($path instanceof \Nette\Utils\Finder) {
+			/** @var \SplFileInfo $item */
+			foreach ($path as $item) {
+				static::delete($item->getRealPath());
+			}
+			if (!@rmdir($item->getPath())) { // @ is escalated to exception
+				throw new Nette\IOException("Unable to delete directory '{$item->getPath()}'.");
+			}
 		}
 	}
 
