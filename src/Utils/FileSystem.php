@@ -131,14 +131,12 @@ final class FileSystem
 
 	/**
 	 * Writes a string to a file.
-	 * @param $mode int|NULL
+	 * @param int|NULL $mode File creation mode
 	 * @return void
 	 * @throws Nette\IOException
 	 */
 	public static function write(string $file, string $content, $mode = 0666)
 	{
-		assert($mode === NULL || is_int($mode));
-
 		static::createDir(dirname($file));
 		if (@file_put_contents($file, $content) === FALSE) { // @ is escalated to exception
 			throw new Nette\IOException("Unable to write file '$file'.");
