@@ -24,7 +24,7 @@ final class FileSystem
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function createDir(string $dir, int $mode = 0777)
+	public static function createDir(string $dir, int $mode = NULL)
 	{
 		if (!is_dir($dir) && !@mkdir($dir, $mode, TRUE) && !is_dir($dir)) { // @ - dir may already exist
 			throw new Nette\IOException("Unable to create directory '$dir'. " . error_get_last()['message']);
@@ -134,7 +134,7 @@ final class FileSystem
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function write(string $file, string $content, int $mode = 0666)
+	public static function write(string $file, string $content, int $mode = NULL)
 	{
 		static::createDir(dirname($file));
 		if (@file_put_contents($file, $content) === FALSE) { // @ is escalated to exception
