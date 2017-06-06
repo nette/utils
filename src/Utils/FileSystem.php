@@ -131,7 +131,7 @@ final class FileSystem
 
 	/**
 	 * Writes a string to a file.
-	 * @param int|NULL $mode File creation mode
+	 * @param int|NULL $mode
 	 * @return void
 	 * @throws Nette\IOException
 	 */
