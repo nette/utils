@@ -30,6 +30,23 @@ test(function () { // add
 ', $el->render(2), 'indentation');
 });
 
+test(function () { 
+	$el = Html::el('ul');
+	$el->create('li')->setText('one');
+	$el->addHtml(Html::el('li')->setText('two'))->class('hello');
+	Assert::same('<ul class="hello"><li>one</li><li>two</li></ul>', (string) $el);
+
+
+	// with indentation
+	Assert::match('
+  <ul class="hello">
+   <li>one</li>
+
+   <li>two</li>
+  </ul>
+', $el->render(2, ' '), 'indentation');
+});
+
 
 test(function () {
 	$el = Html::el(NULL);
