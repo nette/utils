@@ -30,7 +30,7 @@ test(function () { // add
 ', $el->render(2), 'indentation');
 });
 
-test(function () { 
+test(function () {
 	$el = Html::el('ul');
 	$el->create('li')->setText('one');
 	$el->addHtml(Html::el('li')->setText('two'))->class('hello');
