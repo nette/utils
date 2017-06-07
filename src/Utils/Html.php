@@ -489,7 +489,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 			}
 			foreach ($this->children as $child) {
 				if (is_object($child)) {
-					$s .= $child->render($indent);
+					$s .= $child->render($indent, $indentChar);
 				} else {
 					$s .= $child;
 				}
