@@ -21,11 +21,10 @@ final class FileSystem
 
 	/**
 	 * Creates a directory.
-	 * @param  int|NULL $mode
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function createDir(string $dir, $mode = 0777)
+	public static function createDir(string $dir, int $mode = 0777)
 	{
 		if (!is_dir($dir) && !@mkdir($dir, $mode, TRUE) && !is_dir($dir)) { // @ - dir may already exist
 			throw new Nette\IOException("Unable to create directory '$dir'. " . error_get_last()['message']);
