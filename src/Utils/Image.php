@@ -607,4 +607,13 @@ class Image
 		$this->setImageResource(imagecreatefromstring(ob_get_clean()));
 	}
 
+
+	/**
+	 * Prevents serialization.
+	 */
+	public function __sleep()
+	{
+		throw new Nette\NotSupportedException('You cannot serialize or unserialize ' . self::class . ' instances.');
+	}
+
 }
