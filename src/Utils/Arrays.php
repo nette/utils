@@ -94,7 +94,7 @@ class Arrays
 	public static function insertBefore(array &$arr, $key, array $inserted)
 	{
 		$offset = (int) self::searchKey($arr, $key);
-		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
+		$arr = array_merge(array_slice($arr, 0, $offset, TRUE), $inserted, array_slice($arr, $offset, count($arr), TRUE));
 	}
 
 
@@ -106,7 +106,7 @@ class Arrays
 	{
 		$offset = self::searchKey($arr, $key);
 		$offset = $offset === NULL ? count($arr) : $offset + 1;
-		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
+		$arr = array_merge(array_slice($arr, 0, $offset, TRUE), $inserted, array_slice($arr, $offset, count($arr), TRUE));
 	}
 
 
