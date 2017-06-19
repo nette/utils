@@ -46,7 +46,7 @@ Whereas the former code executed successfully (although it contained an error), 
 
 ![](https://files.nette.org/git/doc-2.1/debugger-circle.png)
 
-Trait `Nette\SmartObject` made `Circle` more strict and threw an exception when you tried to access an undeclared property. And `Tracy\Debugger` displayed error message about it. Line of code with fatal typo is now highlighted and error message has meaningful description: *Cannot write to an undeclared property Circle::$raduis*. Programmer can now fix the mistake he might have otherwise missed and which could be a real pain to find later.
+Trait `Nette\SmartObject` made `Circle` more strict and threw an exception when you tried to access an undeclared property. And Tracy displayed error message about it. Line of code with fatal typo is now highlighted and error message has meaningful description: *Cannot write to an undeclared property Circle::$raduis, did you mean $radius?*. Programmer can now fix the mistake he might have otherwise missed and which could be a real pain to find later.
 
 One of many remarkable abilities of `Nette\SmartObject` is throwing exceptions when accessing undeclared members.
 
@@ -60,14 +60,14 @@ $circle->unknownMethod(); // throws Nette\MemberAccessException
 But it has much more to offer!
 
 
-Properties, getters a setters
------------------------------
+Properties, getters and setters
+-------------------------------
 
 In modern object oriented languages *property* describes members of class, which look like variables but are represented by methods. When reading or assigning values to those "variables", methods are called instead (so-called getters and setters). It is really useful feature, which allows us to control the access to these variables. Using this we can validate inputs or postpone the computation of values of these variables to the time when it is actually accessed.
 
 Any class that uses `Nette\SmartObject` acquires the ability to imitate properties. Only thing you need to do is to keep simple convention:
 
-- Add annotation `@property type $xyz`
+- Add annotation `@property <type> $name`
 - Getter's name is `getXyz()` or `isXyz()`, setter's is `setXyz()`
 - It is possible to have `@property-read` only and `@property-write` only properties
 - Names of properties are case-sensitive (first letter being an exception)
@@ -142,7 +142,7 @@ class Circle
 $circle = new Circle;
 
 // adding an event handler
-$circle->onChange[] = function ($circle, $oldValue, $newValue) {
+$circle->onChange[] = function (Circle $circle, $oldValue, $newValue) {
 	echo 'there was a change!';
 };
 
