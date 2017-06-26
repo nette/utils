@@ -15,7 +15,7 @@ use Nette;
 /**
  * Applies the callback to the elements of the inner iterator.
  */
-class Mapper extends \IteratorIterator
+class Mapper extends \IteratorIterator implements \Countable
 {
 	/** @var callable */
 	private $callback;
@@ -32,5 +32,10 @@ class Mapper extends \IteratorIterator
 	{
 		return ($this->callback)(parent::current(), parent::key());
 	}
-
+	
+	
+	public function count()
+	{
+		return iterator_count($this->getInnerIterator());
+	}
 }
