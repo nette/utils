@@ -32,8 +32,8 @@ class Mapper extends \IteratorIterator implements \Countable
 	{
 		return ($this->callback)(parent::current(), parent::key());
 	}
-	
-	
+
+
 	public function count()
 	{
 		return iterator_count($this->getInnerIterator());
