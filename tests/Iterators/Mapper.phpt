@@ -34,3 +34,5 @@ assert::same('David: Grudl', $iterator->current());
 
 $iterator->next();
 Assert::false($iterator->valid());
+
+Assert::count(2, $iterator);
