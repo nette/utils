@@ -7,6 +7,15 @@ Nette Utility Classes
 [![Latest Stable Version](https://poser.pugx.org/nette/utils/v/stable)](https://github.com/nette/utils/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/utils/blob/master/license.md)
 
+Install it using Composer:
+
+```
+composer require nette/utils
+```
+
+The last stable release requires PHP version 5.6 or newer (is compatible with PHP 7.0 and 7.1). The dev-master version requires PHP 7.0.
+
+
 Nette\SmartObject: Strict classes
 ---------------------------------
 
