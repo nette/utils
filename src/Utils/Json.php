@@ -59,5 +59,4 @@ final class Json
 
 		return $value;
 	}
-
 }

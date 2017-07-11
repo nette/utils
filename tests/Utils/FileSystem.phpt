@@ -18,7 +18,6 @@ test(function () { // createDir
 	Assert::true(is_dir(TEMP_DIR . '/1/b'));
 
 	FileSystem::createDir(TEMP_DIR . '/1/');
-
 });
 
 Assert::exception(function () {

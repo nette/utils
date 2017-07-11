@@ -32,5 +32,4 @@ class Mapper extends \IteratorIterator
 	{
 		return ($this->callback)(parent::current(), parent::key());
 	}
-
 }

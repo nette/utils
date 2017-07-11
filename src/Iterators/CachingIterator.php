@@ -165,5 +165,4 @@ class CachingIterator extends \CachingIterator implements \Countable
 	{
 		return $this->getInnerIterator()->current();
 	}
-
 }

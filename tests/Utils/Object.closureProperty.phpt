@@ -18,11 +18,11 @@ class TestClass extends Nette\Object
 	protected $protected;
 	private $private;
 
+
 	function __construct($func)
 	{
 		$this->public = $this->onPublic = $this->protected = $this->private = $func;
 	}
-
 }
 
 

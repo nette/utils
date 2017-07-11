@@ -19,7 +19,8 @@ use Test\B; // for testing purposes
 class A
 {
 	function method(Undeclared $undeclared, B $b, array $array, callable $callable, $none, ?B $nullable)
-	{}
+	{
+	}
 }
 
 $method = new \ReflectionMethod('A', 'method');

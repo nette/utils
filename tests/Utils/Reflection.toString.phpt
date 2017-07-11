@@ -16,10 +16,12 @@ class Foo
 {
 	public $var;
 
+
 	function method($param)
 	{
 	}
 }
+
 
 function func($param)
 {

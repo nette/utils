@@ -17,16 +17,17 @@ class Person
 {
 	private $name;
 
+
 	public function __construct($name)
 	{
 		$this->name = $name;
 	}
 
+
 	public function sayHi()
 	{
 		return "My name is $this->name";
 	}
-
 }
 
 

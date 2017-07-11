@@ -15,13 +15,15 @@ require __DIR__ . '/../bootstrap.php';
  * @method traitA()
  */
 trait TraitA
-{}
+{
+}
 
 /**
  * @method traitB()
  */
 trait TraitB
-{}
+{
+}
 
 /**
  * @method traitC()

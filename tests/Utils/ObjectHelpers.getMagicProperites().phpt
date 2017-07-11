@@ -33,53 +33,83 @@ require __DIR__ . '/../bootstrap.php';
 class TestClass
 {
 	function getGetter()
-	{}
+	{
+	}
+
 
 	function &isGetter2()
-	{}
+	{
+	}
+
 
 	function setSetter()
-	{}
+	{
+	}
+
 
 	function getBoth()
-	{}
+	{
+	}
+
 
 	function setBoth()
-	{}
+	{
+	}
+
 
 	function getUpper()
-	{}
+	{
+	}
+
 
 	function getCase()
-	{}
+	{
+	}
+
 
 	private function getPrivate()
-	{}
+	{
+	}
+
 
 	protected function getProtected()
-	{}
+	{
+	}
+
 
 	static function getStatic()
-	{}
+	{
+	}
+
 
 	function getRead()
-	{}
+	{
+	}
+
 
 	function setRead()
-	{}
+	{
+	}
+
 
 	function getWrite()
-	{}
+	{
+	}
+
 
 	function setWrite()
-	{}
+	{
+	}
+
 
 	function getInvalid()
-	{}
+	{
+	}
+
 
 	function getInvalid2()
-	{}
-
+	{
+	}
 }
 
 
@@ -99,21 +129,23 @@ Assert::same([
 
 
 /**
-* @property int $bar
-*/
+ * @property int $bar
+ */
 class ParentClass
 {
 	function getFoo()
-	{}
+	{
+	}
 }
 
 /**
-* @property int $foo
-*/
+ * @property int $foo
+ */
 class ChildClass extends ParentClass
 {
 	function getBar()
-	{}
+	{
+	}
 }
 
 Assert::same([], ObjectHelpers::getMagicProperties('ParentClass'));

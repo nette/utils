@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-use Tester\Assert;
-use Nette\Utils\ObjectHelpers;
 use Nette\MemberAccessException;
+use Nette\Utils\ObjectHelpers;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
@@ -21,17 +21,25 @@ class TestClass
 
 	public static $publicStatic;
 
+
 	public function publicMethod()
-	{}
+	{
+	}
+
 
 	public static function publicMethodStatic()
-	{}
+	{
+	}
+
 
 	protected function protectedMethod()
-	{}
+	{
+	}
+
 
 	protected static function protectedMethodS()
-	{}
+	{
+	}
 }
 
 class TestChild extends TestClass

@@ -15,16 +15,17 @@ class TestClass extends Nette\Object
 {
 	private $items = [];
 
+
 	public function &getItems()
 	{
 		return $this->items;
 	}
 
+
 	public function setItems(array $value)
 	{
 		$this->items = $value;
 	}
-
 }
 
 

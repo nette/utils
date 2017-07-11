@@ -279,5 +279,4 @@ final class Reflection
 		}
 		return $res;
 	}
-
 }

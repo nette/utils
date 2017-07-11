@@ -16,8 +16,8 @@ class TestClass
 	use Nette\StaticClass;
 
 	public static function method()
-	{}
-
+	{
+	}
 }
 
 Assert::exception(function () {

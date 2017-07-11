@@ -214,5 +214,4 @@ class Paginator
 			? $this->itemsPerPage
 			: min($this->itemsPerPage, $this->itemCount - $this->getPageIndex() * $this->itemsPerPage);
 	}
-
 }

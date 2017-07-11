@@ -143,5 +143,4 @@ class DateTime extends \DateTime implements \JsonSerializable
 	{
 		return $this->format('c');
 	}
-
 }

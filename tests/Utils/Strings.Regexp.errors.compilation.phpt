@@ -33,9 +33,12 @@ Assert::exception(function () {
 	Strings::replace('0123456789', ['##', '#*#'], 'x');
 }, Nette\Utils\RegexpException::class, 'Compilation failed: nothing to repeat at offset 0 in pattern: ## or #*#');
 
-function cb() {
+
+function cb()
+{
 	return 'x';
 }
+
 
 Assert::exception(function () {
 	Strings::replace('0123456789', '#*#', Nette\Utils\Callback::closure('cb'));

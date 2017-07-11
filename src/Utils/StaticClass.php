@@ -33,5 +33,4 @@ trait StaticClass
 	{
 		Utils\ObjectHelpers::strictStaticCall(get_called_class(), $name);
 	}
-
 }

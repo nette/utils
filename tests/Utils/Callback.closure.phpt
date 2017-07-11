@@ -20,42 +20,48 @@ class Test
 		return __METHOD__ . $a;
 	}
 
+
 	public function publicFun($a)
 	{
 		return __METHOD__ . $a;
 	}
+
 
 	private function privateFun($a)
 	{
 		return __METHOD__ . $a;
 	}
 
+
 	public static function publicStatic($a)
 	{
 		return __METHOD__ . $a;
 	}
+
 
 	private static function privateStatic($a)
 	{
 		return __METHOD__ . $a;
 	}
 
+
 	public function __call($nm, $args)
 	{
 		return __METHOD__ . " $nm $args[0]";
 	}
+
 
 	public static function __callStatic($nm, $args)
 	{
 		return __METHOD__ . " $nm $args[0]";
 	}
 
+
 	public function ref(&$a)
 	{
 		$a = __METHOD__;
 		return $a;
 	}
-
 }
 
 class TestChild extends Test

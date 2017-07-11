@@ -14,10 +14,12 @@ require __DIR__ . '/../bootstrap.php';
 
 
 interface IFirst
-{}
+{
+}
 
 interface ISecond extends IFirst
-{}
+{
+}
 
 class TestClass extends Object implements ISecond
 {

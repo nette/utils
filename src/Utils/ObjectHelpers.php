@@ -183,5 +183,4 @@ final class ObjectHelpers
 		}
 		return $prop;
 	}
-
 }

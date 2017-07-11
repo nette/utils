@@ -422,5 +422,4 @@ final class ObjectMixin
 	{
 		ObjectHelpers::strictStaticCall($class, $method);
 	}
-
 }

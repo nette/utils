@@ -20,5 +20,4 @@ interface ITranslator
 	 * Translates the given string.
 	 */
 	function translate($message, int $count = NULL): string;
-
 }

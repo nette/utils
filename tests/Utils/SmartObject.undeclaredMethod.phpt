@@ -19,13 +19,16 @@ class TestClass
 	{
 	}
 
+
 	function methodO2()
 	{
 	}
 
+
 	private static function methodS()
 	{
 	}
+
 
 	static function methodS2()
 	{

@@ -159,5 +159,4 @@ abstract class Object
 	{
 		Nette\Utils\ObjectMixin::remove($this, $name);
 	}
-
 }

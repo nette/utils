@@ -15,27 +15,32 @@ class TestClass extends Nette\Object
 {
 	private $id;
 
+
 	function __construct($id = NULL)
 	{
 		$this->id = $id;
 	}
+
 
 	public function publicMethod($a, $b)
 	{
 		return "$this->id $a $b";
 	}
 
+
 	protected function protectedMethod()
 	{
 	}
+
 
 	private function privateMethod()
 	{
 	}
 
-	public function getWithoutParameters()
-	{}
 
+	public function getWithoutParameters()
+	{
+	}
 }
 
 

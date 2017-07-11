@@ -283,5 +283,4 @@ class Arrays
 		}
 		return $res;
 	}
-
 }

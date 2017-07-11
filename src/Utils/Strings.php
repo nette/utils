@@ -508,5 +508,4 @@ class Strings
 		}
 		return $res;
 	}
-
 }

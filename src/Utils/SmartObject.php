@@ -119,5 +119,4 @@ trait SmartObject
 	{
 		return isset(ObjectHelpers::getMagicProperties(get_class($this))[$name]);
 	}
-
 }

@@ -93,5 +93,4 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	{
 		unset($this->$key);
 	}
-
 }

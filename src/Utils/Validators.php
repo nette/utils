@@ -326,5 +326,4 @@ class Validators
 	{
 		return is_array($value) || $value instanceof \Traversable;
 	}
-
 }

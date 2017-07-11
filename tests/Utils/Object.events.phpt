@@ -20,7 +20,6 @@ class TestClass extends Nette\Object
 	protected $onProtected;
 
 	private $onPrivate;
-
 }
 
 
