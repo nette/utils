@@ -16,7 +16,7 @@ class TestClass extends Nette\Object
 	private $id;
 
 
-	function __construct($id = NULL)
+	function __construct($id = null)
 	{
 		$this->id = $id;
 	}

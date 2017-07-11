@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test(function () {
-	Assert::false(Validators::is(TRUE, 'int'));
+	Assert::false(Validators::is(true, 'int'));
 	Assert::false(Validators::is('1', 'int'));
 	Assert::true(Validators::is(1, 'integer'));
 	Assert::true(Validators::is(1, 'int'));
@@ -34,7 +34,7 @@ test(function () {
 
 
 test(function () {
-	Assert::false(Validators::is(TRUE, 'float'));
+	Assert::false(Validators::is(true, 'float'));
 	Assert::false(Validators::is('1', 'float'));
 	Assert::false(Validators::is(1, 'float'));
 	Assert::true(Validators::is(1.0, 'float'));
@@ -42,7 +42,7 @@ test(function () {
 
 
 test(function () {
-	Assert::false(Validators::is(TRUE, 'number'));
+	Assert::false(Validators::is(true, 'number'));
 	Assert::false(Validators::is('1', 'number'));
 	Assert::true(Validators::is(1, 'number'));
 	Assert::true(Validators::is(1.0, 'number'));
@@ -50,7 +50,7 @@ test(function () {
 
 
 test(function () {
-	Assert::false(Validators::is(TRUE, 'numeric'));
+	Assert::false(Validators::is(true, 'numeric'));
 	Assert::true(Validators::is('1', 'numeric'));
 	Assert::true(Validators::is('-1', 'numeric'));
 	Assert::true(Validators::is('-1.5', 'numeric'));
@@ -62,7 +62,7 @@ test(function () {
 
 
 test(function () {
-	Assert::false(Validators::is(TRUE, 'numericint'));
+	Assert::false(Validators::is(true, 'numericint'));
 	Assert::true(Validators::is('1', 'numericint'));
 	Assert::true(Validators::is('-1', 'numericint'));
 	Assert::false(Validators::is('-1.5', 'numericint'));
@@ -75,14 +75,14 @@ test(function () {
 
 test(function () {
 	Assert::false(Validators::is(1, 'bool'));
-	Assert::true(Validators::is(TRUE, 'bool'));
-	Assert::true(Validators::is(FALSE, 'bool'));
-	Assert::true(Validators::is(TRUE, 'boolean'));
-	Assert::true(Validators::is(TRUE, 'bool:1'));
-	Assert::false(Validators::is(TRUE, 'bool:0'));
-	Assert::false(Validators::is(FALSE, 'bool:1'));
-	Assert::true(Validators::is(FALSE, 'bool:0'));
-	Assert::true(Validators::is(FALSE, 'bool:0..1'));
+	Assert::true(Validators::is(true, 'bool'));
+	Assert::true(Validators::is(false, 'bool'));
+	Assert::true(Validators::is(true, 'boolean'));
+	Assert::true(Validators::is(true, 'bool:1'));
+	Assert::false(Validators::is(true, 'bool:0'));
+	Assert::false(Validators::is(false, 'bool:1'));
+	Assert::true(Validators::is(false, 'bool:0'));
+	Assert::true(Validators::is(false, 'bool:0..1'));
 });
 
 
@@ -110,7 +110,7 @@ test(function () {
 
 
 test(function () {
-	Assert::false(Validators::is(NULL, 'array'));
+	Assert::false(Validators::is(null, 'array'));
 	Assert::true(Validators::is([], 'array'));
 	Assert::true(Validators::is([], 'array:0'));
 	Assert::true(Validators::is([1], 'array:1'));
@@ -120,7 +120,7 @@ test(function () {
 
 
 test(function () {
-	Assert::false(Validators::is(NULL, 'list'));
+	Assert::false(Validators::is(null, 'list'));
 	Assert::true(Validators::is([], 'list'));
 	Assert::true(Validators::is([1], 'list'));
 	Assert::true(Validators::is(['a', 'b', 'c'], 'list'));
@@ -135,20 +135,20 @@ test(function () {
 
 
 test(function () {
-	Assert::false(Validators::is(NULL, 'object'));
+	Assert::false(Validators::is(null, 'object'));
 	Assert::true(Validators::is(new stdClass, 'object'));
 });
 
 
 test(function () {
-	Assert::false(Validators::is(NULL, 'scalar'));
+	Assert::false(Validators::is(null, 'scalar'));
 	Assert::false(Validators::is([], 'scalar'));
 	Assert::true(Validators::is(1, 'scalar'));
 });
 
 
 test(function () {
-	Assert::false(Validators::is(NULL, 'callable'));
+	Assert::false(Validators::is(null, 'callable'));
 	Assert::false(Validators::is([], 'callable'));
 	Assert::false(Validators::is(1, 'callable'));
 	Assert::false(Validators::is('', 'callable'));
@@ -160,7 +160,7 @@ test(function () {
 
 test(function () {
 	Assert::false(Validators::is(0, 'null'));
-	Assert::true(Validators::is(NULL, 'null'));
+	Assert::true(Validators::is(null, 'null'));
 });
 
 
@@ -224,8 +224,8 @@ test(function () {
 test(function () {
 	Assert::true(Validators::is(0, 'none'));
 	Assert::true(Validators::is('', 'none'));
-	Assert::true(Validators::is(NULL, 'none'));
-	Assert::true(Validators::is(FALSE, 'none'));
+	Assert::true(Validators::is(null, 'none'));
+	Assert::true(Validators::is(false, 'none'));
 	Assert::false(Validators::is('0', 'none'));
 	Assert::true(Validators::is([], 'none'));
 });

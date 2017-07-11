@@ -15,10 +15,10 @@ require __DIR__ . '/../bootstrap.php';
 
 Assert::same(
 	[
-		'first' => NULL,
+		'first' => null,
 		'a' => 'second',
 		'd' => ['third'],
-		'fourth' => NULL,
+		'fourth' => null,
 	],
 	Arrays::normalize([
 		1 => 'first',
@@ -31,11 +31,11 @@ Assert::same(
 
 Assert::same(
 	[
-		'first' => TRUE,
+		'first' => true,
 		'' => 'second',
 	],
 	Arrays::normalize([
 		1 => 'first',
 		'' => 'second',
-	], TRUE)
+	], true)
 );

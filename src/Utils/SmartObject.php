@@ -35,8 +35,8 @@ trait SmartObject
 				foreach ($this->$name as $handler) {
 					Callback::invokeArgs($handler, $args);
 				}
-			} elseif ($this->$name !== NULL) {
-				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($this->$name) . ' given.');
+			} elseif ($this->$name !== null) {
+				throw new UnexpectedValueException("Property $class::$$name must be array or null, " . gettype($this->$name) . ' given.');
 			}
 
 		} else {
@@ -62,7 +62,7 @@ trait SmartObject
 	{
 		$class = get_class($this);
 
-		if ($prop = ObjectHelpers::getMagicProperties($class)[$name] ?? NULL) { // property getter
+		if ($prop = ObjectHelpers::getMagicProperties($class)[$name] ?? null) { // property getter
 			if (!($prop & 0b0001)) {
 				throw new MemberAccessException("Cannot read a write-only property $class::\$$name.");
 			}
@@ -90,7 +90,7 @@ trait SmartObject
 		if (ObjectHelpers::hasProperty($class, $name)) { // unsetted property
 			$this->$name = $value;
 
-		} elseif ($prop = ObjectHelpers::getMagicProperties($class)[$name] ?? NULL) { // property setter
+		} elseif ($prop = ObjectHelpers::getMagicProperties($class)[$name] ?? null) { // property setter
 			if (!($prop & 0b1000)) {
 				throw new MemberAccessException("Cannot write to a read-only property $class::\$$name.");
 			}

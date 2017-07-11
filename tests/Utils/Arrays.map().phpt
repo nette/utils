@@ -18,7 +18,7 @@ test(function () {
 	$log = [];
 	$res = Arrays::map(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return TRUE; }
+		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return true; }
 	);
 	Assert::same([], $res);
 	Assert::same([], $log);

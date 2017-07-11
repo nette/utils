@@ -18,7 +18,7 @@ test(function () {
 	$log = [];
 	$res = Arrays::every(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return FALSE; }
+		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return false; }
 	);
 	Assert::true($res);
 	Assert::same([], $log);
@@ -29,7 +29,7 @@ test(function () {
 	$log = [];
 	$res = Arrays::every(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return TRUE; }
+		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return true; }
 	);
 	Assert::true($res);
 	Assert::same([], $log);
@@ -40,7 +40,7 @@ test(function () {
 	$log = [];
 	$res = Arrays::every(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return FALSE; }
+		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return false; }
 	);
 	Assert::false($res);
 	Assert::same([['a', 0, $arr]], $log);
@@ -51,7 +51,7 @@ test(function () {
 	$log = [];
 	$res = Arrays::every(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return TRUE; }
+		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return true; }
 	);
 	Assert::true($res);
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
@@ -73,7 +73,7 @@ test(function () {
 	$log = [];
 	$res = Arrays::every(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return TRUE; }
+		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return true; }
 	);
 	Assert::true($res);
 	Assert::same([['a', 'x', $arr], ['b', 'y', $arr]], $log);

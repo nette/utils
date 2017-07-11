@@ -40,7 +40,7 @@ test(function () {
 		$obj = new TestClass(123);
 		$obj->onPublic = function () {}; // accidentally forgotten []
 		$obj->onPublic(1, 2);
-	}, Nette\UnexpectedValueException::class, 'Property TestClass::$onPublic must be array or NULL, object given.');
+	}, Nette\UnexpectedValueException::class, 'Property TestClass::$onPublic must be array or null, object given.');
 
 
 	Assert::exception(function () {

@@ -43,7 +43,7 @@ class Validators
 		'none' => [__CLASS__, 'isNone'],
 		'type' => [__CLASS__, 'isType'],
 		'identifier' => [__CLASS__, 'isPhpIdentifier'],
-		'pattern' => NULL,
+		'pattern' => null,
 		'alnum' => 'ctype_alnum',
 		'alpha' => 'ctype_alpha',
 		'digit' => 'ctype_digit',
@@ -95,7 +95,7 @@ class Validators
 	 * Throws exception if an array field is missing or of unexpected type (separated by pipe).
 	 * @return void
 	 */
-	public static function assertField(array $arr, $field, string $expected = NULL, string $label = "item '%' in array")
+	public static function assertField(array $arr, $field, string $expected = null, string $label = "item '%' in array")
 	{
 		if (!array_key_exists($field, $arr)) {
 			throw new AssertionException('Missing ' . str_replace('%', $field, $label) . '.');
@@ -114,7 +114,7 @@ class Validators
 		foreach (explode('|', $expected) as $item) {
 			if (substr($item, -2) === '[]') {
 				if (self::everyIs($value, substr($item, 0, -2))) {
-					return TRUE;
+					return true;
 				}
 				continue;
 			}
@@ -126,7 +126,7 @@ class Validators
 				}
 			} elseif ($type === 'pattern') {
 				if (preg_match('|^' . ($item[1] ?? '') . '\z|', $value)) {
-					return TRUE;
+					return true;
 				}
 				continue;
 			} elseif (!$value instanceof $type) {
@@ -146,9 +146,9 @@ class Validators
 					continue;
 				}
 			}
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 
@@ -159,14 +159,14 @@ class Validators
 	public static function everyIs($values, string $expected): bool
 	{
 		if (!self::isIterable($values)) {
-			return FALSE;
+			return false;
 		}
 		foreach ($values as $value) {
 			if (!static::is($value, $expected)) {
-				return FALSE;
+				return false;
 			}
 		}
-		return TRUE;
+		return true;
 	}
 
 
@@ -202,7 +202,7 @@ class Validators
 	 */
 	public static function isCallable($value): bool
 	{
-		return $value && is_callable($value, TRUE);
+		return $value && is_callable($value, true);
 	}
 
 
@@ -220,7 +220,7 @@ class Validators
 	 */
 	public static function isNone($value): bool
 	{
-		return $value == NULL; // intentionally ==
+		return $value == null; // intentionally ==
 	}
 
 
@@ -238,20 +238,20 @@ class Validators
 	 */
 	public static function isInRange($value, array $range): bool
 	{
-		if ($value === NULL || !(isset($range[0]) || isset($range[1]))) {
-			return FALSE;
+		if ($value === null || !(isset($range[0]) || isset($range[1]))) {
+			return false;
 		}
 		$limit = $range[0] ?? $range[1];
 		if (is_string($limit)) {
 			$value = (string) $value;
 		} elseif ($limit instanceof \DateTimeInterface) {
 			if (!$value instanceof \DateTimeInterface) {
-				return FALSE;
+				return false;
 			}
 		} elseif (is_numeric($value)) {
 			$value *= 1;
 		} else {
-			return FALSE;
+			return false;
 		}
 		return (!isset($range[0]) || ($value >= $range[0])) && (!isset($range[1]) || ($value <= $range[1]));
 	}

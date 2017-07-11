@@ -20,4 +20,4 @@ Assert::same('e',  Strings::trim("\u{158}e-", "\u{158}-")); // Ře-
 
 Assert::exception(function () {
 	Strings::trim("\xC2x\xA0");
-}, Nette\Utils\RegexpException::class, NULL);
+}, Nette\Utils\RegexpException::class, null);

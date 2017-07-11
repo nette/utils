@@ -88,7 +88,7 @@ final class ObjectHelpers
 	{
 		static $cache;
 		$props = &$cache[$class];
-		if ($props !== NULL) {
+		if ($props !== null) {
 			return $props;
 		}
 
@@ -126,13 +126,13 @@ final class ObjectHelpers
 
 	/**
 	 * Finds the best suggestion (for 8-bit encoding).
-	 * @return string|NULL
+	 * @return string|null
 	 * @internal
 	 */
 	public static function getSuggestion(array $possibilities, string $value)
 	{
 		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '', $value);
-		$best = NULL;
+		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
 		foreach (array_unique($possibilities, SORT_REGULAR) as $item) {
 			$item = $item instanceof \Reflector ? $item->getName() : $item;
@@ -171,12 +171,12 @@ final class ObjectHelpers
 	{
 		static $cache;
 		$prop = &$cache[$class][$name];
-		if ($prop === NULL) {
-			$prop = FALSE;
+		if ($prop === null) {
+			$prop = false;
 			try {
 				$rp = new \ReflectionProperty($class, $name);
 				if ($rp->isPublic() && !$rp->isStatic()) {
-					$prop = $name >= 'onA' && $name < 'on_' ? 'event' : TRUE;
+					$prop = $name >= 'onA' && $name < 'on_' ? 'event' : true;
 				}
 			} catch (\ReflectionException $e) {
 			}

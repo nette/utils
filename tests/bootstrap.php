@@ -32,13 +32,13 @@ class RemoteStream /* extends \streamWrapper */
 {
 	public function stream_open()
 	{
-		return TRUE;
+		return true;
 	}
 
 
 	public function url_stat()
 	{
-		return FALSE;
+		return false;
 	}
 }
 

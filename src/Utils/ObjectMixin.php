@@ -44,8 +44,8 @@ final class ObjectMixin
 				foreach ($_this->$name as $handler) {
 					Callback::invokeArgs($handler, $args);
 				}
-			} elseif ($_this->$name !== NULL) {
-				throw new Nette\UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($_this->$name) . ' given.');
+			} elseif ($_this->$name !== null) {
+				throw new Nette\UnexpectedValueException("Property $class::$$name must be array or null, " . gettype($_this->$name) . ' given.');
 			}
 
 		} elseif ($isProp && $_this->$name instanceof \Closure) { // closure in property
@@ -109,7 +109,7 @@ final class ObjectMixin
 			if ($methods[$m] === 0) {
 				$methods[$m] = (new \ReflectionMethod($class, $m))->returnsReference();
 			}
-			if ($methods[$m] === TRUE) {
+			if ($methods[$m] === true) {
 				return $_this->$m();
 			} else {
 				$val = $_this->$m();
@@ -213,9 +213,9 @@ final class ObjectMixin
 			$name = $op . $prop;
 			$prop = strtolower($prop[0]) . substr($prop, 1) . ($op === 'add' ? 's' : '');
 			if ($rc->hasProperty($prop) && ($rp = $rc->getProperty($prop)) && !$rp->isStatic()) {
-				$rp->setAccessible(TRUE);
+				$rp->setAccessible(true);
 				if ($op === 'get' || $op === 'is') {
-					$type = NULL;
+					$type = null;
 					$op = 'get';
 				} elseif (!$type && preg_match('#@var[ \t]+(\S+)' . ($op === 'add' ? '\[\]#' : '#'), (string) $rp->getDocComment(), $m)) {
 					$type = $m[1];
@@ -236,53 +236,53 @@ final class ObjectMixin
 	 */
 	public static function checkType(&$val, string $type): bool
 	{
-		if (strpos($type, '|') !== FALSE) {
-			$found = NULL;
+		if (strpos($type, '|') !== false) {
+			$found = null;
 			foreach (explode('|', $type) as $type) {
 				$tmp = $val;
 				if (self::checkType($tmp, $type)) {
 					if ($val === $tmp) {
-						return TRUE;
+						return true;
 					}
 					$found[] = $tmp;
 				}
 			}
 			if ($found) {
 				$val = $found[0];
-				return TRUE;
+				return true;
 			}
-			return FALSE;
+			return false;
 
 		} elseif (substr($type, -2) === '[]') {
 			if (!is_array($val)) {
-				return FALSE;
+				return false;
 			}
 			$type = substr($type, 0, -2);
 			$res = [];
 			foreach ($val as $k => $v) {
 				if (!self::checkType($v, $type)) {
-					return FALSE;
+					return false;
 				}
 				$res[$k] = $v;
 			}
 			$val = $res;
-			return TRUE;
+			return true;
 		}
 
 		switch (strtolower($type)) {
-			case NULL:
+			case null:
 			case 'mixed':
-				return TRUE;
+				return true;
 			case 'bool':
 			case 'boolean':
-				return ($val === NULL || is_scalar($val)) && settype($val, 'bool');
+				return ($val === null || is_scalar($val)) && settype($val, 'bool');
 			case 'string':
-				return ($val === NULL || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) && settype($val, 'string');
+				return ($val === null || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) && settype($val, 'string');
 			case 'int':
 			case 'integer':
-				return ($val === NULL || is_bool($val) || is_numeric($val)) && ((float) (int) $val === (float) $val) && settype($val, 'int');
+				return ($val === null || is_bool($val) || is_numeric($val)) && ((float) (int) $val === (float) $val) && settype($val, 'int');
 			case 'float':
-				return ($val === NULL || is_bool($val) || is_numeric($val)) && settype($val, 'float');
+				return ($val === null || is_bool($val) || is_numeric($val)) && settype($val, 'float');
 			case 'scalar':
 			case 'array':
 			case 'object':
@@ -307,7 +307,7 @@ final class ObjectMixin
 	{
 		$name = strtolower($name);
 		self::$extMethods[$name][$class] = Callback::check($callback);
-		self::$extMethods[$name][''] = NULL;
+		self::$extMethods[$name][''] = null;
 	}
 
 
@@ -328,7 +328,7 @@ final class ObjectMixin
 				return $cache = $list[$cl];
 			}
 		}
-		return $cache = FALSE;
+		return $cache = false;
 	}
 
 
@@ -380,7 +380,7 @@ final class ObjectMixin
 
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public static function getSuggestion(array $possibilities, string $value)
 	{

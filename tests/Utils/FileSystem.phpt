@@ -54,12 +54,12 @@ test(function () { // copy
 	FileSystem::write(TEMP_DIR . '/5/newfile', 'World');
 
 	Assert::exception(function () {
-		FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file', FALSE);
+		FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
 	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
 	Assert::exception(function () {
-		FileSystem::copy('remote://example.com', TEMP_DIR . '/3/x/file', FALSE);
+		FileSystem::copy('remote://example.com', TEMP_DIR . '/3/x/file', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
 	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
@@ -67,7 +67,7 @@ test(function () { // copy
 	Assert::same('World', FileSystem::read(TEMP_DIR . '/3/x/file'));
 
 	Assert::exception(function () {
-		FileSystem::copy(TEMP_DIR . '/5', TEMP_DIR . '/3', FALSE);
+		FileSystem::copy(TEMP_DIR . '/5', TEMP_DIR . '/3', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
 	Assert::true(is_dir(TEMP_DIR . '/3/x/y'));
 	Assert::false(file_exists(TEMP_DIR . '/3/newfile'));
@@ -101,7 +101,7 @@ test(function () { // rename
 
 	FileSystem::write(TEMP_DIR . '/8/newfile', 'World');
 	Assert::exception(function () {
-		FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file', FALSE);
+		FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
 	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/9/x/file'));
 	FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file');
@@ -109,7 +109,7 @@ test(function () { // rename
 
 	FileSystem::createDir(TEMP_DIR . '/10/');
 	Assert::exception(function () {
-		FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9', FALSE);
+		FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
 	Assert::same('World', FileSystem::read(TEMP_DIR . '/9/x/file'));
 

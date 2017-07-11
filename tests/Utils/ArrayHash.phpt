@@ -86,7 +86,7 @@ test(function () {
 		'children' => [
 			'c' => 'John',
 		],
-	], FALSE);
+	], false);
 	Assert::type(Nette\Utils\ArrayHash::class, $list);
 	Assert::type('array', $list['children']);
 });
@@ -166,7 +166,7 @@ test(function () { // numeric fields
 
 
 test(function () { // null fields
-	$row = ArrayHash::from(['null' => NULL]);
+	$row = ArrayHash::from(['null' => null]);
 	Assert::null($row->null);
 	Assert::null($row['null']);
 	Assert::false(isset($row->null));

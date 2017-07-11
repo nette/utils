@@ -23,9 +23,9 @@ final class Callback
 	/**
 	 * @param  string|object|callable  class, object, callable
 	 */
-	public static function closure($callable, string $method = NULL): \Closure
+	public static function closure($callable, string $method = null): \Closure
 	{
-		if ($method !== NULL) {
+		if ($method !== null) {
 			$callable = [$callable, $method];
 		}
 
@@ -94,11 +94,11 @@ final class Callback
 			}
 			if ($file === __FILE__) {
 				$msg = preg_replace("#^$function\(.*?\): #", '', $message);
-				if ($onError($msg, $severity) !== FALSE) {
+				if ($onError($msg, $severity) !== false) {
 					return;
 				}
 			}
-			return $prev ? $prev(...func_get_args()) : FALSE;
+			return $prev ? $prev(...func_get_args()) : false;
 		});
 
 		try {
@@ -112,7 +112,7 @@ final class Callback
 	/**
 	 * @return callable
 	 */
-	public static function check($callable, bool $syntax = FALSE)
+	public static function check($callable, bool $syntax = false)
 	{
 		if (!is_callable($callable, $syntax)) {
 			throw new Nette\InvalidArgumentException($syntax
@@ -132,7 +132,7 @@ final class Callback
 		} elseif (is_string($callable) && $callable[0] === "\0") {
 			return '{lambda}';
 		} else {
-			is_callable($callable, TRUE, $textual);
+			is_callable($callable, true, $textual);
 			return $textual;
 		}
 	}

@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test(function () {
-	Html::$xhtml = TRUE;
+	Html::$xhtml = true;
 	$el = Html::el('img')->src('image.gif')->alt('');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
 	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
@@ -23,7 +23,7 @@ test(function () {
 
 
 test(function () {
-	Html::$xhtml = TRUE;
+	Html::$xhtml = true;
 	$el = Html::el('img')->setAttribute('src', 'image.gif')->setAttribute('alt', '');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
 	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
@@ -32,12 +32,12 @@ test(function () {
 
 
 test(function () {
-	Html::$xhtml = TRUE;
-	$el = Html::el('img')->accesskey(0, TRUE)->alt('alt', FALSE);
+	Html::$xhtml = true;
+	$el = Html::el('img')->accesskey(0, true)->alt('alt', false);
 	Assert::same('<img accesskey="0" />', (string) $el);
-	Assert::same('<img accesskey="0 1" />', (string) $el->accesskey(1, TRUE));
-	Assert::same('<img accesskey="0" />', (string) $el->accesskey(1, FALSE));
-	Assert::same('<img accesskey="0" />', (string) $el->accesskey(0, TRUE));
+	Assert::same('<img accesskey="0 1" />', (string) $el->accesskey(1, true));
+	Assert::same('<img accesskey="0" />', (string) $el->accesskey(1, false));
+	Assert::same('<img accesskey="0" />', (string) $el->accesskey(0, true));
 	Assert::same('<img accesskey="0" />', (string) $el->accesskey(0));
 
 	unset($el->accesskey);
@@ -46,11 +46,11 @@ test(function () {
 
 
 test(function () {
-	Html::$xhtml = TRUE;
-	$el = Html::el('img')->appendAttribute('accesskey', 0)->setAttribute('alt', FALSE);
+	Html::$xhtml = true;
+	$el = Html::el('img')->appendAttribute('accesskey', 0)->setAttribute('alt', false);
 	Assert::same('<img accesskey="0" />', (string) $el);
 	Assert::same('<img accesskey="0 1" />', (string) $el->appendAttribute('accesskey', 1));
-	Assert::same('<img accesskey="0" />', (string) $el->appendAttribute('accesskey', 1, FALSE));
+	Assert::same('<img accesskey="0" />', (string) $el->appendAttribute('accesskey', 1, false));
 	Assert::same('<img accesskey="0" />', (string) $el->appendAttribute('accesskey', 0));
 	Assert::same('<img accesskey="0" />', (string) $el->setAttribute('accesskey', 0));
 	Assert::same('<img />', (string) $el->removeAttribute('accesskey'));
@@ -58,18 +58,18 @@ test(function () {
 
 
 test(function () {
-	$el = Html::el('img')->src('image.gif')->alt('')->setText(NULL)->setText('any content');
+	$el = Html::el('img')->src('image.gif')->alt('')->setText(null)->setText('any content');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
 	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
 	Assert::same('', $el->endTag());
 
-	Html::$xhtml = FALSE;
+	Html::$xhtml = false;
 	Assert::same('<img src="image.gif" alt="">', (string) $el);
 });
 
 
 test(function () {
-	Html::$xhtml = FALSE;
+	Html::$xhtml = false;
 	$el = Html::el('img')->setSrc('image.gif')->setAlt('alt1')->setAlt('alt2');
 	Assert::same('<img src="image.gif" alt="alt2">', (string) $el);
 	Assert::same('image.gif', $el->getSrc());
@@ -86,8 +86,8 @@ test(function () {
 	$el->class = 'three';
 	$el->lang = '';
 	$el->title = '0';
-	$el->checked = TRUE;
-	$el->selected = FALSE;
+	$el->checked = true;
+	$el->selected = false;
 	$el->name = 'testname';
 	$el->setName('span');
 	Assert::same('<span src="image.gif" alt="alt2 alt3" style="float:left" class="three" lang="" title="0" checked name="testname"></span>', (string) $el);
@@ -103,10 +103,10 @@ test(function () { // small & big numbers
 
 
 test(function () { // attributes escaping
-	Html::$xhtml = TRUE;
+	Html::$xhtml = true;
 	Assert::same('<a one=\'"\' two="\'" three="&lt;>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;'));
 
-	Html::$xhtml = FALSE;
+	Html::$xhtml = false;
 	Assert::same('<a one=\'"\' two="\'" three="<>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;'));
 	Assert::same('<a one="``xx "></a>', (string) Html::el('a')->one('``xx')); // mXSS
 });
@@ -140,7 +140,7 @@ test(function () { // isset
 	Assert::false(isset(Html::el('a')->id));
 	Assert::true(isset(Html::el('a')->id('')->id));
 
-	Html::el('a')->id = NULL;
+	Html::el('a')->id = null;
 	Assert::false(isset(Html::el('a')->id));
 });
 
@@ -149,5 +149,5 @@ test(function () { // isset
 	Assert::true(isset(Html::el('a')->setAttribute('id', '')->id));
 	Assert::false(isset(Html::el('a')->removeAttribute('id')->id));
 	Assert::true(isset(Html::el('a')->setAttribute('id', '')->id));
-	Assert::false(isset(Html::el('a')->setAttribute('id', NULL)->id));
+	Assert::false(isset(Html::el('a')->setAttribute('id', null)->id));
 });

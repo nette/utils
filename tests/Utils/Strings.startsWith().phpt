@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 Assert::exception(function () {
-	Strings::startsWith('123', NULL);
+	Strings::startsWith('123', null);
 }, TypeError::class);
 Assert::true(Strings::startsWith('123', ''), "startsWith('123', '')");
 Assert::true(Strings::startsWith('123', '1'), "startsWith('123', '1')");

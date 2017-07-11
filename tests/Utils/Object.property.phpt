@@ -18,7 +18,7 @@ class TestClass extends Nette\Object
 	public $declared;
 
 
-	function __construct($foo = NULL, $bar = NULL)
+	function __construct($foo = null, $bar = null)
 	{
 		$this->foo = $foo;
 		$this->bar = $bar;

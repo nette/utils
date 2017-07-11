@@ -97,15 +97,15 @@ abstract class Object
 	 * @param  callable
 	 * @return mixed
 	 */
-	public static function extensionMethod($name, $callback = NULL)
+	public static function extensionMethod($name, $callback = null)
 	{
-		if (strpos($name, '::') === FALSE) {
+		if (strpos($name, '::') === false) {
 			$class = get_called_class();
 		} else {
 			list($class, $name) = explode('::', $name);
 			$class = (new \ReflectionClass($class))->getName();
 		}
-		if ($callback === NULL) {
+		if ($callback === null) {
 			return Nette\Utils\ObjectMixin::getExtensionMethod($class, $name);
 		} else {
 			Nette\Utils\ObjectMixin::setExtensionMethod($class, $name, $callback);

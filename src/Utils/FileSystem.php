@@ -26,7 +26,7 @@ final class FileSystem
 	 */
 	public static function createDir(string $dir, int $mode = 0777)
 	{
-		if (!is_dir($dir) && !@mkdir($dir, $mode, TRUE) && !is_dir($dir)) { // @ - dir may already exist
+		if (!is_dir($dir) && !@mkdir($dir, $mode, true) && !is_dir($dir)) { // @ - dir may already exist
 			throw new Nette\IOException("Unable to create directory '$dir'. " . error_get_last()['message']);
 		}
 	}
@@ -37,7 +37,7 @@ final class FileSystem
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function copy(string $source, string $dest, bool $overwrite = TRUE)
+	public static function copy(string $source, string $dest, bool $overwrite = true)
 	{
 		if (stream_is_local($source) && !file_exists($source)) {
 			throw new Nette\IOException("File or directory '$source' not found.");
@@ -60,7 +60,7 @@ final class FileSystem
 
 		} else {
 			static::createDir(dirname($dest));
-			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === FALSE) { // @ is escalated to exception
+			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === false) { // @ is escalated to exception
 				throw new Nette\IOException("Unable to copy file '$source' to '$dest'.");
 			}
 		}
@@ -97,7 +97,7 @@ final class FileSystem
 	 * @throws Nette\IOException
 	 * @throws Nette\InvalidStateException if the target file or directory already exist
 	 */
-	public static function rename(string $name, string $newName, bool $overwrite = TRUE)
+	public static function rename(string $name, string $newName, bool $overwrite = true)
 	{
 		if (!$overwrite && file_exists($newName)) {
 			throw new Nette\InvalidStateException("File or directory '$newName' already exists.");
@@ -122,7 +122,7 @@ final class FileSystem
 	public static function read(string $file): string
 	{
 		$content = @file_get_contents($file); // @ is escalated to exception
-		if ($content === FALSE) {
+		if ($content === false) {
 			throw new Nette\IOException("Unable to read file '$file'.");
 		}
 		return $content;
@@ -131,17 +131,17 @@ final class FileSystem
 
 	/**
 	 * Writes a string to a file.
-	 * @param  int|NULL $mode
+	 * @param  int|null $mode
 	 * @return void
 	 * @throws Nette\IOException
 	 */
 	public static function write(string $file, string $content, $mode = 0666)
 	{
 		static::createDir(dirname($file));
-		if (@file_put_contents($file, $content) === FALSE) { // @ is escalated to exception
+		if (@file_put_contents($file, $content) === false) { // @ is escalated to exception
 			throw new Nette\IOException("Unable to write file '$file'.");
 		}
-		if ($mode !== NULL && !@chmod($file, $mode)) { // @ is escalated to exception
+		if ($mode !== null && !@chmod($file, $mode)) { // @ is escalated to exception
 			throw new Nette\IOException("Unable to chmod file '$file'.");
 		}
 	}

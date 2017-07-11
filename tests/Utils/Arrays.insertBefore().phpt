@@ -14,8 +14,8 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $arr = [
-	NULL => 'first',
-	FALSE => 'second',
+	null => 'first',
+	false => 'second',
 	1 => 'third',
 	7 => 'fourth',
 ];
@@ -30,7 +30,7 @@ Assert::same([
 
 test(function () use ($arr) { // First item
 	$dolly = $arr;
-	Arrays::insertBefore($dolly, NULL, ['new' => 'value']);
+	Arrays::insertBefore($dolly, null, ['new' => 'value']);
 	Assert::same([
 		'new' => 'value',
 		'' => 'first',
@@ -41,7 +41,7 @@ test(function () use ($arr) { // First item
 
 
 	$dolly = $arr;
-	Arrays::insertAfter($dolly, NULL, ['new' => 'value']);
+	Arrays::insertAfter($dolly, null, ['new' => 'value']);
 	Assert::same([
 		'' => 'first',
 		'new' => 'value',

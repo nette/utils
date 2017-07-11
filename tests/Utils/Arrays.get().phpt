@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $arr = [
-	NULL => 'first',
+	null => 'first',
 	1 => 'second',
 	7 => [
 		'item' => 'third',
@@ -23,7 +23,7 @@ $arr = [
 
 test(function () use ($arr) { // Single item
 
-	Assert::same('first', Arrays::get($arr, NULL));
+	Assert::same('first', Arrays::get($arr, null));
 	Assert::same('second', Arrays::get($arr, 1));
 	Assert::same('second', Arrays::get($arr, 1, 'x'));
 	Assert::same('x', Arrays::get($arr, 'undefined', 'x'));
