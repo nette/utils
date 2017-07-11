@@ -17,14 +17,14 @@ use Test\B; // for testing purposes
 
 class A
 {
-	function method(Undeclared $undeclared, B $b, array $array, callable $callable, self $self, $none)
+	public function method(Undeclared $undeclared, B $b, array $array, callable $callable, self $self, $none)
 	{
 	}
 }
 
 class AExt extends A
 {
-	function methodExt(parent $parent)
+	public function methodExt(parent $parent)
 	{
 	}
 }

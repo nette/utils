@@ -28,17 +28,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 {
 	use Nette\SmartObject;
 
-	/** @var string  element's name */
-	private $name;
-
-	/** @var bool  is element empty? */
-	private $isEmpty;
-
 	/** @var array  element's attributes */
 	public $attrs = [];
-
-	/** @var array  of Html | string nodes */
-	protected $children = [];
 
 	/** @var bool  use XHTML syntax? */
 	public static $xhtml = false;
@@ -49,6 +40,15 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		'source' => 1, 'base' => 1, 'col' => 1, 'link' => 1, 'param' => 1, 'basefont' => 1, 'frame' => 1,
 		'isindex' => 1, 'wbr' => 1, 'command' => 1, 'track' => 1,
 	];
+
+	/** @var array  of Html | string nodes */
+	protected $children = [];
+
+	/** @var string  element's name */
+	private $name;
+
+	/** @var bool  is element empty? */
+	private $isEmpty;
 
 
 	/**
@@ -511,7 +511,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		try {
 			return $this->render();
 		} catch (\Throwable $e) {
-			trigger_error("Exception in " . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
+			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 		}
 	}
 

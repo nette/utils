@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Test
 {
-	function __invoke($a)
+	public function __invoke($a)
 	{
 		return __METHOD__ . $a;
 	}

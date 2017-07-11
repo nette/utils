@@ -49,7 +49,7 @@ test(function () { // special values
 test(function () { // setter
 	$el = Html::el('div');
 	$el->setAttribute('data-x', 'x');
-	$el->setAttribute('data-list', [1,2,3]);
+	$el->setAttribute('data-list', [1, 2, 3]);
 	$el->setAttribute('data-arr', ['a' => 1]);
 	$el->setAttribute('top', null);
 	$el->setAttribute('active', false);

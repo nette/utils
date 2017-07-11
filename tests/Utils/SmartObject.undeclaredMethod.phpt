@@ -20,7 +20,7 @@ class TestClass
 	}
 
 
-	function methodO2()
+	public function methodO2()
 	{
 	}
 
@@ -30,7 +30,7 @@ class TestClass
 	}
 
 
-	static function methodS2()
+	public static function methodS2()
 	{
 	}
 }

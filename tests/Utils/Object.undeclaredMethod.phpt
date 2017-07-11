@@ -18,7 +18,7 @@ class TestClass extends Nette\Object
 	}
 
 
-	function methodO2()
+	public function methodO2()
 	{
 	}
 
@@ -28,7 +28,7 @@ class TestClass extends Nette\Object
 	}
 
 
-	static function methodS2()
+	public static function methodS2()
 	{
 	}
 }

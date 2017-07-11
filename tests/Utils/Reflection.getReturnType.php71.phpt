@@ -13,37 +13,37 @@ namespace NS
 
 	class A
 	{
-		function noType()
+		public function noType()
 		{
 		}
 
 
-		function classType(): B
+		public function classType(): B
 		{
 		}
 
 
-		function nativeType(): string
+		public function nativeType(): string
 		{
 		}
 
 
-		function selfType(): self
+		public function selfType(): self
 		{
 		}
 
 
-		function nullableClassType(): ?B
+		public function nullableClassType(): ?B
 		{
 		}
 
 
-		function nullableNativeType(): ?string
+		public function nullableNativeType(): ?string
 		{
 		}
 
 
-		function nullableSelfType(): ?self
+		public function nullableSelfType(): ?self
 		{
 		}
 	}

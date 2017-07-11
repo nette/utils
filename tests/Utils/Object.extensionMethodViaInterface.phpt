@@ -23,7 +23,8 @@ interface ISecond extends IFirst
 
 class TestClass extends Object implements ISecond
 {
-	public $foo = 'Hello', $bar = 'World';
+	public $foo = 'Hello';
+	public $bar = 'World';
 }
 
 

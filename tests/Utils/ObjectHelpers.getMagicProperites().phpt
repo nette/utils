@@ -32,37 +32,37 @@ require __DIR__ . '/../bootstrap.php';
  */
 class TestClass
 {
-	function getGetter()
+	public function getGetter()
 	{
 	}
 
 
-	function &isGetter2()
+	public function &isGetter2()
 	{
 	}
 
 
-	function setSetter()
+	public function setSetter()
 	{
 	}
 
 
-	function getBoth()
+	public function getBoth()
 	{
 	}
 
 
-	function setBoth()
+	public function setBoth()
 	{
 	}
 
 
-	function getUpper()
+	public function getUpper()
 	{
 	}
 
 
-	function getCase()
+	public function getCase()
 	{
 	}
 
@@ -77,37 +77,37 @@ class TestClass
 	}
 
 
-	static function getStatic()
+	public static function getStatic()
 	{
 	}
 
 
-	function getRead()
+	public function getRead()
 	{
 	}
 
 
-	function setRead()
+	public function setRead()
 	{
 	}
 
 
-	function getWrite()
+	public function getWrite()
 	{
 	}
 
 
-	function setWrite()
+	public function setWrite()
 	{
 	}
 
 
-	function getInvalid()
+	public function getInvalid()
 	{
 	}
 
 
-	function getInvalid2()
+	public function getInvalid2()
 	{
 	}
 }
@@ -133,7 +133,7 @@ Assert::same([
  */
 class ParentClass
 {
-	function getFoo()
+	public function getFoo()
 	{
 	}
 }
@@ -143,7 +143,7 @@ class ParentClass
  */
 class ChildClass extends ParentClass
 {
-	function getBar()
+	public function getBar()
 	{
 	}
 }

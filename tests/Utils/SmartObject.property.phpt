@@ -21,12 +21,13 @@ class TestClass
 {
 	use Nette\SmartObject;
 
-	private $foo, $bar;
-
 	public $declared;
 
+	private $foo;
+	private $bar;
 
-	function __construct($foo = null, $bar = null)
+
+	public function __construct($foo = null, $bar = null)
 	{
 		$this->foo = $foo;
 		$this->bar = $bar;

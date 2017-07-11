@@ -192,7 +192,7 @@ class Strings
 			if ($maxLen < 1) {
 				return $append;
 
-			} elseif ($matches = self::match($s, '#^.{1,'.$maxLen.'}(?=[\s\x00-/:-@\[-`{-~])#us')) {
+			} elseif ($matches = self::match($s, '#^.{1,' . $maxLen . '}(?=[\s\x00-/:-@\[-`{-~])#us')) {
 				return $matches[0] . $append;
 
 			} else {
@@ -316,7 +316,7 @@ class Strings
 	public static function trim(string $s, string $charlist = self::TRIM_CHARACTERS): string
 	{
 		$charlist = preg_quote($charlist, '#');
-		return self::replace($s, '#^['.$charlist.']+|['.$charlist.']+\z#u', '');
+		return self::replace($s, '#^[' . $charlist . ']+|[' . $charlist . ']+\z#u', '');
 	}
 
 
@@ -403,7 +403,7 @@ class Strings
 				return 0;
 			}
 			$pos = 0;
-			while (false !== ($pos = strpos($haystack, $needle, $pos)) && --$nth) {
+			while (($pos = strpos($haystack, $needle, $pos)) !== false && --$nth) {
 				$pos++;
 			}
 		} else {
@@ -412,7 +412,7 @@ class Strings
 				return $len;
 			}
 			$pos = $len - 1;
-			while (false !== ($pos = strrpos($haystack, $needle, $pos - $len)) && ++$nth) {
+			while (($pos = strrpos($haystack, $needle, $pos - $len)) !== false && ++$nth) {
 				$pos--;
 			}
 		}
@@ -501,7 +501,7 @@ class Strings
 		});
 
 		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
-			&& ($res === null || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace']))
+			&& ($res === null || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace'], true))
 		) {
 			throw new RegexpException(($messages[$code] ?? 'Unknown error')
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);

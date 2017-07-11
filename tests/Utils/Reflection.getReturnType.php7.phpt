@@ -12,34 +12,34 @@ namespace NS
 
 	class A
 	{
-		function noType()
+		public function noType()
 		{
 		}
 
 
-		function classType(): B
+		public function classType(): B
 		{
 		}
 
 
-		function nativeType(): string
+		public function nativeType(): string
 		{
 		}
 
 
-		function selfType(): self
+		public function selfType(): self
 		{
 		}
 
 
-		function parentType(): parent
+		public function parentType(): parent
 		{
 		}
 	}
 
 	class AExt extends A
 	{
-		function parentTypeExt(): parent
+		public function parentTypeExt(): parent
 		{
 		}
 	}

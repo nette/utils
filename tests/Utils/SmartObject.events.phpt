@@ -33,7 +33,7 @@ function handler($obj)
 
 class Handler
 {
-	function __invoke($obj)
+	public function __invoke($obj)
 	{
 		$obj->counter++;
 	}

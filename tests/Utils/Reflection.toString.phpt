@@ -17,7 +17,7 @@ class Foo
 	public $var;
 
 
-	function method($param)
+	public function method($param)
 	{
 	}
 }

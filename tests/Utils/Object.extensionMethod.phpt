@@ -13,7 +13,8 @@ require __DIR__ . '/../bootstrap.php';
 
 class TestClass extends Nette\Object
 {
-	public $foo = 'Hello', $bar = 'World';
+	public $foo = 'Hello';
+	public $bar = 'World';
 }
 
 
