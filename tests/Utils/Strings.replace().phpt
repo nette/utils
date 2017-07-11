@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Test
 {
-	static function cb()
+	public static function cb()
 	{
 		return '@';
 	}

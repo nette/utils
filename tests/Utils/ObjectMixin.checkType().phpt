@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class StrClass
 {
-	function __toString()
+	public function __toString()
 	{
 		return '1';
 	}

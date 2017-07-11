@@ -19,7 +19,7 @@ class Reflection
 
 	private static $builtinTypes = [
 		'string' => 1, 'int' => 1, 'float' => 1, 'bool' => 1, 'array' => 1,
-		'callable' => 1, 'iterable' => 1, 'void' => 1
+		'callable' => 1, 'iterable' => 1, 'void' => 1,
 	];
 
 

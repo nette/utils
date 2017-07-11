@@ -43,7 +43,7 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	Json::decode('{}}');
-}, Nette\Utils\JsonException::class, PHP_VERSION_ID < 70000 ? ($hasJsonC ?  'unexpected character' : 'State mismatch (invalid or malformed JSON)') : 'Syntax error');
+}, Nette\Utils\JsonException::class, PHP_VERSION_ID < 70000 ? ($hasJsonC ? 'unexpected character' : 'State mismatch (invalid or malformed JSON)') : 'Syntax error');
 
 
 Assert::exception(function () {

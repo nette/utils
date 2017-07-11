@@ -29,8 +29,7 @@ test(function () {
 test(function () {
 	// double unset
 	$obj = new TestClass;
-	unset($obj->foo);
-	unset($obj->foo);
+	unset($obj->foo, $obj->foo);
 });
 
 

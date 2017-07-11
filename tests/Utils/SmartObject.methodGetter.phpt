@@ -16,7 +16,7 @@ class TestClass
 	private $id;
 
 
-	function __construct($id = null)
+	public function __construct($id = null)
 	{
 		$this->id = $id;
 	}
@@ -53,7 +53,7 @@ Assert::error(function () {
 
 $obj1 = new TestClass(1);
 $method = @$obj1->publicMethod;
-Assert::same("1 2 3", $method(2, 3));
+Assert::same('1 2 3', $method(2, 3));
 
 $rm = new ReflectionFunction($method);
 Assert::same($obj1, $rm->getClosureThis());
