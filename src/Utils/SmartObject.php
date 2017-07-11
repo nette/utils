@@ -227,5 +227,4 @@ trait SmartObject
 			ObjectMixin::setExtensionMethod($class, $name, $callback);
 		}
 	}
-
 }

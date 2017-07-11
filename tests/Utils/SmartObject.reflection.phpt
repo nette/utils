@@ -12,7 +12,6 @@ require __DIR__ . '/../bootstrap.php';
 class TestClass
 {
 	use Nette\SmartObject;
-
 }
 
 

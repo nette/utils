@@ -303,5 +303,4 @@ class Reflection
 		}
 		return $res;
 	}
-
 }

@@ -21,5 +21,4 @@ interface ITranslator
 	 * @return string
 	 */
 	function translate($message, $count = NULL);
-
 }

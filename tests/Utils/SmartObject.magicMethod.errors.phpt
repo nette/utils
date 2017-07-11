@@ -24,6 +24,7 @@ class TestClass extends ParentClass
 {
 	protected $items = [];
 
+
 	public function abc()
 	{
 		parent::abc();

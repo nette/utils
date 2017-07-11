@@ -4,8 +4,8 @@
  * Test: Nette\Utils\DateTime::fromParts().
  */
 
-use Tester\Assert;
 use Nette\Utils\DateTime;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 

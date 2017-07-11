@@ -153,5 +153,4 @@ class FileSystem
 	{
 		return (bool) preg_match('#([a-z]:)?[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
 	}
-
 }

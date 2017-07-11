@@ -114,7 +114,6 @@ class StaticClassException extends \LogicException
 {
 }
 
-
 namespace Nette\Utils;
 
 

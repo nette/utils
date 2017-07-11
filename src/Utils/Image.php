@@ -524,7 +524,7 @@ class Image
 			$extensions = array_flip(self::$formats) + ['jpg' => self::JPEG];
 			$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 			if (!isset($extensions[$ext])) {
-					throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
+				throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
 			}
 			$type = $extensions[$ext];
 		}
@@ -650,5 +650,4 @@ class Image
 	{
 		throw new Nette\NotSupportedException('You cannot serialize or unserialize ' . self::class . ' instances.');
 	}
-
 }

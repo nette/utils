@@ -30,5 +30,4 @@ class Mapper extends \IteratorIterator
 	{
 		return call_user_func($this->callback, parent::current(), parent::key());
 	}
-
 }

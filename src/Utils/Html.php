@@ -676,5 +676,4 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 			}
 		}
 	}
-
 }

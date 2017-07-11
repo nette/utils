@@ -77,5 +77,4 @@ class Json
 
 		return $value;
 	}
-
 }

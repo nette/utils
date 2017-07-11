@@ -31,5 +31,4 @@ trait StaticClass
 	{
 		Utils\ObjectMixin::strictStaticCall(get_called_class(), $name);
 	}
-
 }

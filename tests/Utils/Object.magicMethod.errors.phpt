@@ -19,6 +19,7 @@ class TestClass extends Nette\Object
 {
 	protected $items = [];
 
+
 	public function abc()
 	{
 		parent::abc();

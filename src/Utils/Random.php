@@ -77,5 +77,4 @@ class Random
 		}
 		return $res;
 	}
-
 }

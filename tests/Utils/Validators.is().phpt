@@ -297,8 +297,12 @@ test(function () {
 
 
 test(function () {
-	class rimmer {}
-	interface kryton { }
+	class rimmer
+	{
+	}
+	interface kryton
+	{
+	}
 
 	Assert::true(Validators::is('rimmer', 'type'));
 	Assert::true(Validators::is('kryton', 'type'));
@@ -333,7 +337,9 @@ test(function () {
 
 
 test(function () {
-	class Abc {}
+	class Abc
+	{
+	}
 
 	Assert::true(Validators::is([], 'int[]'));
 	Assert::true(Validators::is(new ArrayIterator([]), 'int[]'));

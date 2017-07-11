@@ -4,9 +4,9 @@
  * Test: Nette\Utils\ObjectMixin: strictness
  */
 
-use Tester\Assert;
-use Nette\Utils\ObjectMixin;
 use Nette\MemberAccessException;
+use Nette\Utils\ObjectMixin;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
@@ -19,17 +19,25 @@ class TestClass
 
 	public static $publicStatic;
 
+
 	public function publicMethod()
-	{}
+	{
+	}
+
 
 	public static function publicMethodStatic()
-	{}
+	{
+	}
+
 
 	protected function protectedMethod()
-	{}
+	{
+	}
+
 
 	protected static function protectedMethodS()
-	{}
+	{
+	}
 }
 
 class TestChild extends TestClass

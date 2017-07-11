@@ -20,7 +20,6 @@ class TestClass
 	protected $onProtected;
 
 	private $onPrivate;
-
 }
 
 

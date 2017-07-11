@@ -13,18 +13,17 @@ require __DIR__ . '/../bootstrap.php';
 
 class Test
 {
-
 	public function fun($a)
 	{
 		return __METHOD__ . $a;
 	}
+
 
 	public function ref(&$a)
 	{
 		$a = __METHOD__;
 		return $a;
 	}
-
 }
 
 

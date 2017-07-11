@@ -19,6 +19,7 @@ class StrClass
 	}
 }
 
+
 function assertAccepts($type, $vals)
 {
 	foreach ($vals as $key => $val) {
@@ -27,6 +28,7 @@ function assertAccepts($type, $vals)
 	}
 }
 
+
 function assertRejects($type, $vals)
 {
 	foreach ($vals as $key => $val) {
@@ -34,6 +36,7 @@ function assertRejects($type, $vals)
 		Assert::same($vals[$key], $val);
 	}
 }
+
 
 function assertConverts($type, $vals)
 {

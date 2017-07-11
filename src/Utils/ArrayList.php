@@ -113,5 +113,4 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 		$this->offsetSet(0, $value);
 		array_splice($this->list, 1, 0, $first);
 	}
-
 }

@@ -612,5 +612,4 @@ class Strings
 		}
 		return $res;
 	}
-
 }

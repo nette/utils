@@ -32,5 +32,4 @@ class Filter extends \FilterIterator
 	{
 		return call_user_func($this->callback, $this->current(), $this->key(), $this);
 	}
-
 }
