@@ -55,10 +55,10 @@ class Random
 			$bytes = (string) mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
 		}
 		if (strlen($bytes) < $length && !defined('PHP_WINDOWS_VERSION_BUILD') && is_readable('/dev/urandom')) {
-			$bytes = (string) file_get_contents('/dev/urandom', FALSE, NULL, -1, $length);
+			$bytes = (string) file_get_contents('/dev/urandom', false, null, -1, $length);
 		}
 		if (strlen($bytes) < $length) {
-			$rand3 = md5(serialize($_SERVER), TRUE);
+			$rand3 = md5(serialize($_SERVER), true);
 			$charlist = str_shuffle($charlist);
 			for ($i = 0; $i < $length; $i++) {
 				if ($i % 5 === 0) {

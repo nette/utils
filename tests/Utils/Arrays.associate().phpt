@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 $arr = [
 	['name' => 'John', 'age' => 11],
 	['name' => 'John', 'age' => 22],
-	['name' => 'Mary', 'age' => NULL],
+	['name' => 'Mary', 'age' => null],
 	['name' => 'Paul', 'age' => 44],
 ];
 
@@ -23,7 +23,7 @@ $arr = [
 Assert::same(
 	[
 		'John' => ['name' => 'John', 'age' => 11],
-		'Mary' => ['name' => 'Mary', 'age' => NULL],
+		'Mary' => ['name' => 'Mary', 'age' => null],
 		'Paul' => ['name' => 'Paul', 'age' => 44],
 	],
 	Arrays::associate($arr, 'name')
@@ -37,19 +37,19 @@ Assert::same(
 Assert::same(
 	[
 		'John' => ['name' => 'John', 'age' => 11],
-		'Mary' => ['name' => 'Mary', 'age' => NULL],
+		'Mary' => ['name' => 'Mary', 'age' => null],
 		'Paul' => ['name' => 'Paul', 'age' => 44],
 	],
 	Arrays::associate($arr, 'name=')
 );
 
 Assert::same(
-	['John' => 22, 'Mary' => NULL, 'Paul' => 44],
+	['John' => 22, 'Mary' => null, 'Paul' => 44],
 	Arrays::associate($arr, 'name=age')
 );
 
 Assert::same(// path as array
-	['John' => 22, 'Mary' => NULL, 'Paul' => 44],
+	['John' => 22, 'Mary' => null, 'Paul' => 44],
 	Arrays::associate($arr, ['name', '=', 'age'])
 );
 
@@ -61,7 +61,7 @@ Assert::equal(
 		],
 		'Mary' => (object) [
 			'name' => 'Mary',
-			'age' => NULL,
+			'age' => null,
 		],
 		'Paul' => (object) [
 			'name' => 'Paul',
@@ -79,8 +79,8 @@ Assert::equal(
 		22 => (object) [
 			'John' => ['name' => 'John', 'age' => 22],
 		],
-		NULL => (object) [
-			'Mary' => ['name' => 'Mary', 'age' => NULL],
+		null => (object) [
+			'Mary' => ['name' => 'Mary', 'age' => null],
 		],
 		44 => (object) [
 			'Paul' => ['name' => 'Paul', 'age' => 44],
@@ -92,7 +92,7 @@ Assert::equal(
 Assert::equal(
 	(object) [
 		'John' => ['name' => 'John', 'age' => 11],
-		'Mary' => ['name' => 'Mary', 'age' => NULL],
+		'Mary' => ['name' => 'Mary', 'age' => null],
 		'Paul' => ['name' => 'Paul', 'age' => 44],
 	],
 	Arrays::associate($arr, '->name')
@@ -110,7 +110,7 @@ Assert::same(
 			22 => ['name' => 'John', 'age' => 22],
 		],
 		'Mary' => [
-			NULL => ['name' => 'Mary', 'age' => NULL],
+			null => ['name' => 'Mary', 'age' => null],
 		],
 		'Paul' => [
 			44 => ['name' => 'Paul', 'age' => 44],
@@ -122,7 +122,7 @@ Assert::same(
 Assert::same(
 	[
 		'John' => ['name' => 'John', 'age' => 11],
-		'Mary' => ['name' => 'Mary', 'age' => NULL],
+		'Mary' => ['name' => 'Mary', 'age' => null],
 		'Paul' => ['name' => 'Paul', 'age' => 44],
 	],
 	Arrays::associate($arr, 'name|')
@@ -135,7 +135,7 @@ Assert::same(
 			['name' => 'John', 'age' => 22],
 		],
 		'Mary' => [
-			['name' => 'Mary', 'age' => NULL],
+			['name' => 'Mary', 'age' => null],
 		],
 		'Paul' => [
 			['name' => 'Paul', 'age' => 44],
@@ -148,7 +148,7 @@ Assert::same(
 	[
 		['John' => ['name' => 'John', 'age' => 11]],
 		['John' => ['name' => 'John', 'age' => 22]],
-		['Mary' => ['name' => 'Mary', 'age' => NULL]],
+		['Mary' => ['name' => 'Mary', 'age' => null]],
 		['Paul' => ['name' => 'Paul', 'age' => 44]],
 	],
 	Arrays::associate($arr, '[]name')
@@ -166,7 +166,7 @@ Assert::same(
 			[22 => ['name' => 'John', 'age' => 22]],
 		],
 		'Mary' => [
-			[NULL => ['name' => 'Mary', 'age' => NULL]],
+			[null => ['name' => 'Mary', 'age' => null]],
 		],
 		'Paul' => [
 			[44 => ['name' => 'Paul', 'age' => 44]],
@@ -186,7 +186,7 @@ Assert::same(
 	Arrays::associate($arr = [
 		(object) ['name' => 'John', 'age' => 11],
 		(object) ['name' => 'John', 'age' => 22],
-		(object) ['name' => 'Mary', 'age' => NULL],
+		(object) ['name' => 'Mary', 'age' => null],
 		(object) ['name' => 'Paul', 'age' => 44],
 	], '[]')
 );

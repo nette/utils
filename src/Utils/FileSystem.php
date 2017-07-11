@@ -24,7 +24,7 @@ class FileSystem
 	 */
 	public static function createDir($dir, $mode = 0777)
 	{
-		if (!is_dir($dir) && !@mkdir($dir, $mode, TRUE) && !is_dir($dir)) { // @ - dir may already exist
+		if (!is_dir($dir) && !@mkdir($dir, $mode, true) && !is_dir($dir)) { // @ - dir may already exist
 			throw new Nette\IOException("Unable to create directory '$dir'. " . error_get_last()['message']);
 		}
 	}
@@ -35,7 +35,7 @@ class FileSystem
 	 * @return void
 	 * @throws Nette\IOException
 	 */
-	public static function copy($source, $dest, $overwrite = TRUE)
+	public static function copy($source, $dest, $overwrite = true)
 	{
 		if (stream_is_local($source) && !file_exists($source)) {
 			throw new Nette\IOException("File or directory '$source' not found.");
@@ -58,7 +58,7 @@ class FileSystem
 
 		} else {
 			static::createDir(dirname($dest));
-			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === FALSE) { // @ is escalated to exception
+			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === false) { // @ is escalated to exception
 				throw new Nette\IOException("Unable to copy file '$source' to '$dest'.");
 			}
 		}
@@ -95,7 +95,7 @@ class FileSystem
 	 * @throws Nette\IOException
 	 * @throws Nette\InvalidStateException if the target file or directory already exist
 	 */
-	public static function rename($name, $newName, $overwrite = TRUE)
+	public static function rename($name, $newName, $overwrite = true)
 	{
 		if (!$overwrite && file_exists($newName)) {
 			throw new Nette\InvalidStateException("File or directory '$newName' already exists.");
@@ -121,7 +121,7 @@ class FileSystem
 	public static function read($file)
 	{
 		$content = @file_get_contents($file); // @ is escalated to exception
-		if ($content === FALSE) {
+		if ($content === false) {
 			throw new Nette\IOException("Unable to read file '$file'.");
 		}
 		return $content;
@@ -136,10 +136,10 @@ class FileSystem
 	public static function write($file, $content, $mode = 0666)
 	{
 		static::createDir(dirname($file));
-		if (@file_put_contents($file, $content) === FALSE) { // @ is escalated to exception
+		if (@file_put_contents($file, $content) === false) { // @ is escalated to exception
 			throw new Nette\IOException("Unable to write file '$file'.");
 		}
-		if ($mode !== NULL && !@chmod($file, $mode)) { // @ is escalated to exception
+		if ($mode !== null && !@chmod($file, $mode)) { // @ is escalated to exception
 			throw new Nette\IOException("Unable to chmod file '$file'.");
 		}
 	}

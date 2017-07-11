@@ -14,8 +14,8 @@ require __DIR__ . '/../bootstrap.php';
 test(function () { // deprecated
 	$el = Html::el('div');
 	$el->data['a'] = 'one';
-	$el->data['b'] = NULL;
-	$el->data['c'] = FALSE;
+	$el->data['b'] = null;
+	$el->data['c'] = false;
 	$el->data['d'] = '';
 	$el->data['e'] = 'two';
 	$el->{'data-x'} = 'x';
@@ -49,9 +49,9 @@ test(function () { // function
 
 test(function () { // special values
 	$el = Html::el('div');
-	$el->data('top', NULL);
-	$el->data('t', TRUE);
-	$el->data('f', FALSE);
+	$el->data('top', null);
+	$el->data('t', true);
+	$el->data('f', false);
 	$el->data('x', '');
 
 	Assert::same('<div data-t="true" data-f="false" data-x=""></div>', (string) $el);
@@ -63,8 +63,8 @@ test(function () { // setter
 	$el->setAttribute('data-x', 'x');
 	$el->setAttribute('data-list', [1,2,3]);
 	$el->setAttribute('data-arr', ['a' => 1]);
-	$el->setAttribute('top', NULL);
-	$el->setAttribute('active', FALSE);
+	$el->setAttribute('top', null);
+	$el->setAttribute('active', false);
 
 	Assert::same('<div data-x="x" data-list="[1,2,3]" data-arr=\'{"a":1}\'></div>', (string) $el);
 });

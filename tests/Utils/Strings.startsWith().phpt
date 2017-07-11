@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::true(Strings::startsWith('123', NULL), "startsWith('123', NULL)");
+Assert::true(Strings::startsWith('123', null), "startsWith('123', null)");
 Assert::true(Strings::startsWith('123', ''), "startsWith('123', '')");
 Assert::true(Strings::startsWith('123', '1'), "startsWith('123', '1')");
 Assert::false(Strings::startsWith('123', '2'), "startsWith('123', '2')");

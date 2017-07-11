@@ -40,7 +40,7 @@ Assert::same('123', $obj->name);
 
 
 $obj->setEnabled(1);
-Assert::same(TRUE, $obj->enabled);
+Assert::same(true, $obj->enabled);
 
 Assert::exception(function () use ($obj) {
 	$obj->setEnabled(new stdClass);

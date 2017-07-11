@@ -57,7 +57,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * @param  int  grid width
 	 * @return bool
 	 */
-	public function isFirst($width = NULL)
+	public function isFirst($width = null)
 	{
 		return $this->counter === 1 || ($width && $this->counter !== 0 && (($this->counter - 1) % $width) === 0);
 	}
@@ -68,7 +68,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	 * @param  int  grid width
 	 * @return bool
 	 */
-	public function isLast($width = NULL)
+	public function isLast($width = null)
 	{
 		return !$this->hasNext() || ($width && ($this->counter % $width) === 0);
 	}

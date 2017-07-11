@@ -39,8 +39,8 @@ trait SmartObject
 				foreach ($this->$name as $handler) {
 					Callback::invokeArgs($handler, $args);
 				}
-			} elseif ($this->$name !== NULL) {
-				throw new UnexpectedValueException("Property $class::$$name must be array or NULL, " . gettype($this->$name) . ' given.');
+			} elseif ($this->$name !== null) {
+				throw new UnexpectedValueException("Property $class::$$name must be array or null, " . gettype($this->$name) . ' given.');
 			}
 
 		} elseif ($isProp && $this->$name instanceof \Closure) { // closure in property
@@ -117,7 +117,7 @@ trait SmartObject
 			if ($methods[$m] === 0) {
 				$methods[$m] = (new \ReflectionMethod($class, $m))->returnsReference();
 			}
-			if ($methods[$m] === TRUE) {
+			if ($methods[$m] === true) {
 				return $this->$m();
 			} else {
 				$val = $this->$m();
@@ -212,16 +212,16 @@ trait SmartObject
 	 * @return mixed
 	 * @deprecated use Nette\Utils\ObjectMixin::setExtensionMethod()
 	 */
-	public static function extensionMethod($name, $callback = NULL)
+	public static function extensionMethod($name, $callback = null)
 	{
-		if (strpos($name, '::') === FALSE) {
+		if (strpos($name, '::') === false) {
 			$class = get_called_class();
 		} else {
 			list($class, $name) = explode('::', $name);
 			$class = (new \ReflectionClass($class))->getName();
 		}
 		trigger_error("Extension methods such as $class::$name() are deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
-		if ($callback === NULL) {
+		if ($callback === null) {
 			return ObjectMixin::getExtensionMethod($class, $name);
 		} else {
 			ObjectMixin::setExtensionMethod($class, $name, $callback);

@@ -11,23 +11,23 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::same(NULL, ObjectMixin::getSuggestion([], ''));
-Assert::same(NULL, ObjectMixin::getSuggestion([], 'a'));
-Assert::same(NULL, ObjectMixin::getSuggestion(['a'], 'a'));
+Assert::same(null, ObjectMixin::getSuggestion([], ''));
+Assert::same(null, ObjectMixin::getSuggestion([], 'a'));
+Assert::same(null, ObjectMixin::getSuggestion(['a'], 'a'));
 Assert::same('a', ObjectMixin::getSuggestion(['a', 'b'], ''));
 Assert::same('b', ObjectMixin::getSuggestion(['a', 'b'], 'a')); // ignore 100% match
 Assert::same('a1', ObjectMixin::getSuggestion(['a1', 'a2'], 'a')); // take first
-Assert::same(NULL, ObjectMixin::getSuggestion(['aaa', 'bbb'], 'a'));
-Assert::same(NULL, ObjectMixin::getSuggestion(['aaa', 'bbb'], 'ab'));
-Assert::same(NULL, ObjectMixin::getSuggestion(['aaa', 'bbb'], 'abc'));
+Assert::same(null, ObjectMixin::getSuggestion(['aaa', 'bbb'], 'a'));
+Assert::same(null, ObjectMixin::getSuggestion(['aaa', 'bbb'], 'ab'));
+Assert::same(null, ObjectMixin::getSuggestion(['aaa', 'bbb'], 'abc'));
 Assert::same('bar', ObjectMixin::getSuggestion(['foo', 'bar', 'baz'], 'baz'));
 Assert::same('abcd', ObjectMixin::getSuggestion(['abcd'], 'acbd'));
 Assert::same('abcd', ObjectMixin::getSuggestion(['abcd'], 'axbd'));
-Assert::same(NULL, ObjectMixin::getSuggestion(['abcd'], 'axyd')); // 'tags' vs 'this'
-Assert::same(NULL, ObjectMixin::getSuggestion(['setItem'], 'item'));
+Assert::same(null, ObjectMixin::getSuggestion(['abcd'], 'axyd')); // 'tags' vs 'this'
+Assert::same(null, ObjectMixin::getSuggestion(['setItem'], 'item'));
 Assert::same('setItem', ObjectMixin::getSuggestion(['setItem'], 'Item'));
 Assert::same('setItem', ObjectMixin::getSuggestion(['setItem'], 'addItem'));
-Assert::same(NULL, ObjectMixin::getSuggestion(['addItem'], 'addItem'));
+Assert::same(null, ObjectMixin::getSuggestion(['addItem'], 'addItem'));
 
 
 /*

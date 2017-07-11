@@ -33,7 +33,7 @@ $res = Arrays::flatten([
 	],
 	'y' => 'd',
 	'z' => 'e',
-], TRUE);
+], true);
 
 Assert::same([
 	5 => 'a',

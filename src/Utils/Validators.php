@@ -41,7 +41,7 @@ class Validators
 		'none' => [__CLASS__, 'isNone'],
 		'type' => [__CLASS__, 'isType'],
 		'identifier' => [__CLASS__, 'isPhpIdentifier'],
-		'pattern' => NULL,
+		'pattern' => null,
 		'alnum' => 'ctype_alnum',
 		'alpha' => 'ctype_alpha',
 		'digit' => 'ctype_digit',
@@ -100,7 +100,7 @@ class Validators
 	 * @param  string
 	 * @return void
 	 */
-	public static function assertField($arr, $field, $expected = NULL, $label = "item '%' in array")
+	public static function assertField($arr, $field, $expected = null, $label = "item '%' in array")
 	{
 		self::assert($arr, 'array', 'first argument');
 		if (!array_key_exists($field, $arr)) {
@@ -123,7 +123,7 @@ class Validators
 		foreach (explode('|', $expected) as $item) {
 			if (substr($item, -2) === '[]') {
 				if (self::everyIs($value, substr($item, 0, -2))) {
-					return TRUE;
+					return true;
 				}
 				continue;
 			}
@@ -135,7 +135,7 @@ class Validators
 				}
 			} elseif ($type === 'pattern') {
 				if (preg_match('|^' . (isset($item[1]) ? $item[1] : '') . '\z|', $value)) {
-					return TRUE;
+					return true;
 				}
 				continue;
 			} elseif (!$value instanceof $type) {
@@ -155,9 +155,9 @@ class Validators
 					continue;
 				}
 			}
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 
@@ -170,14 +170,14 @@ class Validators
 	public static function everyIs($values, $expected)
 	{
 		if (!self::isIterable($values)) {
-			return FALSE;
+			return false;
 		}
 		foreach ($values as $value) {
 			if (!static::is($value, $expected)) {
-				return FALSE;
+				return false;
 			}
 		}
-		return TRUE;
+		return true;
 	}
 
 
@@ -217,7 +217,7 @@ class Validators
 	 */
 	public static function isCallable($value)
 	{
-		return $value && is_callable($value, TRUE);
+		return $value && is_callable($value, true);
 	}
 
 
@@ -238,7 +238,7 @@ class Validators
 	 */
 	public static function isNone($value)
 	{
-		return $value == NULL; // intentionally ==
+		return $value == null; // intentionally ==
 	}
 
 
@@ -261,20 +261,20 @@ class Validators
 	 */
 	public static function isInRange($value, $range)
 	{
-		if ($value === NULL || !(isset($range[0]) || isset($range[1]))) {
-			return FALSE;
+		if ($value === null || !(isset($range[0]) || isset($range[1]))) {
+			return false;
 		}
 		$limit = isset($range[0]) ? $range[0] : $range[1];
 		if (is_string($limit)) {
 			$value = (string) $value;
 		} elseif ($limit instanceof \DateTimeInterface) {
 			if (!$value instanceof \DateTimeInterface) {
-				return FALSE;
+				return false;
 			}
 		} elseif (is_numeric($value)) {
 			$value *= 1;
 		} else {
-			return FALSE;
+			return false;
 		}
 		return (!isset($range[0]) || ($value >= $range[0])) && (!isset($range[1]) || ($value <= $range[1]));
 	}

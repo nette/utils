@@ -34,30 +34,30 @@ class Reflection
 
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func)
 	{
 		return PHP_VERSION_ID >= 70000 && $func->hasReturnType()
 			? self::normalizeType((string) $func->getReturnType(), $func)
-			: NULL;
+			: null;
 	}
 
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public static function getParameterType(\ReflectionParameter $param)
 	{
 		if (PHP_VERSION_ID >= 70000) {
 			return $param->hasType()
 				? self::normalizeType((string) $param->getType(), $param)
-				: NULL;
+				: null;
 		} elseif ($param->isArray() || $param->isCallable()) {
 			return $param->isArray() ? 'array' : 'callable';
 		} else {
 			try {
-				return ($ref = $param->getClass()) ? $ref->getName() : NULL;
+				return ($ref = $param->getClass()) ? $ref->getName() : null;
 			} catch (\ReflectionException $e) {
 				if (preg_match('#Class (.+) does not exist#', $e->getMessage(), $m)) {
 					return $m[1];
@@ -128,7 +128,7 @@ class Reflection
 	public static function areCommentsAvailable()
 	{
 		static $res;
-		return $res === NULL
+		return $res === null
 			? $res = (bool) (new \ReflectionMethod(__METHOD__))->getDocComment()
 			: $res;
 	}
@@ -215,10 +215,10 @@ class Reflection
 	 * @param  string
 	 * @return array of [class => [alias => class, ...]]
 	 */
-	private static function parseUseStatements($code, $forClass = NULL)
+	private static function parseUseStatements($code, $forClass = null)
 	{
 		$tokens = token_get_all($code);
-		$namespace = $class = $classLevel = $level = NULL;
+		$namespace = $class = $classLevel = $level = null;
 		$res = $uses = [];
 
 		while ($token = current($tokens)) {
@@ -279,7 +279,7 @@ class Reflection
 
 				case '}':
 					if ($level === $classLevel) {
-						$class = $classLevel = NULL;
+						$class = $classLevel = null;
 					}
 					$level--;
 			}
@@ -291,12 +291,12 @@ class Reflection
 
 	private static function fetch(&$tokens, $take)
 	{
-		$res = NULL;
+		$res = null;
 		while ($token = current($tokens)) {
 			list($token, $s) = is_array($token) ? $token : [$token, $token];
-			if (in_array($token, (array) $take, TRUE)) {
+			if (in_array($token, (array) $take, true)) {
 				$res .= $s;
-			} elseif (!in_array($token, [T_DOC_COMMENT, T_WHITESPACE, T_COMMENT], TRUE)) {
+			} elseif (!in_array($token, [T_DOC_COMMENT, T_WHITESPACE, T_COMMENT], true)) {
 				break;
 			}
 			next($tokens);

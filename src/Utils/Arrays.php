@@ -25,7 +25,7 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
-	public static function get(array $arr, $key, $default = NULL)
+	public static function get(array $arr, $key, $default = null)
 	{
 		foreach (is_array($key) ? $key : [$key] as $k) {
 			if (is_array($arr) && array_key_exists($k, $arr)) {
@@ -51,7 +51,7 @@ class Arrays
 	public static function &getRef(array &$arr, $key)
 	{
 		foreach (is_array($key) ? $key : [$key] as $k) {
-			if (is_array($arr) || $arr === NULL) {
+			if (is_array($arr) || $arr === null) {
 				$arr = &$arr[$k];
 			} else {
 				throw new Nette\InvalidArgumentException('Traversed item is not an array.');
@@ -79,12 +79,12 @@ class Arrays
 
 	/**
 	 * Searches the array for a given key and returns the offset if successful.
-	 * @return int|FALSE offset if it is found, FALSE otherwise
+	 * @return int|false offset if it is found, false otherwise
 	 */
 	public static function searchKey(array $arr, $key)
 	{
-		$foo = [$key => NULL];
-		return array_search(key($foo), array_keys($arr), TRUE);
+		$foo = [$key => null];
+		return array_search(key($foo), array_keys($arr), true);
 	}
 
 
@@ -95,7 +95,7 @@ class Arrays
 	public static function insertBefore(array &$arr, $key, array $inserted)
 	{
 		$offset = (int) self::searchKey($arr, $key);
-		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
+		$arr = array_slice($arr, 0, $offset, true) + $inserted + array_slice($arr, $offset, count($arr), true);
 	}
 
 
@@ -106,8 +106,8 @@ class Arrays
 	public static function insertAfter(array &$arr, $key, array $inserted)
 	{
 		$offset = self::searchKey($arr, $key);
-		$offset = $offset === FALSE ? count($arr) : $offset + 1;
-		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
+		$offset = $offset === false ? count($arr) : $offset + 1;
+		$arr = array_slice($arr, 0, $offset, true) + $inserted + array_slice($arr, $offset, count($arr), true);
 	}
 
 
@@ -118,7 +118,7 @@ class Arrays
 	public static function renameKey(array &$arr, $oldKey, $newKey)
 	{
 		$offset = self::searchKey($arr, $oldKey);
-		if ($offset !== FALSE) {
+		if ($offset !== false) {
 			$keys = array_keys($arr);
 			$keys[$offset] = $newKey;
 			$arr = array_combine($keys, $arr);
@@ -140,7 +140,7 @@ class Arrays
 	 * Returns flattened array.
 	 * @return array
 	 */
-	public static function flatten(array $arr, $preserveKeys = FALSE)
+	public static function flatten(array $arr, $preserveKeys = false)
 	{
 		$res = [];
 		$cb = $preserveKeys
@@ -189,7 +189,7 @@ class Arrays
 				} elseif ($part === '=') {
 					if (isset($parts[++$i])) {
 						$x = $row[$parts[$i]];
-						$row = NULL;
+						$row = null;
 					}
 
 				} elseif ($part === '->') {
@@ -204,7 +204,7 @@ class Arrays
 				}
 			}
 
-			if ($x === NULL) {
+			if ($x === null) {
 				$x = $row;
 			}
 		}
@@ -217,7 +217,7 @@ class Arrays
 	 * Normalizes to associative array.
 	 * @return array
 	 */
-	public static function normalize(array $arr, $filling = NULL)
+	public static function normalize(array $arr, $filling = null)
 	{
 		$res = [];
 		foreach ($arr as $k => $v) {
@@ -235,7 +235,7 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
-	public static function pick(array &$arr, $key, $default = NULL)
+	public static function pick(array &$arr, $key, $default = null)
 	{
 		if (array_key_exists($key, $arr)) {
 			$value = $arr[$key];
@@ -259,10 +259,10 @@ class Arrays
 	{
 		foreach ($arr as $k => $v) {
 			if ($callback($v, $k, $arr)) {
-				return TRUE;
+				return true;
 			}
 		}
-		return FALSE;
+		return false;
 	}
 
 
@@ -274,10 +274,10 @@ class Arrays
 	{
 		foreach ($arr as $k => $v) {
 			if (!$callback($v, $k, $arr)) {
-				return FALSE;
+				return false;
 			}
 		}
-		return TRUE;
+		return true;
 	}
 
 

@@ -90,7 +90,7 @@ class Strings
 	 */
 	public static function contains($haystack, $needle)
 	{
-		return strpos($haystack, $needle) !== FALSE;
+		return strpos($haystack, $needle) !== false;
 	}
 
 
@@ -101,11 +101,11 @@ class Strings
 	 * @param  int in characters (code points)
 	 * @return string
 	 */
-	public static function substring($s, $start, $length = NULL)
+	public static function substring($s, $start, $length = null)
 	{
 		if (function_exists('mb_substr')) {
 			return mb_substr($s, $start, $length, 'UTF-8'); // MB is much faster
-		} elseif ($length === NULL) {
+		} elseif ($length === null) {
 			$length = self::length($s);
 		} elseif ($start < 0 && $length < 0) {
 			$start += self::length($s); // unifies iconv_substr behavior with mb_substr
@@ -154,8 +154,8 @@ class Strings
 	 */
 	public static function toAscii($s)
 	{
-		static $transliterator = NULL;
-		if ($transliterator === NULL && class_exists('Transliterator', FALSE)) {
+		static $transliterator = null;
+		if ($transliterator === null && class_exists('Transliterator', false)) {
 			$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
 		}
 
@@ -165,7 +165,7 @@ class Strings
 			["\xE2\x80\x9E", "\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9A", "\xE2\x80\x98", "\xE2\x80\x99", "\xC2\xB0"],
 			["\x03", "\x03", "\x03", "\x02", "\x02", "\x02", "\x04"], $s
 		);
-		if ($transliterator !== NULL) {
+		if ($transliterator !== null) {
 			$s = $transliterator->transliterate($s);
 		}
 		if (ICONV_IMPL === 'glibc') {
@@ -196,13 +196,13 @@ class Strings
 	 * @param  bool
 	 * @return string
 	 */
-	public static function webalize($s, $charlist = NULL, $lower = TRUE)
+	public static function webalize($s, $charlist = null, $lower = true)
 	{
 		$s = self::toAscii($s);
 		if ($lower) {
 			$s = strtolower($s);
 		}
-		$s = preg_replace('#[^a-z0-9' . ($charlist !== NULL ? preg_quote($charlist, '#') : '') . ']+#i', '-', $s);
+		$s = preg_replace('#[^a-z0-9' . ($charlist !== null ? preg_quote($charlist, '#') : '') . ']+#i', '-', $s);
 		$s = trim($s, '-');
 		return $s;
 	}
@@ -311,12 +311,12 @@ class Strings
 	 * @param  int
 	 * @return bool
 	 */
-	public static function compare($left, $right, $len = NULL)
+	public static function compare($left, $right, $len = null)
 	{
 		if ($len < 0) {
 			$left = self::substring($left, $len, -$len);
 			$right = self::substring($right, $len, -$len);
-		} elseif ($len !== NULL) {
+		} elseif ($len !== null) {
 			$left = self::substring($left, 0, $len);
 			$right = self::substring($right, 0, $len);
 		}
@@ -431,13 +431,13 @@ class Strings
 	 * @param  string
 	 * @param  string
 	 * @param  int  negative value means searching from the end
-	 * @return string|FALSE  returns FALSE if the needle was not found
+	 * @return string|false  returns false if the needle was not found
 	 */
 	public static function before($haystack, $needle, $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
-		return $pos === FALSE
-			? FALSE
+		return $pos === false
+			? false
 			: substr($haystack, 0, $pos);
 	}
 
@@ -447,13 +447,13 @@ class Strings
 	 * @param  string
 	 * @param  string
 	 * @param  int  negative value means searching from the end
-	 * @return string|FALSE  returns FALSE if the needle was not found
+	 * @return string|false  returns false if the needle was not found
 	 */
 	public static function after($haystack, $needle, $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
-		return $pos === FALSE
-			? FALSE
+		return $pos === false
+			? false
 			: (string) substr($haystack, $pos + strlen($needle));
 	}
 
@@ -463,31 +463,31 @@ class Strings
 	 * @param  string
 	 * @param  string
 	 * @param  int  negative value means searching from the end
-	 * @return int|FALSE  offset in characters or FALSE if the needle was not found
+	 * @return int|false  offset in characters or false if the needle was not found
 	 */
 	public static function indexOf($haystack, $needle, $nth = 1)
 	{
 		$pos = self::pos($haystack, $needle, $nth);
-		return $pos === FALSE
-			? FALSE
+		return $pos === false
+			? false
 			: self::length(substr($haystack, 0, $pos));
 	}
 
 
 	/**
 	 * Returns position of $nth occurence of $needle in $haystack.
-	 * @return int|FALSE  offset in bytes or FALSE if the needle was not found
+	 * @return int|false  offset in bytes or false if the needle was not found
 	 */
 	private static function pos($haystack, $needle, $nth = 1)
 	{
 		if (!$nth) {
-			return FALSE;
+			return false;
 		} elseif ($nth > 0) {
 			if (strlen($needle) === 0) {
 				return 0;
 			}
 			$pos = 0;
-			while (FALSE !== ($pos = strpos($haystack, $needle, $pos)) && --$nth) {
+			while (false !== ($pos = strpos($haystack, $needle, $pos)) && --$nth) {
 				$pos++;
 			}
 		} else {
@@ -496,7 +496,7 @@ class Strings
 				return $len;
 			}
 			$pos = $len - 1;
-			while (FALSE !== ($pos = strrpos($haystack, $needle, $pos - $len)) && ++$nth) {
+			while (false !== ($pos = strrpos($haystack, $needle, $pos - $len)) && ++$nth) {
 				$pos--;
 			}
 		}
@@ -528,11 +528,11 @@ class Strings
 	public static function match($subject, $pattern, $flags = 0, $offset = 0)
 	{
 		if ($offset > strlen($subject)) {
-			return NULL;
+			return null;
 		}
 		return self::pcre('preg_match', [$pattern, $subject, &$m, $flags, $offset])
 			? $m
-			: NULL;
+			: null;
 	}
 
 
@@ -566,20 +566,20 @@ class Strings
 	 * @param  int
 	 * @return string
 	 */
-	public static function replace($subject, $pattern, $replacement = NULL, $limit = -1)
+	public static function replace($subject, $pattern, $replacement = null, $limit = -1)
 	{
 		if (is_object($replacement) || is_array($replacement)) {
 			if ($replacement instanceof Nette\Callback) {
 				trigger_error('Nette\Callback is deprecated, use PHP callback.', E_USER_DEPRECATED);
 				$replacement = $replacement->getNative();
 			}
-			if (!is_callable($replacement, FALSE, $textual)) {
+			if (!is_callable($replacement, false, $textual)) {
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
 
 			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit]);
 
-		} elseif ($replacement === NULL && is_array($pattern)) {
+		} elseif ($replacement === null && is_array($pattern)) {
 			$replacement = array_values($pattern);
 			$pattern = array_keys($pattern);
 		}
@@ -605,7 +605,7 @@ class Strings
 		});
 
 		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
-			&& ($res === NULL || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace']))
+			&& ($res === null || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace']))
 		) {
 			throw new RegexpException((isset($messages[$code]) ? $messages[$code] : 'Unknown error')
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);

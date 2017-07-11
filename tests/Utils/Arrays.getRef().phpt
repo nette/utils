@@ -12,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $arr = [
-	NULL => 'first',
+	null => 'first',
 	1 => 'second',
 	7 => [
 		'item' => 'third',
@@ -22,7 +22,7 @@ $arr = [
 test(function () use ($arr) { // Single item
 
 	$dolly = $arr;
-	$item = &Arrays::getRef($dolly, NULL);
+	$item = &Arrays::getRef($dolly, null);
 	$item = 'changed';
 	Assert::same([
 		'' => 'changed',

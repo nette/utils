@@ -22,9 +22,9 @@ class Callback
 	 * @param  string  method
 	 * @return \Closure
 	 */
-	public static function closure($callable, $m = NULL)
+	public static function closure($callable, $m = null)
 	{
-		if ($m !== NULL) {
+		if ($m !== null) {
 			$callable = [$callable, $m];
 
 		} elseif (is_string($callable) && count($tmp = explode('::', $callable)) === 2) {
@@ -87,11 +87,11 @@ class Callback
 			}
 			if ($file === __FILE__) {
 				$msg = preg_replace("#^$function\(.*?\): #", '', $message);
-				if ($onError($msg, $severity) !== FALSE) {
+				if ($onError($msg, $severity) !== false) {
 					return;
 				}
 			}
-			return $prev ? $prev(...func_get_args()) : FALSE;
+			return $prev ? $prev(...func_get_args()) : false;
 		});
 
 		try {
@@ -105,7 +105,7 @@ class Callback
 	/**
 	 * @return callable
 	 */
-	public static function check($callable, $syntax = FALSE)
+	public static function check($callable, $syntax = false)
 	{
 		if (!is_callable($callable, $syntax)) {
 			throw new Nette\InvalidArgumentException($syntax
@@ -128,7 +128,7 @@ class Callback
 		} elseif (is_string($callable) && $callable[0] === "\0") {
 			return '{lambda}';
 		} else {
-			is_callable($callable, TRUE, $textual);
+			is_callable($callable, true, $textual);
 			return $textual;
 		}
 	}
