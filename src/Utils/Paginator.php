@@ -206,9 +206,8 @@ class Paginator
 
 	/**
 	 * Returns the number of items on current page.
-	 * @return int|null
 	 */
-	public function getLength()
+	public function getLength(): int
 	{
 		return $this->itemCount === null
 			? $this->itemsPerPage
