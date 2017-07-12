@@ -26,7 +26,7 @@ use Nette;
  * @property   int|null $itemCount
  * @property-read int $offset
  * @property-read int|null $countdownOffset
- * @property-read int|null $length
+ * @property-read int $length
  */
 class Paginator
 {
@@ -206,9 +206,8 @@ class Paginator
 
 	/**
 	 * Returns the number of items on current page.
-	 * @return int|null
 	 */
-	public function getLength()
+	public function getLength(): int
 	{
 		return $this->itemCount === null
 			? $this->itemsPerPage
