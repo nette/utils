@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object extension method via interface.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);

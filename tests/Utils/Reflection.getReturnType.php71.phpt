@@ -2,7 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getReturnType
- * @phpversion 7.1
+ * @phpVersion 7.1
  */
 
 declare(strict_types=1);
