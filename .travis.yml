@@ -2,6 +2,7 @@ language: php
 php:
     - 7.0
     - 7.1
+    - 7.2
 
 env:
 matrix:
@@ -14,6 +15,7 @@ matrix:
     allow_failures:
         - php: 7.0
           env: coverage=on
+        - php: 7.2
 
 script:
     - vendor/bin/tester tests -s -c tests/php-unix.ini $coverageArgs
