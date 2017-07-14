@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Utils\Strings and lower, upper, firstLower, firstUpper, capitalize
+ * @phpExtension mbstring
  */
 
 declare(strict_types=1);
