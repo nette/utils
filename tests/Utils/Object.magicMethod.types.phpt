@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object magic @methods and types.
+ * @phpVersion < 7.2
  */
 
 namespace Test;

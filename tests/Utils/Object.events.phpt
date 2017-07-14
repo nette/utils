@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object event handlers.
+ * @phpVersion < 7.2
  */
 
 use Tester\Assert;

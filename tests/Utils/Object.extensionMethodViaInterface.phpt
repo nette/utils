@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object extension method via interface.
+ * @phpVersion < 7.2
  */
 
 use Nette\Object;

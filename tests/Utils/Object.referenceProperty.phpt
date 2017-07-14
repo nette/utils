@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object reference to property.
+ * @phpVersion < 7.2
  */
 
 use Tester\Assert;

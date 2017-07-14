@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object reflection.
+ * @phpVersion < 7.2
  */
 
 use Tester\Assert;

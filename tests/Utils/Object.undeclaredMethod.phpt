@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object undeclared method.
+ * @phpVersion < 7.2
  */
 
 use Tester\Assert;

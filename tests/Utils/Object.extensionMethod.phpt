@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object extension method.
+ * @phpVersion < 7.2
  */
 
 use Tester\Assert;

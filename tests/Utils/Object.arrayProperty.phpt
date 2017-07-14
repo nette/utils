@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object array property.
+ * @phpVersion < 7.2
  */
 
 use Tester\Assert;

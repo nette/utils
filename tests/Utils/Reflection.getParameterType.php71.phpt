@@ -2,7 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getParameterType
- * @phpversion 7.1
+ * @phpVersion 7.1
  */
 
 use Nette\Utils\Reflection;
