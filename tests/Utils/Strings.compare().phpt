@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Utils\Strings::compare()
+ * @phpExtension mbstring
  */
 
 declare(strict_types=1);
