@@ -126,7 +126,11 @@ test(function () { // numeric fields
 	foreach ($row as $key => $value) {
 		$keys[] = $key;
 	}
-	Assert::same(['0', '1'], $keys);
+	if (PHP_VERSION_ID < 70200) {
+		Assert::same(['0', '1'], $keys);
+	} else {
+		Assert::same([0, 1], $keys);
+	}
 
 	Assert::same(1, $row->{0});
 	Assert::same(1, $row->{'0'});
