@@ -28,6 +28,14 @@ test(function () { // add
 			<li>two</li>
 		</ul>
 ', $el->render(2), 'indentation');
+
+	Assert::match('
+  <ul class="hello">
+   <li>one</li>
+
+   <li>two</li>
+  </ul>
+', $el->render(2, ' '), 'indentation');
 });
 
 
