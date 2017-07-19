@@ -29,9 +29,12 @@ Assert::exception(function () {
 	Strings::replace("0123456789\xFF", '#\d#u', 'x');
 }, Nette\Utils\RegexpException::class, 'Malformed UTF-8 data (pattern: #\d#u)');
 
-function cb() {
+
+function cb()
+{
 	return 'x';
 }
+
 
 Assert::exception(function () {
 	Strings::replace("0123456789\xFF", '#\d#u', Nette\Utils\Callback::closure('cb'));

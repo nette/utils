@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object undeclared method.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);
@@ -17,15 +18,18 @@ class TestClass extends Nette\Object
 	{
 	}
 
-	function methodO2()
+
+	public function methodO2()
 	{
 	}
+
 
 	private static function methodS()
 	{
 	}
 
-	static function methodS2()
+
+	public static function methodS2()
 	{
 	}
 }

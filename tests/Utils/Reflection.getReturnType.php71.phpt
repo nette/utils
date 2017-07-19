@@ -2,7 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getReturnType
- * @phpversion 7.1
+ * @phpVersion 7.1
  */
 
 declare(strict_types=1);
@@ -13,29 +13,41 @@ namespace NS
 
 	class A
 	{
-		function noType()
-		{}
+		public function noType()
+		{
+		}
 
-		function classType(): B
-		{}
 
-		function nativeType(): string
-		{}
+		public function classType(): B
+		{
+		}
 
-		function selfType(): self
-		{}
 
-		function nullableClassType(): ?B
-		{}
+		public function nativeType(): string
+		{
+		}
 
-		function nullableNativeType(): ?string
-		{}
 
-		function nullableSelfType(): ?self
-		{}
+		public function selfType(): self
+		{
+		}
+
+
+		public function nullableClassType(): ?B
+		{
+		}
+
+
+		public function nullableNativeType(): ?string
+		{
+		}
+
+
+		public function nullableSelfType(): ?self
+		{
+		}
 	}
 }
-
 
 namespace
 {

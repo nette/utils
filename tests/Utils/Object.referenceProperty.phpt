@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object reference to property.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);
@@ -15,16 +16,17 @@ class TestClass extends Nette\Object
 {
 	private $foo;
 
+
 	public function getFoo()
 	{
 		return $this->foo;
 	}
 
+
 	public function setFoo($foo)
 	{
 		$this->foo = $foo;
 	}
-
 }
 
 

@@ -1,6 +1,6 @@
 {
 	"name": "nette/utils",
-	"description": "🛠 Lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+	"description": "🛠 Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
 	"keywords": ["nette", "images", "json", "password", "validation", "utility", "string", "array", "core", "slugify", "utf-8", "unicode", "paginator", "datetime"],
 	"homepage": "https://nette.org",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
@@ -27,8 +27,7 @@
 		"ext-intl": "for script transliteration in Strings::webalize() and toAscii()",
 		"ext-mbstring": "to use Strings::lower() etc...",
 		"ext-xml": "to use Strings::length() etc. when mbstring is not available",
-		"ext-gd": "to use Image",
-		"https://nette.org/donate": "\u001b[1;37;42m Please consider supporting Nette via a donation \u001b[0m"
+		"ext-gd": "to use Image"
 	},
 	"conflict": {
 		"nette/nette": "<2.2"

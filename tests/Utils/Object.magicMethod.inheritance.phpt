@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object magic @methods inheritance.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);

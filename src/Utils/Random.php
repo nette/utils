@@ -41,5 +41,4 @@ final class Random
 		}
 		return $res;
 	}
-
 }

@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object properties.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);
@@ -13,46 +14,52 @@ require __DIR__ . '/../bootstrap.php';
 
 class TestClass extends Nette\Object
 {
-	private $foo, $bar;
-
 	public $declared;
+	private $foo;
+	private $bar;
 
-	function __construct($foo = NULL, $bar = NULL)
+
+	public function __construct($foo = null, $bar = null)
 	{
 		$this->foo = $foo;
 		$this->bar = $bar;
 	}
 
+
 	public function foo()
 	{ // method getter has lower priority than getter
 	}
+
 
 	public function getFoo()
 	{
 		return $this->foo;
 	}
 
+
 	public function setFoo($foo)
 	{
 		$this->foo = $foo;
 	}
+
 
 	public function getBar()
 	{
 		return $this->bar;
 	}
 
+
 	public function setBazz($value)
 	{
 		$this->bar = $value;
 	}
+
 
 	public function gets() // or setupXyz, settle...
 	{
 		echo __METHOD__;
 		return 'ERROR';
 	}
-
 }
 
 

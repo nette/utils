@@ -42,13 +42,13 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Replaces or appends a item.
-	 * @param  int|NULL
+	 * @param  int|null
 	 * @return void
 	 * @throws Nette\OutOfRangeException
 	 */
 	public function offsetSet($index, $value)
 	{
-		if ($index === NULL) {
+		if ($index === null) {
 			$this->list[] = $value;
 
 		} elseif ($index < 0 || $index >= count($this->list)) {
@@ -110,5 +110,4 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 		$this->offsetSet(0, $value);
 		array_splice($this->list, 1, 0, $first);
 	}
-
 }

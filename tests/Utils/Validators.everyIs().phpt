@@ -14,7 +14,9 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test(function () {
-	class Abc {}
+	class Abc
+	{
+	}
 
 	Assert::true(Validators::everyIs([], 'int'));
 	Assert::true(Validators::everyIs(new ArrayIterator([]), 'int'));

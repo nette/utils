@@ -20,7 +20,8 @@ namespace NS {
 	{
 		const DEFINED = 'abc';
 
-		function method(
+
+		public function method(
 			$a,
 			$b = self::DEFINED,
 			$c = Foo::DEFINED,
@@ -35,7 +36,6 @@ namespace NS {
 		}
 	}
 }
-
 
 namespace {
 	use Nette\Utils\Reflection;

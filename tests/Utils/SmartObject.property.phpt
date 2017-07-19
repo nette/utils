@@ -21,46 +21,53 @@ class TestClass
 {
 	use Nette\SmartObject;
 
-	private $foo, $bar;
-
 	public $declared;
 
-	function __construct($foo = NULL, $bar = NULL)
+	private $foo;
+	private $bar;
+
+
+	public function __construct($foo = null, $bar = null)
 	{
 		$this->foo = $foo;
 		$this->bar = $bar;
 	}
 
+
 	public function foo()
 	{ // method getter has lower priority than getter
 	}
+
 
 	public function getFoo()
 	{
 		return $this->foo;
 	}
 
+
 	public function setFoo($foo)
 	{
 		$this->foo = $foo;
 	}
+
 
 	protected function getBar()
 	{
 		return $this->bar;
 	}
 
+
 	public function setBazz($value)
 	{
 		$this->bar = $value;
 	}
+
 
 	public function gets() // or setupXyz, settle...
 	{
 		echo __METHOD__;
 		return 'ERROR';
 	}
-
 }
 
 

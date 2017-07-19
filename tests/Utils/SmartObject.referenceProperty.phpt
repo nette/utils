@@ -20,16 +20,17 @@ class TestClass
 
 	private $foo;
 
+
 	public function getFoo()
 	{
 		return $this->foo;
 	}
 
+
 	public function setFoo($foo)
 	{
 		$this->foo = $foo;
 	}
-
 }
 
 

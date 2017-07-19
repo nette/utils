@@ -2,7 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getParameterType
- * @phpversion 7.1
+ * @phpVersion 7.1
  */
 
 declare(strict_types=1);
@@ -18,8 +18,9 @@ use Test\B; // for testing purposes
 
 class A
 {
-	function method(Undeclared $undeclared, B $b, array $array, callable $callable, $none, ?B $nullable)
-	{}
+	public function method(Undeclared $undeclared, B $b, array $array, callable $callable, $none, ?B $nullable)
+	{
+	}
 }
 
 $method = new \ReflectionMethod('A', 'method');

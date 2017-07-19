@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object extension method via interface.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);
@@ -14,14 +15,17 @@ require __DIR__ . '/../bootstrap.php';
 
 
 interface IFirst
-{}
+{
+}
 
 interface ISecond extends IFirst
-{}
+{
+}
 
 class TestClass extends Object implements ISecond
 {
-	public $foo = 'Hello', $bar = 'World';
+	public $foo = 'Hello';
+	public $bar = 'World';
 }
 
 

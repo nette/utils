@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object magic @methods and types.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);
@@ -42,7 +43,7 @@ Assert::same('123', $obj->name);
 
 
 $obj->setEnabled(1);
-Assert::same(TRUE, $obj->enabled);
+Assert::same(true, $obj->enabled);
 
 Assert::exception(function () use ($obj) {
 	$obj->setEnabled(new stdClass);

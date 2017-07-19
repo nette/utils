@@ -17,15 +17,30 @@ use Test\B; // for testing purposes
 
 class A
 {
-	function method(Undeclared $undeclared, B $b, array $array, callable $callable, $none)
-	{}
+	public function method(Undeclared $undeclared, B $b, array $array, callable $callable, self $self, $none)
+	{
+	}
 }
 
-$method = new \ReflectionMethod('A', 'method');
+class AExt extends A
+{
+	public function methodExt(parent $parent)
+	{
+	}
+}
+
+$method = new ReflectionMethod('A', 'method');
 $params = $method->getParameters();
 
 Assert::same('Undeclared', Reflection::getParameterType($params[0]));
 Assert::same('Test\B', Reflection::getParameterType($params[1]));
 Assert::same('array', Reflection::getParameterType($params[2]));
 Assert::same('callable', Reflection::getParameterType($params[3]));
-Assert::null(Reflection::getParameterType($params[4]));
+Assert::same('A', Reflection::getParameterType($params[4]));
+Assert::null(Reflection::getParameterType($params[5]));
+
+
+$method = new ReflectionMethod('AExt', 'methodExt');
+$params = $method->getParameters();
+
+Assert::same('A', Reflection::getParameterType($params[0]));

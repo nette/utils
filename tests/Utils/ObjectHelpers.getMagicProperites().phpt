@@ -32,54 +32,84 @@ require __DIR__ . '/../bootstrap.php';
  */
 class TestClass
 {
-	function getGetter()
-	{}
+	public function getGetter()
+	{
+	}
 
-	function &isGetter2()
-	{}
 
-	function setSetter()
-	{}
+	public function &isGetter2()
+	{
+	}
 
-	function getBoth()
-	{}
 
-	function setBoth()
-	{}
+	public function setSetter()
+	{
+	}
 
-	function getUpper()
-	{}
 
-	function getCase()
-	{}
+	public function getBoth()
+	{
+	}
+
+
+	public function setBoth()
+	{
+	}
+
+
+	public function getUpper()
+	{
+	}
+
+
+	public function getCase()
+	{
+	}
+
 
 	private function getPrivate()
-	{}
+	{
+	}
+
 
 	protected function getProtected()
-	{}
+	{
+	}
 
-	static function getStatic()
-	{}
 
-	function getRead()
-	{}
+	public static function getStatic()
+	{
+	}
 
-	function setRead()
-	{}
 
-	function getWrite()
-	{}
+	public function getRead()
+	{
+	}
 
-	function setWrite()
-	{}
 
-	function getInvalid()
-	{}
+	public function setRead()
+	{
+	}
 
-	function getInvalid2()
-	{}
 
+	public function getWrite()
+	{
+	}
+
+
+	public function setWrite()
+	{
+	}
+
+
+	public function getInvalid()
+	{
+	}
+
+
+	public function getInvalid2()
+	{
+	}
 }
 
 
@@ -99,21 +129,23 @@ Assert::same([
 
 
 /**
-* @property int $bar
-*/
+ * @property int $bar
+ */
 class ParentClass
 {
-	function getFoo()
-	{}
+	public function getFoo()
+	{
+	}
 }
 
 /**
-* @property int $foo
-*/
+ * @property int $foo
+ */
 class ChildClass extends ParentClass
 {
-	function getBar()
-	{}
+	public function getBar()
+	{
+	}
 }
 
 Assert::same([], ObjectHelpers::getMagicProperties('ParentClass'));

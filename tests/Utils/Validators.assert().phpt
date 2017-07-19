@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 Assert::exception(function () {
-	Validators::assert(TRUE, 'int');
+	Validators::assert(true, 'int');
 }, Nette\Utils\AssertionException::class, 'The variable expects to be int, boolean given.');
 
 Assert::exception(function () {

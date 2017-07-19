@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Utils\Image place image.
+ * @phpExtension gd
  */
 
 declare(strict_types=1);
@@ -11,11 +12,6 @@ use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
-
-
-if (!extension_loaded('gd')) {
-	Tester\Environment::skip('Requires PHP extension GD.');
-}
 
 
 $rectangle = Image::fromBlank(50, 50, Image::rgb(255, 255, 255));

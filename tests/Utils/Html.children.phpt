@@ -40,7 +40,7 @@ test(function () { // add
 
 
 test(function () {
-	$el = Html::el(NULL);
+	$el = Html::el(null);
 	$el->addHtml(Html::el('p')->setText('one'));
 	$el->addText('<p>two</p>');
 	$el->addHtml('<p>three</p>');

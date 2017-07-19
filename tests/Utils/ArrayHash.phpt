@@ -17,16 +17,17 @@ class Person
 {
 	private $name;
 
+
 	public function __construct($name)
 	{
 		$this->name = $name;
 	}
 
+
 	public function sayHi()
 	{
 		return "My name is $this->name";
 	}
-
 }
 
 
@@ -85,7 +86,7 @@ test(function () {
 		'children' => [
 			'c' => 'John',
 		],
-	], FALSE);
+	], false);
 	Assert::type(Nette\Utils\ArrayHash::class, $list);
 	Assert::type('array', $list['children']);
 });
@@ -125,7 +126,11 @@ test(function () { // numeric fields
 	foreach ($row as $key => $value) {
 		$keys[] = $key;
 	}
-	Assert::same(['0', '1'], $keys);
+	if (PHP_VERSION_ID < 70200) {
+		Assert::same(['0', '1'], $keys);
+	} else {
+		Assert::same([0, 1], $keys);
+	}
 
 	Assert::same(1, $row->{0});
 	Assert::same(1, $row->{'0'});
@@ -165,7 +170,7 @@ test(function () { // numeric fields
 
 
 test(function () { // null fields
-	$row = ArrayHash::from(['null' => NULL]);
+	$row = ArrayHash::from(['null' => null]);
 	Assert::null($row->null);
 	Assert::null($row['null']);
 	Assert::false(isset($row->null));

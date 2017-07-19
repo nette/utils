@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::false(Arrays::isList(NULL));
+Assert::false(Arrays::isList(null));
 Assert::true(Arrays::isList([]));
 Assert::true(Arrays::isList([1]));
 Assert::true(Arrays::isList(['a', 'b', 'c']));

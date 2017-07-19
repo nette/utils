@@ -12,20 +12,38 @@ namespace NS
 
 	class A
 	{
-		function noType()
-		{}
+		public function noType()
+		{
+		}
 
-		function classType(): B
-		{}
 
-		function nativeType(): string
-		{}
+		public function classType(): B
+		{
+		}
 
-		function selfType(): self
-		{}
+
+		public function nativeType(): string
+		{
+		}
+
+
+		public function selfType(): self
+		{
+		}
+
+
+		public function parentType(): parent
+		{
+		}
+	}
+
+	class AExt extends A
+	{
+		public function parentTypeExt(): parent
+		{
+		}
 	}
 }
-
 
 namespace
 {
@@ -42,4 +60,8 @@ namespace
 	Assert::same('string', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nativeType')));
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'selfType')));
+
+	Assert::same('parent', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'parentType')));
+
+	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\AExt::class, 'parentTypeExt')));
 }

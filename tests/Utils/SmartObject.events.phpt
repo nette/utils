@@ -22,7 +22,6 @@ class TestClass
 	protected $onProtected;
 
 	private $onPrivate;
-
 }
 
 
@@ -34,7 +33,7 @@ function handler($obj)
 
 class Handler
 {
-	function __invoke($obj)
+	public function __invoke($obj)
 	{
 		$obj->counter++;
 	}
@@ -81,4 +80,4 @@ Assert::exception(function () use ($obj) {
 Assert::exception(function () use ($obj) {
 	$obj->onPublic = 'string';
 	$obj->onPublic();
-}, Nette\UnexpectedValueException::class, 'Property TestClass::$onPublic must be array or NULL, string given.');
+}, Nette\UnexpectedValueException::class, 'Property TestClass::$onPublic must be array or null, string given.');

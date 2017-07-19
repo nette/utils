@@ -54,7 +54,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 			}
 			return (new static('@' . $time))->setTimeZone(new \DateTimeZone(date_default_timezone_get()));
 
-		} else { // textual or NULL
+		} else { // textual or null
 			return new static($time);
 		}
 	}
@@ -66,7 +66,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 */
 	public static function fromParts(int $year, int $month, int $day, int $hour = 0, int $minute = 0, float $second = 0)
 	{
-		$s = sprintf("%04d-%02d-%02d %02d:%02d:%02.5f", $year, $month, $day, $hour, $minute, $second);
+		$s = sprintf('%04d-%02d-%02d %02d:%02d:%02.5f', $year, $month, $day, $hour, $minute, $second);
 		if (!checkdate($month, $day, $year) || $hour < 0 || $hour > 23 || $minute < 0 || $minute > 59 || $second < 0 || $second >= 60) {
 			throw new Nette\InvalidArgumentException("Invalid date '$s'");
 		}
@@ -116,12 +116,12 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 * Returns new DateTime object formatted according to the specified format.
 	 * @param  string The format the $time parameter should be in
 	 * @param  string String representing the time
-	 * @param  string|\DateTimeZone desired timezone (default timezone is used if NULL is passed)
-	 * @return static|FALSE
+	 * @param  string|\DateTimeZone desired timezone (default timezone is used if null is passed)
+	 * @return static|false
 	 */
-	public static function createFromFormat($format, $time, $timezone = NULL)
+	public static function createFromFormat($format, $time, $timezone = null)
 	{
-		if ($timezone === NULL) {
+		if ($timezone === null) {
 			$timezone = new \DateTimeZone(date_default_timezone_get());
 
 		} elseif (is_string($timezone)) {
@@ -132,7 +132,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 		}
 
 		$date = parent::createFromFormat($format, $time, $timezone);
-		return $date ? static::from($date) : FALSE;
+		return $date ? static::from($date) : false;
 	}
 
 
@@ -143,5 +143,4 @@ class DateTime extends \DateTime implements \JsonSerializable
 	{
 		return $this->format('c');
 	}
-
 }

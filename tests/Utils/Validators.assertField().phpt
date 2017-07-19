@@ -13,10 +13,10 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$arr = ['first' => TRUE];
+$arr = ['first' => true];
 
 Assert::exception(function () use ($arr) {
-	Validators::assertField(NULL, 'foo', 'foo');
+	Validators::assertField(null, 'foo', 'foo');
 }, TypeError::class);
 
 Assert::exception(function () use ($arr) {

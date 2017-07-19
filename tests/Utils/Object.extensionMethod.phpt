@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object extension method.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);
@@ -13,7 +14,8 @@ require __DIR__ . '/../bootstrap.php';
 
 class TestClass extends Nette\Object
 {
-	public $foo = 'Hello', $bar = 'World';
+	public $foo = 'Hello';
+	public $bar = 'World';
 }
 
 

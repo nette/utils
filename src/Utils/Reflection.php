@@ -21,7 +21,7 @@ final class Reflection
 
 	private static $builtinTypes = [
 		'string' => 1, 'int' => 1, 'float' => 1, 'bool' => 1, 'array' => 1,
-		'callable' => 1, 'iterable' => 1, 'void' => 1
+		'callable' => 1, 'iterable' => 1, 'void' => 1,
 	];
 
 
@@ -32,25 +32,36 @@ final class Reflection
 
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func)
 	{
-		if ($func->hasReturnType()) {
-			$type = (string) $func->getReturnType();
-			return strtolower($type) === 'self' ? $func->getDeclaringClass()->getName() : $type;
-		}
+		return $func->hasReturnType()
+			? self::normalizeType((string) $func->getReturnType(), $func)
+			: null;
 	}
 
 
 	/**
-	 * @return string|NULL
+	 * @return string|null
 	 */
 	public static function getParameterType(\ReflectionParameter $param)
 	{
-		if ($param->hasType()) {
-			$type = (string) $param->getType();
-			return strtolower($type) === 'self' ? $param->getDeclaringClass()->getName() : $type;
+		return $param->hasType()
+			? self::normalizeType((string) $param->getType(), $param)
+			: null;
+	}
+
+
+	private static function normalizeType(string $type, $reflection): string
+	{
+		$lower = strtolower($type);
+		if ($lower === 'self') {
+			return $reflection->getDeclaringClass()->getName();
+		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
+			return $reflection->getDeclaringClass()->getParentClass()->getName();
+		} else {
+			return $type;
 		}
 	}
 
@@ -100,7 +111,7 @@ final class Reflection
 	public static function areCommentsAvailable(): bool
 	{
 		static $res;
-		return $res === NULL
+		return $res === null
 			? $res = (bool) (new \ReflectionMethod(__METHOD__))->getDocComment()
 			: $res;
 	}
@@ -180,10 +191,10 @@ final class Reflection
 	/**
 	 * Parses PHP code to [class => [alias => class, ...]]
 	 */
-	private static function parseUseStatements(string $code, string $forClass = NULL): array
+	private static function parseUseStatements(string $code, string $forClass = null): array
 	{
 		$tokens = token_get_all($code);
-		$namespace = $class = $classLevel = $level = NULL;
+		$namespace = $class = $classLevel = $level = null;
 		$res = $uses = [];
 
 		while ($token = current($tokens)) {
@@ -244,7 +255,7 @@ final class Reflection
 
 				case '}':
 					if ($level === $classLevel) {
-						$class = $classLevel = NULL;
+						$class = $classLevel = null;
 					}
 					$level--;
 			}
@@ -256,17 +267,16 @@ final class Reflection
 
 	private static function fetch(&$tokens, $take)
 	{
-		$res = NULL;
+		$res = null;
 		while ($token = current($tokens)) {
 			list($token, $s) = is_array($token) ? $token : [$token, $token];
-			if (in_array($token, (array) $take, TRUE)) {
+			if (in_array($token, (array) $take, true)) {
 				$res .= $s;
-			} elseif (!in_array($token, [T_DOC_COMMENT, T_WHITESPACE, T_COMMENT], TRUE)) {
+			} elseif (!in_array($token, [T_DOC_COMMENT, T_WHITESPACE, T_COMMENT], true)) {
 				break;
 			}
 			next($tokens);
 		}
 		return $res;
 	}
-
 }

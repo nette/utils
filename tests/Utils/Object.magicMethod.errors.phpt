@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Object magic @methods errors.
+ * @phpVersion < 7.2
  */
 
 declare(strict_types=1);
@@ -20,6 +21,7 @@ require __DIR__ . '/../bootstrap.php';
 class TestClass extends Nette\Object
 {
 	protected $items = [];
+
 
 	public function abc()
 	{
