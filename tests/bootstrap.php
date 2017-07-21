@@ -24,20 +24,3 @@ function test(\Closure $function)
 {
 	$function();
 }
-
-
-class RemoteStream /* extends \streamWrapper */
-{
-	public function stream_open()
-	{
-		return true;
-	}
-
-
-	public function url_stat()
-	{
-		return false;
-	}
-}
-
-stream_wrapper_register('remote', RemoteStream::class, STREAM_IS_URL);
