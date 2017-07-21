@@ -13,6 +13,23 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+class RemoteStream /* extends \streamWrapper */
+{
+	public function stream_open()
+	{
+		return true;
+	}
+
+
+	public function url_stat()
+	{
+		return false;
+	}
+}
+
+stream_wrapper_register('remote', RemoteStream::class, STREAM_IS_URL);
+
+
 test(function () { // createDir
 	FileSystem::createDir(TEMP_DIR . '/1/b/');
 	Assert::true(is_dir(TEMP_DIR . '/1/b'));
