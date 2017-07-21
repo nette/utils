@@ -15,7 +15,7 @@ matrix:
 
 script:
     - vendor/bin/tester tests -s -c tests/php-unix.ini $coverageArgs
-    - php temp/code-checker/src/code-checker.php --short-arrays --strict-types -i tests/Utils/files
+    - php temp/code-checker/src/code-checker.php --short-arrays --strict-types -i tests/Utils/fixtures.reflection
 
 after_failure:
     # Print *.actual content

@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$original = Image::fromFile(__DIR__ . '/images/logo.gif');
+$original = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif');
 
 $dolly = clone $original;
 Assert::notSame($dolly->getImageResource(), $original->getImageResource());

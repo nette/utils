@@ -65,11 +65,11 @@ Assert::exception(function () {
 // default JSON_BIGINT_AS_STRING
 if (defined('JSON_C_VERSION')) {
 	if (PHP_INT_SIZE > 4) {
-		# 64-bit
-		Assert::same([9223372036854775807], Json::decode('[12345678901234567890]'));   # trimmed to max 64-bit integer
+		// 64-bit
+		Assert::same([9223372036854775807], Json::decode('[12345678901234567890]'));   // trimmed to max 64-bit integer
 	} else {
-		# 32-bit
-		Assert::same(['9223372036854775807'], Json::decode('[12345678901234567890]'));  # trimmed to max 64-bit integer
+		// 32-bit
+		Assert::same(['9223372036854775807'], Json::decode('[12345678901234567890]'));  // trimmed to max 64-bit integer
 	}
 
 } else {

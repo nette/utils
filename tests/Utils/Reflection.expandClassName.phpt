@@ -12,9 +12,9 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-require __DIR__ . '/files/expandClass.noNamespace.php';
-require __DIR__ . '/files/expandClass.inBracketedNamespace.php';
-require __DIR__ . '/files/expandClass.inNamespace.php';
+require __DIR__ . '/fixtures.reflection/expandClass.noNamespace.php';
+require __DIR__ . '/fixtures.reflection/expandClass.inBracketedNamespace.php';
+require __DIR__ . '/fixtures.reflection/expandClass.inNamespace.php';
 
 $rcTest = new \ReflectionClass(Test::class);
 $rcBTest = new \ReflectionClass(BTest::class);

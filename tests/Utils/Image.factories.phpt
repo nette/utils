@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test(function () {
-	$image = Image::fromFile(__DIR__ . '/images/logo.gif', $format);
+	$image = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif', $format);
 	Assert::same(176, $image->getWidth());
 	Assert::same(104, $image->getHeight());
 	Assert::same(Image::GIF, $format);
@@ -26,7 +26,7 @@ test(function () {
 	if (!function_exists('imagecreatefromwebp')) {
 		return;
 	}
-	$image = Image::fromFile(__DIR__ . '/images/logo.webp', $format);
+	$image = Image::fromFile(__DIR__ . '/fixtures.images/logo.webp', $format);
 	Assert::same(176, $image->getWidth());
 	Assert::same(104, $image->getHeight());
 	Assert::same(Image::WEBP, $format);
@@ -34,17 +34,17 @@ test(function () {
 
 
 Assert::exception(function () {
-	Image::fromFile('images/missing.png');
-}, Nette\Utils\UnknownImageFileException::class, "File 'images/missing.png' not found.");
+	Image::fromFile('fixtures.images/missing.png');
+}, Nette\Utils\UnknownImageFileException::class, "File 'fixtures.images/missing.png' not found.");
 
 
 Assert::exception(function () {
-	Image::fromFile(__DIR__ . '/images/logo.tiff');
-}, Nette\Utils\UnknownImageFileException::class, "Unknown type of file '%a%images/logo.tiff'.");
+	Image::fromFile(__DIR__ . '/fixtures.images/logo.tiff');
+}, Nette\Utils\UnknownImageFileException::class, "Unknown type of file '%a%fixtures.images/logo.tiff'.");
 
 
 Assert::exception(function () {
-	Image::fromFile(__DIR__ . '/images/bad.gif');
+	Image::fromFile(__DIR__ . '/fixtures.images/bad.gif');
 }, Nette\Utils\ImageException::class, '%a% not a valid GIF file');
 
 
