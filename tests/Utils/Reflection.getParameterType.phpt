@@ -5,13 +5,12 @@
  */
 
 use Nette\Utils\Reflection;
+use Test\B; // for testing purposes
 use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
-
-use Test\B; // for testing purposes
 
 class A
 {

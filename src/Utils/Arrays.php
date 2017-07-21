@@ -145,7 +145,7 @@ class Arrays
 		$res = [];
 		$cb = $preserveKeys
 			? function ($v, $k) use (&$res) { $res[$k] = $v; }
-			: function ($v) use (&$res) { $res[] = $v; };
+		: function ($v) use (&$res) { $res[] = $v; };
 		array_walk_recursive($arr, $cb);
 		return $res;
 	}

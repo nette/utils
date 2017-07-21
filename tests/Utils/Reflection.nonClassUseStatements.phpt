@@ -11,7 +11,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-require __DIR__ . '/files/expandClass.nonClassUse.php';
+require __DIR__ . '/fixtures.reflection/expandClass.nonClassUse.php';
 
 Assert::same(
 	[],

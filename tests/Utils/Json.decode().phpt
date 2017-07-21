@@ -74,15 +74,15 @@ Assert::exception(function () {
 // default JSON_BIGINT_AS_STRING
 if ($hasJsonC) {
 	if (PHP_INT_SIZE > 4) {
-		# 64-bit
-		Assert::same([9223372036854775807], Json::decode('[12345678901234567890]'));   # trimmed to max 64-bit integer
+		// 64-bit
+		Assert::same([9223372036854775807], Json::decode('[12345678901234567890]'));   // trimmed to max 64-bit integer
 	} else {
 		Assert::error(function () {
 			Json::decode('[12345678901234567890]');
 		}, E_NOTICE, 'json_decode(): integer overflow detected');
 
-		# 32-bit
-		Assert::same(['9223372036854775807'], @Json::decode('[12345678901234567890]'));  # trimmed to max 64-bit integer
+		// 32-bit
+		Assert::same(['9223372036854775807'], @Json::decode('[12345678901234567890]'));  // trimmed to max 64-bit integer
 	}
 
 } else {

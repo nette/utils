@@ -16,7 +16,7 @@ if (!extension_loaded('gd')) {
 }
 
 
-$main = Image::fromFile(__DIR__ . '/images/alpha1.png');
+$main = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 
 
 test(function () use ($main) {
