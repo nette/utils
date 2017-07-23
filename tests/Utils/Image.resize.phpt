@@ -17,6 +17,14 @@ require __DIR__ . '/../bootstrap.php';
 $main = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif');
 
 
+function toGd2($image)
+{
+	ob_start();
+	imagegd2($image->getImageResource());
+	return ob_get_clean();
+}
+
+
 test(function () use ($main) { // cropping...
 	$image = clone $main;
 	Assert::same(176, $image->width);
@@ -135,19 +143,19 @@ test(function () use ($main) { // rotate
 test(function () use ($main) { // alpha resize
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->resize(20, 20);
-	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.resize1.png'), $image->toString(Image::PNG, 0));
+	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.resize1.gd2'), toGd2($image));
 });
 
 
 test(function () use ($main) { // alpha flip
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->resize(-10, -10);
-	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.flip1.png'), $image->toString(Image::PNG, 0));
+	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.flip1.gd2'), toGd2($image));
 });
 
 
 test(function () use ($main) { // palette alpha resize
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha3.gif');
 	$image->resize(20, 20);
-	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.resize2.png'), $image->toString(Image::PNG, 0));
+	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.resize2.gd2'), toGd2($image));
 });
