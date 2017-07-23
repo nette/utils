@@ -16,6 +16,14 @@ if (!extension_loaded('gd')) {
 }
 
 
+function toGd2($image)
+{
+	ob_start();
+	imagegd2($image->getImageResource());
+	return ob_get_clean();
+}
+
+
 $size = 300;
 $image = Image::fromBlank($size, $size);
 
@@ -30,11 +38,11 @@ $image->filledEllipse(187, 125, $radius, $radius, Image::rgb(0, 0, 255, 75));
 
 $image->copyResampled($image, 200, 200, 0, 0, 80, 80, $size, $size);
 
-Assert::same(file_get_contents(__DIR__ . '/expected/Image.drawing.1.png'), $image->toString(Image::PNG, 0));
+Assert::same(file_get_contents(__DIR__ . '/expected/Image.drawing.1.gd2'), toGd2($image));
 
 
 // palette-based image
 $image = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif');
 $image->filledEllipse(100, 50, 50, 50, Image::rgb(255, 255, 0, 75));
 $image->filledEllipse(100, 150, 50, 50, Image::rgb(255, 255, 0, 75));
-Assert::same(file_get_contents(__DIR__ . '/expected/Image.drawing.2.png'), $image->toString(Image::PNG, 0));
+Assert::same(file_get_contents(__DIR__ . '/expected/Image.drawing.2.gd2'), toGd2($image));
