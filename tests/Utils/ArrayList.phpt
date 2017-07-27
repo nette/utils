@@ -81,6 +81,10 @@ test(function () {
 	Assert::exception(function () use ($list) {
 		$list[2] = true;
 	}, OutOfRangeException::class, 'Offset invalid or out of range');
+
+	Assert::error(function () use ($list) {
+		$list['key'] = true;
+	}, E_USER_NOTICE, 'Index is not integer.');
 });
 
 
@@ -96,6 +100,10 @@ test(function () {
 	Assert::exception(function () use ($list) {
 		$tmp = $list[2];
 	}, OutOfRangeException::class, 'Offset invalid or out of range');
+
+	Assert::error(function () use ($list) {
+		$tmp = $list['key'];
+	}, E_USER_NOTICE, 'Index is not integer.');
 });
 
 
@@ -111,4 +119,8 @@ test(function () {
 	Assert::exception(function () use ($list) {
 		unset($list[2]);
 	}, OutOfRangeException::class, 'Offset invalid or out of range');
+
+	Assert::error(function () use ($list) {
+		unset($list['key']);
+	}, E_USER_NOTICE, 'Index is not integer.');
 });
