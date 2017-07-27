@@ -83,6 +83,10 @@ test(function () {
 	Assert::exception(function () use ($list) {
 		$list[2] = true;
 	}, OutOfRangeException::class, 'Offset invalid or out of range');
+
+	Assert::exception(function () use ($list) {
+		$list['key'] = true;
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
 });
 
 
@@ -98,6 +102,10 @@ test(function () {
 	Assert::exception(function () use ($list) {
 		$tmp = $list[2];
 	}, OutOfRangeException::class, 'Offset invalid or out of range');
+
+	Assert::exception(function () use ($list) {
+		$tmp = $list['key'];
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
 });
 
 
@@ -112,5 +120,9 @@ test(function () {
 
 	Assert::exception(function () use ($list) {
 		unset($list[2]);
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
+
+	Assert::exception(function () use ($list) {
+		unset($list['key']);
 	}, OutOfRangeException::class, 'Offset invalid or out of range');
 });
