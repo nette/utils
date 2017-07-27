@@ -61,6 +61,50 @@ test(function () {
 	Assert::same(2, $list->count());
 	Assert::same(2, count($list));
 
+	unset($list[1]);
+	Assert::same([
+		$mary,
+	], iterator_to_array($list));
+
+	$list->prepend('First');
+	Assert::same('First', $list[0], 'Value "First" should be on the start of the array');
+});
+
+
+test(function () {
+	$list = new ArrayList;
+	$list[] = 'a';
+	$list[] = 'b';
+
+	Assert::exception(function () use ($list) {
+		$list[-1] = true;
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
+
+	Assert::exception(function () use ($list) {
+		$list[2] = true;
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
+});
+
+
+test(function () {
+	$list = new ArrayList;
+	$list[] = 'a';
+	$list[] = 'b';
+
+	Assert::exception(function () use ($list) {
+		$tmp = $list[-1];
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
+
+	Assert::exception(function () use ($list) {
+		$tmp = $list[2];
+	}, OutOfRangeException::class, 'Offset invalid or out of range');
+});
+
+
+test(function () {
+	$list = new ArrayList;
+	$list[] = 'a';
+	$list[] = 'b';
 
 	Assert::exception(function () use ($list) {
 		unset($list[-1]);
@@ -69,12 +113,4 @@ test(function () {
 	Assert::exception(function () use ($list) {
 		unset($list[2]);
 	}, OutOfRangeException::class, 'Offset invalid or out of range');
-
-	unset($list[1]);
-	Assert::same([
-		$mary,
-	], iterator_to_array($list));
-
-	$list->prepend('First');
-	Assert::same('First', $list[0], 'Value "First" should be on the start of the array');
 });
