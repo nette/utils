@@ -19,10 +19,19 @@ final class Random
 {
 	use Nette\StaticClass;
 
+	const NUM = '0-9';
+
+	const LOWER = 'a-z';
+
+	const UPPER = 'A-Z';
+
+	const SPECIAL_CHARACTERS = '!"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~';
+
+
 	/**
 	 * Generate random string.
 	 */
-	public static function generate(int $length = 10, string $charlist = '0-9a-z'): string
+	public static function generate(int $length = 10, string $charlist = self::NUM . self::LOWER): string
 	{
 		$charlist = count_chars(preg_replace_callback('#.-.#', function (array $m) {
 			return implode('', range($m[0][0], $m[0][2]));
