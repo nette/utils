@@ -115,6 +115,18 @@ test(function () { // attributes escaping
 test(function () { // setText vs. setHtml
 	Assert::same('<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->setText('Hello &ndash; World'));
 	Assert::same('<p>Hello &ndash; World</p>', (string) Html::el('p')->setHtml('Hello &ndash; World'));
+
+	Assert::same('<p><br></p>', (string) Html::el('p')->setText(Html::el('br')));
+	Assert::same('<p><br></p>', (string) Html::el('p')->setHtml(Html::el('br')));
+});
+
+
+test(function () { // addText vs. addHtml
+	Assert::same('<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->addText('Hello &ndash; World'));
+	Assert::same('<p>Hello &ndash; World</p>', (string) Html::el('p')->addHtml('Hello &ndash; World'));
+
+	Assert::same('<p><br></p>', (string) Html::el('p')->addText(Html::el('br')));
+	Assert::same('<p><br></p>', (string) Html::el('p')->addHtml(Html::el('br')));
 });
 
 

@@ -349,9 +349,11 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Appends plain-text string to element content.
 	 * @return static
 	 */
-	public function addText(string $text)
+	public function addText($text)
 	{
-		$text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
+		if (!$text instanceof self) {
+			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
+		}
 		return $this->insert(null, $text);
 	}
 
