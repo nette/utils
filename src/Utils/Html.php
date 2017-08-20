@@ -390,7 +390,9 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 */
 	public function addText($text)
 	{
-		$text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
+		if (!$text instanceof self) {
+			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
+		}
 		return $this->insert(null, $text);
 	}
 
