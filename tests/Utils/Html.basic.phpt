@@ -112,12 +112,23 @@ test(function () { // attributes escaping
 });
 
 
+class BR implements Nette\Utils\IHtmlString
+{
+	public function __toString(): string
+	{
+		return '<br>';
+	}
+}
+
 test(function () { // setText vs. setHtml
 	Assert::same('<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->setText('Hello &ndash; World'));
 	Assert::same('<p>Hello &ndash; World</p>', (string) Html::el('p')->setHtml('Hello &ndash; World'));
 
 	Assert::same('<p><br></p>', (string) Html::el('p')->setText(Html::el('br')));
 	Assert::same('<p><br></p>', (string) Html::el('p')->setHtml(Html::el('br')));
+
+	Assert::same('<p><br></p>', (string) Html::el('p')->setText(new BR));
+	Assert::same('<p><br></p>', (string) Html::el('p')->setHtml(new BR));
 });
 
 
@@ -127,6 +138,9 @@ test(function () { // addText vs. addHtml
 
 	Assert::same('<p><br></p>', (string) Html::el('p')->addText(Html::el('br')));
 	Assert::same('<p><br></p>', (string) Html::el('p')->addHtml(Html::el('br')));
+
+	Assert::same('<p><br></p>', (string) Html::el('p')->addText(new BR));
+	Assert::same('<p><br></p>', (string) Html::el('p')->addHtml(new BR));
 });
 
 

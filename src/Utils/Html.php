@@ -280,6 +280,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's HTML content.
+	 * @param  IHtmlString|string
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -313,12 +314,13 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's textual content.
+	 * @param  IHtmlString|string
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setText($text)
 	{
-		if (!is_array($text) && !$text instanceof self) {
+		if (!$text instanceof IHtmlString) {
 			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
 		}
 		return $this->setHtml((string) $text);
@@ -336,7 +338,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Adds new element's child.
-	 * @param  Html|string  Html node or raw HTML string
+	 * @param  IHtmlString|string  Html node or raw HTML string
 	 * @return static
 	 */
 	final public function addHtml($child)
@@ -347,11 +349,12 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Appends plain-text string to element content.
+	 * @param  IHtmlString|string
 	 * @return static
 	 */
 	public function addText($text)
 	{
-		if (!$text instanceof self) {
+		if (!$text instanceof IHtmlString) {
 			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
 		}
 		return $this->insert(null, $text);
@@ -372,13 +375,14 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Inserts child node.
-	 * @param  Html|string $child Html node or raw HTML string
+	 * @param  IHtmlString|string $child Html node or raw HTML string
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public function insert(int $index = null, $child, bool $replace = false)
 	{
-		if ($child instanceof self || is_scalar($child)) {
+		if ($child instanceof IHtmlString || is_scalar($child)) {
+			$child = $child instanceof self ? $child : (string) $child;
 			if ($index === null) { // append
 				$this->children[] = $child;
 
