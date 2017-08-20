@@ -309,6 +309,13 @@ class Strings
 		return function_exists('mb_strlen') ? mb_strlen($s, 'UTF-8') : strlen(utf8_decode($s));
 	}
 
+	/**
+	 * Returns number of bytes (not characters) in string.
+	 */
+	public static function bytesCount(string $s): int
+	{
+		return ini_get('mbstring.func_overload') ? mb_strlen($s, '8bit') : strlen($s);
+	}
 
 	/**
 	 * Strips whitespace from UTF-8 string.
