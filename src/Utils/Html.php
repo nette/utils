@@ -325,15 +325,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 */
 	public function getHtml()
 	{
-		$s = '';
-		foreach ($this->children as $child) {
-			if (is_object($child)) {
-				$s .= $child->render();
-			} else {
-				$s .= $child;
-			}
-		}
-		return $s;
+		return implode('', $this->children);
 	}
 
 
