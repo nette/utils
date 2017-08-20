@@ -289,8 +289,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		if (is_array($html)) {
 			throw new Nette\InvalidArgumentException(sprintf('Textual content must be a scalar, %s given.', gettype($html)));
 		}
-		$this->removeChildren();
-		$this->children[] = (string) $html;
+		$this->children = [(string) $html];
 		return $this;
 	}
 
@@ -300,15 +299,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 */
 	final public function getHtml(): string
 	{
-		$s = '';
-		foreach ($this->children as $child) {
-			if (is_object($child)) {
-				$s .= $child->render();
-			} else {
-				$s .= $child;
-			}
-		}
-		return $s;
+		return implode('', $this->children);
 	}
 
 
@@ -323,7 +314,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		if (!$text instanceof IHtmlString) {
 			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
 		}
-		return $this->setHtml((string) $text);
+		$this->children = [(string) $text];
+		return $this;
 	}
 
 
