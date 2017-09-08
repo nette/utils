@@ -63,6 +63,7 @@ final class Callback
 	/**
 	 * Invokes callback.
 	 * @return mixed
+	 * @deprecated
 	 */
 	public static function invoke($callable, ...$args)
 	{
@@ -74,6 +75,7 @@ final class Callback
 	/**
 	 * Invokes callback with an array of parameters.
 	 * @return mixed
+	 * @deprecated
 	 */
 	public static function invokeArgs($callable, array $args = [])
 	{
