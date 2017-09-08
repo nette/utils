@@ -487,14 +487,6 @@ class Strings
 	/** @internal */
 	public static function pcre(string $func, array $args)
 	{
-		static $messages = [
-			PREG_INTERNAL_ERROR => 'Internal error',
-			PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
-			PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',
-			PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
-			PREG_BAD_UTF8_OFFSET_ERROR => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point',
-			6 => 'Failed due to limited JIT stack space', // PREG_JIT_STACKLIMIT_ERROR
-		];
 		$res = Callback::invokeSafe($func, $args, function (string $message) use ($args) {
 			// compile-time error, not detectable by preg_last_error
 			throw new RegexpException($message . ' in pattern: ' . implode(' or ', (array) $args[0]));
@@ -503,7 +495,7 @@ class Strings
 		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
 			&& ($res === null || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace'], true))
 		) {
-			throw new RegexpException(($messages[$code] ?? 'Unknown error')
+			throw new RegexpException((RegexpException::MESSAGES[$code] ?? 'Unknown error')
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);
 		}
 		return $res;
