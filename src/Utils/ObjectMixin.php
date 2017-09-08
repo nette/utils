@@ -42,7 +42,7 @@ final class ObjectMixin
 		} elseif ($isProp === 'event') { // calling event handlers
 			if (is_array($_this->$name) || $_this->$name instanceof \Traversable) {
 				foreach ($_this->$name as $handler) {
-					Callback::invokeArgs($handler, $args);
+					$handler(...$args);
 				}
 			} elseif ($_this->$name !== null) {
 				throw new Nette\UnexpectedValueException("Property $class::$$name must be array or null, " . gettype($_this->$name) . ' given.');
@@ -72,7 +72,7 @@ final class ObjectMixin
 			return $_this;
 
 		} elseif ($cb = self::getExtensionMethod($class, $name)) { // extension methods
-			return Callback::invoke($cb, $_this, ...$args);
+			return $cb($_this, ...$args);
 
 		} else {
 			ObjectHelpers::strictCall($class, $name, array_keys(self::getExtensionMethods($class)));

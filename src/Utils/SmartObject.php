@@ -33,7 +33,7 @@ trait SmartObject
 		if (ObjectHelpers::hasProperty($class, $name) === 'event') { // calling event handlers
 			if (is_array($this->$name) || $this->$name instanceof \Traversable) {
 				foreach ($this->$name as $handler) {
-					Callback::invokeArgs($handler, $args);
+					$handler(...$args);
 				}
 			} elseif ($this->$name !== null) {
 				throw new UnexpectedValueException("Property $class::$$name must be array or null, " . gettype($this->$name) . ' given.');
