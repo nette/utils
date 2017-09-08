@@ -22,6 +22,7 @@ final class Callback
 
 	/**
 	 * @param  string|object|callable  class, object, callable
+	 * @deprecated use Closure::fromCallable()
 	 */
 	public static function closure($callable, string $method = null): \Closure
 	{
@@ -135,7 +136,7 @@ final class Callback
 
 
 	/**
-	 * Unwraps closure created by self::closure()
+	 * Unwraps closure created by Closure::fromCallable()
 	 * @internal
 	 */
 	public static function unwrap(\Closure $closure): callable
