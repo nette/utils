@@ -15,7 +15,9 @@ require __DIR__ . '/../bootstrap.php';
 class TestClass extends Nette\Object
 {
 	public $declared;
+
 	private $foo;
+
 	private $bar;
 
 

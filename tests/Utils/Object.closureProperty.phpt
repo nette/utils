@@ -15,8 +15,11 @@ require __DIR__ . '/../bootstrap.php';
 class TestClass extends Nette\Object
 {
 	public $public;
+
 	public $onPublic;
+
 	protected $protected;
+
 	private $private;
 
 

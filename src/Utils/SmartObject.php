@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Nette;
 
-use Nette\Utils\Callback;
 use Nette\Utils\ObjectHelpers;
 
 
