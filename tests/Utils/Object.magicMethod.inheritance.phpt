@@ -19,6 +19,7 @@ require __DIR__ . '/../bootstrap.php';
 class ParentClass extends Nette\Object
 {
 	protected $a;
+
 	private $b;
 }
 

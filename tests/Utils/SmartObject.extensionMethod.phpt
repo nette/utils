@@ -14,6 +14,7 @@ class TestClass
 	use Nette\SmartObject;
 
 	public $foo = 'Hello';
+
 	public $bar = 'World';
 }
 

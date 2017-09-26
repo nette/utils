@@ -22,6 +22,7 @@ class TestClass
 	public $declared;
 
 	private $foo;
+
 	private $bar;
 
 

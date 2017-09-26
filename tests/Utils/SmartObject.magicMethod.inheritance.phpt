@@ -20,6 +20,7 @@ class ParentClass
 	use Nette\SmartObject;
 
 	protected $a;
+
 	private $b;
 }
 

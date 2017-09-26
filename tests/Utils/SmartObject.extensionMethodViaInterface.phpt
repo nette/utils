@@ -24,6 +24,7 @@ class TestClass implements ISecond
 	use SmartObject;
 
 	public $foo = 'Hello';
+
 	public $bar = 'World';
 }
 

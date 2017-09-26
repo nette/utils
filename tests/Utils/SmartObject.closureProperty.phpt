@@ -14,8 +14,11 @@ class TestClass
 	use Nette\SmartObject;
 
 	public $public;
+
 	public $onPublic;
+
 	protected $protected;
+
 	private $private;
 
 
