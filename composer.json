@@ -15,7 +15,8 @@
 		}
 	],
 	"require": {
-		"php": ">=7.0"
+		"php": ">=7.0",
+		"ext-intl": "*"
 	},
 	"require-dev": {
 		"nette/tester": "~2.0",
