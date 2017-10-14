@@ -103,7 +103,7 @@ class Strings
 	 */
 	public static function normalize(string $s): string
 	{
-		// normalize string into utf8 NFC form
+		// convert to compressed normal form (NFC)
 		$s = \Normalizer::normalize($s, \Normalizer::FORM_C);
 
 		$s = self::normalizeNewLines($s);
