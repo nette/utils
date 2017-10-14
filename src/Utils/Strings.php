@@ -99,7 +99,7 @@ class Strings
 
 
 	/**
-	 * Removes special controls characters and normalizes line endings and converts to NFC form and spaces in UTF-8 string.
+	 * Removes special controls characters and normalizes line endings, spaces and normal form to NFC in UTF-8 string.
 	 */
 	public static function normalize(string $s): string
 	{
