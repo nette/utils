@@ -23,14 +23,17 @@ final class Json
 
 	const PRETTY = 0b0010;
 
+	const FORCE_OBJECT = 0b10000;
+
 
 	/**
-	 * Returns the JSON representation of a value. Accepts flag Json::PRETTY.
+	 * Returns the JSON representation of a value. Accepts flag Json::PRETTY and JSON::FORCE_OBJECT.
 	 */
 	public static function encode($value, int $flags = 0): string
 	{
 		$flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
 			| ($flags & self::PRETTY ? JSON_PRETTY_PRINT : 0)
+			| ($flags & self::FORCE_OBJECT ? JSON_FORCE_OBJECT : 0)
 			| (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0); // since PHP 5.6.6 & PECL JSON-C 1.3.7
 
 		$json = json_encode($value, $flags);
