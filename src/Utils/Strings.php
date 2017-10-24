@@ -99,10 +99,13 @@ class Strings
 
 
 	/**
-	 * Removes special controls characters and normalizes line endings and spaces in UTF-8 string.
+	 * Removes special controls characters and normalizes line endings, spaces and normal form to NFC in UTF-8 string.
 	 */
 	public static function normalize(string $s): string
 	{
+		// convert to compressed normal form (NFC)
+		$s = \Normalizer::normalize($s, \Normalizer::FORM_C);
+
 		$s = self::normalizeNewLines($s);
 
 		// remove control characters; leave \t + \n
@@ -265,6 +268,9 @@ class Strings
 	 */
 	public static function compare(string $left, string $right, int $len = null): bool
 	{
+		$left = \Normalizer::normalize($left, \Normalizer::FORM_D); // form NFD is faster
+		$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
+
 		if ($len < 0) {
 			$left = self::substring($left, $len, -$len);
 			$right = self::substring($right, $len, -$len);
