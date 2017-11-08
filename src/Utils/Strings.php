@@ -104,7 +104,9 @@ class Strings
 	public static function normalize(string $s): string
 	{
 		// convert to compressed normal form (NFC)
-		$s = \Normalizer::normalize($s, \Normalizer::FORM_C);
+		if (class_exists('Normalizer', false)) {
+			$s = \Normalizer::normalize($s, \Normalizer::FORM_C);
+		}
 
 		$s = self::normalizeNewLines($s);
 
@@ -268,8 +270,10 @@ class Strings
 	 */
 	public static function compare(string $left, string $right, int $len = null): bool
 	{
-		$left = \Normalizer::normalize($left, \Normalizer::FORM_D); // form NFD is faster
-		$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
+		if (class_exists('Normalizer', false)) {
+			$left = \Normalizer::normalize($left, \Normalizer::FORM_D); // form NFD is faster
+			$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
+		}
 
 		if ($len < 0) {
 			$left = self::substring($left, $len, -$len);
