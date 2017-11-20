@@ -42,7 +42,6 @@ jobs:
 
 
     allow_failures:
-        -   php: 7.2
         -   stage: Code Coverage
 
 
