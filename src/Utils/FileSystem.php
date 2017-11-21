@@ -107,7 +107,7 @@ final class FileSystem
 
 		} else {
 			static::createDir(dirname($newName));
-			if (Strings::lower($name) !== Strings::lower($newName)) {
+			if (Strings::lower(realpath($name)) !== Strings::lower(realpath($newName))) {
 				static::delete($newName);
 			}
 			if (!@rename($name, $newName)) { // @ is escalated to exception
