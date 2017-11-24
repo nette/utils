@@ -91,8 +91,18 @@ class Reflection
 			$const = $orig = $param->getDefaultValueConstantName();
 			$pair = explode('::', $const);
 			if (isset($pair[1]) && strtolower($pair[0]) === 'self') {
-				$const = $param->getDeclaringClass()->getName() . '::' . $pair[1];
+				$pair[0] = $param->getDeclaringClass()->getName();
 			}
+			if (isset($pair[1]) && PHP_VERSION_ID >= 70100) {
+				try {
+					$rcc = new \ReflectionClassConstant($pair[0], $pair[1]);
+				} catch (\ReflectionException $e) {
+					$name = self::toString($param);
+					throw new \ReflectionException("Unable to resolve constant $orig used as default value of $name.", 0, $e);
+				}
+				return $rcc->getValue();
+			}
+			$const = implode('::', $pair);
 			if (!defined($const)) {
 				$const = substr((string) strrchr($const, '\\'), 1);
 				if (isset($pair[1]) || !defined($const)) {
