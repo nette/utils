@@ -346,12 +346,11 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Sets element's textual content.
 	 * @param  IHtmlString|string
 	 * @return static
-	 * @throws Nette\InvalidArgumentException
 	 */
 	public function setText($text)
 	{
 		if (!$text instanceof IHtmlString) {
-			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
+			$text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
 		}
 		return $this->setHtml($text);
 	}
@@ -390,7 +389,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Appends plain-text string to element content.
-	 * @param  IHtmlString|string
+	 * @param  IHtmlString|string|int|float
 	 * @return static
 	 */
 	public function addText($text)
@@ -544,7 +543,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 				$indent++;
 			}
 			foreach ($this->children as $child) {
-				if (is_object($child)) {
+				if ($child instanceof self) {
 					$s .= $child->render($indent);
 				} else {
 					$s .= $child;
