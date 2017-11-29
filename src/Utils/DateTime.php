@@ -98,7 +98,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	{
 		$zone = $this->getTimezone();
 		$this->__construct('@' . $timestamp);
-		return $this->setTimeZone($zone);
+		return $this->setTimezone($zone);
 	}
 
 

@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		# PHPStan does not support conditional class usage with class_exists()
+		- '#Nette\\Reflection#'
+
+		# PHPStan does not support crazy dynamic by reference return used by Nette\Utils\Strings::pcre()
+		- '#Undefined variable: \$m#'
