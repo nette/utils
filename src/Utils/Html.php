@@ -317,7 +317,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	final public function setText($text)
 	{
 		if (!$text instanceof IHtmlString) {
-			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
+			$text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
 		}
 		$this->children = [(string) $text];
 		return $this;

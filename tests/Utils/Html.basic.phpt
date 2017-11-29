@@ -58,7 +58,7 @@ test(function () {
 
 
 test(function () {
-	$el = Html::el('img')->src('image.gif')->alt('')->setText(null)->setText('any content');
+	$el = Html::el('img')->src('image.gif')->alt('')->setText('any content');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
 	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
 	Assert::same('', $el->endTag());
