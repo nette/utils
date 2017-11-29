@@ -311,7 +311,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's textual content.
-	 * @param  IHtmlString|string  $text
+	 * @param  IHtmlString|string|int|float  $text
 	 * @return static
 	 */
 	final public function setText($text)

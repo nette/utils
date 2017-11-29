@@ -1,0 +1,12 @@
+parameters:
+	bootstrap: tests/phpstan-bootstrap.php
+
+	ignoreErrors:
+		# PHPStan does not support dynamic by reference return used by Nette\Utils\Strings::pcre()
+		- '#Undefined variable: \$m#'
+
+		# PHPStan does not support RecursiveIteratorIterator proxying unknown method calls to inner iterator
+		- '#RecursiveIteratorIterator::getSubPathName\(\)#'
+
+		# PHPStan does not support comparing null
+		- '#Nette\\Utils\\Strings::substring\(\) expects int, int\|null given#'
