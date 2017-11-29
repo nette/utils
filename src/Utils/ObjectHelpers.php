@@ -126,6 +126,7 @@ final class ObjectHelpers
 
 	/**
 	 * Finds the best suggestion (for 8-bit encoding).
+	 * @param  (\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionClass|\ReflectionProperty|string)[] $possibilities
 	 * @return string|null
 	 * @internal
 	 */
@@ -134,7 +135,7 @@ final class ObjectHelpers
 		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '', $value);
 		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
-		foreach (array_unique($possibilities, SORT_REGULAR) as $item) {
+		foreach ($possibilities as $item) {
 			$item = $item instanceof \Reflector ? $item->getName() : $item;
 			if ($item !== $value && (
 				($len = levenshtein($item, $value, 10, 11, 10)) < $min
@@ -164,7 +165,7 @@ final class ObjectHelpers
 
 	/**
 	 * Checks if the public non-static property exists.
-	 * @return bool|'event'
+	 * @return bool|string returns 'event' if the property exists and has event like name
 	 * @internal
 	 */
 	public static function hasProperty(string $class, string $name)

@@ -27,7 +27,7 @@ final class ObjectMixin
 
 	/**
 	 * __call() implementation.
-	 * @param  object
+	 * @param  object $_this
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
@@ -92,7 +92,7 @@ final class ObjectMixin
 
 	/**
 	 * __get() implementation.
-	 * @param  object
+	 * @param  object $_this
 	 * @return mixed
 	 * @throws MemberAccessException if the property is not defined.
 	 */
@@ -134,7 +134,7 @@ final class ObjectMixin
 
 	/**
 	 * __set() implementation.
-	 * @param  object
+	 * @param  object $_this
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
@@ -164,7 +164,7 @@ final class ObjectMixin
 
 	/**
 	 * __unset() implementation.
-	 * @param  object
+	 * @param  object $_this
 	 * @return void
 	 * @throws MemberAccessException
 	 */
@@ -179,7 +179,7 @@ final class ObjectMixin
 
 	/**
 	 * __isset() implementation.
-	 * @param  object
+	 * @param  object $_this
 	 */
 	public static function has($_this, string $name): bool
 	{

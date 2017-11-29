@@ -42,7 +42,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Replaces or appends a item.
-	 * @param  int|null
+	 * @param  int|null $index
 	 * @return void
 	 * @throws Nette\OutOfRangeException
 	 */
@@ -62,7 +62,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Returns a item.
-	 * @param  int
+	 * @param  int $index
 	 * @return mixed
 	 * @throws Nette\OutOfRangeException
 	 */
@@ -77,7 +77,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Determines whether a item exists.
-	 * @param  int
+	 * @param  int $index
 	 */
 	public function offsetExists($index): bool
 	{
@@ -87,7 +87,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Removes the element at the specified position in this list.
-	 * @param  int
+	 * @param  int $index
 	 * @return void
 	 * @throws Nette\OutOfRangeException
 	 */

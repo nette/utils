@@ -5,3 +5,14 @@ parameters:
 
 		# PHPStan does not support crazy dynamic by reference return used by Nette\Utils\Strings::pcre()
 		- '#Undefined variable: \$m#'
+
+		# PHPStan does not support RecursiveIteratorIterator proxying unknown method calls to inner iterator
+		- '#RecursiveIteratorIterator::getSubPathName\(\)#'
+
+		# PHPDoc has no escaping for tags, therefore you cannot talk about PHPDoc tag without writing invalid PHPDoc
+		- '#PHPDoc tag @property has invalid value \(\.\): Unexpected token "\.", expected TOKEN_IDENTIFIER at offset 73#'
+		- '#PHPDoc tag @method has invalid value \(\.\): Unexpected token "\.", expected TOKEN_IDENTIFIER at offset 68#'
+		- '#PHPDoc tag @property has invalid value \(annotations\): Unexpected token "\\n", expected TOKEN_VARIABLE at offset 159#'
+
+		# Unions are ignored at low levels
+		- '#Call to an undefined method Reflector::getName\(\)#'

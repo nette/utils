@@ -280,7 +280,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's HTML content.
-	 * @param  IHtmlString|string
+	 * @param  IHtmlString|string $html
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -305,7 +305,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's textual content.
-	 * @param  IHtmlString|string
+	 * @param  IHtmlString|string $text
 	 * @return static
 	 * @throws Nette\InvalidArgumentException
 	 */
@@ -330,7 +330,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Adds new element's child.
-	 * @param  IHtmlString|string  Html node or raw HTML string
+	 * @param  IHtmlString|string $child  Html node or raw HTML string
 	 * @return static
 	 */
 	final public function addHtml($child)
@@ -341,7 +341,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Appends plain-text string to element content.
-	 * @param  IHtmlString|string
+	 * @param  IHtmlString|string $text
 	 * @return static
 	 */
 	public function addText($text)
@@ -392,8 +392,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Inserts (replaces) child node (\ArrayAccess implementation).
-	 * @param  int|null position or null for appending
-	 * @param  Html|string Html node or raw HTML string
+	 * @param  int|null    $index position or null for appending
+	 * @param  Html|string $child Html node or raw HTML string
 	 * @return void
 	 */
 	final public function offsetSet($index, $child)
@@ -404,7 +404,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns child node (\ArrayAccess implementation).
-	 * @param  int
+	 * @param  int $index
 	 * @return static|string
 	 */
 	final public function offsetGet($index)
@@ -415,7 +415,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Exists child node? (\ArrayAccess implementation).
-	 * @param  int
+	 * @param  int $index
 	 */
 	final public function offsetExists($index): bool
 	{
@@ -425,7 +425,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Removes child node (\ArrayAccess implementation).
-	 * @param  int
+	 * @param  int $index
 	 * @return void
 	 */
 	public function offsetUnset($index)
@@ -486,7 +486,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 				$indent++;
 			}
 			foreach ($this->children as $child) {
-				if (is_object($child)) {
+				if ($child instanceof self) {
 					$s .= $child->render($indent);
 				} else {
 					$s .= $child;

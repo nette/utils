@@ -12,7 +12,6 @@ namespace Nette\Utils;
 use Nette;
 use function is_array, is_object, strlen;
 
-
 /**
  * String tools library.
  */
@@ -288,7 +287,7 @@ class Strings
 
 	/**
 	 * Finds the length of common prefix of strings.
-	 * @param  string|array
+	 * @param  string|array ...$strings
 	 */
 	public static function findPrefix(...$strings): string
 	{
@@ -473,9 +472,9 @@ class Strings
 
 	/**
 	 * Perform a regular expression search and replace.
-	 * @param  string
-	 * @param  string|array
-	 * @param  string|callable
+	 * @param  string          $subject
+	 * @param  string|array    $pattern
+	 * @param  string|callable $replacement
 	 */
 	public static function replace(string $subject, $pattern, $replacement = null, int $limit = -1): string
 	{
