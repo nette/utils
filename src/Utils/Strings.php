@@ -274,12 +274,14 @@ class Strings
 			$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
 		}
 
-		if ($len < 0) {
-			$left = self::substring($left, $len, -$len);
-			$right = self::substring($right, $len, -$len);
-		} elseif ($len !== null) {
-			$left = self::substring($left, 0, $len);
-			$right = self::substring($right, 0, $len);
+		if ($len !== null) {
+			if ($len < 0) {
+				$left = self::substring($left, $len, -$len);
+				$right = self::substring($right, $len, -$len);
+			} else {
+				$left = self::substring($left, 0, $len);
+				$right = self::substring($right, 0, $len);
+			}
 		}
 		return self::lower($left) === self::lower($right);
 	}

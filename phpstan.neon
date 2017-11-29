@@ -13,6 +13,3 @@ parameters:
 		- '#PHPDoc tag @property has invalid value \(\.\): Unexpected token "\.", expected TOKEN_IDENTIFIER at offset 73#'
 		- '#PHPDoc tag @method has invalid value \(\.\): Unexpected token "\.", expected TOKEN_IDENTIFIER at offset 68#'
 		- '#PHPDoc tag @property has invalid value \(annotations\): Unexpected token "\\n", expected TOKEN_VARIABLE at offset 159#'
-
-		# Unions are ignored at low levels
-		- '#Call to an undefined method Reflector::getName\(\)#'
