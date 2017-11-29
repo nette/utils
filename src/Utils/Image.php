@@ -453,6 +453,7 @@ class Image
 
 		$output = $input = $image->image;
 		if ($opacity < 100) {
+			$tbl = [];
 			for ($i = 0; $i < 128; $i++) {
 				$tbl[$i] = round(127 - (127 - $i) * $opacity / 100);
 			}
