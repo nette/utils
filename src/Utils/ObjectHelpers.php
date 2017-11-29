@@ -126,6 +126,7 @@ final class ObjectHelpers
 
 	/**
 	 * Finds the best suggestion (for 8-bit encoding).
+	 * @param  (\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionClass|\ReflectionProperty|string)[]
 	 * @internal
 	 */
 	public static function getSuggestion(array $possibilities, string $value): ?string
@@ -163,7 +164,7 @@ final class ObjectHelpers
 
 	/**
 	 * Checks if the public non-static property exists.
-	 * @return bool|'event'
+	 * @return bool|string returns 'event' if the property exists and has event like name
 	 * @internal
 	 */
 	public static function hasProperty(string $class, string $name)

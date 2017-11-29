@@ -54,7 +54,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 
 		} else {
-			$this->list[(int) $index] = $value;
+			$this->list[$index] = $value;
 		}
 	}
 
@@ -70,7 +70,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 		if (!is_int($index) || $index < 0 || $index >= count($this->list)) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 		}
-		return $this->list[(int) $index];
+		return $this->list[$index];
 	}
 
 
@@ -94,7 +94,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 		if (!is_int($index) || $index < 0 || $index >= count($this->list)) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 		}
-		array_splice($this->list, (int) $index, 1);
+		array_splice($this->list, $index, 1);
 	}
 
 
