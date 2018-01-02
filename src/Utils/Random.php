@@ -32,7 +32,7 @@ final class Random
 		if ($length < 1) {
 			throw new Nette\InvalidArgumentException('Length must be greater than zero.');
 		} elseif ($chLen < 2) {
-			throw new Nette\InvalidArgumentException('Character list must contain as least two chars.');
+			throw new Nette\InvalidArgumentException('Character list must contain at least two chars.');
 		}
 
 		$res = '';
