@@ -28,7 +28,7 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	Random::generate(1, '000');
-}, Nette\InvalidArgumentException::class, 'Character list must contain as least two chars.');
+}, Nette\InvalidArgumentException::class, 'Character list must contain at least two chars.');
 
 
 // frequency check
