@@ -154,7 +154,7 @@ class Validators
 
 	/**
 	 * Finds whether all values are of expected type (separated by pipe).
-	 * @param  iterable
+	 * @param  iterable $values
 	 */
 	public static function everyIs($values, string $expected): bool
 	{

@@ -82,7 +82,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	/**
 	 * Changes element's name.
 	 * @return static
-	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setName(string $name, bool $isEmpty = null)
 	{
@@ -280,15 +279,11 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's HTML content.
-	 * @param  IHtmlString|string
+	 * @param  IHtmlString|string $html
 	 * @return static
-	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setHtml($html)
 	{
-		if (is_array($html)) {
-			throw new Nette\InvalidArgumentException(sprintf('Textual content must be a scalar, %s given.', gettype($html)));
-		}
 		$this->children = [(string) $html];
 		return $this;
 	}
@@ -305,14 +300,13 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's textual content.
-	 * @param  IHtmlString|string
+	 * @param  IHtmlString|string $text
 	 * @return static
-	 * @throws Nette\InvalidArgumentException
 	 */
 	final public function setText($text)
 	{
 		if (!$text instanceof IHtmlString) {
-			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
+			$text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
 		}
 		$this->children = [(string) $text];
 		return $this;
@@ -330,7 +324,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Adds new element's child.
-	 * @param  IHtmlString|string  Html node or raw HTML string
+	 * @param  IHtmlString|string $child  Html node or raw HTML string
 	 * @return static
 	 */
 	final public function addHtml($child)
@@ -341,7 +335,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Appends plain-text string to element content.
-	 * @param  IHtmlString|string
+	 * @param  IHtmlString|string|int|float $text
 	 * @return static
 	 */
 	public function addText($text)
@@ -369,21 +363,15 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * Inserts child node.
 	 * @param  IHtmlString|string $child Html node or raw HTML string
 	 * @return static
-	 * @throws Nette\InvalidArgumentException
 	 */
 	public function insert(int $index = null, $child, bool $replace = false)
 	{
-		if ($child instanceof IHtmlString || is_scalar($child)) {
-			$child = $child instanceof self ? $child : (string) $child;
-			if ($index === null) { // append
-				$this->children[] = $child;
+		$child = $child instanceof self ? $child : (string) $child;
+		if ($index === null) { // append
+			$this->children[] = $child;
 
-			} else { // insert or replace
-				array_splice($this->children, $index, $replace ? 1 : 0, [$child]);
-			}
-
-		} else {
-			throw new Nette\InvalidArgumentException(sprintf('Child node must be scalar or Html object, %s given.', is_object($child) ? get_class($child) : gettype($child)));
+		} else { // insert or replace
+			array_splice($this->children, $index, $replace ? 1 : 0, [$child]);
 		}
 
 		return $this;
@@ -392,8 +380,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Inserts (replaces) child node (\ArrayAccess implementation).
-	 * @param  int|null position or null for appending
-	 * @param  Html|string Html node or raw HTML string
+	 * @param  int|null    $index position or null for appending
+	 * @param  Html|string $child Html node or raw HTML string
 	 * @return void
 	 */
 	final public function offsetSet($index, $child)
@@ -404,7 +392,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Returns child node (\ArrayAccess implementation).
-	 * @param  int
+	 * @param  int $index
 	 * @return static|string
 	 */
 	final public function offsetGet($index)
@@ -415,7 +403,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Exists child node? (\ArrayAccess implementation).
-	 * @param  int
+	 * @param  int $index
 	 */
 	final public function offsetExists($index): bool
 	{
@@ -425,13 +413,13 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Removes child node (\ArrayAccess implementation).
-	 * @param  int
+	 * @param  int $index
 	 * @return void
 	 */
 	public function offsetUnset($index)
 	{
 		if (isset($this->children[$index])) {
-			array_splice($this->children, (int) $index, 1);
+			array_splice($this->children, $index, 1);
 		}
 	}
 
@@ -486,7 +474,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 				$indent++;
 			}
 			foreach ($this->children as $child) {
-				if (is_object($child)) {
+				if ($child instanceof self) {
 					$s .= $child->render($indent);
 				} else {
 					$s .= $child;

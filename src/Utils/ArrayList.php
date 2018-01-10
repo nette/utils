@@ -42,7 +42,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Replaces or appends a item.
-	 * @param  int|null
+	 * @param  int|null $index
 	 * @return void
 	 * @throws Nette\OutOfRangeException
 	 */
@@ -55,14 +55,14 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 
 		} else {
-			$this->list[(int) $index] = $value;
+			$this->list[$index] = $value;
 		}
 	}
 
 
 	/**
 	 * Returns a item.
-	 * @param  int
+	 * @param  int $index
 	 * @return mixed
 	 * @throws Nette\OutOfRangeException
 	 */
@@ -71,13 +71,13 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 		if (!is_int($index) || $index < 0 || $index >= count($this->list)) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 		}
-		return $this->list[(int) $index];
+		return $this->list[$index];
 	}
 
 
 	/**
 	 * Determines whether a item exists.
-	 * @param  int
+	 * @param  int $index
 	 */
 	public function offsetExists($index): bool
 	{
@@ -87,7 +87,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Removes the element at the specified position in this list.
-	 * @param  int
+	 * @param  int $index
 	 * @return void
 	 * @throws Nette\OutOfRangeException
 	 */
@@ -96,7 +96,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 		if (!is_int($index) || $index < 0 || $index >= count($this->list)) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 		}
-		array_splice($this->list, (int) $index, 1);
+		array_splice($this->list, $index, 1);
 	}
 
 

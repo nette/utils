@@ -67,8 +67,8 @@ abstract class Object
 
 	/**
 	 * Call to undefined method.
-	 * @param  string  method name
-	 * @param  array   arguments
+	 * @param  string $name  method name
+	 * @param  array  $args  arguments
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
@@ -80,8 +80,8 @@ abstract class Object
 
 	/**
 	 * Call to undefined static method.
-	 * @param  string  method name (in lower case!)
-	 * @param  array   arguments
+	 * @param  string $name  method name (in lower case!)
+	 * @param  array  $args  arguments
 	 * @return mixed
 	 * @throws MemberAccessException
 	 */
@@ -93,8 +93,8 @@ abstract class Object
 
 	/**
 	 * Adding method to class.
-	 * @param  string  method name
-	 * @param  callable
+	 * @param  string   $name      method name
+	 * @param  callable $callback
 	 * @return mixed
 	 */
 	public static function extensionMethod($name, $callback = null)
@@ -115,8 +115,8 @@ abstract class Object
 
 	/**
 	 * Returns property value. Do not call directly.
-	 * @param  string  property name
-	 * @return mixed   property value
+	 * @param  string $name  property name
+	 * @return mixed  property value
 	 * @throws MemberAccessException if the property is not defined.
 	 */
 	public function &__get($name)
@@ -127,8 +127,8 @@ abstract class Object
 
 	/**
 	 * Sets value of a property. Do not call directly.
-	 * @param  string  property name
-	 * @param  mixed   property value
+	 * @param  string $name   property name
+	 * @param  mixed  $value  property value
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
@@ -140,7 +140,7 @@ abstract class Object
 
 	/**
 	 * Is property defined?
-	 * @param  string  property name
+	 * @param  string $name  property name
 	 * @return bool
 	 */
 	public function __isset($name)
@@ -151,7 +151,7 @@ abstract class Object
 
 	/**
 	 * Access to undeclared property.
-	 * @param  string  property name
+	 * @param  string $name  property name
 	 * @return void
 	 * @throws MemberAccessException
 	 */
