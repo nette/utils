@@ -19,6 +19,7 @@ trait A
 trait B
 {
 	use A;
+
 	protected $foo;
 }
 
@@ -31,6 +32,7 @@ class C
 {
 	use B;
 	use E;
+
 	protected $own;
 }
 

@@ -462,7 +462,7 @@ class Image
 	 * @param  int  opacity 0..100
 	 * @return static
 	 */
-	public function place(Image $image, $left = 0, $top = 0, $opacity = 100)
+	public function place(self $image, $left = 0, $top = 0, $opacity = 100)
 	{
 		$opacity = max(0, min(100, (int) $opacity));
 		if ($opacity === 0) {
