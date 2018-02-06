@@ -133,15 +133,17 @@ test(function () { // rename
 	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9');
 	Assert::false(file_exists(TEMP_DIR . '/9/x/file'));
 	Assert::false(file_exists(TEMP_DIR . '/10'));
+
+	FileSystem::createDir(TEMP_DIR . '/11/');
+	FileSystem::rename(TEMP_DIR . '/11', TEMP_DIR . '/11');
+	Assert::true(file_exists(TEMP_DIR . '/11'));
+	FileSystem::rename(TEMP_DIR . '/11', TEMP_DIR . '/11/');
+	Assert::true(file_exists(TEMP_DIR . '/11'));
 });
 
 Assert::exception(function () {
 	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9');
 }, Nette\IOException::class, "File or directory '%S%' not found.");
-
-Assert::exception(function () {
-	FileSystem::rename(TEMP_DIR . '/9', TEMP_DIR . '/9');
-}, Nette\IOException::class, "Unable to rename file or directory '%a%' to '%a%'.");
 
 
 test(function () { // isAbsolute
