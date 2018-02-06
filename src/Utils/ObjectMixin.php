@@ -45,7 +45,7 @@ final class ObjectMixin
 					$handler(...$args);
 				}
 			} elseif ($_this->$name !== null) {
-				throw new Nette\UnexpectedValueException("Property $class::$$name must be array or null, " . gettype($_this->$name) . ' given.');
+				throw new Nette\UnexpectedValueException("Property $class::$$name must be iterable or null, " . gettype($_this->$name) . ' given.');
 			}
 
 		} elseif ($isProp && $_this->$name instanceof \Closure) { // closure in property

@@ -35,7 +35,7 @@ trait SmartObject
 					$handler(...$args);
 				}
 			} elseif ($this->$name !== null) {
-				throw new UnexpectedValueException("Property $class::$$name must be array or null, " . gettype($this->$name) . ' given.');
+				throw new UnexpectedValueException("Property $class::$$name must be iterable or null, " . gettype($this->$name) . ' given.');
 			}
 
 		} else {
