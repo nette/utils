@@ -177,3 +177,14 @@ test(function () { // isset
 	Assert::true(isset(Html::el('a')->setAttribute('id', '')->id));
 	Assert::false(isset(Html::el('a')->setAttribute('id', null)->id));
 });
+
+
+test(function () { // removeAttributes
+	$el = Html::el('a')->addAttributes(['onclick' => '', 'onmouseover' => '']);
+	Assert::true(isset($el->onclick));
+	Assert::true(isset($el->onmouseover));
+
+	$el->removeAttributes(['onclick', 'onmouseover']);
+	Assert::false(isset($el->onclick));
+	Assert::false(isset($el->onmouseover));
+});

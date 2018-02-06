@@ -177,6 +177,19 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 
 	/**
+	 * Unsets element's attributes.
+	 * @return static
+	 */
+	public function removeAttributes(array $attributes)
+	{
+		foreach ($attributes as $name) {
+			unset($this->attrs[$name]);
+		}
+		return $this;
+	}
+
+
+	/**
 	 * Overloaded setter for element's attribute.
 	 */
 	final public function __set(string $name, $value): void
@@ -564,7 +577,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 					$tmp = null;
 					foreach ($value as $k => $v) {
 						if ($v != null) { // intentionally ==, skip nulls & empty string
-							//  composite 'style' vs. 'others'
+							// composite 'style' vs. 'others'
 							$tmp[] = $v === true ? $k : (is_string($k) ? $k . ':' . $v : $v);
 						}
 					}
