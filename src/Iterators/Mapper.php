@@ -7,7 +7,6 @@
 
 namespace Nette\Iterators;
 
-use Nette;
 
 
 /**
