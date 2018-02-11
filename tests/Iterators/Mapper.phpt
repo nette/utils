@@ -26,11 +26,11 @@ $iterator = new Iterators\Mapper(new \ArrayIterator($arr), $callback);
 
 $iterator->rewind();
 Assert::true($iterator->valid());
-assert::same('Nette: Framework', $iterator->current());
+Assert::same('Nette: Framework', $iterator->current());
 
 $iterator->next();
 Assert::true($iterator->valid());
-assert::same('David: Grudl', $iterator->current());
+Assert::same('David: Grudl', $iterator->current());
 
 $iterator->next();
 Assert::false($iterator->valid());
