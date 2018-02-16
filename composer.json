@@ -33,7 +33,8 @@
 		"nette/nette": "<2.2"
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": ["src/"],
+		"files": ["src/loader.php"]
 	},
 	"minimum-stability": "dev",
 	"extra": {
