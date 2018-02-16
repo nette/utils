@@ -2,7 +2,6 @@
 
 /**
  * Test: Nette\Object magic @methods inheritance.
- * @phpVersion < 7.2
  */
 
 use Tester\Assert;
@@ -16,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method setC()
  * @method getC()
  */
-class ParentClass extends Nette\Object
+class ParentClass extends Nette\LegacyObject
 {
 	protected $a;
 

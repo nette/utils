@@ -2,7 +2,6 @@
 
 /**
  * Test: Nette\Object magic @methods errors.
- * @phpVersion < 7.2
  */
 
 use Tester\Assert;
@@ -16,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method getItems()
  * @method getAbc()
  */
-class TestClass extends Nette\Object
+class TestClass extends Nette\LegacyObject
 {
 	protected $items = [];
 

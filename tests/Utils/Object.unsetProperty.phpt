@@ -2,7 +2,6 @@
 
 /**
  * Test: Nette\Object properties.
- * @phpVersion < 7.2
  */
 
 use Tester\Assert;
@@ -10,7 +9,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-class TestClass extends Nette\Object
+class TestClass extends Nette\LegacyObject
 {
 	public $foo;
 }

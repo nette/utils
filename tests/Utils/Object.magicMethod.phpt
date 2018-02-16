@@ -2,7 +2,6 @@
 
 /**
  * Test: Nette\Object magic @methods.
- * @phpVersion < 7.2
  */
 
 use Tester\Assert;
@@ -19,7 +18,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method setEnabled($enabled)
  * @method isEnabled() comment
  */
-class TestClass extends Nette\Object
+class TestClass extends Nette\LegacyObject
 {
 	public $name;
 

@@ -49,7 +49,7 @@ use Nette;
  * @property-read Nette\Reflection\ClassType|\ReflectionClass $reflection
  * @deprecated use trait Nette\SmartObject
  */
-abstract class Object
+abstract class LegacyObject
 {
 
 	/**

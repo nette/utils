@@ -2,7 +2,6 @@
 
 /**
  * Test: Nette\Object magic @methods and types.
- * @phpVersion < 7.2
  */
 
 namespace Test;
@@ -23,7 +22,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method getItems()
  * @method setEnabled(bool)
  */
-class TestClass extends Nette\Object
+class TestClass extends Nette\LegacyObject
 {
 	public $name;
 

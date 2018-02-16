@@ -2,10 +2,9 @@
 
 /**
  * Test: Nette\Object extension method via interface.
- * @phpVersion < 7.2
  */
 
-use Nette\Object;
+use Nette\LegacyObject;
 use Tester\Assert;
 
 
@@ -20,7 +19,7 @@ interface ISecond extends IFirst
 {
 }
 
-class TestClass extends Object implements ISecond
+class TestClass extends LegacyObject implements ISecond
 {
 	public $foo = 'Hello';
 
@@ -40,8 +39,8 @@ function ISecond_join(ISecond $that, $separator)
 }
 
 
-Object::extensionMethod('ISecond::join', 'ISecond_join');
-Object::extensionMethod('IFirst::join', 'IFirst_join');
+LegacyObject::extensionMethod('ISecond::join', 'ISecond_join');
+LegacyObject::extensionMethod('IFirst::join', 'IFirst_join');
 
 $obj = new TestClass;
 Assert::same('ISecond_join says Hello*World', $obj->join('*'));
