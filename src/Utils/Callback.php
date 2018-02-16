@@ -41,6 +41,7 @@ final class Callback
 	 */
 	public static function invoke($callable, ...$args)
 	{
+		trigger_error(__METHOD__ . '() is deprecated, une native invoking.', E_USER_DEPRECATED);
 		self::check($callable);
 		return $callable(...$args);
 	}
@@ -53,6 +54,7 @@ final class Callback
 	 */
 	public static function invokeArgs($callable, array $args = [])
 	{
+		trigger_error(__METHOD__ . '() is deprecated, une native invoking.', E_USER_DEPRECATED);
 		self::check($callable);
 		return $callable(...$args);
 	}
