@@ -225,7 +225,7 @@ trait SmartObject
 		if ($callback === null) {
 			return ObjectMixin::getExtensionMethod($class, $name);
 		} else {
-			ObjectMixin::setExtensionMethod($class, $name, $callback);
+			@ObjectMixin::setExtensionMethod($class, $name, $callback); // is deprecated
 		}
 	}
 }

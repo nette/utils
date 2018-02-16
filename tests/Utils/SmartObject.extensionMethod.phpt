@@ -39,12 +39,12 @@ Assert::same('Hello*World', @$obj->join('*'));
 
 Assert::same(
 	['join' => $func],
-	Nette\Utils\ObjectMixin::getExtensionMethods(TestClass::class)
+	@Nette\Utils\ObjectMixin::getExtensionMethods(TestClass::class) // is deprecated
 );
 
 Assert::same(
 	[],
-	Nette\Utils\ObjectMixin::getExtensionMethods(Nette\SmartObject::class)
+	@Nette\Utils\ObjectMixin::getExtensionMethods(Nette\SmartObject::class) // is deprecated
 );
 
 Assert::exception(function () {

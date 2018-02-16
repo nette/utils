@@ -49,12 +49,12 @@ Assert::same('ISecond_join says Hello*World', @$obj->join('*'));
 
 Assert::same(
 	['join' => 'ISecond_join'],
-	Nette\Utils\ObjectMixin::getExtensionMethods(TestClass::class)
+	@Nette\Utils\ObjectMixin::getExtensionMethods(TestClass::class) // is deprecated
 );
 
 Assert::same(
 	['join' => 'IFirst_join'],
-	Nette\Utils\ObjectMixin::getExtensionMethods(IFirst::class)
+	@Nette\Utils\ObjectMixin::getExtensionMethods(IFirst::class) // is deprecated
 );
 
 Assert::exception(function () {

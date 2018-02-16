@@ -72,7 +72,7 @@ abstract class LegacyObject
 	 */
 	public function __call($name, $args)
 	{
-		return Nette\Utils\ObjectMixin::call($this, $name, $args);
+		return @Nette\Utils\ObjectMixin::call($this, $name, $args); // is deprecated
 	}
 
 
@@ -85,7 +85,7 @@ abstract class LegacyObject
 	 */
 	public static function __callStatic($name, $args)
 	{
-		return Nette\Utils\ObjectMixin::callStatic(get_called_class(), $name, $args);
+		return @Nette\Utils\ObjectMixin::callStatic(get_called_class(), $name, $args); // is deprecated
 	}
 
 
@@ -104,9 +104,9 @@ abstract class LegacyObject
 			$class = (new \ReflectionClass($class))->getName();
 		}
 		if ($callback === null) {
-			return Nette\Utils\ObjectMixin::getExtensionMethod($class, $name);
+			return @Nette\Utils\ObjectMixin::getExtensionMethod($class, $name); // is deprecated
 		} else {
-			Nette\Utils\ObjectMixin::setExtensionMethod($class, $name, $callback);
+			@Nette\Utils\ObjectMixin::setExtensionMethod($class, $name, $callback); // is deprecated
 		}
 	}
 
@@ -132,7 +132,7 @@ abstract class LegacyObject
 	 */
 	public function __set($name, $value)
 	{
-		Nette\Utils\ObjectMixin::set($this, $name, $value);
+		@Nette\Utils\ObjectMixin::set($this, $name, $value); // is deprecated
 	}
 
 
@@ -143,7 +143,7 @@ abstract class LegacyObject
 	 */
 	public function __isset($name)
 	{
-		return Nette\Utils\ObjectMixin::has($this, $name);
+		return @Nette\Utils\ObjectMixin::has($this, $name); // is deprecated
 	}
 
 
@@ -155,6 +155,6 @@ abstract class LegacyObject
 	 */
 	public function __unset($name)
 	{
-		Nette\Utils\ObjectMixin::remove($this, $name);
+		@Nette\Utils\ObjectMixin::remove($this, $name); // is deprecated
 	}
 }

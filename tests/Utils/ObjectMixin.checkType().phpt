@@ -23,7 +23,7 @@ class StrClass
 function assertAccepts($type, $vals)
 {
 	foreach ($vals as $key => $val) {
-		Assert::true(ObjectMixin::checkType($val, $type));
+		Assert::true(@ObjectMixin::checkType($val, $type)); // is deprecated
 		Assert::same($vals[$key], $val);
 	}
 }
@@ -32,7 +32,7 @@ function assertAccepts($type, $vals)
 function assertRejects($type, $vals)
 {
 	foreach ($vals as $key => $val) {
-		Assert::false(ObjectMixin::checkType($val, $type));
+		Assert::false(@ObjectMixin::checkType($val, $type)); // is deprecated
 		Assert::same($vals[$key], $val);
 	}
 }
@@ -41,7 +41,7 @@ function assertRejects($type, $vals)
 function assertConverts($type, $vals)
 {
 	foreach ($vals as $val) {
-		Assert::true(ObjectMixin::checkType($val[0], $type));
+		Assert::true(@ObjectMixin::checkType($val[0], $type)); // is deprecated
 		Assert::same($val[1], $val[0]);
 	}
 }
@@ -138,7 +138,7 @@ assertConverts('int[]', [
 ]);
 
 $val = ['1', new stdClass];
-ObjectMixin::checkType($val, 'int[]');
+@ObjectMixin::checkType($val, 'int[]'); // is deprecated
 Assert::equal(['1', new stdClass], $val); // do not modify
 
 assertAccepts('array|string', ['', '123x', [], [1, 2], ['a', 'b']]);
