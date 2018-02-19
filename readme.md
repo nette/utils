@@ -14,7 +14,7 @@ Introduction
 In package nette/utils you will find a set of useful classes for everyday use:
 
 - [Arrays](https://doc.nette.org/arrays) - manipulate arrays
-- [Callback](https://doc.nette.org/callbacks) - PHP callbacks
+- [Callback](https://doc.nette.org/callback) - PHP callbacks
 - [Date and Time](https://doc.nette.org/datetime) - modify times and dates
 - [Filesystem](https://doc.nette.org/filesystem) - copying, renaming, …
 - [HTML elements](https://doc.nette.org/html-elements) - generate HTML
