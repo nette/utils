@@ -394,7 +394,6 @@ class ObjectMixin
 	 */
 	public static function setExtensionMethod($class, $name, $callback)
 	{
-		trigger_error('Class Nette\Utils\ObjectMixin is deprecated', E_USER_DEPRECATED);
 		$name = strtolower($name);
 		self::$extMethods[$name][$class] = Callback::check($callback);
 		self::$extMethods[$name][''] = null;

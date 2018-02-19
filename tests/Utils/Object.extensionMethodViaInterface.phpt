@@ -39,8 +39,8 @@ function ISecond_join(ISecond $that, $separator)
 }
 
 
-LegacyObject::extensionMethod('ISecond::join', 'ISecond_join');
-LegacyObject::extensionMethod('IFirst::join', 'IFirst_join');
+@LegacyObject::extensionMethod('ISecond::join', 'ISecond_join'); // is deprecated
+@LegacyObject::extensionMethod('IFirst::join', 'IFirst_join'); // is deprecated
 
 $obj = new TestClass;
 Assert::same('ISecond_join says Hello*World', $obj->join('*'));

@@ -17,7 +17,7 @@ class TestClass extends Nette\LegacyObject
 }
 
 
-TestClass::extensionMethod('join', $func = function (TestClass $that, $separator) {
+@TestClass::extensionMethod('join', $func = function (TestClass $that, $separator) { // is deprecated
 	return $that->foo . $separator . $that->bar;
 });
 

@@ -97,6 +97,7 @@ abstract class LegacyObject
 	 */
 	public static function extensionMethod($name, $callback = null)
 	{
+		trigger_error('Class Nette\Object and extension methods are deprecated', E_USER_DEPRECATED);
 		if (strpos($name, '::') === false) {
 			$class = get_called_class();
 		} else {
@@ -104,9 +105,9 @@ abstract class LegacyObject
 			$class = (new \ReflectionClass($class))->getName();
 		}
 		if ($callback === null) {
-			return @Nette\Utils\ObjectMixin::getExtensionMethod($class, $name); // is deprecated
+			return Nette\Utils\ObjectMixin::getExtensionMethod($class, $name);
 		} else {
-			@Nette\Utils\ObjectMixin::setExtensionMethod($class, $name, $callback); // is deprecated
+			Nette\Utils\ObjectMixin::setExtensionMethod($class, $name, $callback);
 		}
 	}
 
