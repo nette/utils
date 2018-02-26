@@ -110,6 +110,39 @@ test(function () { // delete
 });
 
 
+test(function () { // move
+	FileSystem::write(TEMP_DIR . '/12/file', 'Hello');
+
+	FileSystem::move(TEMP_DIR . '/12/file', TEMP_DIR . '/12/x/file');
+	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/12/x/file'));
+	Assert::false(file_exists(TEMP_DIR . '/12/file'));
+
+	FileSystem::write(TEMP_DIR . '/13/newfile', 'World');
+
+	Assert::exception(function () {
+		FileSystem::move(TEMP_DIR . '/13/newfile', TEMP_DIR . '/12/x/file', false);
+	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
+	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/12/x/file'));
+
+	FileSystem::move(TEMP_DIR . '/13/newfile', TEMP_DIR . '/12/x/file');
+	Assert::false(file_exists(TEMP_DIR . '/13/newfile'));
+
+	Assert::exception(function () {
+		FileSystem::move(TEMP_DIR . '/12', TEMP_DIR . '/13', false);
+	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
+	Assert::true(is_dir(TEMP_DIR . '/13'));
+
+	FileSystem::move(TEMP_DIR . '/12', TEMP_DIR . '/13');
+	Assert::false(file_exists(TEMP_DIR . '/12/x'));
+	Assert::true(is_file(TEMP_DIR . '/13/x/file'));
+	Assert::false(file_exists(TEMP_DIR . '/12/x/file'));
+});
+
+Assert::exception(function () {
+	FileSystem::move(TEMP_DIR . '/14', TEMP_DIR . '/12');
+}, Nette\IOException::class, "File or directory '%S%' not found.");
+
+
 test(function () { // rename
 	FileSystem::write(TEMP_DIR . '/8/file', 'Hello');
 	FileSystem::rename(TEMP_DIR . '/8', TEMP_DIR . '/9');
