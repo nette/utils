@@ -288,13 +288,10 @@ class Strings
 
 	/**
 	 * Finds the length of common prefix of strings.
-	 * @param  string|array
+	 * @param  string[]
 	 */
-	public static function findPrefix(...$strings): string
+	public static function findPrefix(array $strings): string
 	{
-		if (is_array($strings[0])) {
-			$strings = $strings[0];
-		}
 		$first = array_shift($strings);
 		for ($i = 0; $i < strlen($first); $i++) {
 			foreach ($strings as $s) {
