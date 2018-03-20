@@ -208,7 +208,7 @@ class Image
 
 	/**
 	 * Wraps GD image.
-	 * @param  resource
+	 * @param  resource  $image
 	 */
 	public function __construct($image)
 	{
@@ -237,7 +237,7 @@ class Image
 
 	/**
 	 * Sets image resource.
-	 * @param  resource
+	 * @param  resource  $image
 	 * @return static
 	 */
 	protected function setImageResource($image)
@@ -262,8 +262,8 @@ class Image
 
 	/**
 	 * Resizes image.
-	 * @param  mixed  width in pixels or percent
-	 * @param  mixed  height in pixels or percent
+	 * @param  int|string  $width in pixels or percent
+	 * @param  int|string  $height in pixels or percent
 	 * @return static
 	 */
 	public function resize($width, $height, int $flags = self::FIT)
@@ -293,8 +293,8 @@ class Image
 
 	/**
 	 * Calculates dimensions of resized image.
-	 * @param  mixed  $newWidth in pixels or percent
-	 * @param  mixed  $newHeight in pixels or percent
+	 * @param  int|string  $newWidth in pixels or percent
+	 * @param  int|string  $newHeight in pixels or percent
 	 */
 	public static function calculateSize(int $srcWidth, int $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
 	{
@@ -355,10 +355,10 @@ class Image
 
 	/**
 	 * Crops image.
-	 * @param  mixed  x-offset in pixels or percent
-	 * @param  mixed  y-offset in pixels or percent
-	 * @param  mixed  width in pixels or percent
-	 * @param  mixed  height in pixels or percent
+	 * @param  int|string  $left in pixels or percent
+	 * @param  int|string  $top in pixels or percent
+	 * @param  int|string  $width in pixels or percent
+	 * @param  int|string  $height in pixels or percent
 	 * @return static
 	 */
 	public function crop($left, $top, $width, $height)
@@ -372,12 +372,10 @@ class Image
 
 	/**
 	 * Calculates dimensions of cutout in image.
-	 * @param  int
-	 * @param  int
-	 * @param  mixed  x-offset in pixels or percent
-	 * @param  mixed  y-offset in pixels or percent
-	 * @param  mixed  width in pixels or percent
-	 * @param  mixed  height in pixels or percent
+	 * @param  int|string  $left in pixels or percent
+	 * @param  int|string  $top in pixels or percent
+	 * @param  int|string  $newWidth in pixels or percent
+	 * @param  int|string  $newHeight in pixels or percent
 	 */
 	public static function calculateCutout(int $srcWidth, int $srcHeight, $left, $top, $newWidth, $newHeight): array
 	{
@@ -424,10 +422,9 @@ class Image
 
 	/**
 	 * Puts another image into this image.
-	 * @param  Image
-	 * @param  mixed  x-coordinate in pixels or percent
-	 * @param  mixed  y-coordinate in pixels or percent
-	 * @param  int  opacity 0..100
+	 * @param  int|string  $left in pixels or percent
+	 * @param  int|string  $top in pixels or percent
+	 * @param  int  $opacity 0..100
 	 * @return static
 	 */
 	public function place(self $image, $left = 0, $top = 0, int $opacity = 100)

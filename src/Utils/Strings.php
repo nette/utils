@@ -288,7 +288,7 @@ class Strings
 
 	/**
 	 * Finds the length of common prefix of strings.
-	 * @param  string[]
+	 * @param  string[]  $strings
 	 */
 	public static function findPrefix(array $strings): string
 	{
@@ -469,9 +469,8 @@ class Strings
 
 	/**
 	 * Perform a regular expression search and replace.
-	 * @param  string
-	 * @param  string|array
-	 * @param  string|callable
+	 * @param  string|array  $pattern
+	 * @param  string|callable  $replacement
 	 */
 	public static function replace(string $subject, $pattern, $replacement = null, int $limit = -1): string
 	{

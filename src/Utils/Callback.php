@@ -21,7 +21,7 @@ final class Callback
 	use Nette\StaticClass;
 
 	/**
-	 * @param  string|object|callable  class, object, callable
+	 * @param  string|object|callable  $callable  class, object, callable
 	 * @deprecated use Closure::fromCallable()
 	 */
 	public static function closure($callable, string $method = null): \Closure
