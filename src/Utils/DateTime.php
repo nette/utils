@@ -91,28 +91,6 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 
 	/**
-	 * @param  int|string  $timestamp
-	 * @return static
-	 */
-	public function setTimestamp($timestamp)
-	{
-		$zone = $this->getTimezone();
-		$this->__construct('@' . $timestamp);
-		return $this->setTimezone($zone);
-	}
-
-
-	/**
-	 * @return int|string
-	 */
-	public function getTimestamp()
-	{
-		$ts = $this->format('U');
-		return is_float($tmp = $ts * 1) ? $ts : $tmp;
-	}
-
-
-	/**
 	 * Returns new DateTime object formatted according to the specified format.
 	 * @param  string  $format  The format the $time parameter should be in
 	 * @param  string  $time
