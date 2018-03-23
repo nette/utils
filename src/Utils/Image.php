@@ -492,7 +492,11 @@ class Image
 			$type = $extensions[$ext];
 		}
 
-		switch ($type) {
+        if (array_key_exists($type, self::$formats) && $file != null) {
+            FileSystem::createDir(dirname($file));
+        }
+
+        switch ($type) {
 			case self::JPEG:
 				$quality = $quality === null ? 85 : max(0, min(100, $quality));
 				$success = imagejpeg($this->image, $file, $quality);
