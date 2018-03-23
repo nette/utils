@@ -73,6 +73,40 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 
 	/**
+	 * Returns new DateTime object formatted according to the specified format.
+	 * @param string The format the $time parameter should be in
+	 * @param string String representing the time
+	 * @param string|\DateTimeZone desired timezone (default timezone is used if null is passed)
+	 * @return static|false
+	 */
+	public static function createFromFormat($format, $time, $timezone = null)
+	{
+		if ($timezone === null) {
+			$timezone = new \DateTimeZone(date_default_timezone_get());
+
+		} elseif (is_string($timezone)) {
+			$timezone = new \DateTimeZone($timezone);
+
+		} elseif (!$timezone instanceof \DateTimeZone) {
+			throw new Nette\InvalidArgumentException('Invalid timezone given');
+		}
+
+		$date = parent::createFromFormat($format, $time, $timezone);
+		return $date ? static::from($date) : false;
+	}
+
+
+	/**
+	 * Returns JSON representation in ISO 8601 (used by JavaScript).
+	 * @return string
+	 */
+	public function jsonSerialize()
+	{
+		return $this->format('c');
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function __toString()
@@ -111,39 +145,5 @@ class DateTime extends \DateTime implements \JsonSerializable
 	{
 		$ts = $this->format('U');
 		return is_float($tmp = $ts * 1) ? $ts : $tmp;
-	}
-
-
-	/**
-	 * Returns new DateTime object formatted according to the specified format.
-	 * @param string The format the $time parameter should be in
-	 * @param string String representing the time
-	 * @param string|\DateTimeZone desired timezone (default timezone is used if null is passed)
-	 * @return static|false
-	 */
-	public static function createFromFormat($format, $time, $timezone = null)
-	{
-		if ($timezone === null) {
-			$timezone = new \DateTimeZone(date_default_timezone_get());
-
-		} elseif (is_string($timezone)) {
-			$timezone = new \DateTimeZone($timezone);
-
-		} elseif (!$timezone instanceof \DateTimeZone) {
-			throw new Nette\InvalidArgumentException('Invalid timezone given');
-		}
-
-		$date = parent::createFromFormat($format, $time, $timezone);
-		return $date ? static::from($date) : false;
-	}
-
-
-	/**
-	 * Returns JSON representation in ISO 8601 (used by JavaScript).
-	 * @return string
-	 */
-	public function jsonSerialize()
-	{
-		return $this->format('c');
 	}
 }
