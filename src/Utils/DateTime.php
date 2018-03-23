@@ -74,22 +74,6 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
-	public function __toString(): string
-	{
-		return $this->format('Y-m-d H:i:s');
-	}
-
-
-	/**
-	 * @return static
-	 */
-	public function modifyClone(string $modify = '')
-	{
-		$dolly = clone $this;
-		return $modify ? $dolly->modify($modify) : $dolly;
-	}
-
-
 	/**
 	 * Returns new DateTime object formatted according to the specified format.
 	 * @param  string  $format  The format the $time parameter should be in
@@ -120,5 +104,21 @@ class DateTime extends \DateTime implements \JsonSerializable
 	public function jsonSerialize(): string
 	{
 		return $this->format('c');
+	}
+
+
+	public function __toString(): string
+	{
+		return $this->format('Y-m-d H:i:s');
+	}
+
+
+	/**
+	 * @return static
+	 */
+	public function modifyClone(string $modify = '')
+	{
+		$dolly = clone $this;
+		return $modify ? $dolly->modify($modify) : $dolly;
 	}
 }
