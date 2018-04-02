@@ -89,6 +89,17 @@ final class FileSystem
 
 
 	/**
+	 * Moves a file or directory.
+	 * @throws Nette\IOException
+	 */
+	public static function move(string $source, string $dest, bool $overwrite = true): void
+	{
+		static::copy($source, $dest, $overwrite);
+		static::delete($source);
+	}
+
+
+	/**
 	 * Renames a file or directory.
 	 * @throws Nette\IOException
 	 * @throws Nette\InvalidStateException if the target file or directory already exist
