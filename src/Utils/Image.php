@@ -152,7 +152,7 @@ class Image
 			$detectedFormat = null;
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
-		return new static(Callback::invokeSafe('imagecreatefrom' . image_type_to_extension($detectedFormat,FALSE), [$file], function (string $message) {
+		return new static(Callback::invokeSafe('imagecreatefrom' . image_type_to_extension($detectedFormat, false), [$file], function (string $message) {
 			throw new ImageException($message);
 		}));
 	}
