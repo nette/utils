@@ -483,6 +483,10 @@ class Image
 	 */
 	public function save(string $file = null, int $quality = null, int $type = null): void
 	{
+		if ($type === null && $file === null) {
+			throw new Nette\InvalidArgumentException('Either the output file or type must be set.');
+		}
+
 		if ($type === null) {
 			$extensions = array_flip(self::$formats) + ['jpg' => self::JPEG];
 			$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
