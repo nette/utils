@@ -48,6 +48,11 @@ test(function () use ($main) {
 });
 
 
+Assert::exception(function () use ($main) {
+	$main->save();
+}, Nette\InvalidArgumentException::class, 'Either the output file or type must be set.');
+
+
 Assert::exception(function () use ($main) { // invalid image type
 	$main->save('foo', null, IMG_WBMP);
 }, Nette\InvalidArgumentException::class, sprintf('Unsupported image type \'%d\'.', IMG_WBMP));
