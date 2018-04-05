@@ -481,7 +481,7 @@ class Image
 	 * Saves image to the file. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
 	 * @throws ImageException
 	 */
-	public function save(string $file = null, int $quality = null, int $type = null): void
+	public function save(string $file, int $quality = null, int $type = null): void
 	{
 		if ($type === null) {
 			$extensions = array_flip(self::$formats) + ['jpg' => self::JPEG];
@@ -492,32 +492,7 @@ class Image
 			$type = $extensions[$ext];
 		}
 
-		switch ($type) {
-			case self::JPEG:
-				$quality = $quality === null ? 85 : max(0, min(100, $quality));
-				$success = imagejpeg($this->image, $file, $quality);
-				break;
-
-			case self::PNG:
-				$quality = $quality === null ? 9 : max(0, min(9, $quality));
-				$success = imagepng($this->image, $file, $quality);
-				break;
-
-			case self::GIF:
-				$success = imagegif($this->image, $file);
-				break;
-
-			case self::WEBP:
-				$quality = $quality === null ? 80 : max(0, min(100, $quality));
-				$success = imagewebp($this->image, $file, $quality);
-				break;
-
-			default:
-				throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
-		}
-		if (!$success) {
-			throw new ImageException(error_get_last()['message']);
-		}
+		$this->output($type, $quality, $file);
 	}
 
 
@@ -527,7 +502,7 @@ class Image
 	public function toString(int $type = self::JPEG, int $quality = null): string
 	{
 		ob_start(function () {});
-		$this->save(null, $quality, $type);
+		$this->output($type, $quality);
 		return ob_get_clean();
 	}
 
@@ -558,7 +533,42 @@ class Image
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
-		$this->save(null, $quality, $type);
+		$this->output($type, $quality);
+	}
+
+
+	/**
+	 * Outputs image to browser or file.
+	 * @throws ImageException
+	 */
+	private function output(int $type, ?int $quality, string $file = null): void
+	{
+		switch ($type) {
+			case self::JPEG:
+				$quality = $quality === null ? 85 : max(0, min(100, $quality));
+				$success = imagejpeg($this->image, $file, $quality);
+				break;
+
+			case self::PNG:
+				$quality = $quality === null ? 9 : max(0, min(9, $quality));
+				$success = imagepng($this->image, $file, $quality);
+				break;
+
+			case self::GIF:
+				$success = imagegif($this->image, $file);
+				break;
+
+			case self::WEBP:
+				$quality = $quality === null ? 80 : max(0, min(100, $quality));
+				$success = imagewebp($this->image, $file, $quality);
+				break;
+
+			default:
+				throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
+		}
+		if (!$success) {
+			throw new ImageException(error_get_last()['message']);
+		}
 	}
 
 
