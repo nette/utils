@@ -211,7 +211,7 @@ class Strings
 	/**
 	 * Indents UTF-8 string from the left.
 	 */
-	public static function indent(string $s, int $level = 1, string $chars = "\t"): string
+	public static function indent(string $s, int $level = 1, string $chars = "    "): string
 	{
 		if ($level > 0) {
 			$s = self::replace($s, '#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level));
