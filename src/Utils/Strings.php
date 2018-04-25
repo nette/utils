@@ -206,13 +206,26 @@ class Strings
 		}
 		return $s;
 	}
-
-
-	/**
-	 * Indents UTF-8 string from the left.
-	 */
-	public static function indent(string $s, int $level = 1, string $chars = "    "): string
+    
+    
+    /**
+     * Indents UTF-8 string from the left.
+     *
+     * @param string $s
+     * @param int    $level
+     * @param string $chars
+     * @param int    $charMultiplier
+     *
+     * @return string
+     */
+	public static function indent(string $s, int $level = 1, string $chars = " ", int $charMultiplier = 4): string
 	{
+        $charMultiplier = abs($charMultiplier);
+	    
+	    if ($charMultiplier) {
+	        $chars = str_repeat($chars, $charMultiplier);
+        }
+	    
 		if ($level > 0) {
 			$s = self::replace($s, '#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level));
 		}
