@@ -48,7 +48,7 @@ class TestClass
 Assert::error(function () {
 	$obj = new TestClass;
 	$obj->publicMethod;
-}, E_USER_DEPRECATED, 'Accessing methods as properties via $obj->publicMethod is deprecated in ' . __FILE__ . ':' . (__LINE__ - 1));
+}, E_USER_DEPRECATED, 'Accessing methods as properties via $obj->publicMethod is deprecated, use PHP callback [$obj, \'publicMethod\'] in ' . __FILE__ . ':' . (__LINE__ - 1));
 
 
 $obj1 = new TestClass(1);

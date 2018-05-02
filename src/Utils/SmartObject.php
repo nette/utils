@@ -126,7 +126,7 @@ trait SmartObject
 			}
 
 		} elseif (isset($methods[$name])) { // public method as closure getter
-			trigger_error("Accessing methods as properties via \$obj->$name is deprecated" . ObjectMixin::getSource(), E_USER_DEPRECATED);
+			trigger_error("Accessing methods as properties via \$obj->$name is deprecated, use PHP callback [\$obj, '$name']" . ObjectMixin::getSource(), E_USER_DEPRECATED);
 			$val = Callback::closure($this, $name);
 			return $val;
 
