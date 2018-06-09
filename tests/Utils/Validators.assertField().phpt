@@ -23,7 +23,7 @@ Assert::exception(function () use ($arr) {
 	Validators::assertField($arr, 'second', 'int');
 }, Nette\Utils\AssertionException::class, "Missing item 'second' in array.");
 
-Validators::assertField($arr, 'first');
+Assert::true(Validators::assertField($arr, 'first'));
 
 Assert::exception(function () use ($arr) {
 	Validators::assertField($arr, 'first', 'int');

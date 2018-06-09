@@ -13,6 +13,8 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+Assert::true(Validators::assert(null, 'null'));
+
 Assert::exception(function () {
 	Validators::assert(true, 'int');
 }, Nette\Utils\AssertionException::class, 'The variable expects to be int, boolean given.');
