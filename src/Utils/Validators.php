@@ -72,7 +72,7 @@ class Validators
 	/**
 	 * Throws exception if a variable is of unexpected type (separated by pipe).
 	 */
-	public static function assert($value, string $expected, string $label = 'variable'): void
+	public static function assert($value, string $expected, string $label = 'variable'): bool
 	{
 		if (!static::is($value, $expected)) {
 			$expected = str_replace(['|', ':'], [' or ', ' in range '], $expected);
@@ -87,13 +87,14 @@ class Validators
 			}
 			throw new AssertionException("The $label expects to be $expected, $type given.");
 		}
+		return true;
 	}
 
 
 	/**
 	 * Throws exception if an array field is missing or of unexpected type (separated by pipe).
 	 */
-	public static function assertField(array $arr, $field, string $expected = null, string $label = "item '%' in array"): void
+	public static function assertField(array $arr, $field, string $expected = null, string $label = "item '%' in array"): bool
 	{
 		if (!array_key_exists($field, $arr)) {
 			throw new AssertionException('Missing ' . str_replace('%', $field, $label) . '.');
@@ -101,6 +102,7 @@ class Validators
 		} elseif ($expected) {
 			static::assert($arr[$field], $expected, str_replace('%', $field, $label));
 		}
+		return true;
 	}
 
 
