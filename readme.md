@@ -7,6 +7,8 @@ Nette Utility Classes
 [![Latest Stable Version](https://poser.pugx.org/nette/utils/v/stable)](https://github.com/nette/utils/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/utils/blob/master/license.md)
 
+If you like Nette, **[please make a donation now](https://nette.org/donate)**. Thank you!
+
 Nette\SmartObject: Strict classes
 ---------------------------------
 
