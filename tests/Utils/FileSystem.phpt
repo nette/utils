@@ -54,7 +54,7 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	FileSystem::read('');
-}, Nette\IOException::class, "Unable to read file ''.");
+}, Nette\IOException::class, "Unable to read file ''. Filename cannot be empty");
 
 
 test(function () { // copy

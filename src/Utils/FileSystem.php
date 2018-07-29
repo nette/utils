@@ -26,7 +26,7 @@ final class FileSystem
 	public static function createDir(string $dir, int $mode = 0777): void
 	{
 		if (!is_dir($dir) && !@mkdir($dir, $mode, true) && !is_dir($dir)) { // @ - dir may already exist
-			throw new Nette\IOException("Unable to create directory '$dir'. " . error_get_last()['message']);
+			throw new Nette\IOException("Unable to create directory '$dir'. " . self::getLastError());
 		}
 	}
 
@@ -59,7 +59,7 @@ final class FileSystem
 		} else {
 			static::createDir(dirname($dest));
 			if (@stream_copy_to_stream(fopen($source, 'r'), fopen($dest, 'w')) === false) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to copy file '$source' to '$dest'.");
+				throw new Nette\IOException("Unable to copy file '$source' to '$dest'. " . self::getLastError());
 			}
 		}
 	}
@@ -74,7 +74,7 @@ final class FileSystem
 		if (is_file($path) || is_link($path)) {
 			$func = DIRECTORY_SEPARATOR === '\\' && is_dir($path) ? 'rmdir' : 'unlink';
 			if (!@$func($path)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to delete '$path'.");
+				throw new Nette\IOException("Unable to delete '$path'. " . self::getLastError());
 			}
 
 		} elseif (is_dir($path)) {
@@ -82,7 +82,7 @@ final class FileSystem
 				static::delete($item->getPathname());
 			}
 			if (!@rmdir($path)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to delete directory '$path'.");
+				throw new Nette\IOException("Unable to delete directory '$path'. " . self::getLastError());
 			}
 		}
 	}
@@ -107,7 +107,7 @@ final class FileSystem
 				static::delete($newName);
 			}
 			if (!@rename($name, $newName)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to rename file or directory '$name' to '$newName'.");
+				throw new Nette\IOException("Unable to rename file or directory '$name' to '$newName'. " . self::getLastError());
 			}
 		}
 	}
@@ -121,7 +121,7 @@ final class FileSystem
 	{
 		$content = @file_get_contents($file); // @ is escalated to exception
 		if ($content === false) {
-			throw new Nette\IOException("Unable to read file '$file'.");
+			throw new Nette\IOException("Unable to read file '$file'. " . self::getLastError());
 		}
 		return $content;
 	}
@@ -135,10 +135,10 @@ final class FileSystem
 	{
 		static::createDir(dirname($file));
 		if (@file_put_contents($file, $content) === false) { // @ is escalated to exception
-			throw new Nette\IOException("Unable to write file '$file'.");
+			throw new Nette\IOException("Unable to write file '$file'. " . self::getLastError());
 		}
 		if ($mode !== null && !@chmod($file, $mode)) { // @ is escalated to exception
-			throw new Nette\IOException("Unable to chmod file '$file'.");
+			throw new Nette\IOException("Unable to chmod file '$file'. " . self::getLastError());
 		}
 	}
 
@@ -149,5 +149,11 @@ final class FileSystem
 	public static function isAbsolute(string $path): bool
 	{
 		return (bool) preg_match('#([a-z]:)?[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
+	}
+
+
+	private static function getLastError(): string
+	{
+		return preg_replace('#^\w+\(.*?\): #', '', error_get_last()['message']);
 	}
 }
