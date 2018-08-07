@@ -196,7 +196,12 @@ final class Reflection
 	 */
 	private static function parseUseStatements(string $code, string $forClass = null): array
 	{
-		$tokens = token_get_all($code);
+		try {
+			$tokens = token_get_all($code, TOKEN_PARSE);
+		} catch (\ParseError $e) {
+			trigger_error($e->getMessage(), E_USER_NOTICE);
+			$tokens = [];
+		}
 		$namespace = $class = $classLevel = $level = null;
 		$res = $uses = [];
 
