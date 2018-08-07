@@ -227,7 +227,7 @@ class Reflection
 	 */
 	private static function parseUseStatements($code, $forClass = null)
 	{
-		$tokens = token_get_all($code);
+		$tokens = PHP_VERSION_ID >= 70000 ? token_get_all($code, TOKEN_PARSE) : token_get_all($code);
 		$namespace = $class = $classLevel = $level = null;
 		$res = $uses = [];
 
