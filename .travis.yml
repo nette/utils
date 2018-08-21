@@ -26,13 +26,20 @@ jobs:
                 - travis_retry composer create-project nette/code-checker temp/code-checker ~2 --no-progress
                 # Install Nette Coding Standard
                 - travis_retry composer create-project nette/coding-standard temp/coding-standard --no-progress
+
+            script:
+                - php temp/code-checker/src/code-checker.php --short-arrays --strict-types -i tests/Utils/fixtures.reflection
+                - php temp/coding-standard/ecs check src tests --config tests/coding-standard.neon
+
+
+        -   stage: Static Analysis
+            php: 7.1
+            install:
                 # Install PHPStan
                 - travis_retry composer create-project phpstan/phpstan-shim temp/phpstan --no-progress
                 - travis_retry composer install --no-progress --prefer-dist
 
             script:
-                - php temp/code-checker/src/code-checker.php --short-arrays --strict-types -i tests/Utils/fixtures.reflection
-                - php temp/coding-standard/ecs check src tests --config tests/coding-standard.neon
                 - php temp/phpstan/phpstan.phar analyse --autoload-file vendor/autoload.php --level 7 --configuration tests/phpstan.neon src
 
 
@@ -45,6 +52,7 @@ jobs:
 
 
     allow_failures:
+        -   stage: Static Analysis
         -   stage: Code Coverage
 
 
