@@ -130,7 +130,7 @@ class Callback
 		} elseif (is_string($callable) && $callable[0] === "\0") {
 			return '{lambda}';
 		} else {
-			is_callable($callable, true, $textual);
+			is_callable(is_object($callable) ? [$callable, '__invoke'] : $callable, true, $textual);
 			return $textual;
 		}
 	}
