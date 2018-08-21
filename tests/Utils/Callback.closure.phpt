@@ -203,3 +203,16 @@ test(function () { // magic methods
 		Callback::toReflection(Callback::closure(new Test, 'magic'));
 	}, ReflectionException::class, 'Method Test::magic() does not exist');
 });
+
+
+test(function () { // PHP bugs - is_callable($object, true) fails
+	Assert::exception(function () {
+		Callback::closure(new stdClass);
+	}, Nette\InvalidArgumentException::class, "Callback 'stdClass::__invoke' is not callable.");
+
+	Assert::same('stdClass::__invoke', Callback::toString(new stdClass));
+
+	Assert::exception(function () {
+		Callback::toReflection(new stdClass);
+	}, ReflectionException::class, 'Method stdClass::__invoke() does not exist');
+});
