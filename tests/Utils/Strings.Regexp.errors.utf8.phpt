@@ -37,5 +37,5 @@ function cb()
 
 
 Assert::exception(function () {
-	Strings::replace("0123456789\xFF", '#\d#u', Nette\Utils\Callback::closure('cb'));
+	Strings::replace("0123456789\xFF", '#\d#u', Closure::fromCallable('cb'));
 }, Nette\Utils\RegexpException::class, 'Malformed UTF-8 data (pattern: #\d#u)');

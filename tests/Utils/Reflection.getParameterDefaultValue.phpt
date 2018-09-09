@@ -17,26 +17,38 @@ Assert::exception(function () {
 	Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'a'));
 }, ReflectionException::class);
 
-Assert::same(NS\Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'b')));
+Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'b')));
 
-Assert::same(NS\Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'c')));
+Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'c')));
 
-Assert::same(NS\Foo::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'd')));
+Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'd')));
 
-Assert::same(NS\Bar::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'e')));
+Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'e')));
 
-Assert::exception(function () {
-	Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'f'));
-}, ReflectionException::class, 'Unable to resolve constant self::UNDEFINED used as default value of $f in NS\Foo::method().');
+Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'f')));
 
-Assert::exception(function () {
-	Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'g'));
-}, ReflectionException::class, 'Unable to resolve constant NS\Undefined::ANY used as default value of $g in NS\Foo::method().');
+Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'g')));
 
-Assert::same(DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'h')));
+Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'h')));
 
 Assert::exception(function () {
 	Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'i'));
-}, ReflectionException::class, 'Unable to resolve constant NS\UNDEFINED used as default value of $i in NS\Foo::method().');
+}, ReflectionException::class, 'Unable to resolve constant self::UNDEFINED used as default value of $i in NS\Foo::method().');
 
-Assert::same(NS\NS_DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'j')));
+Assert::exception(function () {
+	Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'j'));
+}, ReflectionException::class, 'Unable to resolve constant NS\\Foo::UNDEFINED used as default value of $j in NS\Foo::method().');
+
+Assert::same(NS\Bar::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'k')));
+
+Assert::exception(function () {
+	Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'l'));
+}, ReflectionException::class, 'Unable to resolve constant NS\Undefined::ANY used as default value of $l in NS\Foo::method().');
+
+Assert::same(DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'm')));
+
+Assert::exception(function () {
+	Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'n'));
+}, ReflectionException::class, 'Unable to resolve constant NS\UNDEFINED used as default value of $n in NS\Foo::method().');
+
+Assert::same(NS\NS_DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'o')));

@@ -35,6 +35,21 @@ namespace NS
 		public function parentType(): parent
 		{
 		}
+
+
+		public function nullableClassType(): ?B
+		{
+		}
+
+
+		public function nullableNativeType(): ?string
+		{
+		}
+
+
+		public function nullableSelfType(): ?self
+		{
+		}
 	}
 
 	class AExt extends A
@@ -62,6 +77,12 @@ namespace
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'selfType')));
 
 	Assert::same('parent', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'parentType')));
+
+	Assert::same('Test\B', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableClassType')));
+
+	Assert::same('string', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableNativeType')));
+
+	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableSelfType')));
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\AExt::class, 'parentTypeExt')));
 }

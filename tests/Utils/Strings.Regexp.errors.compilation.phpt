@@ -41,9 +41,9 @@ function cb()
 
 
 Assert::exception(function () {
-	Strings::replace('0123456789', '#*#', Nette\Utils\Callback::closure('cb'));
+	Strings::replace('0123456789', '#*#', Closure::fromCallable('cb'));
 }, Nette\Utils\RegexpException::class, 'Compilation failed: %a% in pattern: #*#');
 
 Assert::exception(function () {
-	Strings::replace('0123456789', ['##', '#*#'], Nette\Utils\Callback::closure('cb'));
+	Strings::replace('0123456789', ['##', '#*#'], Closure::fromCallable('cb'));
 }, Nette\Utils\RegexpException::class, 'Compilation failed: %a% in pattern: ## or #*#');
