@@ -1,0 +1,7 @@
+imports:
+    - { resource: '../temp/coding-standard/coding-standard-php56.yml' }
+
+parameters:
+    skip:
+        PHP_CodeSniffer\Standards\PSR1\Sniffs\Methods\CamelCapsMethodNameSniff:
+            - tests/Utils/FileSystem.phpt  # RemoteStream extends streamWrapper
