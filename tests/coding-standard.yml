@@ -1,0 +1,13 @@
+imports:
+    - { resource: '../temp/coding-standard/coding-standard-php71.yml' }
+
+parameters:
+    skip:
+        PHP_CodeSniffer\Standards\PSR1\Sniffs\Methods\CamelCapsMethodNameSniff:
+            - tests/Utils/FileSystem.phpt  # RemoteStream extends streamWrapper
+
+        PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer:
+            - src/Utils/Arrays.php    # use function
+            - src/Utils/Callback.php  # use function
+            - src/Utils/Html.php      # use function
+            - src/Utils/Strings.php   # use function
