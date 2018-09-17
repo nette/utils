@@ -29,6 +29,18 @@ class Helpers
 
 
 	/**
+	 * Returns the last PHP error as plain string.
+	 */
+	public static function getLastError(): string
+	{
+		$message = error_get_last()['message'] ?? '';
+		$message = ini_get('html_errors') ? Html::htmlToText($message) : $message;
+		$message = preg_replace('#^\w+\(.*?\): #', '', $message);
+		return $message;
+	}
+
+
+	/**
 	 * Converts false to null.
 	 */
 	public static function falseToNull($val)
