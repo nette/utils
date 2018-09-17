@@ -86,7 +86,11 @@ class Callback
 				$file = func_get_arg(5)[1]['file'];
 			}
 			if ($file === __FILE__) {
-				$msg = preg_replace("#^$function\(.*?\): #", '', $message);
+				$msg = $message;
+				if (ini_get('html_errors')) {
+					$msg = html_entity_decode(strip_tags($msg));
+				}
+				$msg = preg_replace("#^$function\(.*?\): #", '', $msg);
 				if ($onError($msg, $severity) !== false) {
 					return;
 				}
