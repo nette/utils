@@ -56,7 +56,7 @@ class DeprecatedException extends NotSupportedException
 /**
  * The exception that is thrown when accessing a class member (property or method) fails.
  */
-class MemberAccessException extends \LogicException
+class MemberAccessException extends \Error
 {
 }
 
