@@ -108,14 +108,6 @@ class UnexpectedValueException extends \UnexpectedValueException
 {
 }
 
-
-/**
- * The exception that is thrown when static class is instantiated.
- */
-class StaticClassException extends \LogicException
-{
-}
-
 namespace Nette\Utils;
 
 
