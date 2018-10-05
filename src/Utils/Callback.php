@@ -66,7 +66,7 @@ final class Callback
 	 */
 	public static function invokeSafe(string $function, array $args, callable $onError)
 	{
-		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, &$prev, $function) {
+		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, &$prev, $function): ?bool {
 			if ($file === __FILE__) {
 				$msg = $message;
 				if (ini_get('html_errors')) {
@@ -74,7 +74,7 @@ final class Callback
 				}
 				$msg = preg_replace("#^$function\(.*?\): #", '', $msg);
 				if ($onError($msg, $severity) !== false) {
-					return;
+					return null;
 				}
 			}
 			return $prev ? $prev(...func_get_args()) : false;

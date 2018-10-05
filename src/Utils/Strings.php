@@ -492,7 +492,7 @@ class Strings
 	/** @internal */
 	public static function pcre(string $func, array $args)
 	{
-		$res = Callback::invokeSafe($func, $args, function (string $message) use ($args) {
+		$res = Callback::invokeSafe($func, $args, function (string $message) use ($args): void {
 			// compile-time error, not detectable by preg_last_error
 			throw new RegexpException($message . ' in pattern: ' . implode(' or ', (array) $args[0]));
 		});
