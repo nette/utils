@@ -38,4 +38,4 @@ The recommended way to install is via Composer:
 composer require nette/utils
 ```
 
-It requires PHP version 5.6 and supports PHP up to 7.2. The dev-master version requires PHP 7.1.
+It requires PHP version 5.6 and supports PHP up to 7.3. The dev-master version requires PHP 7.1.
