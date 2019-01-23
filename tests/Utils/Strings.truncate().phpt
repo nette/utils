@@ -53,3 +53,6 @@ Assert::same('Řekněte, jak se (dnes) máte?', Strings::truncate($s, 32)); // l
 // mañana, U+006E + U+0303 (combining character)
 Assert::same("man\u{303}", Strings::truncate("man\u{303}ana", 4, ''));
 Assert::same('man', Strings::truncate("man\u{303}ana", 3, ''));
+
+// error from invalid UTF-8 chars (https://github.com/phpstan/phpstan/issues/1362#issuecomment-451019924)
+Assert::same("κόσμε\xa0", Strings::truncate("κόσμε\xa0\xa1", 6, ''));
