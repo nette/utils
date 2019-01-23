@@ -192,19 +192,35 @@ class Strings
 	 */
 	public static function truncate(string $s, int $maxLen, string $append = "\u{2026}"): string
 	{
-		if (self::length($s) > $maxLen) {
-			$maxLen = $maxLen - self::length($append);
-			if ($maxLen < 1) {
-				return $append;
+        if ($s === '' || $maxLen <= 0) {
+            return $append;
+        }
 
-			} elseif ($matches = self::match($s, '#^.{1,' . $maxLen . '}(?=[\s\x00-/:-@\[-`{-~])#us')) {
-				return $matches[0] . $append;
+        if ($maxLen >= mb_strlen($s)) {
+            return $s;
+        }
 
-			} else {
-				return self::substring($s, 0, $maxLen) . $append;
-			}
-		}
-		return $s;
+        $maxLen -= mb_strlen($append);
+        if ($maxLen <= 0) {
+            return $append;
+        }
+
+        $truncated = mb_substr($s, 0, $maxLen);
+
+        if ($truncated === false) {
+            return '';
+        }
+
+        $strPosSpace = mb_strpos($s, ' ', $maxLen - 1);
+        if ($strPosSpace !== $maxLen) {
+            $lastPos = mb_strrpos($truncated, ' ', 0);
+
+            if ($lastPos !== false) {
+                $truncated = mb_substr($truncated, 0, $lastPos);
+            }
+        }
+
+        return $truncated . $append;
 	}
 
 

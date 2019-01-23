@@ -33,12 +33,12 @@ Assert::same('Řekněte, jak…', Strings::truncate($s, 13)); // length=13
 Assert::same('Řekněte, jak…', Strings::truncate($s, 14)); // length=14
 Assert::same('Řekněte, jak…', Strings::truncate($s, 15)); // length=15
 Assert::same('Řekněte, jak se…', Strings::truncate($s, 16)); // length=16
-Assert::same('Řekněte, jak se …', Strings::truncate($s, 17)); // length=17
-Assert::same('Řekněte, jak se …', Strings::truncate($s, 18)); // length=18
-Assert::same('Řekněte, jak se …', Strings::truncate($s, 19)); // length=19
-Assert::same('Řekněte, jak se …', Strings::truncate($s, 20)); // length=20
-Assert::same('Řekněte, jak se …', Strings::truncate($s, 21)); // length=21
-Assert::same('Řekněte, jak se (dnes…', Strings::truncate($s, 22)); // length=22
+Assert::same('Řekněte, jak se…', Strings::truncate($s, 17)); // length=17
+Assert::same('Řekněte, jak se…', Strings::truncate($s, 18)); // length=18
+Assert::same('Řekněte, jak se…', Strings::truncate($s, 19)); // length=19
+Assert::same('Řekněte, jak se…', Strings::truncate($s, 20)); // length=20
+Assert::same('Řekněte, jak se…', Strings::truncate($s, 21)); // length=21
+Assert::same('Řekněte, jak se…', Strings::truncate($s, 22)); // length=22
 Assert::same('Řekněte, jak se (dnes)…', Strings::truncate($s, 23)); // length=23
 Assert::same('Řekněte, jak se (dnes)…', Strings::truncate($s, 24)); // length=24
 Assert::same('Řekněte, jak se (dnes)…', Strings::truncate($s, 25)); // length=25
@@ -53,3 +53,5 @@ Assert::same('Řekněte, jak se (dnes) máte?', Strings::truncate($s, 32)); // l
 // mañana, U+006E + U+0303 (combining character)
 Assert::same("man\u{303}", Strings::truncate("man\u{303}ana", 4, ''));
 Assert::same('man', Strings::truncate("man\u{303}ana", 3, ''));
+
+Assert::same("κόσμε\xa0", Strings::truncate("κόσμε\xa0\xa1", 6, ''));
