@@ -192,35 +192,35 @@ class Strings
 	 */
 	public static function truncate(string $s, int $maxLen, string $append = "\u{2026}"): string
 	{
-        if ($s === '' || $maxLen <= 0) {
-            return $append;
-        }
+		if ($s === '' || $maxLen <= 0) {
+			return $append;
+		}
 
-        if ($maxLen >= mb_strlen($s)) {
-            return $s;
-        }
+		if ($maxLen >= mb_strlen($s)) {
+			return $s;
+		}
 
-        $maxLen -= mb_strlen($append);
-        if ($maxLen <= 0) {
-            return $append;
-        }
+		$maxLen -= mb_strlen($append);
+		if ($maxLen <= 0) {
+			return $append;
+		}
 
-        $truncated = mb_substr($s, 0, $maxLen);
+		$truncated = mb_substr($s, 0, $maxLen);
 
-        if ($truncated === false) {
-            return '';
-        }
+		if ($truncated === false) {
+			return '';
+		}
 
-        $strPosSpace = mb_strpos($s, ' ', $maxLen - 1);
-        if ($strPosSpace !== $maxLen) {
-            $lastPos = mb_strrpos($truncated, ' ', 0);
+		$strPosSpace = mb_strpos($s, ' ', $maxLen - 1);
+		if ($strPosSpace !== $maxLen) {
+			$lastPos = mb_strrpos($truncated, ' ', 0);
 
-            if ($lastPos !== false) {
-                $truncated = mb_substr($truncated, 0, $lastPos);
-            }
-        }
+			if ($lastPos !== false) {
+				$truncated = mb_substr($truncated, 0, $lastPos);
+			}
+		}
 
-        return $truncated . $append;
+		return $truncated . $append;
 	}
 
 
