@@ -49,7 +49,7 @@ trait SmartObject
 	 */
 	public static function __callStatic(string $name, array $args)
 	{
-		ObjectHelpers::strictStaticCall(get_called_class(), $name);
+		ObjectHelpers::strictStaticCall(static::class, $name);
 	}
 
 

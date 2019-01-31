@@ -64,7 +64,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 * Creates DateTime object.
 	 * @return static
 	 */
-	public static function fromParts(int $year, int $month, int $day, int $hour = 0, int $minute = 0, float $second = 0)
+	public static function fromParts(int $year, int $month, int $day, int $hour = 0, int $minute = 0, float $second = 0.0)
 	{
 		$s = sprintf('%04d-%02d-%02d %02d:%02d:%02.5f', $year, $month, $day, $hour, $minute, $second);
 		if (!checkdate($month, $day, $year) || $hour < 0 || $hour > 23 || $minute < 0 || $minute > 59 || $second < 0 || $second >= 60) {
