@@ -115,7 +115,7 @@ class Image
 
 	public const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
-	private static $formats = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp'];
+	private const FORMATS = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp'];
 
 	/** @var resource */
 	private $image;
@@ -148,7 +148,7 @@ class Image
 		}
 
 		$detectedFormat = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
-		if (!isset(self::$formats[$detectedFormat])) {
+		if (!isset(self::FORMATS[$detectedFormat])) {
 			$detectedFormat = null;
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
@@ -171,7 +171,7 @@ class Image
 
 		if (func_num_args() > 1) {
 			$tmp = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
-			$detectedFormat = isset(self::$formats[$tmp]) ? $tmp : null;
+			$detectedFormat = isset(self::FORMATS[$tmp]) ? $tmp : null;
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function (string $message): void {
@@ -484,7 +484,7 @@ class Image
 	public function save(string $file, int $quality = null, int $type = null): void
 	{
 		if ($type === null) {
-			$extensions = array_flip(self::$formats) + ['jpg' => self::JPEG];
+			$extensions = array_flip(self::FORMATS) + ['jpg' => self::JPEG];
 			$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 			if (!isset($extensions[$ext])) {
 				throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
@@ -529,7 +529,7 @@ class Image
 	 */
 	public function send(int $type = self::JPEG, int $quality = null): void
 	{
-		if (!isset(self::$formats[$type])) {
+		if (!isset(self::FORMATS[$type])) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
