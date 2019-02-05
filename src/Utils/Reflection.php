@@ -19,7 +19,7 @@ final class Reflection
 {
 	use Nette\StaticClass;
 
-	private static $builtinTypes = [
+	private const BUILTIN_TYPES = [
 		'string' => 1, 'int' => 1, 'float' => 1, 'bool' => 1, 'array' => 1, 'object' => 1,
 		'callable' => 1, 'iterable' => 1, 'void' => 1,
 	];
@@ -27,7 +27,7 @@ final class Reflection
 
 	public static function isBuiltinType(string $type): bool
 	{
-		return isset(self::$builtinTypes[strtolower($type)]);
+		return isset(self::BUILTIN_TYPES[strtolower($type)]);
 	}
 
 
@@ -150,7 +150,7 @@ final class Reflection
 		if (empty($name)) {
 			throw new Nette\InvalidArgumentException('Class name must not be empty.');
 
-		} elseif (isset(self::$builtinTypes[$lower])) {
+		} elseif (isset(self::BUILTIN_TYPES[$lower])) {
 			return $lower;
 
 		} elseif ($lower === 'self') {
