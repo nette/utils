@@ -11,3 +11,9 @@ parameters:
             - src/Utils/Callback.php  # use function
             - src/Utils/Html.php      # use function
             - src/Utils/Strings.php   # use function
+
+        PhpCsFixer\Fixer\Import\OrderedImportsFixer:
+            - src/Utils/Arrays.php    # use function
+            - src/Utils/Callback.php  # use function
+            - src/Utils/Html.php      # use function
+            - src/Utils/Strings.php   # use function
