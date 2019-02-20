@@ -152,6 +152,27 @@ final class FileSystem
 	}
 
 
+	/**
+	 * Normalizes ../. and directory separators in path.
+	 */
+	public static function normalizePath(string $path): string
+	{
+		$parts = $path === '' ? [] : preg_split('~[/\\\\]+~', $path);
+		$res = [];
+		foreach ($parts as $part) {
+			if ($part === '..' && $res && end($res) !== '..' && end($res) !== '') {
+				array_pop($res);
+			} elseif ($part !== '.') {
+				$res[] = $part;
+			}
+		}
+		return $res === ['']
+			? DIRECTORY_SEPARATOR
+			: implode(DIRECTORY_SEPARATOR, $res);
+	}
+
+
+
 	private static function getLastError(): string
 	{
 		return preg_replace('#^\w+\(.*?\): #', '', error_get_last()['message']);
