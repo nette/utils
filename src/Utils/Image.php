@@ -567,7 +567,7 @@ class Image
 				throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
 		if (!$success) {
-			throw new ImageException(error_get_last()['message']);
+			throw new ImageException(error_get_last()['message'] ?: 'Unknown error');
 		}
 	}
 
