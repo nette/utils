@@ -55,6 +55,9 @@ test(function () {
 	Assert::true(Validators::is('-1', 'numeric'));
 	Assert::true(Validators::is('-1.5', 'numeric'));
 	Assert::true(Validators::is('-.5', 'numeric'));
+	Assert::true(Validators::is('+1', 'numeric'));
+	Assert::true(Validators::is('+1.5', 'numeric'));
+	Assert::true(Validators::is('+.5', 'numeric'));
 	Assert::false(Validators::is('1e6', 'numeric'));
 	Assert::true(Validators::is(1, 'numeric'));
 	Assert::true(Validators::is(1.0, 'numeric'));
@@ -67,6 +70,9 @@ test(function () {
 	Assert::true(Validators::is('-1', 'numericint'));
 	Assert::false(Validators::is('-1.5', 'numericint'));
 	Assert::false(Validators::is('-.5', 'numericint'));
+	Assert::true(Validators::is('+1', 'numericint'));
+	Assert::false(Validators::is('+1.5', 'numericint'));
+	Assert::false(Validators::is('+.5', 'numericint'));
 	Assert::false(Validators::is('1e6', 'numericint'));
 	Assert::true(Validators::is(1, 'numericint'));
 	Assert::false(Validators::is(1.0, 'numericint'));
