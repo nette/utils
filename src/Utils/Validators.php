@@ -178,7 +178,7 @@ class Validators
 	 */
 	public static function isNumericInt($value): bool
 	{
-		return is_int($value) || is_string($value) && preg_match('#^-?[0-9]+\z#', $value);
+		return is_int($value) || is_string($value) && preg_match('#^[+-]?[0-9]+\z#', $value);
 	}
 
 
@@ -187,7 +187,7 @@ class Validators
 	 */
 	public static function isNumeric($value): bool
 	{
-		return is_float($value) || is_int($value) || is_string($value) && preg_match('#^-?[0-9]*[.]?[0-9]+\z#', $value);
+		return is_float($value) || is_int($value) || is_string($value) && preg_match('#^[+-]?[0-9]*[.]?[0-9]+\z#', $value);
 	}
 
 
