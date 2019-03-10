@@ -90,14 +90,12 @@ class Validators
 	{
 		if (!static::is($value, $expected)) {
 			$expected = str_replace(['|', ':'], [' or ', ' in range '], $expected);
-			if (is_array($value)) {
-				$type = 'array(' . count($value) . ')';
+			static $translate = ['boolean' => 'bool', 'integer' => 'int', 'double' => 'float', 'NULL' => 'null'];
+			$type = $translate[gettype($value)] ?? gettype($value);
+			if (is_int($value) || is_float($value) || (is_string($value) && strlen($value) < 40)) {
+				$type .= ' ' . var_export($value, true);
 			} elseif (is_object($value)) {
-				$type = 'object ' . get_class($value);
-			} elseif (is_string($value) && strlen($value) < 40) {
-				$type = "string '$value'";
-			} else {
-				$type = gettype($value);
+				$type .= ' ' . get_class($value);
 			}
 			throw new AssertionException("The $label expects to be $expected, $type given.");
 		}
