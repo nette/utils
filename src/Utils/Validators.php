@@ -20,38 +20,47 @@ class Validators
 	use Nette\StaticClass;
 
 	protected static $validators = [
+		// PHP types
+		'array' => 'is_array',
 		'bool' => 'is_bool',
 		'boolean' => 'is_bool',
+		'float' => 'is_float',
 		'int' => 'is_int',
 		'integer' => 'is_int',
-		'float' => 'is_float',
-		'number' => [__CLASS__, 'isNumber'],
-		'numeric' => [__CLASS__, 'isNumeric'],
-		'numericint' => [__CLASS__, 'isNumericInt'],
-		'string' => 'is_string',
-		'unicode' => [__CLASS__, 'isUnicode'],
-		'array' => 'is_array',
-		'list' => [Arrays::class, 'isList'],
+		'null' => 'is_null',
 		'object' => 'is_object',
 		'resource' => 'is_resource',
 		'scalar' => 'is_scalar',
+		'string' => 'is_string',
+
+		// pseudo-types
 		'callable' => [__CLASS__, 'isCallable'],
-		'null' => 'is_null',
-		'email' => [__CLASS__, 'isEmail'],
-		'url' => [__CLASS__, 'isUrl'],
-		'uri' => [__CLASS__, 'isUri'],
+		'iterable' => 'is_iterable',
+		'list' => [Arrays::class, 'isList'],
 		'none' => [__CLASS__, 'isNone'],
-		'type' => [__CLASS__, 'isType'],
-		'identifier' => [__CLASS__, 'isPhpIdentifier'],
-		'pattern' => null,
+		'number' => [__CLASS__, 'isNumber'],
+		'numeric' => [__CLASS__, 'isNumeric'],
+		'numericint' => [__CLASS__, 'isNumericInt'],
+
+		// string patterns
 		'alnum' => 'ctype_alnum',
 		'alpha' => 'ctype_alpha',
 		'digit' => 'ctype_digit',
 		'lower' => 'ctype_lower',
-		'upper' => 'ctype_upper',
+		'pattern' => null,
 		'space' => 'ctype_space',
+		'unicode' => [__CLASS__, 'isUnicode'],
+		'upper' => 'ctype_upper',
 		'xdigit' => 'ctype_xdigit',
-		'iterable' => 'is_iterable',
+
+		// syntax validation
+		'email' => [__CLASS__, 'isEmail'],
+		'identifier' => [__CLASS__, 'isPhpIdentifier'],
+		'uri' => [__CLASS__, 'isUri'],
+		'url' => [__CLASS__, 'isUrl'],
+
+		// environment validation
+		'type' => [__CLASS__, 'isType'],
 	];
 
 	protected static $counters = [
