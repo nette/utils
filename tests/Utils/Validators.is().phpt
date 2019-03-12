@@ -172,6 +172,7 @@ test(function () {
 
 test(function () {
 	Assert::false(Validators::is('', 'email'));
+	Assert::false(Validators::is(false, 'email'));
 	Assert::false(Validators::is('hello', 'email'));
 	Assert::true(Validators::is('hello@world.cz', 'email'));
 	Assert::false(Validators::is('hello@localhost', 'email'));
@@ -190,6 +191,7 @@ test(function () {
 
 test(function () {
 	Assert::false(Validators::is('', 'url'));
+	Assert::false(Validators::is(false, 'url'));
 	Assert::false(Validators::is('hello', 'url'));
 	Assert::false(Validators::is('nette.org', 'url'));
 	Assert::false(Validators::is('http://nette.org0', 'url'));
@@ -216,6 +218,7 @@ test(function () {
 
 test(function () {
 	Assert::false(Validators::is('', 'uri'));
+	Assert::false(Validators::is(false, 'uri'));
 	Assert::false(Validators::is('hello', 'uri'));
 	Assert::false(Validators::is('nette.org', 'uri'));
 	Assert::false(Validators::is('mailto: gandalf@example.org', 'uri'));

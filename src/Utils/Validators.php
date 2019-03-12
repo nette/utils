@@ -119,7 +119,11 @@ class Validators
 
 			[$type] = $item = explode(':', $item, 2);
 			if (isset(static::$validators[$type])) {
-				if (!static::$validators[$type]($value)) {
+				try {
+					if (!static::$validators[$type]($value)) {
+						continue;
+					}
+				} catch (\TypeError $e) {
 					continue;
 				}
 			} elseif ($type === 'pattern') {
