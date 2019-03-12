@@ -124,6 +124,11 @@ class Validators
 					return true;
 				}
 				continue;
+			} elseif (substr($item, 0, 1) === '?') {
+				$item = substr($item, 1);
+				if ($value === null) {
+					return true;
+				}
 			}
 
 			[$type] = $item = explode(':', $item, 2);

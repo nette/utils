@@ -373,3 +373,11 @@ test(function () {
 	Assert::true(Validators::is([['ABCD', 'EFGH'], ['IJKL']], 'string:4[][]'));
 	Assert::false(Validators::is([['ABCD', 'EFGH'], ['IJKLM']], 'string:4[][]'));
 });
+
+
+test(function () {
+	Assert::true(Validators::is(null, '?string'));
+	Assert::true(Validators::is('1', '?string'));
+	Assert::false(Validators::is(true, '?int'));
+	Assert::false(Validators::is(0, '?string'));
+});
