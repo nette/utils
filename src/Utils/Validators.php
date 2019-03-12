@@ -37,6 +37,7 @@ class Validators
 		'callable' => [__CLASS__, 'isCallable'],
 		'iterable' => 'is_iterable',
 		'list' => [Arrays::class, 'isList'],
+		'mixed' => [__CLASS__, 'isMixed'],
 		'none' => [__CLASS__, 'isNone'],
 		'number' => [__CLASS__, 'isNumber'],
 		'numeric' => [__CLASS__, 'isNumeric'],
@@ -60,6 +61,10 @@ class Validators
 		'url' => [__CLASS__, 'isUrl'],
 
 		// environment validation
+		'class' => 'class_exists',
+		'interface' => 'interface_exists',
+		'directory' => 'is_dir',
+		'file' => 'is_file',
 		'type' => [__CLASS__, 'isType'],
 	];
 
@@ -233,6 +238,13 @@ class Validators
 	public static function isNone($value): bool
 	{
 		return $value == null; // intentionally ==
+	}
+
+
+	/** @internal */
+	public static function isMixed(): bool
+	{
+		return true;
 	}
 
 

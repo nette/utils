@@ -171,6 +171,12 @@ test(function () {
 
 
 test(function () {
+	Assert::true(Validators::is([], 'mixed'));
+	Assert::true(Validators::is(null, 'mixed'));
+});
+
+
+test(function () {
 	Assert::false(Validators::is('', 'email'));
 	Assert::false(Validators::is(false, 'email'));
 	Assert::false(Validators::is('hello', 'email'));
@@ -318,6 +324,32 @@ test(function () {
 	Assert::true(Validators::is('rimmer', 'type'));
 	Assert::true(Validators::is('kryton', 'type'));
 	Assert::false(Validators::is('1', 'type'));
+});
+
+
+test(function () {
+	Assert::true(Validators::is('rimmer', 'class'));
+	Assert::false(Validators::is('kryton', 'class'));
+	Assert::false(Validators::is('1', 'class'));
+});
+
+
+test(function () {
+	Assert::false(Validators::is('rimmer', 'interface'));
+	Assert::true(Validators::is('kryton', 'interface'));
+	Assert::false(Validators::is('1', 'interface'));
+});
+
+
+test(function () {
+	Assert::true(Validators::is(__FILE__, 'file'));
+	Assert::false(Validators::is(__FILE__ . 'xx', 'class'));
+});
+
+
+test(function () {
+	Assert::true(Validators::is(__DIR__, 'directory'));
+	Assert::false(Validators::is(__DIR__ . 'xx', 'directory'));
 });
 
 
