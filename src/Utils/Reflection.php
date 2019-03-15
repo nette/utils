@@ -39,7 +39,7 @@ class Reflection
 	public static function getReturnType(\ReflectionFunctionAbstract $func)
 	{
 		return PHP_VERSION_ID >= 70000 && $func->hasReturnType()
-			? self::normalizeType((string) $func->getReturnType(), $func)
+			? self::normalizeType($func->getReturnType(), $func)
 			: null;
 	}
 
@@ -51,7 +51,7 @@ class Reflection
 	{
 		if (PHP_VERSION_ID >= 70000) {
 			return $param->hasType()
-				? self::normalizeType((string) $param->getType(), $param)
+				? self::normalizeType($param->getType(), $param)
 				: null;
 		} elseif ($param->isArray() || $param->isCallable()) {
 			return $param->isArray() ? 'array' : 'callable';
@@ -70,6 +70,7 @@ class Reflection
 
 	private static function normalizeType($type, $reflection)
 	{
+		$type = PHP_VERSION_ID >= 70100 ? $type->getName() : (string) $type;
 		$lower = strtolower($type);
 		if ($lower === 'self') {
 			return $reflection->getDeclaringClass()->getName();
