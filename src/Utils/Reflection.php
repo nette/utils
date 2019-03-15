@@ -188,6 +188,9 @@ final class Reflection
 	 */
 	public static function getUseStatements(\ReflectionClass $class): array
 	{
+		if ($class->isAnonymous()) {
+			throw new Nette\NotImplementedException('Anonymous classes are not supported.');
+		}
 		static $cache = [];
 		if (!isset($cache[$name = $class->getName()])) {
 			if ($class->isInternal()) {

@@ -27,6 +27,12 @@ Assert::exception(function () use ($rcTest) {
 }, Nette\InvalidArgumentException::class, 'Class name must not be empty.');
 
 
+Assert::exception(function () use ($rcTest) {
+	Reflection::expandClassName('A', new ReflectionClass(new class {
+	}));
+}, Nette\NotImplementedException::class, 'Anonymous classes are not supported.');
+
+
 Assert::same('A', Reflection::expandClassName('A', $rcTest));
 Assert::same('A\B', Reflection::expandClassName('C', $rcTest));
 
@@ -139,3 +145,8 @@ Assert::same(
 	[],
 	Reflection::getUseStatements(new ReflectionClass('stdClass'))
 );
+
+Assert::exception(function () use ($rcTest) {
+	Reflection::getUseStatements(new ReflectionClass(new class {
+	}));
+}, Nette\NotImplementedException::class, 'Anonymous classes are not supported.');
