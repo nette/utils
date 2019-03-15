@@ -280,4 +280,18 @@ class Arrays
 		}
 		return $res;
 	}
+
+
+	/**
+	 * Converts array to object
+	 * @param  object  $obj
+	 * @return object
+	 */
+	public static function toObject(array $arr, $obj)
+	{
+		foreach ($arr as $k => $v) {
+			$obj->$k = $v;
+		}
+		return $obj;
+	}
 }
