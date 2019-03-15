@@ -47,6 +47,14 @@ final class Reflection
 	}
 
 
+	public static function getPropertyType(\ReflectionProperty $prop): ?string
+	{
+		return PHP_VERSION_ID >= 70400 && $prop->hasType()
+			? self::normalizeType($prop->getType()->getName(), $prop)
+			: null;
+	}
+
+
 	private static function normalizeType(string $type, $reflection): string
 	{
 		$lower = strtolower($type);
