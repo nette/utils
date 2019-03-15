@@ -35,7 +35,7 @@ Assert::same('BTest', Reflection::expandClassName('BTest', $rcBTest));
 Assert::same('Test\Space\Foo', Reflection::expandClassName('self', $rcFoo));
 Assert::same('Test\Space\Foo', Reflection::expandClassName('Self', $rcFoo));
 
-foreach (['String', 'string', 'int', 'float', 'bool', 'array', 'callable', 'iterable', 'void'] as $type) {
+foreach (['String', 'string', 'int', 'float', 'bool', 'array', 'callable', 'iterable', 'void', 'null'] as $type) {
 	Assert::same(strtolower($type), Reflection::expandClassName($type, $rcFoo));
 }
 
