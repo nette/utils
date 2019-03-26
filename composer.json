@@ -15,7 +15,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1"
+		"php": ">=7.1",
 		"ext-tokenizer": "to use token_get_all()"
 	},
 	"require-dev": {
