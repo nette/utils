@@ -54,4 +54,24 @@ final class Json
 		}
 		return $value;
 	}
+
+
+	/**
+	 * Decodes a JSON string to a stdClass
+	 * @return \stdClass
+	 */
+	public static function decodeToObject(string $json)
+	{
+		return (object) self::decode($json);
+	}
+
+
+	/**
+	 * Decodes a JSON string to an array
+	 * @return mixed[]
+	 */
+	public static function decodeToArray(string $json)
+	{
+		return self::decode($json, self::FORCE_ARRAY);
+	}
 }
