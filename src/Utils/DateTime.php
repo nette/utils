@@ -33,6 +33,12 @@ class DateTime extends \DateTime
 	/** average year in seconds */
 	const YEAR = 31557600;
 
+	public function __construct($time = "now", $timezone = NULL) {
+		if ($timezone === NULL) {
+			$timezone = new \DateTimeZone(date_default_timezone_get());
+		}
+		parent::__construct($time, $timezone);
+	}
 
 	/**
 	 * DateTime object factory.
