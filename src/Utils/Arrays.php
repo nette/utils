@@ -164,7 +164,7 @@ class Arrays
 			? $path
 			: preg_split('#(\[\]|->|=|\|)#', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-		if (!$parts || $parts[0] === '=' || $parts[0] === '|' || $parts === ['->']) {
+		if (!$parts || $parts === ['->'] || $parts[0] === '=' || $parts[0] === '|') {
 			throw new Nette\InvalidArgumentException("Invalid path '$path'.");
 		}
 
@@ -173,8 +173,9 @@ class Arrays
 		foreach ($arr as $rowOrig) {
 			$row = (array) $rowOrig;
 			$x = &$res;
+			$partsCount = count($parts);
 
-			for ($i = 0; $i < count($parts); $i++) {
+			for ($i = 0; $i < $partsCount; $i++) {
 				$part = $parts[$i];
 				if ($part === '[]') {
 					$x = &$x[];
@@ -213,7 +214,8 @@ class Arrays
 	{
 		$res = [];
 		foreach ($arr as $k => $v) {
-			$res[is_int($k) ? $v : $k] = is_int($k) ? $filling : $v;
+			$kIsInt = is_int($k);
+			$res[$kIsInt ? $v : $k] = $kIsInt ? $filling : $v;
 		}
 		return $res;
 	}
