@@ -519,6 +519,7 @@ class Image
 				throw $e;
 			}
 			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
+			return '';
 		}
 	}
 
@@ -614,7 +615,7 @@ class Image
 	/**
 	 * Prevents serialization.
 	 */
-	public function __sleep()
+	public function __sleep(): array
 	{
 		throw new Nette\NotSupportedException('You cannot serialize or unserialize ' . self::class . ' instances.');
 	}
