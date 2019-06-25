@@ -69,7 +69,7 @@ class Strings
 	 */
 	public static function endsWith(string $haystack, string $needle): bool
 	{
-		return strlen($needle) === 0 || substr($haystack, -strlen($needle)) === $needle;
+		return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
 	}
 
 
@@ -193,7 +193,7 @@ class Strings
 	public static function truncate(string $s, int $maxLen, string $append = "\u{2026}"): string
 	{
 		if (self::length($s) > $maxLen) {
-			$maxLen = $maxLen - self::length($append);
+			$maxLen -= self::length($append);
 			if ($maxLen < 1) {
 				return $append;
 
@@ -293,7 +293,8 @@ class Strings
 	public static function findPrefix(array $strings): string
 	{
 		$first = array_shift($strings);
-		for ($i = 0; $i < strlen($first); $i++) {
+		$firstLength = strlen($first);
+		for ($i = 0; $i < $firstLength; $i++) {
 			foreach ($strings as $s) {
 				if (!isset($s[$i]) || $first[$i] !== $s[$i]) {
 					while ($i && $first[$i - 1] >= "\x80" && $first[$i] >= "\x80" && $first[$i] < "\xC0") {
@@ -406,7 +407,7 @@ class Strings
 		if (!$nth) {
 			return null;
 		} elseif ($nth > 0) {
-			if (strlen($needle) === 0) {
+			if ($needle === '') {
 				return 0;
 			}
 			$pos = 0;
@@ -415,7 +416,7 @@ class Strings
 			}
 		} else {
 			$len = strlen($haystack);
-			if (strlen($needle) === 0) {
+			if ($needle === '') {
 				return $len;
 			}
 			$pos = $len - 1;
