@@ -56,7 +56,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * @param  array|string $attrs element's attributes or plain text content
 	 * @return static
 	 */
-	public static function el(string $name = null, $attrs = null)
+	public static function el(?string $name = null, $attrs = null)
 	{
 		$el = new static;
 		$parts = explode(' ', (string) $name, 2);
@@ -86,7 +86,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	final public function setName(string $name, bool $isEmpty = null)
 	{
 		$this->name = $name;
-		$this->isEmpty = $isEmpty === null ? isset(static::$emptyElements[$name]) : $isEmpty;
+		$this->isEmpty = $isEmpty ?? isset(static::$emptyElements[$name]);
 		return $this;
 	}
 
@@ -234,7 +234,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		$p = substr($m, 0, 3);
 		if ($p === 'get' || $p === 'set' || $p === 'add') {
 			$m = substr($m, 3);
-			$m[0] = $m[0] | "\x20";
+			$m[0] |= "\x20";
 			if ($p === 'get') {
 				return $this->attrs[$m] ?? null;
 
@@ -375,7 +375,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 * @param  IHtmlString|string $child Html node or raw HTML string
 	 * @return static
 	 */
-	public function insert(int $index = null, $child, bool $replace = false)
+	public function insert(?int $index, $child, bool $replace = false)
 	{
 		$child = $child instanceof self ? $child : (string) $child;
 		if ($index === null) { // append
@@ -506,6 +506,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 			return $this->render();
 		} catch (\Throwable $e) {
 			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
+			return '';
 		}
 	}
 
@@ -517,10 +518,9 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	{
 		if ($this->name) {
 			return '<' . $this->name . $this->attributes() . (static::$xhtml && $this->isEmpty ? ' />' : '>');
-
-		} else {
-			return '';
 		}
+
+		return '';
 	}
 
 
