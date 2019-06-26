@@ -25,6 +25,8 @@ $image2->place(Image::fromBlank(50, 50, Image::rgb(80, 174, 0)), 75, 25);
 
 Assert::same($image2->toString(Image::PNG, 0), $image->toString(Image::PNG, 0));
 
+Assert::same($image->toString(), (string) $image);
+
 $image = Image::fromBlank(200, 100, Image::rgb(255, 128, 0, 60));
 $image->crop(0, 0, '60%', '60%');
 
