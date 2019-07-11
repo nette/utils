@@ -144,7 +144,7 @@ class Validators
 					continue;
 				}
 			} elseif ($type === 'pattern') {
-				if (preg_match('|^' . ($item[1] ?? '') . '\z|', $value)) {
+				if (preg_match('|^' . ($item[1] ?? '') . '$|D', $value)) {
 					return true;
 				}
 				continue;
@@ -199,7 +199,7 @@ class Validators
 	 */
 	public static function isNumericInt($value): bool
 	{
-		return is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]+\z#', $value));
+		return is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]+$#D', $value));
 	}
 
 
@@ -208,7 +208,7 @@ class Validators
 	 */
 	public static function isNumeric($value): bool
 	{
-		return is_float($value) || is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]*[.]?[0-9]+\z#', $value));
+		return is_float($value) || is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]*[.]?[0-9]+$#D', $value));
 	}
 
 
@@ -291,7 +291,7 @@ class Validators
 			@
 			([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+    # domain - RFC 1034
 			[$alpha]([-0-9$alpha]{0,17}[$alpha])?                # top domain
-		\\z)ix", $value);
+		$)Dix", $value);
 	}
 
 
@@ -310,7 +310,7 @@ class Validators
 				|\[[0-9a-f:]{3,39}\]                        # IPv6
 			)(:\\d{1,5})?                                   # port
 			(/\\S*)?                                        # path
-		\\z)ix", $value);
+		$)Dix", $value);
 	}
 
 
@@ -319,7 +319,7 @@ class Validators
 	 */
 	public static function isUri(string $value): bool
 	{
-		return (bool) preg_match('#^[a-z\d+\.-]+:\S+\z#i', $value);
+		return (bool) preg_match('#^[a-z\d+\.-]+:\S+$#Di', $value);
 	}
 
 
@@ -337,6 +337,6 @@ class Validators
 	 */
 	public static function isPhpIdentifier(string $value): bool
 	{
-		return is_string($value) && preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\z#', $value);
+		return is_string($value) && preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#D', $value);
 	}
 }

@@ -323,7 +323,7 @@ class Strings
 	public static function trim(string $s, string $charlist = self::TRIM_CHARACTERS): string
 	{
 		$charlist = preg_quote($charlist, '#');
-		return self::replace($s, '#^[' . $charlist . ']+|[' . $charlist . ']+\z#u', '');
+		return self::replace($s, '#^[' . $charlist . ']+|[' . $charlist . ']+$#Du', '');
 	}
 
 

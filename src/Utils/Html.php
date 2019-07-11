@@ -70,7 +70,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		}
 
 		if (isset($parts[1])) {
-			foreach (Strings::matchAll($parts[1] . ' ', '#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\\2|\s))?#i') as $m) {
+			foreach (Strings::matchAll($parts[1] . ' ', '#([a-z0-9:-]+)(?:=(["\'])?(.*?)(?(2)\2|\s))?#i') as $m) {
 				$el->attrs[$m[1]] = $m[3] ?? true;
 			}
 		}
