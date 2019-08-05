@@ -97,7 +97,6 @@ abstract class LegacyObject
 	 */
 	public static function extensionMethod($name, $callback = null)
 	{
-		trigger_error('Class Nette\Object and extension methods are deprecated', E_USER_DEPRECATED);
 		if (strpos($name, '::') === false) {
 			$class = get_called_class();
 		} else {
