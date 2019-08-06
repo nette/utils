@@ -3,6 +3,7 @@ php:
     - 7.1
     - 7.2
     - 7.3
+    - 7.4snapshot
 
 before_install:
     # turn off XDebug
@@ -54,6 +55,7 @@ jobs:
     allow_failures:
         -   stage: Static Analysis (informative)
         -   stage: Code Coverage
+        -   php: 7.4snapshot
 
 
 sudo: false

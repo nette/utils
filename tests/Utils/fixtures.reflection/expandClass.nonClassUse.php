@@ -1,6 +1,6 @@
 <?php
 
-use function A\fn;
+use function A\fun;
 use const B\CNST;
 
 class NonClassUseTest {}
