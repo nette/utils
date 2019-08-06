@@ -13,6 +13,12 @@ require __DIR__ . '/../bootstrap.php';
 
 class RemoteStream /* extends \streamWrapper */
 {
+	public function stream_read()
+	{
+		return '';
+	}
+
+
 	public function stream_open()
 	{
 		return true;

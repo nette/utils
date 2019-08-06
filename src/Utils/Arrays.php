@@ -194,6 +194,9 @@ class Arrays
 
 				} elseif ($part === '->') {
 					if (isset($parts[++$i])) {
+						if ($x === null) {
+							$x = new \stdClass;
+						}
 						$x = &$x->{$row[$parts[$i]]};
 					} else {
 						$row = is_object($rowOrig) ? $rowOrig : (object) $row;
