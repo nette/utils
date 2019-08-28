@@ -25,10 +25,20 @@ final class Reflection
 		'boolean' => 1, 'integer' => 1, 'double' => 1,
 	];
 
+	private const SELF_REFERENCING_TYPES = [
+		'$this' => 1, 'self' => 1, 'static' => 1,
+	];
+
 
 	public static function isBuiltinType(string $type): bool
 	{
 		return isset(self::BUILTIN_TYPES[strtolower($type)]);
+	}
+
+
+	public static function isSelfReferencingType(string $type): bool
+	{
+		return isset(self::SELF_REFERENCING_TYPES[strtolower($type)]);
 	}
 
 
@@ -59,7 +69,7 @@ final class Reflection
 	private static function normalizeType(string $type, $reflection): string
 	{
 		$lower = strtolower($type);
-		if ($lower === 'self') {
+		if (isset(self::SELF_REFERENCING_TYPES[$lower])) {
 			return $reflection->getDeclaringClass()->getName();
 		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
 			return $reflection->getDeclaringClass()->getParentClass()->getName();
@@ -79,7 +89,7 @@ final class Reflection
 			$const = $orig = $param->getDefaultValueConstantName();
 			$pair = explode('::', $const);
 			if (isset($pair[1])) {
-				if (strtolower($pair[0]) === 'self') {
+				if (isset(self::SELF_REFERENCING_TYPES[strtolower($pair[0])])) {
 					$pair[0] = $param->getDeclaringClass()->getName();
 				}
 				try {
@@ -162,7 +172,7 @@ final class Reflection
 		} elseif (isset(self::BUILTIN_TYPES[$lower])) {
 			return $lower;
 
-		} elseif ($lower === 'self') {
+		} elseif (isset(self::SELF_REFERENCING_TYPES[$lower])) {
 			return $rc->getName();
 
 		} elseif ($name[0] === '\\') { // fully qualified name
