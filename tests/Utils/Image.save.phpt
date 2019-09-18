@@ -18,16 +18,16 @@ $main = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 
 
 test(function () use ($main) {
-	$main->save(TEMP_DIR . '/foo.png');
-	Assert::true(is_file(TEMP_DIR . '/foo.png'));
-	Assert::same(IMAGETYPE_PNG, getimagesize(TEMP_DIR . '/foo.png')[2]);
+	$main->save(getTempDir() . '/foo.png');
+	Assert::true(is_file(getTempDir() . '/foo.png'));
+	Assert::same(IMAGETYPE_PNG, getimagesize(getTempDir() . '/foo.png')[2]);
 });
 
 
 test(function () use ($main) {
-	$main->save(TEMP_DIR . '/foo.x', null, Image::PNG);
-	Assert::true(is_file(TEMP_DIR . '/foo.x'));
-	Assert::same(IMAGETYPE_PNG, getimagesize(TEMP_DIR . '/foo.x')[2]);
+	$main->save(getTempDir() . '/foo.x', null, Image::PNG);
+	Assert::true(is_file(getTempDir() . '/foo.x'));
+	Assert::same(IMAGETYPE_PNG, getimagesize(getTempDir() . '/foo.x')[2]);
 });
 
 
@@ -36,13 +36,13 @@ test(function () use ($main) {
 		return;
 	}
 
-	$main->save(TEMP_DIR . '/foo.webp');
-	Assert::true(is_file(TEMP_DIR . '/foo.webp'));
-	Assert::same('WEBP', file_get_contents(TEMP_DIR . '/foo.webp', false, null, 8, 4));
+	$main->save(getTempDir() . '/foo.webp');
+	Assert::true(is_file(getTempDir() . '/foo.webp'));
+	Assert::same('WEBP', file_get_contents(getTempDir() . '/foo.webp', false, null, 8, 4));
 
-	$main->save(TEMP_DIR . '/foo.y', null, Image::WEBP);
-	Assert::true(is_file(TEMP_DIR . '/foo.y'));
-	Assert::same('WEBP', file_get_contents(TEMP_DIR . '/foo.y', false, null, 8, 4));
+	$main->save(getTempDir() . '/foo.y', null, Image::WEBP);
+	Assert::true(is_file(getTempDir() . '/foo.y'));
+	Assert::same('WEBP', file_get_contents(getTempDir() . '/foo.y', false, null, 8, 4));
 });
 
 

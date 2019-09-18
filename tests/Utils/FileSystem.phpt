@@ -37,10 +37,10 @@ stream_wrapper_register('remote', RemoteStream::class, STREAM_IS_URL);
 
 
 test(function () { // createDir
-	FileSystem::createDir(TEMP_DIR . '/1/b/');
-	Assert::true(is_dir(TEMP_DIR . '/1/b'));
+	FileSystem::createDir(getTempDir() . '/1/b/');
+	Assert::true(is_dir(getTempDir() . '/1/b'));
 
-	FileSystem::createDir(TEMP_DIR . '/1/');
+	FileSystem::createDir(getTempDir() . '/1/');
 });
 
 Assert::exception(function () {
@@ -49,9 +49,9 @@ Assert::exception(function () {
 
 
 test(function () { // write + read
-	FileSystem::write(TEMP_DIR . '/2/file', 'Hello');
-	Assert::true(is_file(TEMP_DIR . '/2/file'));
-	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/2/file'));
+	FileSystem::write(getTempDir() . '/2/file', 'Hello');
+	Assert::true(is_file(getTempDir() . '/2/file'));
+	Assert::same('Hello', FileSystem::read(getTempDir() . '/2/file'));
 });
 
 Assert::exception(function () {
@@ -66,89 +66,89 @@ Assert::exception(function () {
 test(function () { // copy
 	Assert::false(stream_is_local('remote://example.com'));
 
-	FileSystem::write(TEMP_DIR . '/3/file', 'Hello');
+	FileSystem::write(getTempDir() . '/3/file', 'Hello');
 
-	FileSystem::copy(TEMP_DIR . '/3/file', TEMP_DIR . '/3/x/file');
-	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
+	FileSystem::copy(getTempDir() . '/3/file', getTempDir() . '/3/x/file');
+	Assert::same('Hello', FileSystem::read(getTempDir() . '/3/x/file'));
 
-	FileSystem::copy('remote://example.com', TEMP_DIR . '/3/x/y/file');
-	Assert::true(is_file(TEMP_DIR . '/3/x/y/file'));
+	FileSystem::copy('remote://example.com', getTempDir() . '/3/x/y/file');
+	Assert::true(is_file(getTempDir() . '/3/x/y/file'));
 
-	FileSystem::write(TEMP_DIR . '/5/newfile', 'World');
-
-	Assert::exception(function () {
-		FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file', false);
-	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
+	FileSystem::write(getTempDir() . '/5/newfile', 'World');
 
 	Assert::exception(function () {
-		FileSystem::copy('remote://example.com', TEMP_DIR . '/3/x/file', false);
+		FileSystem::copy(getTempDir() . '/5/newfile', getTempDir() . '/3/x/file', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/3/x/file'));
-
-	FileSystem::copy(TEMP_DIR . '/5/newfile', TEMP_DIR . '/3/x/file');
-	Assert::same('World', FileSystem::read(TEMP_DIR . '/3/x/file'));
+	Assert::same('Hello', FileSystem::read(getTempDir() . '/3/x/file'));
 
 	Assert::exception(function () {
-		FileSystem::copy(TEMP_DIR . '/5', TEMP_DIR . '/3', false);
+		FileSystem::copy('remote://example.com', getTempDir() . '/3/x/file', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::true(is_dir(TEMP_DIR . '/3/x/y'));
-	Assert::false(file_exists(TEMP_DIR . '/3/newfile'));
+	Assert::same('Hello', FileSystem::read(getTempDir() . '/3/x/file'));
 
-	FileSystem::copy(TEMP_DIR . '/5', TEMP_DIR . '/3');
-	Assert::false(file_exists(TEMP_DIR . '/3/x/y'));
-	Assert::true(is_file(TEMP_DIR . '/3/newfile'));
+	FileSystem::copy(getTempDir() . '/5/newfile', getTempDir() . '/3/x/file');
+	Assert::same('World', FileSystem::read(getTempDir() . '/3/x/file'));
+
+	Assert::exception(function () {
+		FileSystem::copy(getTempDir() . '/5', getTempDir() . '/3', false);
+	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
+	Assert::true(is_dir(getTempDir() . '/3/x/y'));
+	Assert::false(file_exists(getTempDir() . '/3/newfile'));
+
+	FileSystem::copy(getTempDir() . '/5', getTempDir() . '/3');
+	Assert::false(file_exists(getTempDir() . '/3/x/y'));
+	Assert::true(is_file(getTempDir() . '/3/newfile'));
 });
 
 Assert::exception(function () {
-	FileSystem::copy(TEMP_DIR . '/6', TEMP_DIR . '/3');
+	FileSystem::copy(getTempDir() . '/6', getTempDir() . '/3');
 }, Nette\IOException::class, "File or directory '%S%' not found.");
 
 
 test(function () { // delete
-	FileSystem::write(TEMP_DIR . '/7/file', 'Hello');
-	FileSystem::delete(TEMP_DIR . '/7/file');
-	Assert::true(is_dir(TEMP_DIR . '/7'));
+	FileSystem::write(getTempDir() . '/7/file', 'Hello');
+	FileSystem::delete(getTempDir() . '/7/file');
+	Assert::true(is_dir(getTempDir() . '/7'));
 
-	FileSystem::write(TEMP_DIR . '/7/file', 'Hello');
-	FileSystem::delete(TEMP_DIR . '/7');
-	Assert::false(file_exists(TEMP_DIR . '/7'));
+	FileSystem::write(getTempDir() . '/7/file', 'Hello');
+	FileSystem::delete(getTempDir() . '/7');
+	Assert::false(file_exists(getTempDir() . '/7'));
 });
 
 
 test(function () { // rename
-	FileSystem::write(TEMP_DIR . '/8/file', 'Hello');
-	FileSystem::rename(TEMP_DIR . '/8', TEMP_DIR . '/9');
-	FileSystem::rename(TEMP_DIR . '/9/file', TEMP_DIR . '/9/x/file');
-	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/9/x/file'));
+	FileSystem::write(getTempDir() . '/8/file', 'Hello');
+	FileSystem::rename(getTempDir() . '/8', getTempDir() . '/9');
+	FileSystem::rename(getTempDir() . '/9/file', getTempDir() . '/9/x/file');
+	Assert::same('Hello', FileSystem::read(getTempDir() . '/9/x/file'));
 
-	FileSystem::write(TEMP_DIR . '/8/newfile', 'World');
+	FileSystem::write(getTempDir() . '/8/newfile', 'World');
 	Assert::exception(function () {
-		FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file', false);
+		FileSystem::rename(getTempDir() . '/8/newfile', getTempDir() . '/9/x/file', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::same('Hello', FileSystem::read(TEMP_DIR . '/9/x/file'));
-	FileSystem::rename(TEMP_DIR . '/8/newfile', TEMP_DIR . '/9/x/file');
-	Assert::same('World', FileSystem::read(TEMP_DIR . '/9/x/file'));
+	Assert::same('Hello', FileSystem::read(getTempDir() . '/9/x/file'));
+	FileSystem::rename(getTempDir() . '/8/newfile', getTempDir() . '/9/x/file');
+	Assert::same('World', FileSystem::read(getTempDir() . '/9/x/file'));
 
-	FileSystem::createDir(TEMP_DIR . '/10/');
+	FileSystem::createDir(getTempDir() . '/10/');
 	Assert::exception(function () {
-		FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9', false);
+		FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9', false);
 	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
-	Assert::same('World', FileSystem::read(TEMP_DIR . '/9/x/file'));
+	Assert::same('World', FileSystem::read(getTempDir() . '/9/x/file'));
 
-	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9');
-	Assert::false(file_exists(TEMP_DIR . '/9/x/file'));
-	Assert::false(file_exists(TEMP_DIR . '/10'));
+	FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9');
+	Assert::false(file_exists(getTempDir() . '/9/x/file'));
+	Assert::false(file_exists(getTempDir() . '/10'));
 
-	FileSystem::createDir(TEMP_DIR . '/11/');
-	FileSystem::rename(TEMP_DIR . '/11', TEMP_DIR . '/11');
-	Assert::true(file_exists(TEMP_DIR . '/11'));
-	FileSystem::rename(TEMP_DIR . '/11', TEMP_DIR . '/11/');
-	Assert::true(file_exists(TEMP_DIR . '/11'));
+	FileSystem::createDir(getTempDir() . '/11/');
+	FileSystem::rename(getTempDir() . '/11', getTempDir() . '/11');
+	Assert::true(file_exists(getTempDir() . '/11'));
+	FileSystem::rename(getTempDir() . '/11', getTempDir() . '/11/');
+	Assert::true(file_exists(getTempDir() . '/11'));
 });
 
 Assert::exception(function () {
-	FileSystem::rename(TEMP_DIR . '/10', TEMP_DIR . '/9');
+	FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9');
 }, Nette\IOException::class, "File or directory '%S%' not found.");
 
 
