@@ -214,6 +214,10 @@ test(function () {
 	Assert::true(Validators::is('http://nette.org/path', 'url'));
 	Assert::true(Validators::is('http://nette.org:8080/path', 'url'));
 	Assert::true(Validators::is('https://www.nette.org/path', 'url'));
+	Assert::true(Validators::is('https://www.nette.org/path?query#fragment', 'url'));
+	Assert::true(Validators::is('https://www.nette.org?query', 'url'));
+	Assert::true(Validators::is('https://www.nette.org#fragment', 'url'));
+	Assert::true(Validators::is('https://www.nette.org?#', 'url'));
 	Assert::true(Validators::is('https://example.c0m', 'url'));
 	Assert::true(Validators::is('https://example.l', 'url'));
 	Assert::true(Validators::is('http://one_two.example.com', 'url'));

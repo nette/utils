@@ -310,6 +310,8 @@ class Validators
 				|\[[0-9a-f:]{3,39}\]                        # IPv6
 			)(:\\d{1,5})?                                   # port
 			(/\\S*)?                                        # path
+			(\?\\S*)?                                       # query
+			(\#\\S*)?                                       # fragment
 		$)Dix", $value);
 	}
 
