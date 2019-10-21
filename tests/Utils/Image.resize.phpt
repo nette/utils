@@ -140,6 +140,18 @@ test(function () use ($main) { // rotate
 });
 
 
+test(function () use ($main) { // alpha crop
+	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
+	$image->crop(1, 1, 8, 8);
+	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.crop.gd2'), toGd2($image));
+	if (PHP_VERSION_ID < 70200) {
+		Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.crop-71.png'), $image->toString($image::PNG));
+	} else {
+		Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.crop.png'), $image->toString($image::PNG));
+	}
+});
+
+
 test(function () use ($main) { // alpha resize
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->resize(20, 20);

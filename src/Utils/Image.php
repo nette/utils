@@ -366,6 +366,7 @@ class Image
 		[$r['x'], $r['y'], $r['width'], $r['height']]
 			= static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
 		$this->image = imagecrop($this->image, $r);
+		imagesavealpha($this->image, true);
 		return $this;
 	}
 
