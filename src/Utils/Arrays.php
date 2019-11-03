@@ -83,7 +83,7 @@ class Arrays
 	public static function searchKey(array $arr, $key): ?int
 	{
 		$foo = [$key => null];
-		return ($tmp = array_search(key($foo), array_keys($arr), true)) === false ? null : $tmp;
+		return Helpers::falseToNull(array_search(key($foo), array_keys($arr), true));
 	}
 
 

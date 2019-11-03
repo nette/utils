@@ -423,7 +423,7 @@ class Strings
 				$pos--;
 			}
 		}
-		return $pos === false ? null : $pos;
+		return Helpers::falseToNull($pos);
 	}
 
 

@@ -507,9 +507,9 @@ class Image
 	 */
 	public function toString(int $type = self::JPEG, int $quality = null): string
 	{
-		ob_start(function () {});
-		$this->output($type, $quality);
-		return ob_get_clean();
+		return Helpers::capture(function () use ($type, $quality) {
+			$this->output($type, $quality);
+		});
 	}
 
 
