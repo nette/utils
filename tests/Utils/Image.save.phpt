@@ -46,6 +46,21 @@ test(function () use ($main) {
 });
 
 
+test(function () use ($main) {
+	if (!function_exists('imagebmp')) {
+		return;
+	}
+
+	$main->save(getTempDir() . '/foo.bmp');
+	Assert::true(is_file(getTempDir() . '/foo.bmp'));
+	Assert::same(IMAGETYPE_BMP, getimagesize(getTempDir() . '/foo.bmp')[2]);
+
+	$main->save(getTempDir() . '/foo.y', null, Image::BMP);
+	Assert::true(is_file(getTempDir() . '/foo.y'));
+	Assert::same(IMAGETYPE_BMP, getimagesize(getTempDir() . '/foo.y')[2]);
+});
+
+
 Assert::exception(function () use ($main) { // invalid image type
 	$main->save('foo', null, IMG_WBMP);
 }, Nette\InvalidArgumentException::class, sprintf('Unsupported image type \'%d\'.', IMG_WBMP));
