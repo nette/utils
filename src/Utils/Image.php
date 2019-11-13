@@ -303,14 +303,14 @@ class Image
 	public static function calculateSize(int $srcWidth, int $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
 	{
 		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
-			$newWidth = (int) round($srcWidth / 100 * abs(substr($newWidth, 0, -1)));
+			$newWidth = (int) round($srcWidth / 100 * abs((int) substr($newWidth, 0, -1)));
 			$percents = true;
 		} else {
 			$newWidth = (int) abs($newWidth);
 		}
 
 		if (is_string($newHeight) && substr($newHeight, -1) === '%') {
-			$newHeight = (int) round($srcHeight / 100 * abs(substr($newHeight, 0, -1)));
+			$newHeight = (int) round($srcHeight / 100 * abs((int) substr($newHeight, 0, -1)));
 			$flags |= empty($percents) ? 0 : self::STRETCH;
 		} else {
 			$newHeight = (int) abs($newHeight);
@@ -385,16 +385,16 @@ class Image
 	public static function calculateCutout(int $srcWidth, int $srcHeight, $left, $top, $newWidth, $newHeight): array
 	{
 		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
-			$newWidth = (int) round($srcWidth / 100 * substr($newWidth, 0, -1));
+			$newWidth = (int) round($srcWidth / 100 * (int) substr($newWidth, 0, -1));
 		}
 		if (is_string($newHeight) && substr($newHeight, -1) === '%') {
-			$newHeight = (int) round($srcHeight / 100 * substr($newHeight, 0, -1));
+			$newHeight = (int) round($srcHeight / 100 * (int) substr($newHeight, 0, -1));
 		}
 		if (is_string($left) && substr($left, -1) === '%') {
-			$left = (int) round(($srcWidth - $newWidth) / 100 * substr($left, 0, -1));
+			$left = (int) round(($srcWidth - $newWidth) / 100 * (int) substr($left, 0, -1));
 		}
 		if (is_string($top) && substr($top, -1) === '%') {
-			$top = (int) round(($srcHeight - $newHeight) / 100 * substr($top, 0, -1));
+			$top = (int) round(($srcHeight - $newHeight) / 100 * (int) substr($top, 0, -1));
 		}
 		if ($left < 0) {
 			$newWidth += $left;
@@ -443,11 +443,11 @@ class Image
 		$height = $image->getHeight();
 
 		if (is_string($left) && substr($left, -1) === '%') {
-			$left = (int) round(($this->getWidth() - $width) / 100 * substr($left, 0, -1));
+			$left = (int) round(($this->getWidth() - $width) / 100 * (int) substr($left, 0, -1));
 		}
 
 		if (is_string($top) && substr($top, -1) === '%') {
-			$top = (int) round(($this->getHeight() - $height) / 100 * substr($top, 0, -1));
+			$top = (int) round(($this->getHeight() - $height) / 100 * (int) substr($top, 0, -1));
 		}
 
 		$output = $input = $image->image;
