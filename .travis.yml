@@ -3,7 +3,7 @@ php:
     - 7.1
     - 7.2
     - 7.3
-    - 7.4snapshot
+    - 7.4
 
 before_install:
     # turn off XDebug
@@ -36,6 +36,7 @@ jobs:
 
 
         -   stage: Static Analysis (informative)
+            php: 7.4
             install:
                 # Install PHPStan
                 - travis_retry composer create-project phpstan/phpstan-shim temp/phpstan --no-progress
@@ -55,7 +56,6 @@ jobs:
     allow_failures:
         -   stage: Static Analysis (informative)
         -   stage: Code Coverage
-        -   php: 7.4snapshot
 
 
 sudo: false
