@@ -79,6 +79,18 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	}
 
 
+	final public function toText(): string
+	{
+		return $this->getText();
+	}
+
+
+	final public function toHtml(): string
+	{
+		return $this->render();
+	}
+
+
 	/**
 	 * Changes element's name.
 	 * @return static

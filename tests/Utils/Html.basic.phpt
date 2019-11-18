@@ -17,6 +17,7 @@ test(function () {
 	Html::$xhtml = true;
 	$el = Html::el('img')->src('image.gif')->alt('');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
+	Assert::same('<img src="image.gif" alt="" />', $el->toHtml());
 	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
 	Assert::same('', $el->endTag());
 });
@@ -149,6 +150,7 @@ test(function () { // getText vs. getHtml
 	$el->create('a')->setText('link');
 	Assert::same('<p>Hello &ndash; World<a>link</a></p>', (string) $el);
 	Assert::same('Hello – Worldlink', $el->getText());
+	Assert::same('Hello – Worldlink', $el->toText());
 });
 
 
