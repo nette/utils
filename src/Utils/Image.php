@@ -552,21 +552,21 @@ class Image
 		switch ($type) {
 			case self::JPEG:
 				$quality = $quality === null ? 85 : max(0, min(100, $quality));
-				$success = imagejpeg($this->image, $file, $quality);
+				$success = @imagejpeg($this->image, $file, $quality); // @ is escalated to exception
 				break;
 
 			case self::PNG:
 				$quality = $quality === null ? 9 : max(0, min(9, $quality));
-				$success = imagepng($this->image, $file, $quality);
+				$success = @imagepng($this->image, $file, $quality); // @ is escalated to exception
 				break;
 
 			case self::GIF:
-				$success = imagegif($this->image, $file);
+				$success = @imagegif($this->image, $file); // @ is escalated to exception
 				break;
 
 			case self::WEBP:
 				$quality = $quality === null ? 80 : max(0, min(100, $quality));
-				$success = imagewebp($this->image, $file, $quality);
+				$success = @imagewebp($this->image, $file, $quality); // @ is escalated to exception
 				break;
 
 			default:
