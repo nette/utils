@@ -111,10 +111,10 @@ class Strings
 		$s = self::normalizeNewLines($s);
 
 		// remove control characters; leave \t + \n
-		$s = preg_replace('#[\x00-\x08\x0B-\x1F\x7F-\x9F]+#u', '', $s);
+		$s = self::pcre('preg_replace', ['#[\x00-\x08\x0B-\x1F\x7F-\x9F]+#u', '', $s]);
 
 		// right trim
-		$s = preg_replace('#[\t ]+$#m', '', $s);
+		$s = self::pcre('preg_replace', ['#[\t ]+$#m', '', $s]);
 
 		// leading and trailing blank lines
 		$s = trim($s, "\n");
@@ -163,7 +163,7 @@ class Strings
 				. "\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf8\xf9\xfa\xfb\xfc\xfd\xfe"
 				. "\x96\xa0\x8b\x97\x9b\xa6\xad\xb7",
 				'ALLSSSSTZZZallssstzzzRAAAALCCCEEEEIIDDNNOOOOxRUUUUYTsraaaalccceeeeiiddnnooooruuuuyt- <->|-.');
-			$s = preg_replace('#[^\x00-\x7F]++#', '', $s);
+			$s = self::pcre('preg_replace', ['#[^\x00-\x7F]++#', '', $s]);
 		} else {
 			$s = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s);
 		}
@@ -181,7 +181,7 @@ class Strings
 		if ($lower) {
 			$s = strtolower($s);
 		}
-		$s = preg_replace('#[^a-z0-9' . ($charlist !== null ? preg_quote($charlist, '#') : '') . ']+#i', '-', $s);
+		$s = self::pcre('preg_replace', ['#[^a-z0-9' . ($charlist !== null ? preg_quote($charlist, '#') : '') . ']+#i', '-', $s]);
 		$s = trim($s, '-');
 		return $s;
 	}
