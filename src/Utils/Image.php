@@ -266,8 +266,8 @@ class Image
 
 	/**
 	 * Resizes image.
-	 * @param  int|string  $width in pixels or percent
-	 * @param  int|string  $height in pixels or percent
+	 * @param  int|string|null  $width in pixels or percent
+	 * @param  int|string|null  $height in pixels or percent
 	 * @return static
 	 */
 	public function resize($width, $height, int $flags = self::FIT)
@@ -297,8 +297,8 @@ class Image
 
 	/**
 	 * Calculates dimensions of resized image.
-	 * @param  int|string  $newWidth in pixels or percent
-	 * @param  int|string  $newHeight in pixels or percent
+	 * @param  int|string|null  $newWidth in pixels or percent
+	 * @param  int|string|null  $newHeight in pixels or percent
 	 */
 	public static function calculateSize(int $srcWidth, int $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
 	{
