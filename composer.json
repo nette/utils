@@ -19,7 +19,8 @@
 	},
 	"require-dev": {
 		"nette/tester": "~2.0",
-		"tracy/tracy": "^2.3"
+		"tracy/tracy": "^2.3",
+		"phpstan/phpstan": "^0.12"
 	},
 	"suggest": {
 		"ext-iconv": "to use Strings::webalize() and toAscii()",
@@ -34,6 +35,10 @@
 		"classmap": ["src/"]
 	},
 	"minimum-stability": "dev",
+	"scripts": {
+		"phpstan": "phpstan analyse --level 5 --configuration tests/phpstan.neon src",
+		"tester": "tester tests -s"
+	},
 	"extra": {
 		"branch-alias": {
 			"dev-master": "3.0-dev"

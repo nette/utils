@@ -1,5 +1,5 @@
 parameters:
-	bootstrap: tests/phpstan-bootstrap.php
+	bootstrap: phpstan-bootstrap.php
 
 	ignoreErrors:
 		# PHPStan does not support dynamic by reference return used by Nette\Utils\Strings::pcre()
