@@ -35,4 +35,22 @@ class Helpers
 	{
 		return $val === false ? null : $val;
 	}
+
+
+	/**
+	 * Finds the best suggestion (for 8-bit encoding).
+	 * @param  string[]  $possibilities
+	 */
+	public static function getSuggestion(array $possibilities, string $value): ?string
+	{
+		$best = null;
+		$min = (strlen($value) / 4 + 1) * 10 + .1;
+		foreach (array_unique($possibilities) as $item) {
+			if ($item !== $value && ($len = levenshtein($item, $value, 10, 11, 10)) < $min) {
+				$min = $len;
+				$best = $item;
+			}
+		}
+		return $best;
+	}
 }
