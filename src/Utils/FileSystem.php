@@ -172,6 +172,14 @@ final class FileSystem
 	}
 
 
+	/**
+	 * Joins all given path segments then normalizes the resulting path.
+	 */
+	public static function joinPaths(string ...$paths): string
+	{
+		return self::normalizePath(implode('/', $paths));
+	}
+
 
 	private static function getLastError(): string
 	{
