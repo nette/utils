@@ -190,3 +190,9 @@ test(function () { // removeAttributes
 	Assert::false(isset($el->onclick));
 	Assert::false(isset($el->onmouseover));
 });
+
+
+test(function () { // html to text
+	Assert::same('hello"', Html::htmlToText('<a href="#">hello&quot;</a>'));
+	Assert::same(' text', Html::htmlToText('<!-- comment --> text'));
+});

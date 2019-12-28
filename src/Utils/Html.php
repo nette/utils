@@ -322,6 +322,15 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 
 	/**
+	 * Converts given HTML code to plain text.
+	 */
+	public static function htmlToText(string $html): string
+	{
+		return html_entity_decode(strip_tags($html), ENT_QUOTES, 'UTF-8');
+	}
+
+
+	/**
 	 * Changes element's name.
 	 * @return static
 	 */
@@ -571,7 +580,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 */
 	final public function getText(): string
 	{
-		return html_entity_decode(strip_tags($this->getHtml()), ENT_QUOTES, 'UTF-8');
+		return self::htmlToText($this->getHtml());
 	}
 
 
