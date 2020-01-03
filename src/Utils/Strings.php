@@ -146,8 +146,8 @@ class Strings
 		$s = self::pcre('preg_replace', ['#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{2FF}\x{370}-\x{10FFFF}]#u', '', $s]);
 		// transliteration (by Transliterator and iconv) is not optimal, replace some characters directly
 		$s = str_replace(
-			["\u{201E}", "\u{201C}", "\u{201D}", "\u{201A}", "\u{2018}", "\u{2019}", "\u{B0}"], // „ “ ” ‚ ‘ ’ °
-			['"', '"', '"', "'", "'", "'", '^'],
+			["\u{201E}", "\u{201C}", "\u{201D}", "\u{201A}", "\u{2018}", "\u{2019}", "\u{B0}", "\u{42F}", "\u{44F}", "\u{42E}", "\u{44E}"], // „ “ ” ‚ ‘ ’ ° Я я Ю ю
+			['"', '"', '"', "'", "'", "'", '^', 'Ya', 'ya', 'Yu', 'yu'],
 			$s
 		);
 		// temporarily hide these characters to distinguish them from the garbage that iconv creates

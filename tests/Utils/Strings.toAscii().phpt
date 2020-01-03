@@ -28,3 +28,6 @@ Assert::exception(function () {
 if (class_exists('Transliterator') && \Transliterator::create('Any-Latin; Latin-ASCII')) {
 	Assert::same('Athena->Moskva', Strings::toAscii("\u{391}\u{3B8}\u{3AE}\u{3BD}\u{3B1}\u{2192}\u{41C}\u{43E}\u{441}\u{43A}\u{432}\u{430}")); // Αθήνα→Москва
 }
+
+
+Assert::same('Ya ya Yu yu', Strings::toAscii("\u{42F} \u{44F} \u{42E} \u{44E}")); // Я я Ю ю
