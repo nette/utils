@@ -145,8 +145,13 @@ class Strings
 	{
 		$iconv = defined('ICONV_IMPL') ? trim(ICONV_IMPL, '"\'') : null;
 		static $transliterator = null;
-		if ($transliterator === null && class_exists('Transliterator', false)) {
-			$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
+		if ($transliterator === null) {
+			if (class_exists('Transliterator', false)) {
+				$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
+			} else {
+				trigger_error(__METHOD__ . "(): it is recommended to enable PHP extensions 'intl'.", E_USER_NOTICE);
+				$transliterator = false;
+			}
 		}
 
 		// remove control characters and check UTF-8 validity
