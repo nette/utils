@@ -142,20 +142,27 @@ class Strings
 			$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
 		}
 
+		// remove control characters and check UTF-8 validity
 		$s = self::pcre('preg_replace', ['#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{2FF}\x{370}-\x{10FFFF}]#u', '', $s]);
-		$s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
+		// transliteration (by Transliterator and iconv) is not optimal, replace some characters directly
 		$s = str_replace(
-			["\u{201E}", "\u{201C}", "\u{201D}", "\u{201A}", "\u{2018}", "\u{2019}", "\u{B0}"],
-			["\x03", "\x03", "\x03", "\x02", "\x02", "\x02", "\x04"], $s
+			["\u{201E}", "\u{201C}", "\u{201D}", "\u{201A}", "\u{2018}", "\u{2019}", "\u{B0}"], // „ “ ” ‚ ‘ ’ °
+			['"', '"', '"', "'", "'", "'", '^'],
+			$s
 		);
+		// temporarily hide these characters to distinguish them from the garbage that iconv creates
+		$s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
 		if ($transliterator !== null) {
 			$s = $transliterator->transliterate($s);
 		}
 		if (ICONV_IMPL === 'glibc') {
+			// glibc implementation is very limited. replace some characters directly
 			$s = str_replace(
-				["\u{BB}", "\u{AB}", "\u{2026}", "\u{2122}", "\u{A9}", "\u{AE}"],
-				['>>', '<<', '...', 'TM', '(c)', '(R)'], $s
+				["\u{BB}", "\u{AB}", "\u{2026}", "\u{2122}", "\u{A9}", "\u{AE}"], // » « … ™ © ®
+				['>>', '<<', '...', 'TM', '(c)', '(R)'],
+				$s
 			);
+			// transliterate the rest into Windows-1250 and then into ASCII, so most Eastern European characters are preserved
 			$s = iconv('UTF-8', 'WINDOWS-1250//TRANSLIT//IGNORE', $s);
 			$s = strtr($s, "\xa5\xa3\xbc\x8c\xa7\x8a\xaa\x8d\x8f\x8e\xaf\xb9\xb3\xbe\x9c\x9a\xba\x9d\x9f\x9e"
 				. "\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3"
@@ -167,8 +174,11 @@ class Strings
 		} else {
 			$s = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s);
 		}
+		// remove garbage that iconv creates during transliteration (eg Ý -> Y')
 		$s = str_replace(['`', "'", '"', '^', '~', '?'], '', $s);
-		return strtr($s, "\x01\x02\x03\x04\x05\x06", '`\'"^~?');
+		// restore temporarily hidden characters
+		$s = strtr($s, "\x01\x02\x03\x04\x05\x06", '`\'"^~?');
+		return $s;
 	}
 
 
