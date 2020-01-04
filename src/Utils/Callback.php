@@ -26,6 +26,7 @@ final class Callback
 	 */
 	public static function closure($callable, string $method = null): \Closure
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use Closure::fromCallable().', E_USER_DEPRECATED);
 		try {
 			return \Closure::fromCallable($method === null ? $callable : [$callable, $method]);
 		} catch (\TypeError $e) {
