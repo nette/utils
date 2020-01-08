@@ -17,7 +17,6 @@ use Nette;
  */
 class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \IteratorAggregate
 {
-
 	/**
 	 * @return static
 	 */

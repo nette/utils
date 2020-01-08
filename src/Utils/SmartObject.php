@@ -21,7 +21,6 @@ use Nette\Utils\ObjectHelpers;
  */
 trait SmartObject
 {
-
 	/**
 	 * @throws MemberAccessException
 	 */

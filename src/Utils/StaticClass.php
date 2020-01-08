@@ -15,7 +15,6 @@ namespace Nette;
  */
 trait StaticClass
 {
-
 	/**
 	 * @throws \Error
 	 */
