@@ -113,9 +113,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function modifyClone(string $modify = '')
 	{
 		$dolly = clone $this;
