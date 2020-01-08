@@ -20,9 +20,7 @@ final class ObjectHelpers
 {
 	use Nette\StaticClass;
 
-	/**
-	 * @throws MemberAccessException
-	 */
+	/** @throws MemberAccessException */
 	public static function strictGet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
@@ -34,9 +32,7 @@ final class ObjectHelpers
 	}
 
 
-	/**
-	 * @throws MemberAccessException
-	 */
+	/** @throws MemberAccessException */
 	public static function strictSet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
@@ -48,9 +44,7 @@ final class ObjectHelpers
 	}
 
 
-	/**
-	 * @throws MemberAccessException
-	 */
+	/** @throws MemberAccessException */
 	public static function strictCall(string $class, string $method, array $additionalMethods = []): void
 	{
 		$hint = self::getSuggestion(array_merge(
@@ -66,9 +60,7 @@ final class ObjectHelpers
 	}
 
 
-	/**
-	 * @throws MemberAccessException
-	 */
+	/** @throws MemberAccessException */
 	public static function strictStaticCall(string $class, string $method): void
 	{
 		$hint = self::getSuggestion(
@@ -103,10 +95,10 @@ final class ObjectHelpers
 			$uname = ucfirst($name);
 			$write = $type !== '-read'
 				&& $rc->hasMethod($nm = 'set' . $uname)
-				&& ($rm = $rc->getMethod($nm)) && $rm->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
+				&& ($rm = $rc->getMethod($nm))->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
 			$read = $type !== '-write'
 				&& ($rc->hasMethod($nm = 'get' . $uname) || $rc->hasMethod($nm = 'is' . $uname))
-				&& ($rm = $rc->getMethod($nm)) && $rm->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
+				&& ($rm = $rc->getMethod($nm))->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
 
 			if ($read || $write) {
 				$props[$name] = $read << 0 | ($nm[0] === 'g') << 1 | $rm->returnsReference() << 2 | $write << 3;

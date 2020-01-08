@@ -15,7 +15,6 @@ namespace Nette\Localization;
  */
 interface ITranslator
 {
-
 	/**
 	 * Translates the given string.
 	 * @param  mixed  $message
