@@ -120,7 +120,7 @@ class Image
 
 	public const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
-	private const FORMATS = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::BMP => 'bmp'];
+	public const EXTENSIONS = [self::JPEG => 'jpg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::BMP => 'bmp'];
 
 	/** @var resource */
 	private $image;
@@ -153,7 +153,7 @@ class Image
 		}
 
 		$detectedFormat = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
-		if (!isset(self::FORMATS[$detectedFormat])) {
+		if (!isset(self::EXTENSIONS[$detectedFormat])) {
 			$detectedFormat = null;
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
@@ -176,7 +176,7 @@ class Image
 
 		if (func_num_args() > 1) {
 			$tmp = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
-			$detectedFormat = isset(self::FORMATS[$tmp]) ? $tmp : null;
+			$detectedFormat = isset(self::EXTENSIONS[$tmp]) ? $tmp : null;
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function (string $message): void {
@@ -490,7 +490,7 @@ class Image
 	public function save(string $file, int $quality = null, int $type = null): void
 	{
 		if ($type === null) {
-			$extensions = array_flip(self::FORMATS) + ['jpg' => self::JPEG];
+			$extensions = array_flip(self::EXTENSIONS) + ['jpeg' => self::JPEG];
 			$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 			if (!isset($extensions[$ext])) {
 				throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
@@ -536,7 +536,7 @@ class Image
 	 */
 	public function send(int $type = self::JPEG, int $quality = null): void
 	{
-		if (!isset(self::FORMATS[$type])) {
+		if (!isset(self::EXTENSIONS[$type])) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
 		header('Content-Type: ' . image_type_to_mime_type($type));
