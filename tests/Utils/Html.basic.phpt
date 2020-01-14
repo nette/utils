@@ -195,4 +195,5 @@ test(function () { // removeAttributes
 test(function () { // html to text
 	Assert::same('hello"', Html::htmlToText('<a href="#">hello&quot;</a>'));
 	Assert::same(' text', Html::htmlToText('<!-- comment --> text'));
+	Assert::same("' ' ' \"", Html::htmlToText('&apos; &#39; &#x27; &quot;'));
 });
