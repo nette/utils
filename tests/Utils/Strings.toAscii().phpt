@@ -22,6 +22,6 @@ Assert::same('', Strings::toAscii("\u{A4}")); // non-ASCII char
 Assert::same('a b', Strings::toAscii("a\u{A0}b")); // non-breaking space
 Assert::same('Tarikh', Strings::toAscii("Ta\u{2BE}rikh")); // Taʾrikh
 
-if (class_exists('Transliterator') && \Transliterator::create('Any-Latin; Latin-ASCII')) {
+if (class_exists('Transliterator') && \Transliterator::create('Any-Latin; Latin-ASCII') && ICONV_IMPL === 'libiconv') {
 	Assert::same('Athena->Moskva', Strings::toAscii("\u{391}\u{3B8}\u{3AE}\u{3BD}\u{3B1}\u{2192}\u{41C}\u{43E}\u{441}\u{43A}\u{432}\u{430}")); // Αθήνα→Москва
 }
