@@ -370,8 +370,14 @@ class Image
 	{
 		[$r['x'], $r['y'], $r['width'], $r['height']]
 			= static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
-		$this->image = imagecrop($this->image, $r);
-		imagesavealpha($this->image, true);
+		if (gd_info()['GD Version'] === 'bundled (2.1.0 compatible)') {
+			$this->image = imagecrop($this->image, $r);
+			imagesavealpha($this->image, true);
+		} else {
+			$newImage = static::fromBlank($r['width'], $r['height'], self::RGB(0, 0, 0, 127))->getImageResource();
+			imagecopy($newImage, $this->image, 0, 0, $r['x'], $r['y'], $r['width'], $r['height']);
+			$this->image = $newImage;
+		}
 		return $this;
 	}
 
