@@ -28,6 +28,7 @@ final class Json
 
 	/**
 	 * Returns the JSON representation of a value. Accepts flag Json::PRETTY.
+	 * @throws JsonException
 	 */
 	public static function encode($value, int $flags = 0): string
 	{
@@ -47,6 +48,7 @@ final class Json
 	/**
 	 * Decodes a JSON string. Accepts flag Json::FORCE_ARRAY.
 	 * @return mixed
+	 * @throws JsonException
 	 */
 	public static function decode(string $json, int $flags = 0)
 	{
