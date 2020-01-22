@@ -58,6 +58,9 @@ final class Reflection
 	}
 
 
+	/**
+	 * @param  \ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
+	 */
 	private static function normalizeType(string $type, $reflection): string
 	{
 		$lower = strtolower($type);
@@ -289,7 +292,7 @@ final class Reflection
 	}
 
 
-	private static function fetch(&$tokens, $take)
+	private static function fetch(array &$tokens, $take): ?string
 	{
 		$res = null;
 		while ($token = current($tokens)) {

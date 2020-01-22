@@ -234,20 +234,20 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 {
 	use Nette\SmartObject;
 
-	/** @var array  element's attributes */
+	/** @var array<string, mixed>  element's attributes */
 	public $attrs = [];
 
 	/** @var bool  use XHTML syntax? */
 	public static $xhtml = false;
 
-	/** @var array  empty (void) elements */
+	/** @var array<string, int>  void elements */
 	public static $emptyElements = [
 		'img' => 1, 'hr' => 1, 'br' => 1, 'input' => 1, 'meta' => 1, 'area' => 1, 'embed' => 1, 'keygen' => 1,
 		'source' => 1, 'base' => 1, 'col' => 1, 'link' => 1, 'param' => 1, 'basefont' => 1, 'frame' => 1,
 		'isindex' => 1, 'wbr' => 1, 'command' => 1, 'track' => 1,
 	];
 
-	/** @var array  of Html | string nodes */
+	/** @var array<int, Html|string> nodes */
 	protected $children = [];
 
 	/** @var string  element's name */
@@ -373,6 +373,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Appends value to element's attribute.
+	 * @param  mixed  $value
+	 * @param  mixed  $option
 	 * @return static
 	 */
 	public function appendAttribute(string $name, $value, $option = true)
@@ -396,6 +398,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Sets element's attribute.
+	 * @param  mixed  $value
 	 * @return static
 	 */
 	public function setAttribute(string $name, $value)
@@ -441,6 +444,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Overloaded setter for element's attribute.
+	 * @param  mixed  $value
 	 */
 	final public function __set(string $name, $value): void
 	{
@@ -526,6 +530,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 
 	/**
 	 * Setter for data-* attributes. Booleans are converted to 'true' resp. 'false'.
+	 * @param  mixed  $value
 	 * @return static
 	 */
 	public function data(string $name, $value = null)
