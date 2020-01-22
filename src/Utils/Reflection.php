@@ -33,24 +33,27 @@ final class Reflection
 
 	public static function getReturnType(\ReflectionFunctionAbstract $func): ?string
 	{
-		return $func->hasReturnType()
-			? self::normalizeType($func->getReturnType()->getName(), $func)
+		$type = $func->getReturnType();
+		return $type instanceof \ReflectionNamedType && $func instanceof \ReflectionMethod
+			? self::normalizeType($type->getName(), $func)
 			: null;
 	}
 
 
 	public static function getParameterType(\ReflectionParameter $param): ?string
 	{
-		return $param->hasType()
-			? self::normalizeType($param->getType()->getName(), $param)
+		$type = $param->getType();
+		return $type instanceof \ReflectionNamedType
+			? self::normalizeType($type->getName(), $param)
 			: null;
 	}
 
 
 	public static function getPropertyType(\ReflectionProperty $prop): ?string
 	{
-		return PHP_VERSION_ID >= 70400 && $prop->hasType()
-			? self::normalizeType($prop->getType()->getName(), $prop)
+		$type = PHP_VERSION_ID >= 70400 ? $prop->getType() : null;
+		return $type instanceof \ReflectionNamedType
+			? self::normalizeType($type->getName(), $prop)
 			: null;
 	}
 
