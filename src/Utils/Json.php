@@ -28,6 +28,7 @@ final class Json
 
 	/**
 	 * Returns the JSON representation of a value. Accepts flag Json::PRETTY.
+	 * @param  mixed  $value
 	 * @throws JsonException
 	 */
 	public static function encode($value, int $flags = 0): string

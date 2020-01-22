@@ -42,6 +42,8 @@ class Helpers
 
 	/**
 	 * Converts false to null.
+	 * @param  mixed  $val
+	 * @return mixed
 	 */
 	public static function falseToNull($val)
 	{

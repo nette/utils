@@ -86,6 +86,7 @@ final class Callback
 
 
 	/**
+	 * @param  mixed  $callable
 	 * @return callable
 	 */
 	public static function check($callable, bool $syntax = false)
@@ -100,6 +101,9 @@ final class Callback
 	}
 
 
+	/**
+	 * @param  mixed  $callable  may be syntactically correct but not callable
+	 */
 	public static function toString($callable): string
 	{
 		if ($callable instanceof \Closure) {
@@ -114,6 +118,10 @@ final class Callback
 	}
 
 
+	/**
+	 * @param  callable  $callable  is escalated to ReflectionException
+	 * @return \ReflectionMethod|\ReflectionFunction
+	 */
 	public static function toReflection($callable): \ReflectionFunctionAbstract
 	{
 		if ($callable instanceof \Closure) {
