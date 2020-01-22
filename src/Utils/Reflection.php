@@ -72,7 +72,9 @@ class Reflection
 	{
 		$type = PHP_VERSION_ID >= 70100 ? $type->getName() : (string) $type;
 		$lower = strtolower($type);
-		if ($lower === 'self') {
+		if ($reflection instanceof \ReflectionFunction) {
+			return $type;
+		} elseif ($lower === 'self' || $lower === 'static') {
 			return $reflection->getDeclaringClass()->getName();
 		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
 			return $reflection->getDeclaringClass()->getParentClass()->getName();
