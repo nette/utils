@@ -31,6 +31,8 @@ Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter
 
 Assert::same('abc', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'h')));
 
+Assert::same('xyz', Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'p')));
+
 Assert::exception(function () {
 	Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'i'));
 }, ReflectionException::class, 'Unable to resolve constant self::UNDEFINED used as default value of $i in NS\Foo::method().');

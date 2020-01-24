@@ -13,7 +13,12 @@ interface Bar
 	const DEFINED = 'xyz';
 }
 
-class Foo
+class ParentFoo
+{
+	public const PUBLIC_DEFINED = 'xyz';
+}
+
+class Foo extends ParentFoo
 {
 	public const PUBLIC_DEFINED = 'abc';
 	protected const PROTECTED_DEFINED = 'abc';
@@ -35,7 +40,8 @@ class Foo
 		$l = Undefined::ANY,
 		$m = DEFINED,
 		$n = UNDEFINED,
-		$o = NS_DEFINED
+		$o = NS_DEFINED,
+		$p = parent::PUBLIC_DEFINED
 	) {
 	}
 }
