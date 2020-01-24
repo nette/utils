@@ -7,3 +7,6 @@ parameters:
 
 		# PHPStan does not support RecursiveIteratorIterator proxying unknown method calls to inner iterator
 		- '#RecursiveIteratorIterator::getSubPathName\(\)#'
+
+		# static cannot be changed to maintain backward compatibility
+		- '#Unsafe usage of new static\(\)#'
