@@ -84,9 +84,7 @@ final class Reflection
 			$const = $orig = $param->getDefaultValueConstantName();
 			$pair = explode('::', $const);
 			if (isset($pair[1])) {
-				if (strtolower($pair[0]) === 'self') {
-					$pair[0] = $param->getDeclaringClass()->getName();
-				}
+				$pair[0] = self::normalizeType($pair[0], $param);
 				try {
 					$rcc = new \ReflectionClassConstant($pair[0], $pair[1]);
 				} catch (\ReflectionException $e) {
