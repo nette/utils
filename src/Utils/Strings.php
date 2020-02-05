@@ -101,7 +101,7 @@ class Strings
 	/**
 	 * Removes special controls characters and normalizes line endings, spaces and normal form to NFC in UTF-8 string.
 	 */
-	public static function normalize(string $s): string
+	public static function normalize(string $s, bool $fixMalformedData = false): string
 	{
 		// convert to compressed normal form (NFC)
 		if (class_exists('Normalizer', false) && ($n = \Normalizer::normalize($s, \Normalizer::FORM_C)) !== false) {
@@ -109,6 +109,10 @@ class Strings
 		}
 
 		$s = self::normalizeNewLines($s);
+
+		if ($fixMalformedData === true && function_exists('mb_convert_encoding')) {
+			$s = mb_convert_encoding($s, 'UTF-8', 'UTF-8');
+		}
 
 		// remove control characters; leave \t + \n
 		$s = self::pcre('preg_replace', ['#[\x00-\x08\x0B-\x1F\x7F-\x9F]+#u', '', $s]);
