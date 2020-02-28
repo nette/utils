@@ -50,6 +50,8 @@ class Strings
 	{
 		if ($code < 0 || ($code >= 0xD800 && $code <= 0xDFFF) || $code > 0x10FFFF) {
 			throw new Nette\InvalidArgumentException('Code point must be in range 0x0 to 0xD7FF or 0xE000 to 0x10FFFF.');
+		} elseif (!extension_loaded('iconv')) {
+			throw new Nette\NotSupportedException(__METHOD__ . '() requires ICONV extension that is not loaded.');
 		}
 		return iconv('UTF-32BE', 'UTF-8//IGNORE', pack('N', $code));
 	}
@@ -89,6 +91,8 @@ class Strings
 	{
 		if (function_exists('mb_substr')) {
 			return mb_substr($s, $start, $length, 'UTF-8'); // MB is much faster
+		} elseif (!extension_loaded('iconv')) {
+			throw new Nette\NotSupportedException(__METHOD__ . '() requires extension ICONV or MBSTRING, neither is loaded.');
 		} elseif ($length === null) {
 			$length = self::length($s);
 		} elseif ($start < 0 && $length < 0) {
@@ -371,6 +375,9 @@ class Strings
 	 */
 	public static function reverse(string $s): string
 	{
+		if (!extension_loaded('iconv')) {
+			throw new Nette\NotSupportedException(__METHOD__ . '() requires ICONV extension that is not loaded.');
+		}
 		return iconv('UTF-32LE', 'UTF-8', strrev(iconv('UTF-8', 'UTF-32BE', $s)));
 	}
 
