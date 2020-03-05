@@ -137,6 +137,7 @@ class Strings
 	 */
 	public static function toAscii(string $s): string
 	{
+		$iconv = defined('ICONV_IMPL') ? ICONV_IMPL : null;
 		static $transliterator = null;
 		if ($transliterator === null && class_exists('Transliterator', false)) {
 			$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
@@ -147,24 +148,26 @@ class Strings
 
 		// transliteration (by Transliterator and iconv) is not optimal, replace some characters directly
 		$s = strtr($s, ["\u{201E}" => '"', "\u{201C}" => '"', "\u{201D}" => '"', "\u{201A}" => "'", "\u{2018}" => "'", "\u{2019}" => "'", "\u{B0}" => '^', "\u{42F}" => 'Ya', "\u{44F}" => 'ya', "\u{42E}" => 'Yu', "\u{44E}" => 'yu']); // „ “ ” ‚ ‘ ’ ° Я я Ю ю
-		if (ICONV_IMPL === 'glibc') {
+		if ($iconv !== 'libiconv') {
 			$s = strtr($s, ["\u{AE}" => '(R)', "\u{A9}" => '(c)', "\u{2026}" => '...', "\u{AB}" => '<<', "\u{BB}" => '>>', "\u{A3}" => 'lb', "\u{A5}" => 'yen', "\u{B2}" => '^2', "\u{B3}" => '^3', "\u{B5}" => 'u', "\u{B9}" => '^1', "\u{BA}" => 'o', "\u{BF}" => '?', "\u{2CA}" => "'", "\u{2CD}" => '_', "\u{2DD}" => '"', "\u{1FEF}" => '', "\u{20AC}" => 'EUR', "\u{2122}" => 'TM', "\u{212E}" => 'e', "\u{2190}" => '<-', "\u{2191}" => '^', "\u{2192}" => '->', "\u{2193}" => 'V', "\u{2194}" => '<->']); // ® © … « » £ ¥ ² ³ µ ¹ º ¿ ˊ ˍ ˝ ` € ™ ℮ ← ↑ → ↓ ↔
 		}
 
 		if ($transliterator) {
 			$s = $transliterator->transliterate($s);
-			if (ICONV_IMPL === 'glibc') { // temporarily hide ? to distinguish them from the garbage that iconv creates
-				$s = strtr($s, '?', "\x01");
-			}
 			// use iconv because The transliterator leaves some characters out of ASCII, eg → ʾ
-			$s = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s);
-			if (ICONV_IMPL === 'glibc') { // remove garbage and restore ? characters
-				$s = str_replace(['?', "\x01"], ['', '?'], $s);
+			if ($iconv === 'glibc') {
+				$s = strtr($s, '?', "\x01"); // temporarily hide ? to distinguish them from the garbage that iconv creates
+				$s = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s);
+				$s = str_replace(['?', "\x01"], ['', '?'], $s); // remove garbage and restore ? characters
+			} elseif ($iconv === 'libiconv') {
+				$s = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s);
+			} else { // null or 'unknown' (#216)
+				$s = self::pcre('preg_replace', ['#[^\x00-\x7F]++#', '', $s]); // remove non-ascii chars
 			}
-		} else {
+		} elseif ($iconv === 'glibc' || $iconv === 'libiconv') {
 			// temporarily hide these characters to distinguish them from the garbage that iconv creates
 			$s = strtr($s, '`\'"^~?', "\x01\x02\x03\x04\x05\x06");
-			if (ICONV_IMPL === 'glibc') {
+			if ($iconv === 'glibc') {
 				// glibc implementation is very limited. transliterate into Windows-1250 and then into ASCII, so most Eastern European characters are preserved
 				$s = iconv('UTF-8', 'WINDOWS-1250//TRANSLIT//IGNORE', $s);
 				$s = strtr($s,
@@ -178,6 +181,8 @@ class Strings
 			$s = str_replace(['`', "'", '"', '^', '~', '?'], '', $s);
 			// restore temporarily hidden characters
 			$s = strtr($s, "\x01\x02\x03\x04\x05\x06", '`\'"^~?');
+		} else {
+			$s = self::pcre('preg_replace', ['#[^\x00-\x7F]++#', '', $s]); // remove non-ascii chars
 		}
 
 		return $s;
