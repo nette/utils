@@ -428,7 +428,7 @@ class Image
 		}
 		$newWidth = min($newWidth, $srcWidth - $left);
 		$newHeight = min($newHeight, $srcHeight - $top);
-		return [$left, $top, $newWidth, $newHeight];
+		return [(int) $left, (int) $top, (int) $newWidth, (int) $newHeight];
 	}
 
 
