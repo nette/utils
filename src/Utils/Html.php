@@ -362,7 +362,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 	 */
 	public function getText()
 	{
-		return html_entity_decode(strip_tags($this->getHtml()), ENT_QUOTES, 'UTF-8');
+		return html_entity_decode(strip_tags($this->getHtml()), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	}
 
 
