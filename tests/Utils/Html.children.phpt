@@ -57,3 +57,33 @@ test(function () { // ==> Iterator:
 	Assert::same('optgroup', $el[0]->getName());
 	Assert::same('option', $el[1]->getName());
 });
+
+
+test(function () { // counting
+	$el = Html::el('ul');
+	$el->addHtml('li');
+	$el->addHtml('li');
+
+	Assert::count(2, $el);
+	Assert::count(2, $el->getChildren());
+	Assert::count(2, iterator_to_array($el->getIterator()));
+
+	unset($el[1]);
+	Assert::count(1, $el->getChildren());
+
+	$el->removeChildren();
+	Assert::count(0, $el->getChildren());
+	Assert::count(0, iterator_to_array($el->getIterator()));
+
+	Assert::same('<ul></ul>', (string) $el);
+});
+
+
+test(function () { // cloning
+	$el = Html::el('ul');
+	$el->addHtml(Html::el('li'));
+
+	$el2 = clone $el;
+
+	Assert::same((string) $el, (string) $el2);
+});
