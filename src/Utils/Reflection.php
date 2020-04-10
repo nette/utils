@@ -65,9 +65,9 @@ final class Reflection
 	{
 		$lower = strtolower($type);
 		if ($lower === 'self') {
-			return $reflection->getDeclaringClass()->getName();
+			return $reflection->getDeclaringClass()->name;
 		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
-			return $reflection->getDeclaringClass()->getParentClass()->getName();
+			return $reflection->getDeclaringClass()->getParentClass()->name;
 		} else {
 			return $type;
 		}
@@ -112,10 +112,10 @@ final class Reflection
 	public static function getPropertyDeclaringClass(\ReflectionProperty $prop): \ReflectionClass
 	{
 		foreach ($prop->getDeclaringClass()->getTraits() as $trait) {
-			if ($trait->hasProperty($prop->getName())
-				&& $trait->getProperty($prop->getName())->getDocComment() === $prop->getDocComment()
+			if ($trait->hasProperty($prop->name)
+				&& $trait->getProperty($prop->name)->getDocComment() === $prop->getDocComment()
 			) {
-				return self::getPropertyDeclaringClass($trait->getProperty($prop->getName()));
+				return self::getPropertyDeclaringClass($trait->getProperty($prop->name));
 			}
 		}
 		return $prop->getDeclaringClass();
@@ -137,15 +137,15 @@ final class Reflection
 	public static function toString(\Reflector $ref): string
 	{
 		if ($ref instanceof \ReflectionClass) {
-			return $ref->getName();
+			return $ref->name;
 		} elseif ($ref instanceof \ReflectionMethod) {
-			return $ref->getDeclaringClass()->getName() . '::' . $ref->getName();
+			return $ref->getDeclaringClass()->name . '::' . $ref->name;
 		} elseif ($ref instanceof \ReflectionFunction) {
-			return $ref->getName();
+			return $ref->name;
 		} elseif ($ref instanceof \ReflectionProperty) {
-			return self::getPropertyDeclaringClass($ref)->getName() . '::$' . $ref->getName();
+			return self::getPropertyDeclaringClass($ref)->name . '::$' . $ref->name;
 		} elseif ($ref instanceof \ReflectionParameter) {
-			return '$' . $ref->getName() . ' in ' . self::toString($ref->getDeclaringFunction()) . '()';
+			return '$' . $ref->name . ' in ' . self::toString($ref->getDeclaringFunction()) . '()';
 		} else {
 			throw new Nette\InvalidArgumentException;
 		}
@@ -166,7 +166,7 @@ final class Reflection
 			return $lower;
 
 		} elseif ($lower === 'self') {
-			return $rc->getName();
+			return $rc->name;
 
 		} elseif ($name[0] === '\\') { // fully qualified name
 			return ltrim($name, '\\');
@@ -194,7 +194,7 @@ final class Reflection
 			throw new Nette\NotImplementedException('Anonymous classes are not supported.');
 		}
 		static $cache = [];
-		if (!isset($cache[$name = $class->getName()])) {
+		if (!isset($cache[$name = $class->name])) {
 			if ($class->isInternal()) {
 				$cache[$name] = [];
 			} else {

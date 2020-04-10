@@ -95,10 +95,10 @@ final class ObjectHelpers
 			$uname = ucfirst($name);
 			$write = $type !== '-read'
 				&& $rc->hasMethod($nm = 'set' . $uname)
-				&& ($rm = $rc->getMethod($nm))->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
+				&& ($rm = $rc->getMethod($nm))->name === $nm && !$rm->isPrivate() && !$rm->isStatic();
 			$read = $type !== '-write'
 				&& ($rc->hasMethod($nm = 'get' . $uname) || $rc->hasMethod($nm = 'is' . $uname))
-				&& ($rm = $rc->getMethod($nm))->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
+				&& ($rm = $rc->getMethod($nm))->name === $nm && !$rm->isPrivate() && !$rm->isStatic();
 
 			if ($read || $write) {
 				$props[$name] = $read << 0 | ($nm[0] === 'g') << 1 | $rm->returnsReference() << 2 | $write << 3;
@@ -106,7 +106,7 @@ final class ObjectHelpers
 		}
 
 		foreach ($rc->getTraits() as $trait) {
-			$props += self::getMagicProperties($trait->getName());
+			$props += self::getMagicProperties($trait->name);
 		}
 
 		if ($parent = get_parent_class($class)) {
@@ -127,7 +127,7 @@ final class ObjectHelpers
 		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
 		foreach (array_unique($possibilities, SORT_REGULAR) as $item) {
-			$item = $item instanceof \Reflector ? $item->getName() : $item;
+			$item = $item instanceof \Reflector ? $item->name : $item;
 			if ($item !== $value && (
 				($len = levenshtein($item, $value, 10, 11, 10)) < $min
 				|| ($len = levenshtein(preg_replace($re, '*', $item), $norm, 10, 11, 10)) < $min
