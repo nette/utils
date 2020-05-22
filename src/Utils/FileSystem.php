@@ -138,7 +138,7 @@ final class FileSystem
 			throw new Nette\IOException("Unable to write file '$file'. " . Helpers::getLastError());
 		}
 		if ($mode !== null && !@chmod($file, $mode)) { // @ is escalated to exception
-			throw new Nette\IOException("Unable to chmod file '$file'. " . Helpers::getLastError());
+			throw new Nette\IOException("Unable to chmod file '$file' to mode " . decoct($mode) . '. ' . Helpers::getLastError());
 		}
 	}
 
