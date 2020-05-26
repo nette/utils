@@ -318,22 +318,22 @@ class Image
 	 */
 	public static function calculateSize(int $srcWidth, int $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
 	{
-		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
-			$newWidth = (int) round($srcWidth / 100 * abs((int) substr($newWidth, 0, -1)));
+		if ($newWidth !== null && self::isPercent($newWidth)) {
+			$newWidth = (int) round($srcWidth / 100 * abs($newWidth));
 			$percents = true;
 		} else {
-			$newWidth = (int) abs($newWidth);
+			$newWidth = abs($newWidth);
 		}
 
-		if (is_string($newHeight) && substr($newHeight, -1) === '%') {
-			$newHeight = (int) round($srcHeight / 100 * abs((int) substr($newHeight, 0, -1)));
+		if ($newHeight !== null && self::isPercent($newHeight)) {
+			$newHeight = (int) round($srcHeight / 100 * abs($newHeight));
 			$flags |= empty($percents) ? 0 : self::STRETCH;
 		} else {
-			$newHeight = (int) abs($newHeight);
+			$newHeight = abs($newHeight);
 		}
 
 		if ($flags & self::STRETCH) { // non-proportional
-			if (empty($newWidth) || empty($newHeight)) {
+			if (!$newWidth || !$newHeight) {
 				throw new Nette\InvalidArgumentException('For stretching must be both width and height specified.');
 			}
 
@@ -343,7 +343,7 @@ class Image
 			}
 
 		} else {  // proportional
-			if (empty($newWidth) && empty($newHeight)) {
+			if (!$newWidth && !$newHeight) {
 				throw new Nette\InvalidArgumentException('At least width or height must be specified.');
 			}
 
@@ -406,17 +406,17 @@ class Image
 	 */
 	public static function calculateCutout(int $srcWidth, int $srcHeight, $left, $top, $newWidth, $newHeight): array
 	{
-		if (is_string($newWidth) && substr($newWidth, -1) === '%') {
-			$newWidth = (int) round($srcWidth / 100 * (int) substr($newWidth, 0, -1));
+		if (self::isPercent($newWidth)) {
+			$newWidth = (int) round($srcWidth / 100 * $newWidth);
 		}
-		if (is_string($newHeight) && substr($newHeight, -1) === '%') {
-			$newHeight = (int) round($srcHeight / 100 * (int) substr($newHeight, 0, -1));
+		if (self::isPercent($newHeight)) {
+			$newHeight = (int) round($srcHeight / 100 * $newHeight);
 		}
-		if (is_string($left) && substr($left, -1) === '%') {
-			$left = (int) round(($srcWidth - $newWidth) / 100 * (int) substr($left, 0, -1));
+		if (self::isPercent($left)) {
+			$left = (int) round(($srcWidth - $newWidth) / 100 * $left);
 		}
-		if (is_string($top) && substr($top, -1) === '%') {
-			$top = (int) round(($srcHeight - $newHeight) / 100 * (int) substr($top, 0, -1));
+		if (self::isPercent($top)) {
+			$top = (int) round(($srcHeight - $newHeight) / 100 * $top);
 		}
 		if ($left < 0) {
 			$newWidth += $left;
@@ -464,12 +464,12 @@ class Image
 		$width = $image->getWidth();
 		$height = $image->getHeight();
 
-		if (is_string($left) && substr($left, -1) === '%') {
-			$left = (int) round(($this->getWidth() - $width) / 100 * (int) substr($left, 0, -1));
+		if (self::isPercent($left)) {
+			$left = (int) round(($this->getWidth() - $width) / 100 * $left);
 		}
 
-		if (is_string($top) && substr($top, -1) === '%') {
-			$top = (int) round(($this->getHeight() - $height) / 100 * (int) substr($top, 0, -1));
+		if (self::isPercent($top)) {
+			$top = (int) round(($this->getHeight() - $height) / 100 * $top);
 		}
 
 		$output = $input = $image->image;
@@ -637,6 +637,22 @@ class Image
 		ob_start(function () {});
 		imagegd2($this->image);
 		$this->setImageResource(imagecreatefromstring(ob_get_clean()));
+	}
+
+
+	/**
+	 * @param  int|string  $num in pixels or percent
+	 */
+	private static function isPercent(&$num): bool
+	{
+		if (is_string($num) && substr($num, -1) === '%') {
+			$num = (float) substr($num, 0, -1);
+			return true;
+		} elseif (is_int($num) || $num === (string) (int) $num) {
+			$num = (int) $num;
+			return false;
+		}
+		throw new Nette\InvalidArgumentException("Expected dimension in int|string, '$num' given.");
 	}
 
 
