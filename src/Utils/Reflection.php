@@ -113,12 +113,47 @@ final class Reflection
 	{
 		foreach ($prop->getDeclaringClass()->getTraits() as $trait) {
 			if ($trait->hasProperty($prop->name)
+				// doc-comment guessing as workaround for insufficient PHP reflection
 				&& $trait->getProperty($prop->name)->getDocComment() === $prop->getDocComment()
 			) {
 				return self::getPropertyDeclaringClass($trait->getProperty($prop->name));
 			}
 		}
 		return $prop->getDeclaringClass();
+	}
+
+
+	/**
+	 * Returns declaring method in class or trait.
+	 */
+	public static function getMethodDeclaringMethod(\ReflectionMethod $method): \ReflectionMethod
+	{
+		// file & line guessing as workaround for insufficient PHP reflection
+		$decl = $method->getDeclaringClass();
+		if ($decl->getFileName() === $method->getFileName()
+			&& $decl->getStartLine() <= $method->getStartLine()
+			&& $decl->getEndLine() >= $method->getEndLine()
+		) {
+			return $method;
+		}
+
+		$hash = [$method->getFileName(), $method->getStartLine(), $method->getEndLine()];
+		if (($alias = $decl->getTraitAliases()[$method->name] ?? null)
+			&& ($m = new \ReflectionMethod($alias))
+			&& $hash === [$m->getFileName(), $m->getStartLine(), $m->getEndLine()]
+		) {
+			return self::getMethodDeclaringMethod($m);
+		}
+
+		foreach ($decl->getTraits() as $trait) {
+			if ($trait->hasMethod($method->name)
+				&& ($m = $trait->getMethod($method->name))
+				&& $hash === [$m->getFileName(), $m->getStartLine(), $m->getEndLine()]
+			) {
+				return self::getMethodDeclaringMethod($m);
+			}
+		}
+		return $method;
 	}
 
 
