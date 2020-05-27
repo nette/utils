@@ -41,6 +41,8 @@ Assert::same('"\u2028\u2029"', Json::encode("\u{2028}\u{2029}", Json::ESCAPE_UNI
 // JSON_PRETTY_PRINT
 Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], Json::PRETTY));
 
+Assert::same('[]', JSON::encode([]));
+Assert::same('{}', JSON::encode([], Json::FORCE_OBJECT));
 
 Assert::exception(function () {
 	Json::encode(NAN);
