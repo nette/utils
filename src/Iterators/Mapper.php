@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Nette\Iterators;
 
-use Nette;
 
 
 /**

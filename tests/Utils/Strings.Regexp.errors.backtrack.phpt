@@ -40,5 +40,5 @@ function cb()
 
 
 Assert::exception(function () {
-	Strings::replace('0123456789', '#.*\d\d#', Nette\Utils\Callback::closure('cb'));
+	Strings::replace('0123456789', '#.*\d\d#', Closure::fromCallable('cb'));
 }, Nette\Utils\RegexpException::class, 'Backtrack limit was exhausted (pattern: #.*\d\d#)');

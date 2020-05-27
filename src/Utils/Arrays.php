@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Nette\Utils;
 
 use Nette;
-use function is_array, is_int, is_object;
+use function is_array, is_int, is_object, count;
 
 
 /**
@@ -23,6 +23,7 @@ class Arrays
 	/**
 	 * Returns item from array or $default if item is not set.
 	 * @param  string|int|array $key one or more keys
+	 * @param  mixed  $default
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
@@ -78,20 +79,21 @@ class Arrays
 
 	/**
 	 * Searches the array for a given key and returns the offset if successful.
+	 * @param  string|int  $key
 	 * @return int|null offset if it is found, null otherwise
 	 */
-	public static function searchKey(array $arr, $key)
+	public static function searchKey(array $arr, $key): ?int
 	{
 		$foo = [$key => null];
-		return ($tmp = array_search(key($foo), array_keys($arr), true)) === false ? null : $tmp;
+		return Helpers::falseToNull(array_search(key($foo), array_keys($arr), true));
 	}
 
 
 	/**
 	 * Inserts new array before item specified by key.
-	 * @return void
+	 * @param  string|int  $key
 	 */
-	public static function insertBefore(array &$arr, $key, array $inserted)
+	public static function insertBefore(array &$arr, $key, array $inserted): void
 	{
 		$offset = (int) self::searchKey($arr, $key);
 		$arr = array_slice($arr, 0, $offset, true) + $inserted + array_slice($arr, $offset, count($arr), true);
@@ -100,9 +102,9 @@ class Arrays
 
 	/**
 	 * Inserts new array after item specified by key.
-	 * @return void
+	 * @param  string|int  $key
 	 */
-	public static function insertAfter(array &$arr, $key, array $inserted)
+	public static function insertAfter(array &$arr, $key, array $inserted): void
 	{
 		$offset = self::searchKey($arr, $key);
 		$offset = $offset === null ? count($arr) : $offset + 1;
@@ -112,9 +114,10 @@ class Arrays
 
 	/**
 	 * Renames key in array.
-	 * @return void
+	 * @param  string|int  $oldKey
+	 * @param  string|int  $newKey
 	 */
-	public static function renameKey(array &$arr, $oldKey, $newKey)
+	public static function renameKey(array &$arr, $oldKey, $newKey): void
 	{
 		$offset = self::searchKey($arr, $oldKey);
 		if ($offset !== null) {
@@ -141,8 +144,8 @@ class Arrays
 	{
 		$res = [];
 		$cb = $preserveKeys
-			? function ($v, $k) use (&$res) { $res[$k] = $v; }
-		: function ($v) use (&$res) { $res[] = $v; };
+			? function ($v, $k) use (&$res): void { $res[$k] = $v; }
+		: function ($v) use (&$res): void { $res[] = $v; };
 		array_walk_recursive($arr, $cb);
 		return $res;
 	}
@@ -150,6 +153,7 @@ class Arrays
 
 	/**
 	 * Finds whether a variable is a zero-based integer indexed array.
+	 * @param  mixed  $value
 	 */
 	public static function isList($value): bool
 	{
@@ -159,6 +163,7 @@ class Arrays
 
 	/**
 	 * Reformats table to associative tree. Path looks like 'field|field[]field->field=field'.
+	 * @param  string|string[]  $path
 	 * @return array|\stdClass
 	 */
 	public static function associate(array $arr, $path)
@@ -167,7 +172,7 @@ class Arrays
 			? $path
 			: preg_split('#(\[\]|->|=|\|)#', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-		if (!$parts || $parts[0] === '=' || $parts[0] === '|' || $parts === ['->']) {
+		if (!$parts || $parts === ['->'] || $parts[0] === '=' || $parts[0] === '|') {
 			throw new Nette\InvalidArgumentException("Invalid path '$path'.");
 		}
 
@@ -190,6 +195,9 @@ class Arrays
 
 				} elseif ($part === '->') {
 					if (isset($parts[++$i])) {
+						if ($x === null) {
+							$x = new \stdClass;
+						}
 						$x = &$x->{$row[$parts[$i]]};
 					} else {
 						$row = is_object($rowOrig) ? $rowOrig : (object) $row;
@@ -211,6 +219,7 @@ class Arrays
 
 	/**
 	 * Normalizes to associative array.
+	 * @param  mixed  $filling
 	 */
 	public static function normalize(array $arr, $filling = null): array
 	{
@@ -224,7 +233,8 @@ class Arrays
 
 	/**
 	 * Picks element from the array by key and return its value.
-	 * @param  string|int $key array key
+	 * @param  string|int  $key
+	 * @param  mixed  $default
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
@@ -282,5 +292,19 @@ class Arrays
 			$res[$k] = $callback($v, $k, $arr);
 		}
 		return $res;
+	}
+
+
+	/**
+	 * Converts array to object
+	 * @param  object  $obj
+	 * @return object
+	 */
+	public static function toObject(array $arr, $obj)
+	{
+		foreach ($arr as $k => $v) {
+			$obj->$k = $v;
+		}
+		return $obj;
 	}
 }

@@ -24,7 +24,7 @@ final class Random
 	 */
 	public static function generate(int $length = 10, string $charlist = '0-9a-z'): string
 	{
-		$charlist = count_chars(preg_replace_callback('#.-.#', function (array $m) {
+		$charlist = count_chars(preg_replace_callback('#.-.#', function (array $m): string {
 			return implode('', range($m[0][0], $m[0][2]));
 		}, $charlist), 3);
 		$chLen = strlen($charlist);
@@ -32,7 +32,7 @@ final class Random
 		if ($length < 1) {
 			throw new Nette\InvalidArgumentException('Length must be greater than zero.');
 		} elseif ($chLen < 2) {
-			throw new Nette\InvalidArgumentException('Character list must contain as least two chars.');
+			throw new Nette\InvalidArgumentException('Character list must contain at least two chars.');
 		}
 
 		$res = '';

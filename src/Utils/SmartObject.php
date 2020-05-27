@@ -21,8 +21,8 @@ use Nette\Utils\ObjectHelpers;
  */
 trait SmartObject
 {
-
 	/**
+	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public function __call(string $name, array $args)
@@ -30,12 +30,12 @@ trait SmartObject
 		$class = get_class($this);
 
 		if (ObjectHelpers::hasProperty($class, $name) === 'event') { // calling event handlers
-			if (is_array($this->$name) || $this->$name instanceof \Traversable) {
+			if (is_iterable($this->$name)) {
 				foreach ($this->$name as $handler) {
 					$handler(...$args);
 				}
 			} elseif ($this->$name !== null) {
-				throw new UnexpectedValueException("Property $class::$$name must be array or null, " . gettype($this->$name) . ' given.');
+				throw new UnexpectedValueException("Property $class::$$name must be iterable or null, " . gettype($this->$name) . ' given.');
 			}
 
 		} else {
@@ -45,11 +45,12 @@ trait SmartObject
 
 
 	/**
+	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public static function __callStatic(string $name, array $args)
 	{
-		ObjectHelpers::strictStaticCall(get_called_class(), $name);
+		ObjectHelpers::strictStaticCall(static::class, $name);
 	}
 
 
@@ -79,6 +80,7 @@ trait SmartObject
 
 
 	/**
+	 * @param  mixed  $value
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */

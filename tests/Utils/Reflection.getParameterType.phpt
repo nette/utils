@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class A
 {
-	public function method(Undeclared $undeclared, B $b, array $array, callable $callable, self $self, $none)
+	public function method(Undeclared $undeclared, B $b, array $array, callable $callable, self $self, $none, ?B $nullable)
 	{
 	}
 }
@@ -37,7 +37,7 @@ Assert::same('array', Reflection::getParameterType($params[2]));
 Assert::same('callable', Reflection::getParameterType($params[3]));
 Assert::same('A', Reflection::getParameterType($params[4]));
 Assert::null(Reflection::getParameterType($params[5]));
-
+Assert::same('Test\B', Reflection::getParameterType($params[6]));
 
 $method = new ReflectionMethod('AExt', 'methodExt');
 $params = $method->getParameters();

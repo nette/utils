@@ -368,7 +368,7 @@ $tests = [
 $stack = [$tests];
 while ($item = array_pop($stack)) {
 	if (isset($item[0])) {
-		list($in, $out, $label) = $item;
+		[$in, $out, $label] = $item;
 		echo "$label\n";
 		Assert::same('a' . $out . 'b', Strings::fixEncoding('a' . $in . 'b'));
 

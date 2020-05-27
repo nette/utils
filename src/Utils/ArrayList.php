@@ -19,6 +19,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 	use Nette\SmartObject;
 
+	/** @var mixed[] */
 	private $list = [];
 
 
@@ -42,11 +43,11 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Replaces or appends a item.
-	 * @param  int|null
-	 * @return void
+	 * @param  int|null  $index
+	 * @param  mixed  $value
 	 * @throws Nette\OutOfRangeException
 	 */
-	public function offsetSet($index, $value)
+	public function offsetSet($index, $value): void
 	{
 		if ($index === null) {
 			$this->list[] = $value;
@@ -55,14 +56,14 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 
 		} else {
-			$this->list[(int) $index] = $value;
+			$this->list[$index] = $value;
 		}
 	}
 
 
 	/**
 	 * Returns a item.
-	 * @param  int
+	 * @param  int  $index
 	 * @return mixed
 	 * @throws Nette\OutOfRangeException
 	 */
@@ -71,13 +72,13 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 		if (!is_int($index) || $index < 0 || $index >= count($this->list)) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 		}
-		return $this->list[(int) $index];
+		return $this->list[$index];
 	}
 
 
 	/**
 	 * Determines whether a item exists.
-	 * @param  int
+	 * @param  int  $index
 	 */
 	public function offsetExists($index): bool
 	{
@@ -87,24 +88,23 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Removes the element at the specified position in this list.
-	 * @param  int
-	 * @return void
+	 * @param  int  $index
 	 * @throws Nette\OutOfRangeException
 	 */
-	public function offsetUnset($index)
+	public function offsetUnset($index): void
 	{
 		if (!is_int($index) || $index < 0 || $index >= count($this->list)) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
 		}
-		array_splice($this->list, (int) $index, 1);
+		array_splice($this->list, $index, 1);
 	}
 
 
 	/**
 	 * Prepends a item.
-	 * @return void
+	 * @param  mixed  $value
 	 */
-	public function prepend($value)
+	public function prepend($value): void
 	{
 		$first = array_slice($this->list, 0, 1);
 		$this->offsetSet(0, $value);

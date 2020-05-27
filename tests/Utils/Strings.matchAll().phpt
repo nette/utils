@@ -35,3 +35,5 @@ Assert::same([
 ], Strings::matchAll('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE));
 
 Assert::same([['ll', 'l']], Strings::matchAll('hello world!', '#[e-l]+#', PREG_PATTERN_ORDER, 2));
+
+Assert::same([], Strings::matchAll('hello world!', '', 0, 50));

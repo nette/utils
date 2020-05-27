@@ -30,6 +30,11 @@ Assert::same(null, ObjectHelpers::getSuggestion(['setItem'], 'item'));
 Assert::same('setItem', ObjectHelpers::getSuggestion(['setItem'], 'Item'));
 Assert::same('setItem', ObjectHelpers::getSuggestion(['setItem'], 'addItem'));
 Assert::same(null, ObjectHelpers::getSuggestion(['addItem'], 'addItem'));
+Assert::same('set', ObjectHelpers::getSuggestion(['set'], 'get'));
+Assert::same('getA', ObjectHelpers::getSuggestion(['getA'], 'gtA'));
+Assert::same('trim', ObjectHelpers::getSuggestion([new ReflectionFunction('trim')], 'trm'));
+Assert::same('trim', ObjectHelpers::getSuggestion([new ReflectionFunction('trim')], 'getTrim'));
+Assert::same(null, ObjectHelpers::getSuggestion(['123'], 'x'));
 
 
 /*

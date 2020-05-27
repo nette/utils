@@ -55,6 +55,9 @@ test(function () {
 	Assert::true(Validators::is('-1', 'numeric'));
 	Assert::true(Validators::is('-1.5', 'numeric'));
 	Assert::true(Validators::is('-.5', 'numeric'));
+	Assert::true(Validators::is('+1', 'numeric'));
+	Assert::true(Validators::is('+1.5', 'numeric'));
+	Assert::true(Validators::is('+.5', 'numeric'));
 	Assert::false(Validators::is('1e6', 'numeric'));
 	Assert::true(Validators::is(1, 'numeric'));
 	Assert::true(Validators::is(1.0, 'numeric'));
@@ -67,6 +70,9 @@ test(function () {
 	Assert::true(Validators::is('-1', 'numericint'));
 	Assert::false(Validators::is('-1.5', 'numericint'));
 	Assert::false(Validators::is('-.5', 'numericint'));
+	Assert::true(Validators::is('+1', 'numericint'));
+	Assert::false(Validators::is('+1.5', 'numericint'));
+	Assert::false(Validators::is('+.5', 'numericint'));
 	Assert::false(Validators::is('1e6', 'numericint'));
 	Assert::true(Validators::is(1, 'numericint'));
 	Assert::false(Validators::is(1.0, 'numericint'));
@@ -165,7 +171,14 @@ test(function () {
 
 
 test(function () {
+	Assert::true(Validators::is([], 'mixed'));
+	Assert::true(Validators::is(null, 'mixed'));
+});
+
+
+test(function () {
 	Assert::false(Validators::is('', 'email'));
+	Assert::false(Validators::is(false, 'email'));
 	Assert::false(Validators::is('hello', 'email'));
 	Assert::true(Validators::is('hello@world.cz', 'email'));
 	Assert::false(Validators::is('hello@localhost', 'email'));
@@ -184,6 +197,7 @@ test(function () {
 
 test(function () {
 	Assert::false(Validators::is('', 'url'));
+	Assert::false(Validators::is(false, 'url'));
 	Assert::false(Validators::is('hello', 'url'));
 	Assert::false(Validators::is('nette.org', 'url'));
 	Assert::false(Validators::is('http://nette.org0', 'url'));
@@ -200,6 +214,10 @@ test(function () {
 	Assert::true(Validators::is('http://nette.org/path', 'url'));
 	Assert::true(Validators::is('http://nette.org:8080/path', 'url'));
 	Assert::true(Validators::is('https://www.nette.org/path', 'url'));
+	Assert::true(Validators::is('https://www.nette.org/path?query#fragment', 'url'));
+	Assert::true(Validators::is('https://www.nette.org?query', 'url'));
+	Assert::true(Validators::is('https://www.nette.org#fragment', 'url'));
+	Assert::true(Validators::is('https://www.nette.org?#', 'url'));
 	Assert::true(Validators::is('https://example.c0m', 'url'));
 	Assert::true(Validators::is('https://example.l', 'url'));
 	Assert::true(Validators::is('http://one_two.example.com', 'url'));
@@ -210,6 +228,7 @@ test(function () {
 
 test(function () {
 	Assert::false(Validators::is('', 'uri'));
+	Assert::false(Validators::is(false, 'uri'));
 	Assert::false(Validators::is('hello', 'uri'));
 	Assert::false(Validators::is('nette.org', 'uri'));
 	Assert::false(Validators::is('mailto: gandalf@example.org', 'uri'));
@@ -313,6 +332,32 @@ test(function () {
 
 
 test(function () {
+	Assert::true(Validators::is('rimmer', 'class'));
+	Assert::false(Validators::is('kryton', 'class'));
+	Assert::false(Validators::is('1', 'class'));
+});
+
+
+test(function () {
+	Assert::false(Validators::is('rimmer', 'interface'));
+	Assert::true(Validators::is('kryton', 'interface'));
+	Assert::false(Validators::is('1', 'interface'));
+});
+
+
+test(function () {
+	Assert::true(Validators::is(__FILE__, 'file'));
+	Assert::false(Validators::is(__FILE__ . 'xx', 'class'));
+});
+
+
+test(function () {
+	Assert::true(Validators::is(__DIR__, 'directory'));
+	Assert::false(Validators::is(__DIR__ . 'xx', 'directory'));
+});
+
+
+test(function () {
 	Assert::true(Validators::is('Item', 'identifier'));
 	Assert::false(Validators::is('0Item', 'identifier'));
 });
@@ -363,4 +408,12 @@ test(function () {
 
 	Assert::true(Validators::is([['ABCD', 'EFGH'], ['IJKL']], 'string:4[][]'));
 	Assert::false(Validators::is([['ABCD', 'EFGH'], ['IJKLM']], 'string:4[][]'));
+});
+
+
+test(function () {
+	Assert::true(Validators::is(null, '?string'));
+	Assert::true(Validators::is('1', '?string'));
+	Assert::false(Validators::is(true, '?int'));
+	Assert::false(Validators::is(0, '?string'));
 });

@@ -22,7 +22,7 @@ class TestClass
 
 Assert::exception(function () {
 	new TestClass;
-}, LogicException::class, 'Class TestClass is static and cannot be instantiated.');
+}, Error::class, 'Class TestClass is static and cannot be instantiated.');
 
 Assert::exception(function () {
 	TestClass::methodA();

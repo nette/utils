@@ -14,7 +14,7 @@ Introduction
 In package nette/utils you will find a set of useful classes for everyday use:
 
 - [Arrays](https://doc.nette.org/arrays) - manipulate arrays
-- [Callback](https://doc.nette.org/callbacks) - PHP callbacks
+- [Callback](https://doc.nette.org/callback) - PHP callbacks
 - [Date and Time](https://doc.nette.org/datetime) - modify times and dates
 - [Filesystem](https://doc.nette.org/filesystem) - copying, renaming, …
 - [HTML elements](https://doc.nette.org/html-elements) - generate HTML
@@ -38,4 +38,5 @@ The recommended way to install is via Composer:
 composer require nette/utils
 ```
 
-It requires PHP version 5.6 and supports PHP up to 7.2. The dev-master version requires PHP 7.0.
+- Nette Utils 3.0 is compatible with PHP 7.1 to 7.4
+- Nette Utils 2.5 is compatible with PHP 5.6 to 7.4

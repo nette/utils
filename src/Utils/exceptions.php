@@ -56,7 +56,7 @@ class DeprecatedException extends NotSupportedException
 /**
  * The exception that is thrown when accessing a class member (property or method) fails.
  */
-class MemberAccessException extends \LogicException
+class MemberAccessException extends \Error
 {
 }
 
@@ -108,14 +108,6 @@ class UnexpectedValueException extends \UnexpectedValueException
 {
 }
 
-
-/**
- * The exception that is thrown when static class is instantiated.
- */
-class StaticClassException extends \LogicException
-{
-}
-
 namespace Nette\Utils;
 
 
@@ -148,7 +140,7 @@ class JsonException extends \Exception
  */
 class RegexpException extends \Exception
 {
-	const MESSAGES = [
+	public const MESSAGES = [
 		PREG_INTERNAL_ERROR => 'Internal error',
 		PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
 		PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',

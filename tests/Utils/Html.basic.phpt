@@ -17,6 +17,7 @@ test(function () {
 	Html::$xhtml = true;
 	$el = Html::el('img')->src('image.gif')->alt('');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
+	Assert::same('<img src="image.gif" alt="" />', $el->toHtml());
 	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
 	Assert::same('', $el->endTag());
 });
@@ -58,7 +59,7 @@ test(function () {
 
 
 test(function () {
-	$el = Html::el('img')->src('image.gif')->alt('')->setText(null)->setText('any content');
+	$el = Html::el('img')->src('image.gif')->alt('')->setText('any content');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
 	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
 	Assert::same('', $el->endTag());
@@ -149,6 +150,7 @@ test(function () { // getText vs. getHtml
 	$el->create('a')->setText('link');
 	Assert::same('<p>Hello &ndash; World<a>link</a></p>', (string) $el);
 	Assert::same('Hello – Worldlink', $el->getText());
+	Assert::same('Hello – Worldlink', $el->toText());
 });
 
 
@@ -176,4 +178,22 @@ test(function () { // isset
 	Assert::false(isset(Html::el('a')->removeAttribute('id')->id));
 	Assert::true(isset(Html::el('a')->setAttribute('id', '')->id));
 	Assert::false(isset(Html::el('a')->setAttribute('id', null)->id));
+});
+
+
+test(function () { // removeAttributes
+	$el = Html::el('a')->addAttributes(['onclick' => '', 'onmouseover' => '']);
+	Assert::true(isset($el->onclick));
+	Assert::true(isset($el->onmouseover));
+
+	$el->removeAttributes(['onclick', 'onmouseover']);
+	Assert::false(isset($el->onclick));
+	Assert::false(isset($el->onmouseover));
+});
+
+
+test(function () { // html to text
+	Assert::same('hello"', Html::htmlToText('<a href="#">hello&quot;</a>'));
+	Assert::same(' text', Html::htmlToText('<!-- comment --> text'));
+	Assert::same("' ' ' \"", Html::htmlToText('&apos; &#39; &#x27; &quot;'));
 });

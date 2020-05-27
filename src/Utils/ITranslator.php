@@ -15,9 +15,10 @@ namespace Nette\Localization;
  */
 interface ITranslator
 {
-
 	/**
 	 * Translates the given string.
+	 * @param  mixed  $message
+	 * @param  mixed  ...$parameters
 	 */
-	function translate($message, int $count = null): string;
+	function translate($message, ...$parameters): string;
 }

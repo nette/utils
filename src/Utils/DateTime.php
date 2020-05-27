@@ -20,27 +20,27 @@ class DateTime extends \DateTime implements \JsonSerializable
 	use Nette\SmartObject;
 
 	/** minute in seconds */
-	const MINUTE = 60;
+	public const MINUTE = 60;
 
 	/** hour in seconds */
-	const HOUR = 60 * self::MINUTE;
+	public const HOUR = 60 * self::MINUTE;
 
 	/** day in seconds */
-	const DAY = 24 * self::HOUR;
+	public const DAY = 24 * self::HOUR;
 
 	/** week in seconds */
-	const WEEK = 7 * self::DAY;
+	public const WEEK = 7 * self::DAY;
 
 	/** average month in seconds */
-	const MONTH = 2629800;
+	public const MONTH = 2629800;
 
 	/** average year in seconds */
-	const YEAR = 31557600;
+	public const YEAR = 31557600;
 
 
 	/**
 	 * DateTime object factory.
-	 * @param  string|int|\DateTimeInterface
+	 * @param  string|int|\DateTimeInterface  $time
 	 * @return static
 	 */
 	public static function from($time)
@@ -52,10 +52,10 @@ class DateTime extends \DateTime implements \JsonSerializable
 			if ($time <= self::YEAR) {
 				$time += time();
 			}
-			return (new static('@' . $time))->setTimeZone(new \DateTimeZone(date_default_timezone_get()));
+			return (new static('@' . $time))->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		} else { // textual or null
-			return new static($time);
+			return new static((string) $time);
 		}
 	}
 
@@ -64,7 +64,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 * Creates DateTime object.
 	 * @return static
 	 */
-	public static function fromParts(int $year, int $month, int $day, int $hour = 0, int $minute = 0, float $second = 0)
+	public static function fromParts(int $year, int $month, int $day, int $hour = 0, int $minute = 0, float $second = 0.0)
 	{
 		$s = sprintf('%04d-%02d-%02d %02d:%02d:%02.5f', $year, $month, $day, $hour, $minute, $second);
 		if (!checkdate($month, $day, $year) || $hour < 0 || $hour > 23 || $minute < 0 || $minute > 59 || $second < 0 || $second >= 60) {
@@ -74,49 +74,11 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
-	public function __toString(): string
-	{
-		return $this->format('Y-m-d H:i:s');
-	}
-
-
-	/**
-	 * @return static
-	 */
-	public function modifyClone(string $modify = '')
-	{
-		$dolly = clone $this;
-		return $modify ? $dolly->modify($modify) : $dolly;
-	}
-
-
-	/**
-	 * @param  int|string
-	 * @return static
-	 */
-	public function setTimestamp($timestamp)
-	{
-		$zone = $this->getTimezone();
-		$this->__construct('@' . $timestamp);
-		return $this->setTimeZone($zone);
-	}
-
-
-	/**
-	 * @return int|string
-	 */
-	public function getTimestamp()
-	{
-		$ts = $this->format('U');
-		return is_float($tmp = $ts * 1) ? $ts : $tmp;
-	}
-
-
 	/**
 	 * Returns new DateTime object formatted according to the specified format.
-	 * @param  string The format the $time parameter should be in
-	 * @param  string String representing the time
-	 * @param  string|\DateTimeZone desired timezone (default timezone is used if null is passed)
+	 * @param  string  $format  The format the $time parameter should be in
+	 * @param  string  $time
+	 * @param  string|\DateTimeZone  $timezone (default timezone is used if null is passed)
 	 * @return static|false
 	 */
 	public static function createFromFormat($format, $time, $timezone = null)
@@ -142,5 +104,19 @@ class DateTime extends \DateTime implements \JsonSerializable
 	public function jsonSerialize(): string
 	{
 		return $this->format('c');
+	}
+
+
+	public function __toString(): string
+	{
+		return $this->format('Y-m-d H:i:s');
+	}
+
+
+	/** @return static */
+	public function modifyClone(string $modify = '')
+	{
+		$dolly = clone $this;
+		return $modify ? $dolly->modify($modify) : $dolly;
 	}
 }

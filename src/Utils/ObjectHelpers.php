@@ -20,10 +20,8 @@ final class ObjectHelpers
 {
 	use Nette\StaticClass;
 
-	/**
-	 * @throws MemberAccessException
-	 */
-	public static function strictGet(string $class, string $name)
+	/** @throws MemberAccessException */
+	public static function strictGet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
@@ -34,10 +32,8 @@ final class ObjectHelpers
 	}
 
 
-	/**
-	 * @throws MemberAccessException
-	 */
-	public static function strictSet(string $class, string $name)
+	/** @throws MemberAccessException */
+	public static function strictSet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
@@ -48,10 +44,8 @@ final class ObjectHelpers
 	}
 
 
-	/**
-	 * @throws MemberAccessException
-	 */
-	public static function strictCall(string $class, string $method, array $additionalMethods = [])
+	/** @throws MemberAccessException */
+	public static function strictCall(string $class, string $method, array $additionalMethods = []): void
 	{
 		$hint = self::getSuggestion(array_merge(
 			get_class_methods($class),
@@ -66,10 +60,8 @@ final class ObjectHelpers
 	}
 
 
-	/**
-	 * @throws MemberAccessException
-	 */
-	public static function strictStaticCall(string $class, string $method)
+	/** @throws MemberAccessException */
+	public static function strictStaticCall(string $class, string $method): void
 	{
 		$hint = self::getSuggestion(
 			array_filter((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), function ($m) { return $m->isStatic(); }),
@@ -99,14 +91,14 @@ final class ObjectHelpers
 		);
 
 		$props = [];
-		foreach ($matches as list(, $type, $name)) {
+		foreach ($matches as [, $type, $name]) {
 			$uname = ucfirst($name);
 			$write = $type !== '-read'
 				&& $rc->hasMethod($nm = 'set' . $uname)
-				&& ($rm = $rc->getMethod($nm)) && $rm->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
+				&& ($rm = $rc->getMethod($nm))->name === $nm && !$rm->isPrivate() && !$rm->isStatic();
 			$read = $type !== '-write'
 				&& ($rc->hasMethod($nm = 'get' . $uname) || $rc->hasMethod($nm = 'is' . $uname))
-				&& ($rm = $rc->getMethod($nm)) && $rm->getName() === $nm && !$rm->isPrivate() && !$rm->isStatic();
+				&& ($rm = $rc->getMethod($nm))->name === $nm && !$rm->isPrivate() && !$rm->isStatic();
 
 			if ($read || $write) {
 				$props[$name] = $read << 0 | ($nm[0] === 'g') << 1 | $rm->returnsReference() << 2 | $write << 3;
@@ -114,7 +106,7 @@ final class ObjectHelpers
 		}
 
 		foreach ($rc->getTraits() as $trait) {
-			$props += self::getMagicProperties($trait->getName());
+			$props += self::getMagicProperties($trait->name);
 		}
 
 		if ($parent = get_parent_class($class)) {
@@ -126,19 +118,19 @@ final class ObjectHelpers
 
 	/**
 	 * Finds the best suggestion (for 8-bit encoding).
-	 * @return string|null
+	 * @param  (\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionClass|\ReflectionProperty|string)[]  $possibilities
 	 * @internal
 	 */
-	public static function getSuggestion(array $possibilities, string $value)
+	public static function getSuggestion(array $possibilities, string $value): ?string
 	{
-		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '', $value);
+		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '+', $value);
 		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
 		foreach (array_unique($possibilities, SORT_REGULAR) as $item) {
-			$item = $item instanceof \Reflector ? $item->getName() : $item;
+			$item = $item instanceof \Reflector ? $item->name : $item;
 			if ($item !== $value && (
 				($len = levenshtein($item, $value, 10, 11, 10)) < $min
-				|| ($len = levenshtein(preg_replace($re, '', $item), $norm, 10, 11, 10) + 20) < $min
+				|| ($len = levenshtein(preg_replace($re, '*', $item), $norm, 10, 11, 10)) < $min
 			)) {
 				$min = $len;
 				$best = $item;
@@ -164,7 +156,7 @@ final class ObjectHelpers
 
 	/**
 	 * Checks if the public non-static property exists.
-	 * @return bool|'event'
+	 * @return bool|string returns 'event' if the property exists and has event like name
 	 * @internal
 	 */
 	public static function hasProperty(string $class, string $name)

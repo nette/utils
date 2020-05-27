@@ -1,8 +1,9 @@
 language: php
 php:
-    - 7.0
     - 7.1
     - 7.2
+    - 7.3
+    - 7.4
 
 before_install:
     # turn off XDebug
@@ -20,20 +21,30 @@ after_failure:
 
 jobs:
     include:
-        -   stage: Code Standard Checker
-            php: 7.1
+        -   name: Nette Code Checker
+            php: 7.4
             install:
-                # Install Nette Code Checker
-                - travis_retry composer create-project nette/code-checker temp/code-checker ~2 --no-progress
-                # Install Nette Coding Standard
-                - travis_retry composer create-project nette/coding-standard temp/coding-standard --no-progress
-
+                - travis_retry composer create-project nette/code-checker temp/code-checker ^3 --no-progress
             script:
-                - php temp/code-checker/src/code-checker.php --short-arrays --strict-types -i tests/Utils/fixtures.reflection
-                - php temp/coding-standard/ecs check src tests --config tests/coding-standard.neon
+                - php temp/code-checker/code-checker --strict-types -i tests/Utils/fixtures.reflection
+
+
+        -   name: Nette Coding Standard
+            php: 7.4
+            install:
+                - travis_retry composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress
+            script:
+                - php temp/coding-standard/ecs check src tests --config tests/coding-standard.yml
+
+
+        -   stage: Static Analysis (informative)
+            php: 7.4
+            script:
+                - composer run-script phpstan
 
 
         -   stage: Code Coverage
+            php: 7.4
             script:
                 - vendor/bin/tester -p phpdbg tests -s --coverage ./coverage.xml --coverage-src ./src
             after_script:
@@ -42,7 +53,7 @@ jobs:
 
 
     allow_failures:
-        -   php: 7.2
+        -   stage: Static Analysis (informative)
         -   stage: Code Coverage
 
 

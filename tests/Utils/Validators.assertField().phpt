@@ -27,4 +27,4 @@ Validators::assertField($arr, 'first');
 
 Assert::exception(function () use ($arr) {
 	Validators::assertField($arr, 'first', 'int');
-}, Nette\Utils\AssertionException::class, "The item 'first' in array expects to be int, boolean given.");
+}, Nette\Utils\AssertionException::class, "The item 'first' in array expects to be int, bool given.");
