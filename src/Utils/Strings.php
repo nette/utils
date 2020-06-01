@@ -452,6 +452,30 @@ class Strings
 
 
 	/**
+	 * Multi-byte string compatible range('A', 'Z').
+	 * @return string[] list of characters in unicode alphabet from $start to $end
+	 */
+	public static function range(string $start, string $end): array
+	{
+		if ($start === $end) {
+			return [$start];
+		}
+
+		[, $firstChar, $lastChar] = unpack('N*', mb_convert_encoding($start . $end, 'UTF-32BE', 'UTF-8'));
+		$offset = $firstChar < $lastChar ? 1 : -1;
+		$currentChar = $firstChar;
+		$characters = [];
+		while ($currentChar !== $lastChar) {
+			$characters[] = mb_convert_encoding(pack('N*', $currentChar), 'UTF-8', 'UTF-32BE');
+			$currentChar += $offset;
+		}
+		$characters[] = $end;
+
+		return $characters;
+	}
+
+
+	/**
 	 * Splits string by a regular expression.
 	 */
 	public static function split(string $subject, string $pattern, int $flags = 0): array
