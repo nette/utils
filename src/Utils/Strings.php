@@ -457,7 +457,11 @@ class Strings
 	 */
 	public static function range(string $start, string $end): array
 	{
-		if ($start === $end) {
+		if ($start === '' || $end === '') {
+			throw new Nette\InvalidStateException('Invalid range: Range can not be empty.');
+		}
+
+		if (($start = self::substring($start, 0, 1)) === ($end = self::substring($end, 0, 1))) {
 			return [$start];
 		}
 
