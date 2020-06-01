@@ -120,6 +120,7 @@ final class Callback
 
 	/**
 	 * @param  callable  $callable  is escalated to ReflectionException
+	 * @return \ReflectionMethod|\ReflectionFunction
 	 */
 	public static function toReflection($callable): \ReflectionFunctionAbstract
 	{
