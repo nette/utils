@@ -42,6 +42,9 @@ test(function () {
 	Assert::same($mary, $list[0]);
 	Assert::same($jack, $list[1]);
 
+	Assert::true(isset($list[0]));
+	Assert::false(isset($list[500]));
+	Assert::false(isset($list['fake']));
 
 	Assert::same([
 		$mary,

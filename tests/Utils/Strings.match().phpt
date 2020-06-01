@@ -22,3 +22,6 @@ Assert::same(['hell'], Strings::match('hello world!', '#[e-l]+#'));
 Assert::same([['hell', 0]], Strings::match('hello world!', '#[e-l]+#', PREG_OFFSET_CAPTURE));
 
 Assert::same(['ll'], Strings::match('hello world!', '#[e-l]+#', 0, 2));
+
+Assert::null(Strings::match('hello world!', '', 0, 50));
+Assert::null(Strings::match('', '', 0, 1));
