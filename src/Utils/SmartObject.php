@@ -22,7 +22,6 @@ use Nette\Utils\ObjectHelpers;
 trait SmartObject
 {
 	/**
-	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public function __call(string $name, array $args)
@@ -45,7 +44,6 @@ trait SmartObject
 
 
 	/**
-	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public static function __callStatic(string $name, array $args)
