@@ -181,7 +181,7 @@ test(function () {
 	Assert::false(Validators::is(false, 'email'));
 	Assert::false(Validators::is('hello', 'email'));
 	Assert::true(Validators::is('hello@world.cz', 'email'));
-	Assert::false(Validators::is('hello@localhost', 'email'));
+	Assert::true(Validators::is('hello@localhost', 'email'));
 	Assert::false(Validators::is('hello@127.0.0.1', 'email'));
 	Assert::false(Validators::is('hello@localhost.a0', 'email'));
 	Assert::false(Validators::is('hello@localhost.0a', 'email'));
