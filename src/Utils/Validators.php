@@ -305,8 +305,8 @@ class Validators
 		(^
 			("([ !#-[\\]-~]*|\\\\[ -~])+"|$atom+(\\.$atom+)*)  # quoted or unquoted
 			@
-			([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+  # domain - RFC 1034
-			[$alpha]([-0-9$alpha]{0,17}[$alpha])?              # top domain
+			(([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+  # domain - RFC 1034
+			[$alpha]|localhost)([-0-9$alpha]{0,17}[$alpha])?    # top domain
 		$)Dix
 XX
 , $value);
