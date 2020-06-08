@@ -89,7 +89,7 @@ use Nette;
  * @method array ttfText($size, $angle, $x, $y, $color, string $fontfile, string $text)
  * @property-read int $width
  * @property-read int $height
- * @property-read resource $imageResource
+ * @property-read resource|\GdImage $imageResource
  */
 class Image
 {
@@ -121,7 +121,7 @@ class Image
 
 	private const FORMATS = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp'];
 
-	/** @var resource */
+	/** @var resource|\GdImage */
 	private $image;
 
 
@@ -212,7 +212,7 @@ class Image
 
 	/**
 	 * Wraps GD image.
-	 * @param  resource  $image
+	 * @param  resource|\GdImage  $image
 	 */
 	public function __construct($image)
 	{
@@ -241,12 +241,12 @@ class Image
 
 	/**
 	 * Sets image resource.
-	 * @param  resource  $image
+	 * @param  resource|\GdImage  $image
 	 * @return static
 	 */
 	protected function setImageResource($image)
 	{
-		if (!is_resource($image) || get_resource_type($image) !== 'gd') {
+		if (!$image instanceof \GdImage && !(is_resource($image) && get_resource_type($image) === 'gd')) {
 			throw new Nette\InvalidArgumentException('Image is not valid.');
 		}
 		$this->image = $image;
@@ -256,7 +256,7 @@ class Image
 
 	/**
 	 * Returns image GD resource.
-	 * @return resource
+	 * @return resource|\GdImage
 	 */
 	public function getImageResource()
 	{
@@ -302,14 +302,16 @@ class Image
 	 */
 	public static function calculateSize(int $srcWidth, int $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
 	{
-		if ($newWidth !== null && self::isPercent($newWidth)) {
+		if ($newWidth === null) {
+		} elseif (self::isPercent($newWidth)) {
 			$newWidth = (int) round($srcWidth / 100 * abs($newWidth));
 			$percents = true;
 		} else {
 			$newWidth = abs($newWidth);
 		}
 
-		if ($newHeight !== null && self::isPercent($newHeight)) {
+		if ($newHeight === null) {
+		} elseif (self::isPercent($newHeight)) {
 			$newHeight = (int) round($srcHeight / 100 * abs($newHeight));
 			$flags |= empty($percents) ? 0 : self::STRETCH;
 		} else {
@@ -605,7 +607,7 @@ class Image
 			}
 		}
 		$res = $function($this->image, ...$args);
-		return is_resource($res) && get_resource_type($res) === 'gd' ? $this->setImageResource($res) : $res;
+		return $res instanceof \GdImage || (is_resource($res) && get_resource_type($res) === 'gd') ? $this->setImageResource($res) : $res;
 	}
 
 

@@ -7,3 +7,9 @@ if (!function_exists('imagewebp')) {
 	{
 	}
 }
+
+if (!class_exists('GdImage')) {
+	class GdImage
+	{
+	}
+}
