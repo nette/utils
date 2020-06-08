@@ -64,7 +64,7 @@ final class Reflection
 	private static function normalizeType(string $type, $reflection): string
 	{
 		$lower = strtolower($type);
-		if ($lower === 'self') {
+		if ($lower === 'self' || $lower === 'static') {
 			return $reflection->getDeclaringClass()->name;
 		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
 			return $reflection->getDeclaringClass()->getParentClass()->name;
@@ -200,7 +200,7 @@ final class Reflection
 		} elseif (isset(self::BUILTIN_TYPES[$lower])) {
 			return $lower;
 
-		} elseif ($lower === 'self') {
+		} elseif ($lower === 'self' || $lower === 'static') {
 			return $rc->name;
 
 		} elseif ($name[0] === '\\') { // fully qualified name
