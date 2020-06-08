@@ -22,7 +22,7 @@ namespace NS
 		}
 
 
-		public function nativeType(): string
+		public function nativeType(): String
 		{
 		}
 
@@ -58,6 +58,21 @@ namespace NS
 		{
 		}
 	}
+
+
+	function noType()
+	{
+	}
+
+
+	function classType(): B
+	{
+	}
+
+
+	function nativeType(): String
+	{
+	}
 }
 
 namespace
@@ -85,4 +100,11 @@ namespace
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableSelfType')));
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\AExt::class, 'parentTypeExt')));
+
+	Assert::null(Reflection::getReturnType(new \ReflectionFunction('NS\noType')));
+
+	Assert::same('Test\B', Reflection::getReturnType(new \ReflectionFunction('NS\classType')));
+
+	Assert::same('string', Reflection::getReturnType(new \ReflectionFunction('NS\nativeType')));
+
 }

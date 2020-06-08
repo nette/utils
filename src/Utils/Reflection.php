@@ -34,8 +34,8 @@ final class Reflection
 	public static function getReturnType(\ReflectionFunctionAbstract $func): ?string
 	{
 		$type = $func->getReturnType();
-		return $type instanceof \ReflectionNamedType && $func instanceof \ReflectionMethod
-			? self::normalizeType($type->getName(), $func)
+		return $type instanceof \ReflectionNamedType
+			? ($func instanceof \ReflectionMethod ? self::normalizeType($type->getName(), $func) : $type->getName())
 			: null;
 	}
 
