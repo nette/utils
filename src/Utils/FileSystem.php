@@ -26,7 +26,7 @@ final class FileSystem
 	public static function createDir(string $dir, int $mode = 0777): void
 	{
 		if (!is_dir($dir) && !@mkdir($dir, $mode, true) && !is_dir($dir)) { // @ - dir may already exist
-			throw new Nette\IOException("Unable to create directory '$dir'. " . Helpers::getLastError());
+			throw new Nette\IOException("Unable to create directory '$dir' with mode " . decoct($mode) . '. ' . Helpers::getLastError());
 		}
 	}
 
@@ -135,7 +135,7 @@ final class FileSystem
 	{
 		static::createDir(dirname($file));
 		if (@file_put_contents($file, $content) === false) { // @ is escalated to exception
-			throw new Nette\IOException("Unable to write file '$file'. " . Helpers::getLastError());
+			throw new Nette\IOException("Unable to write file '$file' with mode " . decoct($mode) . '. ' . Helpers::getLastError());
 		}
 		if ($mode !== null && !@chmod($file, $mode)) { // @ is escalated to exception
 			throw new Nette\IOException("Unable to chmod file '$file' to mode " . decoct($mode) . '. ' . Helpers::getLastError());
