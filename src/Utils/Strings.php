@@ -141,7 +141,7 @@ class Strings
 	 */
 	public static function toAscii(string $s): string
 	{
-		$iconv = defined('ICONV_IMPL') ? ICONV_IMPL : null;
+		$iconv = defined('ICONV_IMPL') ? trim(ICONV_IMPL, '"\'') : null;
 		static $transliterator = null;
 		if ($transliterator === null && class_exists('Transliterator', false)) {
 			$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
