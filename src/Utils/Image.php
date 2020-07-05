@@ -22,6 +22,9 @@ use Nette;
  * $image->send();
  * </code>
  *
+ * @method Image affine(array $affine, array $clip = null)
+ * @method array affineMatrixConcat(array $m1, array $m2)
+ * @method array affineMatrixGet(int $type, mixed $options = null)
  * @method void alphaBlending(bool $on)
  * @method void antialias(bool $on)
  * @method void arc($x, $y, $w, $h, $start, $end, $color)
@@ -50,7 +53,6 @@ use Nette;
  * @method void copyResampled(Image $src, $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH)
  * @method void copyResized(Image $src, $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH)
  * @method Image cropAuto(int $mode = -1, float $threshold = .5, int $color = -1)
- * @method void dashedLine($x1, $y1, $x2, $y2, $color)
  * @method void ellipse($cx, $cy, $w, $h, $color)
  * @method void fill($x, $y, $color)
  * @method void filledArc($cx, $cy, $w, $h, $s, $e, $color, $style)
@@ -79,6 +81,7 @@ use Nette;
  * @method Image scale(int $newWidth, int $newHeight = -1, int $mode = IMG_BILINEAR_FIXED)
  * @method void setBrush(Image $brush)
  * @method void setClip(int $x1, int $y1, int $x2, int $y2)
+ * @method void setInterpolation(int $method = IMG_BILINEAR_FIXED)
  * @method void setPixel($x, $y, $color)
  * @method void setStyle(array $style)
  * @method void setThickness($thickness)
