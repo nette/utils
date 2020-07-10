@@ -27,11 +27,11 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
-	public static function get(array $arr, $key, $default = null)
+	public static function get(array $array, $key, $default = null)
 	{
 		foreach (is_array($key) ? $key : [$key] as $k) {
-			if (is_array($arr) && array_key_exists($k, $arr)) {
-				$arr = $arr[$k];
+			if (is_array($array) && array_key_exists($k, $array)) {
+				$array = $array[$k];
 			} else {
 				if (func_num_args() < 3) {
 					throw new Nette\InvalidArgumentException("Missing item '$k'.");
@@ -39,7 +39,7 @@ class Arrays
 				return $default;
 			}
 		}
-		return $arr;
+		return $array;
 	}
 
 
@@ -49,28 +49,28 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if traversed item is not an array
 	 */
-	public static function &getRef(array &$arr, $key)
+	public static function &getRef(array &$array, $key)
 	{
 		foreach (is_array($key) ? $key : [$key] as $k) {
-			if (is_array($arr) || $arr === null) {
-				$arr = &$arr[$k];
+			if (is_array($array) || $array === null) {
+				$array = &$array[$k];
 			} else {
 				throw new Nette\InvalidArgumentException('Traversed item is not an array.');
 			}
 		}
-		return $arr;
+		return $array;
 	}
 
 
 	/**
 	 * Recursively appends elements of remaining keys from the second array to the first.
 	 */
-	public static function mergeTree(array $arr1, array $arr2): array
+	public static function mergeTree(array $array1, array $array2): array
 	{
-		$res = $arr1 + $arr2;
-		foreach (array_intersect_key($arr1, $arr2) as $k => $v) {
-			if (is_array($v) && is_array($arr2[$k])) {
-				$res[$k] = self::mergeTree($v, $arr2[$k]);
+		$res = $array1 + $array2;
+		foreach (array_intersect_key($array1, $array2) as $k => $v) {
+			if (is_array($v) && is_array($array2[$k])) {
+				$res[$k] = self::mergeTree($v, $array2[$k]);
 			}
 		}
 		return $res;
@@ -82,10 +82,10 @@ class Arrays
 	 * @param  string|int  $key
 	 * @return int|null offset if it is found, null otherwise
 	 */
-	public static function searchKey(array $arr, $key): ?int
+	public static function searchKey(array $array, $key): ?int
 	{
 		$foo = [$key => null];
-		return Helpers::falseToNull(array_search(key($foo), array_keys($arr), true));
+		return Helpers::falseToNull(array_search(key($foo), array_keys($array), true));
 	}
 
 
@@ -93,10 +93,12 @@ class Arrays
 	 * Inserts new array before item specified by key.
 	 * @param  string|int  $key
 	 */
-	public static function insertBefore(array &$arr, $key, array $inserted): void
+	public static function insertBefore(array &$array, $key, array $inserted): void
 	{
-		$offset = (int) self::searchKey($arr, $key);
-		$arr = array_slice($arr, 0, $offset, true) + $inserted + array_slice($arr, $offset, count($arr), true);
+		$offset = (int) self::searchKey($array, $key);
+		$array = array_slice($array, 0, $offset, true)
+			+ $inserted
+			+ array_slice($array, $offset, count($array), true);
 	}
 
 
@@ -104,11 +106,13 @@ class Arrays
 	 * Inserts new array after item specified by key.
 	 * @param  string|int  $key
 	 */
-	public static function insertAfter(array &$arr, $key, array $inserted): void
+	public static function insertAfter(array &$array, $key, array $inserted): void
 	{
-		$offset = self::searchKey($arr, $key);
-		$offset = $offset === null ? count($arr) : $offset + 1;
-		$arr = array_slice($arr, 0, $offset, true) + $inserted + array_slice($arr, $offset, count($arr), true);
+		$offset = self::searchKey($array, $key);
+		$offset = $offset === null ? count($array) : $offset + 1;
+		$array = array_slice($array, 0, $offset, true)
+			+ $inserted
+			+ array_slice($array, $offset, count($array), true);
 	}
 
 
@@ -117,13 +121,13 @@ class Arrays
 	 * @param  string|int  $oldKey
 	 * @param  string|int  $newKey
 	 */
-	public static function renameKey(array &$arr, $oldKey, $newKey): void
+	public static function renameKey(array &$array, $oldKey, $newKey): void
 	{
-		$offset = self::searchKey($arr, $oldKey);
+		$offset = self::searchKey($array, $oldKey);
 		if ($offset !== null) {
-			$keys = array_keys($arr);
+			$keys = array_keys($array);
 			$keys[$offset] = $newKey;
-			$arr = array_combine($keys, $arr);
+			$array = array_combine($keys, $array);
 		}
 	}
 
@@ -131,22 +135,22 @@ class Arrays
 	/**
 	 * Returns array entries that match the pattern.
 	 */
-	public static function grep(array $arr, string $pattern, int $flags = 0): array
+	public static function grep(array $array, string $pattern, int $flags = 0): array
 	{
-		return Strings::pcre('preg_grep', [$pattern, $arr, $flags]);
+		return Strings::pcre('preg_grep', [$pattern, $array, $flags]);
 	}
 
 
 	/**
 	 * Returns flattened array.
 	 */
-	public static function flatten(array $arr, bool $preserveKeys = false): array
+	public static function flatten(array $array, bool $preserveKeys = false): array
 	{
 		$res = [];
 		$cb = $preserveKeys
 			? function ($v, $k) use (&$res): void { $res[$k] = $v; }
 		: function ($v) use (&$res): void { $res[] = $v; };
-		array_walk_recursive($arr, $cb);
+		array_walk_recursive($array, $cb);
 		return $res;
 	}
 
@@ -166,7 +170,7 @@ class Arrays
 	 * @param  string|string[]  $path
 	 * @return array|\stdClass
 	 */
-	public static function associate(array $arr, $path)
+	public static function associate(array $array, $path)
 	{
 		$parts = is_array($path)
 			? $path
@@ -178,7 +182,7 @@ class Arrays
 
 		$res = $parts[0] === '->' ? new \stdClass : [];
 
-		foreach ($arr as $rowOrig) {
+		foreach ($array as $rowOrig) {
 			$row = (array) $rowOrig;
 			$x = &$res;
 
@@ -221,10 +225,10 @@ class Arrays
 	 * Normalizes to associative array.
 	 * @param  mixed  $filling
 	 */
-	public static function normalize(array $arr, $filling = null): array
+	public static function normalize(array $array, $filling = null): array
 	{
 		$res = [];
-		foreach ($arr as $k => $v) {
+		foreach ($array as $k => $v) {
 			$res[is_int($k) ? $v : $k] = is_int($k) ? $filling : $v;
 		}
 		return $res;
@@ -238,11 +242,11 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
-	public static function pick(array &$arr, $key, $default = null)
+	public static function pick(array &$array, $key, $default = null)
 	{
-		if (array_key_exists($key, $arr)) {
-			$value = $arr[$key];
-			unset($arr[$key]);
+		if (array_key_exists($key, $array)) {
+			$value = $array[$key];
+			unset($array[$key]);
 			return $value;
 
 		} elseif (func_num_args() < 3) {
@@ -257,10 +261,10 @@ class Arrays
 	/**
 	 * Tests whether some element in the array passes the callback test.
 	 */
-	public static function some(array $arr, callable $callback): bool
+	public static function some(array $array, callable $callback): bool
 	{
-		foreach ($arr as $k => $v) {
-			if ($callback($v, $k, $arr)) {
+		foreach ($array as $k => $v) {
+			if ($callback($v, $k, $array)) {
 				return true;
 			}
 		}
@@ -271,10 +275,10 @@ class Arrays
 	/**
 	 * Tests whether all elements in the array pass the callback test.
 	 */
-	public static function every(array $arr, callable $callback): bool
+	public static function every(array $array, callable $callback): bool
 	{
-		foreach ($arr as $k => $v) {
-			if (!$callback($v, $k, $arr)) {
+		foreach ($array as $k => $v) {
+			if (!$callback($v, $k, $array)) {
 				return false;
 			}
 		}
@@ -285,11 +289,11 @@ class Arrays
 	/**
 	 * Applies the callback to the elements of the array.
 	 */
-	public static function map(array $arr, callable $callback): array
+	public static function map(array $array, callable $callback): array
 	{
 		$res = [];
-		foreach ($arr as $k => $v) {
-			$res[$k] = $callback($v, $k, $arr);
+		foreach ($array as $k => $v) {
+			$res[$k] = $callback($v, $k, $array);
 		}
 		return $res;
 	}
@@ -297,14 +301,14 @@ class Arrays
 
 	/**
 	 * Converts array to object
-	 * @param  object  $obj
+	 * @param  object  $object
 	 * @return object
 	 */
-	public static function toObject(array $arr, $obj)
+	public static function toObject(array $array, $object)
 	{
-		foreach ($arr as $k => $v) {
-			$obj->$k = $v;
+		foreach ($array as $k => $v) {
+			$object->$k = $v;
 		}
-		return $obj;
+		return $object;
 	}
 }

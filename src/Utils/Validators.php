@@ -107,16 +107,16 @@ class Validators
 
 	/**
 	 * Throws exception if an array field is missing or of unexpected type (separated by pipe).
-	 * @param  mixed[]  $arr
-	 * @param  int|string  $field
+	 * @param  mixed[]  $array
+	 * @param  int|string  $key
 	 */
-	public static function assertField(array $arr, $field, string $expected = null, string $label = "item '%' in array"): void
+	public static function assertField(array $array, $key, string $expected = null, string $label = "item '%' in array"): void
 	{
-		if (!array_key_exists($field, $arr)) {
-			throw new AssertionException('Missing ' . str_replace('%', $field, $label) . '.');
+		if (!array_key_exists($key, $array)) {
+			throw new AssertionException('Missing ' . str_replace('%', $key, $label) . '.');
 
 		} elseif ($expected) {
-			static::assert($arr[$field], $expected, str_replace('%', $field, $label));
+			static::assert($array[$key], $expected, str_replace('%', $key, $label));
 		}
 	}
 

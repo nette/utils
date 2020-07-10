@@ -289,19 +289,19 @@ class Strings
 	/**
 	 * Case-insensitive compares UTF-8 strings.
 	 */
-	public static function compare(string $left, string $right, int $len = null): bool
+	public static function compare(string $left, string $right, int $length = null): bool
 	{
 		if (class_exists('Normalizer', false)) {
 			$left = \Normalizer::normalize($left, \Normalizer::FORM_D); // form NFD is faster
 			$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
 		}
 
-		if ($len < 0) {
-			$left = self::substring($left, $len, -$len);
-			$right = self::substring($right, $len, -$len);
-		} elseif ($len !== null) {
-			$left = self::substring($left, 0, $len);
-			$right = self::substring($right, 0, $len);
+		if ($length < 0) {
+			$left = self::substring($left, $length, -$length);
+			$right = self::substring($right, $length, -$length);
+		} elseif ($length !== null) {
+			$left = self::substring($left, 0, $length);
+			$right = self::substring($right, 0, $length);
 		}
 		return self::lower($left) === self::lower($right);
 	}

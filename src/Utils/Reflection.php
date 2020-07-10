@@ -191,7 +191,7 @@ final class Reflection
 	 * Expands class name into full name.
 	 * @throws Nette\InvalidArgumentException
 	 */
-	public static function expandClassName(string $name, \ReflectionClass $rc): string
+	public static function expandClassName(string $name, \ReflectionClass $context): string
 	{
 		$lower = strtolower($name);
 		if (empty($name)) {
@@ -201,20 +201,20 @@ final class Reflection
 			return $lower;
 
 		} elseif ($lower === 'self' || $lower === 'static') {
-			return $rc->name;
+			return $context->name;
 
 		} elseif ($name[0] === '\\') { // fully qualified name
 			return ltrim($name, '\\');
 		}
 
-		$uses = self::getUseStatements($rc);
+		$uses = self::getUseStatements($context);
 		$parts = explode('\\', $name, 2);
 		if (isset($uses[$parts[0]])) {
 			$parts[0] = $uses[$parts[0]];
 			return implode('\\', $parts);
 
-		} elseif ($rc->inNamespace()) {
-			return $rc->getNamespaceName() . '\\' . $name;
+		} elseif ($context->inNamespace()) {
+			return $context->getNamespaceName() . '\\' . $name;
 
 		} else {
 			return $name;

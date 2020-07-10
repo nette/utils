@@ -35,31 +35,31 @@ final class FileSystem
 	 * Copies a file or directory.
 	 * @throws Nette\IOException
 	 */
-	public static function copy(string $source, string $dest, bool $overwrite = true): void
+	public static function copy(string $origin, string $target, bool $overwrite = true): void
 	{
-		if (stream_is_local($source) && !file_exists($source)) {
-			throw new Nette\IOException("File or directory '$source' not found.");
+		if (stream_is_local($origin) && !file_exists($origin)) {
+			throw new Nette\IOException("File or directory '$origin' not found.");
 
-		} elseif (!$overwrite && file_exists($dest)) {
-			throw new Nette\InvalidStateException("File or directory '$dest' already exists.");
+		} elseif (!$overwrite && file_exists($target)) {
+			throw new Nette\InvalidStateException("File or directory '$target' already exists.");
 
-		} elseif (is_dir($source)) {
-			static::createDir($dest);
-			foreach (new \FilesystemIterator($dest) as $item) {
+		} elseif (is_dir($origin)) {
+			static::createDir($target);
+			foreach (new \FilesystemIterator($target) as $item) {
 				static::delete($item->getPathname());
 			}
-			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($origin, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isDir()) {
-					static::createDir($dest . '/' . $iterator->getSubPathName());
+					static::createDir($target . '/' . $iterator->getSubPathName());
 				} else {
-					static::copy($item->getPathname(), $dest . '/' . $iterator->getSubPathName());
+					static::copy($item->getPathname(), $target . '/' . $iterator->getSubPathName());
 				}
 			}
 
 		} else {
-			static::createDir(dirname($dest));
-			if (($s = @fopen($source, 'rb')) && ($d = @fopen($dest, 'wb')) && @stream_copy_to_stream($s, $d) === false) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to copy file '$source' to '$dest'. " . Helpers::getLastError());
+			static::createDir(dirname($target));
+			if (($s = @fopen($origin, 'rb')) && ($d = @fopen($target, 'wb')) && @stream_copy_to_stream($s, $d) === false) { // @ is escalated to exception
+				throw new Nette\IOException("Unable to copy file '$origin' to '$target'. " . Helpers::getLastError());
 			}
 		}
 	}
@@ -93,21 +93,21 @@ final class FileSystem
 	 * @throws Nette\IOException
 	 * @throws Nette\InvalidStateException if the target file or directory already exist
 	 */
-	public static function rename(string $name, string $newName, bool $overwrite = true): void
+	public static function rename(string $origin, string $target, bool $overwrite = true): void
 	{
-		if (!$overwrite && file_exists($newName)) {
-			throw new Nette\InvalidStateException("File or directory '$newName' already exists.");
+		if (!$overwrite && file_exists($target)) {
+			throw new Nette\InvalidStateException("File or directory '$target' already exists.");
 
-		} elseif (!file_exists($name)) {
-			throw new Nette\IOException("File or directory '$name' not found.");
+		} elseif (!file_exists($origin)) {
+			throw new Nette\IOException("File or directory '$origin' not found.");
 
 		} else {
-			static::createDir(dirname($newName));
-			if (realpath($name) !== realpath($newName)) {
-				static::delete($newName);
+			static::createDir(dirname($target));
+			if (realpath($origin) !== realpath($target)) {
+				static::delete($target);
 			}
-			if (!@rename($name, $newName)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to rename file or directory '$name' to '$newName'. " . Helpers::getLastError());
+			if (!@rename($origin, $target)) { // @ is escalated to exception
+				throw new Nette\IOException("Unable to rename file or directory '$origin' to '$target'. " . Helpers::getLastError());
 			}
 		}
 	}
