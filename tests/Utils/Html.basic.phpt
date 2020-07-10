@@ -113,7 +113,7 @@ test('attributes escaping', function () {
 });
 
 
-class BR implements Nette\Utils\IHtmlString
+class BR implements Nette\HtmlStringable
 {
 	public function __toString(): string
 	{
