@@ -9,6 +9,9 @@ Nette Utility Classes
 
 If you like Nette, **[please make a donation now](https://nette.org/donate)**. Thank you!
 
+It requires PHP version 5.6 and supports PHP up to 8.0.
+
+
 Nette\SmartObject: Strict classes
 ---------------------------------
 
