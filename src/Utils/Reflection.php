@@ -255,11 +255,15 @@ final class Reflection
 		$namespace = $class = $classLevel = $level = null;
 		$res = $uses = [];
 
+		$nameTokens = PHP_VERSION_ID < 80000
+			? [T_STRING, T_NS_SEPARATOR]
+			: [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED];
+
 		while ($token = current($tokens)) {
 			next($tokens);
 			switch (is_array($token) ? $token[0] : $token) {
 				case T_NAMESPACE:
-					$namespace = ltrim(self::fetch($tokens, [T_STRING, T_NS_SEPARATOR]) . '\\', '\\');
+					$namespace = ltrim(self::fetch($tokens, $nameTokens) . '\\', '\\');
 					$uses = [];
 					break;
 
@@ -277,10 +281,10 @@ final class Reflection
 					break;
 
 				case T_USE:
-					while (!$class && ($name = self::fetch($tokens, [T_STRING, T_NS_SEPARATOR]))) {
+					while (!$class && ($name = self::fetch($tokens, $nameTokens))) {
 						$name = ltrim($name, '\\');
 						if (self::fetch($tokens, '{')) {
-							while ($suffix = self::fetch($tokens, [T_STRING, T_NS_SEPARATOR])) {
+							while ($suffix = self::fetch($tokens, $nameTokens)) {
 								if (self::fetch($tokens, T_AS)) {
 									$uses[self::fetch($tokens, T_STRING)] = $name . $suffix;
 								} else {
