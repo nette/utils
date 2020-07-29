@@ -38,5 +38,5 @@ The recommended way to install is via Composer:
 composer require nette/utils
 ```
 
-- Nette Utils 3.0 is compatible with PHP 7.1 to 7.4
-- Nette Utils 2.5 is compatible with PHP 5.6 to 7.4
+- Nette Utils 3.0 is compatible with PHP 7.1 to 8.0
+- Nette Utils 2.5 is compatible with PHP 5.6 to 8.0

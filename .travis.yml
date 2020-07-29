@@ -4,6 +4,7 @@ php:
     - 7.2
     - 7.3
     - 7.4
+    - 8.0snapshot
 
 before_install:
     # turn off XDebug
@@ -54,7 +55,7 @@ jobs:
         -   stage: Code Coverage
 
 
-sudo: false
+dist: xenial
 
 cache:
     directories:
