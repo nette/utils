@@ -19,7 +19,7 @@ Assert::error(function () {
 		$a++; // E_NOTICE
 		return strtoupper($m[0]);
 	});
-}, E_NOTICE, 'Undefined variable: a');
+}, ...(PHP_VERSION_ID < 80000 ? [E_NOTICE, 'Undefined variable: a'] : [E_WARNING, 'Undefined variable $a']));
 
 
 Assert::same('HELLO', Strings::replace('hello', '#.+#', function ($m) {

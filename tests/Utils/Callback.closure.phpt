@@ -92,7 +92,7 @@ test(function () { // global function
 
 	Assert::exception(function () {
 		Callback::closure('undefined');
-	}, Nette\InvalidArgumentException::class, "%a% function 'undefined' not found %a%");
+	}, Nette\InvalidArgumentException::class, '%a% function %c%undefined%c% not found %a%');
 
 	Assert::exception(function () {
 		Callback::toReflection('undefined');
