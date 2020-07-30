@@ -57,8 +57,8 @@ Assert::exception(function () {
 }, Nette\IOException::class, "Unable to create directory ''.%A%");
 
 Assert::exception(function () {
-	FileSystem::read('');
-}, Nette\IOException::class, "Unable to read file ''. Filename cannot be empty");
+	FileSystem::read('missing');
+}, Nette\IOException::class, "Unable to read file 'missing'. %a%");
 
 
 test(function () { // copy
