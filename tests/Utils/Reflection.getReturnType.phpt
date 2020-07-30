@@ -32,11 +32,6 @@ namespace NS
 		}
 
 
-		public function parentType(): parent
-		{
-		}
-
-
 		public function nullableClassType(): ?B
 		{
 		}
@@ -75,8 +70,6 @@ namespace
 	Assert::same('string', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nativeType')));
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'selfType')));
-
-	Assert::same('parent', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'parentType')));
 
 	Assert::same('Test\B', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableClassType')));
 
