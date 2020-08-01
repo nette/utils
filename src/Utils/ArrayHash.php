@@ -17,7 +17,10 @@ use Nette;
  */
 class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \IteratorAggregate
 {
-	/** @return static */
+	/**
+	 * Transforms array to ArrayHash.
+	 * @return static
+	 */
 	public static function from(array $array, bool $recursive = true)
 	{
 		$obj = new static;

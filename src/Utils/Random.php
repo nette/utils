@@ -20,7 +20,8 @@ final class Random
 	use Nette\StaticClass;
 
 	/**
-	 * Generate random string.
+	 * Generates a random string of given length from characters specified in second argument.
+	 * Supports intervals, such as `0-9` or `A-Z`.
 	 */
 	public static function generate(int $length = 10, string $charlist = '0-9a-z'): string
 	{

@@ -21,8 +21,8 @@ class Arrays
 	use Nette\StaticClass;
 
 	/**
-	 * Returns item from array or $default if item is not set.
-	 * @param  string|int|array $key one or more keys
+	 * Returns item from array. If it does not exist, it throws an exception, unless a default value is set.
+	 * @param  string|int|array  $key one or more keys
 	 * @param  mixed  $default
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
@@ -44,8 +44,8 @@ class Arrays
 
 
 	/**
-	 * Returns reference to array item.
-	 * @param  string|int|array $key one or more keys
+	 * Returns reference to array item. If the index does not exist, new one is created with value null.
+	 * @param  string|int|array  $key one or more keys
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if traversed item is not an array
 	 */
@@ -63,7 +63,9 @@ class Arrays
 
 
 	/**
-	 * Recursively appends elements of remaining keys from the second array to the first.
+	 * Recursively merges two fields. It is useful, for example, for merging tree structures. It behaves as
+	 * the + operator for array, ie. it adds a key/value pair from the second array to the first one and retains
+	 * the value from the first array in the case of a key collision.
 	 */
 	public static function mergeTree(array $array1, array $array2): array
 	{
@@ -78,7 +80,7 @@ class Arrays
 
 
 	/**
-	 * Searches the array for a given key and returns the offset if successful.
+	 * Returns zero-indexed position of given array key. Returns null if key is not found.
 	 * @param  string|int  $key
 	 * @return int|null offset if it is found, null otherwise
 	 */
@@ -90,8 +92,9 @@ class Arrays
 
 
 	/**
-	 * Inserts new array before item specified by key.
-	 * @param  string|int  $key
+	 * Inserts the contents of the $inserted array into the $array immediately after the $key.
+	 * If $key is null (or does not exist), it is inserted at the end.
+	 * @param  string|int|null  $key
 	 */
 	public static function insertBefore(array &$array, $key, array $inserted): void
 	{
@@ -103,8 +106,9 @@ class Arrays
 
 
 	/**
-	 * Inserts new array after item specified by key.
-	 * @param  string|int  $key
+	 * Inserts the contents of the $inserted array into the $array before the $key.
+	 * If $key is null (or does not exist), it is inserted at the beginning.
+	 * @param  string|int|null  $key
 	 */
 	public static function insertAfter(array &$array, $key, array $inserted): void
 	{
@@ -133,7 +137,8 @@ class Arrays
 
 
 	/**
-	 * Returns array entries that match the pattern.
+	 * Returns only those array items, which matches a regular expression $pattern.
+	 * @throws Nette\RegexpException  on compilation or runtime error
 	 */
 	public static function grep(array $array, string $pattern, int $flags = 0): array
 	{
@@ -142,7 +147,7 @@ class Arrays
 
 
 	/**
-	 * Returns flattened array.
+	 * Transforms multidimensional array to flat array.
 	 */
 	public static function flatten(array $array, bool $preserveKeys = false): array
 	{
@@ -156,7 +161,7 @@ class Arrays
 
 
 	/**
-	 * Finds whether a variable is a zero-based integer indexed array.
+	 * Checks if the array is indexed in ascending order of numeric keys from zero, a.k.a list.
 	 * @param  mixed  $value
 	 */
 	public static function isList($value): bool
@@ -222,7 +227,7 @@ class Arrays
 
 
 	/**
-	 * Normalizes to associative array.
+	 * Normalizes array to associative array. Replace numeric keys with their values, the new value will be $filling.
 	 * @param  mixed  $filling
 	 */
 	public static function normalize(array $array, $filling = null): array
@@ -236,7 +241,8 @@ class Arrays
 
 
 	/**
-	 * Picks element from the array by key and return its value.
+	 * Returns and removes the value of an item from an array. If it does not exist, it throws an exception,
+	 * or returns $default, if provided.
 	 * @param  string|int  $key
 	 * @param  mixed  $default
 	 * @return mixed
@@ -259,7 +265,8 @@ class Arrays
 
 
 	/**
-	 * Tests whether some element in the array passes the callback test.
+	 * Tests whether at least one element in the array passes the test implemented by the
+	 * provided callback with signature `function ($value, $key, array $array): bool`.
 	 */
 	public static function some(array $array, callable $callback): bool
 	{
@@ -273,7 +280,8 @@ class Arrays
 
 
 	/**
-	 * Tests whether all elements in the array pass the callback test.
+	 * Tests whether all elements in the array pass the test implemented by the provided function,
+	 * which has the signature `function ($value, $key, array $array): bool`.
 	 */
 	public static function every(array $array, callable $callback): bool
 	{
@@ -287,7 +295,8 @@ class Arrays
 
 
 	/**
-	 * Applies the callback to the elements of the array.
+	 * Calls $callback on all elements in the array and returns the array of return values.
+	 * The callback has the signature `function ($value, $key, array $array): bool`.
 	 */
 	public static function map(array $array, callable $callback): array
 	{
@@ -300,7 +309,7 @@ class Arrays
 
 
 	/**
-	 * Converts array to object
+	 * Copies the elements of the $array array to the $object object and then returns it.
 	 * @param  object  $object
 	 * @return object
 	 */

@@ -20,8 +20,8 @@ final class FileSystem
 	use Nette\StaticClass;
 
 	/**
-	 * Creates a directory.
-	 * @throws Nette\IOException
+	 * Creates a directory if it doesn't exist.
+	 * @throws Nette\IOException  on error occurred
 	 */
 	public static function createDir(string $dir, int $mode = 0777): void
 	{
@@ -32,8 +32,9 @@ final class FileSystem
 
 
 	/**
-	 * Copies a file or directory.
-	 * @throws Nette\IOException
+	 * Copies a file or a directory. Overwrites existing files and directories by default.
+	 * @throws Nette\IOException  on error occurred
+	 * @throws Nette\InvalidStateException  if $overwrite is set to false and destination already exists
 	 */
 	public static function copy(string $origin, string $target, bool $overwrite = true): void
 	{
@@ -66,8 +67,8 @@ final class FileSystem
 
 
 	/**
-	 * Deletes a file or directory.
-	 * @throws Nette\IOException
+	 * Deletes a file or directory if exists.
+	 * @throws Nette\IOException  on error occurred
 	 */
 	public static function delete(string $path): void
 	{
@@ -89,9 +90,9 @@ final class FileSystem
 
 
 	/**
-	 * Renames a file or directory.
-	 * @throws Nette\IOException
-	 * @throws Nette\InvalidStateException if the target file or directory already exist
+	 * Renames or moves a file or a directory. Overwrites existing files and directories by default.
+	 * @throws Nette\IOException  on error occurred
+	 * @throws Nette\InvalidStateException  if $overwrite is set to false and destination already exists
 	 */
 	public static function rename(string $origin, string $target, bool $overwrite = true): void
 	{
@@ -114,8 +115,8 @@ final class FileSystem
 
 
 	/**
-	 * Reads file content.
-	 * @throws Nette\IOException
+	 * Reads the content of a file.
+	 * @throws Nette\IOException  on error occurred
 	 */
 	public static function read(string $file): string
 	{
@@ -128,8 +129,8 @@ final class FileSystem
 
 
 	/**
-	 * Writes a string to a file.
-	 * @throws Nette\IOException
+	 * Writes the string to a file.
+	 * @throws Nette\IOException  on error occurred
 	 */
 	public static function write(string $file, string $content, ?int $mode = 0666): void
 	{
@@ -144,7 +145,7 @@ final class FileSystem
 
 
 	/**
-	 * Is path absolute?
+	 * Determines if the path is absolute.
 	 */
 	public static function isAbsolute(string $path): bool
 	{
@@ -153,7 +154,7 @@ final class FileSystem
 
 
 	/**
-	 * Normalizes ../. and directory separators in path.
+	 * Normalizes `..` and `.` and directory separators in path.
 	 */
 	public static function normalizePath(string $path): string
 	{
@@ -173,7 +174,7 @@ final class FileSystem
 
 
 	/**
-	 * Joins all given path segments then normalizes the resulting path.
+	 * Joins all segments of the path and normalizes the result.
 	 */
 	public static function joinPaths(string ...$paths): string
 	{

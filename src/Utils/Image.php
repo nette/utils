@@ -144,7 +144,7 @@ class Image
 
 
 	/**
-	 * Opens image from file.
+	 * Reads an image from a file and returns its type in $detectedFormat. Supported types are JPEG, PNG, GIF, WEBP and BMP.
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws UnknownImageFileException if file not found or file type is not known
 	 * @return static
@@ -167,8 +167,9 @@ class Image
 
 
 	/**
-	 * Create a new image from the image stream in the string.
+	 * Reads an image from a string and returns its type in $detectedFormat. Supported types are JPEG, PNG, GIF, WEBP and BMP.
 	 * @return static
+	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws ImageException
 	 */
 	public static function fromString(string $s, int &$detectedFormat = null)
@@ -189,8 +190,9 @@ class Image
 
 
 	/**
-	 * Creates blank image.
+	 * Creates a new true color image of the given dimensions. The default color is black.
 	 * @return static
+	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 */
 	public static function fromBlank(int $width, int $height, array $color = null)
 	{
@@ -214,6 +216,9 @@ class Image
 	}
 
 
+	/**
+	 * Returns the file extension for the given `Image::XXX` constant.
+	 */
 	public static function typeToExtension(int $type): string
 	{
 		if (!isset(self::FORMATS[$type])) {
@@ -223,6 +228,9 @@ class Image
 	}
 
 
+	/**
+	 * Returns the mime type for the given `Image::XXX` constant.
+	 */
 	public static function typeToMimeType(int $type): string
 	{
 		return 'image/' . self::typeToExtension($type);
@@ -284,7 +292,7 @@ class Image
 
 
 	/**
-	 * Resizes image.
+	 * Scales an image.
 	 * @param  int|string|null  $width in pixels or percent
 	 * @param  int|string|null  $height in pixels or percent
 	 * @return static
@@ -438,7 +446,7 @@ class Image
 
 
 	/**
-	 * Sharpen image.
+	 * Sharpens image a little bit.
 	 * @return static
 	 */
 	public function sharpen()
@@ -510,7 +518,7 @@ class Image
 
 
 	/**
-	 * Saves image to the file. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
+	 * Saves image to the file. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 * @throws ImageException
 	 */
 	public function save(string $file, int $quality = null, int $type = null): void
@@ -529,7 +537,7 @@ class Image
 
 
 	/**
-	 * Outputs image to string. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
+	 * Outputs image to string. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 */
 	public function toString(int $type = self::JPEG, int $quality = null): string
 	{
@@ -557,7 +565,7 @@ class Image
 
 
 	/**
-	 * Outputs image to browser. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
+	 * Outputs image to browser. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 * @throws ImageException
 	 */
 	public function send(int $type = self::JPEG, int $quality = null): void

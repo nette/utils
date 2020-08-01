@@ -25,12 +25,19 @@ final class Reflection
 	];
 
 
+	/**
+	 * Determines if type is PHP built-in type. Otherwise, it is the class name.
+	 */
 	public static function isBuiltinType(string $type): bool
 	{
 		return isset(self::BUILTIN_TYPES[strtolower($type)]);
 	}
 
 
+	/**
+	 * Returns the type of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
+	 * If the function does not have a return type, it returns null.
+	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func): ?string
 	{
 		$type = $func->getReturnType();
@@ -40,6 +47,10 @@ final class Reflection
 	}
 
 
+	/**
+	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
+	 * If the parameter does not have a type, it returns null.
+	 */
 	public static function getParameterType(\ReflectionParameter $param): ?string
 	{
 		$type = $param->getType();
@@ -49,6 +60,10 @@ final class Reflection
 	}
 
 
+	/**
+	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
+	 * If the property does not have a type, it returns null.
+	 */
 	public static function getPropertyType(\ReflectionProperty $prop): ?string
 	{
 		$type = PHP_VERSION_ID >= 70400 ? $prop->getType() : null;
@@ -75,8 +90,9 @@ final class Reflection
 
 
 	/**
+	 * Returns the default value of parameter. If it is a constant, it returns its value.
 	 * @return mixed
-	 * @throws \ReflectionException when default value is not available or resolvable
+	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
 	 */
 	public static function getParameterDefaultValue(\ReflectionParameter $param)
 	{
@@ -107,7 +123,7 @@ final class Reflection
 
 
 	/**
-	 * Returns declaring class or trait.
+	 * Returns a reflection of a class or trait that contains a declaration of given property. Property can also be declared in the trait.
 	 */
 	public static function getPropertyDeclaringClass(\ReflectionProperty $prop): \ReflectionClass
 	{
@@ -124,7 +140,8 @@ final class Reflection
 
 
 	/**
-	 * Returns declaring method in class or trait.
+	 * Returns a reflection of a method that contains a declaration of $method.
+	 * Usually, each method is its own declaration, but the body of the method can also be in the trait and under a different name.
 	 */
 	public static function getMethodDeclaringMethod(\ReflectionMethod $method): \ReflectionMethod
 	{
@@ -158,7 +175,7 @@ final class Reflection
 
 
 	/**
-	 * Are documentation comments available?
+	 * Finds out if reflection has access to PHPdoc comments. Comments may not be available due to the opcode cache.
 	 */
 	public static function areCommentsAvailable(): bool
 	{
@@ -188,7 +205,8 @@ final class Reflection
 
 
 	/**
-	 * Expands class name into full name.
+	 * Expands the name of the class to full name in the given context of given class.
+	 * Thus, it returns how the PHP parser would understand $name if it were written in the body of the class $context.
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public static function expandClassName(string $name, \ReflectionClass $context): string
