@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $arr = [
-	null => 'null', // null is ''
+	'' => 'null',
 	1 => 'first',
 	2 => 'second',
 ];
