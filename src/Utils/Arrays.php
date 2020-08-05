@@ -86,8 +86,7 @@ class Arrays
 	 */
 	public static function searchKey(array $array, $key): ?int
 	{
-		$foo = [$key => null];
-		return Helpers::falseToNull(array_search(key($foo), array_keys($array), true));
+		return Helpers::falseToNull(array_search(self::toKey($key), array_keys($array), true));
 	}
 
 
@@ -319,5 +318,16 @@ class Arrays
 			$object->$k = $v;
 		}
 		return $object;
+	}
+
+
+	/**
+	 * Converts value to array key.
+	 * @param  mixed  $value
+	 * @return int|string
+	 */
+	public static function toKey($value)
+	{
+		return key([$value => null]);
 	}
 }
