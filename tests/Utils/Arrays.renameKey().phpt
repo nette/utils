@@ -20,7 +20,7 @@ $arr = [
 	1 => 'third',
 ];
 
-Arrays::renameKey($arr, '1', 'new1');
+Assert::true(Arrays::renameKey($arr, '1', 'new1'));
 Assert::same([
 	'' => 'first',
 	0 => 'second',
@@ -52,7 +52,7 @@ Assert::same([
 	'new1' => 'third',
 ], $arr);
 
-Arrays::renameKey($arr, 'undefined', 'new5');
+Assert::false(Arrays::renameKey($arr, 'undefined', 'new5'));
 Assert::same([
 	'new3' => 'first',
 	'new2' => 'second',
@@ -73,7 +73,7 @@ Assert::same([
 	7 => 'fourth',
 ], $arr);
 
-Arrays::renameKey($arr, 'new1', 'new1');
+Assert::true(Arrays::renameKey($arr, 'new1', 'new1'));
 Assert::same([
 	'new1' => 'second',
 	7 => 'fourth',

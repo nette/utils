@@ -124,16 +124,18 @@ class Arrays
 	 * @param  string|int  $oldKey
 	 * @param  string|int  $newKey
 	 */
-	public static function renameKey(array &$array, $oldKey, $newKey): void
+	public static function renameKey(array &$array, $oldKey, $newKey): bool
 	{
 		$offset = self::searchKey($array, $oldKey);
-		if ($offset !== null) {
-			$val = &$array[$oldKey];
-			$keys = array_keys($array);
-			$keys[$offset] = $newKey;
-			$array = array_combine($keys, $array);
-			$array[$newKey] = &$val;
+		if ($offset === null) {
+			return false;
 		}
+		$val = &$array[$oldKey];
+		$keys = array_keys($array);
+		$keys[$offset] = $newKey;
+		$array = array_combine($keys, $array);
+		$array[$newKey] = &$val;
+		return true;
 	}
 
 
