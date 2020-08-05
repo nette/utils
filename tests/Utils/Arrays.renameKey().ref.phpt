@@ -30,3 +30,11 @@ $arr2[2] = 'B';
 
 Assert::same('A', $arr['new1']);
 Assert::same('B', $arr[2]);
+
+
+Arrays::renameKey($arr, 'new1', 2);
+
+$arr2[1] = 'AA';
+$arr2[2] = 'BB';
+
+Assert::same('AA', $arr[2]);

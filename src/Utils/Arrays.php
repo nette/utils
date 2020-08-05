@@ -128,9 +128,11 @@ class Arrays
 	{
 		$offset = self::searchKey($array, $oldKey);
 		if ($offset !== null) {
+			$val = &$array[$oldKey];
 			$keys = array_keys($array);
 			$keys[$offset] = $newKey;
 			$array = array_combine($keys, $array);
+			$array[$newKey] = &$val;
 		}
 	}
 

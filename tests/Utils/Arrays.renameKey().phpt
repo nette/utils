@@ -59,3 +59,22 @@ Assert::same([
 	7 => 'fourth',
 	'new1' => 'third',
 ], $arr);
+
+Arrays::renameKey($arr, 'new2', 'new3');
+Assert::same([
+	'new3' => 'second',
+	7 => 'fourth',
+	'new1' => 'third',
+], $arr);
+
+Arrays::renameKey($arr, 'new3', 'new1');
+Assert::same([
+	'new1' => 'second',
+	7 => 'fourth',
+], $arr);
+
+Arrays::renameKey($arr, 'new1', 'new1');
+Assert::same([
+	'new1' => 'second',
+	7 => 'fourth',
+], $arr);
