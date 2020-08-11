@@ -123,7 +123,10 @@ final class Callback
 
 
 	/**
-	 * @param  callable  $callable  is escalated to ReflectionException
+	 * Returns reflection for method or function used in PHP callback.
+	 * @param  callable  $callable  type check is escalated to ReflectionException
+	 * @return \ReflectionMethod|\ReflectionFunction
+	 * @throws \ReflectionException  if callback is not valid
 	 */
 	public static function toReflection($callable): \ReflectionFunctionAbstract
 	{
