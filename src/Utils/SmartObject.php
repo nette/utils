@@ -22,7 +22,6 @@ use Nette\Utils\ObjectHelpers;
 trait SmartObject
 {
 	/**
-	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public function __call(string $name, array $args)
@@ -30,12 +29,13 @@ trait SmartObject
 		$class = get_class($this);
 
 		if (ObjectHelpers::hasProperty($class, $name) === 'event') { // calling event handlers
-			if (is_iterable($this->$name)) {
-				foreach ($this->$name as $handler) {
+			$handlers = $this->$name ?? null;
+			if (is_iterable($handlers)) {
+				foreach ($handlers as $handler) {
 					$handler(...$args);
 				}
-			} elseif ($this->$name !== null) {
-				throw new UnexpectedValueException("Property $class::$$name must be iterable or null, " . gettype($this->$name) . ' given.');
+			} elseif ($handlers !== null) {
+				throw new UnexpectedValueException("Property $class::$$name must be iterable or null, " . gettype($handlers) . ' given.');
 			}
 
 		} else {
@@ -45,7 +45,6 @@ trait SmartObject
 
 
 	/**
-	 * @return void
 	 * @throws MemberAccessException
 	 */
 	public static function __callStatic(string $name, array $args)

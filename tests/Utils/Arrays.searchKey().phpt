@@ -14,22 +14,15 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $arr = [
-	null => 'first',
-	false => 'second',
-	1 => 'third',
-	7 => 'fourth',
-];
-
-Assert::same([
 	'' => 'first',
 	0 => 'second',
-	1 => 'third',
-	7 => 'fourth',
-], $arr);
+	7 => 'third',
+	1 => 'fourth',
+];
 
-
-Assert::same(2, Arrays::searchKey($arr, '1'));
-Assert::same(2, Arrays::searchKey($arr, 1));
+Assert::same(3, Arrays::searchKey($arr, '1'));
+Assert::same(3, Arrays::searchKey($arr, 1));
+Assert::same(2, Arrays::searchKey($arr, 7));
 Assert::same(1, Arrays::searchKey($arr, 0));
 Assert::same(0, Arrays::searchKey($arr, null));
 Assert::same(0, Arrays::searchKey($arr, ''));

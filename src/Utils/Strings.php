@@ -24,7 +24,7 @@ class Strings
 
 
 	/**
-	 * Checks if the string is valid for UTF-8 encoding.
+	 * Checks if the string is valid in UTF-8 encoding.
 	 */
 	public static function checkEncoding(string $s): bool
 	{
@@ -33,7 +33,7 @@ class Strings
 
 
 	/**
-	 * Removes invalid code unit sequences from UTF-8 string.
+	 * Removes all invalid UTF-8 characters from a string.
 	 */
 	public static function fixEncoding(string $s): string
 	{
@@ -43,7 +43,7 @@ class Strings
 
 
 	/**
-	 * Returns a specific character in UTF-8 from code point (0x0 to 0xD7FF or 0xE000 to 0x10FFFF).
+	 * Returns a specific character in UTF-8 from code point (number in range 0x0000..D7FF or 0xE000..10FFFF).
 	 * @throws Nette\InvalidArgumentException if code point is not in valid range
 	 */
 	public static function chr(int $code): string
@@ -85,7 +85,8 @@ class Strings
 
 
 	/**
-	 * Returns a part of UTF-8 string.
+	 * Returns a part of UTF-8 string specified by starting position and length. If start is negative,
+	 * the returned string will start at the start'th character from the end of string.
 	 */
 	public static function substring(string $s, int $start, int $length = null): string
 	{
@@ -103,7 +104,8 @@ class Strings
 
 
 	/**
-	 * Removes special controls characters and normalizes line endings, spaces and normal form to NFC in UTF-8 string.
+	 * Removes control characters, normalizes line breaks to `\n`, removes leading and trailing blank lines,
+	 * trims end spaces on lines, normalizes UTF-8 to the normal form of NFC.
 	 */
 	public static function normalize(string $s): string
 	{
@@ -137,11 +139,11 @@ class Strings
 
 
 	/**
-	 * Converts UTF-8 string to ASCII.
+	 * Converts UTF-8 string to ASCII, ie removes diacritics etc.
 	 */
 	public static function toAscii(string $s): string
 	{
-		$iconv = defined('ICONV_IMPL') ? ICONV_IMPL : null;
+		$iconv = defined('ICONV_IMPL') ? trim(ICONV_IMPL, '"\'') : null;
 		static $transliterator = null;
 		if ($transliterator === null && class_exists('Transliterator', false)) {
 			$transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
@@ -194,7 +196,8 @@ class Strings
 
 
 	/**
-	 * Converts UTF-8 string to web safe characters [a-z0-9-] text.
+	 * Modifies the UTF-8 string to the form used in the URL, ie removes diacritics and replaces all characters
+	 * except letters of the English alphabet and numbers with a hyphens.
 	 */
 	public static function webalize(string $s, string $charlist = null, bool $lower = true): string
 	{
@@ -209,7 +212,8 @@ class Strings
 
 
 	/**
-	 * Truncates UTF-8 string to maximal length.
+	 * Truncates a UTF-8 string to given maximal length, while trying not to split whole words. Only if the string is truncated,
+	 * an ellipsis (or something else set with third argument) is appended to the string.
 	 */
 	public static function truncate(string $s, int $maxLen, string $append = "\u{2026}"): string
 	{
@@ -230,7 +234,8 @@ class Strings
 
 
 	/**
-	 * Indents UTF-8 string from the left.
+	 * Indents a multiline text from the left. Second argument sets how many indentation chars should be used,
+	 * while the indent itself is the third argument (*tab* by default).
 	 */
 	public static function indent(string $s, int $level = 1, string $chars = "\t"): string
 	{
@@ -242,7 +247,7 @@ class Strings
 
 
 	/**
-	 * Converts UTF-8 string to lower case.
+	 * Converts all characters of UTF-8 string to lower case.
 	 */
 	public static function lower(string $s): string
 	{
@@ -251,7 +256,7 @@ class Strings
 
 
 	/**
-	 * Converts first character to lower case.
+	 * Converts the first character of a UTF-8 string to lower case and leaves the other characters unchanged.
 	 */
 	public static function firstLower(string $s): string
 	{
@@ -260,7 +265,7 @@ class Strings
 
 
 	/**
-	 * Converts UTF-8 string to upper case.
+	 * Converts all characters of a UTF-8 string to upper case.
 	 */
 	public static function upper(string $s): string
 	{
@@ -269,7 +274,7 @@ class Strings
 
 
 	/**
-	 * Converts first character to upper case.
+	 * Converts the first character of a UTF-8 string to upper case and leaves the other characters unchanged.
 	 */
 	public static function firstUpper(string $s): string
 	{
@@ -278,7 +283,7 @@ class Strings
 
 
 	/**
-	 * Capitalizes UTF-8 string.
+	 * Converts the first character of every word of a UTF-8 string to upper case and the others to lower case.
 	 */
 	public static function capitalize(string $s): string
 	{
@@ -287,28 +292,30 @@ class Strings
 
 
 	/**
-	 * Case-insensitive compares UTF-8 strings.
+	 * Compares two UTF-8 strings or their parts, without taking character case into account. If length is null, whole strings are compared,
+	 * if it is negative, the corresponding number of characters from the end of the strings is compared,
+	 * otherwise the appropriate number of characters from the beginning is compared.
 	 */
-	public static function compare(string $left, string $right, int $len = null): bool
+	public static function compare(string $left, string $right, int $length = null): bool
 	{
 		if (class_exists('Normalizer', false)) {
 			$left = \Normalizer::normalize($left, \Normalizer::FORM_D); // form NFD is faster
 			$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
 		}
 
-		if ($len < 0) {
-			$left = self::substring($left, $len, -$len);
-			$right = self::substring($right, $len, -$len);
-		} elseif ($len !== null) {
-			$left = self::substring($left, 0, $len);
-			$right = self::substring($right, 0, $len);
+		if ($length < 0) {
+			$left = self::substring($left, $length, -$length);
+			$right = self::substring($right, $length, -$length);
+		} elseif ($length !== null) {
+			$left = self::substring($left, 0, $length);
+			$right = self::substring($right, 0, $length);
 		}
 		return self::lower($left) === self::lower($right);
 	}
 
 
 	/**
-	 * Finds the length of common prefix of strings.
+	 * Finds the common prefix of strings or returns empty string if the prefix was not found.
 	 * @param  string[]  $strings
 	 */
 	public static function findPrefix(array $strings): string
@@ -339,7 +346,7 @@ class Strings
 
 
 	/**
-	 * Strips whitespace from UTF-8 string.
+	 * Removes all left and right side spaces (or the characters passed as second argument) from a UTF-8 encoded string.
 	 */
 	public static function trim(string $s, string $charlist = self::TRIM_CHARACTERS): string
 	{
@@ -349,7 +356,7 @@ class Strings
 
 
 	/**
-	 * Pad a UTF-8 string to a certain length with another string.
+	 * Pads a UTF-8 string to given length by prepending the $pad string to the beginning.
 	 */
 	public static function padLeft(string $s, int $length, string $pad = ' '): string
 	{
@@ -360,7 +367,7 @@ class Strings
 
 
 	/**
-	 * Pad a UTF-8 string to a certain length with another string.
+	 * Pads UTF-8 string to given length by appending the $pad string to the end.
 	 */
 	public static function padRight(string $s, int $length, string $pad = ' '): string
 	{
@@ -371,7 +378,7 @@ class Strings
 
 
 	/**
-	 * Reverse string.
+	 * Reverses UTF-8 string.
 	 */
 	public static function reverse(string $s): string
 	{
@@ -383,8 +390,8 @@ class Strings
 
 
 	/**
-	 * Returns part of $haystack before $nth occurence of $needle (negative value means searching from the end).
-	 * @return string|null  returns null if the needle was not found
+	 * Returns part of $haystack before $nth occurence of $needle or returns null if the needle was not found.
+	 * Negative value means searching from the end.
 	 */
 	public static function before(string $haystack, string $needle, int $nth = 1): ?string
 	{
@@ -396,8 +403,8 @@ class Strings
 
 
 	/**
-	 * Returns part of $haystack after $nth occurence of $needle (negative value means searching from the end).
-	 * @return string|null  returns null if the needle was not found
+	 * Returns part of $haystack after $nth occurence of $needle or returns null if the needle was not found.
+	 * Negative value means searching from the end.
 	 */
 	public static function after(string $haystack, string $needle, int $nth = 1): ?string
 	{
@@ -409,8 +416,8 @@ class Strings
 
 
 	/**
-	 * Returns position of $nth occurence of $needle in $haystack (negative value means searching from the end).
-	 * @return int|null  offset in characters or null if the needle was not found
+	 * Returns position in bytes of $nth occurence of $needle in $haystack or null if the $needle was not found.
+	 * Negative value of `$nth` means searching from the end.
 	 */
 	public static function indexOf(string $haystack, string $needle, int $nth = 1): ?int
 	{
@@ -422,8 +429,7 @@ class Strings
 
 
 	/**
-	 * Returns position of $nth occurence of $needle in $haystack.
-	 * @return int|null  offset in bytes or null if the needle was not found
+	 * Returns position in bytes of $nth occurence of $needle in $haystack or null if the needle was not found.
 	 */
 	private static function pos(string $haystack, string $needle, int $nth = 1): ?int
 	{
@@ -452,7 +458,8 @@ class Strings
 
 
 	/**
-	 * Splits string by a regular expression.
+	 * Splits a string into array by the regular expression.
+	 * Argument $flag takes same arguments as preg_split(), but PREG_SPLIT_DELIM_CAPTURE is set by default.
 	 */
 	public static function split(string $subject, string $pattern, int $flags = 0): array
 	{
@@ -461,7 +468,8 @@ class Strings
 
 
 	/**
-	 * Performs a regular expression match. Accepts flag PREG_OFFSET_CAPTURE (returned in bytes).
+	 * Checks if given string matches a regular expression pattern and returns an array with first found match and each subpattern.
+	 * Argument $flag takes same arguments as function preg_match().
 	 */
 	public static function match(string $subject, string $pattern, int $flags = 0, int $offset = 0): ?array
 	{
@@ -475,7 +483,8 @@ class Strings
 
 
 	/**
-	 * Performs a global regular expression match. Accepts flag PREG_OFFSET_CAPTURE (returned in bytes), PREG_SET_ORDER is default.
+	 * Finds all occurrences matching regular expression pattern and returns a two-dimensional array.
+	 * Argument $flag takes same arguments as function preg_match_all(), but PREG_SET_ORDER is set by default.
 	 */
 	public static function matchAll(string $subject, string $pattern, int $flags = 0, int $offset = 0): array
 	{
@@ -492,7 +501,7 @@ class Strings
 
 
 	/**
-	 * Perform a regular expression search and replace.
+	 * Replaces all occurrences matching regular expression $pattern which can be string or array in the form `pattern => replacement`.
 	 * @param  string|array  $pattern
 	 * @param  string|callable  $replacement
 	 */

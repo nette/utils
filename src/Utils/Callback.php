@@ -86,8 +86,11 @@ final class Callback
 
 
 	/**
+	 * Checks that $callable is valid PHP callback. Otherwise throws exception. If the $syntax is set to true, only verifies
+	 * that $callable has a valid structure to be used as a callback, but does not verify if the class or method actually exists.
 	 * @param  mixed  $callable
 	 * @return callable
+	 * @throws Nette\InvalidArgumentException
 	 */
 	public static function check($callable, bool $syntax = false)
 	{
@@ -102,7 +105,8 @@ final class Callback
 
 
 	/**
-	 * @param  mixed  $callable  may be syntactically correct but not callable
+	 * Converts PHP callback to textual form. Class or method may not exists.
+	 * @param  mixed  $callable
 	 */
 	public static function toString($callable): string
 	{
@@ -139,6 +143,9 @@ final class Callback
 	}
 
 
+	/**
+	 * Checks whether PHP callback is function or static method.
+	 */
 	public static function isStatic(callable $callable): bool
 	{
 		return is_array($callable) ? is_string($callable[0]) : is_string($callable);
@@ -146,8 +153,7 @@ final class Callback
 
 
 	/**
-	 * Unwraps closure created by Closure::fromCallable()
-	 * @internal
+	 * Unwraps closure created by Closure::fromCallable().
 	 */
 	public static function unwrap(\Closure $closure): callable
 	{

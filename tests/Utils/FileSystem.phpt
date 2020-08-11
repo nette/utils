@@ -45,7 +45,7 @@ test(function () { // createDir
 
 Assert::exception(function () {
 	FileSystem::createDir('');
-}, Nette\IOException::class, "Unable to create directory ''.%A%");
+}, Nette\IOException::class, "Unable to create directory '' with mode 777.%A%");
 
 
 test(function () { // write + read
@@ -56,11 +56,11 @@ test(function () { // write + read
 
 Assert::exception(function () {
 	FileSystem::write('', 'Hello');
-}, Nette\IOException::class, "Unable to create directory ''.%A%");
+}, Nette\IOException::class, "Unable to create directory '' with mode 777.%A%");
 
 Assert::exception(function () {
-	FileSystem::read('');
-}, Nette\IOException::class, "Unable to read file ''. Filename cannot be empty");
+	FileSystem::read('missing');
+}, Nette\IOException::class, "Unable to read file 'missing'. %a%");
 
 
 test(function () { // copy

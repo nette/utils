@@ -14,18 +14,11 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $arr = [
-	null => 'first',
-	false => 'second',
-	1 => 'third',
-	7 => 'fourth',
-];
-
-Assert::same([
 	'' => 'first',
 	0 => 'second',
 	1 => 'third',
 	7 => 'fourth',
-], $arr);
+];
 
 
 test(function () use ($arr) { // First item

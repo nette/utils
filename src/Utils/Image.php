@@ -22,6 +22,9 @@ use Nette;
  * $image->send();
  * </code>
  *
+ * @method Image affine(array $affine, array $clip = null)
+ * @method array affineMatrixConcat(array $m1, array $m2)
+ * @method array affineMatrixGet(int $type, mixed $options = null)
  * @method void alphaBlending(bool $on)
  * @method void antialias(bool $on)
  * @method void arc($x, $y, $w, $h, $start, $end, $color)
@@ -50,7 +53,6 @@ use Nette;
  * @method void copyResampled(Image $src, $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH)
  * @method void copyResized(Image $src, $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH)
  * @method Image cropAuto(int $mode = -1, float $threshold = .5, int $color = -1)
- * @method void dashedLine($x1, $y1, $x2, $y2, $color)
  * @method void ellipse($cx, $cy, $w, $h, $color)
  * @method void fill($x, $y, $color)
  * @method void filledArc($cx, $cy, $w, $h, $s, $e, $color, $style)
@@ -79,6 +81,7 @@ use Nette;
  * @method Image scale(int $newWidth, int $newHeight = -1, int $mode = IMG_BILINEAR_FIXED)
  * @method void setBrush(Image $brush)
  * @method void setClip(int $x1, int $y1, int $x2, int $y2)
+ * @method void setInterpolation(int $method = IMG_BILINEAR_FIXED)
  * @method void setPixel($x, $y, $color)
  * @method void setStyle(array $style)
  * @method void setThickness($thickness)
@@ -89,7 +92,7 @@ use Nette;
  * @method array ttfText($size, $angle, $x, $y, $color, string $fontfile, string $text)
  * @property-read int $width
  * @property-read int $height
- * @property-read resource $imageResource
+ * @property-read resource|\GdImage $imageResource
  */
 class Image
 {
@@ -122,7 +125,7 @@ class Image
 
 	private const FORMATS = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::BMP => 'bmp'];
 
-	/** @var resource */
+	/** @var resource|\GdImage */
 	private $image;
 
 
@@ -141,7 +144,7 @@ class Image
 
 
 	/**
-	 * Opens image from file.
+	 * Reads an image from a file and returns its type in $detectedFormat. Supported types are JPEG, PNG, GIF, WEBP and BMP.
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws UnknownImageFileException if file not found or file type is not known
 	 * @return static
@@ -164,8 +167,9 @@ class Image
 
 
 	/**
-	 * Create a new image from the image stream in the string.
+	 * Reads an image from a string and returns its type in $detectedFormat. Supported types are JPEG, PNG, GIF, WEBP and BMP.
 	 * @return static
+	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws ImageException
 	 */
 	public static function fromString(string $s, int &$detectedFormat = null)
@@ -186,8 +190,9 @@ class Image
 
 
 	/**
-	 * Creates blank image.
+	 * Creates a new true color image of the given dimensions. The default color is black.
 	 * @return static
+	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 */
 	public static function fromBlank(int $width, int $height, array $color = null)
 	{
@@ -211,6 +216,9 @@ class Image
 	}
 
 
+	/**
+	 * Returns the file extension for the given `Image::XXX` constant.
+	 */
 	public static function typeToExtension(int $type): string
 	{
 		if (!isset(self::FORMATS[$type])) {
@@ -220,6 +228,9 @@ class Image
 	}
 
 
+	/**
+	 * Returns the mime type for the given `Image::XXX` constant.
+	 */
 	public static function typeToMimeType(int $type): string
 	{
 		return 'image/' . self::typeToExtension($type);
@@ -228,7 +239,7 @@ class Image
 
 	/**
 	 * Wraps GD image.
-	 * @param  resource  $image
+	 * @param  resource|\GdImage  $image
 	 */
 	public function __construct($image)
 	{
@@ -257,12 +268,12 @@ class Image
 
 	/**
 	 * Sets image resource.
-	 * @param  resource  $image
+	 * @param  resource|\GdImage  $image
 	 * @return static
 	 */
 	protected function setImageResource($image)
 	{
-		if (!is_resource($image) || get_resource_type($image) !== 'gd') {
+		if (!$image instanceof \GdImage && !(is_resource($image) && get_resource_type($image) === 'gd')) {
 			throw new Nette\InvalidArgumentException('Image is not valid.');
 		}
 		$this->image = $image;
@@ -272,7 +283,7 @@ class Image
 
 	/**
 	 * Returns image GD resource.
-	 * @return resource
+	 * @return resource|\GdImage
 	 */
 	public function getImageResource()
 	{
@@ -281,7 +292,7 @@ class Image
 
 
 	/**
-	 * Resizes image.
+	 * Scales an image.
 	 * @param  int|string|null  $width in pixels or percent
 	 * @param  int|string|null  $height in pixels or percent
 	 * @return static
@@ -318,14 +329,16 @@ class Image
 	 */
 	public static function calculateSize(int $srcWidth, int $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
 	{
-		if ($newWidth !== null && self::isPercent($newWidth)) {
+		if ($newWidth === null) {
+		} elseif (self::isPercent($newWidth)) {
 			$newWidth = (int) round($srcWidth / 100 * abs($newWidth));
 			$percents = true;
 		} else {
 			$newWidth = abs($newWidth);
 		}
 
-		if ($newHeight !== null && self::isPercent($newHeight)) {
+		if ($newHeight === null) {
+		} elseif (self::isPercent($newHeight)) {
 			$newHeight = (int) round($srcHeight / 100 * abs($newHeight));
 			$flags |= empty($percents) ? 0 : self::STRETCH;
 		} else {
@@ -433,7 +446,7 @@ class Image
 
 
 	/**
-	 * Sharpen image.
+	 * Sharpens image a little bit.
 	 * @return static
 	 */
 	public function sharpen()
@@ -505,7 +518,7 @@ class Image
 
 
 	/**
-	 * Saves image to the file. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
+	 * Saves image to the file. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 * @throws ImageException
 	 */
 	public function save(string $file, int $quality = null, int $type = null): void
@@ -524,7 +537,7 @@ class Image
 
 
 	/**
-	 * Outputs image to string. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
+	 * Outputs image to string. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 */
 	public function toString(int $type = self::JPEG, int $quality = null): string
 	{
@@ -552,7 +565,7 @@ class Image
 
 
 	/**
-	 * Outputs image to browser. Quality is 0..100 for JPEG and WEBP, 0..9 for PNG.
+	 * Outputs image to browser. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 * @throws ImageException
 	 */
 	public function send(int $type = self::JPEG, int $quality = null): void
@@ -628,7 +641,7 @@ class Image
 			}
 		}
 		$res = $function($this->image, ...$args);
-		return is_resource($res) && get_resource_type($res) === 'gd' ? $this->setImageResource($res) : $res;
+		return $res instanceof \GdImage || (is_resource($res) && get_resource_type($res) === 'gd') ? $this->setImageResource($res) : $res;
 	}
 
 
