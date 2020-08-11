@@ -201,6 +201,8 @@ class Strings
 	 */
 	public static function webalize(string $s, string $charlist = null, bool $lower = true): string
 	{
+		$s = str_replace('&nbsp;', ' ', $s);
+		$s = self::pcre('preg_replace', ['#<\/?[a-z]+>#i', '-', $s]);
 		$s = self::toAscii($s);
 		if ($lower) {
 			$s = strtolower($s);
