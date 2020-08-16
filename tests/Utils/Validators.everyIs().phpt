@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	class Abc
 	{
 	}
@@ -41,7 +41,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$gen = function () {
 		yield 1;
 		yield 2;

@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif', $format);
 	Assert::same(176, $image->getWidth());
 	Assert::same(104, $image->getHeight());
@@ -22,7 +22,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	if (!function_exists('imagecreatefromwebp')) {
 		return;
 	}
@@ -48,14 +48,14 @@ Assert::exception(function () {
 }, Nette\Utils\ImageException::class, '%a% not a valid GIF file');
 
 
-test(function () {
+test('', function () {
 	$image = Image::fromBlank(200, 300, Image::rgb(255, 128, 0));
 	Assert::same(200, $image->getWidth());
 	Assert::same(300, $image->getHeight());
 });
 
 
-test(function () {
+test('', function () {
 	$image = Image::fromString(Image::EMPTY_GIF, $format);
 	Assert::same(1, $image->getWidth());
 	Assert::same(1, $image->getHeight());

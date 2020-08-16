@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	Html::$xhtml = true;
 	$el = Html::el('img')->src('image.gif')->alt('');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
@@ -23,7 +23,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	Html::$xhtml = true;
 	$el = Html::el('img')->setAttribute('src', 'image.gif')->setAttribute('alt', '');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
@@ -32,7 +32,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	Html::$xhtml = true;
 	$el = Html::el('img')->accesskey(0, true)->alt('alt', false);
 	Assert::same('<img accesskey="0" />', (string) $el);
@@ -46,7 +46,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	Html::$xhtml = true;
 	$el = Html::el('img')->appendAttribute('accesskey', 0)->setAttribute('alt', false);
 	Assert::same('<img accesskey="0" />', (string) $el);
@@ -58,7 +58,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$el = Html::el('img')->src('image.gif')->alt('')->setText('any content');
 	Assert::same('<img src="image.gif" alt="" />', (string) $el);
 	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
@@ -69,7 +69,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	Html::$xhtml = false;
 	$el = Html::el('img')->setSrc('image.gif')->setAlt('alt1')->setAlt('alt2');
 	Assert::same('<img src="image.gif" alt="alt2">', (string) $el);
@@ -95,7 +95,7 @@ test(function () {
 });
 
 
-test(function () { // small & big numbers
+test('small & big numbers', function () {
 	$el = Html::el('span');
 	$el->small = 1e-8;
 	$el->big = 1e20;
@@ -103,7 +103,7 @@ test(function () { // small & big numbers
 });
 
 
-test(function () { // attributes escaping
+test('attributes escaping', function () {
 	Html::$xhtml = true;
 	Assert::same('<a one=\'"\' two="\'" three="&lt;>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;'));
 
@@ -121,7 +121,7 @@ class BR implements Nette\Utils\IHtmlString
 	}
 }
 
-test(function () { // setText vs. setHtml
+test('setText vs. setHtml', function () {
 	Assert::same('<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->setText('Hello &ndash; World'));
 	Assert::same('<p>Hello &ndash; World</p>', (string) Html::el('p')->setHtml('Hello &ndash; World'));
 
@@ -133,7 +133,7 @@ test(function () { // setText vs. setHtml
 });
 
 
-test(function () { // addText vs. addHtml
+test('addText vs. addHtml', function () {
 	Assert::same('<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->addText('Hello &ndash; World'));
 	Assert::same('<p>Hello &ndash; World</p>', (string) Html::el('p')->addHtml('Hello &ndash; World'));
 
@@ -145,7 +145,7 @@ test(function () { // addText vs. addHtml
 });
 
 
-test(function () { // getText vs. getHtml
+test('getText vs. getHtml', function () {
 	$el = Html::el('p')->setHtml('Hello &ndash; World');
 	$el->create('a')->setText('link');
 	Assert::same('<p>Hello &ndash; World<a>link</a></p>', (string) $el);
@@ -154,17 +154,17 @@ test(function () { // getText vs. getHtml
 });
 
 
-test(function () { // email obfuscate
+test('email obfuscate', function () {
 	Assert::same('<a href="mailto:dave&#64;example.com"></a>', (string) Html::el('a')->href('mailto:dave@example.com'));
 });
 
 
-test(function () { // href with query
+test('href with query', function () {
 	Assert::same('<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', ['a' => 10]));
 });
 
 
-test(function () { // isset
+test('isset', function () {
 	Assert::false(isset(Html::el('a')->id));
 	Assert::true(isset(Html::el('a')->id('')->id));
 
@@ -173,7 +173,7 @@ test(function () { // isset
 });
 
 
-test(function () { // isset
+test('isset', function () {
 	Assert::true(isset(Html::el('a')->setAttribute('id', '')->id));
 	Assert::false(isset(Html::el('a')->removeAttribute('id')->id));
 	Assert::true(isset(Html::el('a')->setAttribute('id', '')->id));
@@ -181,7 +181,7 @@ test(function () { // isset
 });
 
 
-test(function () { // removeAttributes
+test('removeAttributes', function () {
 	$el = Html::el('a')->addAttributes(['onclick' => '', 'onmouseover' => '']);
 	Assert::true(isset($el->onclick));
 	Assert::true(isset($el->onmouseover));
@@ -192,7 +192,7 @@ test(function () { // removeAttributes
 });
 
 
-test(function () { // html to text
+test('html to text', function () {
 	Assert::same('hello"', Html::htmlToText('<a href="#">hello&quot;</a>'));
 	Assert::same(' text', Html::htmlToText('<!-- comment --> text'));
 	Assert::same("' ' ' \"", Html::htmlToText('&apos; &#39; &#x27; &quot;'));

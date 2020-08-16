@@ -9,7 +9,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$S = DIRECTORY_SEPARATOR;
 	Assert::same('', FileSystem::normalizePath(''));
 	Assert::same($S, FileSystem::normalizePath('\\'));

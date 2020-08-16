@@ -25,7 +25,7 @@ function toGd2($image)
 }
 
 
-test(function () use ($main) { // cropping...
+test('cropping...', function () use ($main) {
 	$image = clone $main;
 	Assert::same(176, $image->width);
 	Assert::same(104, $image->height);
@@ -36,7 +36,7 @@ test(function () use ($main) { // cropping...
 });
 
 
-test(function () use ($main) { // resizing X
+test('resizing X', function () use ($main) {
 	$image = clone $main;
 	$image->resize(150, null);
 	Assert::same(150, $image->width);
@@ -44,7 +44,7 @@ test(function () use ($main) { // resizing X
 });
 
 
-test(function () use ($main) { // resizing Y shrink
+test('resizing Y shrink', function () use ($main) {
 	$image = clone $main;
 	$image->resize(null, 150, Image::SHRINK_ONLY);
 	Assert::same(176, $image->width);
@@ -52,7 +52,7 @@ test(function () use ($main) { // resizing Y shrink
 });
 
 
-test(function () use ($main) { // resizing X Y shrink
+test('resizing X Y shrink', function () use ($main) {
 	$image = clone $main;
 	$image->resize(300, 150, Image::SHRINK_ONLY);
 	Assert::same(176, $image->width);
@@ -60,7 +60,7 @@ test(function () use ($main) { // resizing X Y shrink
 });
 
 
-test(function () use ($main) { // resizing X Y
+test('resizing X Y', function () use ($main) {
 	$image = clone $main;
 	$image->resize(300, 150);
 	Assert::same(254, $image->width);
@@ -68,7 +68,7 @@ test(function () use ($main) { // resizing X Y
 });
 
 
-test(function () use ($main) { // resizing X Y stretch
+test('resizing X Y stretch', function () use ($main) {
 	$image = clone $main;
 	$image->resize(300, 100, Image::STRETCH);
 	Assert::same(300, $image->width);
@@ -76,7 +76,7 @@ test(function () use ($main) { // resizing X Y stretch
 });
 
 
-test(function () use ($main) { // resizing X Y shrink stretch
+test('resizing X Y shrink stretch', function () use ($main) {
 	$image = clone $main;
 	$image->resize(300, 100, Image::SHRINK_ONLY | Image::STRETCH);
 	Assert::same(176, $image->width);
@@ -84,7 +84,7 @@ test(function () use ($main) { // resizing X Y shrink stretch
 });
 
 
-test(function () use ($main) { // resizing X%
+test('resizing X%', function () use ($main) {
 	$image = clone $main;
 	$image->resize('110%', null);
 	Assert::same(194, $image->width);
@@ -92,7 +92,7 @@ test(function () use ($main) { // resizing X%
 });
 
 
-test(function () use ($main) { // resizing X% Y%
+test('resizing X% Y%', function () use ($main) {
 	$image = clone $main;
 	$image->resize('110%', '90%');
 	Assert::same(194, $image->width);
@@ -100,7 +100,7 @@ test(function () use ($main) { // resizing X% Y%
 });
 
 
-test(function () use ($main) { // flipping X
+test('flipping X', function () use ($main) {
 	$image = clone $main;
 	$image->resize(-150, null);
 	Assert::same(150, $image->width);
@@ -108,7 +108,7 @@ test(function () use ($main) { // flipping X
 });
 
 
-test(function () use ($main) { // flipping Y shrink
+test('flipping Y shrink', function () use ($main) {
 	$image = clone $main;
 	$image->resize(null, -150, Image::SHRINK_ONLY);
 	Assert::same(176, $image->width);
@@ -116,7 +116,7 @@ test(function () use ($main) { // flipping Y shrink
 });
 
 
-test(function () use ($main) { // flipping X Y shrink
+test('flipping X Y shrink', function () use ($main) {
 	$image = clone $main;
 	$image->resize(-300, -150, Image::SHRINK_ONLY);
 	Assert::same(176, $image->width);
@@ -124,7 +124,7 @@ test(function () use ($main) { // flipping X Y shrink
 });
 
 
-test(function () use ($main) { // exact resize
+test('exact resize', function () use ($main) {
 	$image = clone $main;
 	$image->resize(300, 150, Image::EXACT);
 	Assert::same(300, $image->width);
@@ -132,7 +132,7 @@ test(function () use ($main) { // exact resize
 });
 
 
-test(function () use ($main) { // rotate
+test('rotate', function () use ($main) {
 	$image = clone $main;
 	$image->rotate(90, Image::rgb(0, 0, 0));
 	Assert::same(104, $image->width);
@@ -140,7 +140,7 @@ test(function () use ($main) { // rotate
 });
 
 
-test(function () use ($main) { // alpha crop
+test('alpha crop', function () use ($main) {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->crop(1, 1, 8, 8);
 	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.crop.gd2'), toGd2($image));
@@ -152,21 +152,21 @@ test(function () use ($main) { // alpha crop
 });
 
 
-test(function () use ($main) { // alpha resize
+test('alpha resize', function () use ($main) {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->resize(20, 20);
 	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.resize1.gd2'), toGd2($image));
 });
 
 
-test(function () use ($main) { // alpha flip
+test('alpha flip', function () use ($main) {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->resize(-10, -10);
 	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.flip1.gd2'), toGd2($image));
 });
 
 
-test(function () use ($main) { // palette alpha resize
+test('palette alpha resize', function () use ($main) {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha3.gif');
 	$image->resize(20, 20);
 	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.resize2.gd2'), toGd2($image));

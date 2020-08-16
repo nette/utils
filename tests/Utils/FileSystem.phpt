@@ -36,7 +36,7 @@ class RemoteStream /* extends \streamWrapper */
 stream_wrapper_register('remote', RemoteStream::class, STREAM_IS_URL);
 
 
-test(function () { // createDir
+test('createDir', function () {
 	FileSystem::createDir(getTempDir() . '/1/b/');
 	Assert::true(is_dir(getTempDir() . '/1/b'));
 
@@ -48,7 +48,7 @@ Assert::exception(function () {
 }, Nette\IOException::class, "Unable to create directory '' with mode 777.%A%");
 
 
-test(function () { // write + read
+test('write + read', function () {
 	FileSystem::write(getTempDir() . '/2/file', 'Hello');
 	Assert::true(is_file(getTempDir() . '/2/file'));
 	Assert::same('Hello', FileSystem::read(getTempDir() . '/2/file'));
@@ -63,7 +63,7 @@ Assert::exception(function () {
 }, Nette\IOException::class, "Unable to read file 'missing'. %a%");
 
 
-test(function () { // copy
+test('copy', function () {
 	Assert::false(stream_is_local('remote://example.com'));
 
 	FileSystem::write(getTempDir() . '/3/file', 'Hello');
@@ -105,7 +105,7 @@ Assert::exception(function () {
 }, Nette\IOException::class, "File or directory '%S%' not found.");
 
 
-test(function () { // delete
+test('delete', function () {
 	FileSystem::write(getTempDir() . '/7/file', 'Hello');
 	FileSystem::delete(getTempDir() . '/7/file');
 	Assert::true(is_dir(getTempDir() . '/7'));
@@ -116,7 +116,7 @@ test(function () { // delete
 });
 
 
-test(function () { // rename
+test('rename', function () {
 	FileSystem::write(getTempDir() . '/8/file', 'Hello');
 	FileSystem::rename(getTempDir() . '/8', getTempDir() . '/9');
 	FileSystem::rename(getTempDir() . '/9/file', getTempDir() . '/9/x/file');
@@ -152,7 +152,7 @@ Assert::exception(function () {
 }, Nette\IOException::class, "File or directory '%S%' not found.");
 
 
-test(function () { // isAbsolute
+test('isAbsolute', function () {
 	Assert::false(FileSystem::isAbsolute(''));
 	Assert::true(FileSystem::isAbsolute('\\'));
 	Assert::true(FileSystem::isAbsolute('//'));

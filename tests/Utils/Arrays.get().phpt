@@ -21,8 +21,7 @@ $arr = [
 	],
 ];
 
-test(function () use ($arr) { // Single item
-
+test('Single item', function () use ($arr) {
 	Assert::same('first', Arrays::get($arr, null));
 	Assert::same('second', Arrays::get($arr, 1));
 	Assert::same('second', Arrays::get($arr, 1, 'x'));
@@ -33,8 +32,7 @@ test(function () use ($arr) { // Single item
 });
 
 
-test(function () use ($arr) { // Traversing
-
+test('Traversing', function () use ($arr) {
 	Assert::same([
 		'' => 'first',
 		1 => 'second',

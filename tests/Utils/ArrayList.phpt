@@ -31,7 +31,7 @@ class Person
 }
 
 
-test(function () {
+test('', function () {
 	$list = new ArrayList;
 	$jack = new Person('Jack');
 	$mary = new Person('Mary');
@@ -74,7 +74,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$list = new ArrayList;
 	$list[] = 'a';
 	$list[] = 'b';
@@ -93,7 +93,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$list = new ArrayList;
 	$list[] = 'a';
 	$list[] = 'b';
@@ -112,7 +112,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$list = new ArrayList;
 	$list[] = 'a';
 	$list[] = 'b';

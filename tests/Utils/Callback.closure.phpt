@@ -79,7 +79,7 @@ function getName($ref)
 }
 
 
-test(function () { // global function
+test('global function', function () {
 	Assert::same('trim', Callback::unwrap(Callback::closure('trim')));
 	Assert::same('trim', Callback::toString('trim'));
 	Assert::same('{closure trim}', Callback::toString(Callback::closure('trim')));
@@ -100,7 +100,7 @@ test(function () { // global function
 });
 
 
-test(function () { // closure
+test('closure', function () {
 	$closure = function (&$a) {
 		$a = __FUNCTION__;
 		return $a;
@@ -114,7 +114,7 @@ test(function () { // closure
 });
 
 
-test(function () { // invokable object
+test('invokable object', function () {
 	$test = new Test;
 	Assert::same([$test, '__invoke'], Callback::unwrap(Callback::closure($test)));
 	Assert::same('Test::__invoke', Callback::toString($test));
@@ -125,7 +125,7 @@ test(function () { // invokable object
 });
 
 
-test(function () { // object methods
+test('object methods', function () {
 	$test = new Test;
 	Assert::same([$test, 'publicFun'], Callback::unwrap(Callback::closure($test, 'publicFun')));
 	Assert::same([$test, 'publicFun'], Callback::unwrap(Callback::closure([$test, 'publicFun'])));
@@ -155,7 +155,7 @@ test(function () { // object methods
 });
 
 
-test(function () { // static methods
+test('static methods', function () {
 	$test = new Test;
 	Assert::same(['Test', 'publicStatic'], Callback::unwrap(Callback::closure('Test', 'publicStatic')));
 	Assert::same(['Test', 'publicStatic'], Callback::unwrap(Callback::closure(['Test', 'publicStatic'])));
@@ -185,7 +185,7 @@ test(function () { // static methods
 });
 
 
-test(function () { // magic methods
+test('magic methods', function () {
 	$test = new Test;
 	Assert::same([$test, 'magic'], Callback::unwrap(Callback::closure($test, 'magic')));
 	Assert::same('Test::magic', Callback::toString([$test, 'magic']));
@@ -207,7 +207,7 @@ test(function () { // magic methods
 });
 
 
-test(function () { // PHP bugs - is_callable($object, true) fails
+test('PHP bugs - is_callable($object, true) fails', function () {
 	Assert::exception(function () {
 		Callback::closure(new stdClass);
 	}, Nette\InvalidArgumentException::class, 'Failed to create closure from callable: no array or string given');

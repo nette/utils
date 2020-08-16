@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -30,7 +30,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -44,7 +44,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 7;
@@ -61,7 +61,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = -1;
 	$paginator->itemsPerPage = 7;
@@ -78,7 +78,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -95,7 +95,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$paginator = new Paginator;
 
 	// ItemCount: 0
@@ -122,7 +122,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$paginator = new Paginator;
 	$paginator->itemsPerPage = 6;
 	$paginator->base = 0;

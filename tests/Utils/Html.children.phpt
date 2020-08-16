@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // add
+test('add', function () {
 	$el = Html::el('ul');
 	$el->create('li')->setText('one');
 	$el->addHtml(Html::el('li')->setText('two'))->class('hello');
@@ -31,7 +31,7 @@ test(function () { // add
 });
 
 
-test(function () {
+test('', function () {
 	$el = Html::el(null);
 	$el->addHtml(Html::el('p')->setText('one'));
 	$el->addText('<p>two</p>');
@@ -48,7 +48,7 @@ test(function () {
 });
 
 
-test(function () { // ==> Iterator:
+test('Iterator', function () {
 	$el = Html::el('select');
 	$el->create('optgroup')->label('Main')->create('option')->setText('sub one')->create('option')->setText('sub two');
 	$el->create('option')->setText('Item');
@@ -59,7 +59,7 @@ test(function () { // ==> Iterator:
 });
 
 
-test(function () { // counting
+test('counting', function () {
 	$el = Html::el('ul');
 	$el->addHtml('li');
 	$el->addHtml('li');
@@ -79,7 +79,7 @@ test(function () { // counting
 });
 
 
-test(function () { // cloning
+test('cloning', function () {
 	$el = Html::el('ul');
 	$el->addHtml(Html::el('li'));
 

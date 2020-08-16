@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$foo = '0123456789a123456789b123456789c';
 	Assert::same(0, Strings::indexOf($foo, '0', 1));
 	Assert::same(9, Strings::indexOf($foo, '9', 1));
@@ -34,7 +34,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$foo = "I\u{F1}t\u{EB}rn\u{E2}ti\u{F4}n\u{E0}liz\u{E6}ti\u{F8}n"; // Iñtërnâtiônàlizætiøn
 	Assert::same(7, Strings::indexOf($foo, 'ti', 1));
 	Assert::same(16, Strings::indexOf($foo, 'ti', 2));

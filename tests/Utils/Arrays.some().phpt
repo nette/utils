@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$arr = [];
 	$log = [];
 	$res = Arrays::some(
@@ -24,7 +24,7 @@ test(function () {
 	Assert::same([], $log);
 });
 
-test(function () {
+test('', function () {
 	$arr = [];
 	$log = [];
 	$res = Arrays::some(
@@ -35,7 +35,7 @@ test(function () {
 	Assert::same([], $log);
 });
 
-test(function () {
+test('', function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::some(
@@ -46,7 +46,7 @@ test(function () {
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
 });
 
-test(function () {
+test('', function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::some(
@@ -57,7 +57,7 @@ test(function () {
 	Assert::same([['a', 0, $arr]], $log);
 });
 
-test(function () {
+test('', function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::some(
@@ -68,7 +68,7 @@ test(function () {
 	Assert::same([['a', 0, $arr]], $log);
 });
 
-test(function () {
+test('', function () {
 	$arr = ['x' => 'a', 'y' => 'b'];
 	$log = [];
 	$res = Arrays::some(

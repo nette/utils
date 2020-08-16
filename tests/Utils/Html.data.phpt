@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // direct
+test('direct', function () {
 	$el = Html::el('div');
 	$el->{'data-x'} = 'x';
 	$el->{'data-list'} = [1, 2, 3];
@@ -23,7 +23,7 @@ test(function () { // direct
 });
 
 
-test(function () { // function
+test('function', function () {
 	$el = Html::el('div');
 	$el->data('a', 'one');
 	$el->data('b', 'two');
@@ -35,7 +35,7 @@ test(function () { // function
 });
 
 
-test(function () { // special values
+test('special values', function () {
 	$el = Html::el('div');
 	$el->data('top', null);
 	$el->data('t', true);
@@ -46,7 +46,7 @@ test(function () { // special values
 });
 
 
-test(function () { // setter
+test('setter', function () {
 	$el = Html::el('div');
 	$el->setAttribute('data-x', 'x');
 	$el->setAttribute('data-list', [1, 2, 3]);
@@ -58,7 +58,7 @@ test(function () { // setter
 });
 
 
-test(function () {
+test('', function () {
 	$el = Html::el('div');
 	$el->data = 'simple';
 	Assert::same('<div data="simple"></div>', (string) $el);

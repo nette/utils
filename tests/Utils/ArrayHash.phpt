@@ -31,7 +31,7 @@ class Person
 }
 
 
-test(function () {
+test('', function () {
 	$list = new ArrayHash;
 	$jack = new Person('Jack');
 	$mary = new Person('Mary');
@@ -78,7 +78,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$mary = new Person('Mary');
 	$list = ArrayHash::from([
 		'm' => $mary,
@@ -92,7 +92,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$mary = new Person('Mary');
 	$list = ArrayHash::from([
 		'm' => $mary,
@@ -120,7 +120,7 @@ test(function () {
 });
 
 
-test(function () { // numeric fields
+test('numeric fields', function () {
 	$row = ArrayHash::from([1, 2]);
 
 	foreach ($row as $key => $value) {
@@ -169,7 +169,7 @@ test(function () { // numeric fields
 });
 
 
-test(function () { // null fields
+test('null fields', function () {
 	$row = ArrayHash::from(['null' => null]);
 	Assert::null($row->null);
 	Assert::null($row['null']);
@@ -178,7 +178,7 @@ test(function () { // null fields
 });
 
 
-test(function () { // undeclared fields
+test('undeclared fields', function () {
 	$row = new ArrayHash;
 	Assert::error(function () use ($row) {
 		$row->undef;
@@ -190,7 +190,7 @@ test(function () { // undeclared fields
 });
 
 
-test(function () { // PHP 7 changed behavior https://3v4l.org/2A1pf
+test('PHP 7 changed behavior https://3v4l.org/2A1pf', function () {
 	$hash = ArrayHash::from([1, 2, 3]);
 	foreach ($hash as $key => $value) {
 		unset($hash->$key);

@@ -19,8 +19,7 @@ $arr = [
 	2 => 'second',
 ];
 
-test(function () use ($arr) { // Single item
-
+test('Single item', function () use ($arr) {
 	Assert::same('null', Arrays::pick($arr, null));
 	Assert::same('first', Arrays::pick($arr, 1));
 	Assert::same('x', Arrays::pick($arr, 1, 'x'));

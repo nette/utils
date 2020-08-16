@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$obj = new stdClass;
 	$res = Arrays::toObject([], $obj);
 	Assert::same($res, $obj);
@@ -21,7 +21,7 @@ test(function () {
 	Assert::same([], (array) $res);
 });
 
-test(function () {
+test('', function () {
 	$obj = new stdClass;
 	$res = Arrays::toObject(['a' => 1, 'b' => 2], $obj);
 	Assert::same($res, $obj);

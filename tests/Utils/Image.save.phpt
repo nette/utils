@@ -17,21 +17,21 @@ require __DIR__ . '/../bootstrap.php';
 $main = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 
 
-test(function () use ($main) {
+test('', function () use ($main) {
 	$main->save(getTempDir() . '/foo.png');
 	Assert::true(is_file(getTempDir() . '/foo.png'));
 	Assert::same(IMAGETYPE_PNG, getimagesize(getTempDir() . '/foo.png')[2]);
 });
 
 
-test(function () use ($main) {
+test('', function () use ($main) {
 	$main->save(getTempDir() . '/foo.x', null, Image::PNG);
 	Assert::true(is_file(getTempDir() . '/foo.x'));
 	Assert::same(IMAGETYPE_PNG, getimagesize(getTempDir() . '/foo.x')[2]);
 });
 
 
-test(function () use ($main) {
+test('', function () use ($main) {
 	if (!function_exists('imagewebp')) {
 		return;
 	}
@@ -46,7 +46,7 @@ test(function () use ($main) {
 });
 
 
-test(function () use ($main) {
+test('', function () use ($main) {
 	if (!function_exists('imagebmp')) {
 		return;
 	}

@@ -21,8 +21,7 @@ $arr = [
 	],
 ];
 
-test(function () use ($arr) { // Single item
-
+test('Single item', function () use ($arr) {
 	$dolly = $arr;
 	$item = &Arrays::getRef($dolly, null);
 	$item = 'changed';
@@ -49,8 +48,7 @@ test(function () use ($arr) { // Single item
 });
 
 
-test(function () use ($arr) { // Traversing
-
+test('Traversing', function () use ($arr) {
 	$dolly = $arr;
 	$item = &Arrays::getRef($dolly, []);
 	$item = 'changed';
@@ -70,8 +68,7 @@ test(function () use ($arr) { // Traversing
 });
 
 
-test(function () use ($arr) { // Error
-
+test('Error', function () use ($arr) {
 	Assert::exception(function () use ($arr) {
 		$dolly = $arr;
 		$item = &Arrays::getRef($dolly, [7, 'item', 3]);

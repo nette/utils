@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$el = Html::el('div');
 	$el->style[] = 'text-align:right';
 	$el->style[] = null;
@@ -32,7 +32,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$el = Html::el('div');
 	$el->appendAttribute('style', 'text-align:right');
 	$el->appendAttribute('style', null);
@@ -65,7 +65,7 @@ test(function () {
 });
 
 
-test(function () { // append
+test('append', function () {
 	$el = Html::el('div');
 	$el->style('color', 'white');
 	$el->style('background-color', 'blue');
@@ -80,7 +80,7 @@ test(function () { // append
 });
 
 
-test(function () { // append II
+test('append II', function () {
 	$el = Html::el('div');
 	$el->style[] = 'text-align:right';
 	$el->style('', true);
@@ -90,7 +90,7 @@ test(function () { // append II
 });
 
 
-test(function () { // append III
+test('append III', function () {
 	$el = Html::el('div');
 	$el->class('top', true);
 	$el->class('active', true);
