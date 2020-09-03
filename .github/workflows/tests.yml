@@ -8,7 +8,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest, macOS-latest]
-                php: ['7.1', '7.2', '7.3', '7.4', '8.0']
+                php: ['7.2', '7.3', '7.4', '8.0']
 
             fail-fast: false
 
