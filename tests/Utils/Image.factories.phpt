@@ -65,4 +65,4 @@ test('', function () {
 
 Assert::exception(function () {
 	Image::fromString('abcdefg');
-}, Nette\Utils\ImageException::class);
+}, Nette\Utils\UnknownImageFileException::class);
