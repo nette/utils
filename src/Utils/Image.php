@@ -179,9 +179,10 @@ class Image
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
-		if (func_num_args() > 1) {
-			$tmp = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
-			$format = isset(self::$formats[$tmp]) ? $tmp : null;
+		$format = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
+		if (!isset(self::$formats[$format])) {
+			$format = null;
+			throw new UnknownImageFileException('Unknown type of image.');
 		}
 
 		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function ($message) {
