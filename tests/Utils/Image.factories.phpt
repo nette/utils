@@ -19,6 +19,8 @@ test('', function () {
 	Assert::same(176, $image->getWidth());
 	Assert::same(104, $image->getHeight());
 	Assert::same(Image::GIF, $format);
+
+	Assert::same(Image::GIF, Image::detectTypeFromFile(__DIR__ . '/fixtures.images/logo.gif'));
 });
 
 
@@ -36,6 +38,9 @@ test('', function () {
 Assert::exception(function () {
 	Image::fromFile('fixtures.images/missing.png');
 }, Nette\Utils\UnknownImageFileException::class, "File 'fixtures.images/missing.png' not found.");
+
+
+Assert::null(Image::detectTypeFromFile('fixtures.images/missing.png'));
 
 
 Assert::exception(function () {
@@ -60,9 +65,14 @@ test('', function () {
 	Assert::same(1, $image->getWidth());
 	Assert::same(1, $image->getHeight());
 	Assert::same(Image::GIF, $format);
+
+	Assert::same(Image::GIF, Image::detectTypeFromString(Image::EMPTY_GIF));
 });
 
 
 Assert::exception(function () {
 	Image::fromString('abcdefg');
 }, Nette\Utils\UnknownImageFileException::class);
+
+
+Assert::null(Image::detectTypeFromString('x'));

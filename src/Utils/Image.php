@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * Basic manipulation with images.
+ * Basic manipulation with images. Supported types are JPEG, PNG, GIF, WEBP and BMP.
  *
  * <code>
  * $image = Image::fromFile('nette.jpg');
@@ -144,43 +144,43 @@ class Image
 
 
 	/**
-	 * Reads an image from a file and returns its type in $detectedFormat. Supported types are JPEG, PNG, GIF, WEBP and BMP.
+	 * Reads an image from a file and returns its type in $type.
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws UnknownImageFileException if file not found or file type is not known
 	 * @return static
 	 */
-	public static function fromFile(string $file, int &$detectedFormat = null)
+	public static function fromFile(string $file, int &$type = null)
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
-		$detectedFormat = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
-		if (!isset(self::FORMATS[$detectedFormat])) {
-			$detectedFormat = null;
+		$type = self::detectTypeFromFile($file);
+		if (!$type) {
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
-		return new static(Callback::invokeSafe('imagecreatefrom' . image_type_to_extension($detectedFormat, false), [$file], function (string $message): void {
+
+		$method = 'imagecreatefrom' . self::FORMATS[$type];
+		return new static(Callback::invokeSafe($method, [$file], function (string $message): void {
 			throw new ImageException($message);
 		}));
 	}
 
 
 	/**
-	 * Reads an image from a string and returns its type in $detectedFormat. Supported types are JPEG, PNG, GIF, WEBP and BMP.
+	 * Reads an image from a string and returns its type in $type.
 	 * @return static
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws ImageException
 	 */
-	public static function fromString(string $s, int &$detectedFormat = null)
+	public static function fromString(string $s, int &$type = null)
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
 		}
 
-		$detectedFormat = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
-		if (!isset(self::FORMATS[$detectedFormat])) {
-			$detectedFormat = null;
+		$type = self::detectTypeFromString($s);
+		if (!$type) {
 			throw new UnknownImageFileException('Unknown type of image.');
 		}
 
@@ -214,6 +214,26 @@ class Image
 			imagealphablending($image, true);
 		}
 		return new static($image);
+	}
+
+
+	/**
+	 * Returns the type of image from file.
+	 */
+	public static function detectTypeFromFile(string $file): ?int
+	{
+		$type = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
+		return isset(self::FORMATS[$type]) ? $type : null;
+	}
+
+
+	/**
+	 * Returns the type of image from string.
+	 */
+	public static function detectTypeFromString(string $s): ?int
+	{
+		$type = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
+		return isset(self::FORMATS[$type]) ? $type : null;
 	}
 
 
