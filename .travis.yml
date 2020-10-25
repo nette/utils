@@ -4,7 +4,7 @@ php:
     - 7.2
     - 7.3
     - 7.4
-    - nightly
+    - 8.0snapshot
 
 before_install:
     # turn off XDebug
@@ -31,11 +31,11 @@ jobs:
 
 
         -   name: Nette Coding Standard
-            php: 7.4
+            php: 8.0snapshot
             install:
-                - travis_retry composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress
+                - travis_retry composer create-project nette/coding-standard temp/coding-standard ^3 --no-progress --ignore-platform-reqs
             script:
-                - php temp/coding-standard/ecs check src tests --config tests/coding-standard.yml
+                - php temp/coding-standard/ecs check
 
 
         -   stage: Static Analysis (informative)
@@ -56,7 +56,6 @@ jobs:
     allow_failures:
         -   stage: Static Analysis (informative)
         -   stage: Code Coverage
-        -   php: nightly
 
 
 sudo: false
