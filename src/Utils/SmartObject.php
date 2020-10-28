@@ -26,7 +26,7 @@ trait SmartObject
 	 */
 	public function __call(string $name, array $args)
 	{
-		$class = get_class($this);
+		$class = static::class;
 
 		if (ObjectHelpers::hasProperty($class, $name) === 'event') { // calling event handlers
 			$handlers = $this->$name ?? null;
@@ -59,7 +59,7 @@ trait SmartObject
 	 */
 	public function &__get(string $name)
 	{
-		$class = get_class($this);
+		$class = static::class;
 
 		if ($prop = ObjectHelpers::getMagicProperties($class)[$name] ?? null) { // property getter
 			if (!($prop & 0b0001)) {
@@ -85,7 +85,7 @@ trait SmartObject
 	 */
 	public function __set(string $name, $value)
 	{
-		$class = get_class($this);
+		$class = static::class;
 
 		if (ObjectHelpers::hasProperty($class, $name)) { // unsetted property
 			$this->$name = $value;
@@ -108,7 +108,7 @@ trait SmartObject
 	 */
 	public function __unset(string $name)
 	{
-		$class = get_class($this);
+		$class = static::class;
 		if (!ObjectHelpers::hasProperty($class, $name)) {
 			throw new MemberAccessException("Cannot unset the property $class::\$$name.");
 		}
@@ -117,6 +117,6 @@ trait SmartObject
 
 	public function __isset(string $name): bool
 	{
-		return isset(ObjectHelpers::getMagicProperties(get_class($this))[$name]);
+		return isset(ObjectHelpers::getMagicProperties(static::class)[$name]);
 	}
 }

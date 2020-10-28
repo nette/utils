@@ -309,9 +309,16 @@ class Image
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
 			$newImage = static::fromBlank($newWidth, $newHeight, self::rgb(0, 0, 0, 127))->getImageResource();
 			imagecopyresampled(
-				$newImage, $this->image,
-				0, 0, 0, 0,
-				$newWidth, $newHeight, $this->getWidth(), $this->getHeight()
+				$newImage,
+				$this->image,
+				0,
+				0,
+				0,
+				0,
+				$newWidth,
+				$newHeight,
+				$this->getWidth(),
+				$this->getHeight()
 			);
 			$this->image = $newImage;
 		}
@@ -328,8 +335,13 @@ class Image
 	 * @param  int|string|null  $newWidth in pixels or percent
 	 * @param  int|string|null  $newHeight in pixels or percent
 	 */
-	public static function calculateSize(int $srcWidth, int $srcHeight, $newWidth, $newHeight, int $flags = self::FIT): array
-	{
+	public static function calculateSize(
+		int $srcWidth,
+		int $srcHeight,
+		$newWidth,
+		$newHeight,
+		int $flags = self::FIT
+	): array {
 		if ($newWidth === null) {
 		} elseif (self::isPercent($newWidth)) {
 			$newWidth = (int) round($srcWidth / 100 * abs($newWidth));
@@ -511,8 +523,14 @@ class Image
 		}
 
 		imagecopy(
-			$this->image, $output,
-			$left, $top, 0, 0, $width, $height
+			$this->image,
+			$output,
+			$left,
+			$top,
+			0,
+			0,
+			$width,
+			$height
 		);
 		return $this;
 	}
@@ -624,7 +642,7 @@ class Image
 	{
 		$function = 'image' . $name;
 		if (!function_exists($function)) {
-			ObjectHelpers::strictCall(get_class($this), $name);
+			ObjectHelpers::strictCall(static::class, $name);
 		}
 
 		foreach ($args as $key => $value) {
@@ -634,15 +652,23 @@ class Image
 			} elseif (is_array($value) && isset($value['red'])) { // rgb
 				$args[$key] = imagecolorallocatealpha(
 					$this->image,
-					$value['red'], $value['green'], $value['blue'], $value['alpha']
+					$value['red'],
+					$value['green'],
+					$value['blue'],
+					$value['alpha']
 				) ?: imagecolorresolvealpha(
 					$this->image,
-					$value['red'], $value['green'], $value['blue'], $value['alpha']
+					$value['red'],
+					$value['green'],
+					$value['blue'],
+					$value['alpha']
 				);
 			}
 		}
 		$res = $function($this->image, ...$args);
-		return $res instanceof \GdImage || (is_resource($res) && get_resource_type($res) === 'gd') ? $this->setImageResource($res) : $res;
+		return $res instanceof \GdImage || (is_resource($res) && get_resource_type($res) === 'gd')
+			? $this->setImageResource($res)
+			: $res;
 	}
 
 

@@ -180,9 +180,7 @@ final class Reflection
 	public static function areCommentsAvailable(): bool
 	{
 		static $res;
-		return $res === null
-			? $res = (bool) (new \ReflectionMethod(__METHOD__))->getDocComment()
-			: $res;
+		return $res ?? $res = (bool) (new \ReflectionMethod(__METHOD__))->getDocComment();
 	}
 
 

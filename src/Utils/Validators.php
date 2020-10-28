@@ -35,14 +35,14 @@ class Validators
 		'string' => 'is_string',
 
 		// pseudo-types
-		'callable' => [__CLASS__, 'isCallable'],
+		'callable' => [self::class, 'isCallable'],
 		'iterable' => 'is_iterable',
 		'list' => [Arrays::class, 'isList'],
-		'mixed' => [__CLASS__, 'isMixed'],
-		'none' => [__CLASS__, 'isNone'],
-		'number' => [__CLASS__, 'isNumber'],
-		'numeric' => [__CLASS__, 'isNumeric'],
-		'numericint' => [__CLASS__, 'isNumericInt'],
+		'mixed' => [self::class, 'isMixed'],
+		'none' => [self::class, 'isNone'],
+		'number' => [self::class, 'isNumber'],
+		'numeric' => [self::class, 'isNumeric'],
+		'numericint' => [self::class, 'isNumericInt'],
 
 		// string patterns
 		'alnum' => 'ctype_alnum',
@@ -51,22 +51,22 @@ class Validators
 		'lower' => 'ctype_lower',
 		'pattern' => null,
 		'space' => 'ctype_space',
-		'unicode' => [__CLASS__, 'isUnicode'],
+		'unicode' => [self::class, 'isUnicode'],
 		'upper' => 'ctype_upper',
 		'xdigit' => 'ctype_xdigit',
 
 		// syntax validation
-		'email' => [__CLASS__, 'isEmail'],
-		'identifier' => [__CLASS__, 'isPhpIdentifier'],
-		'uri' => [__CLASS__, 'isUri'],
-		'url' => [__CLASS__, 'isUrl'],
+		'email' => [self::class, 'isEmail'],
+		'identifier' => [self::class, 'isPhpIdentifier'],
+		'uri' => [self::class, 'isUri'],
+		'url' => [self::class, 'isUrl'],
 
 		// environment validation
 		'class' => 'class_exists',
 		'interface' => 'interface_exists',
 		'directory' => 'is_dir',
 		'file' => 'is_file',
-		'type' => [__CLASS__, 'isType'],
+		'type' => [self::class, 'isType'],
 	];
 
 	/** @var array<string,callable> */
@@ -112,8 +112,12 @@ class Validators
 	 * @param  int|string  $key
 	 * @throws AssertionException
 	 */
-	public static function assertField(array $array, $key, string $expected = null, string $label = "item '%' in array"): void
-	{
+	public static function assertField(
+		array $array,
+		$key,
+		string $expected = null,
+		string $label = "item '%' in array"
+	): void {
 		if (!array_key_exists($key, $array)) {
 			throw new AssertionException('Missing ' . str_replace('%', $key, $label) . '.');
 
@@ -330,11 +334,11 @@ XX
 					[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)?  # domain
 					[$alpha]([-0-9$alpha]{0,17}[$alpha])?   # top domain
 				|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}  # IPv4
-				|\[[0-9a-f:]{3,39}\]                        # IPv6
+				|\\[[0-9a-f:]{3,39}\\]                      # IPv6
 			)(:\\d{1,5})?                                   # port
 			(/\\S*)?                                        # path
-			(\?\\S*)?                                       # query
-			(\#\\S*)?                                       # fragment
+			(\\?\\S*)?                                      # query
+			(\\#\\S*)?                                      # fragment
 		$)Dix
 XX
 , $value);

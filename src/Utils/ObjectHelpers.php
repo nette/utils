@@ -87,7 +87,9 @@ final class ObjectHelpers
 		$rc = new \ReflectionClass($class);
 		preg_match_all(
 			'~^  [ \t*]*  @property(|-read|-write)  [ \t]+  [^\s$]+  [ \t]+  \$  (\w+)  ()~mx',
-			(string) $rc->getDocComment(), $matches, PREG_SET_ORDER
+			(string) $rc->getDocComment(),
+			$matches,
+			PREG_SET_ORDER
 		);
 
 		$props = [];

@@ -538,7 +538,9 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 		if (func_num_args() === 1) {
 			$this->attrs['data'] = $name;
 		} else {
-			$this->attrs["data-$name"] = is_bool($value) ? json_encode($value) : $value;
+			$this->attrs["data-$name"] = is_bool($value)
+				? json_encode($value)
+				: $value;
 		}
 		return $this;
 	}
@@ -823,7 +825,9 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 					foreach ($value as $k => $v) {
 						if ($v != null) { // intentionally ==, skip nulls & empty string
 							// composite 'style' vs. 'others'
-							$tmp[] = $v === true ? $k : (is_string($k) ? $k . ':' . $v : $v);
+							$tmp[] = $v === true
+								? $k
+								: (is_string($k) ? $k . ':' . $v : $v);
 						}
 					}
 					if ($tmp === null) {

@@ -29,14 +29,16 @@ trait B
 
 class C
 {
-	use A, B {
+	use A;
+	use B {
 		B::foo insteadof A;
 	}
 }
 
 class D
 {
-	use A, B {
+	use A;
+	use B {
 		B::foo insteadof A;
 	}
 

@@ -59,7 +59,11 @@ final class FileSystem
 
 		} else {
 			static::createDir(dirname($target));
-			if (($s = @fopen($origin, 'rb')) && ($d = @fopen($target, 'wb')) && @stream_copy_to_stream($s, $d) === false) { // @ is escalated to exception
+			if (
+				($s = @fopen($origin, 'rb'))
+				&& ($d = @fopen($target, 'wb'))
+				&& @stream_copy_to_stream($s, $d) === false
+			) { // @ is escalated to exception
 				throw new Nette\IOException("Unable to copy file '$origin' to '$target'. " . Helpers::getLastError());
 			}
 		}
