@@ -1,6 +1,11 @@
 parameters:
+	level: 5
+
+	paths:
+		- src
+
 	bootstrapFiles:
-		- phpstan-bootstrap.php
+		- tests/phpstan-bootstrap.php
 
 	ignoreErrors:
 		# PHPStan does not support dynamic by reference return used by Nette\Utils\Strings::pcre()
