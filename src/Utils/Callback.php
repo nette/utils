@@ -41,7 +41,8 @@ class Callback
 			return (new \ReflectionFunction($callable))->getClosure();
 
 		} elseif (is_array($callable) && method_exists($callable[0], $callable[1])) {
-			return (new \ReflectionMethod($callable[0], $callable[1]))->getClosure($callable[0]);
+			return (new \ReflectionMethod($callable[0], $callable[1]))
+				->getClosure(is_object($callable[0]) ? $callable[0] : null);
 		}
 
 		self::check($callable);
