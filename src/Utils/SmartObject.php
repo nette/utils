@@ -83,7 +83,7 @@ trait SmartObject
 	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
-	public function __set(string $name, $value)
+	public function __set(string $name, $value): void
 	{
 		$class = static::class;
 
@@ -106,7 +106,7 @@ trait SmartObject
 	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public function __unset(string $name)
+	public function __unset(string $name): void
 	{
 		$class = static::class;
 		if (!ObjectHelpers::hasProperty($class, $name)) {
