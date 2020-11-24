@@ -37,49 +37,65 @@ final class Reflection
 	/**
 	 * Returns the type of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
 	 * If the function does not have a return type, it returns null.
+	 * If the function has union type, it throws Nette\InvalidStateException.
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func): ?string
 	{
-		$type = $func->getReturnType();
-		return $type instanceof \ReflectionNamedType
-			? ($func instanceof \ReflectionMethod ? self::normalizeType($type->getName(), $func) : $type->getName())
-			: null;
+		return self::getType($func, $func->getReturnType());
 	}
 
 
 	/**
 	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
 	 * If the parameter does not have a type, it returns null.
+	 * If the parameter has union type, it throws Nette\InvalidStateException.
 	 */
 	public static function getParameterType(\ReflectionParameter $param): ?string
 	{
-		$type = $param->getType();
-		return $type instanceof \ReflectionNamedType
-			? self::normalizeType($type->getName(), $param)
-			: null;
+		return self::getType($param, $param->getType());
 	}
 
 
 	/**
 	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
 	 * If the property does not have a type, it returns null.
+	 * If the property has union type, it throws Nette\InvalidStateException.
 	 */
 	public static function getPropertyType(\ReflectionProperty $prop): ?string
 	{
-		$type = PHP_VERSION_ID >= 70400 ? $prop->getType() : null;
-		return $type instanceof \ReflectionNamedType
-			? self::normalizeType($type->getName(), $prop)
-			: null;
+		return self::getType($prop, PHP_VERSION_ID >= 70400 ? $prop->getType() : null);
 	}
 
 
 	/**
-	 * @param  \ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
+	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
+	 */
+	private static function getType($reflection, ?\ReflectionType $type): ?string
+	{
+		if ($type === null) {
+			return null;
+
+		} elseif ($type instanceof \ReflectionNamedType) {
+			return self::normalizeType($type->getName(), $reflection);
+
+		} elseif ($type instanceof \ReflectionUnionType) {
+			throw new Nette\InvalidStateException('The ' . self::toString($reflection) . ' is not expected to have a union type.');
+
+		} else {
+			throw new Nette\InvalidStateException('Unexpected type of ' . self::toString($reflection));
+		}
+	}
+
+
+	/**
+	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
 	 */
 	private static function normalizeType(string $type, $reflection): string
 	{
 		$lower = strtolower($type);
-		if ($lower === 'self' || $lower === 'static') {
+		if ($reflection instanceof \ReflectionFunction) {
+			return $type;
+		} elseif ($lower === 'self' || $lower === 'static') {
 			return $reflection->getDeclaringClass()->name;
 		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
 			return $reflection->getDeclaringClass()->getParentClass()->name;
