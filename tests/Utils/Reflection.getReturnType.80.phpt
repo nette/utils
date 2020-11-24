@@ -121,11 +121,11 @@ namespace
 
 	Assert::exception(function () {
 		Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'unionType'));
-	}, Nette\InvalidStateException::class, 'The NS\A::unionType is not expected to have a union type.');
+	}, Nette\InvalidStateException::class, 'The NS\A::unionType() is not expected to have a union type.');
 
 	Assert::exception(function () {
 		Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableUnionType'));
-	}, Nette\InvalidStateException::class, 'The NS\A::nullableUnionType is not expected to have a union type.');
+	}, Nette\InvalidStateException::class, 'The NS\A::nullableUnionType() is not expected to have a union type.');
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\AExt::class, 'parentTypeExt')));
 
@@ -139,5 +139,5 @@ namespace
 
 	Assert::exception(function () {
 		Reflection::getReturnType(new \ReflectionFunction('NS\unionType'));
-	}, Nette\InvalidStateException::class, 'The NS\unionType is not expected to have a union type.');
+	}, Nette\InvalidStateException::class, 'The NS\unionType() is not expected to have a union type.');
 }

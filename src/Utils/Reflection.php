@@ -246,13 +246,13 @@ final class Reflection
 		if ($ref instanceof \ReflectionClass) {
 			return $ref->name;
 		} elseif ($ref instanceof \ReflectionMethod) {
-			return $ref->getDeclaringClass()->name . '::' . $ref->name;
+			return $ref->getDeclaringClass()->name . '::' . $ref->name . '()';
 		} elseif ($ref instanceof \ReflectionFunction) {
-			return $ref->name;
+			return $ref->name . '()';
 		} elseif ($ref instanceof \ReflectionProperty) {
 			return self::getPropertyDeclaringClass($ref)->name . '::$' . $ref->name;
 		} elseif ($ref instanceof \ReflectionParameter) {
-			return '$' . $ref->name . ' in ' . self::toString($ref->getDeclaringFunction()) . '()';
+			return '$' . $ref->name . ' in ' . self::toString($ref->getDeclaringFunction());
 		} else {
 			throw new Nette\InvalidArgumentException;
 		}

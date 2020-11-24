@@ -29,8 +29,8 @@ function func($param)
 
 
 Assert::same('Foo', Reflection::toString(new ReflectionClass('Foo')));
-Assert::same('Foo::method', Reflection::toString(new ReflectionMethod('Foo', 'method')));
+Assert::same('Foo::method()', Reflection::toString(new ReflectionMethod('Foo', 'method')));
 Assert::same('$param in Foo::method()', Reflection::toString(new ReflectionParameter(['Foo', 'method'], 'param')));
 Assert::same('Foo::$var', Reflection::toString(new ReflectionProperty('Foo', 'var')));
-Assert::same('func', Reflection::toString(new ReflectionFunction('func')));
+Assert::same('func()', Reflection::toString(new ReflectionFunction('func')));
 Assert::same('$param in func()', Reflection::toString(new ReflectionParameter('func', 'param')));
