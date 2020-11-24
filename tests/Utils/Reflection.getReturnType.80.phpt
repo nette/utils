@@ -115,6 +115,10 @@ namespace
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableSelfType')));
 
+	Assert::same(['NS\A', 'array'], Reflection::getReturnTypes(new \ReflectionMethod(NS\A::class, 'unionType')));
+
+	Assert::same(['NS\A', 'array', 'null'], Reflection::getReturnTypes(new \ReflectionMethod(NS\A::class, 'nullableUnionType')));
+
 	Assert::exception(function () {
 		Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'unionType'));
 	}, Nette\InvalidStateException::class, 'The NS\A::unionType is not expected to have a union type.');
@@ -130,6 +134,8 @@ namespace
 	Assert::same('Test\B', Reflection::getReturnType(new \ReflectionFunction('NS\classType')));
 
 	Assert::same('string', Reflection::getReturnType(new \ReflectionFunction('NS\nativeType')));
+
+	Assert::same(['NS\A', 'array'], Reflection::getReturnTypes(new \ReflectionFunction('NS\unionType')));
 
 	Assert::exception(function () {
 		Reflection::getReturnType(new \ReflectionFunction('NS\unionType'));

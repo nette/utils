@@ -46,6 +46,15 @@ final class Reflection
 
 
 	/**
+	 * Returns the types of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
+	 */
+	public static function getReturnTypes(\ReflectionFunctionAbstract $func): array
+	{
+		return self::getType($func, $func->getReturnType(), true);
+	}
+
+
+	/**
 	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
 	 * If the parameter does not have a type, it returns null.
 	 * If the parameter has union type, it throws Nette\InvalidStateException.
@@ -53,6 +62,15 @@ final class Reflection
 	public static function getParameterType(\ReflectionParameter $param): ?string
 	{
 		return self::getType($param, $param->getType());
+	}
+
+
+	/**
+	 * Returns the types of given parameter and normalizes `self` and `parent` to the actual class names.
+	 */
+	public static function getParameterTypes(\ReflectionParameter $param): array
+	{
+		return self::getType($param, $param->getType(), true);
 	}
 
 
@@ -68,17 +86,40 @@ final class Reflection
 
 
 	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
+	 * Returns the types of given property and normalizes `self` and `parent` to the actual class names.
 	 */
-	private static function getType($reflection, ?\ReflectionType $type): ?string
+	public static function getPropertyTypes(\ReflectionProperty $prop): array
+	{
+		return self::getType($prop, PHP_VERSION_ID >= 70400 ? $prop->getType() : null, true);
+	}
+
+
+	/**
+	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
+	 * @return string|array|null
+	 */
+	private static function getType($reflection, ?\ReflectionType $type, bool $asArray = false)
 	{
 		if ($type === null) {
-			return null;
+			return $asArray ? [] : null;
 
 		} elseif ($type instanceof \ReflectionNamedType) {
-			return self::normalizeType($type->getName(), $reflection);
+			$name = self::normalizeType($type->getName(), $reflection);
+			if ($asArray) {
+				return $type->allowsNull() && $type->getName() !== 'mixed'
+					? [$name, 'null']
+					: [$name];
+			}
+			return $name;
 
 		} elseif ($type instanceof \ReflectionUnionType) {
+			if ($asArray) {
+				$types = [];
+				foreach ($type->getTypes() as $type) {
+					$types[] = self::normalizeType($type->getName(), $reflection);
+				}
+				return $types;
+			}
 			throw new Nette\InvalidStateException('The ' . self::toString($reflection) . ' is not expected to have a union type.');
 
 		} else {
