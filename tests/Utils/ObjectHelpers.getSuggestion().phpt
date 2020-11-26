@@ -4,8 +4,6 @@
  * Test: Nette\Utils\ObjectHelpers::getSuggestion()
  */
 
-declare(strict_types=1);
-
 use Nette\Utils\ObjectHelpers;
 use Tester\Assert;
 
