@@ -32,3 +32,5 @@ Assert::same('#@ @@@#d!', Strings::replace('hello world!', [
 	'#([e-l])+#' => '#',
 	'#[o-w]#' => '@',
 ]));
+Assert::same(' !', Strings::replace('hello world!', '#\w#'));
+Assert::same(' !', Strings::replace('hello world!', ['#\w#']));
