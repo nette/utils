@@ -514,7 +514,7 @@ class Strings
 	 * @param  string|array  $pattern
 	 * @param  string|callable  $replacement
 	 */
-	public static function replace(string $subject, $pattern, $replacement = null, int $limit = -1): string
+	public static function replace(string $subject, $pattern, $replacement = '', int $limit = -1): string
 	{
 		if (is_object($replacement) || is_array($replacement)) {
 			if (!is_callable($replacement, false, $textual)) {
@@ -522,7 +522,7 @@ class Strings
 			}
 			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit]);
 
-		} elseif ($replacement === null && is_array($pattern)) {
+		} elseif (is_array($pattern) && is_string(key($pattern))) {
 			$replacement = array_values($pattern);
 			$pattern = array_keys($pattern);
 		}
