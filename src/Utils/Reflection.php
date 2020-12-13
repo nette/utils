@@ -70,6 +70,9 @@ class Reflection
 
 	private static function normalizeType($type, $reflection)
 	{
+		if ($type instanceof \ReflectionUnionType) {
+			return null;
+		}
 		$type = PHP_VERSION_ID >= 70100 ? $type->getName() : (string) $type;
 		$lower = strtolower($type);
 		if ($reflection instanceof \ReflectionFunction) {
