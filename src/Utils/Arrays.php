@@ -321,6 +321,34 @@ class Arrays
 
 
 	/**
+	 * Invokes all callbacks and returns array of results.
+	 * @param  callable[]  $callbacks
+	 */
+	public static function invoke(iterable $callbacks, ...$args): array
+	{
+		$res = [];
+		foreach ($callbacks as $k => $cb) {
+			$res[$k] = $cb(...$args);
+		}
+		return $res;
+	}
+
+
+	/**
+	 * Invokes method on every object in an array and returns array of results.
+	 * @param  object[]  $objects
+	 */
+	public static function invokeMethod(iterable $objects, string $method, ...$args): array
+	{
+		$res = [];
+		foreach ($objects as $k => $obj) {
+			$res[$k] = $obj->$method(...$args);
+		}
+		return $res;
+	}
+
+
+	/**
 	 * Copies the elements of the $array array to the $object object and then returns it.
 	 * @param  object  $object
 	 * @return object
