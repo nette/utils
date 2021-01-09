@@ -50,6 +50,20 @@ final class Callback
 
 
 	/**
+	 * Call methods all objects.
+	 * @param  object[]  $objects
+	 */
+	public static function callMethods(iterable $objects, string $method, ...$args): array
+	{
+		$res = [];
+		foreach ($objects as $k => $obj) {
+			$res[$k] = $obj->$method(...$args);
+		}
+		return $res;
+	}
+
+
+	/**
 	 * Invokes callback.
 	 * @return mixed
 	 * @deprecated
