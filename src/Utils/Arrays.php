@@ -101,7 +101,7 @@ class Arrays
 
 	/**
 	 * Inserts the contents of the $inserted array into the $array immediately after the $key.
-	 * If $key is null (or does not exist), it is inserted at the end.
+	 * If $key is null (or does not exist), it is inserted at the beginning.
 	 * @param  string|int|null  $key
 	 */
 	public static function insertBefore(array &$array, $key, array $inserted): void
@@ -115,7 +115,7 @@ class Arrays
 
 	/**
 	 * Inserts the contents of the $inserted array into the $array before the $key.
-	 * If $key is null (or does not exist), it is inserted at the beginning.
+	 * If $key is null (or does not exist), it is inserted at the end.
 	 * @param  string|int|null  $key
 	 */
 	public static function insertAfter(array &$array, $key, array $inserted): void
