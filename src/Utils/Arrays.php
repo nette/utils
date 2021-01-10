@@ -100,6 +100,36 @@ class Arrays
 
 
 	/**
+	 * Tests an array for the presence of value.
+	 * @param  mixed  $value
+	 */
+	public static function contains(array $array, $value): bool
+	{
+		return in_array($value, $array, true);
+	}
+
+
+	/**
+	 * Returns the first item from the array or null if array is empty.
+	 * @return mixed
+	 */
+	public static function first(array $array)
+	{
+		return count($array) ? reset($array) : null;
+	}
+
+
+	/**
+	 * Returns the last item from the array or null if array is empty.
+	 * @return mixed
+	 */
+	public static function last(array $array)
+	{
+		return count($array) ? end($array) : null;
+	}
+
+
+	/**
 	 * Inserts the contents of the $inserted array into the $array immediately after the $key.
 	 * If $key is null (or does not exist), it is inserted at the beginning.
 	 * @param  string|int|null  $key
