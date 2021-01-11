@@ -401,4 +401,19 @@ class Arrays
 	{
 		return key([$value => null]);
 	}
+
+
+	/**
+	 * Returns items required to synchronize associative array $from to array $to.
+	 */
+	public static function updateDiff(array $from, array $to): array
+	{
+		$diff = [];
+		foreach ($to as $k => $v) {
+			if (!array_key_exists($k, $from) || $v !== $from[$k]) {
+				$diff[$k] = $v;
+			}
+		}
+		return $diff;
+	}
 }

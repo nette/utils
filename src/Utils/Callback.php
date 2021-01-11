@@ -36,6 +36,19 @@ final class Callback
 
 
 	/**
+	 * Invokes all callables.
+	 * @param  callable[]  $callables
+	 */
+	public static function invokeAll(array $callables, ...$args): array
+	{
+		foreach ($callables as $k => $cb) {
+			$callables[$k] = $cb(...$args);
+		}
+		return $callables;
+	}
+
+
+	/**
 	 * Invokes callback.
 	 * @return mixed
 	 * @deprecated
