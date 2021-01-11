@@ -280,7 +280,7 @@ class Arrays
 	 * Tests whether at least one element in the array passes the test implemented by the
 	 * provided callback with signature `function ($value, $key, array $array): bool`.
 	 */
-	public static function some(array $array, callable $callback): bool
+	public static function some(iterable $array, callable $callback): bool
 	{
 		foreach ($array as $k => $v) {
 			if ($callback($v, $k, $array)) {
@@ -295,7 +295,7 @@ class Arrays
 	 * Tests whether all elements in the array pass the test implemented by the provided function,
 	 * which has the signature `function ($value, $key, array $array): bool`.
 	 */
-	public static function every(array $array, callable $callback): bool
+	public static function every(iterable $array, callable $callback): bool
 	{
 		foreach ($array as $k => $v) {
 			if (!$callback($v, $k, $array)) {
@@ -310,7 +310,7 @@ class Arrays
 	 * Calls $callback on all elements in the array and returns the array of return values.
 	 * The callback has the signature `function ($value, $key, array $array): bool`.
 	 */
-	public static function map(array $array, callable $callback): array
+	public static function map(iterable $array, callable $callback): array
 	{
 		$res = [];
 		foreach ($array as $k => $v) {
@@ -325,7 +325,7 @@ class Arrays
 	 * @param  object  $object
 	 * @return object
 	 */
-	public static function toObject(array $array, $object)
+	public static function toObject(iterable $array, $object)
 	{
 		foreach ($array as $k => $v) {
 			$object->$k = $v;

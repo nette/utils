@@ -78,3 +78,14 @@ test('', function () {
 	Assert::true($res);
 	Assert::same([['a', 'x', $arr]], $log);
 });
+
+test('', function () {
+	$arr = new ArrayIterator(['x' => 'a', 'y' => 'b']);
+	$log = [];
+	$res = Arrays::some(
+		$arr,
+		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return $v === 'a'; }
+	);
+	Assert::true($res);
+	Assert::same([['a', 'x', $arr]], $log);
+});
