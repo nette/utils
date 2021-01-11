@@ -401,4 +401,19 @@ class Arrays
 	{
 		return key([$value => null]);
 	}
+
+
+	/**
+	 * Returns copy of the $array where every item is converted to string
+	 * and prefixed by $prefix and suffixed by $suffix.
+	 * @return string[]
+	 */
+	public static function wrap(array $array, string $prefix = '', string $suffix = ''): array
+	{
+		$res = [];
+		foreach ($array as $k => $v) {
+			$res[$k] = $prefix . $v . $suffix;
+		}
+		return $res;
+	}
 }
