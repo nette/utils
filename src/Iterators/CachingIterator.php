@@ -28,8 +28,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 {
 	use Nette\SmartObject;
 
-	/** @var int */
-	private $counter = 0;
+	private int $counter = 0;
 
 
 	public function __construct($iterator)
