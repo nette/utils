@@ -94,12 +94,11 @@ final class Reflection
 	}
 
 
-	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 * @return string|array|null
-	 */
-	private static function getType($reflection, ?\ReflectionType $type, bool $asArray = false)
-	{
+	private static function getType(
+		\ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty $reflection,
+		?\ReflectionType $type,
+		bool $asArray = false,
+	): string|array|null {
 		if ($type === null) {
 			return $asArray ? [] : null;
 
@@ -128,11 +127,10 @@ final class Reflection
 	}
 
 
-	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 */
-	private static function normalizeType(string $type, $reflection): string
-	{
+	private static function normalizeType(
+		string $type,
+		\ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty $reflection,
+	): string {
 		$lower = strtolower($type);
 		if ($reflection instanceof \ReflectionFunction) {
 			return $type;
@@ -148,10 +146,9 @@ final class Reflection
 
 	/**
 	 * Returns the default value of parameter. If it is a constant, it returns its value.
-	 * @return mixed
 	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
 	 */
-	public static function getParameterDefaultValue(\ReflectionParameter $param)
+	public static function getParameterDefaultValue(\ReflectionParameter $param): mixed
 	{
 		if ($param->isDefaultValueConstant()) {
 			$const = $orig = $param->getDefaultValueConstantName();
