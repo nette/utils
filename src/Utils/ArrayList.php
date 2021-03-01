@@ -63,10 +63,9 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	/**
 	 * Returns a item.
 	 * @param  int  $index
-	 * @return mixed
 	 * @throws Nette\OutOfRangeException
 	 */
-	public function offsetGet($index)
+	public function offsetGet($index): mixed
 	{
 		if (!is_int($index) || $index < 0 || $index >= count($this->list)) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
@@ -101,9 +100,8 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Prepends a item.
-	 * @param  mixed  $value
 	 */
-	public function prepend($value): void
+	public function prepend(mixed $value): void
 	{
 		$first = array_slice($this->list, 0, 1);
 		$this->offsetSet(0, $value);
