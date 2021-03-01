@@ -25,7 +25,7 @@ Assert::same(
 		'a' => 'second',
 		'd' => ['third'],
 		7 => 'fourth',
-	])
+	]),
 );
 
 
@@ -37,5 +37,5 @@ Assert::same(
 	Arrays::normalize([
 		1 => 'first',
 		'' => 'second',
-	], true)
+	], true),
 );
