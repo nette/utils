@@ -126,8 +126,7 @@ class Image
 
 	private const FORMATS = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::AVIF => 'avif', self::BMP => 'bmp'];
 
-	/** @var resource|\GdImage */
-	private $image;
+	private \GdImage $image;
 
 
 	/**
