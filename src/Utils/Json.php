@@ -29,10 +29,9 @@ final class Json
 	/**
 	 * Converts value to JSON format. The flag can be Json::PRETTY, which formats JSON for easier reading and clarity,
 	 * and Json::ESCAPE_UNICODE for ASCII output.
-	 * @param  mixed  $value
 	 * @throws JsonException
 	 */
-	public static function encode($value, int $flags = 0): string
+	public static function encode(mixed $value, int $flags = 0): string
 	{
 		$flags = ($flags & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
 			| JSON_UNESCAPED_SLASHES
@@ -49,10 +48,9 @@ final class Json
 
 	/**
 	 * Parses JSON to PHP value. The flag can be Json::FORCE_ARRAY, which forces an array instead of an object as the return value.
-	 * @return mixed
 	 * @throws JsonException
 	 */
-	public static function decode(string $json, int $flags = 0)
+	public static function decode(string $json, int $flags = 0): mixed
 	{
 		$forceArray = (bool) ($flags & self::FORCE_ARRAY);
 		$value = json_decode($json, $forceArray, 512, JSON_BIGINT_AS_STRING);

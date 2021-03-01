@@ -19,9 +19,8 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 {
 	/**
 	 * Transforms array to ArrayHash.
-	 * @return static
 	 */
-	public static function from(array $array, bool $recursive = true)
+	public static function from(array $array, bool $recursive = true): static
 	{
 		$obj = new static;
 		foreach ($array as $key => $value) {
@@ -68,9 +67,8 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Returns a item.
 	 * @param  string|int  $key
-	 * @return mixed
 	 */
-	public function offsetGet($key)
+	public function offsetGet($key): mixed
 	{
 		return $this->$key;
 	}
