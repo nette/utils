@@ -238,10 +238,9 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/** @var array<string, mixed>  element's attributes */
 	public $attrs = [];
 
-	/** @var bool  use XHTML syntax? */
-	public static $xhtml = false;
+	public static bool $xhtml = false;
 
-	/** @var array<string, int>  void elements */
+	/** void elements */
 	public static $emptyElements = [
 		'img' => 1, 'hr' => 1, 'br' => 1, 'input' => 1, 'meta' => 1, 'area' => 1, 'embed' => 1, 'keygen' => 1,
 		'source' => 1, 'base' => 1, 'col' => 1, 'link' => 1, 'param' => 1, 'basefont' => 1, 'frame' => 1,
@@ -251,11 +250,10 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/** @var array<int, HtmlStringable|string> nodes */
 	protected $children = [];
 
-	/** @var string  element's name */
-	private $name;
+	/** element's name */
+	private string $name = '';
 
-	/** @var bool  is element empty? */
-	private $isEmpty;
+	private bool $isEmpty = false;
 
 
 	/**
