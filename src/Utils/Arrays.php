@@ -136,7 +136,7 @@ class Arrays
 	 */
 	public static function insertBefore(array &$array, $key, array $inserted): void
 	{
-		$offset = (int) self::getKeyOffset($array, $key);
+		$offset = $key === null ? 0 : (int) self::getKeyOffset($array, $key);
 		$array = array_slice($array, 0, $offset, true)
 			+ $inserted
 			+ array_slice($array, $offset, count($array), true);
@@ -150,11 +150,12 @@ class Arrays
 	 */
 	public static function insertAfter(array &$array, $key, array $inserted): void
 	{
-		$offset = self::getKeyOffset($array, $key);
-		$offset = $offset === null ? count($array) : $offset + 1;
-		$array = array_slice($array, 0, $offset, true)
+		if ($key === null || ($offset = self::getKeyOffset($array, $key)) === null) {
+			$offset = count($array) - 1;
+		}
+		$array = array_slice($array, 0, $offset + 1, true)
 			+ $inserted
-			+ array_slice($array, $offset, count($array), true);
+			+ array_slice($array, $offset + 1, count($array), true);
 	}
 
 
