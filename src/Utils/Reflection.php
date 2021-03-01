@@ -81,7 +81,7 @@ final class Reflection
 	 */
 	public static function getPropertyType(\ReflectionProperty $prop): ?string
 	{
-		return self::getType($prop, PHP_VERSION_ID >= 70400 ? $prop->getType() : null);
+		return self::getType($prop, $prop->getType());
 	}
 
 
@@ -90,7 +90,7 @@ final class Reflection
 	 */
 	public static function getPropertyTypes(\ReflectionProperty $prop): array
 	{
-		return self::getType($prop, PHP_VERSION_ID >= 70400 ? $prop->getType() : null, true);
+		return self::getType($prop, $prop->getType(), true);
 	}
 
 
@@ -328,9 +328,7 @@ final class Reflection
 		$namespace = $class = $classLevel = $level = null;
 		$res = $uses = [];
 
-		$nameTokens = PHP_VERSION_ID < 80000
-			? [T_STRING, T_NS_SEPARATOR]
-			: [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED];
+		$nameTokens = [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED];
 
 		while ($token = current($tokens)) {
 			next($tokens);

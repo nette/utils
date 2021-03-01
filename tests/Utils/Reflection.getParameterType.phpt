@@ -16,8 +16,18 @@ require __DIR__ . '/../bootstrap.php';
 
 class A
 {
-	public function method(Undeclared $undeclared, B $b, array $array, callable $callable, self $self, $none, ?B $nullable)
-	{
+	public function method(
+		Undeclared $undeclared,
+		B $b,
+		array $array,
+		callable $callable,
+		self $self,
+		$none,
+		?B $nullable,
+		mixed $mixed,
+		array|self $union,
+		array|self|null $nullableUnion
+	) {
 	}
 }
 
@@ -38,6 +48,20 @@ Assert::same('callable', Reflection::getParameterType($params[3]));
 Assert::same('A', Reflection::getParameterType($params[4]));
 Assert::null(Reflection::getParameterType($params[5]));
 Assert::same('Test\B', Reflection::getParameterType($params[6]));
+Assert::same(['Test\B', 'null'], Reflection::getParameterTypes($params[6]));
+Assert::same('mixed', Reflection::getParameterType($params[7]));
+Assert::same(['mixed'], Reflection::getParameterTypes($params[7]));
+Assert::same(['A', 'array'], Reflection::getParameterTypes($params[8]));
+Assert::same(['A', 'array', 'null'], Reflection::getParameterTypes($params[9]));
+
+Assert::exception(function () use ($params) {
+	Reflection::getParameterType($params[8]);
+}, Nette\InvalidStateException::class, 'The $union in A::method() is not expected to have a union type.');
+
+Assert::exception(function () use ($params) {
+	Reflection::getParameterType($params[9]);
+}, Nette\InvalidStateException::class, 'The $nullableUnion in A::method() is not expected to have a union type.');
+
 
 $method = new ReflectionMethod('AExt', 'methodExt');
 $params = $method->getParameters();
