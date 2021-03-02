@@ -109,10 +109,6 @@ Assert::same('string', Reflection::getReturnType(new ReflectionMethod(A::class, 
 
 Assert::same('A', Reflection::getReturnType(new ReflectionMethod(A::class, 'nullableSelfType')));
 
-Assert::same(['A', 'array'], Reflection::getReturnTypes(new ReflectionMethod(A::class, 'unionType')));
-
-Assert::same(['A', 'array', 'null'], Reflection::getReturnTypes(new ReflectionMethod(A::class, 'nullableUnionType')));
-
 Assert::exception(function () {
 	Reflection::getReturnType(new ReflectionMethod(A::class, 'unionType'));
 }, Nette\InvalidStateException::class, 'The A::unionType() is not expected to have a union or intersection type.');
@@ -128,8 +124,6 @@ Assert::null(Reflection::getReturnType(new ReflectionFunction('noType')));
 Assert::same('Test\B', Reflection::getReturnType(new ReflectionFunction('classType')));
 
 Assert::same('string', Reflection::getReturnType(new ReflectionFunction('nativeType')));
-
-Assert::same(['A', 'array'], Reflection::getReturnTypes(new ReflectionFunction('unionType')));
 
 Assert::exception(function () {
 	Reflection::getReturnType(new ReflectionFunction('unionType'));
