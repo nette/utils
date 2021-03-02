@@ -26,12 +26,9 @@ use RecursiveIteratorIterator;
  *
  * @implements \IteratorAggregate<string, \SplFileInfo>
  */
-class Finder implements \IteratorAggregate, \Countable
+class Finder implements \IteratorAggregate
 {
 	use Nette\SmartObject;
-
-	/** @var callable[]  extension methods */
-	private static $extMethods = [];
 
 	/** @var array */
 	private $paths = [];
@@ -176,14 +173,6 @@ class Finder implements \IteratorAggregate, \Countable
 
 
 	/********************* iterator generator ****************d*g**/
-
-
-	/** @deprecated */
-	public function count(): int
-	{
-		trigger_error('Nette\Utils\Finder::count is deprecated.', E_USER_DEPRECATED);
-		return iterator_count($this->getIterator());
-	}
 
 
 	/**
@@ -372,25 +361,5 @@ class Finder implements \IteratorAggregate, \Countable
 			default:
 				throw new Nette\InvalidArgumentException("Unknown operator $operator.");
 		}
-	}
-
-
-	/********************* extension methods ****************d*g**/
-
-
-	/** @deprecated */
-	public function __call(string $name, array $args)
-	{
-		return isset(self::$extMethods[$name])
-			? (self::$extMethods[$name])($this, ...$args)
-			: Nette\Utils\ObjectHelpers::strictCall(static::class, $name, array_keys(self::$extMethods));
-	}
-
-
-	/** @deprecated */
-	public static function extensionMethod(string $name, callable $callback): void
-	{
-		trigger_error(__METHOD__ . '() is deprecated.', E_USER_DEPRECATED);
-		self::$extMethods[$name] = $callback;
 	}
 }

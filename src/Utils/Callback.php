@@ -21,47 +21,6 @@ final class Callback
 	use Nette\StaticClass;
 
 	/**
-	 * @param  string|object|callable  $callable  class, object, callable
-	 * @deprecated use Closure::fromCallable()
-	 */
-	public static function closure($callable, ?string $method = null): \Closure
-	{
-		trigger_error(__METHOD__ . '() is deprecated, use Closure::fromCallable().', E_USER_DEPRECATED);
-		try {
-			return \Closure::fromCallable($method === null ? $callable : [$callable, $method]);
-		} catch (\TypeError $e) {
-			throw new Nette\InvalidArgumentException($e->getMessage());
-		}
-	}
-
-
-	/**
-	 * Invokes callback.
-	 * @return mixed
-	 * @deprecated
-	 */
-	public static function invoke($callable, ...$args)
-	{
-		trigger_error(__METHOD__ . '() is deprecated, use native invoking.', E_USER_DEPRECATED);
-		self::check($callable);
-		return $callable(...$args);
-	}
-
-
-	/**
-	 * Invokes callback with an array of parameters.
-	 * @return mixed
-	 * @deprecated
-	 */
-	public static function invokeArgs($callable, array $args = [])
-	{
-		trigger_error(__METHOD__ . '() is deprecated, use native invoking.', E_USER_DEPRECATED);
-		self::check($callable);
-		return $callable(...$args);
-	}
-
-
-	/**
 	 * Invokes internal PHP function with own error handler.
 	 * @return mixed
 	 */
