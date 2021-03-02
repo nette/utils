@@ -48,11 +48,7 @@ Assert::same('callable', Reflection::getParameterType($params[3]));
 Assert::same('A', Reflection::getParameterType($params[4]));
 Assert::null(Reflection::getParameterType($params[5]));
 Assert::same('Test\B', Reflection::getParameterType($params[6]));
-Assert::same(['Test\B', 'null'], Reflection::getParameterTypes($params[6]));
 Assert::same('mixed', Reflection::getParameterType($params[7]));
-Assert::same(['mixed'], Reflection::getParameterTypes($params[7]));
-Assert::same(['A', 'array'], Reflection::getParameterTypes($params[8]));
-Assert::same(['A', 'array', 'null'], Reflection::getParameterTypes($params[9]));
 
 Assert::exception(function () use ($params) {
 	Reflection::getParameterType($params[8]);

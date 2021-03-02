@@ -49,18 +49,6 @@ final class Reflection
 
 
 	/**
-	 * Returns the types of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
-	 * @deprecated
-	 */
-	public static function getReturnTypes(\ReflectionFunctionAbstract $func): array
-	{
-		$type = $func->getReturnType() ?? (PHP_VERSION_ID >= 80100 ? $func->getTentativeReturnType() : null);
-		$type = self::getType($func, $type);
-		return $type ? $type->getTypes() : [];
-	}
-
-
-	/**
 	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
 	 * If the parameter does not have a type, it returns null.
 	 * If the parameter has union or intersection type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
@@ -73,17 +61,6 @@ final class Reflection
 
 
 	/**
-	 * Returns the types of given parameter and normalizes `self` and `parent` to the actual class names.
-	 * @deprecated
-	 */
-	public static function getParameterTypes(\ReflectionParameter $param): array
-	{
-		$type = self::getType($param, $param->getType());
-		return $type ? $type->getTypes() : [];
-	}
-
-
-	/**
 	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
 	 * If the property does not have a type, it returns null.
 	 * If the property has union or intersection type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
@@ -92,17 +69,6 @@ final class Reflection
 	public static function getPropertyType(\ReflectionProperty $prop, bool $asString = true)
 	{
 		return self::getType($prop, $prop->getType(), $asString);
-	}
-
-
-	/**
-	 * Returns the types of given property and normalizes `self` and `parent` to the actual class names.
-	 * @deprecated
-	 */
-	public static function getPropertyTypes(\ReflectionProperty $prop): array
-	{
-		$type = self::getType($prop, $prop->getType());
-		return $type ? $type->getTypes() : [];
 	}
 
 
