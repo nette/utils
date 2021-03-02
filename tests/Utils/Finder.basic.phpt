@@ -27,12 +27,6 @@ function export($iterator, bool $sort = true)
 }
 
 
-test('count the results', function () {
-	$finder = Finder::findFiles('file.txt')->in('fixtures.finder');
-	@Assert::count(1, $finder); // is deprecated
-});
-
-
 test('non-recursive file search', function () {
 	$finder = Finder::findFiles('file.txt')->in('fixtures.finder');
 	Assert::same(['fixtures.finder/file.txt'], export($finder));

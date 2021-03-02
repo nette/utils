@@ -51,16 +51,6 @@ final class Reflection
 
 
 	/**
-	 * @deprecated
-	 */
-	public static function getReturnTypes(\ReflectionFunctionAbstract $func): array
-	{
-		$type = Type::fromReflection($func);
-		return $type ? $type->getNames() : [];
-	}
-
-
-	/**
 	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
 	 * If the parameter does not have a type, it returns null.
 	 * If the parameter has union or intersection type, it throws Nette\InvalidStateException.
@@ -73,16 +63,6 @@ final class Reflection
 
 
 	/**
-	 * @deprecated
-	 */
-	public static function getParameterTypes(\ReflectionParameter $param): array
-	{
-		$type = Type::fromReflection($param);
-		return $type ? $type->getNames() : [];
-	}
-
-
-	/**
 	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
 	 * If the property does not have a type, it returns null.
 	 * If the property has union or intersection type, it throws Nette\InvalidStateException.
@@ -91,16 +71,6 @@ final class Reflection
 	public static function getPropertyType(\ReflectionProperty $prop): ?string
 	{
 		return self::getType($prop, $prop->getType());
-	}
-
-
-	/**
-	 * @deprecated
-	 */
-	public static function getPropertyTypes(\ReflectionProperty $prop): array
-	{
-		$type = Type::fromReflection($prop);
-		return $type ? $type->getNames() : [];
 	}
 
 
