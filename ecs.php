@@ -14,6 +14,8 @@ return function (Symfony\Component\DependencyInjection\Loader\Configurator\Conta
 	$parameters = $containerConfigurator->parameters();
 
 	$parameters->set('skip', [
+		'fixtures*/*',
+
 		// RemoteStream extends streamWrapper
 		PHP_CodeSniffer\Standards\PSR1\Sniffs\Methods\CamelCapsMethodNameSniff::class => [
 			'tests/Utils/FileSystem.phpt',
