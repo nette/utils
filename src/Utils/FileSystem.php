@@ -26,7 +26,7 @@ final class FileSystem
 	public static function createDir(string $dir, int $mode = 0777): void
 	{
 		if (!is_dir($dir) && !@mkdir($dir, $mode, true) && !is_dir($dir)) { // @ - dir may already exist
-			throw new Nette\IOException("Unable to create directory '$dir' with mode " . decoct($mode) . '. ' . Helpers::getLastError());
+			throw new Nette\IOException("Unable to create directory '" . self::normalizePath($dir) . "' with mode " . decoct($mode) . '. ' . Helpers::getLastError());
 		}
 	}
 
@@ -39,10 +39,10 @@ final class FileSystem
 	public static function copy(string $origin, string $target, bool $overwrite = true): void
 	{
 		if (stream_is_local($origin) && !file_exists($origin)) {
-			throw new Nette\IOException("File or directory '$origin' not found.");
+			throw new Nette\IOException("File or directory '" . self::normalizePath($origin) . "' not found.");
 
 		} elseif (!$overwrite && file_exists($target)) {
-			throw new Nette\InvalidStateException("File or directory '$target' already exists.");
+			throw new Nette\InvalidStateException("File or directory '" . self::normalizePath($target) . "' already exists.");
 
 		} elseif (is_dir($origin)) {
 			static::createDir($target);
@@ -64,7 +64,7 @@ final class FileSystem
 				&& ($d = @fopen($target, 'wb'))
 				&& @stream_copy_to_stream($s, $d) === false
 			) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to copy file '$origin' to '$target'. " . Helpers::getLastError());
+				throw new Nette\IOException("Unable to copy file '" . self::normalizePath($origin) . "' to '" . self::normalizePath($target) . "'. " . Helpers::getLastError());
 			}
 		}
 	}
@@ -79,7 +79,7 @@ final class FileSystem
 		if (is_file($path) || is_link($path)) {
 			$func = DIRECTORY_SEPARATOR === '\\' && is_dir($path) ? 'rmdir' : 'unlink';
 			if (!@$func($path)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to delete '$path'. " . Helpers::getLastError());
+				throw new Nette\IOException("Unable to delete '" . self::normalizePath($path) . "'. " . Helpers::getLastError());
 			}
 
 		} elseif (is_dir($path)) {
@@ -87,7 +87,7 @@ final class FileSystem
 				static::delete($item->getPathname());
 			}
 			if (!@rmdir($path)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to delete directory '$path'. " . Helpers::getLastError());
+				throw new Nette\IOException("Unable to delete directory '" . self::normalizePath($path) . "'. " . Helpers::getLastError());
 			}
 		}
 	}
@@ -101,10 +101,10 @@ final class FileSystem
 	public static function rename(string $origin, string $target, bool $overwrite = true): void
 	{
 		if (!$overwrite && file_exists($target)) {
-			throw new Nette\InvalidStateException("File or directory '$target' already exists.");
+			throw new Nette\InvalidStateException("File or directory '" . self::normalizePath($target) . "' already exists.");
 
 		} elseif (!file_exists($origin)) {
-			throw new Nette\IOException("File or directory '$origin' not found.");
+			throw new Nette\IOException("File or directory '" . self::normalizePath($origin) . "' not found.");
 
 		} else {
 			static::createDir(dirname($target));
@@ -112,7 +112,7 @@ final class FileSystem
 				static::delete($target);
 			}
 			if (!@rename($origin, $target)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to rename file or directory '$origin' to '$target'. " . Helpers::getLastError());
+				throw new Nette\IOException("Unable to rename file or directory '" . self::normalizePath($origin) . "' to '" . self::normalizePath($target) . "'. " . Helpers::getLastError());
 			}
 		}
 	}
@@ -126,7 +126,7 @@ final class FileSystem
 	{
 		$content = @file_get_contents($file); // @ is escalated to exception
 		if ($content === false) {
-			throw new Nette\IOException("Unable to read file '$file'. " . Helpers::getLastError());
+			throw new Nette\IOException("Unable to read file '" . self::normalizePath($file) . "'. " . Helpers::getLastError());
 		}
 		return $content;
 	}
@@ -140,10 +140,10 @@ final class FileSystem
 	{
 		static::createDir(dirname($file));
 		if (@file_put_contents($file, $content) === false) { // @ is escalated to exception
-			throw new Nette\IOException("Unable to write file '$file'. " . Helpers::getLastError());
+			throw new Nette\IOException("Unable to write file '" . self::normalizePath($file) . "'. " . Helpers::getLastError());
 		}
 		if ($mode !== null && !@chmod($file, $mode)) { // @ is escalated to exception
-			throw new Nette\IOException("Unable to chmod file '$file' to mode " . decoct($mode) . '. ' . Helpers::getLastError());
+			throw new Nette\IOException("Unable to chmod file '" . self::normalizePath($file) . "' to mode " . decoct($mode) . '. ' . Helpers::getLastError());
 		}
 	}
 
