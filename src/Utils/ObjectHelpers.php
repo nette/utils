@@ -47,27 +47,59 @@ final class ObjectHelpers
 	/** @throws MemberAccessException */
 	public static function strictCall(string $class, string $method, array $additionalMethods = []): void
 	{
-		$hint = self::getSuggestion(array_merge(
-			get_class_methods($class),
-			self::parseFullDoc(new \ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:\S+[ \t]+)??(\w+)\(~m'),
-			$additionalMethods
-		), $method);
+		$trace = debug_backtrace(0, 3); // suppose this method is called from __call()
+		$context = ($trace[1]['function'] ?? null) === '__call'
+			? ($trace[2]['class'] ?? null)
+			: null;
 
-		if (method_exists($class, $method)) { // called parent::$method()
-			$class = 'parent';
+		if ($context && is_a($class, $context, true) && method_exists($context, $method)) { // called parent::$method()
+			$class = get_parent_class($context);
 		}
-		throw new MemberAccessException("Call to undefined method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
+
+		if (method_exists($class, $method)) { // insufficient visibility
+			$rm = new \ReflectionMethod($class, $method);
+			$visibility = $rm->isPrivate()
+				? 'private '
+				: ($rm->isProtected() ? 'protected ' : '');
+			throw new MemberAccessException("Call to {$visibility}method $class::$method() from " . ($context ? "scope $context." : 'global scope.'));
+
+		} else {
+			$hint = self::getSuggestion(array_merge(
+				get_class_methods($class),
+				self::parseFullDoc(new \ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:\S+[ \t]+)??(\w+)\(~m'),
+				$additionalMethods
+			), $method);
+			throw new MemberAccessException("Call to undefined method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
+		}
 	}
 
 
 	/** @throws MemberAccessException */
 	public static function strictStaticCall(string $class, string $method): void
 	{
-		$hint = self::getSuggestion(
-			array_filter((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), function ($m) { return $m->isStatic(); }),
-			$method
-		);
-		throw new MemberAccessException("Call to undefined static method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
+		$trace = debug_backtrace(0, 3); // suppose this method is called from __callStatic()
+		$context = ($trace[1]['function'] ?? null) === '__callStatic'
+			? ($trace[2]['class'] ?? null)
+			: null;
+
+		if ($context && is_a($class, $context, true) && method_exists($context, $method)) { // called parent::$method()
+			$class = get_parent_class($context);
+		}
+
+		if (method_exists($class, $method)) { // insufficient visibility
+			$rm = new \ReflectionMethod($class, $method);
+			$visibility = $rm->isPrivate()
+				? 'private '
+				: ($rm->isProtected() ? 'protected ' : '');
+			throw new MemberAccessException("Call to {$visibility}method $class::$method() from " . ($context ? "scope $context." : 'global scope.'));
+
+		} else {
+			$hint = self::getSuggestion(
+				array_filter((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC), function ($m) { return $m->isStatic(); }),
+				$method
+			);
+			throw new MemberAccessException("Call to undefined static method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
+		}
 	}
 
 

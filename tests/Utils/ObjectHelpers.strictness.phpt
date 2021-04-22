@@ -62,7 +62,7 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	ObjectHelpers::strictCall('TestChild', 'callParent');
-}, MemberAccessException::class, 'Call to undefined method parent::callParent().');
+}, MemberAccessException::class, 'Call to method TestChild::callParent() from global scope.');
 
 Assert::exception(function () {
 	ObjectHelpers::strictCall('TestClass', 'publicMethodX');
