@@ -22,4 +22,4 @@ interface Translator
 }
 
 
-interface_exists(Nette\Localization\ITranslator::class);
+interface_exists(\Nette\Localization\ITranslator::class);
