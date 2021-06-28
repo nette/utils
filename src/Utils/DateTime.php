@@ -108,6 +108,15 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 
 	/**
+	 * Returns new DateTime object with current datetime.
+	 */
+	public static function now(): static
+	{
+		return static::from('now');
+	}
+
+
+	/**
 	 * Returns JSON representation in ISO 8601 (used by JavaScript).
 	 */
 	public function jsonSerialize(): string
