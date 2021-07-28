@@ -425,7 +425,7 @@ class Strings
 
 
 	/**
-	 * Returns position in bytes of $nth occurence of $needle in $haystack or null if the $needle was not found.
+	 * Returns position in characters of $nth occurence of $needle in $haystack or null if the $needle was not found.
 	 * Negative value of `$nth` means searching from the end.
 	 */
 	public static function indexOf(string $haystack, string $needle, int $nth = 1): ?int
@@ -438,7 +438,7 @@ class Strings
 
 
 	/**
-	 * Returns position in bytes of $nth occurence of $needle in $haystack or null if the needle was not found.
+	 * Returns position in characters of $nth occurence of $needle in $haystack or null if the needle was not found.
 	 */
 	private static function pos(string $haystack, string $needle, int $nth = 1): ?int
 	{
