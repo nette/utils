@@ -815,14 +815,14 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 				$value = (string) $value;
 			}
 
-			$q = strpos($value, '"') === false ? '"' : "'";
+			$q = str_contains($value, '"') ? "'" : '"';
 			$s .= ' ' . $key . '=' . $q
 				. str_replace(
 					['&', $q, '<'],
 					['&amp;', $q === '"' ? '&quot;' : '&#39;', self::$xhtml ? '&lt;' : '<'],
 					$value,
 				)
-				. (strpos($value, '`') !== false && strpbrk($value, ' <>"\'') === false ? ' ' : '')
+				. (str_contains($value, '`') && strpbrk($value, ' <>"\'') === false ? ' ' : '')
 				. $q;
 		}
 
