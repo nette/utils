@@ -710,7 +710,7 @@ class Image
 
 	private static function isPercent(int|string &$num): bool
 	{
-		if (is_string($num) && substr($num, -1) === '%') {
+		if (is_string($num) && str_ends_with($num, '%')) {
 			$num = (float) substr($num, 0, -1);
 			return true;
 		} elseif (is_int($num) || $num === (string) (int) $num) {
