@@ -91,7 +91,7 @@ final class Callback
 			$callable = self::unwrap($callable);
 		}
 
-		if (is_string($callable) && strpos($callable, '::')) {
+		if (is_string($callable) && str_contains($callable, '::')) {
 			return new \ReflectionMethod($callable);
 		} elseif (is_array($callable)) {
 			return new \ReflectionMethod($callable[0], $callable[1]);
@@ -118,7 +118,7 @@ final class Callback
 	public static function unwrap(\Closure $closure): \Closure|array|string
 	{
 		$r = new \ReflectionFunction($closure);
-		if (substr($r->name, -1) === '}') {
+		if (str_ends_with($r->name, '}')) {
 			return $closure;
 
 		} elseif ($obj = $r->getClosureThis()) {
