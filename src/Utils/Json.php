@@ -51,7 +51,7 @@ final class Json
 	 */
 	public static function decode(string $json, int $flags = 0): mixed
 	{
-		$value = json_decode($json, null, 512, $flags | JSON_BIGINT_AS_STRING);
+		$value = json_decode($json, flags: $flags | JSON_BIGINT_AS_STRING);
 		if ($error = json_last_error()) {
 			throw new JsonException(json_last_error_msg(), $error);
 		}
