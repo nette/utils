@@ -82,7 +82,10 @@ final class FileSystem
 		if (is_file($path) || is_link($path)) {
 			$func = DIRECTORY_SEPARATOR === '\\' && is_dir($path) ? 'rmdir' : 'unlink';
 			if (!@$func($path)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to delete '$path'. " . Helpers::getLastError());
+				clearstatcache(true);
+				if (is_file($path) || is_link($path)) {
+					throw new Nette\IOException("Unable to delete '$path'. " . Helpers::getLastError());
+				}
 			}
 
 		} elseif (is_dir($path)) {
@@ -90,7 +93,10 @@ final class FileSystem
 				static::delete($item->getPathname());
 			}
 			if (!@rmdir($path)) { // @ is escalated to exception
-				throw new Nette\IOException("Unable to delete directory '$path'. " . Helpers::getLastError());
+				clearstatcache(true);
+				if (is_dir($path)) {
+					throw new Nette\IOException("Unable to delete directory '$path'. " . Helpers::getLastError());
+				}
 			}
 		}
 	}
