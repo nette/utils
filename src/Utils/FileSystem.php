@@ -25,11 +25,9 @@ final class FileSystem
 	 */
 	public static function createDir(string $dir, int $mode = 0777): void
 	{
-		if (!is_dir($dir) && !@mkdir($dir, $mode, true)) { // @ - dir may already exist
-			clearstatcache(true, $dir);
-			if (!is_dir($dir)) {
-				throw new Nette\IOException("Unable to create directory '$dir' with mode " . decoct($mode) . '. ' . Helpers::getLastError());
-			}
+		// @ - dir may already exist
+		if (!is_dir($dir) && !@mkdir($dir, $mode, true) && !is_dir($dir) && ($lastError = Helpers::getLastError()) !== 'File exists') {
+			throw new Nette\IOException("Unable to create directory '$dir' with mode " . decoct($mode) . '. ' . $lastError);
 		}
 	}
 
