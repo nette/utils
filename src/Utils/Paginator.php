@@ -18,6 +18,8 @@ use Nette;
  * @property   int $page
  * @property-read int $firstPage
  * @property-read int|null $lastPage
+ * @property-read int $firstItemOnPage
+ * @property-read int $lastItemOnPage
  * @property   int $base
  * @property-read bool $first
  * @property-read bool $last
@@ -82,6 +84,26 @@ class Paginator
 		return $this->itemCount === null
 			? null
 			: $this->base + max(0, $this->getPageCount() - 1);
+	}
+
+
+	/**
+	 * Returns the sequence number of the first element on the page
+	 */
+	public function getFirstItemOnPage(): int
+	{
+		return $this->itemCount !== 0
+			? $this->offset + 1
+			: 0;
+	}
+
+
+	/**
+	 * Returns the sequence number of the last element on the page
+	 */
+	public function getLastItemOnPage(): int
+	{
+		return $this->offset + $this->length;
 	}
 
 
