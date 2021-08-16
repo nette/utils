@@ -81,7 +81,7 @@ final class Reflection
 	 */
 	public static function getPropertyType(\ReflectionProperty $prop): ?string
 	{
-		return self::getType($prop, PHP_VERSION_ID >= 70400 ? $prop->getType() : null);
+		return self::getType($prop, $prop->getType());
 	}
 
 
@@ -90,16 +90,15 @@ final class Reflection
 	 */
 	public static function getPropertyTypes(\ReflectionProperty $prop): array
 	{
-		return self::getType($prop, PHP_VERSION_ID >= 70400 ? $prop->getType() : null, true);
+		return self::getType($prop, $prop->getType(), true);
 	}
 
 
-	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 * @return string|array|null
-	 */
-	private static function getType($reflection, ?\ReflectionType $type, bool $asArray = false)
-	{
+	private static function getType(
+		\ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty $reflection,
+		?\ReflectionType $type,
+		bool $asArray = false,
+	): string|array|null {
 		if ($type === null) {
 			return $asArray ? [] : null;
 
@@ -128,11 +127,10 @@ final class Reflection
 	}
 
 
-	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 */
-	private static function normalizeType(string $type, $reflection): string
-	{
+	private static function normalizeType(
+		string $type,
+		\ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty $reflection,
+	): string {
 		$lower = strtolower($type);
 		if ($reflection instanceof \ReflectionFunction) {
 			return $type;
@@ -148,10 +146,9 @@ final class Reflection
 
 	/**
 	 * Returns the default value of parameter. If it is a constant, it returns its value.
-	 * @return mixed
 	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
 	 */
-	public static function getParameterDefaultValue(\ReflectionParameter $param)
+	public static function getParameterDefaultValue(\ReflectionParameter $param): mixed
 	{
 		if ($param->isDefaultValueConstant()) {
 			$const = $orig = $param->getDefaultValueConstantName();
@@ -328,9 +325,7 @@ final class Reflection
 		$namespace = $class = $classLevel = $level = null;
 		$res = $uses = [];
 
-		$nameTokens = PHP_VERSION_ID < 80000
-			? [T_STRING, T_NS_SEPARATOR]
-			: [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED];
+		$nameTokens = [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED];
 
 		while ($token = current($tokens)) {
 			next($tokens);

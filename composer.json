@@ -15,11 +15,11 @@
 		}
 	],
 	"require": {
-		"php": ">=7.2 <8.1"
+		"php": ">=8.0 <8.1"
 	},
 	"require-dev": {
-		"nette/tester": "~2.0",
-		"tracy/tracy": "^2.3",
+		"nette/tester": "^2.4",
+		"tracy/tracy": "^2.8",
 		"phpstan/phpstan": "^0.12"
 	},
 	"conflict": {
@@ -44,7 +44,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "3.2-dev"
+			"dev-master": "4.0-dev"
 		}
 	}
 }

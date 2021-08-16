@@ -37,10 +37,10 @@ test('First item', function () use ($arr) {
 	Arrays::insertAfter($dolly, null, ['new' => 'value']);
 	Assert::same([
 		'' => 'first',
-		'new' => 'value',
 		0 => 'second',
 		1 => 'third',
 		7 => 'fourth',
+		'new' => 'value',
 	], $dolly);
 });
 

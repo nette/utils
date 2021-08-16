@@ -32,6 +32,11 @@ namespace NS
 		}
 
 
+		public function staticType(): static
+		{
+		}
+
+
 		public function nullableClassType(): ?B
 		{
 		}
@@ -43,6 +48,16 @@ namespace NS
 
 
 		public function nullableSelfType(): ?self
+		{
+		}
+
+
+		public function unionType(): array|self
+		{
+		}
+
+
+		public function nullableUnionType(): array|self|null
 		{
 		}
 	}
@@ -68,6 +83,11 @@ namespace NS
 	function nativeType(): String
 	{
 	}
+
+
+	function unionType(): array|A
+	{
+	}
 }
 
 namespace
@@ -86,11 +106,25 @@ namespace
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'selfType')));
 
+	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'staticType')));
+
 	Assert::same('Test\B', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableClassType')));
 
 	Assert::same('string', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableNativeType')));
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableSelfType')));
+
+	Assert::same(['NS\A', 'array'], Reflection::getReturnTypes(new \ReflectionMethod(NS\A::class, 'unionType')));
+
+	Assert::same(['NS\A', 'array', 'null'], Reflection::getReturnTypes(new \ReflectionMethod(NS\A::class, 'nullableUnionType')));
+
+	Assert::exception(function () {
+		Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'unionType'));
+	}, Nette\InvalidStateException::class, 'The NS\A::unionType() is not expected to have a union type.');
+
+	Assert::exception(function () {
+		Reflection::getReturnType(new \ReflectionMethod(NS\A::class, 'nullableUnionType'));
+	}, Nette\InvalidStateException::class, 'The NS\A::nullableUnionType() is not expected to have a union type.');
 
 	Assert::same('NS\A', Reflection::getReturnType(new \ReflectionMethod(NS\AExt::class, 'parentTypeExt')));
 
@@ -100,4 +134,9 @@ namespace
 
 	Assert::same('string', Reflection::getReturnType(new \ReflectionFunction('NS\nativeType')));
 
+	Assert::same(['NS\A', 'array'], Reflection::getReturnTypes(new \ReflectionFunction('NS\unionType')));
+
+	Assert::exception(function () {
+		Reflection::getReturnType(new \ReflectionFunction('NS\unionType'));
+	}, Nette\InvalidStateException::class, 'The NS\unionType() is not expected to have a union type.');
 }
