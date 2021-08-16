@@ -36,5 +36,10 @@ return function (Symfony\Component\DependencyInjection\Loader\Configurator\Conta
 			'src/Utils/Html.php',
 			'src/Utils/Strings.php',
 		],
+
+		// bug in SlevomatCodingStandard
+		'SlevomatCodingStandard\Sniffs\Operators\RequireCombinedAssignmentOperatorSniff.RequiredCombinedAssigmentOperator' => [
+			'src/Utils/Html.php',
+		],
 	]);
 };
