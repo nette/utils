@@ -98,7 +98,7 @@ class Validators
 			if (is_int($value) || is_float($value) || (is_string($value) && strlen($value) < 40)) {
 				$type .= ' ' . var_export($value, true);
 			} elseif (is_object($value)) {
-				$type .= ' ' . get_class($value);
+				$type .= ' ' . $value::class;
 			}
 			throw new AssertionException("The $label expects to be $expected, $type given.");
 		}
@@ -131,12 +131,12 @@ class Validators
 	public static function is(mixed $value, string $expected): bool
 	{
 		foreach (explode('|', $expected) as $item) {
-			if (substr($item, -2) === '[]') {
+			if (str_ends_with($item, '[]')) {
 				if (is_iterable($value) && self::everyIs($value, substr($item, 0, -2))) {
 					return true;
 				}
 				continue;
-			} elseif (substr($item, 0, 1) === '?') {
+			} elseif (str_starts_with($item, '?')) {
 				$item = substr($item, 1);
 				if ($value === null) {
 					return true;

@@ -62,7 +62,7 @@ class Strings
 	 */
 	public static function startsWith(string $haystack, string $needle): bool
 	{
-		return strncmp($haystack, $needle, strlen($needle)) === 0;
+		return str_starts_with($haystack, $needle);
 	}
 
 
@@ -71,7 +71,7 @@ class Strings
 	 */
 	public static function endsWith(string $haystack, string $needle): bool
 	{
-		return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
+		return str_ends_with($haystack, $needle);
 	}
 
 
@@ -80,7 +80,7 @@ class Strings
 	 */
 	public static function contains(string $haystack, string $needle): bool
 	{
-		return strpos($haystack, $needle) !== false;
+		return str_contains($haystack, $needle);
 	}
 
 
@@ -425,7 +425,7 @@ class Strings
 
 
 	/**
-	 * Returns position in bytes of $nth occurence of $needle in $haystack or null if the $needle was not found.
+	 * Returns position in characters of $nth occurence of $needle in $haystack or null if the $needle was not found.
 	 * Negative value of `$nth` means searching from the end.
 	 */
 	public static function indexOf(string $haystack, string $needle, int $nth = 1): ?int
@@ -438,7 +438,7 @@ class Strings
 
 
 	/**
-	 * Returns position in bytes of $nth occurence of $needle in $haystack or null if the needle was not found.
+	 * Returns position in characters of $nth occurence of $needle in $haystack or null if the needle was not found.
 	 */
 	private static function pos(string $haystack, string $needle, int $nth = 1): ?int
 	{
