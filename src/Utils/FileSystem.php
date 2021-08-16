@@ -149,6 +149,29 @@ final class FileSystem
 
 
 	/**
+	 * Fixes permissions to a specific file or directory. Directories can be fixed recursively.
+	 * @throws Nette\IOException  on error occurred
+	 */
+	public static function makeWritable(string $path, int $dirMode = 0777, int $fileMode = 0666): void
+	{
+		if (is_file($path)) {
+			if (!@chmod($path, $fileMode)) { // @ is escalated to exception
+				throw new Nette\IOException("Unable to chmod file '$path' to mode " . decoct($fileMode) . '. ' . Helpers::getLastError());
+			}
+		} elseif (is_dir($path)) {
+			foreach (new \FilesystemIterator($path) as $item) {
+				static::makeWritable($item->getPathname(), $dirMode, $fileMode);
+			}
+			if (!@chmod($path, $dirMode)) { // @ is escalated to exception
+				throw new Nette\IOException("Unable to chmod directory '$path' to mode " . decoct($dirMode) . '. ' . Helpers::getLastError());
+			}
+		} else {
+			throw new Nette\IOException("File or directory '$path' not found.");
+		}
+	}
+
+
+	/**
 	 * Determines if the path is absolute.
 	 */
 	public static function isAbsolute(string $path): bool
