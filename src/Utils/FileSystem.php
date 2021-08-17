@@ -27,6 +27,7 @@ final class FileSystem
 	{
 		if (!is_dir($dir) && !@mkdir($dir, $mode, true)) { // @ - dir may already exist
 			clearstatcache(true);
+			usleep(1000);
 			if (!is_dir($dir)) {
 				throw new Nette\IOException("Unable to create directory '$dir' with mode " . decoct($mode) . '. ' . Helpers::getLastError());
 			}
