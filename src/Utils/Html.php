@@ -664,6 +664,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 * @param  int  $index
 	 * @return static|string
 	 */
+	#[\ReturnTypeWillChange]
 	final public function offsetGet($index)
 	{
 		return $this->children[$index];
