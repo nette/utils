@@ -128,7 +128,9 @@ Assert::exception(
 	Nette\MemberAccessException::class,
 	PHP_VERSION_ID < 70400
 		? 'Call to private method InterClass::callPrivateParent() from scope ChildClass.'
-		: 'Call to undefined static method InterClass::callPrivateParent().'
+		: (PHP_VERSION_ID < 80100
+			? 'Call to undefined static method InterClass::callPrivateParent().' // differs from native error message
+			: 'Call to undefined method InterClass::callPrivateParent().')
 );
 
 Assert::exception(function () {
