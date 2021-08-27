@@ -292,7 +292,7 @@ final class Reflection
 	private static function parseUseStatements(string $code, string $forClass = null): array
 	{
 		try {
-			$tokens = token_get_all($code, TOKEN_PARSE);
+			$tokens = \PhpToken::tokenize($code, TOKEN_PARSE);
 		} catch (\ParseError $e) {
 			trigger_error($e->getMessage(), E_USER_NOTICE);
 			$tokens = [];
@@ -304,7 +304,7 @@ final class Reflection
 
 		while ($token = current($tokens)) {
 			next($tokens);
-			switch (is_array($token) ? $token[0] : $token) {
+			switch ($token->id) {
 				case T_NAMESPACE:
 					$namespace = ltrim(self::fetch($tokens, $nameTokens) . '\\', '\\');
 					$uses = [];
@@ -357,11 +357,11 @@ final class Reflection
 
 				case T_CURLY_OPEN:
 				case T_DOLLAR_OPEN_CURLY_BRACES:
-				case '{':
+				case ord('{'):
 					$level++;
 					break;
 
-				case '}':
+				case ord('}'):
 					if ($level === $classLevel) {
 						$class = $classLevel = null;
 					}
@@ -377,10 +377,9 @@ final class Reflection
 	{
 		$res = null;
 		while ($token = current($tokens)) {
-			[$token, $s] = is_array($token) ? $token : [$token, $token];
-			if (in_array($token, (array) $take, true)) {
-				$res .= $s;
-			} elseif (!in_array($token, [T_DOC_COMMENT, T_WHITESPACE, T_COMMENT], true)) {
+			if ($token->is($take)) {
+				$res .= $token->text;
+			} elseif (!$token->is([T_DOC_COMMENT, T_WHITESPACE, T_COMMENT])) {
 				break;
 			}
 			next($tokens);
