@@ -43,7 +43,8 @@ final class Reflection
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func, bool $asString = true)
 	{
-		return self::getType($func, $func->getReturnType(), $asString);
+		$type = $func->getReturnType() ?? (PHP_VERSION_ID >= 80100 ? $func->getTentativeReturnType() : null);
+		return self::getType($func, $type, $asString);
 	}
 
 
@@ -53,7 +54,8 @@ final class Reflection
 	 */
 	public static function getReturnTypes(\ReflectionFunctionAbstract $func): array
 	{
-		$type = self::getType($func, $func->getReturnType());
+		$type = $func->getReturnType() ?? (PHP_VERSION_ID >= 80100 ? $func->getTentativeReturnType() : null);
+		$type = self::getType($func, $type);
 		return $type ? $type->getTypes() : [];
 	}
 

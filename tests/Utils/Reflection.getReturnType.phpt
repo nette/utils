@@ -94,3 +94,9 @@ Assert::null(Reflection::getReturnType(new \ReflectionFunction('noType')));
 Assert::same('Test\B', Reflection::getReturnType(new \ReflectionFunction('classType')));
 
 Assert::same('string', Reflection::getReturnType(new \ReflectionFunction('nativeType')));
+
+if (PHP_VERSION_ID >= 80100) {
+	Assert::same('int', Reflection::getReturnType(new \ReflectionMethod(\ArrayObject::class, 'count')));
+
+	Assert::same(['int'], Reflection::getReturnTypes(new \ReflectionMethod(\ArrayObject::class, 'count')));
+}
