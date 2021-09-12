@@ -50,7 +50,8 @@ final class Reflection
 	 */
 	public static function getReturnTypes(\ReflectionFunctionAbstract $func): array
 	{
-		return self::getType($func, $func->getReturnType(), true);
+		$type = Type::fromReflection($func);
+		return $type ? $type->getNames() : [];
 	}
 
 
@@ -70,7 +71,8 @@ final class Reflection
 	 */
 	public static function getParameterTypes(\ReflectionParameter $param): array
 	{
-		return self::getType($param, $param->getType(), true);
+		$type = Type::fromReflection($param);
+		return $type ? $type->getNames() : [];
 	}
 
 
@@ -90,58 +92,27 @@ final class Reflection
 	 */
 	public static function getPropertyTypes(\ReflectionProperty $prop): array
 	{
-		return self::getType($prop, PHP_VERSION_ID >= 70400 ? $prop->getType() : null, true);
+		$type = Type::fromReflection($prop);
+		return $type ? $type->getNames() : [];
 	}
 
 
 	/**
 	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 * @return string|array|null
 	 */
-	private static function getType($reflection, ?\ReflectionType $type, bool $asArray = false)
+	private static function getType($reflection, ?\ReflectionType $type): ?string
 	{
 		if ($type === null) {
-			return $asArray ? [] : null;
+			return null;
 
 		} elseif ($type instanceof \ReflectionNamedType) {
-			$name = self::normalizeType($type->getName(), $reflection);
-			if ($asArray) {
-				return $type->allowsNull() && $type->getName() !== 'mixed'
-					? [$name, 'null']
-					: [$name];
-			}
-			return $name;
+			return Type::resolve($type->getName(), $reflection);
 
 		} elseif ($type instanceof \ReflectionUnionType) {
-			if ($asArray) {
-				$types = [];
-				foreach ($type->getTypes() as $type) {
-					$types[] = self::normalizeType($type->getName(), $reflection);
-				}
-				return $types;
-			}
 			throw new Nette\InvalidStateException('The ' . self::toString($reflection) . ' is not expected to have a union type.');
 
 		} else {
 			throw new Nette\InvalidStateException('Unexpected type of ' . self::toString($reflection));
-		}
-	}
-
-
-	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 */
-	private static function normalizeType(string $type, $reflection): string
-	{
-		$lower = strtolower($type);
-		if ($reflection instanceof \ReflectionFunction) {
-			return $type;
-		} elseif ($lower === 'self' || $lower === 'static') {
-			return $reflection->getDeclaringClass()->name;
-		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
-			return $reflection->getDeclaringClass()->getParentClass()->name;
-		} else {
-			return $type;
 		}
 	}
 
@@ -157,7 +128,7 @@ final class Reflection
 			$const = $orig = $param->getDefaultValueConstantName();
 			$pair = explode('::', $const);
 			if (isset($pair[1])) {
-				$pair[0] = self::normalizeType($pair[0], $param);
+				$pair[0] = Type::resolve($pair[0], $param);
 				try {
 					$rcc = new \ReflectionClassConstant($pair[0], $pair[1]);
 				} catch (\ReflectionException $e) {
