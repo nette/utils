@@ -63,6 +63,12 @@ Assert::exception(function () use ($params) {
 	Reflection::getParameterType($params[9]);
 }, Nette\InvalidStateException::class, 'The $nullableUnion in A::method() is not expected to have a union type.');
 
+$rt = Reflection::getParameterType($params[8], false);
+Assert::same(['A', 'array'], $rt->getTypes());
+
+$rt = Reflection::getParameterType($params[9], false);
+Assert::same(['A', 'array', 'null'], $rt->getTypes());
+
 
 $method = new ReflectionMethod('AExt', 'methodExt');
 $params = $method->getParameters();

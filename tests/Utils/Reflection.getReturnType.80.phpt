@@ -95,8 +95,13 @@ function unionType(): array|A
 
 
 Assert::null(Reflection::getReturnType(new \ReflectionMethod(A::class, 'noType')));
+Assert::null(Reflection::getReturnType(new \ReflectionMethod(A::class, 'noType'), true));
 
 Assert::same('Test\B', Reflection::getReturnType(new \ReflectionMethod(A::class, 'classType')));
+
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'classType'), false);
+Assert::same(['Test\B'], $rt->getTypes());
+Assert::same('Test\B', (string) $rt);
 
 Assert::same('string', Reflection::getReturnType(new \ReflectionMethod(A::class, 'nativeType')));
 
@@ -105,6 +110,10 @@ Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(A::class, 'sel
 Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(A::class, 'staticType')));
 
 Assert::same('Test\B', Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableClassType')));
+
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableClassType'), false);
+Assert::same(['Test\B', 'null'], $rt->getTypes());
+Assert::same('?Test\B', (string) $rt);
 
 Assert::same('string', Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableNativeType')));
 
@@ -122,6 +131,14 @@ Assert::exception(function () {
 	Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableUnionType'));
 }, Nette\InvalidStateException::class, 'The A::nullableUnionType() is not expected to have a union type.');
 
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'unionType'), false);
+Assert::same(['A', 'array'], $rt->getTypes());
+Assert::same('A|array', (string) $rt);
+
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableUnionType'), false);
+Assert::same(['A', 'array', 'null'], $rt->getTypes());
+Assert::same('A|array|null', (string) $rt);
+
 Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(AExt::class, 'parentTypeExt')));
 
 Assert::null(Reflection::getReturnType(new \ReflectionFunction('noType')));
@@ -135,3 +152,7 @@ Assert::same(['A', 'array'], Reflection::getReturnTypes(new \ReflectionFunction(
 Assert::exception(function () {
 	Reflection::getReturnType(new \ReflectionFunction('unionType'));
 }, Nette\InvalidStateException::class, 'The unionType() is not expected to have a union type.');
+
+$rt = Reflection::getReturnType(new \ReflectionFunction('unionType'), false);
+Assert::same(['A', 'array'], $rt->getTypes());
+Assert::same('A|array', (string) $rt);

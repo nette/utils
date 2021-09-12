@@ -56,6 +56,12 @@ Assert::exception(function () use ($props) {
 	Reflection::getPropertyType($props[8]);
 }, Nette\InvalidStateException::class, 'The A::$nullableUnion is not expected to have a union type.');
 
+$rt = Reflection::getPropertyType($props[7], false);
+Assert::same(['A', 'array'], $rt->getTypes());
+
+$rt = Reflection::getPropertyType($props[8], false);
+Assert::same(['A', 'array', 'null'], $rt->getTypes());
+
 $class = new ReflectionClass('AExt');
 $props = $class->getProperties();
 
