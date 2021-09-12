@@ -712,6 +712,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 
 	/**
 	 * Iterates over elements.
+	 * @return \ArrayIterator<int, static|string>
 	 */
 	final public function getIterator(): \ArrayIterator
 	{
