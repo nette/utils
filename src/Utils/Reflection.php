@@ -47,6 +47,7 @@ final class Reflection
 
 	/**
 	 * Returns the types of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
+	 * @deprecated
 	 */
 	public static function getReturnTypes(\ReflectionFunctionAbstract $func): array
 	{
@@ -67,6 +68,7 @@ final class Reflection
 
 	/**
 	 * Returns the types of given parameter and normalizes `self` and `parent` to the actual class names.
+	 * @deprecated
 	 */
 	public static function getParameterTypes(\ReflectionParameter $param): array
 	{
@@ -87,6 +89,7 @@ final class Reflection
 
 	/**
 	 * Returns the types of given property and normalizes `self` and `parent` to the actual class names.
+	 * @deprecated
 	 */
 	public static function getPropertyTypes(\ReflectionProperty $prop): array
 	{
