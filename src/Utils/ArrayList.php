@@ -24,6 +24,21 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 
 	/**
+	 * Transforms array to ArrayList.
+	 * @return static
+	 */
+	public static function from(array $array)
+	{
+		if (!Arrays::isList($array)) {
+			throw new Nette\InvalidArgumentException('Array is not valid list.');
+		}
+		$obj = new static;
+		$obj->list = $array;
+		return $obj;
+	}
+
+
+	/**
 	 * Returns an iterator over all items.
 	 */
 	public function getIterator(): \ArrayIterator
