@@ -2,7 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getReturnType
- * @phpversion 8.0
+ * @phpversion 8.1
  */
 
 declare(strict_types=1);
@@ -64,6 +64,11 @@ class A
 	public function nullableUnionType(): array|self|null
 	{
 	}
+
+
+	public function intersectionType(): AExt&A
+	{
+	}
 }
 
 class AExt extends A
@@ -90,6 +95,11 @@ function nativeType(): String
 
 
 function unionType(): array|A
+{
+}
+
+
+function intersectionType(): AExt&A
 {
 }
 
@@ -143,6 +153,15 @@ Assert::same(['A', 'array', 'null'], $rt->getTypes());
 Assert::same('A|array|null', (string) $rt);
 Assert::true($rt->isUnion());
 
+Assert::exception(function () {
+	Reflection::getReturnType(new \ReflectionMethod(A::class, 'intersectionType'));
+}, Nette\InvalidStateException::class, 'The A::intersectionType() is not expected to have a union or intersection type.');
+
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'intersectionType'), false);
+Assert::same(['AExt', 'A'], $rt->getTypes());
+Assert::same('AExt&A', (string) $rt);
+Assert::true($rt->isIntersection());
+
 Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(AExt::class, 'parentTypeExt')));
 
 Assert::null(Reflection::getReturnType(new \ReflectionFunction('noType')));
@@ -160,3 +179,9 @@ Assert::exception(function () {
 $rt = Reflection::getReturnType(new \ReflectionFunction('unionType'), false);
 Assert::same(['A', 'array'], $rt->getTypes());
 Assert::same('A|array', (string) $rt);
+
+Assert::exception(function () {
+	Reflection::getReturnType(new \ReflectionFunction('intersectionType'));
+}, Nette\InvalidStateException::class, 'The intersectionType() is not expected to have a union or intersection type.');
+
+Assert::same(['AExt', 'A'], Reflection::getReturnTypes(new \ReflectionFunction('intersectionType')));

@@ -18,15 +18,17 @@ final class ReflectionType
 	/** @var array */
 	private $types;
 
-	/** @var string  '', | */
+	/** @var string  '', |, & */
 	private $kind;
 
 
 	/** @internal */
-	public function __construct(array $types)
+	public function __construct(array $types, bool $intersection = false)
 	{
 		$this->types = $types;
-		if (count($types) === 1 || (count($types) === 2 && $types[1] === 'null')) {
+		if ($intersection) {
+			$this->kind = '&';
+		} elseif (count($types) === 1 || (count($types) === 2 && $types[1] === 'null')) {
 			$this->kind = '';
 		} else {
 			$this->kind = '|';
@@ -50,7 +52,9 @@ final class ReflectionType
 
 	public function allows(string $type): bool
 	{
-		if ($this->types === ['mixed']) {
+		if ($this->isIntersection()) {
+			return false;
+		} elseif ($this->types === ['mixed']) {
 			return true;
 		}
 
@@ -67,6 +71,12 @@ final class ReflectionType
 	public function isUnion(): bool
 	{
 		return $this->kind === '|';
+	}
+
+
+	public function isIntersection(): bool
+	{
+		return $this->kind === '&';
 	}
 
 

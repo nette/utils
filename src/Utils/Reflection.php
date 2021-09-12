@@ -38,7 +38,7 @@ final class Reflection
 	/**
 	 * Returns the type of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
 	 * If the function does not have a return type, it returns null.
-	 * If the function has union type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
+	 * If the function has union or intersection type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
 	 * @return string|ReflectionType|null
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func, bool $asString = true)
@@ -63,7 +63,7 @@ final class Reflection
 	/**
 	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
 	 * If the parameter does not have a type, it returns null.
-	 * If the parameter has union type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
+	 * If the parameter has union or intersection type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
 	 * @return string|ReflectionType|null
 	 */
 	public static function getParameterType(\ReflectionParameter $param, bool $asString = true)
@@ -86,7 +86,7 @@ final class Reflection
 	/**
 	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
 	 * If the property does not have a type, it returns null.
-	 * If the property has union type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
+	 * If the property has union or intersection type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
 	 * @return string|ReflectionType|null
 	 */
 	public static function getPropertyType(\ReflectionProperty $prop, bool $asString = true)
@@ -124,15 +124,15 @@ final class Reflection
 				? [$name, 'null']
 				: [$name]);
 
-		} elseif ($type instanceof \ReflectionUnionType) {
+		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
 			if ($asString) {
-				throw new Nette\InvalidStateException('The ' . self::toString($reflection) . ' is not expected to have a union type.');
+				throw new Nette\InvalidStateException('The ' . self::toString($reflection) . ' is not expected to have a union or intersection type.');
 			}
 			$types = [];
-			foreach ($type->getTypes() as $type) {
-				$types[] = self::normalizeType($type->getName(), $reflection);
+			foreach ($type->getTypes() as $t) {
+				$types[] = self::normalizeType($t->getName(), $reflection);
 			}
-			return new ReflectionType($types);
+			return new ReflectionType($types, $type instanceof \ReflectionIntersectionType);
 
 		} else {
 			throw new Nette\InvalidStateException('Unexpected type of ' . self::toString($reflection));

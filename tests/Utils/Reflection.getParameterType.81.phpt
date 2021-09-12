@@ -2,7 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getParameterType
- * @phpversion 8.0
+ * @phpversion 8.1
  */
 
 declare(strict_types=1);
@@ -28,6 +28,7 @@ class A
 		mixed $mixed,
 		array|self $union,
 		array|self|null $nullableUnion,
+		AExt&A $intersection,
 	) {
 	}
 }
@@ -69,6 +70,12 @@ Assert::same(['A', 'array'], $rt->getTypes());
 $rt = Reflection::getParameterType($params[9], false);
 Assert::same(['A', 'array', 'null'], $rt->getTypes());
 
+Assert::exception(function () use ($params) {
+	Reflection::getParameterType($params[10]);
+}, Nette\InvalidStateException::class, 'The $intersection in A::method() is not expected to have a union or intersection type.');
+
+$rt = Reflection::getParameterType($params[10], false);
+Assert::same(['AExt', 'A'], $rt->getTypes());
 
 $method = new ReflectionMethod('AExt', 'methodExt');
 $params = $method->getParameters();

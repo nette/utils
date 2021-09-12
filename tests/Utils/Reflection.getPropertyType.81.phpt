@@ -2,7 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getPropertyType
- * @phpversion 8.0
+ * @phpversion 8.1
  */
 
 declare(strict_types=1);
@@ -26,6 +26,7 @@ class A
 	public mixed $mixed;
 	public array|self $union;
 	public array|self|null $nullableUnion;
+	public AExt&A $intersection;
 }
 
 class AExt extends A
@@ -61,6 +62,13 @@ Assert::same(['A', 'array'], $rt->getTypes());
 
 $rt = Reflection::getPropertyType($props[8], false);
 Assert::same(['A', 'array', 'null'], $rt->getTypes());
+
+Assert::exception(function () use ($props) {
+	Reflection::getPropertyType($props[9]);
+}, Nette\InvalidStateException::class, 'The A::$intersection is not expected to have a union or intersection type.');
+
+$rt = Reflection::getPropertyType($props[9], false);
+Assert::same(['AExt', 'A'], $rt->getTypes());
 
 $class = new ReflectionClass('AExt');
 $props = $class->getProperties();
