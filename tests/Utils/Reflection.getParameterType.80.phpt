@@ -27,7 +27,7 @@ class A
 		?B $nullable,
 		mixed $mixed,
 		array|self $union,
-		array|self|null $nullableUnion
+		array|self|null $nullableUnion,
 	) {
 	}
 }
