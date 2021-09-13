@@ -130,6 +130,30 @@ class Strings
 
 
 	/**
+	 * Removes UTF-8 emoji characters from string.
+	 */
+	public static function removeEmoji(string $s): string
+	{
+		// Match Emoticons
+		$s = (string) preg_replace('/[\x{1F600}-\x{1F64F}]/u', '', $s);
+
+		// Match Miscellaneous Symbols and Pictographs
+		$s = (string) preg_replace('/[\x{1F300}-\x{1F5FF}]/u', '', $s);
+
+		// Match Transport And Map Symbols
+		$s = (string) preg_replace('/[\x{1F680}-\x{1F6FF}]/u', '', $s);
+
+		// Match Miscellaneous Symbols
+		$s = (string) preg_replace('/[\x{2600}-\x{26FF}]/u', '', $s);
+
+		// Match Dingbats
+		$s = (string) preg_replace('/[\x{2700}-\x{27BF}]/u', '', $s);
+
+		return $s;
+	}
+
+
+	/**
 	 * Standardize line endings to unix-like.
 	 */
 	public static function normalizeNewLines(string $s): string
