@@ -48,6 +48,22 @@ final class ReflectionType
 	}
 
 
+	public function allows(string $type): bool
+	{
+		if ($this->types === ['mixed']) {
+			return true;
+		}
+
+		$builtin = Reflection::isBuiltinType($type);
+		foreach ($this->types as $t) {
+			if ($builtin ? strcasecmp($t, $type) === 0 : is_a($type, $t, true)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 	public function isUnion(): bool
 	{
 		return $this->kind === '|';
