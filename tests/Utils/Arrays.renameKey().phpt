@@ -36,7 +36,7 @@ Assert::same([
 	'new1' => 'third',
 ], $arr);
 
-Arrays::renameKey($arr, null, 'new3');
+Arrays::renameKey($arr, '', 'new3');
 Assert::same([
 	'new3' => 'first',
 	'new2' => 'second',

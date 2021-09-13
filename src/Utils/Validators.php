@@ -87,10 +87,9 @@ class Validators
 
 	/**
 	 * Verifies that the value is of expected types separated by pipe.
-	 * @param  mixed  $value
 	 * @throws AssertionException
 	 */
-	public static function assert($value, string $expected, string $label = 'variable'): void
+	public static function assert(mixed $value, string $expected, string $label = 'variable'): void
 	{
 		if (!static::is($value, $expected)) {
 			$expected = str_replace(['|', ':'], [' or ', ' in range '], $expected);
@@ -109,7 +108,6 @@ class Validators
 	/**
 	 * Verifies that element $key in array is of expected types separated by pipe.
 	 * @param  mixed[]  $array
-	 * @param  int|string  $key
 	 * @throws AssertionException
 	 */
 	public static function assertField(
@@ -129,9 +127,8 @@ class Validators
 
 	/**
 	 * Verifies that the value is of expected types separated by pipe.
-	 * @param  mixed  $value
 	 */
-	public static function is($value, string $expected): bool
+	public static function is(mixed $value, string $expected): bool
 	{
 		foreach (explode('|', $expected) as $item) {
 			if (substr($item, -2) === '[]') {
@@ -200,9 +197,8 @@ class Validators
 
 	/**
 	 * Checks if the value is an integer or a float.
-	 * @param  mixed  $value
 	 */
-	public static function isNumber($value): bool
+	public static function isNumber(mixed $value): bool
 	{
 		return is_int($value) || is_float($value);
 	}
@@ -210,9 +206,8 @@ class Validators
 
 	/**
 	 * Checks if the value is an integer or a integer written in a string.
-	 * @param  mixed  $value
 	 */
-	public static function isNumericInt($value): bool
+	public static function isNumericInt(mixed $value): bool
 	{
 		return is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]+$#D', $value));
 	}
@@ -220,9 +215,8 @@ class Validators
 
 	/**
 	 * Checks if the value is a number or a number written in a string.
-	 * @param  mixed  $value
 	 */
-	public static function isNumeric($value): bool
+	public static function isNumeric(mixed $value): bool
 	{
 		return is_float($value) || is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]*[.]?[0-9]+$#D', $value));
 	}
@@ -230,9 +224,8 @@ class Validators
 
 	/**
 	 * Checks if the value is a syntactically correct callback.
-	 * @param  mixed  $value
 	 */
-	public static function isCallable($value): bool
+	public static function isCallable(mixed $value): bool
 	{
 		return $value && is_callable($value, true);
 	}
@@ -240,9 +233,8 @@ class Validators
 
 	/**
 	 * Checks if the value is a valid UTF-8 string.
-	 * @param  mixed  $value
 	 */
-	public static function isUnicode($value): bool
+	public static function isUnicode(mixed $value): bool
 	{
 		return is_string($value) && preg_match('##u', $value);
 	}
@@ -250,9 +242,8 @@ class Validators
 
 	/**
 	 * Checks if the value is 0, '', false or null.
-	 * @param  mixed  $value
 	 */
-	public static function isNone($value): bool
+	public static function isNone(mixed $value): bool
 	{
 		return $value == null; // intentionally ==
 	}
@@ -267,10 +258,9 @@ class Validators
 
 	/**
 	 * Checks if a variable is a zero-based integer indexed array.
-	 * @param  mixed  $value
 	 * @deprecated  use Nette\Utils\Arrays::isList
 	 */
-	public static function isList($value): bool
+	public static function isList(mixed $value): bool
 	{
 		return Arrays::isList($value);
 	}
@@ -279,9 +269,8 @@ class Validators
 	/**
 	 * Checks if the value is in the given range [min, max], where the upper or lower limit can be omitted (null).
 	 * Numbers, strings and DateTime objects can be compared.
-	 * @param  mixed  $value
 	 */
-	public static function isInRange($value, array $range): bool
+	public static function isInRange(mixed $value, array $range): bool
 	{
 		if ($value === null || !(isset($range[0]) || isset($range[1]))) {
 			return false;

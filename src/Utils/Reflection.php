@@ -39,9 +39,8 @@ final class Reflection
 	 * Returns the type of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
 	 * If the function does not have a return type, it returns null.
 	 * If the function has union or intersection type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
-	 * @return string|ReflectionType|null
 	 */
-	public static function getReturnType(\ReflectionFunctionAbstract $func, bool $asString = true)
+	public static function getReturnType(\ReflectionFunctionAbstract $func, bool $asString = true): string|ReflectionType|null
 	{
 		$type = $func->getReturnType() ?? (PHP_VERSION_ID >= 80100 ? $func->getTentativeReturnType() : null);
 		return self::getType($func, $type, $asString);
@@ -52,9 +51,8 @@ final class Reflection
 	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
 	 * If the parameter does not have a type, it returns null.
 	 * If the parameter has union or intersection type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
-	 * @return string|ReflectionType|null
 	 */
-	public static function getParameterType(\ReflectionParameter $param, bool $asString = true)
+	public static function getParameterType(\ReflectionParameter $param, bool $asString = true): string|ReflectionType|null
 	{
 		return self::getType($param, $param->getType(), $asString);
 	}
@@ -64,20 +62,18 @@ final class Reflection
 	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
 	 * If the property does not have a type, it returns null.
 	 * If the property has union or intersection type, it throws Nette\InvalidStateException or returns ReflectionType according to $asString.
-	 * @return string|ReflectionType|null
 	 */
-	public static function getPropertyType(\ReflectionProperty $prop, bool $asString = true)
+	public static function getPropertyType(\ReflectionProperty $prop, bool $asString = true): string|ReflectionType|null
 	{
 		return self::getType($prop, $prop->getType(), $asString);
 	}
 
 
-	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 * @return ReflectionType|string|null
-	 */
-	private static function getType($reflection, ?\ReflectionType $type, bool $asString = false)
-	{
+	private static function getType(
+		\ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty $reflection,
+		?\ReflectionType $type,
+		bool $asString = false,
+	): ReflectionType|string|null {
 		if ($type === null) {
 			return null;
 
@@ -106,11 +102,10 @@ final class Reflection
 	}
 
 
-	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 */
-	private static function normalizeType(string $type, $reflection): string
-	{
+	private static function normalizeType(
+		string $type,
+		\ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty $reflection,
+	): string {
 		$lower = strtolower($type);
 		if ($reflection instanceof \ReflectionFunction) {
 			return $type;
@@ -126,10 +121,9 @@ final class Reflection
 
 	/**
 	 * Returns the default value of parameter. If it is a constant, it returns its value.
-	 * @return mixed
 	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
 	 */
-	public static function getParameterDefaultValue(\ReflectionParameter $param)
+	public static function getParameterDefaultValue(\ReflectionParameter $param): mixed
 	{
 		if ($param->isDefaultValueConstant()) {
 			$const = $orig = $param->getDefaultValueConstantName();
@@ -379,7 +373,7 @@ final class Reflection
 	}
 
 
-	private static function fetch(array &$tokens, $take): ?string
+	private static function fetch(array &$tokens, string|int|array $take): ?string
 	{
 		$res = null;
 		while ($token = current($tokens)) {
