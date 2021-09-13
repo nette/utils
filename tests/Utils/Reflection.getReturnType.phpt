@@ -35,6 +35,11 @@ class A
 	}
 
 
+	public function staticType(): static
+	{
+	}
+
+
 	public function nullableClassType(): ?B
 	{
 	}
@@ -46,6 +51,16 @@ class A
 
 
 	public function nullableSelfType(): ?self
+	{
+	}
+
+
+	public function unionType(): array|self
+	{
+	}
+
+
+	public function nullableUnionType(): array|self|null
 	{
 	}
 }
@@ -73,19 +88,59 @@ function nativeType(): String
 }
 
 
+function unionType(): array|A
+{
+}
+
+
 Assert::null(Reflection::getReturnType(new \ReflectionMethod(A::class, 'noType')));
+Assert::null(Reflection::getReturnType(new \ReflectionMethod(A::class, 'noType'), true));
 
 Assert::same('Test\B', Reflection::getReturnType(new \ReflectionMethod(A::class, 'classType')));
+
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'classType'), false);
+Assert::same(['Test\B'], $rt->getTypes());
+Assert::same('Test\B', (string) $rt);
+Assert::true($rt->isSingle());
 
 Assert::same('string', Reflection::getReturnType(new \ReflectionMethod(A::class, 'nativeType')));
 
 Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(A::class, 'selfType')));
 
+Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(A::class, 'staticType')));
+
 Assert::same('Test\B', Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableClassType')));
+
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableClassType'), false);
+Assert::same(['Test\B', 'null'], $rt->getTypes());
+Assert::same('?Test\B', (string) $rt);
+Assert::true($rt->isSingle());
 
 Assert::same('string', Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableNativeType')));
 
 Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableSelfType')));
+
+Assert::same(['A', 'array'], Reflection::getReturnTypes(new \ReflectionMethod(A::class, 'unionType')));
+
+Assert::same(['A', 'array', 'null'], Reflection::getReturnTypes(new \ReflectionMethod(A::class, 'nullableUnionType')));
+
+Assert::exception(function () {
+	Reflection::getReturnType(new \ReflectionMethod(A::class, 'unionType'));
+}, Nette\InvalidStateException::class, 'The A::unionType() is not expected to have a union or intersection type.');
+
+Assert::exception(function () {
+	Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableUnionType'));
+}, Nette\InvalidStateException::class, 'The A::nullableUnionType() is not expected to have a union or intersection type.');
+
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'unionType'), false);
+Assert::same(['A', 'array'], $rt->getTypes());
+Assert::same('A|array', (string) $rt);
+Assert::true($rt->isUnion());
+
+$rt = Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableUnionType'), false);
+Assert::same(['A', 'array', 'null'], $rt->getTypes());
+Assert::same('A|array|null', (string) $rt);
+Assert::true($rt->isUnion());
 
 Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(AExt::class, 'parentTypeExt')));
 
@@ -95,8 +150,12 @@ Assert::same('Test\B', Reflection::getReturnType(new \ReflectionFunction('classT
 
 Assert::same('string', Reflection::getReturnType(new \ReflectionFunction('nativeType')));
 
-if (PHP_VERSION_ID >= 80100) {
-	Assert::same('int', Reflection::getReturnType(new \ReflectionMethod(\ArrayObject::class, 'count')));
+Assert::same(['A', 'array'], Reflection::getReturnTypes(new \ReflectionFunction('unionType')));
 
-	Assert::same(['int'], Reflection::getReturnTypes(new \ReflectionMethod(\ArrayObject::class, 'count')));
-}
+Assert::exception(function () {
+	Reflection::getReturnType(new \ReflectionFunction('unionType'));
+}, Nette\InvalidStateException::class, 'The unionType() is not expected to have a union or intersection type.');
+
+$rt = Reflection::getReturnType(new \ReflectionFunction('unionType'), false);
+Assert::same(['A', 'array'], $rt->getTypes());
+Assert::same('A|array', (string) $rt);
