@@ -177,4 +177,23 @@ final class Type
 	{
 		return $this->single && !Reflection::isBuiltinType($this->types[0]);
 	}
+
+
+	/**
+	 * Verifies type compatibility. For example, it checks if a value of a certain type could be passed as a parameter.
+	 */
+	public function allows(string $type): bool
+	{
+		if ($this->types === ['mixed']) {
+			return true;
+		}
+		return Arrays::every((self::fromString($type))->types, function ($testedType) {
+			$builtin = Reflection::isBuiltinType($testedType);
+			return Arrays::some($this->types, function ($currentType) use ($testedType, $builtin) {
+				return $builtin
+					? strcasecmp($currentType, $testedType) === 0
+					: is_a($testedType, $currentType, true);
+			});
+		});
+	}
 }
