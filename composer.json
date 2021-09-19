@@ -24,7 +24,8 @@
 		"jetbrains/phpstorm-attributes": "dev-master"
 	},
 	"conflict": {
-		"nette/finder": "<3"
+		"nette/finder": "<3",
+		"nette/schema": "<1.2.2"
 	},
 	"suggest": {
 		"ext-iconv": "to use Strings::webalize(), toAscii(), chr() and reverse()",
