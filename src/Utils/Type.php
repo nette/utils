@@ -60,6 +60,22 @@ final class Type
 
 
 	/**
+	 * Creates the Type object according to the text notation.
+	 */
+	public static function fromString(string $type): self
+	{
+		if (!preg_match('#(?:\?([\w\\\\]+)|[\w\\\\]+(?:\|[\w\\\\]+)*)$#AD', $type, $m)) {
+			throw new Nette\InvalidArgumentException("Invalid type '$type'.");
+		}
+		if (isset($m[1])) {
+			return new self([$m[1], 'null']);
+		} else {
+			return new self(explode('|', $type));
+		}
+	}
+
+
+	/**
 	 * Resolves 'self', 'static' and 'parent' to the actual class name.
 	 * @param  \ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty  $reflection
 	 */
@@ -103,5 +119,62 @@ final class Type
 	public function getNames(): array
 	{
 		return $this->types;
+	}
+
+
+	/**
+	 * Returns the array of subtypes that make up the compound type as Type objects:
+	 * @return self[]
+	 */
+	public function getTypes(): array
+	{
+		return array_map(function ($name) { return self::fromString($name); }, $this->types);
+	}
+
+
+	/**
+	 * Returns the type name for single types, otherwise null.
+	 */
+	public function getSingleName(): ?string
+	{
+		return $this->single
+			? $this->types[0]
+			: null;
+	}
+
+
+	/**
+	 * Returns true whether it is a union type.
+	 */
+	public function isUnion(): bool
+	{
+		return count($this->types) > 1;
+	}
+
+
+	/**
+	 * Returns true whether it is a single type. Simple nullable types are also considered to be single types.
+	 */
+	public function isSingle(): bool
+	{
+		return $this->single;
+	}
+
+
+	/**
+	 * Returns true whether the type is both a single and a PHP built-in type.
+	 */
+	public function isBuiltin(): bool
+	{
+		return $this->single && Reflection::isBuiltinType($this->types[0]);
+	}
+
+
+	/**
+	 * Returns true whether the type is both a single and a class name.
+	 */
+	public function isClass(): bool
+	{
+		return $this->single && !Reflection::isBuiltinType($this->types[0]);
 	}
 }
