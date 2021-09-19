@@ -54,10 +54,9 @@ trait SmartObject
 
 
 	/**
-	 * @return mixed
 	 * @throws MemberAccessException if the property is not defined.
 	 */
-	public function &__get(string $name)
+	public function &__get(string $name): mixed
 	{
 		$class = static::class;
 
@@ -79,11 +78,9 @@ trait SmartObject
 
 
 	/**
-	 * @param  mixed  $value
-	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
-	public function __set(string $name, $value)
+	public function __set(string $name, mixed $value): void
 	{
 		$class = static::class;
 
@@ -103,10 +100,9 @@ trait SmartObject
 
 
 	/**
-	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public function __unset(string $name)
+	public function __unset(string $name): void
 	{
 		$class = static::class;
 		if (!ObjectHelpers::hasProperty($class, $name)) {
