@@ -24,7 +24,7 @@ class Test
 Assert::same('hello world!', Strings::replace('hello world!', '#([E-L])+#', '#'));
 Assert::same('#o wor#d!', Strings::replace('hello world!', ['#([e-l])+#'], '#'));
 Assert::same('#o wor#d!', Strings::replace('hello world!', '#([e-l])+#', '#'));
-Assert::same('@o wor@d!', Strings::replace('hello world!', '#[e-l]+#', function () { return '@'; }));
+Assert::same('@o wor@d!', Strings::replace('hello world!', '#[e-l]+#', fn() => '@'));
 Assert::same('@o wor@d!', Strings::replace('hello world!', '#[e-l]+#', Closure::fromCallable('Test::cb')));
 Assert::same('@o wor@d!', Strings::replace('hello world!', ['#[e-l]+#'], Closure::fromCallable('Test::cb')));
 Assert::same('@o wor@d!', Strings::replace('hello world!', '#[e-l]+#', ['Test', 'cb']));
