@@ -30,10 +30,10 @@ $list['key'] = [new Test, 'fn2'];
 
 Assert::same(
 	['Test::fn1 a,b', 'key' => 'Test::fn2 a,b'],
-	Arrays::invoke($list, 'a', 'b')
+	Arrays::invoke($list, 'a', 'b'),
 );
 
 Assert::same(
 	['Test::fn1 a,b', 'key' => 'Test::fn2 a,b'],
-	Arrays::invoke(new ArrayIterator($list), 'a', 'b')
+	Arrays::invoke(new ArrayIterator($list), 'a', 'b'),
 );
