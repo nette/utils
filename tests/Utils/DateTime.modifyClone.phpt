@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 date_default_timezone_set('Europe/Prague');
 
-$date = DateTime::from(254400000);
+$date = DateTime::from(254_400_000);
 $dolly = $date->modifyClone();
 Assert::type(DateTime::class, $dolly);
 Assert::notSame($date, $dolly);

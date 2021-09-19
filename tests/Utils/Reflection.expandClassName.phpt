@@ -140,21 +140,21 @@ foreach ($cases as $alias => $fqn) {
 
 Assert::same(
 	['C' => 'A\B'],
-	Reflection::getUseStatements(new ReflectionClass('Test'))
+	Reflection::getUseStatements(new ReflectionClass('Test')),
 );
 
 Assert::same(
 	[],
-	Reflection::getUseStatements(new ReflectionClass('Test\Space\Foo'))
+	Reflection::getUseStatements(new ReflectionClass('Test\Space\Foo')),
 );
 
 Assert::same(
 	['AAA' => 'AAA', 'B' => 'BBB', 'DDD' => 'CCC\DDD', 'F' => 'EEE\FFF', 'G' => 'GGG'],
-	Reflection::getUseStatements(new ReflectionClass('Test\Space\Bar'))
+	Reflection::getUseStatements(new ReflectionClass('Test\Space\Bar')),
 );
 Assert::same(
 	[],
-	Reflection::getUseStatements(new ReflectionClass('stdClass'))
+	Reflection::getUseStatements(new ReflectionClass('stdClass')),
 );
 
 Assert::exception(function () use ($rcTest) {
