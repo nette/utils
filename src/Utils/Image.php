@@ -338,7 +338,7 @@ class Image
 				$newWidth,
 				$newHeight,
 				$this->getWidth(),
-				$this->getHeight()
+				$this->getHeight(),
 			);
 			$this->image = $newImage;
 		}
@@ -360,7 +360,7 @@ class Image
 		int $srcHeight,
 		$newWidth,
 		$newHeight,
-		int $flags = self::FIT
+		int $flags = self::FIT,
 	): array {
 		if ($newWidth === null) {
 		} elseif (self::isPercent($newWidth)) {
@@ -550,7 +550,7 @@ class Image
 			0,
 			0,
 			$width,
-			$height
+			$height,
 		);
 		return $this;
 	}
@@ -580,7 +580,7 @@ class Image
 	 */
 	public function toString(int $type = self::JPEG, int $quality = null): string
 	{
-		return Helpers::capture(function () use ($type, $quality) {
+		return Helpers::capture(function () use ($type, $quality): void {
 			$this->output($type, $quality);
 		});
 	}
@@ -667,13 +667,13 @@ class Image
 					$value['red'],
 					$value['green'],
 					$value['blue'],
-					$value['alpha']
+					$value['alpha'],
 				) ?: imagecolorresolvealpha(
 					$this->image,
 					$value['red'],
 					$value['green'],
 					$value['blue'],
-					$value['alpha']
+					$value['alpha'],
 				);
 			}
 		}

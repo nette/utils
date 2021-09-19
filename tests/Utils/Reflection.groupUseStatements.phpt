@@ -16,5 +16,5 @@ require __DIR__ . '/fixtures.reflection/expandClass.groupUse.php';
 
 Assert::same(
 	['A' => 'A\B\A', 'C' => 'A\B\B\C', 'D' => 'A\B\C', 'E' => 'D\E'],
-	Reflection::getUseStatements(new ReflectionClass('GroupUseTest'))
+	Reflection::getUseStatements(new ReflectionClass('GroupUseTest')),
 );
