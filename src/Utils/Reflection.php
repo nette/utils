@@ -38,60 +38,6 @@ final class Reflection
 
 
 	/**
-	 * Returns the type of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
-	 * If the function does not have a return type, it returns null.
-	 * If the function has union or intersection type, it throws Nette\InvalidStateException.
-	 * @deprecated use Nette\Utils\Type::fromReflection()
-	 */
-	public static function getReturnType(\ReflectionFunctionAbstract $func): ?string
-	{
-		$type = $func->getReturnType() ?? (PHP_VERSION_ID >= 80100 && $func instanceof \ReflectionMethod ? $func->getTentativeReturnType() : null);
-		return self::getType($func, $type);
-	}
-
-
-	/**
-	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
-	 * If the parameter does not have a type, it returns null.
-	 * If the parameter has union or intersection type, it throws Nette\InvalidStateException.
-	 * @deprecated use Nette\Utils\Type::fromReflection()
-	 */
-	public static function getParameterType(\ReflectionParameter $param): ?string
-	{
-		return self::getType($param, $param->getType());
-	}
-
-
-	/**
-	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
-	 * If the property does not have a type, it returns null.
-	 * If the property has union or intersection type, it throws Nette\InvalidStateException.
-	 * @deprecated use Nette\Utils\Type::fromReflection()
-	 */
-	public static function getPropertyType(\ReflectionProperty $prop): ?string
-	{
-		return self::getType($prop, $prop->getType());
-	}
-
-
-	private static function getType(\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty $reflection, ?\ReflectionType $type): ?string
-	{
-		if ($type === null) {
-			return null;
-
-		} elseif ($type instanceof \ReflectionNamedType) {
-			return Type::resolve($type->getName(), $reflection);
-
-		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
-			throw new Nette\InvalidStateException('The ' . self::toString($reflection) . ' is not expected to have a union or intersection type.');
-
-		} else {
-			throw new Nette\InvalidStateException('Unexpected type of ' . self::toString($reflection));
-		}
-	}
-
-
-	/**
 	 * Returns the default value of parameter. If it is a constant, it returns its value.
 	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
 	 */
