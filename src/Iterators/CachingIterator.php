@@ -146,9 +146,8 @@ class CachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Returns the next key.
-	 * @return mixed
 	 */
-	public function getNextKey()
+	public function getNextKey(): mixed
 	{
 		return $this->getInnerIterator()->key();
 	}
@@ -156,9 +155,8 @@ class CachingIterator extends \CachingIterator implements \Countable
 
 	/**
 	 * Returns the next element.
-	 * @return mixed
 	 */
-	public function getNextValue()
+	public function getNextValue(): mixed
 	{
 		return $this->getInnerIterator()->current();
 	}

@@ -24,7 +24,7 @@ trait SmartObject
 	/**
 	 * @throws MemberAccessException
 	 */
-	public function __call(string $name, array $args)
+	public function __call(string $name, array $args): mixed
 	{
 		$class = static::class;
 
@@ -37,27 +37,26 @@ trait SmartObject
 			} elseif ($handlers !== null) {
 				throw new UnexpectedValueException("Property $class::$$name must be iterable or null, " . gettype($handlers) . ' given.');
 			}
-
-		} else {
-			ObjectHelpers::strictCall($class, $name);
+			return null;
 		}
+
+		ObjectHelpers::strictCall($class, $name);
 	}
 
 
 	/**
 	 * @throws MemberAccessException
 	 */
-	public static function __callStatic(string $name, array $args)
+	public static function __callStatic(string $name, array $args): mixed
 	{
 		ObjectHelpers::strictStaticCall(static::class, $name);
 	}
 
 
 	/**
-	 * @return mixed
 	 * @throws MemberAccessException if the property is not defined.
 	 */
-	public function &__get(string $name)
+	public function &__get(string $name): mixed
 	{
 		$class = static::class;
 
@@ -79,11 +78,9 @@ trait SmartObject
 
 
 	/**
-	 * @param  mixed  $value
-	 * @return void
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
-	public function __set(string $name, $value)
+	public function __set(string $name, mixed $value): void
 	{
 		$class = static::class;
 
@@ -103,10 +100,9 @@ trait SmartObject
 
 
 	/**
-	 * @return void
 	 * @throws MemberAccessException
 	 */
-	public function __unset(string $name)
+	public function __unset(string $name): void
 	{
 		$class = static::class;
 		if (!ObjectHelpers::hasProperty($class, $name)) {

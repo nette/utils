@@ -24,6 +24,5 @@ Assert::same(3, Arrays::getKeyOffset($arr, '1'));
 Assert::same(3, Arrays::getKeyOffset($arr, 1));
 Assert::same(2, Arrays::getKeyOffset($arr, 7));
 Assert::same(1, Arrays::getKeyOffset($arr, 0));
-Assert::same(0, Arrays::getKeyOffset($arr, null));
 Assert::same(0, Arrays::getKeyOffset($arr, ''));
 Assert::null(Arrays::getKeyOffset($arr, 'undefined'));
