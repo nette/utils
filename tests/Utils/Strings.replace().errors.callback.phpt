@@ -26,8 +26,3 @@ Assert::same('HELLO', Strings::replace('hello', '#.+#', function ($m) {
 	preg_match('#\d#u', "0123456789\xFF"); // Malformed UTF-8 data
 	return strtoupper($m[0]);
 }));
-
-
-Assert::exception(function () {
-	Strings::replace('hello', '#.+#', [stdClass::class, 'foobar']);
-}, InvalidStateException::class, "Callback 'stdClass::foobar' is not callable.");
