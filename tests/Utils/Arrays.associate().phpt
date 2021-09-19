@@ -28,12 +28,12 @@ Assert::same(
 		'Mary' => ['name' => 'Mary', 'age' => null],
 		'Paul' => ['name' => 'Paul', 'age' => 44],
 	],
-	Arrays::associate($arr, 'name')
+	Arrays::associate($arr, 'name'),
 );
 
 Assert::same(
 	[],
-	Arrays::associate([], 'name')
+	Arrays::associate([], 'name'),
 );
 
 Assert::same(
@@ -42,17 +42,17 @@ Assert::same(
 		'Mary' => ['name' => 'Mary', 'age' => null],
 		'Paul' => ['name' => 'Paul', 'age' => 44],
 	],
-	Arrays::associate($arr, 'name=')
+	Arrays::associate($arr, 'name='),
 );
 
 Assert::same(
 	['John' => 22, 'Mary' => null, 'Paul' => 44],
-	Arrays::associate($arr, 'name=age')
+	Arrays::associate($arr, 'name=age'),
 );
 
 Assert::same(// path as array
 	['John' => 22, 'Mary' => null, 'Paul' => 44],
-	Arrays::associate($arr, ['name', '=', 'age'])
+	Arrays::associate($arr, ['name', '=', 'age']),
 );
 
 Assert::equal(
@@ -70,7 +70,7 @@ Assert::equal(
 			'age' => 44,
 		],
 	],
-	Arrays::associate($arr, 'name->')
+	Arrays::associate($arr, 'name->'),
 );
 
 Assert::equal(
@@ -88,7 +88,7 @@ Assert::equal(
 			'Paul' => ['name' => 'Paul', 'age' => 44],
 		],
 	],
-	Arrays::associate($arr, 'age->name')
+	Arrays::associate($arr, 'age->name'),
 );
 
 Assert::equal(
@@ -97,12 +97,12 @@ Assert::equal(
 		'Mary' => ['name' => 'Mary', 'age' => null],
 		'Paul' => ['name' => 'Paul', 'age' => 44],
 	],
-	Arrays::associate($arr, '->name')
+	Arrays::associate($arr, '->name'),
 );
 
 Assert::equal(
 	(object) [],
-	Arrays::associate([], '->name')
+	Arrays::associate([], '->name'),
 );
 
 Assert::same(
@@ -118,7 +118,7 @@ Assert::same(
 			44 => ['name' => 'Paul', 'age' => 44],
 		],
 	],
-	Arrays::associate($arr, 'name|age')
+	Arrays::associate($arr, 'name|age'),
 );
 
 Assert::same(
@@ -127,7 +127,7 @@ Assert::same(
 		'Mary' => ['name' => 'Mary', 'age' => null],
 		'Paul' => ['name' => 'Paul', 'age' => 44],
 	],
-	Arrays::associate($arr, 'name|')
+	Arrays::associate($arr, 'name|'),
 );
 
 Assert::same(
@@ -143,7 +143,7 @@ Assert::same(
 			['name' => 'Paul', 'age' => 44],
 		],
 	],
-	Arrays::associate($arr, 'name[]')
+	Arrays::associate($arr, 'name[]'),
 );
 
 Assert::same(
@@ -153,12 +153,12 @@ Assert::same(
 		['Mary' => ['name' => 'Mary', 'age' => null]],
 		['Paul' => ['name' => 'Paul', 'age' => 44]],
 	],
-	Arrays::associate($arr, '[]name')
+	Arrays::associate($arr, '[]name'),
 );
 
 Assert::same(
 	['John', 'John', 'Mary', 'Paul'],
-	Arrays::associate($arr, '[]=name')
+	Arrays::associate($arr, '[]=name'),
 );
 
 Assert::same(
@@ -174,12 +174,12 @@ Assert::same(
 			[44 => ['name' => 'Paul', 'age' => 44]],
 		],
 	],
-	Arrays::associate($arr, 'name[]age')
+	Arrays::associate($arr, 'name[]age'),
 );
 
 Assert::same(
 	$arr,
-	Arrays::associate($arr, '[]')
+	Arrays::associate($arr, '[]'),
 );
 
 // converts object to array
@@ -190,7 +190,7 @@ Assert::same(
 		(object) ['name' => 'John', 'age' => 22],
 		(object) ['name' => 'Mary', 'age' => null],
 		(object) ['name' => 'Paul', 'age' => 44],
-	], '[]')
+	], '[]'),
 );
 
 // allowes objects in keys
@@ -198,11 +198,11 @@ Assert::equal(
 	['2014-02-05 00:00:00' => new DateTime('2014-02-05')],
 	Arrays::associate($arr = [
 		['date' => new DateTime('2014-02-05')],
-	], 'date=date')
+	], 'date=date'),
 );
 Assert::equal(
 	(object) ['2014-02-05 00:00:00' => new DateTime('2014-02-05')],
 	Arrays::associate($arr = [
 		['date' => new DateTime('2014-02-05')],
-	], '->date=date')
+	], '->date=date'),
 );
