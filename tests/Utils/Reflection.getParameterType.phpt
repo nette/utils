@@ -41,25 +41,16 @@ class AExt extends A
 $method = new ReflectionMethod('A', 'method');
 $params = $method->getParameters();
 
-Assert::same('Undeclared', Reflection::getParameterType($params[0]));
-Assert::same('Test\B', Reflection::getParameterType($params[1]));
-Assert::same('array', Reflection::getParameterType($params[2]));
-Assert::same('callable', Reflection::getParameterType($params[3]));
-Assert::same('A', Reflection::getParameterType($params[4]));
+Assert::same('Undeclared', (string) Reflection::getParameterType($params[0]));
+Assert::same('Test\B', (string) Reflection::getParameterType($params[1]));
+Assert::same('array', (string) Reflection::getParameterType($params[2]));
+Assert::same('callable', (string) Reflection::getParameterType($params[3]));
+Assert::same('A', (string) Reflection::getParameterType($params[4]));
 Assert::null(Reflection::getParameterType($params[5]));
-Assert::same('Test\B', Reflection::getParameterType($params[6]));
-Assert::same('mixed', Reflection::getParameterType($params[7]));
-
-Assert::exception(function () use ($params) {
-	Reflection::getParameterType($params[8]);
-}, Nette\InvalidStateException::class, 'The $union in A::method() is not expected to have a union or intersection type.');
-
-Assert::exception(function () use ($params) {
-	Reflection::getParameterType($params[9]);
-}, Nette\InvalidStateException::class, 'The $nullableUnion in A::method() is not expected to have a union or intersection type.');
-
+Assert::same('?Test\B', (string) Reflection::getParameterType($params[6]));
+Assert::same('mixed', (string) Reflection::getParameterType($params[7]));
 
 $method = new ReflectionMethod('AExt', 'methodExt');
 $params = $method->getParameters();
 
-Assert::same('A', Reflection::getParameterType($params[0]));
+Assert::same('A', (string) Reflection::getParameterType($params[0]));
