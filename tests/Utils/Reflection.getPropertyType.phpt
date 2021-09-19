@@ -35,23 +35,14 @@ class AExt extends A
 $class = new ReflectionClass('A');
 $props = $class->getProperties();
 
-Assert::same('Undeclared', Reflection::getPropertyType($props[0]));
-Assert::same('Test\B', Reflection::getPropertyType($props[1]));
-Assert::same('array', Reflection::getPropertyType($props[2]));
-Assert::same('A', Reflection::getPropertyType($props[3]));
+Assert::same('Undeclared', (string) Reflection::getPropertyType($props[0]));
+Assert::same('Test\B', (string) Reflection::getPropertyType($props[1]));
+Assert::same('array', (string) Reflection::getPropertyType($props[2]));
+Assert::same('A', (string) Reflection::getPropertyType($props[3]));
 Assert::null(Reflection::getPropertyType($props[4]));
-Assert::same('Test\B', Reflection::getPropertyType($props[5]));
-Assert::same('mixed', Reflection::getPropertyType($props[6]));
-
-Assert::exception(function () use ($props) {
-	Reflection::getPropertyType($props[7]);
-}, Nette\InvalidStateException::class, 'The A::$union is not expected to have a union or intersection type.');
-
-Assert::exception(function () use ($props) {
-	Reflection::getPropertyType($props[8]);
-}, Nette\InvalidStateException::class, 'The A::$nullableUnion is not expected to have a union or intersection type.');
-
+Assert::same('?Test\B', (string) Reflection::getPropertyType($props[5]));
+Assert::same('mixed', (string) Reflection::getPropertyType($props[6]));
 $class = new ReflectionClass('AExt');
 $props = $class->getProperties();
 
-Assert::same('A', Reflection::getPropertyType($props[0]));
+Assert::same('A', (string) Reflection::getPropertyType($props[0]));
