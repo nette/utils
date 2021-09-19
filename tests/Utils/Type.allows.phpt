@@ -12,6 +12,10 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+class Bar
+{
+}
+
 class Foo
 {
 }
@@ -28,6 +32,7 @@ Assert::false($type->allows('string|null'));
 Assert::false($type->allows('Foo'));
 Assert::false($type->allows('FooChild'));
 Assert::false($type->allows('Foo|FooChild'));
+Assert::false($type->allows('Foo&Bar'));
 
 
 $type = Type::fromString('string|null');
@@ -37,6 +42,7 @@ Assert::true($type->allows('string|null'));
 Assert::false($type->allows('Foo'));
 Assert::false($type->allows('FooChild'));
 Assert::false($type->allows('Foo|FooChild'));
+Assert::false($type->allows('Foo&Bar'));
 
 
 $type = Type::fromString('string|Foo');
@@ -46,6 +52,7 @@ Assert::false($type->allows('string|null'));
 Assert::true($type->allows('Foo'));
 Assert::true($type->allows('FooChild'));
 Assert::true($type->allows('Foo|FooChild'));
+Assert::true($type->allows('Foo&Bar'));
 
 
 $type = Type::fromString('mixed');
@@ -55,3 +62,18 @@ Assert::true($type->allows('string|null'));
 Assert::true($type->allows('Foo'));
 Assert::true($type->allows('FooChild'));
 Assert::true($type->allows('Foo|FooChild'));
+Assert::true($type->allows('Foo&Bar'));
+
+
+$type = Type::fromString('Bar&Foo');
+Assert::false($type->allows('string'));
+Assert::false($type->allows('null'));
+Assert::false($type->allows('Foo'));
+Assert::false($type->allows('FooChild'));
+Assert::true($type->allows('Foo&Bar'));
+Assert::true($type->allows('FooChild&Bar'));
+Assert::true($type->allows('Foo&Bar&Baz'));
+
+
+$type = Type::fromString('Bar&FooChild');
+Assert::false($type->allows('Foo&Bar'));

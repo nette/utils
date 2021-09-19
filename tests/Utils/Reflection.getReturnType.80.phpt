@@ -116,11 +116,11 @@ Assert::same(['A', 'array', 'null'], Reflection::getReturnTypes(new \ReflectionM
 
 Assert::exception(function () {
 	Reflection::getReturnType(new \ReflectionMethod(A::class, 'unionType'));
-}, Nette\InvalidStateException::class, 'The A::unionType() is not expected to have a union type.');
+}, Nette\InvalidStateException::class, 'The A::unionType() is not expected to have a union or intersection type.');
 
 Assert::exception(function () {
 	Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableUnionType'));
-}, Nette\InvalidStateException::class, 'The A::nullableUnionType() is not expected to have a union type.');
+}, Nette\InvalidStateException::class, 'The A::nullableUnionType() is not expected to have a union or intersection type.');
 
 Assert::same('A', Reflection::getReturnType(new \ReflectionMethod(AExt::class, 'parentTypeExt')));
 
@@ -134,4 +134,4 @@ Assert::same(['A', 'array'], Reflection::getReturnTypes(new \ReflectionFunction(
 
 Assert::exception(function () {
 	Reflection::getReturnType(new \ReflectionFunction('unionType'));
-}, Nette\InvalidStateException::class, 'The unionType() is not expected to have a union type.');
+}, Nette\InvalidStateException::class, 'The unionType() is not expected to have a union or intersection type.');

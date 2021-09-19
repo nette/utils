@@ -43,6 +43,12 @@ Assert::same(['mixed'], $type->getNames());
 Assert::same('mixed', (string) $type);
 
 
+$type = Type::fromReflection(new ReflectionFunction(function (): Bar&Foo {}));
+
+Assert::same(['Bar', 'Foo'], $type->getNames());
+Assert::same('Bar&Foo', (string) $type);
+
+
 // tentative type
 $type = Type::fromReflection(new \ReflectionMethod(\ArrayObject::class, 'count'));
 Assert::same('int', (string) $type);

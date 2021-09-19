@@ -20,6 +20,7 @@ Assert::same('string', (string) $type);
 Assert::same('string', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::false($type->isUnion());
+Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
 
@@ -32,6 +33,7 @@ Assert::same('?string', (string) $type);
 Assert::same('string', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
+Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
 
@@ -44,6 +46,7 @@ Assert::same('?string', (string) $type);
 Assert::same('string', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
+Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
 
@@ -56,6 +59,7 @@ Assert::same('?string', (string) $type);
 Assert::same('string', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
+Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
 
@@ -68,6 +72,7 @@ Assert::same('NS\Foo', (string) $type);
 Assert::same('NS\Foo', $type->getSingleName());
 Assert::true($type->isClass());
 Assert::false($type->isUnion());
+Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::false($type->isBuiltin());
 
@@ -80,6 +85,7 @@ Assert::same('string|Foo', (string) $type);
 Assert::null($type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
+Assert::false($type->isIntersection());
 Assert::false($type->isSingle());
 Assert::false($type->isBuiltin());
 
@@ -92,6 +98,7 @@ Assert::same('mixed', (string) $type);
 Assert::same('mixed', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::false($type->isUnion());
+Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
 
@@ -104,5 +111,19 @@ Assert::same('null', (string) $type);
 Assert::same('null', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::false($type->isUnion());
+Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
+
+
+$type = Type::fromString('Bar&Foo');
+
+Assert::same(['Bar', 'Foo'], $type->getNames());
+Assert::equal([Type::fromString('Bar'), Type::fromString('Foo')], $type->getTypes());
+Assert::same('Bar&Foo', (string) $type);
+Assert::null($type->getSingleName());
+Assert::false($type->isClass());
+Assert::false($type->isUnion());
+Assert::true($type->isIntersection());
+Assert::false($type->isSingle());
+Assert::false($type->isBuiltin());

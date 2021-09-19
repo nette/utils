@@ -16,6 +16,11 @@ return function (Symfony\Component\DependencyInjection\Loader\Configurator\Conta
 	$parameters->set('skip', [
 		'fixtures*/*',
 
+		'tests/Utils/Reflection.getParameterType.81.phpt',
+		'tests/Utils/Reflection.getPropertyType.81.phpt',
+		'tests/Utils/Reflection.getReturnType.81.phpt',
+		'tests/Utils/Type.fromReflection.function.81.phpt',
+
 		// RemoteStream extends streamWrapper
 		PHP_CodeSniffer\Standards\PSR1\Sniffs\Methods\CamelCapsMethodNameSniff::class => [
 			'tests/Utils/FileSystem.phpt',

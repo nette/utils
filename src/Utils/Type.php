@@ -23,6 +23,9 @@ final class Type
 	/** @var bool */
 	private $single;
 
+	/** @var string  |, & */
+	private $kind;
+
 
 	/**
 	 * Creates a Type object based on reflection. Resolves self, static and parent to the actual class name.
@@ -48,12 +51,13 @@ final class Type
 			$name = self::resolve($type->getName(), $reflection);
 			return new self($type->allowsNull() && $type->getName() !== 'mixed' ? [$name, 'null'] : [$name]);
 
-		} elseif ($type instanceof \ReflectionUnionType) {
+		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
 			return new self(
 				array_map(
 					function ($t) use ($reflection) { return self::resolve($t->getName(), $reflection); },
 					$type->getTypes()
-				)
+				),
+				$type instanceof \ReflectionUnionType ? '|' : '&'
 			);
 
 		} else {
@@ -67,11 +71,17 @@ final class Type
 	 */
 	public static function fromString(string $type): self
 	{
-		if (!preg_match('#(?:\?([\w\\\\]+)|[\w\\\\]+(?:\|[\w\\\\]+)*)$#AD', $type, $m)) {
+		if (!preg_match('#(?:
+			\?([\w\\\\]+)|
+			[\w\\\\]+ (?: (&[\w\\\\]+)* | (\|[\w\\\\]+)* )
+		)()$#xAD', $type, $m)) {
 			throw new Nette\InvalidArgumentException("Invalid type '$type'.");
 		}
-		if (isset($m[1])) {
-			return new self([$m[1], 'null']);
+		[, $nType, $iType] = $m;
+		if ($nType) {
+			return new self([$nType, 'null']);
+		} elseif ($iType) {
+			return new self(explode('&', $type), '&');
 		} else {
 			return new self(explode('|', $type));
 		}
@@ -97,13 +107,14 @@ final class Type
 	}
 
 
-	private function __construct(array $types)
+	private function __construct(array $types, string $kind = '|')
 	{
 		if ($types[0] === 'null') { // null as last
 			array_push($types, array_shift($types));
 		}
 		$this->types = $types;
 		$this->single = ($types[1] ?? 'null') === 'null';
+		$this->kind = count($types) > 1 ? $kind : '';
 	}
 
 
@@ -111,7 +122,7 @@ final class Type
 	{
 		return $this->single
 			? (count($this->types) > 1 ? '?' : '') . $this->types[0]
-			: implode('|', $this->types);
+			: implode($this->kind, $this->types);
 	}
 
 
@@ -151,7 +162,16 @@ final class Type
 	 */
 	public function isUnion(): bool
 	{
-		return count($this->types) > 1;
+		return $this->kind === '|';
+	}
+
+
+	/**
+	 * Returns true whether it is an intersection type.
+	 */
+	public function isIntersection(): bool
+	{
+		return $this->kind === '&';
 	}
 
 
@@ -190,7 +210,25 @@ final class Type
 		if ($this->types === ['mixed']) {
 			return true;
 		}
-		return Arrays::every((self::fromString($type))->types, function ($testedType) {
+
+		$type = self::fromString($type);
+
+		if ($this->isIntersection()) {
+			if (!$type->isIntersection()) {
+				return false;
+			}
+			return Arrays::every($this->types, function ($currentType) use ($type) {
+				$builtin = Reflection::isBuiltinType($currentType);
+				return Arrays::some($type->types, function ($testedType) use ($currentType, $builtin) {
+					return $builtin
+						? strcasecmp($currentType, $testedType) === 0
+						: is_a($testedType, $currentType, true);
+				});
+			});
+		}
+
+		$method = $type->isIntersection() ? 'some' : 'every';
+		return Arrays::$method($type->types, function ($testedType) {
 			$builtin = Reflection::isBuiltinType($testedType);
 			return Arrays::some($this->types, function ($currentType) use ($testedType, $builtin) {
 				return $builtin

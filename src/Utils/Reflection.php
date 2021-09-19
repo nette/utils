@@ -38,7 +38,7 @@ final class Reflection
 	/**
 	 * Returns the type of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
 	 * If the function does not have a return type, it returns null.
-	 * If the function has union type, it throws Nette\InvalidStateException.
+	 * If the function has union or intersection type, it throws Nette\InvalidStateException.
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func): ?string
 	{
@@ -60,7 +60,7 @@ final class Reflection
 	/**
 	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
 	 * If the parameter does not have a type, it returns null.
-	 * If the parameter has union type, it throws Nette\InvalidStateException.
+	 * If the parameter has union or intersection type, it throws Nette\InvalidStateException.
 	 */
 	public static function getParameterType(\ReflectionParameter $param): ?string
 	{
@@ -81,7 +81,7 @@ final class Reflection
 	/**
 	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
 	 * If the property does not have a type, it returns null.
-	 * If the property has union type, it throws Nette\InvalidStateException.
+	 * If the property has union or intersection type, it throws Nette\InvalidStateException.
 	 */
 	public static function getPropertyType(\ReflectionProperty $prop): ?string
 	{
@@ -110,8 +110,8 @@ final class Reflection
 		} elseif ($type instanceof \ReflectionNamedType) {
 			return Type::resolve($type->getName(), $reflection);
 
-		} elseif ($type instanceof \ReflectionUnionType) {
-			throw new Nette\InvalidStateException('The ' . self::toString($reflection) . ' is not expected to have a union type.');
+		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
+			throw new Nette\InvalidStateException('The ' . self::toString($reflection) . ' is not expected to have a union or intersection type.');
 
 		} else {
 			throw new Nette\InvalidStateException('Unexpected type of ' . self::toString($reflection));
