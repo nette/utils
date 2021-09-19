@@ -66,7 +66,7 @@ Assert::exception(function () {
 if (defined('JSON_C_VERSION')) {
 	if (PHP_INT_SIZE > 4) {
 		// 64-bit
-		Assert::same([9223372036854775807], Json::decode('[12345678901234567890]'));   // trimmed to max 64-bit integer
+		Assert::same([9_223_372_036_854_775_807], Json::decode('[12345678901234567890]'));   // trimmed to max 64-bit integer
 	} else {
 		// 32-bit
 		Assert::same(['9223372036854775807'], Json::decode('[12345678901234567890]'));  // trimmed to max 64-bit integer
