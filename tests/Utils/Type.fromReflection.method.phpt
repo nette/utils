@@ -35,5 +35,5 @@ $class = new class {
 };
 $type = Type::fromReflection((new ReflectionObject($class))->getMethod('foo'));
 
-Assert::same([get_class($class)], $type->getNames());
-Assert::same(get_class($class), (string) $type);
+Assert::same([$class::class], $type->getNames());
+Assert::same($class::class, (string) $type);

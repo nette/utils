@@ -52,10 +52,10 @@ final class Type
 		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
 			return new self(
 				array_map(
-					function ($t) use ($reflection) { return self::resolve($t->getName(), $reflection); },
-					$type->getTypes()
+					fn($t) => self::resolve($t->getName(), $reflection),
+					$type->getTypes(),
 				),
-				$type instanceof \ReflectionUnionType ? '|' : '&'
+				$type instanceof \ReflectionUnionType ? '|' : '&',
 			);
 
 		} else {
@@ -142,7 +142,7 @@ final class Type
 	 */
 	public function getTypes(): array
 	{
-		return array_map(function ($name) { return self::fromString($name); }, $this->types);
+		return array_map(fn($name) => self::fromString($name), $this->types);
 	}
 
 
@@ -223,28 +223,21 @@ final class Type
 		$type = self::fromString($type);
 
 		if ($this->isIntersection()) {
-			if (!$type->isIntersection()) {
-				return false;
-			}
-
-			return Arrays::every($this->types, function ($currentType) use ($type) {
-				$builtin = Reflection::isBuiltinType($currentType);
-				return Arrays::some($type->types, function ($testedType) use ($currentType, $builtin) {
-					return $builtin
+			return $type->isIntersection()
+				&& Arrays::every($this->types, function ($currentType) use ($type) {
+					$builtin = Reflection::isBuiltinType($currentType);
+					return Arrays::some($type->types, fn($testedType) => $builtin
 						? strcasecmp($currentType, $testedType) === 0
-						: is_a($testedType, $currentType, true);
+						: is_a($testedType, $currentType, true));
 				});
-			});
 		}
 
 		$method = $type->isIntersection() ? 'some' : 'every';
 		return Arrays::$method($type->types, function ($testedType) {
 			$builtin = Reflection::isBuiltinType($testedType);
-			return Arrays::some($this->types, function ($currentType) use ($testedType, $builtin) {
-				return $builtin
-					? strcasecmp($currentType, $testedType) === 0
-					: is_a($testedType, $currentType, true);
-			});
+			return Arrays::some($this->types, fn($currentType) => $builtin
+				? strcasecmp($currentType, $testedType) === 0
+				: is_a($testedType, $currentType, true));
 		});
 	}
 }
