@@ -33,10 +33,13 @@ final class Type
 	{
 		if ($reflection instanceof \ReflectionProperty && PHP_VERSION_ID < 70400) {
 			return null;
+		} elseif ($reflection instanceof \ReflectionMethod) {
+			$type = $reflection->getReturnType() ?? (PHP_VERSION_ID >= 80100 ? $reflection->getTentativeReturnType() : null);
+		} else {
+			$type = $reflection instanceof \ReflectionFunctionAbstract
+				? $reflection->getReturnType()
+				: $reflection->getType();
 		}
-		$type = $reflection instanceof \ReflectionFunctionAbstract
-			? $reflection->getReturnType()
-			: $reflection->getType();
 
 		if ($type === null) {
 			return null;
