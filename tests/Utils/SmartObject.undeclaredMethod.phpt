@@ -120,18 +120,12 @@ Assert::exception(function () {
 	$obj::callMissingParentStatic();
 }, Nette\MemberAccessException::class, 'Call to undefined static method InterClass::callMissingParentStatic().');
 
-Assert::exception(
-	function () {
-		$obj = new ChildClass;
-		$obj->callPrivateParent();
-	},
-	Nette\MemberAccessException::class,
-	PHP_VERSION_ID < 70400
-		? 'Call to private method InterClass::callPrivateParent() from scope ChildClass.'
-		: (PHP_VERSION_ID < 80100
-			? 'Call to undefined static method InterClass::callPrivateParent().' // differs from native error message
-			: 'Call to undefined method InterClass::callPrivateParent().')
-);
+Assert::exception(function () {
+	$obj = new ChildClass;
+	$obj->callPrivateParent();
+}, Nette\MemberAccessException::class, PHP_VERSION_ID < 80100
+	? 'Call to undefined static method InterClass::callPrivateParent().' // differs from native error message
+	: 'Call to undefined method InterClass::callPrivateParent().');
 
 Assert::exception(function () {
 	$obj = new ChildClass;
