@@ -23,6 +23,7 @@ Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
+Assert::false($type->isClassKeyword());
 
 
 $type = Type::fromString('string|null');
@@ -36,6 +37,7 @@ Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
+Assert::false($type->isClassKeyword());
 
 
 $type = Type::fromString('null|string');
@@ -49,6 +51,7 @@ Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
+Assert::false($type->isClassKeyword());
 
 
 $type = Type::fromString('?string');
@@ -62,6 +65,7 @@ Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
+Assert::false($type->isClassKeyword());
 
 
 $type = Type::fromString('NS\Foo');
@@ -75,6 +79,7 @@ Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::false($type->isBuiltin());
+Assert::false($type->isClassKeyword());
 
 
 $type = Type::fromString('string|Foo');
@@ -88,6 +93,7 @@ Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
 Assert::false($type->isSingle());
 Assert::false($type->isBuiltin());
+Assert::false($type->isClassKeyword());
 
 
 $type = Type::fromString('mixed');
@@ -101,6 +107,7 @@ Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
+Assert::false($type->isClassKeyword());
 
 
 $type = Type::fromString('null'); // invalid type
@@ -114,6 +121,7 @@ Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
 Assert::true($type->isSingle());
 Assert::true($type->isBuiltin());
+Assert::false($type->isClassKeyword());
 
 
 $type = Type::fromString('Bar&Foo');
@@ -127,3 +135,18 @@ Assert::false($type->isUnion());
 Assert::true($type->isIntersection());
 Assert::false($type->isSingle());
 Assert::false($type->isBuiltin());
+Assert::false($type->isClassKeyword());
+
+
+$type = Type::fromString('self');
+
+Assert::same(['self'], $type->getNames());
+Assert::equal([Type::fromString('self')], $type->getTypes());
+Assert::same('self', (string) $type);
+Assert::same('self', $type->getSingleName());
+Assert::true($type->isClass());
+Assert::false($type->isUnion());
+Assert::false($type->isIntersection());
+Assert::true($type->isSingle());
+Assert::false($type->isBuiltin());
+Assert::true($type->isClassKeyword());

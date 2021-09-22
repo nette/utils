@@ -25,6 +25,10 @@ final class Reflection
 		'never' => 1,
 	];
 
+	private const CLASS_KEYWORDS = [
+		'self' => 1, 'parent' => 1, 'static' => 1,
+	];
+
 
 	/**
 	 * Determines if type is PHP built-in type. Otherwise, it is the class name.
@@ -32,6 +36,15 @@ final class Reflection
 	public static function isBuiltinType(string $type): bool
 	{
 		return isset(self::BUILTIN_TYPES[strtolower($type)]);
+	}
+
+
+	/**
+	 * Determines if type is special class name self/parent/static.
+	 */
+	public static function isClassKeyword(string $name): bool
+	{
+		return isset(self::CLASS_KEYWORDS[strtolower($name)]);
 	}
 
 
