@@ -262,6 +262,11 @@ final class Reflection
 		} elseif ($lower === 'self' || $lower === 'static') {
 			return $context->name;
 
+		} elseif ($lower === 'parent') {
+			return $context->getParentClass()
+				? $context->getParentClass()->name
+				: 'parent';
+
 		} elseif ($name[0] === '\\') { // fully qualified name
 			return ltrim($name, '\\');
 		}
