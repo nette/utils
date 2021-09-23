@@ -48,6 +48,10 @@ Assert::same('BTest', Reflection::expandClassName('BTest', $rcBTest));
 Assert::same('Test\Space\Foo', Reflection::expandClassName('self', $rcFoo));
 Assert::same('Test\Space\Foo', Reflection::expandClassName('Self', $rcFoo));
 
+Assert::same('parent', Reflection::expandClassName('parent', $rcFoo));
+Assert::same('Test\Space\Foo', Reflection::expandClassName('parent', new ReflectionClass(new class extends Test\Space\Foo {
+})));
+
 foreach (['String', 'string', 'int', 'float', 'bool', 'array', 'callable', 'iterable', 'void', 'null'] as $type) {
 	Assert::same(strtolower($type), Reflection::expandClassName($type, $rcFoo));
 }
