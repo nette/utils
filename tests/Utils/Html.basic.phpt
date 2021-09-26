@@ -14,63 +14,55 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test('', function () {
-	Html::$xhtml = true;
 	$el = Html::el('img')->src('image.gif')->alt('');
-	Assert::same('<img src="image.gif" alt="" />', (string) $el);
-	Assert::same('<img src="image.gif" alt="" />', $el->toHtml());
-	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
+	Assert::same('<img src="image.gif" alt="">', (string) $el);
+	Assert::same('<img src="image.gif" alt="">', $el->toHtml());
+	Assert::same('<img src="image.gif" alt="">', $el->startTag());
 	Assert::same('', $el->endTag());
 });
 
 
 test('', function () {
-	Html::$xhtml = true;
 	$el = Html::el('img')->setAttribute('src', 'image.gif')->setAttribute('alt', '');
-	Assert::same('<img src="image.gif" alt="" />', (string) $el);
-	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
+	Assert::same('<img src="image.gif" alt="">', (string) $el);
+	Assert::same('<img src="image.gif" alt="">', $el->startTag());
 	Assert::same('', $el->endTag());
 });
 
 
 test('', function () {
-	Html::$xhtml = true;
 	$el = Html::el('img')->accesskey(0, true)->alt('alt', false);
-	Assert::same('<img accesskey="0" />', (string) $el);
-	Assert::same('<img accesskey="0 1" />', (string) $el->accesskey(1, true));
-	Assert::same('<img accesskey="0" />', (string) $el->accesskey(1, false));
-	Assert::same('<img accesskey="0" />', (string) $el->accesskey(0, true));
-	Assert::same('<img accesskey="0" />', (string) $el->accesskey(0));
+	Assert::same('<img accesskey="0">', (string) $el);
+	Assert::same('<img accesskey="0 1">', (string) $el->accesskey(1, true));
+	Assert::same('<img accesskey="0">', (string) $el->accesskey(1, false));
+	Assert::same('<img accesskey="0">', (string) $el->accesskey(0, true));
+	Assert::same('<img accesskey="0">', (string) $el->accesskey(0));
 
 	unset($el->accesskey);
-	Assert::same('<img />', (string) $el);
+	Assert::same('<img>', (string) $el);
 });
 
 
 test('', function () {
-	Html::$xhtml = true;
 	$el = Html::el('img')->appendAttribute('accesskey', 0)->setAttribute('alt', false);
-	Assert::same('<img accesskey="0" />', (string) $el);
-	Assert::same('<img accesskey="0 1" />', (string) $el->appendAttribute('accesskey', 1));
-	Assert::same('<img accesskey="0" />', (string) $el->appendAttribute('accesskey', 1, false));
-	Assert::same('<img accesskey="0" />', (string) $el->appendAttribute('accesskey', 0));
-	Assert::same('<img accesskey="0" />', (string) $el->setAttribute('accesskey', 0));
-	Assert::same('<img />', (string) $el->removeAttribute('accesskey'));
+	Assert::same('<img accesskey="0">', (string) $el);
+	Assert::same('<img accesskey="0 1">', (string) $el->appendAttribute('accesskey', 1));
+	Assert::same('<img accesskey="0">', (string) $el->appendAttribute('accesskey', 1, false));
+	Assert::same('<img accesskey="0">', (string) $el->appendAttribute('accesskey', 0));
+	Assert::same('<img accesskey="0">', (string) $el->setAttribute('accesskey', 0));
+	Assert::same('<img>', (string) $el->removeAttribute('accesskey'));
 });
 
 
 test('', function () {
 	$el = Html::el('img')->src('image.gif')->alt('')->setText('any content');
-	Assert::same('<img src="image.gif" alt="" />', (string) $el);
-	Assert::same('<img src="image.gif" alt="" />', $el->startTag());
-	Assert::same('', $el->endTag());
-
-	Html::$xhtml = false;
 	Assert::same('<img src="image.gif" alt="">', (string) $el);
+	Assert::same('<img src="image.gif" alt="">', $el->startTag());
+	Assert::same('', $el->endTag());
 });
 
 
 test('', function () {
-	Html::$xhtml = false;
 	$el = Html::el('img')->setSrc('image.gif')->setAlt('alt1')->setAlt('alt2');
 	Assert::same('<img src="image.gif" alt="alt2">', (string) $el);
 	Assert::same('image.gif', $el->getSrc());
@@ -104,10 +96,6 @@ test('small & big numbers', function () {
 
 
 test('attributes escaping', function () {
-	Html::$xhtml = true;
-	Assert::same('<a one=\'"\' two="\'" three="&lt;>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;'));
-
-	Html::$xhtml = false;
 	Assert::same('<a one=\'"\' two="\'" three="<>" four="&amp;amp;"></a>', (string) Html::el('a')->one('"')->two("'")->three('<>')->four('&amp;'));
 	Assert::same('<a one="``xx "></a>', (string) Html::el('a')->one('``xx')); // mXSS
 });
