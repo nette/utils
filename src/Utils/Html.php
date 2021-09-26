@@ -238,8 +238,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/** @var array<string, mixed>  element's attributes */
 	public $attrs = [];
 
-	public static bool $xhtml = false;
-
 	/** void elements */
 	public static $emptyElements = [
 		'img' => 1, 'hr' => 1, 'br' => 1, 'input' => 1, 'meta' => 1, 'area' => 1, 'embed' => 1, 'keygen' => 1,
@@ -748,7 +746,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	final public function startTag(): string
 	{
 		return $this->name
-			? '<' . $this->name . $this->attributes() . (static::$xhtml && $this->isEmpty ? ' />' : '>')
+			? '<' . $this->name . $this->attributes() . '>'
 			: '';
 	}
 
@@ -779,11 +777,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 				continue;
 
 			} elseif ($value === true) {
-				if (static::$xhtml) {
-					$s .= ' ' . $key . '="' . $key . '"';
-				} else {
-					$s .= ' ' . $key;
-				}
+				$s .= ' ' . $key;
 
 				continue;
 
@@ -819,7 +813,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 			$s .= ' ' . $key . '=' . $q
 				. str_replace(
 					['&', $q, '<'],
-					['&amp;', $q === '"' ? '&quot;' : '&#39;', self::$xhtml ? '&lt;' : '<'],
+					['&amp;', $q === '"' ? '&quot;' : '&#39;', '<'],
 					$value,
 				)
 				. (str_contains($value, '`') && strpbrk($value, ' <>"\'') === false ? ' ' : '')
