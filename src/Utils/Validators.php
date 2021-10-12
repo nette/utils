@@ -294,11 +294,11 @@ class Validators
 	/**
 	 * Checks if the value is a valid email address. It does not verify that the domain actually exists, only the syntax is verified.
 	 */
-	public static function isEmail(string $value): bool
+	public static function isEmail(string $value, bool $checkDns = false): bool
 	{
 		$atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
 		$alpha = "a-z\x80-\xFF"; // superset of IDN
-		return (bool) preg_match(<<<XX
+		$is = (bool) preg_match(<<<XX
 			(^
 				("([ !#-[\\]-~]*|\\\\[ -~])+"|$atom+(\\.$atom+)*)  # quoted or unquoted
 				@
@@ -306,6 +306,12 @@ class Validators
 				[$alpha]([-0-9$alpha]{0,17}[$alpha])?              # top domain
 			$)Dix
 			XX, $value);
+		if ($is && $checkDns) {
+			$domain = (string) preg_replace('/^[^@]+@([^@]+)$/', '$1', $value);
+			$is = (bool) @dns_get_record($domain, DNS_MX);
+		}
+
+		return $is;
 	}
 
 
