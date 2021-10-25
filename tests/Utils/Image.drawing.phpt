@@ -36,7 +36,7 @@ $image->filledEllipse(187, 125, $radius, $radius, Image::rgb(0, 0, 255, 75));
 
 $image->copyResampled($image, 200, 200, 0, 0, 80, 80, $size, $size);
 
-$file = defined('PHP_WINDOWS_VERSION_BUILD') && PHP_VERSION_ID >= 80100
+$file = defined('PHP_WINDOWS_VERSION_BUILD') && PHP_VERSION_ID >= 70424
 	? '/expected/Image.drawing.1b.gd2'
 	: '/expected/Image.drawing.1.gd2';
 Assert::same(file_get_contents(__DIR__ . $file), toGd2($image));
