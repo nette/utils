@@ -556,13 +556,16 @@ class Strings
 		string|array $pattern,
 		string|callable $replacement = '',
 		int $limit = -1,
+		bool $captureOffset = false,
+		bool $unmatchedAsNull = false,
 	): string {
 		if (is_object($replacement) || is_array($replacement)) {
 			if (!is_callable($replacement, false, $textual)) {
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
 
-			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit]);
+			$flags = ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0);
+			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit, 0, $flags]);
 
 		} elseif (is_array($pattern) && is_string(key($pattern))) {
 			$replacement = array_values($pattern);
