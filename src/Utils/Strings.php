@@ -491,12 +491,13 @@ class Strings
 		string $pattern,
 		bool|int $captureOffset = false,
 		bool $skipEmpty = false,
+		int $limit = -1,
 	): array
 	{
 		$flags = is_int($captureOffset)  // back compatibility
 			? $captureOffset
 			: ($captureOffset ? PREG_SPLIT_OFFSET_CAPTURE : 0) | ($skipEmpty ? PREG_SPLIT_NO_EMPTY : 0);
-		return self::pcre('preg_split', [$pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE]);
+		return self::pcre('preg_split', [$pattern, $subject, $limit, $flags | PREG_SPLIT_DELIM_CAPTURE]);
 	}
 
 
