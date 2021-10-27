@@ -52,3 +52,5 @@ Assert::same([
 	[',', 4],
 	['c', 6],
 ], Strings::split('a, b, c', '#(,)\s*#', captureOffset: true));
+
+Assert::same(['a', ',', 'b, c'], Strings::split('a, b, c', '#(,)\s*#', limit: 2));
