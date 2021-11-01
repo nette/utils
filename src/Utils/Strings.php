@@ -63,6 +63,24 @@ class Strings
 
 
 	/**
+	 * Returns a code point of specific character in UTF-8 (number in range 0x0000..D7FF or 0xE000..10FFFF).
+	 */
+	public static function ord(string $c): int
+	{
+		if (!extension_loaded('iconv')) {
+			throw new Nette\NotSupportedException(__METHOD__ . '() requires ICONV extension that is not loaded.');
+		}
+
+		$tmp = iconv('UTF-8', 'UTF-32BE//IGNORE', $c);
+		if (!$tmp) {
+			throw new Nette\InvalidArgumentException('Invalid UTF-8 character "' . ($c === '' ? '' : '\x' . strtoupper(bin2hex($c))) . '".');
+		}
+
+		return unpack('N', $tmp)[1];
+	}
+
+
+	/**
 	 * @deprecated use str_starts_with()
 	 */
 	public static function startsWith(string $haystack, string $needle): bool
