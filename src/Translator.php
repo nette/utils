@@ -18,7 +18,7 @@ interface Translator
 	/**
 	 * Translates the given string.
 	 */
-	function translate(mixed $message, mixed ...$parameters): string;
+	function translate(string|\Stringable $message, mixed ...$parameters): string|\Stringable;
 }
 
 
