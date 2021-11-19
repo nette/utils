@@ -56,3 +56,22 @@ class RegexpException extends \Exception
 class AssertionException extends \Exception
 {
 }
+
+
+class FutureException extends \Exception
+{
+	private array $missingKeys = [];
+
+
+	public function setMissingKeys(array $keys): static
+	{
+		$this->missingKeys = $keys;
+		return $this;
+	}
+
+
+	public function getMissingKeys(): array
+	{
+		return $this->missingKeys;
+	}
+}
