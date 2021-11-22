@@ -456,6 +456,8 @@ class Strings
 			$len = strlen($haystack);
 			if ($needle === '') {
 				return $len;
+			} elseif ($len === 0) {
+				return null;
 			}
 			$pos = $len - 1;
 			while (($pos = strrpos($haystack, $needle, $pos - $len)) !== false && ++$nth) {
