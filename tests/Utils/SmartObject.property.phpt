@@ -16,6 +16,7 @@ require __DIR__ . '/../bootstrap.php';
  * @property int $bar
  * @property int $bazz
  * @property int $s
+ * @property-deprecated int $depr
  */
 class TestClass
 {
@@ -69,6 +70,16 @@ class TestClass
 		echo __METHOD__;
 		return 'ERROR';
 	}
+
+
+	public function setDepr($value)
+	{
+	}
+
+
+	public function getDepr()
+	{
+	}
 }
 
 
@@ -115,3 +126,15 @@ Assert::same('World', $obj->bar);
 Assert::exception(function () use ($obj) {
 	$val = $obj->bazz;
 }, Nette\MemberAccessException::class, 'Cannot read a write-only property TestClass::$bazz.');
+
+
+// deprecated property
+Assert::error(function () {
+	$obj = new TestClass;
+	$obj->depr = 10;
+}, E_USER_DEPRECATED, 'Property TestClass::$depr is deprecated, use TestClass::setDepr() method in %a%SmartObject.property.phpt on line %d%.');
+
+Assert::error(function () {
+	$obj = new TestClass;
+	$val = $obj->depr;
+}, E_USER_DEPRECATED, 'Property TestClass::$depr is deprecated, use TestClass::getDepr() method in %a%SmartObject.property.phpt on line %d%.');

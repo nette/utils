@@ -165,3 +165,24 @@ test('isAbsolute', function () {
 	Assert::true(FileSystem::isAbsolute('http://file'));
 	Assert::true(FileSystem::isAbsolute('remote://file'));
 });
+
+
+if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
+	test('makeWritable', function () {
+		FileSystem::createDir(getTempDir() . '/12/x');
+		FileSystem::write(getTempDir() . '/12/x/file', 'Hello');
+		chmod(getTempDir() . '/12/x/file', 0444);
+		chmod(getTempDir() . '/12/x', 0555);
+		chmod(getTempDir() . '/12', 0555);
+
+		FileSystem::makeWritable(getTempDir() . '/12');
+
+		Assert::same(0777, fileperms(getTempDir() . '/12') & 0777);
+		Assert::same(0777, fileperms(getTempDir() . '/12/x') & 0777);
+		Assert::same(0666, fileperms(getTempDir() . '/12/x/file') & 0777);
+	});
+}
+
+Assert::exception(function () {
+	FileSystem::makeWritable(getTempDir() . '/13');
+}, Nette\IOException::class, "File or directory '%S%' not found.");

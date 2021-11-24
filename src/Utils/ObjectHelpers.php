@@ -20,7 +20,10 @@ final class ObjectHelpers
 {
 	use Nette\StaticClass;
 
-	/** @throws MemberAccessException */
+	/**
+	 * @return never
+	 * @throws MemberAccessException
+	 */
 	public static function strictGet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
@@ -32,7 +35,10 @@ final class ObjectHelpers
 	}
 
 
-	/** @throws MemberAccessException */
+	/**
+	 * @return never
+	 * @throws MemberAccessException
+	 */
 	public static function strictSet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
@@ -44,7 +50,10 @@ final class ObjectHelpers
 	}
 
 
-	/** @throws MemberAccessException */
+	/**
+	 * @return never
+	 * @throws MemberAccessException
+	 */
 	public static function strictCall(string $class, string $method, array $additionalMethods = []): void
 	{
 		$trace = debug_backtrace(0, 3); // suppose this method is called from __call()
@@ -74,7 +83,10 @@ final class ObjectHelpers
 	}
 
 
-	/** @throws MemberAccessException */
+	/**
+	 * @return never
+	 * @throws MemberAccessException
+	 */
 	public static function strictStaticCall(string $class, string $method): void
 	{
 		$trace = debug_backtrace(0, 3); // suppose this method is called from __callStatic()
@@ -118,7 +130,7 @@ final class ObjectHelpers
 
 		$rc = new \ReflectionClass($class);
 		preg_match_all(
-			'~^  [ \t*]*  @property(|-read|-write)  [ \t]+  [^\s$]+  [ \t]+  \$  (\w+)  ()~mx',
+			'~^  [ \t*]*  @property(|-read|-write|-deprecated)  [ \t]+  [^\s$]+  [ \t]+  \$  (\w+)  ()~mx',
 			(string) $rc->getDocComment(),
 			$matches,
 			PREG_SET_ORDER,
@@ -135,7 +147,7 @@ final class ObjectHelpers
 				&& ($rm = $rc->getMethod($nm))->name === $nm && !$rm->isPrivate() && !$rm->isStatic();
 
 			if ($read || $write) {
-				$props[$name] = $read << 0 | ($nm[0] === 'g') << 1 | $rm->returnsReference() << 2 | $write << 3;
+				$props[$name] = $read << 0 | ($nm[0] === 'g') << 1 | $rm->returnsReference() << 2 | $write << 3 | ($type === '-deprecated') << 4;
 			}
 		}
 
@@ -184,7 +196,7 @@ final class ObjectHelpers
 				$traits += $trait->getTraits();
 			}
 		} while ($rc = $rc->getParentClass());
-		return preg_match_all($pattern, implode($doc), $m) ? $m[1] : [];
+		return preg_match_all($pattern, implode('', $doc), $m) ? $m[1] : [];
 	}
 
 

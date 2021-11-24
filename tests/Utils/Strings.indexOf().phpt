@@ -31,6 +31,8 @@ test('', function () {
 	Assert::null(Strings::indexOf($foo, 'not-in-string'));
 	Assert::null(Strings::indexOf($foo, 'b', -2));
 	Assert::null(Strings::indexOf($foo, 'b', 2));
+	Assert::null(Strings::indexOf('', 'a', 1));
+	Assert::null(Strings::indexOf('', 'a', -1));
 });
 
 

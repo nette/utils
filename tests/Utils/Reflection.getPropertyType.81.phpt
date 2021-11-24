@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getPropertyType
+ * @phpversion 8.1
  */
 
 declare(strict_types=1);
@@ -25,6 +26,7 @@ class A
 	public mixed $mixed;
 	public array|self $union;
 	public array|self|null $nullableUnion;
+	public AExt&A $intersection;
 }
 
 class AExt extends A
@@ -42,6 +44,8 @@ Assert::same('A', (string) Reflection::getPropertyType($props[3]));
 Assert::null(Reflection::getPropertyType($props[4]));
 Assert::same('?Test\B', (string) Reflection::getPropertyType($props[5]));
 Assert::same('mixed', (string) Reflection::getPropertyType($props[6]));
+Assert::same('A|array', (string) Reflection::getPropertyType($props[7], false));
+Assert::same('A|array|null', (string) Reflection::getPropertyType($props[8], false));
 $class = new ReflectionClass('AExt');
 $props = $class->getProperties();
 

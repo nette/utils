@@ -31,6 +31,19 @@ class Person
 }
 
 
+test('ArrayList::from', function () {
+	Assert::exception(function () {
+		ArrayList::from(['a' => 1, 'b' => 2]);
+	}, Nette\InvalidArgumentException::class, 'Array is not valid list.');
+
+	$mary = new Person('Mary');
+	$list = ArrayList::from([$mary, 'Jack']);
+
+	Assert::type(Nette\Utils\ArrayList::class, $list);
+	Assert::same([$mary, 'Jack'], iterator_to_array($list));
+});
+
+
 test('', function () {
 	$list = new ArrayList;
 	$jack = new Person('Jack');

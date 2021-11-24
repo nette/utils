@@ -58,6 +58,22 @@ class Strings
 
 
 	/**
+	 * Returns a code point of specific character in UTF-8 (number in range 0x0000..D7FF or 0xE000..10FFFF).
+	 */
+	public static function ord(string $c): int
+	{
+		if (!extension_loaded('iconv')) {
+			throw new Nette\NotSupportedException(__METHOD__ . '() requires ICONV extension that is not loaded.');
+		}
+		$tmp = iconv('UTF-8', 'UTF-32BE//IGNORE', $c);
+		if (!$tmp) {
+			throw new Nette\InvalidArgumentException('Invalid UTF-8 character "' . ($c === '' ? '' : '\x' . strtoupper(bin2hex($c))) . '".');
+		}
+		return unpack('N', $tmp)[1];
+	}
+
+
+	/**
 	 * Starts the $haystack string with the prefix $needle?
 	 */
 	public static function startsWith(string $haystack, string $needle): bool
@@ -456,6 +472,8 @@ class Strings
 			$len = strlen($haystack);
 			if ($needle === '') {
 				return $len;
+			} elseif ($len === 0) {
+				return null;
 			}
 			$pos = $len - 1;
 			while (($pos = strrpos($haystack, $needle, $pos - $len)) !== false && ++$nth) {
@@ -467,36 +485,79 @@ class Strings
 
 
 	/**
-	 * Splits a string into array by the regular expression.
-	 * Argument $flag takes same arguments as preg_split(), but PREG_SPLIT_DELIM_CAPTURE is set by default.
+	 * Splits a string into array by the regular expression. Parenthesized expression in the delimiter are captured.
 	 */
-	public static function split(string $subject, string $pattern, int $flags = 0): array
-	{
-		return self::pcre('preg_split', [$pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE]);
+	public static function split(
+		string $subject,
+		string $pattern,
+		bool|int $captureOffset = false,
+		bool $skipEmpty = false,
+		int $limit = -1,
+		bool $utf8 = false,
+	): array {
+		$flags = is_int($captureOffset) && $captureOffset // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_SPLIT_OFFSET_CAPTURE : 0) | ($skipEmpty ? PREG_SPLIT_NO_EMPTY : 0);
+		$pattern .= $utf8 ? 'u' : '';
+		$m = self::pcre('preg_split', [$pattern, $subject, $limit, $flags | PREG_SPLIT_DELIM_CAPTURE]);
+		if ($utf8 && ($flags & PREG_SPLIT_OFFSET_CAPTURE)) {
+			return self::bytesToChars($subject, [$m])[0];
+		}
+		return $m;
 	}
 
 
 	/**
 	 * Checks if given string matches a regular expression pattern and returns an array with first found match and each subpattern.
-	 * Argument $flag takes same arguments as function preg_match().
 	 */
-	public static function match(string $subject, string $pattern, int $flags = 0, int $offset = 0): ?array
-	{
+	public static function match(
+		string $subject,
+		string $pattern,
+		bool|int $captureOffset = false,
+		int $offset = 0,
+		bool $unmatchedAsNull = false,
+		bool $utf8 = false,
+	): ?array {
+		$flags = is_int($captureOffset) && $captureOffset // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0);
+		if ($utf8) {
+			$offset = strlen(self::substring($subject, 0, $offset));
+			$pattern .= 'u';
+		}
 		if ($offset > strlen($subject)) {
 			return null;
 		}
-		return self::pcre('preg_match', [$pattern, $subject, &$m, $flags, $offset])
-			? $m
-			: null;
+		if (!self::pcre('preg_match', [$pattern, $subject, &$m, $flags, $offset])) {
+			return null;
+		}
+		if ($utf8 && ($flags & PREG_OFFSET_CAPTURE)) {
+			return self::bytesToChars($subject, [$m])[0];
+		}
+		return $m;
 	}
 
 
 	/**
 	 * Finds all occurrences matching regular expression pattern and returns a two-dimensional array.
-	 * Argument $flag takes same arguments as function preg_match_all(), but PREG_SET_ORDER is set by default.
+	 * Result is array of matches (ie uses by default PREG_SET_ORDER).
 	 */
-	public static function matchAll(string $subject, string $pattern, int $flags = 0, int $offset = 0): array
-	{
+	public static function matchAll(
+		string $subject,
+		string $pattern,
+		bool|int $captureOffset = false,
+		int $offset = 0,
+		bool $unmatchedAsNull = false,
+		bool $patternOrder = false,
+		bool $utf8 = false,
+	): array {
+		$flags = is_int($captureOffset) && $captureOffset // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0) | ($patternOrder ? PREG_PATTERN_ORDER : 0);
+		if ($utf8) {
+			$offset = strlen(self::substring($subject, 0, $offset));
+			$pattern .= 'u';
+		}
 		if ($offset > strlen($subject)) {
 			return [];
 		}
@@ -505,6 +566,9 @@ class Strings
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
 			$offset,
 		]);
+		if ($utf8 && ($flags & PREG_OFFSET_CAPTURE)) {
+			return self::bytesToChars($subject, $m);
+		}
 		return $m;
 	}
 
@@ -517,19 +581,51 @@ class Strings
 		string|array $pattern,
 		string|callable $replacement = '',
 		int $limit = -1,
+		bool $captureOffset = false,
+		bool $unmatchedAsNull = false,
+		bool $utf8 = false,
 	): string {
 		if (is_object($replacement) || is_array($replacement)) {
 			if (!is_callable($replacement, false, $textual)) {
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
-			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit]);
+			$flags = ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0);
+			if ($utf8) {
+				$pattern .= 'u';
+				if ($captureOffset) {
+					$replacement = fn($m) => $replacement(self::bytesToChars($subject, [$m])[0]);
+				}
+			}
+			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit, 0, $flags]);
 
 		} elseif (is_array($pattern) && is_string(key($pattern))) {
 			$replacement = array_values($pattern);
 			$pattern = array_keys($pattern);
 		}
 
+		if ($utf8) {
+			$pattern = array_map(fn($item) => $item . 'u', (array) $pattern);
+		}
+
 		return self::pcre('preg_replace', [$pattern, $replacement, $subject, $limit]);
+	}
+
+
+	private static function bytesToChars(string $s, array $groups): array
+	{
+		$lastBytes = $lastChars = 0;
+		foreach ($groups as &$matches) {
+			foreach ($matches as &$match) {
+				if ($match[1] > $lastBytes) {
+					$lastChars += self::length(substr($s, $lastBytes, $match[1] - $lastBytes));
+				} elseif ($match[1] < $lastBytes) {
+					$lastChars -= self::length(substr($s, $match[1], $lastBytes - $match[1]));
+				}
+				$lastBytes = $match[1];
+				$match[1] = $lastChars;
+			}
+		}
+		return $groups;
 	}
 
 

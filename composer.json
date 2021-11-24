@@ -15,12 +15,12 @@
 		}
 	],
 	"require": {
-		"php": ">=8.0 <8.1"
+		"php": ">=8.0 <8.2"
 	},
 	"require-dev": {
 		"nette/tester": "^2.4",
 		"tracy/tracy": "^2.8",
-		"phpstan/phpstan": "^0.12"
+		"phpstan/phpstan": "^1.0"
 	},
 	"conflict": {
 		"nette/di": "<3.0.6"

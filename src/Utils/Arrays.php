@@ -22,7 +22,11 @@ class Arrays
 
 	/**
 	 * Returns item from array. If it does not exist, it throws an exception, unless a default value is set.
-	 * @param  string|int|array  $key one or more keys
+	 * @template T
+	 * @param  array<T>  $array
+	 * @param  array-key|array-key[]  $key
+	 * @param  ?T  $default
+	 * @return ?T
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
 	public static function get(array $array, string|int|array $key, mixed $default = null): mixed
@@ -43,7 +47,10 @@ class Arrays
 
 	/**
 	 * Returns reference to array item. If the index does not exist, new one is created with value null.
-	 * @param  string|int|array  $key one or more keys
+	 * @template T
+	 * @param  array<T>  $array
+	 * @param  array-key|array-key[]  $key
+	 * @return ?T
 	 * @throws Nette\InvalidArgumentException if traversed item is not an array
 	 */
 	public static function &getRef(array &$array, string|int|array $key): mixed
@@ -63,6 +70,11 @@ class Arrays
 	 * Recursively merges two fields. It is useful, for example, for merging tree structures. It behaves as
 	 * the + operator for array, ie. it adds a key/value pair from the second array to the first one and retains
 	 * the value from the first array in the case of a key collision.
+	 * @template T1
+	 * @template T2
+	 * @param  array<T1>  $array1
+	 * @param  array<T2>  $array2
+	 * @return array<T1|T2>
 	 */
 	public static function mergeTree(array $array1, array $array2): array
 	{
@@ -105,6 +117,9 @@ class Arrays
 
 	/**
 	 * Returns the first item from the array or null if array is empty.
+	 * @template T
+	 * @param  array<T>  $array
+	 * @return ?T
 	 */
 	public static function first(array $array): mixed
 	{
@@ -114,6 +129,9 @@ class Arrays
 
 	/**
 	 * Returns the last item from the array or null if array is empty.
+	 * @template T
+	 * @param  array<T>  $array
+	 * @return ?T
 	 */
 	public static function last(array $array): mixed
 	{
@@ -169,10 +187,12 @@ class Arrays
 
 	/**
 	 * Returns only those array items, which matches a regular expression $pattern.
-	 * @throws Nette\RegexpException  on compilation or runtime error
+	 * @param  string[]  $array
+	 * @return string[]
 	 */
-	public static function grep(array $array, string $pattern, int $flags = 0): array
+	public static function grep(array $array, string $pattern, bool|int $invert = false): array
 	{
+		$flags = $invert ? PREG_GREP_INVERT : 0;
 		return Strings::pcre('preg_grep', [$pattern, $array, $flags]);
 	}
 
@@ -271,6 +291,10 @@ class Arrays
 	/**
 	 * Returns and removes the value of an item from an array. If it does not exist, it throws an exception,
 	 * or returns $default, if provided.
+	 * @template T
+	 * @param  array<T>  $array
+	 * @param  ?T  $default
+	 * @return ?T
 	 * @throws Nette\InvalidArgumentException if item does not exist and default value is not provided
 	 */
 	public static function pick(array &$array, string|int $key, mixed $default = null): mixed
@@ -363,6 +387,9 @@ class Arrays
 
 	/**
 	 * Copies the elements of the $array array to the $object object and then returns it.
+	 * @template T of object
+	 * @param  T  $object
+	 * @return T
 	 */
 	public static function toObject(iterable $array, object $object): object
 	{
@@ -385,6 +412,7 @@ class Arrays
 	/**
 	 * Returns copy of the $array where every item is converted to string
 	 * and prefixed by $prefix and suffixed by $suffix.
+	 * @param  string[]  $array
 	 * @return string[]
 	 */
 	public static function wrap(array $array, string $prefix = '', string $suffix = ''): array

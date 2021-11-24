@@ -14,6 +14,7 @@ use Nette;
 
 /**
  * Provides the base class for a generic list (items can be accessed by index).
+ * @template T
  */
 class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 {
@@ -23,7 +24,23 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 
 	/**
+	 * Transforms array to ArrayList.
+	 * @param  array<T>  $array
+	 */
+	public static function from(array $array): static
+	{
+		if (!Arrays::isList($array)) {
+			throw new Nette\InvalidArgumentException('Array is not valid list.');
+		}
+		$obj = new static;
+		$obj->list = $array;
+		return $obj;
+	}
+
+
+	/**
 	 * Returns an iterator over all items.
+	 * @return \ArrayIterator<int, T>
 	 */
 	public function getIterator(): \ArrayIterator
 	{
@@ -43,7 +60,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	/**
 	 * Replaces or appends a item.
 	 * @param  int|null  $index
-	 * @param  mixed  $value
+	 * @param  T  $value
 	 * @throws Nette\OutOfRangeException
 	 */
 	public function offsetSet($index, $value): void
@@ -63,6 +80,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	/**
 	 * Returns a item.
 	 * @param  int  $index
+	 * @return T
 	 * @throws Nette\OutOfRangeException
 	 */
 	public function offsetGet($index): mixed
@@ -100,6 +118,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Prepends a item.
+	 * @param  T  $value
 	 */
 	public function prepend(mixed $value): void
 	{

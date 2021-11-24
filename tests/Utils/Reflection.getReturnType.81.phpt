@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getReturnType
+ * @phpversion 8.1
  */
 
 declare(strict_types=1);
@@ -65,7 +66,7 @@ class A
 	}
 
 
-	function unionType(): array|A
+	public function intersectionType(): AExt&A
 	{
 	}
 }
@@ -98,6 +99,11 @@ function unionType(): array|A
 }
 
 
+function intersectionType(): AExt&A
+{
+}
+
+
 Assert::null(Reflection::getReturnType(new \ReflectionMethod(A::class, 'noType')));
 
 Assert::same('Test\B', (string) Reflection::getReturnType(new \ReflectionMethod(A::class, 'classType')));
@@ -118,6 +124,8 @@ Assert::same('A|array', (string) Reflection::getReturnType(new \ReflectionMethod
 
 Assert::same('A|array|null', (string) Reflection::getReturnType(new \ReflectionMethod(A::class, 'nullableUnionType')));
 
+Assert::same('AExt&A', (string) Reflection::getReturnType(new \ReflectionMethod(A::class, 'intersectionType')));
+
 Assert::same('A', (string) Reflection::getReturnType(new \ReflectionMethod(AExt::class, 'parentTypeExt')));
 
 Assert::null(Reflection::getReturnType(new \ReflectionFunction('noType')));
@@ -127,3 +135,9 @@ Assert::same('Test\B', (string) Reflection::getReturnType(new \ReflectionFunctio
 Assert::same('string', (string) Reflection::getReturnType(new \ReflectionFunction('nativeType')));
 
 Assert::same('A|array', (string) Reflection::getReturnType(new \ReflectionFunction('unionType')));
+
+Assert::same('AExt&A', (string) Reflection::getReturnType(new \ReflectionFunction('intersectionType')));
+
+
+// tentative type
+Assert::same('int', (string) Reflection::getReturnType(new \ReflectionMethod(\ArrayObject::class, 'count')));

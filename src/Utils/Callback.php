@@ -73,8 +73,6 @@ final class Callback
 		if ($callable instanceof \Closure) {
 			$inner = self::unwrap($callable);
 			return '{closure' . ($inner instanceof \Closure ? '}' : ' ' . self::toString($inner) . '}');
-		} elseif (is_string($callable) && $callable[0] === "\0") {
-			return '{lambda}';
 		} else {
 			is_callable(is_object($callable) ? [$callable, '__invoke'] : $callable, true, $textual);
 			return $textual;
@@ -117,7 +115,7 @@ final class Callback
 	/**
 	 * Unwraps closure created by Closure::fromCallable().
 	 */
-	public static function unwrap(\Closure $closure): callable
+	public static function unwrap(\Closure $closure): \Closure|array|string
 	{
 		$r = new \ReflectionFunction($closure);
 		if (str_ends_with($r->name, '}')) {

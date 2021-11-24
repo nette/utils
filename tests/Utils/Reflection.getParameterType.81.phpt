@@ -2,6 +2,7 @@
 
 /**
  * Test: Nette\Utils\Reflection::getParameterType
+ * @phpversion 8.1
  */
 
 declare(strict_types=1);
@@ -27,6 +28,7 @@ class A
 		mixed $mixed,
 		array|self $union,
 		array|self|null $nullableUnion,
+		AExt&A $intersection,
 	) {
 	}
 }
@@ -49,7 +51,8 @@ Assert::same('A', (string) Reflection::getParameterType($params[4]));
 Assert::null(Reflection::getParameterType($params[5]));
 Assert::same('?Test\B', (string) Reflection::getParameterType($params[6]));
 Assert::same('mixed', (string) Reflection::getParameterType($params[7]));
-
+Assert::same('A|array', (string) Reflection::getParameterType($params[8], false));
+Assert::same('A|array|null', (string) Reflection::getParameterType($params[9], false));
 $method = new ReflectionMethod('AExt', 'methodExt');
 $params = $method->getParameters();
 
