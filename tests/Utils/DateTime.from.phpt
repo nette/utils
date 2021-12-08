@@ -25,8 +25,8 @@ Assert::same(is_int(2544000000) ? 2544000000 : '2544000000', DateTime::from(2544
 
 Assert::same('1978-05-05 00:00:00', (string) DateTime::from('1978-05-05'));
 
-Assert::same((new \Datetime)->format('Y-m-d H:i:s'), (string) DateTime::from(null));
+Assert::same((new DateTime)->format('Y-m-d H:i:s'), (string) DateTime::from(null));
 
-Assert::type(DateTime::class, DateTime::from(new \DateTime('1978-05-05')));
+Assert::type(DateTime::class, DateTime::from(new DateTime('1978-05-05')));
 
 Assert::same('1978-05-05 12:00:00.123450', DateTime::from(new DateTime('1978-05-05 12:00:00.12345'))->format('Y-m-d H:i:s.u'));

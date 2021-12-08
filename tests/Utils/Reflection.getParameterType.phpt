@@ -16,8 +16,15 @@ require __DIR__ . '/../bootstrap.php';
 
 class A
 {
-	public function method(Undeclared $undeclared, B $b, array $array, callable $callable, self $self, $none, ?B $nullable)
-	{
+	public function method(
+		Undeclared $undeclared,
+		B $b,
+		array $array,
+		callable $callable,
+		self $self,
+		$none,
+		?B $nullable
+	) {
 	}
 }
 

@@ -33,7 +33,6 @@ trait B2
 		A::foo as foo2;
 	}
 
-
 	public function foo2()
 	{
 	}
@@ -51,7 +50,6 @@ class E2
 	use B {
 		B::foo2 as alias;
 	}
-
 
 	public function foo2()
 	{

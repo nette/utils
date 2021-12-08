@@ -39,13 +39,13 @@ class D extends C
 
 
 // Property in class
-Assert::same('D', Reflection::getPropertyDeclaringClass(new \ReflectionProperty('D', 'foo'))->getName());
+Assert::same('D', Reflection::getPropertyDeclaringClass(new ReflectionProperty('D', 'foo'))->getName());
 
 // Property in class - wrong, but impossible to solve in PHP https://github.com/nette/di/issues/169
-Assert::same('A', Reflection::getPropertyDeclaringClass(new \ReflectionProperty('C', 'foo'))->getName());
+Assert::same('A', Reflection::getPropertyDeclaringClass(new ReflectionProperty('C', 'foo'))->getName());
 
 // Property in trait - wrong, but impossible to solve in PHP https://github.com/nette/di/issues/169
-Assert::same('A', Reflection::getPropertyDeclaringClass(new \ReflectionProperty('B', 'foo'))->getName());
+Assert::same('A', Reflection::getPropertyDeclaringClass(new ReflectionProperty('B', 'foo'))->getName());
 
 // Property in trait
-Assert::same('A', Reflection::getPropertyDeclaringClass(new \ReflectionProperty('A', 'foo'))->getName());
+Assert::same('A', Reflection::getPropertyDeclaringClass(new ReflectionProperty('A', 'foo'))->getName());

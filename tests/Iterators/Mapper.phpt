@@ -22,7 +22,7 @@ $callback = function ($item, $key) {
 	return $key . ': ' . $item;
 };
 
-$iterator = new Iterators\Mapper(new \ArrayIterator($arr), $callback);
+$iterator = new Iterators\Mapper(new ArrayIterator($arr), $callback);
 
 $iterator->rewind();
 Assert::true($iterator->valid());

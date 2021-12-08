@@ -379,7 +379,7 @@ test('', function () {
 	Assert::true(Validators::is($gen(), 'iterable'));
 	Assert::false(Validators::is(1, 'iterable'));
 	Assert::false(Validators::is(3.14, 'iterable'));
-	Assert::false(Validators::is(new stdClass(), 'iterable'));
+	Assert::false(Validators::is(new stdClass, 'iterable'));
 });
 
 

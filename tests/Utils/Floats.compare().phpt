@@ -26,12 +26,12 @@ Assert::same(-1, Floats::compare(-50, -30));
 
 Assert::exception(function () {
 	Floats::compare(NAN, -30);
-}, \LogicException::class);
+}, LogicException::class);
 
 Assert::exception(function () {
 	Floats::compare(6, NAN);
-}, \LogicException::class);
+}, LogicException::class);
 
 Assert::exception(function () {
 	Floats::compare(NAN, NAN);
-}, \LogicException::class);
+}, LogicException::class);

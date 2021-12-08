@@ -25,7 +25,7 @@ Assert::exception(function () {
 	Strings::toAscii("0123456789\xFF");
 }, Nette\Utils\RegexpException::class, null, PREG_BAD_UTF8_ERROR);
 
-if (class_exists('Transliterator') && \Transliterator::create('Any-Latin; Latin-ASCII')) {
+if (class_exists('Transliterator') && Transliterator::create('Any-Latin; Latin-ASCII')) {
 	Assert::same('Athena->Moskva', Strings::toAscii("\u{391}\u{3B8}\u{3AE}\u{3BD}\u{3B1}\u{2192}\u{41C}\u{43E}\u{441}\u{43A}\u{432}\u{430}")); // Αθήνα→Москва
 }
 

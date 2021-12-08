@@ -42,7 +42,6 @@ class D
 		B::foo insteadof A;
 	}
 
-
 	public function foo()
 	{
 	}

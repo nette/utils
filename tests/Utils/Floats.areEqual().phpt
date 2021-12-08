@@ -38,4 +38,4 @@ Assert::false(Floats::areEqual(-INF, INF));
 
 Assert::exception(function () {
 	Floats::areEqual(NAN, NAN);
-}, \LogicException::class);
+}, LogicException::class);
