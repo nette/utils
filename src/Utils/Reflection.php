@@ -19,28 +19,21 @@ final class Reflection
 {
 	use Nette\StaticClass;
 
-	/**
-	 * Determines if type is PHP built-in type. Otherwise, it is the class name.
-	 */
+	/** @deprecated use Nette\Utils\Validator::isBuiltinType() */
 	public static function isBuiltinType(string $type): bool
 	{
 		return Validators::isBuiltinType($type);
 	}
 
 
-	/**
-	 * Determines if type is special class name self/parent/static.
-	 */
+	/** @deprecated use Nette\Utils\Validator::isClassKeyword() */
 	public static function isClassKeyword(string $name): bool
 	{
 		return Validators::isClassKeyword($name);
 	}
 
 
-	/**
-	 * Returns the default value of parameter. If it is a constant, it returns its value.
-	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
-	 */
+	/** @deprecated use native ReflectionParameter::getDefaultValue() */
 	public static function getParameterDefaultValue(\ReflectionParameter $param): mixed
 	{
 		if ($param->isDefaultValueConstant()) {
