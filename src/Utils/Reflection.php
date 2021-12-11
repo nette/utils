@@ -79,8 +79,7 @@ final class Reflection
 
 
 	/**
-	 * Returns the default value of parameter. If it is a constant, it returns its value.
-	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
+	 * @deprecated use ReflectionParameter::getDefaultValue()
 	 */
 	public static function getParameterDefaultValue(\ReflectionParameter $param): mixed
 	{
