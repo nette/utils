@@ -116,7 +116,7 @@ class Validators
 	public static function assertField(
 		array $array,
 		$key,
-		string $expected = null,
+		?string $expected = null,
 		string $label = "item '%' in array"
 	): void {
 		if (!array_key_exists($key, $array)) {

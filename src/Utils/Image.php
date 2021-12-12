@@ -149,7 +149,7 @@ class Image
 	 * @throws UnknownImageFileException if file not found or file type is not known
 	 * @return static
 	 */
-	public static function fromFile(string $file, int &$type = null)
+	public static function fromFile(string $file, ?int &$type = null)
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -173,7 +173,7 @@ class Image
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws ImageException
 	 */
-	public static function fromString(string $s, int &$type = null)
+	public static function fromString(string $s, ?int &$type = null)
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -195,7 +195,7 @@ class Image
 	 * @return static
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 */
-	public static function fromBlank(int $width, int $height, array $color = null)
+	public static function fromBlank(int $width, int $height, ?array $color = null)
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -572,7 +572,7 @@ class Image
 	 * Saves image to the file. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 * @throws ImageException
 	 */
-	public function save(string $file, int $quality = null, int $type = null): void
+	public function save(string $file, ?int $quality = null, ?int $type = null): void
 	{
 		if ($type === null) {
 			$extensions = array_flip(self::FORMATS) + ['jpg' => self::JPEG];
@@ -591,7 +591,7 @@ class Image
 	/**
 	 * Outputs image to string. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 */
-	public function toString(int $type = self::JPEG, int $quality = null): string
+	public function toString(int $type = self::JPEG, ?int $quality = null): string
 	{
 		return Helpers::capture(function () use ($type, $quality) {
 			$this->output($type, $quality);
@@ -621,7 +621,7 @@ class Image
 	 * Outputs image to browser. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
 	 * @throws ImageException
 	 */
-	public function send(int $type = self::JPEG, int $quality = null): void
+	public function send(int $type = self::JPEG, ?int $quality = null): void
 	{
 		header('Content-Type: ' . self::typeToMimeType($type));
 		$this->output($type, $quality);
@@ -632,7 +632,7 @@ class Image
 	 * Outputs image to browser or file.
 	 * @throws ImageException
 	 */
-	private function output(int $type, ?int $quality, string $file = null): void
+	private function output(int $type, ?int $quality, ?string $file = null): void
 	{
 		switch ($type) {
 			case self::JPEG:

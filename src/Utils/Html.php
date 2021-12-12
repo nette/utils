@@ -263,7 +263,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 * @param  array|string $attrs element's attributes or plain text content
 	 * @return static
 	 */
-	public static function el(string $name = null, $attrs = null)
+	public static function el(?string $name = null, $attrs = null)
 	{
 		$el = new static;
 		$parts = explode(' ', (string) $name, 2);
@@ -335,7 +335,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 * Changes element's name.
 	 * @return static
 	 */
-	final public function setName(string $name, bool $isEmpty = null)
+	final public function setName(string $name, ?bool $isEmpty = null)
 	{
 		$this->name = $name;
 		$this->isEmpty = $isEmpty ?? isset(static::$emptyElements[$name]);
@@ -518,7 +518,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 * Special setter for element's attribute.
 	 * @return static
 	 */
-	final public function href(string $path, array $query = null)
+	final public function href(string $path, ?array $query = null)
 	{
 		if ($query) {
 			$query = http_build_query($query, '', '&');
@@ -739,7 +739,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/**
 	 * Renders element's start tag, content and end tag.
 	 */
-	final public function render(int $indent = null): string
+	final public function render(?int $indent = null): string
 	{
 		$s = $this->startTag();
 
