@@ -22,9 +22,8 @@ final class Callback
 
 	/**
 	 * Invokes internal PHP function with own error handler.
-	 * @return mixed
 	 */
-	public static function invokeSafe(string $function, array $args, callable $onError)
+	public static function invokeSafe(string $function, array $args, callable $onError): mixed
 	{
 		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, &$prev, $function): ?bool {
 			if ($file === __FILE__) {
@@ -51,11 +50,10 @@ final class Callback
 	/**
 	 * Checks that $callable is valid PHP callback. Otherwise throws exception. If the $syntax is set to true, only verifies
 	 * that $callable has a valid structure to be used as a callback, but does not verify if the class or method actually exists.
-	 * @param  mixed  $callable
 	 * @return callable
 	 * @throws Nette\InvalidArgumentException
 	 */
-	public static function check($callable, bool $syntax = false)
+	public static function check(mixed $callable, bool $syntax = false)
 	{
 		if (!is_callable($callable, $syntax)) {
 			throw new Nette\InvalidArgumentException(
@@ -71,9 +69,8 @@ final class Callback
 
 	/**
 	 * Converts PHP callback to textual form. Class or method may not exists.
-	 * @param  mixed  $callable
 	 */
-	public static function toString($callable): string
+	public static function toString(mixed $callable): string
 	{
 		if ($callable instanceof \Closure) {
 			$inner = self::unwrap($callable);
@@ -88,10 +85,9 @@ final class Callback
 	/**
 	 * Returns reflection for method or function used in PHP callback.
 	 * @param  callable  $callable  type check is escalated to ReflectionException
-	 * @return \ReflectionMethod|\ReflectionFunction
 	 * @throws \ReflectionException  if callback is not valid
 	 */
-	public static function toReflection($callable): \ReflectionFunctionAbstract
+	public static function toReflection($callable): \ReflectionMethod|\ReflectionFunction
 	{
 		if ($callable instanceof \Closure) {
 			$callable = self::unwrap($callable);
@@ -120,9 +116,8 @@ final class Callback
 
 	/**
 	 * Unwraps closure created by Closure::fromCallable().
-	 * @return callable|array
 	 */
-	public static function unwrap(\Closure $closure)
+	public static function unwrap(\Closure $closure): callable|array
 	{
 		$r = new \ReflectionFunction($closure);
 		if (substr($r->name, -1) === '}') {

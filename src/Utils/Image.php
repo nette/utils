@@ -92,7 +92,7 @@ use Nette;
  * @method array ttfText($size, $angle, $x, $y, $color, string $fontfile, string $text)
  * @property-read int $width
  * @property-read int $height
- * @property-read resource|\GdImage $imageResource
+ * @property-read \GdImage $imageResource
  */
 class Image
 {
@@ -147,9 +147,8 @@ class Image
 	 * Reads an image from a file and returns its type in $type.
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws UnknownImageFileException if file not found or file type is not known
-	 * @return static
 	 */
-	public static function fromFile(string $file, ?int &$type = null)
+	public static function fromFile(string $file, ?int &$type = null): static
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -166,11 +165,10 @@ class Image
 
 	/**
 	 * Reads an image from a string and returns its type in $type.
-	 * @return static
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws ImageException
 	 */
-	public static function fromString(string $s, ?int &$type = null)
+	public static function fromString(string $s, ?int &$type = null): static
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -185,7 +183,7 @@ class Image
 	}
 
 
-	private static function invokeSafe(string $func, string $arg, string $message, string $callee): self
+	private static function invokeSafe(string $func, string $arg, string $message, string $callee): static
 	{
 		$errors = [];
 		$res = Callback::invokeSafe($func, [$arg], function (string $message) use (&$errors): void {
@@ -204,10 +202,9 @@ class Image
 
 	/**
 	 * Creates a new true color image of the given dimensions. The default color is black.
-	 * @return static
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 */
-	public static function fromBlank(int $width, int $height, ?array $color = null)
+	public static function fromBlank(int $width, int $height, ?array $color = null): static
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -274,9 +271,8 @@ class Image
 
 	/**
 	 * Wraps GD image.
-	 * @param  resource|\GdImage  $image
 	 */
-	public function __construct($image)
+	public function __construct(\GdImage $image)
 	{
 		$this->setImageResource($image);
 		imagesavealpha($image, true);
@@ -303,15 +299,9 @@ class Image
 
 	/**
 	 * Sets image resource.
-	 * @param  resource|\GdImage  $image
-	 * @return static
 	 */
-	protected function setImageResource($image)
+	protected function setImageResource(\GdImage $image): static
 	{
-		if (!$image instanceof \GdImage && !(is_resource($image) && get_resource_type($image) === 'gd')) {
-			throw new Nette\InvalidArgumentException('Image is not valid.');
-		}
-
 		$this->image = $image;
 		return $this;
 	}
@@ -319,21 +309,17 @@ class Image
 
 	/**
 	 * Returns image GD resource.
-	 * @return resource|\GdImage
 	 */
-	public function getImageResource()
+	public function getImageResource(): \GdImage
 	{
 		return $this->image;
 	}
 
 
 	/**
-	 * Scales an image.
-	 * @param  int|string|null  $width in pixels or percent
-	 * @param  int|string|null  $height in pixels or percent
-	 * @return static
+	 * Scales an image. Width and height accept pixels or percent.
 	 */
-	public function resize($width, $height, int $flags = self::FIT)
+	public function resize(int|string|null $width, int|string|null $height, int $flags = self::FIT): static
 	{
 		if ($flags & self::EXACT) {
 			return $this->resize($width, $height, self::FILL)->crop('50%', '50%', $width, $height);
@@ -367,9 +353,7 @@ class Image
 
 
 	/**
-	 * Calculates dimensions of resized image.
-	 * @param  int|string|null  $newWidth in pixels or percent
-	 * @param  int|string|null  $newHeight in pixels or percent
+	 * Calculates dimensions of resized image. Width and height accept pixels or percent.
 	 */
 	public static function calculateSize(
 		int $srcWidth,
@@ -435,14 +419,9 @@ class Image
 
 
 	/**
-	 * Crops image.
-	 * @param  int|string  $left in pixels or percent
-	 * @param  int|string  $top in pixels or percent
-	 * @param  int|string  $width in pixels or percent
-	 * @param  int|string  $height in pixels or percent
-	 * @return static
+	 * Crops image. Arguments accepts pixels or percent.
 	 */
-	public function crop($left, $top, $width, $height)
+	public function crop(int|string $left, int|string $top, int|string $width, int|string $height): static
 	{
 		[$r['x'], $r['y'], $r['width'], $r['height']]
 			= static::calculateCutout($this->getWidth(), $this->getHeight(), $left, $top, $width, $height);
@@ -460,14 +439,16 @@ class Image
 
 
 	/**
-	 * Calculates dimensions of cutout in image.
-	 * @param  int|string  $left in pixels or percent
-	 * @param  int|string  $top in pixels or percent
-	 * @param  int|string  $newWidth in pixels or percent
-	 * @param  int|string  $newHeight in pixels or percent
+	 * Calculates dimensions of cutout in image. Arguments accepts pixels or percent.
 	 */
-	public static function calculateCutout(int $srcWidth, int $srcHeight, $left, $top, $newWidth, $newHeight): array
-	{
+	public static function calculateCutout(
+		int $srcWidth,
+		int $srcHeight,
+		int|string $left,
+		int|string $top,
+		int|string $newWidth,
+		int|string $newHeight,
+	): array {
 		if (self::isPercent($newWidth)) {
 			$newWidth = (int) round($srcWidth / 100 * $newWidth);
 		}
@@ -502,9 +483,8 @@ class Image
 
 	/**
 	 * Sharpens image a little bit.
-	 * @return static
 	 */
-	public function sharpen()
+	public function sharpen(): static
 	{
 		imageconvolution($this->image, [ // my magic numbers ;)
 			[-1, -1, -1],
@@ -516,13 +496,10 @@ class Image
 
 
 	/**
-	 * Puts another image into this image.
-	 * @param  int|string  $left in pixels or percent
-	 * @param  int|string  $top in pixels or percent
+	 * Puts another image into this image. Left and top accepts pixels or percent.
 	 * @param  int  $opacity 0..100
-	 * @return static
 	 */
-	public function place(self $image, $left = 0, $top = 0, int $opacity = 100)
+	public function place(self $image, int|string $left = 0, int|string $top = 0, int $opacity = 100): static
 	{
 		$opacity = max(0, min(100, $opacity));
 		if ($opacity === 0) {
@@ -678,10 +655,9 @@ class Image
 
 	/**
 	 * Call to undefined method.
-	 * @return mixed
 	 * @throws Nette\MemberAccessException
 	 */
-	public function __call(string $name, array $args)
+	public function __call(string $name, array $args): mixed
 	{
 		$function = 'image' . $name;
 		if (!function_exists($function)) {
@@ -710,7 +686,7 @@ class Image
 		}
 
 		$res = $function($this->image, ...$args);
-		return $res instanceof \GdImage || (is_resource($res) && get_resource_type($res) === 'gd')
+		return $res instanceof \GdImage
 			? $this->setImageResource($res)
 			: $res;
 	}
@@ -724,10 +700,7 @@ class Image
 	}
 
 
-	/**
-	 * @param  int|string  $num in pixels or percent
-	 */
-	private static function isPercent(&$num): bool
+	private static function isPercent(int|string &$num): bool
 	{
 		if (is_string($num) && substr($num, -1) === '%') {
 			$num = (float) substr($num, 0, -1);
