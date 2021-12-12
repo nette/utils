@@ -23,7 +23,7 @@ $arr = [
 
 test('Single item', function () use ($arr) {
 	$dolly = $arr;
-	$item = &Arrays::getRef($dolly, null);
+	$item = &Arrays::getRef($dolly, '');
 	$item = 'changed';
 	Assert::same([
 		'' => 'changed',
