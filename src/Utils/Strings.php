@@ -528,11 +528,13 @@ class Strings
 
 	/**
 	 * Replaces all occurrences matching regular expression $pattern which can be string or array in the form `pattern => replacement`.
-	 * @param  string|array  $pattern
-	 * @param  string|callable  $replacement
 	 */
-	public static function replace(string $subject, $pattern, $replacement = '', int $limit = -1): string
-	{
+	public static function replace(
+		string $subject,
+		string|array $pattern,
+		string|callable $replacement = '',
+		int $limit = -1,
+	): string {
 		if (is_object($replacement) || is_array($replacement)) {
 			if (!is_callable($replacement, false, $textual)) {
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
