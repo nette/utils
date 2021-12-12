@@ -41,6 +41,7 @@ Assert::same(0, $freq[0]);
 for ($i = 1; $i < 255; $i++) {
 	Assert::true($freq[$i] < $length / 255 * (1 + $delta) && $freq[$i] > $length / 255 * (1 - $delta));
 }
+
 if ($phpdbgLog) {
 	phpdbg_start_oplog();
 }

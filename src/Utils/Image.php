@@ -213,6 +213,7 @@ class Image
 			imagefilledrectangle($image, 0, 0, $width - 1, $height - 1, $color);
 			imagealphablending($image, true);
 		}
+
 		return new static($image);
 	}
 
@@ -245,6 +246,7 @@ class Image
 		if (!isset(self::FORMATS[$type])) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
+
 		return self::FORMATS[$type];
 	}
 
@@ -297,6 +299,7 @@ class Image
 		if (!$image instanceof \GdImage && !(is_resource($image) && get_resource_type($image) === 'gd')) {
 			throw new Nette\InvalidArgumentException('Image is not valid.');
 		}
+
 		$this->image = $image;
 		return $this;
 	}
@@ -346,6 +349,7 @@ class Image
 		if ($width < 0 || $height < 0) {
 			imageflip($this->image, $width < 0 ? ($height < 0 ? IMG_FLIP_BOTH : IMG_FLIP_HORIZONTAL) : IMG_FLIP_VERTICAL);
 		}
+
 		return $this;
 	}
 
@@ -387,7 +391,6 @@ class Image
 				$newWidth = (int) round($srcWidth * min(1, $newWidth / $srcWidth));
 				$newHeight = (int) round($srcHeight * min(1, $newHeight / $srcHeight));
 			}
-
 		} else {  // proportional
 			if (!$newWidth && !$newHeight) {
 				throw new Nette\InvalidArgumentException('At least width or height must be specified.');
@@ -439,6 +442,7 @@ class Image
 			imagecopy($newImage, $this->image, 0, 0, $r['x'], $r['y'], $r['width'], $r['height']);
 			$this->image = $newImage;
 		}
+
 		return $this;
 	}
 
@@ -455,23 +459,29 @@ class Image
 		if (self::isPercent($newWidth)) {
 			$newWidth = (int) round($srcWidth / 100 * $newWidth);
 		}
+
 		if (self::isPercent($newHeight)) {
 			$newHeight = (int) round($srcHeight / 100 * $newHeight);
 		}
+
 		if (self::isPercent($left)) {
 			$left = (int) round(($srcWidth - $newWidth) / 100 * $left);
 		}
+
 		if (self::isPercent($top)) {
 			$top = (int) round(($srcHeight - $newHeight) / 100 * $top);
 		}
+
 		if ($left < 0) {
 			$newWidth += $left;
 			$left = 0;
 		}
+
 		if ($top < 0) {
 			$newHeight += $top;
 			$top = 0;
 		}
+
 		$newWidth = min($newWidth, $srcWidth - $left);
 		$newHeight = min($newHeight, $srcHeight - $top);
 		return [$left, $top, $newWidth, $newHeight];
@@ -532,6 +542,7 @@ class Image
 				imagefilledrectangle($output, 0, 0, $width, $height, imagecolorallocatealpha($output, 0, 0, 0, 127));
 				imagecopy($output, $image->image, 0, 0, 0, 0, $width, $height);
 			}
+
 			for ($x = 0; $x < $width; $x++) {
 				for ($y = 0; $y < $height; $y++) {
 					$c = \imagecolorat($input, $x, $y);
@@ -539,6 +550,7 @@ class Image
 					\imagesetpixel($output, $x, $y, $c);
 				}
 			}
+
 			imagealphablending($output, true);
 		}
 
@@ -568,6 +580,7 @@ class Image
 			if (!isset($extensions[$ext])) {
 				throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
 			}
+
 			$type = $extensions[$ext];
 		}
 
@@ -597,6 +610,7 @@ class Image
 			if (func_num_args() || PHP_VERSION_ID >= 70400) {
 				throw $e;
 			}
+
 			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 			return '';
 		}
@@ -647,6 +661,7 @@ class Image
 			default:
 				throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
+
 		if (!$success) {
 			throw new ImageException(Helpers::getLastError() ?: 'Unknown error');
 		}
@@ -685,6 +700,7 @@ class Image
 				);
 			}
 		}
+
 		$res = $function($this->image, ...$args);
 		return $res instanceof \GdImage || (is_resource($res) && get_resource_type($res) === 'gd')
 			? $this->setImageResource($res)
@@ -712,6 +728,7 @@ class Image
 			$num = (int) $num;
 			return false;
 		}
+
 		throw new Nette\InvalidArgumentException("Expected dimension in int|string, '$num' given.");
 	}
 

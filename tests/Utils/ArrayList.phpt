@@ -68,6 +68,7 @@ test('', function () {
 	foreach ($list as $key => $person) {
 		$tmp[] = $key . ' => ' . $person->sayHi();
 	}
+
 	Assert::same([
 		'0 => My name is Mary',
 		'1 => My name is Jack',

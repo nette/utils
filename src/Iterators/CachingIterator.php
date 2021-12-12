@@ -41,6 +41,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 			do {
 				$iterator = $iterator->getIterator();
 			} while ($iterator instanceof \IteratorAggregate);
+
 			assert($iterator instanceof \Iterator);
 
 		} elseif ($iterator instanceof \Iterator) {

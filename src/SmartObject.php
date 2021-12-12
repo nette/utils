@@ -37,7 +37,6 @@ trait SmartObject
 			} elseif ($handlers !== null) {
 				throw new UnexpectedValueException("Property $class::$$name must be iterable or null, " . gettype($handlers) . ' given.');
 			}
-
 		} else {
 			ObjectHelpers::strictCall($class, $name);
 		}
@@ -65,6 +64,7 @@ trait SmartObject
 			if (!($prop & 0b0001)) {
 				throw new MemberAccessException("Cannot read a write-only property $class::\$$name.");
 			}
+
 			$m = ($prop & 0b0010 ? 'get' : 'is') . $name;
 			if ($prop & 0b0100) { // return by reference
 				return $this->$m();
@@ -94,6 +94,7 @@ trait SmartObject
 			if (!($prop & 0b1000)) {
 				throw new MemberAccessException("Cannot write to a read-only property $class::\$$name.");
 			}
+
 			$this->{'set' . $name}($value);
 
 		} else {

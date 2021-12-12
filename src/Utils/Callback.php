@@ -77,6 +77,7 @@ final class Callback
 					return null;
 				}
 			}
+
 			return $prev ? $prev(...func_get_args()) : false;
 		});
 
@@ -104,6 +105,7 @@ final class Callback
 				: sprintf("Callback '%s' is not callable.", self::toString($callable))
 			);
 		}
+
 		return $callable;
 	}
 

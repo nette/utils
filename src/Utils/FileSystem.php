@@ -54,6 +54,7 @@ final class FileSystem
 			foreach (new \FilesystemIterator($target) as $item) {
 				static::delete($item->getPathname());
 			}
+
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($origin, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isDir()) {
 					static::createDir($target . '/' . $iterator->getSubPathName());
@@ -61,7 +62,6 @@ final class FileSystem
 					static::copy($item->getPathname(), $target . '/' . $iterator->getSubPathName());
 				}
 			}
-
 		} else {
 			static::createDir(dirname($target));
 			if (
@@ -95,11 +95,11 @@ final class FileSystem
 					Helpers::getLastError()
 				));
 			}
-
 		} elseif (is_dir($path)) {
 			foreach (new \FilesystemIterator($path) as $item) {
 				static::delete($item->getPathname());
 			}
+
 			if (!@rmdir($path)) { // @ is escalated to exception
 				throw new Nette\IOException(sprintf(
 					"Unable to delete directory '%s'. %s",
@@ -129,6 +129,7 @@ final class FileSystem
 			if (realpath($origin) !== realpath($target)) {
 				static::delete($target);
 			}
+
 			if (!@rename($origin, $target)) { // @ is escalated to exception
 				throw new Nette\IOException(sprintf(
 					"Unable to rename file or directory '%s' to '%s'. %s",
@@ -155,6 +156,7 @@ final class FileSystem
 				Helpers::getLastError()
 			));
 		}
+
 		return $content;
 	}
 
@@ -173,6 +175,7 @@ final class FileSystem
 				Helpers::getLastError()
 			));
 		}
+
 		if ($mode !== null && !@chmod($file, $mode)) { // @ is escalated to exception
 			throw new Nette\IOException(sprintf(
 				"Unable to chmod file '%s' to mode %s. %s",
@@ -203,6 +206,7 @@ final class FileSystem
 			foreach (new \FilesystemIterator($path) as $item) {
 				static::makeWritable($item->getPathname(), $dirMode, $fileMode);
 			}
+
 			if (!@chmod($path, $dirMode)) { // @ is escalated to exception
 				throw new Nette\IOException(sprintf(
 					"Unable to chmod directory '%s' to mode %s. %s",
@@ -240,6 +244,7 @@ final class FileSystem
 				$res[] = $part;
 			}
 		}
+
 		return $res === ['']
 			? DIRECTORY_SEPARATOR
 			: implode(DIRECTORY_SEPARATOR, $res);

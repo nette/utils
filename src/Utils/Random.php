@@ -40,6 +40,7 @@ final class Random
 		for ($i = 0; $i < $length; $i++) {
 			$res .= $charlist[random_int(0, $chLen - 1)];
 		}
+
 		return $res;
 	}
 }

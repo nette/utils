@@ -18,6 +18,7 @@ Assert::same('ZLUTOUCKY-KUN-oeooo', Strings::webalize("&\u{17D}LU\u{164}OU\u{10C
 if (class_exists('Transliterator') && Transliterator::create('Any-Latin; Latin-ASCII')) {
 	Assert::same('1-4-!', Strings::webalize("\u{BC} !", '!'));
 }
+
 Assert::same('a-b', Strings::webalize("a\u{A0}b")); // non-breaking space
 Assert::exception(function () {
 	Strings::toAscii("0123456789\xFF");

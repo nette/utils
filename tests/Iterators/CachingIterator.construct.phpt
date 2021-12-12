@@ -19,6 +19,7 @@ test('array', function () {
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
 		$tmp[] = "$k => $v";
 	}
+
 	Assert::same([
 		'0 => Nette',
 		'1 => Framework',
@@ -32,6 +33,7 @@ test('stdClass', function () {
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
 		$tmp[] = "$k => $v";
 	}
+
 	Assert::same([
 		'0 => Nette',
 		'1 => Framework',
@@ -45,6 +47,7 @@ test('IteratorAggregate', function () {
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
 		$tmp[] = "$k => $v";
 	}
+
 	Assert::same([
 		'0 => Nette',
 		'1 => Framework',
@@ -57,6 +60,7 @@ test('Iterator', function () {
 	foreach (new Iterators\CachingIterator($arr->getIterator()) as $k => $v) {
 		$tmp[] = "$k => $v";
 	}
+
 	Assert::same([
 		'0 => Nette',
 		'1 => Framework',
@@ -70,6 +74,7 @@ test('SimpleXMLElement', function () {
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
 		$tmp[] = "$k => $v";
 	}
+
 	Assert::same([
 		'item => Nette',
 		'item => Framework',
@@ -100,6 +105,7 @@ test('recursive IteratorAggregate', function () {
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
 		$tmp[] = "$k => $v";
 	}
+
 	Assert::same([
 		'0 => Nette',
 		'1 => Framework',

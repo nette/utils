@@ -393,6 +393,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 		} else {
 			$this->attrs[$name] = [$this->attrs[$name] => true, $value => $option];
 		}
+
 		return $this;
 	}
 
@@ -439,6 +440,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 		foreach ($attributes as $name) {
 			unset($this->attrs[$name]);
 		}
+
 		return $this;
 	}
 
@@ -524,6 +526,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 				$path .= '?' . $query;
 			}
 		}
+
 		$this->attrs['href'] = $path;
 		return $this;
 	}
@@ -543,6 +546,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 				? json_encode($value)
 				: $value;
 		}
+
 		return $this;
 	}
 
@@ -578,6 +582,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 		if (!$text instanceof HtmlStringable) {
 			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
 		}
+
 		$this->children = [(string) $text];
 		return $this;
 	}
@@ -613,6 +618,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 		if (!$text instanceof HtmlStringable) {
 			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
 		}
+
 		return $this->insert(null, $text);
 	}
 
@@ -742,6 +748,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 			if ($indent !== null) {
 				$indent++;
 			}
+
 			foreach ($this->children as $child) {
 				if ($child instanceof self) {
 					$s .= $child->render($indent);
@@ -757,6 +764,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 		if ($indent !== null) {
 			return "\n" . str_repeat("\t", $indent - 1) . $s . "\n" . str_repeat("\t", max(0, $indent - 2));
 		}
+
 		return $s;
 	}
 
@@ -769,6 +777,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 			if (PHP_VERSION_ID >= 70400) {
 				throw $e;
 			}
+
 			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 			return '';
 		}
@@ -817,6 +826,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 				} else {
 					$s .= ' ' . $key;
 				}
+
 				continue;
 
 			} elseif (is_array($value)) {
@@ -833,13 +843,13 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 								: (is_string($k) ? $k . ':' . $v : $v);
 						}
 					}
+
 					if ($tmp === null) {
 						continue;
 					}
 
 					$value = implode($key === 'style' || !strncmp($key, 'on', 2) ? ';' : ' ', $tmp);
 				}
-
 			} elseif (is_float($value)) {
 				$value = rtrim(rtrim(number_format($value, 10, '.', ''), '0'), '.');
 

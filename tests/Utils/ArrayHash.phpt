@@ -61,6 +61,7 @@ test('', function () {
 	foreach ($list as $key => $person) {
 		$tmp[] = $key . ' => ' . $person->sayHi();
 	}
+
 	Assert::same([
 		'm => My name is Mary',
 		'j => My name is Jack',
@@ -126,6 +127,7 @@ test('numeric fields', function () {
 	foreach ($row as $key => $value) {
 		$keys[] = $key;
 	}
+
 	if (PHP_VERSION_ID < 70200) {
 		Assert::same(['0', '1'], $keys);
 	} else {
@@ -195,5 +197,6 @@ test('PHP 7 changed behavior https://3v4l.org/2A1pf', function () {
 	foreach ($hash as $key => $value) {
 		unset($hash->$key);
 	}
+
 	Assert::count(0, $hash);
 });

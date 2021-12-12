@@ -77,6 +77,7 @@ final class Type
 		)()$#xAD', $type, $m)) {
 			throw new Nette\InvalidArgumentException("Invalid type '$type'.");
 		}
+
 		[, $nType, $iType] = $m;
 		if ($nType) {
 			return new self([$nType, 'null']);
@@ -112,6 +113,7 @@ final class Type
 		if ($types[0] === 'null') { // null as last
 			array_push($types, array_shift($types));
 		}
+
 		$this->types = $types;
 		$this->single = ($types[1] ?? 'null') === 'null';
 		$this->kind = count($types) > 1 ? $kind : '';
@@ -226,6 +228,7 @@ final class Type
 			if (!$type->isIntersection()) {
 				return false;
 			}
+
 			return Arrays::every($this->types, function ($currentType) use ($type) {
 				$builtin = Reflection::isBuiltinType($currentType);
 				return Arrays::some($type->types, function ($testedType) use ($currentType, $builtin) {

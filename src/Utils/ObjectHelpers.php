@@ -158,6 +158,7 @@ final class ObjectHelpers
 		if ($parent = get_parent_class($class)) {
 			$props += self::getMagicProperties($parent);
 		}
+
 		return $props;
 	}
 
@@ -182,6 +183,7 @@ final class ObjectHelpers
 				$best = $item;
 			}
 		}
+
 		return $best;
 	}
 
@@ -196,6 +198,7 @@ final class ObjectHelpers
 				$traits += $trait->getTraits();
 			}
 		} while ($rc = $rc->getParentClass());
+
 		return preg_match_all($pattern, implode($doc), $m) ? $m[1] : [];
 	}
 
@@ -219,6 +222,7 @@ final class ObjectHelpers
 			} catch (\ReflectionException $e) {
 			}
 		}
+
 		return $prop;
 	}
 }

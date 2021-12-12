@@ -64,6 +64,7 @@ class Helpers
 		if ($min > $max) {
 			throw new \InvalidArgumentException("Minimum ($min) is not less than maximum ($max).");
 		}
+
 		return min(max($value, $min), $max);
 	}
 
@@ -82,6 +83,7 @@ class Helpers
 				$best = $item;
 			}
 		}
+
 		return $best;
 	}
 }

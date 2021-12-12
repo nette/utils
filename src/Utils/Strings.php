@@ -53,6 +53,7 @@ class Strings
 		} elseif (!extension_loaded('iconv')) {
 			throw new Nette\NotSupportedException(__METHOD__ . '() requires ICONV extension that is not loaded.');
 		}
+
 		return iconv('UTF-32BE', 'UTF-8//IGNORE', pack('N', $code));
 	}
 
@@ -99,6 +100,7 @@ class Strings
 		} elseif ($start < 0 && $length < 0) {
 			$start += self::length($s); // unifies iconv_substr behavior with mb_substr
 		}
+
 		return iconv_substr($s, $start, $length, 'UTF-8');
 	}
 
@@ -190,6 +192,7 @@ class Strings
 			} else {
 				$s = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $s);
 			}
+
 			// remove garbage that iconv creates during transliteration (eg Ý -> Y')
 			$s = str_replace(['`', "'", '"', '^', '~', '?'], '', $s);
 			// restore temporarily hidden characters
@@ -212,6 +215,7 @@ class Strings
 		if ($lower) {
 			$s = strtolower($s);
 		}
+
 		$s = self::pcre('preg_replace', ['#[^a-z0-9' . ($charlist !== null ? preg_quote($charlist, '#') : '') . ']+#i', '-', $s]);
 		$s = trim($s, '-');
 		return $s;
@@ -236,6 +240,7 @@ class Strings
 				return self::substring($s, 0, $maxLen) . $append;
 			}
 		}
+
 		return $s;
 	}
 
@@ -249,6 +254,7 @@ class Strings
 		if ($level > 0) {
 			$s = self::replace($s, '#(?:^|[\r\n]+)(?=[^\r\n])#', '$0' . str_repeat($chars, $level));
 		}
+
 		return $s;
 	}
 
@@ -317,6 +323,7 @@ class Strings
 			$left = self::substring($left, 0, $length);
 			$right = self::substring($right, 0, $length);
 		}
+
 		return self::lower($left) === self::lower($right);
 	}
 
@@ -334,10 +341,12 @@ class Strings
 					while ($i && $first[$i - 1] >= "\x80" && $first[$i] >= "\x80" && $first[$i] < "\xC0") {
 						$i--;
 					}
+
 					return substr($first, 0, $i);
 				}
 			}
 		}
+
 		return $first;
 	}
 
@@ -394,6 +403,7 @@ class Strings
 		if (!extension_loaded('iconv')) {
 			throw new Nette\NotSupportedException(__METHOD__ . '() requires ICONV extension that is not loaded.');
 		}
+
 		return iconv('UTF-32LE', 'UTF-8', strrev(iconv('UTF-8', 'UTF-32BE', $s)));
 	}
 
@@ -448,6 +458,7 @@ class Strings
 			if ($needle === '') {
 				return 0;
 			}
+
 			$pos = 0;
 			while (($pos = strpos($haystack, $needle, $pos)) !== false && --$nth) {
 				$pos++;
@@ -459,11 +470,13 @@ class Strings
 			} elseif ($len === 0) {
 				return null;
 			}
+
 			$pos = $len - 1;
 			while (($pos = strrpos($haystack, $needle, $pos - $len)) !== false && ++$nth) {
 				$pos--;
 			}
 		}
+
 		return Helpers::falseToNull($pos);
 	}
 
@@ -487,6 +500,7 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return null;
 		}
+
 		return self::pcre('preg_match', [$pattern, $subject, &$m, $flags, $offset])
 			? $m
 			: null;
@@ -502,6 +516,7 @@ class Strings
 		if ($offset > strlen($subject)) {
 			return [];
 		}
+
 		self::pcre('preg_match_all', [
 			$pattern, $subject, &$m,
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
@@ -522,6 +537,7 @@ class Strings
 			if (!is_callable($replacement, false, $textual)) {
 				throw new Nette\InvalidStateException("Callback '$textual' is not callable.");
 			}
+
 			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit]);
 
 		} elseif (is_array($pattern) && is_string(key($pattern))) {
@@ -547,6 +563,7 @@ class Strings
 			throw new RegexpException((RegexpException::MESSAGES[$code] ?? 'Unknown error')
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);
 		}
+
 		return $res;
 	}
 }
