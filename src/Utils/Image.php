@@ -160,10 +160,7 @@ class Image
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
 
-		$method = 'imagecreatefrom' . self::FORMATS[$type];
-		return new static(Callback::invokeSafe($method, [$file], function (string $message): void {
-			throw new ImageException($message);
-		}));
+		return self::invokeSafe('imagecreatefrom' . self::FORMATS[$type], $file, "Unable to open file '$file'.", __METHOD__);
 	}
 
 
@@ -184,9 +181,24 @@ class Image
 			throw new UnknownImageFileException('Unknown type of image.');
 		}
 
-		return new static(Callback::invokeSafe('imagecreatefromstring', [$s], function (string $message): void {
-			throw new ImageException($message);
-		}));
+		return self::invokeSafe('imagecreatefromstring', $s, 'Unable to open image from string.', __METHOD__);
+	}
+
+
+	private static function invokeSafe(string $func, string $arg, string $message, string $callee): self
+	{
+		$errors = [];
+		$res = Callback::invokeSafe($func, [$arg], function (string $message) use (&$errors): void {
+			$errors[] = $message;
+		});
+
+		if (!$res) {
+			throw new ImageException($message . ' Errors: ' . implode(', ', $errors));
+		} elseif ($errors) {
+			trigger_error($callee . '(): ' . implode(', ', $errors), E_USER_WARNING);
+		}
+
+		return new static($res);
 	}
 
 
