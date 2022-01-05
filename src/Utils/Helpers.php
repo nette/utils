@@ -82,4 +82,23 @@ class Helpers
 
 		return $best;
 	}
+
+
+	/**
+	 * Compares two values. Recognizes operators: >, >=, <, <=, =, ==, ===, !=, !==, <>
+	 */
+	public static function compare(mixed $l, string $operator, mixed $r): bool
+	{
+		return match ($operator) {
+			'>' => $l > $r,
+			'>=' => $l >= $r,
+			'<' => $l < $r,
+			'<=' => $l <= $r,
+			'=', '==' => $l == $r,
+			'===' => $l === $r,
+			'!=', '<>' => $l != $r,
+			'!==' => $l !== $r,
+			default => throw new Nette\InvalidArgumentException("Unknown operator '$operator'"),
+		};
+	}
 }
