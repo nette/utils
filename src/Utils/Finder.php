@@ -282,7 +282,7 @@ class Finder implements \IteratorAggregate
 			$operator = $operator ?: '=';
 		}
 
-		return $this->filter(fn(RecursiveDirectoryIterator $file): bool => self::compare($file->getSize(), $operator, $size));
+		return $this->filter(fn(RecursiveDirectoryIterator $file): bool => Helpers::compare($file->getSize(), $operator, $size));
 	}
 
 
@@ -302,33 +302,6 @@ class Finder implements \IteratorAggregate
 		}
 
 		$date = DateTime::from($date)->format('U');
-		return $this->filter(fn(RecursiveDirectoryIterator $file): bool => self::compare($file->getMTime(), $operator, $date));
-	}
-
-
-	/**
-	 * Compares two values.
-	 */
-	public static function compare(mixed $l, string $operator, mixed $r): bool
-	{
-		switch ($operator) {
-			case '>':
-				return $l > $r;
-			case '>=':
-				return $l >= $r;
-			case '<':
-				return $l < $r;
-			case '<=':
-				return $l <= $r;
-			case '=':
-			case '==':
-				return $l == $r;
-			case '!':
-			case '!=':
-			case '<>':
-				return $l != $r;
-			default:
-				throw new Nette\InvalidArgumentException("Unknown operator $operator.");
-		}
+		return $this->filter(fn(RecursiveDirectoryIterator $file): bool => Helpers::compare($file->getMTime(), $operator, $date));
 	}
 }
