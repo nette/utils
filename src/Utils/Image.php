@@ -98,7 +98,7 @@ class Image
 {
 	use Nette\SmartObject;
 
-	/** {@link resize()} only shrinks images */
+	/** @deprecated */
 	public const SHRINK_ONLY = 0b0001;
 
 	/** {@link resize()} will ignore aspect ratio */
@@ -318,14 +318,19 @@ class Image
 
 	/**
 	 * Scales an image. Width and height accept pixels or percent.
+	 * @param  self::FIT|self::FILL|self::STRETCH|self::EXACT  $mode
 	 */
-	public function resize(int|string|null $width, int|string|null $height, int $flags = self::FIT): static
-	{
-		if ($flags & self::EXACT) {
+	public function resize(
+		int|string|null $width,
+		int|string|null $height,
+		int $mode = self::FIT,
+		bool $shrinkOnly = false,
+	): static {
+		if ($mode & self::EXACT) {
 			return $this->resize($width, $height, self::FILL)->crop('50%', '50%', $width, $height);
 		}
 
-		[$newWidth, $newHeight] = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
+		[$newWidth, $newHeight] = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $mode, $shrinkOnly);
 
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
 			$newImage = static::fromBlank($newWidth, $newHeight, self::rgb(0, 0, 0, 127))->getImageResource();
@@ -354,14 +359,17 @@ class Image
 
 	/**
 	 * Calculates dimensions of resized image. Width and height accept pixels or percent.
+	 * @param  self::FIT|self::FILL|self::STRETCH  $mode
 	 */
 	public static function calculateSize(
 		int $srcWidth,
 		int $srcHeight,
 		$newWidth,
 		$newHeight,
-		int $flags = self::FIT,
+		int $mode = self::FIT,
+		bool $shrinkOnly = false,
 	): array {
+		$shrinkOnly = $shrinkOnly || ($mode & self::SHRINK_ONLY); // back compatibility
 		if ($newWidth === null) {
 		} elseif (self::isPercent($newWidth)) {
 			$newWidth = (int) round($srcWidth / 100 * abs($newWidth));
@@ -373,17 +381,17 @@ class Image
 		if ($newHeight === null) {
 		} elseif (self::isPercent($newHeight)) {
 			$newHeight = (int) round($srcHeight / 100 * abs($newHeight));
-			$flags |= empty($percents) ? 0 : self::STRETCH;
+			$mode |= empty($percents) ? 0 : self::STRETCH;
 		} else {
 			$newHeight = abs($newHeight);
 		}
 
-		if ($flags & self::STRETCH) { // non-proportional
+		if ($mode & self::STRETCH) { // non-proportional
 			if (!$newWidth || !$newHeight) {
 				throw new Nette\InvalidArgumentException('For stretching must be both width and height specified.');
 			}
 
-			if ($flags & self::SHRINK_ONLY) {
+			if ($shrinkOnly) {
 				$newWidth = (int) round($srcWidth * min(1, $newWidth / $srcWidth));
 				$newHeight = (int) round($srcHeight * min(1, $newHeight / $srcHeight));
 			}
@@ -401,11 +409,11 @@ class Image
 				$scale[] = $newHeight / $srcHeight;
 			}
 
-			if ($flags & self::FILL) {
+			if ($mode & self::FILL) {
 				$scale = [max($scale)];
 			}
 
-			if ($flags & self::SHRINK_ONLY) {
+			if ($shrinkOnly) {
 				$scale[] = 1;
 			}
 
