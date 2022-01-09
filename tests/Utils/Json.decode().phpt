@@ -75,3 +75,7 @@ if (defined('JSON_C_VERSION')) {
 } else {
 	Assert::same(['12345678901234567890'], Json::decode('[12345678901234567890]'));
 }
+
+
+// JSON_* constants support
+Assert::same('ab', Json::decode("\"a\x80b\"", JSON_INVALID_UTF8_IGNORE));

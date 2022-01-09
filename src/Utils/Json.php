@@ -19,11 +19,9 @@ final class Json
 {
 	use Nette\StaticClass;
 
-	public const FORCE_ARRAY = 0b0001;
-
-	public const PRETTY = 0b0010;
-
-	public const ESCAPE_UNICODE = 0b0100;
+	public const FORCE_ARRAY = JSON_OBJECT_AS_ARRAY;
+	public const PRETTY = JSON_PRETTY_PRINT;
+	public const ESCAPE_UNICODE = 1 << 19;
 
 
 	/**
@@ -36,7 +34,7 @@ final class Json
 	{
 		$flags = ($flags & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
 			| JSON_UNESCAPED_SLASHES
-			| ($flags & self::PRETTY ? JSON_PRETTY_PRINT : 0)
+			| ($flags & ~self::ESCAPE_UNICODE)
 			| (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0); // since PHP 5.6.6 & PECL JSON-C 1.3.7
 
 		$json = json_encode($value, $flags);
@@ -55,8 +53,7 @@ final class Json
 	 */
 	public static function decode(string $json, int $flags = 0)
 	{
-		$forceArray = (bool) ($flags & self::FORCE_ARRAY);
-		$value = json_decode($json, $forceArray, 512, JSON_BIGINT_AS_STRING);
+		$value = json_decode($json, null, 512, $flags | JSON_BIGINT_AS_STRING);
 		if ($error = json_last_error()) {
 			throw new JsonException(json_last_error_msg(), $error);
 		}
