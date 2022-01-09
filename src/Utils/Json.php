@@ -40,6 +40,8 @@ final class Json
 		bool $asciiSafe = false,
 		bool $htmlSafe = false,
 		bool $forceObjects = false,
+		bool $invalidUtf8Ignore = false, // TODO: vylucuje se
+		bool $invalidUtf8Substitute = false,
 	): string
 	{
 		$flags = is_int($pretty) // back compatibility
@@ -47,7 +49,9 @@ final class Json
 			: ($asciiSafe ? 0 : JSON_UNESCAPED_UNICODE)
 				| ($pretty ? JSON_PRETTY_PRINT : 0)
 				| ($forceObjects ? JSON_FORCE_OBJECT : 0)
-				| ($htmlSafe ? JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG : 0);
+				| ($htmlSafe ? JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG : 0)
+				| ($invalidUtf8Ignore ? JSON_INVALID_UTF8_IGNORE : 0)
+				| ($invalidUtf8Substitute ? JSON_INVALID_UTF8_SUBSTITUTE : 0);
 
 		$flags |= JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION;
 
@@ -64,11 +68,18 @@ final class Json
 	 * Decodes a JSON string to a PHP value. Use $forceArrays to decode objects as arrays.
 	 * @throws JsonException
 	 */
-	public static function decode(string $json, bool|int $forceArrays = false): mixed
+	public static function decode(
+		string $json,
+		bool|int $forceArrays = false,
+		bool $invalidUtf8Ignore = false, // TODO: vylucuje se
+		bool $invalidUtf8Substitute = false,
+	): mixed
 	{
 		$flags = is_int($forceArrays) // back compatibility
 			? $forceArrays
-			: ($forceArrays ? JSON_OBJECT_AS_ARRAY : 0);
+			: (($forceArrays ? JSON_OBJECT_AS_ARRAY : 0)
+				| ($invalidUtf8Ignore ? JSON_INVALID_UTF8_IGNORE : 0)
+				| ($invalidUtf8Substitute ? JSON_INVALID_UTF8_SUBSTITUTE : 0));
 		$flags |= JSON_BIGINT_AS_STRING;
 
 		$value = json_decode($json, flags: $flags);
