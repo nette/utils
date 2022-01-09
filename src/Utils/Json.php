@@ -30,20 +30,25 @@ final class Json
 
 
 	/**
-	 * Converts value to JSON format. Use $pretty for easier reading and clarity and $asciiSafe for ASCII output.
+	 * Converts value to JSON format. Use $pretty for easier reading and clarity, $asciiSafe for ASCII output
+	 * and $htmlSafe for HTML escaping, $forceObjects enforces the encoding of non-associateve arrays as objects.
 	 * @throws JsonException
 	 */
 	public static function encode(
 		mixed $value,
 		bool|int $pretty = false,
 		bool $asciiSafe = false,
+		bool $htmlSafe = false,
+		bool $forceObjects = false,
 	): string
 	{
 		if (is_int($pretty)) { // back compatibility
 			$flags = ($pretty & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE) | ($pretty & ~self::ESCAPE_UNICODE);
 		} else {
 			$flags = ($asciiSafe ? 0 : JSON_UNESCAPED_UNICODE)
-				| ($pretty ? JSON_PRETTY_PRINT : 0);
+				| ($pretty ? JSON_PRETTY_PRINT : 0)
+				| ($forceObjects ? JSON_FORCE_OBJECT : 0)
+				| ($htmlSafe ? JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG : 0);
 		}
 
 		$flags |= JSON_UNESCAPED_SLASHES

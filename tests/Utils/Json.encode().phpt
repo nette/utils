@@ -46,6 +46,14 @@ Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], Json::PRETTY
 Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], pretty: true));
 
 
+// force objects
+Assert::same('{"0":1,"1":2,"2":3}', Json::encode([1, 2, 3], forceObjects: true));
+
+
+// HTML-safe
+Assert::same('"\u003C \u0022 \u0027 \u003E \u0026"', Json::encode("< \" ' > &", htmlSafe: true));
+
+
 Assert::exception(
 	fn() => Json::encode(NAN),
 	Nette\Utils\JsonException::class,
