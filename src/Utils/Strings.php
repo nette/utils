@@ -483,20 +483,33 @@ class Strings
 
 	/**
 	 * Splits a string into array by the regular expression. Parenthesized expression in the delimiter are captured.
-	 * Parameter $flags can be any combination of PREG_SPLIT_NO_EMPTY and PREG_OFFSET_CAPTURE flags.
 	 */
-	public static function split(string $subject, string $pattern, int $flags = 0): array
-	{
+	public static function split(
+		string $subject,
+		string $pattern,
+		bool|int $captureOffset = false,
+		bool $skipEmpty = false,
+	): array {
+		$flags = is_int($captureOffset) && $captureOffset // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_SPLIT_OFFSET_CAPTURE : 0) | ($skipEmpty ? PREG_SPLIT_NO_EMPTY : 0);
 		return self::pcre('preg_split', [$pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE]);
 	}
 
 
 	/**
 	 * Checks if given string matches a regular expression pattern and returns an array with first found match and each subpattern.
-	 * Parameter $flags can be any combination of PREG_OFFSET_CAPTURE and PREG_UNMATCHED_AS_NULL flags.
 	 */
-	public static function match(string $subject, string $pattern, int $flags = 0, int $offset = 0): ?array
-	{
+	public static function match(
+		string $subject,
+		string $pattern,
+		bool|int $captureOffset = false,
+		int $offset = 0,
+		bool $unmatchedAsNull = false,
+	): ?array {
+		$flags = is_int($captureOffset) && $captureOffset // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0);
 		if ($offset > strlen($subject)) {
 			return null;
 		}
@@ -508,11 +521,20 @@ class Strings
 
 
 	/**
-	 * Finds all occurrences matching regular expression pattern and returns a two-dimensional array. Result is array of matches (ie uses by default PREG_SET_ORDER).
-	 * Parameter $flags can be any combination of PREG_OFFSET_CAPTURE, PREG_UNMATCHED_AS_NULL and PREG_PATTERN_ORDER flags.
+	 * Finds all occurrences matching regular expression pattern and returns a two-dimensional array.
+	 * Result is array of matches (ie uses by default PREG_SET_ORDER).
 	 */
-	public static function matchAll(string $subject, string $pattern, int $flags = 0, int $offset = 0): array
-	{
+	public static function matchAll(
+		string $subject,
+		string $pattern,
+		bool|int $captureOffset = false,
+		int $offset = 0,
+		bool $unmatchedAsNull = false,
+		bool $patternOrder = false,
+	): array {
+		$flags = is_int($captureOffset) && $captureOffset // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0) | ($patternOrder ? PREG_PATTERN_ORDER : 0);
 		if ($offset > strlen($subject)) {
 			return [];
 		}
