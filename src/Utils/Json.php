@@ -27,6 +27,8 @@ final class Json
 
 	/** @deprecated use Json::encode(..., asciiSafe: true) */
 	public const ESCAPE_UNICODE = 1 << 19;
+	public const Ignore = 1;
+	public const Substitute = 2;
 
 
 	/**
@@ -40,8 +42,7 @@ final class Json
 		bool $asciiSafe = false,
 		bool $htmlSafe = false,
 		bool $forceObjects = false,
-		bool $invalidUtf8Ignore = false, // TODO: vylucuje se
-		bool $invalidUtf8Substitute = false,
+		int $invalidUtf8 = 0,
 	): string
 	{
 		$flags = is_int($pretty) // back compatibility
@@ -50,8 +51,8 @@ final class Json
 				| ($pretty ? JSON_PRETTY_PRINT : 0)
 				| ($forceObjects ? JSON_FORCE_OBJECT : 0)
 				| ($htmlSafe ? JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG : 0)
-				| ($invalidUtf8Ignore ? JSON_INVALID_UTF8_IGNORE : 0)
-				| ($invalidUtf8Substitute ? JSON_INVALID_UTF8_SUBSTITUTE : 0);
+				| ($invalidUtf8 === self::Ignore ? JSON_INVALID_UTF8_IGNORE : 0)
+				| ($invalidUtf8 === self::Substitute ? JSON_INVALID_UTF8_SUBSTITUTE : 0);
 
 		$flags |= JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION;
 
@@ -71,15 +72,14 @@ final class Json
 	public static function decode(
 		string $json,
 		bool|int $forceArrays = false,
-		bool $invalidUtf8Ignore = false, // TODO: vylucuje se
-		bool $invalidUtf8Substitute = false,
+		int $invalidUtf8 = 0,
 	): mixed
 	{
 		$flags = is_int($forceArrays) // back compatibility
 			? $forceArrays
 			: (($forceArrays ? JSON_OBJECT_AS_ARRAY : 0)
-				| ($invalidUtf8Ignore ? JSON_INVALID_UTF8_IGNORE : 0)
-				| ($invalidUtf8Substitute ? JSON_INVALID_UTF8_SUBSTITUTE : 0));
+				| ($invalidUtf8 === self::Ignore ? JSON_INVALID_UTF8_IGNORE : 0)
+				| ($invalidUtf8 === self::Substitute ? JSON_INVALID_UTF8_SUBSTITUTE : 0));
 		$flags |= JSON_BIGINT_AS_STRING;
 
 		$value = json_decode($json, flags: $flags);
