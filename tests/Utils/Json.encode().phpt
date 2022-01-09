@@ -49,3 +49,7 @@ Assert::exception(function () {
 
 // JSON_PRESERVE_ZERO_FRACTION
 Assert::same(defined('JSON_PRESERVE_ZERO_FRACTION') ? '1.0' : '1', Json::encode(1.0));
+
+
+// JSON_* constants support
+Assert::same('"\u003Ca\u003E"', Json::encode('<a>', JSON_HEX_TAG));
