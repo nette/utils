@@ -19,6 +19,7 @@ test('Valid numbers by sting', function () {
 	Assert::true(Validators::isNumeric('-1'));
 	Assert::true(Validators::isNumeric('+1'));
 	Assert::true(Validators::isNumeric('.0'));
+	Assert::true(Validators::isNumeric('1.'));
 	Assert::true(Validators::isNumeric('01.10'));
 });
 
