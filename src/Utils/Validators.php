@@ -232,7 +232,7 @@ class Validators
 	 */
 	public static function isNumeric($value): bool
 	{
-		return is_float($value) || is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]*[.]?[0-9]+$#D', $value));
+		return is_float($value) || is_int($value) || (is_string($value) && preg_match('#^[+-]?([0-9]++\.?[0-9]*|\.[0-9]+)$#D', $value));
 	}
 
 
