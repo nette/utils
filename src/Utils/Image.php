@@ -13,7 +13,7 @@ use Nette;
 
 
 /**
- * Basic manipulation with images. Supported types are JPEG, PNG, GIF, WEBP and BMP.
+ * Basic manipulation with images. Supported types are JPEG, PNG, GIF, WEBP, AVIF and BMP.
  *
  * <code>
  * $image = Image::fromFile('nette.jpg');
@@ -119,11 +119,12 @@ class Image
 		PNG = IMAGETYPE_PNG,
 		GIF = IMAGETYPE_GIF,
 		WEBP = IMAGETYPE_WEBP,
+		AVIF = 19, // IMAGETYPE_AVIF,
 		BMP = IMAGETYPE_BMP;
 
 	public const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
-	private const FORMATS = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::BMP => 'bmp'];
+	private const FORMATS = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::AVIF => 'avif', self::BMP => 'bmp'];
 
 	/** @var resource|\GdImage */
 	private $image;
@@ -581,7 +582,7 @@ class Image
 
 
 	/**
-	 * Saves image to the file. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
+	 * Saves image to the file. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
 	 * @throws ImageException
 	 */
 	public function save(string $file, ?int $quality = null, ?int $type = null): void
@@ -601,7 +602,7 @@ class Image
 
 
 	/**
-	 * Outputs image to string. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
+	 * Outputs image to string. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
 	 */
 	public function toString(int $type = self::JPEG, ?int $quality = null): string
 	{
@@ -630,7 +631,7 @@ class Image
 
 
 	/**
-	 * Outputs image to browser. Quality is in the range 0..100 for JPEG (default 85) and WEBP (default 80) and 0..9 for PNG (default 9).
+	 * Outputs image to browser. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
 	 * @throws ImageException
 	 */
 	public function send(int $type = self::JPEG, ?int $quality = null): void
@@ -664,6 +665,11 @@ class Image
 			case self::WEBP:
 				$quality = $quality === null ? 80 : max(0, min(100, $quality));
 				$success = @imagewebp($this->image, $file, $quality); // @ is escalated to exception
+				break;
+
+			case self::AVIF:
+				$quality = $quality === null ? 30 : max(0, min(100, $quality));
+				$success = @imageavif($this->image, $file, $quality); // @ is escalated to exception
 				break;
 
 			case self::BMP:

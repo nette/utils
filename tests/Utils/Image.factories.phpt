@@ -36,6 +36,18 @@ test('', function () {
 });
 
 
+test('', function () {
+	if (!function_exists('imagecreatefromavif')) {
+		return;
+	}
+
+	$image = Image::fromFile(__DIR__ . '/fixtures.images/logo.avif', $format);
+	Assert::same(176, $image->getWidth());
+	Assert::same(104, $image->getHeight());
+	Assert::same(Image::AVIF, $format);
+});
+
+
 Assert::exception(function () {
 	Image::fromFile('fixtures.images/missing.png');
 }, Nette\Utils\UnknownImageFileException::class, "File 'fixtures.images/missing.png' not found.");

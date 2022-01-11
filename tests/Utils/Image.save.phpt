@@ -47,6 +47,21 @@ test('', function () use ($main) {
 
 
 test('', function () use ($main) {
+	if (!function_exists('imageavif')) {
+		return;
+	}
+
+	$main->save(getTempDir() . '/foo.avif');
+	Assert::true(is_file(getTempDir() . '/foo.avif'));
+	Assert::same('avif', file_get_contents(getTempDir() . '/foo.avif', false, null, 8, 4));
+
+	$main->save(getTempDir() . '/foo.y', null, Image::AVIF);
+	Assert::true(is_file(getTempDir() . '/foo.y'));
+	Assert::same('avif', file_get_contents(getTempDir() . '/foo.y', false, null, 8, 4));
+});
+
+
+test('', function () use ($main) {
 	if (!function_exists('imagebmp')) {
 		return;
 	}
