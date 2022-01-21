@@ -71,4 +71,19 @@ final class Json
 
 		return $value;
 	}
+
+
+	/**
+	 * Converts given JSON file to PHP value.
+	 * @throws JsonException
+	 */
+	public static function decodeFile(string $file, bool|int $forceArray = false): mixed
+	{
+		if (!is_file($file)) {
+			throw new Nette\IOException("File '$file' does not exist.");
+		}
+
+		$input = file_get_contents($file);
+		return self::decode($input, $forceArray);
+	}
 }
