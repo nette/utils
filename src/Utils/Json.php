@@ -78,4 +78,14 @@ final class Json
 
 		return $value;
 	}
+
+
+	/**
+	 * Converts given JSON file to PHP value.
+	 * @throws JsonException
+	 */
+	public static function decodeFile(string $file, bool $forceArray = false): mixed
+	{
+		return self::decode(FileSystem::read($file), $forceArray);
+	}
 }
