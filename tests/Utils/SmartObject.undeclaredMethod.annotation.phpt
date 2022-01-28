@@ -44,6 +44,9 @@ class ParentClass
 
 /**
  * @method classB()
+ * @method int classC()
+ * @method static classS1()
+ * @method static int classS2()
  */
 class ChildClass extends ParentClass
 {
@@ -56,6 +59,18 @@ $obj = new ChildClass;
 Assert::exception(function () use ($obj) {
 	$obj->classBX();
 }, Nette\MemberAccessException::class, 'Call to undefined method ChildClass::classBX(), did you mean classB()?');
+
+Assert::exception(function () use ($obj) {
+	$obj->classCX();
+}, Nette\MemberAccessException::class, 'Call to undefined method ChildClass::classCX(), did you mean classC()?');
+
+Assert::exception(function () use ($obj) {
+	$obj->classS1X();
+}, Nette\MemberAccessException::class, 'Call to undefined method ChildClass::classS1X(), did you mean classS1()?');
+
+Assert::exception(function () use ($obj) {
+	$obj->classS2X();
+}, Nette\MemberAccessException::class, 'Call to undefined method ChildClass::classS2X(), did you mean classS2()?');
 
 Assert::exception(function () use ($obj) {
 	$obj->classAX();
