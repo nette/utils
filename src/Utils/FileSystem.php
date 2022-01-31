@@ -96,9 +96,13 @@ final class FileSystem
 				));
 			}
 		} elseif (is_dir($path)) {
-			foreach (new \FilesystemIterator($path) as $item) {
-				static::delete($item->getPathname());
-			}
+			$items = [];
+			do {
+				foreach ($items as $item) {
+					static::delete($item->getPathname());
+				}
+				$items = iterator_to_array(new \FilesystemIterator($path));
+			} while ($items !== []);
 
 			if (!@rmdir($path)) { // @ is escalated to exception
 				throw new Nette\IOException(sprintf(
