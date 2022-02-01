@@ -144,4 +144,22 @@ class DateTime extends \DateTime implements \JsonSerializable
 		$dolly = clone $this;
 		return $modify ? $dolly->modify($modify) : $dolly;
 	}
+
+
+	public static function getIntlDateFormat(
+		$format = 'yyyy-MM-dd HH:mm:ss',
+		$time = null,
+		$locale = 'en_GB',
+		$timeZone = 'Europe/London'
+	): string {
+		if (empty($time)) {
+			$time = new \DateTime;
+		}
+
+		$formatter = new \IntlDateFormatter("{$locale}", \IntlDateFormatter::FULL, \IntlDateFormatter::FULL, $timeZone, \IntlDateFormatter::TRADITIONAL);
+
+		$formatter->setPattern($format);
+
+		return $formatter->format($time);
+	}
 }
