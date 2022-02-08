@@ -146,9 +146,8 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
-	public static function getIntlDateFormat(
+	public function getIntlDateFormat(
 		$format = 'yyyy-MM-dd HH:mm:ss',
-		$time = null,
 		$locale = 'en_GB',
 		$timeZone = 'Europe/London'
 	): string {
@@ -156,10 +155,16 @@ class DateTime extends \DateTime implements \JsonSerializable
 			$time = new \DateTime;
 		}
 
-		$formatter = new \IntlDateFormatter("{$locale}", \IntlDateFormatter::FULL, \IntlDateFormatter::FULL, $timeZone, \IntlDateFormatter::TRADITIONAL);
+		$formatter = new \IntlDateFormatter(
+			"{$locale}",
+			\IntlDateFormatter::FULL,
+			\IntlDateFormatter::FULL,
+			$timeZone,
+			\IntlDateFormatter::TRADITIONAL
+		);
 
 		$formatter->setPattern($format);
 
-		return $formatter->format($time);
+		return $formatter->format($this);
 	}
 }
