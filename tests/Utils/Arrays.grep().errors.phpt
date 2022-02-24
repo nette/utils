@@ -23,5 +23,5 @@ Assert::exception(
 Assert::exception(
 	fn() => Arrays::grep(['a', "1\xFF", 'c'], '#\d#u'),
 	Nette\Utils\RegexpException::class,
-	'Malformed UTF-8 data (pattern: #\d#u)',
+	'Malformed UTF-8 characters, possibly incorrectly encoded (pattern: #\d#u)',
 );
