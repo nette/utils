@@ -499,7 +499,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/**
 	 * Special setter for element's attribute.
 	 */
-	final public function href(string $path, ?array $query = null): static
+	final public function href(string $path, array $query = []): static
 	{
 		if ($query) {
 			$query = http_build_query($query, '', '&');
