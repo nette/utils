@@ -124,7 +124,7 @@ class Image
 
 	public const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
-	private const FORMATS = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::AVIF => 'avif', self::BMP => 'bmp'];
+	private const Formats = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::AVIF => 'avif', self::BMP => 'bmp'];
 
 	/** @var resource|\GdImage */
 	private $image;
@@ -161,7 +161,7 @@ class Image
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
 
-		return self::invokeSafe('imagecreatefrom' . self::FORMATS[$type], $file, "Unable to open file '$file'.", __METHOD__);
+		return self::invokeSafe('imagecreatefrom' . self::Formats[$type], $file, "Unable to open file '$file'.", __METHOD__);
 	}
 
 
@@ -237,7 +237,7 @@ class Image
 	public static function detectTypeFromFile(string $file): ?int
 	{
 		$type = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
-		return isset(self::FORMATS[$type]) ? $type : null;
+		return isset(self::Formats[$type]) ? $type : null;
 	}
 
 
@@ -247,7 +247,7 @@ class Image
 	public static function detectTypeFromString(string $s): ?int
 	{
 		$type = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
-		return isset(self::FORMATS[$type]) ? $type : null;
+		return isset(self::Formats[$type]) ? $type : null;
 	}
 
 
@@ -256,11 +256,11 @@ class Image
 	 */
 	public static function typeToExtension(int $type): string
 	{
-		if (!isset(self::FORMATS[$type])) {
+		if (!isset(self::Formats[$type])) {
 			throw new Nette\InvalidArgumentException("Unsupported image type '$type'.");
 		}
 
-		return self::FORMATS[$type];
+		return self::Formats[$type];
 	}
 
 
@@ -588,7 +588,7 @@ class Image
 	public function save(string $file, ?int $quality = null, ?int $type = null): void
 	{
 		if ($type === null) {
-			$extensions = array_flip(self::FORMATS) + ['jpg' => self::JPEG];
+			$extensions = array_flip(self::Formats) + ['jpg' => self::JPEG];
 			$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 			if (!isset($extensions[$ext])) {
 				throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
