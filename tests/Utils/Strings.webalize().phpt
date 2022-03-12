@@ -20,6 +20,9 @@ if (class_exists('Transliterator') && Transliterator::create('Any-Latin; Latin-A
 }
 
 Assert::same('a-b', Strings::webalize("a\u{A0}b")); // non-breaking space
-Assert::exception(function () {
-	Strings::toAscii("0123456789\xFF");
-}, Nette\Utils\RegexpException::class, null, PREG_BAD_UTF8_ERROR);
+Assert::exception(
+	fn() => Strings::toAscii("0123456789\xFF"),
+	Nette\Utils\RegexpException::class,
+	null,
+	PREG_BAD_UTF8_ERROR,
+);

@@ -16,9 +16,11 @@ require __DIR__ . '/../bootstrap.php';
 Assert::same('"ok"', Json::encode('ok'));
 
 
-Assert::exception(function () {
-	Json::encode(["bad utf\xFF"]);
-}, Nette\Utils\JsonException::class, 'Malformed UTF-8 characters, possibly incorrectly encoded');
+Assert::exception(
+	fn() => Json::encode(["bad utf\xFF"]),
+	Nette\Utils\JsonException::class,
+	'Malformed UTF-8 characters, possibly incorrectly encoded',
+);
 
 
 Assert::exception(function () {
@@ -42,9 +44,11 @@ Assert::same('"\u2028\u2029"', Json::encode("\u{2028}\u{2029}", Json::ESCAPE_UNI
 Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], Json::PRETTY));
 
 
-Assert::exception(function () {
-	Json::encode(NAN);
-}, Nette\Utils\JsonException::class, 'Inf and NaN cannot be JSON encoded');
+Assert::exception(
+	fn() => Json::encode(NAN),
+	Nette\Utils\JsonException::class,
+	'Inf and NaN cannot be JSON encoded',
+);
 
 
 // JSON_PRESERVE_ZERO_FRACTION

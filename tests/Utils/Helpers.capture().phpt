@@ -16,10 +16,10 @@ Assert::same('hello', Helpers::capture(function () { echo 'hello'; }));
 
 $level = ob_get_level();
 
-Assert::exception(function () {
-	Helpers::capture(function () {
-		undefined();
-	});
-}, Error::class, 'Call to undefined function undefined()');
+Assert::exception(
+	fn() => Helpers::capture(fn() => undefined()),
+	Error::class,
+	'Call to undefined function undefined()',
+);
 
 Assert::same($level, ob_get_level());
