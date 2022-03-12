@@ -182,13 +182,17 @@ test('null fields', function () {
 
 test('undeclared fields', function () {
 	$row = new ArrayHash;
-	Assert::error(function () use ($row) {
-		$row->undef;
-	}, PHP_VERSION_ID < 80000 ? E_NOTICE : E_WARNING, 'Undefined property: Nette\Utils\ArrayHash::$undef');
+	Assert::error(
+		fn() => $row->undef,
+		PHP_VERSION_ID < 80000 ? E_NOTICE : E_WARNING,
+		'Undefined property: Nette\Utils\ArrayHash::$undef',
+	);
 
-	Assert::error(function () use ($row) {
-		$row['undef'];
-	}, PHP_VERSION_ID < 80000 ? E_NOTICE : E_WARNING, 'Undefined property: Nette\Utils\ArrayHash::$undef');
+	Assert::error(
+		fn() => $row['undef'],
+		PHP_VERSION_ID < 80000 ? E_NOTICE : E_WARNING,
+		'Undefined property: Nette\Utils\ArrayHash::$undef',
+	);
 });
 
 

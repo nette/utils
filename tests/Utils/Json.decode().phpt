@@ -22,34 +22,46 @@ Assert::equal((object) ['a' => 1], Json::decode('{"a":1}'));
 Assert::same(['a' => 1], Json::decode('{"a":1}', Json::FORCE_ARRAY));
 
 
-Assert::exception(function () {
-	Json::decode('');
-}, Nette\Utils\JsonException::class, 'Syntax error');
+Assert::exception(
+	fn() => Json::decode(''),
+	Nette\Utils\JsonException::class,
+	'Syntax error',
+);
 
 
-Assert::exception(function () {
-	Json::decode('NULL');
-}, Nette\Utils\JsonException::class, 'Syntax error');
+Assert::exception(
+	fn() => Json::decode('NULL'),
+	Nette\Utils\JsonException::class,
+	'Syntax error',
+);
 
 
-Assert::exception(function () {
-	Json::decode('{');
-}, Nette\Utils\JsonException::class, 'Syntax error');
+Assert::exception(
+	fn() => Json::decode('{'),
+	Nette\Utils\JsonException::class,
+	'Syntax error',
+);
 
 
-Assert::exception(function () {
-	Json::decode('{}}');
-}, Nette\Utils\JsonException::class, 'Syntax error');
+Assert::exception(
+	fn() => Json::decode('{}}'),
+	Nette\Utils\JsonException::class,
+	'Syntax error',
+);
 
 
-Assert::exception(function () {
-	Json::decode("\x00");
-}, Nette\Utils\JsonException::class, defined('JSON_C_VERSION') ? 'Syntax error' : 'Control character error, possibly incorrectly encoded');
+Assert::exception(
+	fn() => Json::decode("\x00"),
+	Nette\Utils\JsonException::class,
+	defined('JSON_C_VERSION') ? 'Syntax error' : 'Control character error, possibly incorrectly encoded',
+);
 
 
-Assert::exception(function () {
-	Json::decode('{"\u0000": 1}');
-}, Nette\Utils\JsonException::class, 'The decoded property name is invalid');
+Assert::exception(
+	fn() => Json::decode('{"\u0000": 1}'),
+	Nette\Utils\JsonException::class,
+	'The decoded property name is invalid',
+);
 
 
 Assert::same(["\x00" => 1], Json::decode('{"\u0000": 1}', Json::FORCE_ARRAY));
@@ -57,9 +69,11 @@ Assert::equal((object) ['a' => "\x00"], Json::decode('{"a": "\u0000"}'));
 Assert::equal((object) ["\"\x00" => 1], Json::decode('{"\"\u0000": 1}'));
 
 
-Assert::exception(function () {
-	Json::decode("\"\xC1\xBF\"");
-}, Nette\Utils\JsonException::class, 'Malformed UTF-8 characters, possibly incorrectly encoded');
+Assert::exception(
+	fn() => Json::decode("\"\xC1\xBF\""),
+	Nette\Utils\JsonException::class,
+	'Malformed UTF-8 characters, possibly incorrectly encoded',
+);
 
 
 // default JSON_BIGINT_AS_STRING
