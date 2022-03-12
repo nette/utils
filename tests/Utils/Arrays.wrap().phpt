@@ -40,7 +40,9 @@ test('Type conversion', function () {
 	];
 	Assert::same(array_column($cases, 1), Arrays::wrap(array_column($cases, 0)));
 
-	Assert::error(function () {
-		Arrays::wrap([[]]);
-	}, PHP_VERSION_ID < 80000 ? E_NOTICE : E_WARNING, 'Array to string conversion');
+	Assert::error(
+		fn() => Arrays::wrap([[]]),
+		PHP_VERSION_ID < 80000 ? E_NOTICE : E_WARNING,
+		'Array to string conversion',
+	);
 });

@@ -20,10 +20,14 @@ class TestClass
 	}
 }
 
-Assert::exception(function () {
-	new TestClass;
-}, Error::class, 'Class TestClass is static and cannot be instantiated.');
+Assert::exception(
+	fn() => new TestClass,
+	Error::class,
+	'Class TestClass is static and cannot be instantiated.',
+);
 
-Assert::exception(function () {
-	TestClass::methodA();
-}, Nette\MemberAccessException::class, 'Call to undefined static method TestClass::methodA(), did you mean method()?');
+Assert::exception(
+	fn() => TestClass::methodA(),
+	Nette\MemberAccessException::class,
+	'Call to undefined static method TestClass::methodA(), did you mean method()?',
+);
