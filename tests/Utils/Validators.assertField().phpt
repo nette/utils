@@ -15,16 +15,21 @@ require __DIR__ . '/../bootstrap.php';
 
 $arr = ['first' => true];
 
-Assert::exception(function () use ($arr) {
-	Validators::assertField(null, 'foo', 'foo');
-}, TypeError::class);
+Assert::exception(
+	fn() => Validators::assertField(null, 'foo', 'foo'),
+	TypeError::class,
+);
 
-Assert::exception(function () use ($arr) {
-	Validators::assertField($arr, 'second', 'int');
-}, Nette\Utils\AssertionException::class, "Missing item 'second' in array.");
+Assert::exception(
+	fn() => Validators::assertField($arr, 'second', 'int'),
+	Nette\Utils\AssertionException::class,
+	"Missing item 'second' in array.",
+);
 
 Validators::assertField($arr, 'first');
 
-Assert::exception(function () use ($arr) {
-	Validators::assertField($arr, 'first', 'int');
-}, Nette\Utils\AssertionException::class, "The item 'first' in array expects to be int, bool given.");
+Assert::exception(
+	fn() => Validators::assertField($arr, 'first', 'int'),
+	Nette\Utils\AssertionException::class,
+	"The item 'first' in array expects to be int, bool given.",
+);

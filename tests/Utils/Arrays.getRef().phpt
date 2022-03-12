@@ -69,8 +69,10 @@ test('Traversing', function () use ($arr) {
 
 
 test('Error', function () use ($arr) {
-	Assert::exception(function () use ($arr) {
-		$dolly = $arr;
-		$item = &Arrays::getRef($dolly, [7, 'item', 3]);
-	}, InvalidArgumentException::class, 'Traversed item is not an array.');
+	$dolly = $arr;
+	Assert::exception(
+		fn() => $item = &Arrays::getRef($dolly, [7, 'item', 3]),
+		InvalidArgumentException::class,
+		'Traversed item is not an array.',
+	);
 });
