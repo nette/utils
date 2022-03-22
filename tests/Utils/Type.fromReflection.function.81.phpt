@@ -50,5 +50,5 @@ Assert::same('Bar&Foo', (string) $type);
 
 
 // tentative type
-$type = Type::fromReflection(new \ReflectionMethod(\ArrayObject::class, 'count'));
+$type = Type::fromReflection(new ReflectionMethod(ArrayObject::class, 'count'));
 Assert::same('int', (string) $type);
