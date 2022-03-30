@@ -5,6 +5,7 @@
 ecs.php export-ignore
 phpstan.neon export-ignore
 tests/ export-ignore
+.phpstorm.meta.php export-ignore
 
 *.sh eol=lf
 *.php* diff=php linguist-language=PHP
