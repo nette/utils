@@ -234,9 +234,9 @@ class Image
 	/**
 	 * Returns the type of image from file.
 	 */
-	public static function detectTypeFromFile(string $file): ?int
+	public static function detectTypeFromFile(string $file, &$width = null, &$height = null): ?int
 	{
-		$type = @getimagesize($file)[2]; // @ - files smaller than 12 bytes causes read error
+		[$width, $height, $type] = @getimagesize($file); // @ - files smaller than 12 bytes causes read error
 		return isset(self::Formats[$type]) ? $type : null;
 	}
 
@@ -244,9 +244,9 @@ class Image
 	/**
 	 * Returns the type of image from string.
 	 */
-	public static function detectTypeFromString(string $s): ?int
+	public static function detectTypeFromString(string $s, &$width = null, &$height = null): ?int
 	{
-		$type = @getimagesizefromstring($s)[2]; // @ - strings smaller than 12 bytes causes read error
+		[$width, $height, $type] = @getimagesizefromstring($s); // @ - strings smaller than 12 bytes causes read error
 		return isset(self::Formats[$type]) ? $type : null;
 	}
 

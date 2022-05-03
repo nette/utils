@@ -20,7 +20,9 @@ test('', function () {
 	Assert::same(104, $image->getHeight());
 	Assert::same(Image::GIF, $format);
 
-	Assert::same(Image::GIF, Image::detectTypeFromFile(__DIR__ . '/fixtures.images/logo.gif'));
+	Assert::same(Image::GIF, Image::detectTypeFromFile(__DIR__ . '/fixtures.images/logo.gif', $w, $h));
+	Assert::same(176, $w);
+	Assert::same(104, $h);
 });
 
 
@@ -79,7 +81,9 @@ test('', function () {
 	Assert::same(1, $image->getHeight());
 	Assert::same(Image::GIF, $format);
 
-	Assert::same(Image::GIF, Image::detectTypeFromString(Image::EMPTY_GIF));
+	Assert::same(Image::GIF, Image::detectTypeFromString(Image::EMPTY_GIF, $w, $h));
+	Assert::same(1, $w);
+	Assert::same(1, $h);
 });
 
 
