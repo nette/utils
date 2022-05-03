@@ -265,6 +265,21 @@ class Image
 
 
 	/**
+	 * Returns the `Image::XXX` constant for given file extension.
+	 */
+	public static function extensionToType(string $extension): int
+	{
+		$extensions = array_flip(self::Formats) + ['jpg' => self::JPEG];
+		$extension = strtolower($extension);
+		if (!isset($extensions[$extension])) {
+			throw new Nette\InvalidArgumentException("Unsupported file extension '$extension'.");
+		}
+
+		return $extensions[$extension];
+	}
+
+
+	/**
 	 * Returns the mime type for the given `Image::XXX` constant.
 	 */
 	public static function typeToMimeType(int $type): string
@@ -587,16 +602,7 @@ class Image
 	 */
 	public function save(string $file, ?int $quality = null, ?int $type = null): void
 	{
-		if ($type === null) {
-			$extensions = array_flip(self::Formats) + ['jpg' => self::JPEG];
-			$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-			if (!isset($extensions[$ext])) {
-				throw new Nette\InvalidArgumentException("Unsupported file extension '$ext'.");
-			}
-
-			$type = $extensions[$ext];
-		}
-
+		$type = $type ?? self::extensionToType(pathinfo($file, PATHINFO_EXTENSION));
 		$this->output($type, $quality, $file);
 	}
 

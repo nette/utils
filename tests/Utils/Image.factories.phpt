@@ -89,3 +89,12 @@ Assert::exception(function () {
 
 
 Assert::null(Image::detectTypeFromString('x'));
+
+
+Assert::same('webp', Image::typeToExtension(Image::WEBP));
+Assert::same('jpeg', Image::typeToExtension(Image::JPEG));
+Assert::same('image/webp', Image::typeToMimeType(Image::WEBP));
+Assert::same('image/jpeg', Image::typeToMimeType(Image::JPEG));
+Assert::same(Image::WEBP, Image::extensionToType('webp'));
+Assert::same(Image::JPEG, Image::extensionToType('jpeg'));
+Assert::same(Image::JPEG, Image::extensionToType('jpg'));
