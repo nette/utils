@@ -26,3 +26,4 @@ Assert::exception(
 	null,
 	PREG_BAD_UTF8_ERROR,
 );
+Assert::same('title-with-minus', Strings::webalize('Title with - minus', '-')); // repeating minus
