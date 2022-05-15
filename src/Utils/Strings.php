@@ -235,6 +235,7 @@ class Strings
 		}
 
 		$s = self::pcre('preg_replace', ['#[^a-z0-9' . ($charlist !== null ? preg_quote($charlist, '#') : '') . ']+#i', '-', $s]);
+		$s = self::pcre('preg_replace', ['#-+#', '-', $s]);
 		$s = trim($s, '-');
 		return $s;
 	}
