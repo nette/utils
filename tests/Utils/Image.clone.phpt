@@ -18,4 +18,7 @@ $original = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif');
 
 $dolly = clone $original;
 Assert::notSame($dolly->getImageResource(), $original->getImageResource());
-Assert::same($dolly->toString(Image::GIF), $original->toString(Image::GIF));
+Assert::same($dolly->getHeight(), $original->getHeight());
+Assert::same($dolly->getWidth(), $original->getWidth());
+Assert::same($dolly->isTrueColor(), $original->isTrueColor());
+Assert::same($dolly->toString(Image::PNG), $original->toString(Image::PNG));
