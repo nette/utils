@@ -1,4 +1,4 @@
-Nette Utility Classe
+Nette Utility Classes
 =====================
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/nette/utils.svg)](https://packagist.org/packages/nette/utils)
