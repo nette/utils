@@ -34,7 +34,7 @@ Assert::same('OK1', $res);
 Callback::invokeSafe('preg_match', ['ab', 'foo'], function () {
 	return false;
 });
-Assert::same('preg_match(): Delimiter must not be alphanumeric or backslash', $res);
+Assert::match('preg_match(): Delimiter must not be alphanumeric%a%', $res);
 
 
 // error -> exception
@@ -42,7 +42,7 @@ Assert::exception(function () {
 	Callback::invokeSafe('preg_match', ['ab', 'foo'], function ($message, $severity) {
 		throw new Exception($message, $severity);
 	});
-}, 'Exception', 'Delimiter must not be alphanumeric or backslash', E_WARNING);
+}, 'Exception', 'Delimiter must not be alphanumeric%a%', E_WARNING);
 
 trigger_error('OK2', E_USER_WARNING);
 Assert::same('OK2', $res);
