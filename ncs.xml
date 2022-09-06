@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Custom" namespace="Nette">
-	<rule ref="$presets/php72.xml"/>
+	<rule ref="$presets/php80.xml"/>
 
 	<!-- bug in FunctionSpacingSniff -->
 	<exclude-pattern>./tests/Utils/Reflection.getDeclaringMethod.alias.phpt</exclude-pattern>
