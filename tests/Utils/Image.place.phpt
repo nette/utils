@@ -19,6 +19,4 @@ $rectangle = Image::fromBlank(50, 50, Image::rgb(255, 255, 255));
 $image = Image::fromBlank(100, 100, Image::rgb(0, 0, 0));
 $image->place($rectangle, '37.5%', '50%');
 
-ob_start();
-imagegd2($image->getImageResource());
-Assert::same(file_get_contents(__DIR__ . '/expected/Image.place.gd2'), ob_get_clean());
+Assert::same(file_get_contents(__DIR__ . '/expected/Image.place.png'), $image->toString($image::PNG));
