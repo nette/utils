@@ -18,7 +18,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::map(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return true; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return true;
+		}
 	);
 	Assert::same([], $res);
 	Assert::same([], $log);
@@ -29,7 +32,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::map(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return $v . $v; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return $v . $v;
+		}
 	);
 	Assert::same(['aa', 'bb'], $res);
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
@@ -40,7 +46,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::map(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return $v . $v; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return $v . $v;
+		}
 	);
 	Assert::same(['x' => 'aa', 'y' => 'bb'], $res);
 	Assert::same([['a', 'x', $arr], ['b', 'y', $arr]], $log);
@@ -51,7 +60,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::map(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return $v . $v; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return $v . $v;
+		}
 	);
 	Assert::same(['x' => 'aa', 'y' => 'bb'], $res);
 	Assert::same([['a', 'x', $arr], ['b', 'y', $arr]], $log);

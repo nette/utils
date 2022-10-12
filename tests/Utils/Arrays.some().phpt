@@ -18,7 +18,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::some(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return false; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return false;
+		}
 	);
 	Assert::false($res);
 	Assert::same([], $log);
@@ -29,7 +32,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::some(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return true; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return true;
+		}
 	);
 	Assert::false($res);
 	Assert::same([], $log);
@@ -40,7 +46,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::some(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return false; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return false;
+		}
 	);
 	Assert::false($res);
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
@@ -51,7 +60,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::some(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return true; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return true;
+		}
 	);
 	Assert::true($res);
 	Assert::same([['a', 0, $arr]], $log);
@@ -62,7 +74,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::some(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return $v === 'a'; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return $v === 'a';
+		}
 	);
 	Assert::true($res);
 	Assert::same([['a', 0, $arr]], $log);
@@ -73,7 +88,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::some(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return $v === 'a'; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return $v === 'a';
+		}
 	);
 	Assert::true($res);
 	Assert::same([['a', 'x', $arr]], $log);
@@ -84,7 +102,10 @@ test('', function () {
 	$log = [];
 	$res = Arrays::some(
 		$arr,
-		function ($v, $k, $arr) use (&$log) { $log[] = func_get_args(); return $v === 'a'; }
+		function ($v, $k, $arr) use (&$log) {
+			$log[] = func_get_args();
+			return $v === 'a';
+		}
 	);
 	Assert::true($res);
 	Assert::same([['a', 'x', $arr]], $log);
