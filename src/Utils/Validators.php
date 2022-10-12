@@ -118,7 +118,8 @@ class Validators
 		$key,
 		?string $expected = null,
 		string $label = "item '%' in array"
-	): void {
+	): void
+	{
 		if (!array_key_exists($key, $array)) {
 			throw new AssertionException('Missing ' . str_replace('%', $key, $label) . '.');
 
@@ -327,7 +328,7 @@ class Validators
 			[$alpha]([-0-9$alpha]{0,17}[$alpha])?              # top domain
 		$)Dix
 XX
-, $value);
+			, $value);
 	}
 
 
@@ -351,7 +352,7 @@ XX
 			(\\#\\S*)?                                      # fragment
 		$)Dix
 XX
-, $value);
+			, $value);
 	}
 
 

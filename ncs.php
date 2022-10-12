@@ -11,4 +11,6 @@ return [
 	// use function in Arrays.php, Callback.php, Html.php, Strings.php
 	'single_import_per_statement' => false,
 	'ordered_imports' => false,
+	// Reflection.php
+	'Nette/statement_indentation' => false,
 ];
