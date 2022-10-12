@@ -14,7 +14,7 @@ jobs:
 
         name: PHP ${{ matrix.php }} tests on ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
@@ -24,7 +24,7 @@ jobs:
             - run: composer install --no-progress --prefer-dist
             - run: vendor/bin/tester tests -s -C
             - if: failure()
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v3
               with:
                   name: output
                   path: tests/**/output
@@ -34,7 +34,7 @@ jobs:
         name: Code Coverage
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: 7.4
