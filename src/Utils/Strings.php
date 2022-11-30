@@ -640,6 +640,37 @@ class Strings
 	}
 
 
+	/**
+	 * Encodes string into Base64 URL encoding.
+	 */
+	public static function base64UrlEncode(string $s): string
+	{
+		return strtr(rtrim(base64_encode($s), '='), ['+' => '-', '/' => '_']);
+	}
+
+
+	/**
+	 * Decodes string from Base64 URL encoding.
+	 * @throws Nette\InvalidArgumentException if input is malformed
+	 */
+	public static function base64UrlDecode(string $s): string
+	{
+		$padding = match (strlen($s) % 4) {
+			0 => '',
+			2 => '==',
+			3 => '=',
+			default => throw new Nette\InvalidArgumentException('Invalid base64url string length.'),
+		};
+
+		$s = base64_decode(strtr($s, ['-' => '+', '_' => '/']) . $padding, true);
+		if ($s === false) {
+			throw new Nette\InvalidArgumentException('Invalid base64 string.');
+		}
+
+		return $s;
+	}
+
+
 	private static function bytesToChars(string $s, array $groups): array
 	{
 		$lastBytes = $lastChars = 0;
