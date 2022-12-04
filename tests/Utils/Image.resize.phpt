@@ -44,9 +44,25 @@ test('resizing Y shrink', function () use ($main) {
 });
 
 
+test('resizing Y shrink', function () use ($main) {
+	$image = clone $main;
+	$image->resize(null, 150, shrinkOnly: true);
+	Assert::same(176, $image->width);
+	Assert::same(104, $image->height);
+});
+
+
 test('resizing X Y shrink', function () use ($main) {
 	$image = clone $main;
 	$image->resize(300, 150, Image::ShrinkOnly);
+	Assert::same(176, $image->width);
+	Assert::same(104, $image->height);
+});
+
+
+test('resizing X Y shrink', function () use ($main) {
+	$image = clone $main;
+	$image->resize(300, 150, shrinkOnly: true);
 	Assert::same(176, $image->width);
 	Assert::same(104, $image->height);
 });
@@ -71,6 +87,14 @@ test('resizing X Y stretch', function () use ($main) {
 test('resizing X Y shrink stretch', function () use ($main) {
 	$image = clone $main;
 	$image->resize(300, 100, Image::ShrinkOnly | Image::Stretch);
+	Assert::same(176, $image->width);
+	Assert::same(100, $image->height);
+});
+
+
+test('resizing X Y shrink stretch', function () use ($main) {
+	$image = clone $main;
+	$image->resize(300, 100, Image::Stretch, shrinkOnly: true);
 	Assert::same(176, $image->width);
 	Assert::same(100, $image->height);
 });
@@ -108,9 +132,25 @@ test('flipping Y shrink', function () use ($main) {
 });
 
 
+test('flipping Y shrink', function () use ($main) {
+	$image = clone $main;
+	$image->resize(null, -150, shrinkOnly: true);
+	Assert::same(176, $image->width);
+	Assert::same(104, $image->height);
+});
+
+
 test('flipping X Y shrink', function () use ($main) {
 	$image = clone $main;
 	$image->resize(-300, -150, Image::ShrinkOnly);
+	Assert::same(176, $image->width);
+	Assert::same(104, $image->height);
+});
+
+
+test('flipping X Y shrink', function () use ($main) {
+	$image = clone $main;
+	$image->resize(-300, -150, shrinkOnly: true);
 	Assert::same(176, $image->width);
 	Assert::same(104, $image->height);
 });
