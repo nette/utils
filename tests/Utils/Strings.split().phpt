@@ -30,9 +30,25 @@ Assert::same([
 ], Strings::split('a, b, c', '#(,)\s*#', PREG_SPLIT_NO_EMPTY));
 
 Assert::same([
+	'a',
+	',',
+	'b',
+	',',
+	'c',
+], Strings::split('a, b, c', '#(,)\s*#', skipEmpty: true));
+
+Assert::same([
 	['a', 0],
 	[',', 1],
 	['b', 3],
 	[',', 4],
 	['c', 6],
 ], Strings::split('a, b, c', '#(,)\s*#', PREG_SPLIT_OFFSET_CAPTURE));
+
+Assert::same([
+	['a', 0],
+	[',', 1],
+	['b', 3],
+	[',', 4],
+	['c', 6],
+], Strings::split('a, b, c', '#(,)\s*#', captureOffset: true));
