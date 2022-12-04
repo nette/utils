@@ -99,19 +99,37 @@ class Image
 	use Nette\SmartObject;
 
 	/** Prevent from getting resized to a bigger size than the original */
-	public const SHRINK_ONLY = 0b0001;
+	public const ShrinkOnly = 0b0001;
 
 	/** Resizes to a specified width and height without keeping aspect ratio */
-	public const STRETCH = 0b0010;
+	public const Stretch = 0b0010;
 
 	/** Resizes to fit into a specified width and height and preserves aspect ratio */
-	public const FIT = 0b0000;
+	public const OrSmaller = 0b0000;
 
 	/** Resizes while bounding the smaller dimension to the specified width or height and preserves aspect ratio */
-	public const FILL = 0b0100;
+	public const OrBigger = 0b0100;
 
 	/** Resizes to the smallest possible size to completely cover specified width and height and reserves aspect ratio */
-	public const EXACT = 0b1000;
+	public const Cover = 0b1000;
+
+	/** @deprecated use Image::ShrinkOnly */
+	public const SHRINK_ONLY = self::ShrinkOnly;
+
+	/** @deprecated use Image::Stretch */
+	public const STRETCH = self::Stretch;
+
+	/** @deprecated use Image::OrSmaller */
+	public const FIT = self::OrSmaller;
+
+	/** @deprecated use Image::OrBigger */
+	public const FILL = self::OrBigger;
+
+	/** @deprecated use Image::Cover */
+	public const EXACT = self::Cover;
+
+	/** @deprecated use Image::EmptyGIF */
+	public const EMPTY_GIF = self::EmptyGIF;
 
 	/** image types */
 	public const
@@ -122,7 +140,7 @@ class Image
 		AVIF = 19, // IMAGETYPE_AVIF,
 		BMP = IMAGETYPE_BMP;
 
-	public const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
+	public const EmptyGIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
 	private const Formats = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::AVIF => 'avif', self::BMP => 'bmp'];
 
@@ -333,14 +351,15 @@ class Image
 
 	/**
 	 * Scales an image. Width and height accept pixels or percent.
+	 * @param  self::OrSmaller|self::OrBigger|self::Stretch|self::Cover|self::ShrinkOnly  $mode
 	 */
-	public function resize(int|string|null $width, int|string|null $height, int $flags = self::FIT): static
+	public function resize(int|string|null $width, int|string|null $height, int $mode = self::OrSmaller): static
 	{
-		if ($flags & self::EXACT) {
-			return $this->resize($width, $height, self::FILL)->crop('50%', '50%', $width, $height);
+		if ($mode & self::Cover) {
+			return $this->resize($width, $height, self::OrBigger)->crop('50%', '50%', $width, $height);
 		}
 
-		[$newWidth, $newHeight] = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
+		[$newWidth, $newHeight] = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $mode);
 
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
 			$newImage = static::fromBlank($newWidth, $newHeight, self::rgb(0, 0, 0, 127))->getImageResource();
@@ -369,13 +388,14 @@ class Image
 
 	/**
 	 * Calculates dimensions of resized image. Width and height accept pixels or percent.
+	 * @param  self::OrSmaller|self::OrBigger|self::Stretch|self::Cover|self::ShrinkOnly  $mode
 	 */
 	public static function calculateSize(
 		int $srcWidth,
 		int $srcHeight,
 		$newWidth,
 		$newHeight,
-		int $flags = self::FIT,
+		int $mode = self::OrSmaller,
 	): array
 	{
 		if ($newWidth === null) {
@@ -389,19 +409,19 @@ class Image
 		if ($newHeight === null) {
 		} elseif (self::isPercent($newHeight)) {
 			$newHeight = (int) round($srcHeight / 100 * abs($newHeight));
-			$flags |= empty($percents) ? 0 : self::STRETCH;
+			$mode |= empty($percents) ? 0 : self::Stretch;
 		} else {
 			$newHeight = abs($newHeight);
 		}
 
-		if ($flags & self::STRETCH) { // non-proportional
+		if ($mode & self::Stretch) { // non-proportional
 			if (!$newWidth || !$newHeight) {
 				throw new Nette\InvalidArgumentException('For stretching must be both width and height specified.');
 			}
 
-			if ($flags & self::SHRINK_ONLY) {
-				$newWidth = (int) round($srcWidth * min(1, $newWidth / $srcWidth));
-				$newHeight = (int) round($srcHeight * min(1, $newHeight / $srcHeight));
+			if ($mode & self::ShrinkOnly) {
+				$newWidth = min($srcWidth, $newWidth);
+				$newHeight = min($srcHeight, $newHeight);
 			}
 		} else {  // proportional
 			if (!$newWidth && !$newHeight) {
@@ -417,11 +437,11 @@ class Image
 				$scale[] = $newHeight / $srcHeight;
 			}
 
-			if ($flags & self::FILL) {
+			if ($mode & self::OrBigger) {
 				$scale = [max($scale)];
 			}
 
-			if ($flags & self::SHRINK_ONLY) {
+			if ($mode & self::ShrinkOnly) {
 				$scale[] = 1;
 			}
 

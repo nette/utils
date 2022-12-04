@@ -38,7 +38,7 @@ test('resizing X', function () use ($main) {
 
 test('resizing Y shrink', function () use ($main) {
 	$image = clone $main;
-	$image->resize(null, 150, Image::SHRINK_ONLY);
+	$image->resize(null, 150, Image::ShrinkOnly);
 	Assert::same(176, $image->width);
 	Assert::same(104, $image->height);
 });
@@ -46,7 +46,7 @@ test('resizing Y shrink', function () use ($main) {
 
 test('resizing X Y shrink', function () use ($main) {
 	$image = clone $main;
-	$image->resize(300, 150, Image::SHRINK_ONLY);
+	$image->resize(300, 150, Image::ShrinkOnly);
 	Assert::same(176, $image->width);
 	Assert::same(104, $image->height);
 });
@@ -62,7 +62,7 @@ test('resizing X Y', function () use ($main) {
 
 test('resizing X Y stretch', function () use ($main) {
 	$image = clone $main;
-	$image->resize(300, 100, Image::STRETCH);
+	$image->resize(300, 100, Image::Stretch);
 	Assert::same(300, $image->width);
 	Assert::same(100, $image->height);
 });
@@ -70,7 +70,7 @@ test('resizing X Y stretch', function () use ($main) {
 
 test('resizing X Y shrink stretch', function () use ($main) {
 	$image = clone $main;
-	$image->resize(300, 100, Image::SHRINK_ONLY | Image::STRETCH);
+	$image->resize(300, 100, Image::ShrinkOnly | Image::Stretch);
 	Assert::same(176, $image->width);
 	Assert::same(100, $image->height);
 });
@@ -102,7 +102,7 @@ test('flipping X', function () use ($main) {
 
 test('flipping Y shrink', function () use ($main) {
 	$image = clone $main;
-	$image->resize(null, -150, Image::SHRINK_ONLY);
+	$image->resize(null, -150, Image::ShrinkOnly);
 	Assert::same(176, $image->width);
 	Assert::same(104, $image->height);
 });
@@ -110,7 +110,7 @@ test('flipping Y shrink', function () use ($main) {
 
 test('flipping X Y shrink', function () use ($main) {
 	$image = clone $main;
-	$image->resize(-300, -150, Image::SHRINK_ONLY);
+	$image->resize(-300, -150, Image::ShrinkOnly);
 	Assert::same(176, $image->width);
 	Assert::same(104, $image->height);
 });
@@ -118,7 +118,7 @@ test('flipping X Y shrink', function () use ($main) {
 
 test('exact resize', function () use ($main) {
 	$image = clone $main;
-	$image->resize(300, 150, Image::EXACT);
+	$image->resize(300, 150, Image::Cover);
 	Assert::same(300, $image->width);
 	Assert::same(150, $image->height);
 });

@@ -82,12 +82,12 @@ test('', function () {
 
 
 test('', function () {
-	$image = Image::fromString(Image::EMPTY_GIF, $format);
+	$image = Image::fromString(Image::EmptyGIF, $format);
 	Assert::same(1, $image->getWidth());
 	Assert::same(1, $image->getHeight());
 	Assert::same(Image::GIF, $format);
 
-	Assert::same(Image::GIF, Image::detectTypeFromString(Image::EMPTY_GIF, $w, $h));
+	Assert::same(Image::GIF, Image::detectTypeFromString(Image::EmptyGIF, $w, $h));
 	Assert::same(1, $w);
 	Assert::same(1, $h);
 });
