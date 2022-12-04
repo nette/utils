@@ -10,8 +10,8 @@ override(\Nette\Utils\Arrays::grep(0), type(0));
 override(\Nette\Utils\Arrays::toObject(0), type(1));
 
 expectedArguments(\Nette\Utils\Arrays::grep(), 2, PREG_GREP_INVERT);
-expectedArguments(\Nette\Utils\Image::resize(), 2, \Nette\Utils\Image::SHRINK_ONLY, \Nette\Utils\Image::STRETCH, \Nette\Utils\Image::FIT, \Nette\Utils\Image::FILL, \Nette\Utils\Image::EXACT);
-expectedArguments(\Nette\Utils\Image::calculateSize(), 4, \Nette\Utils\Image::SHRINK_ONLY, \Nette\Utils\Image::STRETCH, \Nette\Utils\Image::FIT, \Nette\Utils\Image::FILL, \Nette\Utils\Image::EXACT);
+expectedArguments(\Nette\Utils\Image::resize(), 2, \Nette\Utils\Image::ShrinkOnly, \Nette\Utils\Image::Stretch, \Nette\Utils\Image::Fit, \Nette\Utils\Image::Fill, \Nette\Utils\Image::Exact);
+expectedArguments(\Nette\Utils\Image::calculateSize(), 4, \Nette\Utils\Image::ShrinkOnly, \Nette\Utils\Image::Stretch, \Nette\Utils\Image::Fit, \Nette\Utils\Image::Fill, \Nette\Utils\Image::Exact);
 expectedArguments(\Nette\Utils\Json::encode(), 1, \Nette\Utils\Json::PRETTY);
 expectedArguments(\Nette\Utils\Json::decode(), 1, \Nette\Utils\Json::FORCE_ARRAY);
 expectedArguments(\Nette\Utils\Strings::split(), 2, \PREG_SPLIT_NO_EMPTY | \PREG_OFFSET_CAPTURE);

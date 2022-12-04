@@ -99,19 +99,37 @@ class Image
 	use Nette\SmartObject;
 
 	/** {@link resize()} only shrinks images */
-	public const SHRINK_ONLY = 0b0001;
+	public const ShrinkOnly = 0b0001;
 
 	/** {@link resize()} will ignore aspect ratio */
-	public const STRETCH = 0b0010;
+	public const Stretch = 0b0010;
 
 	/** {@link resize()} fits in given area so its dimensions are less than or equal to the required dimensions */
-	public const FIT = 0b0000;
+	public const Fit = 0b0000;
 
 	/** {@link resize()} fills given area so its dimensions are greater than or equal to the required dimensions */
-	public const FILL = 0b0100;
+	public const Fill = 0b0100;
 
 	/** {@link resize()} fills given area exactly */
-	public const EXACT = 0b1000;
+	public const Exact = 0b1000;
+
+	/** @deprecated */
+	public const SHRINK_ONLY = self::ShrinkOnly;
+
+	/** @deprecated use Image::Stretch */
+	public const STRETCH = self::Stretch;
+
+	/** @deprecated use Image::Fit */
+	public const FIT = self::Fit;
+
+	/** @deprecated use Image::Fill */
+	public const FILL = self::Fill;
+
+	/** @deprecated use Image::Exact */
+	public const EXACT = self::Exact;
+
+	/** @deprecated use Image::EmptyGIF */
+	public const EMPTY_GIF = self::EmptyGIF;
 
 	/** image types */
 	public const
@@ -122,7 +140,7 @@ class Image
 		AVIF = 19, // IMAGETYPE_AVIF,
 		BMP = IMAGETYPE_BMP;
 
-	public const EMPTY_GIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
+	public const EmptyGIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
 	private const Formats = [self::JPEG => 'jpeg', self::PNG => 'png', self::GIF => 'gif', self::WEBP => 'webp', self::AVIF => 'avif', self::BMP => 'bmp'];
 
@@ -334,10 +352,10 @@ class Image
 	/**
 	 * Scales an image. Width and height accept pixels or percent.
 	 */
-	public function resize(int|string|null $width, int|string|null $height, int $flags = self::FIT): static
+	public function resize(int|string|null $width, int|string|null $height, int $flags = self::Fit): static
 	{
-		if ($flags & self::EXACT) {
-			return $this->resize($width, $height, self::FILL)->crop('50%', '50%', $width, $height);
+		if ($flags & self::Exact) {
+			return $this->resize($width, $height, self::Fill)->crop('50%', '50%', $width, $height);
 		}
 
 		[$newWidth, $newHeight] = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $flags);
@@ -375,7 +393,7 @@ class Image
 		int $srcHeight,
 		$newWidth,
 		$newHeight,
-		int $flags = self::FIT,
+		int $flags = self::Fit,
 	): array
 	{
 		if ($newWidth === null) {
@@ -389,17 +407,17 @@ class Image
 		if ($newHeight === null) {
 		} elseif (self::isPercent($newHeight)) {
 			$newHeight = (int) round($srcHeight / 100 * abs($newHeight));
-			$flags |= empty($percents) ? 0 : self::STRETCH;
+			$flags |= empty($percents) ? 0 : self::Stretch;
 		} else {
 			$newHeight = abs($newHeight);
 		}
 
-		if ($flags & self::STRETCH) { // non-proportional
+		if ($flags & self::Stretch) { // non-proportional
 			if (!$newWidth || !$newHeight) {
 				throw new Nette\InvalidArgumentException('For stretching must be both width and height specified.');
 			}
 
-			if ($flags & self::SHRINK_ONLY) {
+			if ($flags & self::ShrinkOnly) {
 				$newWidth = (int) round($srcWidth * min(1, $newWidth / $srcWidth));
 				$newHeight = (int) round($srcHeight * min(1, $newHeight / $srcHeight));
 			}
@@ -417,11 +435,11 @@ class Image
 				$scale[] = $newHeight / $srcHeight;
 			}
 
-			if ($flags & self::FILL) {
+			if ($flags & self::Fill) {
 				$scale = [max($scale)];
 			}
 
-			if ($flags & self::SHRINK_ONLY) {
+			if ($flags & self::ShrinkOnly) {
 				$scale[] = 1;
 			}
 

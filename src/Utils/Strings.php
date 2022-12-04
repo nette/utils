@@ -21,7 +21,10 @@ class Strings
 {
 	use Nette\StaticClass;
 
-	public const TRIM_CHARACTERS = " \t\n\r\0\x0B\u{A0}";
+	public const TrimCharacters = " \t\n\r\0\x0B\u{A0}";
+
+	/** @deprecated use Strings::TrimCharacters */
+	public const TRIM_CHARACTERS = self::TrimCharacters;
 
 
 	/**
@@ -367,7 +370,7 @@ class Strings
 	/**
 	 * Removes all left and right side spaces (or the characters passed as second argument) from a UTF-8 encoded string.
 	 */
-	public static function trim(string $s, string $charlist = self::TRIM_CHARACTERS): string
+	public static function trim(string $s, string $charlist = self::TrimCharacters): string
 	{
 		$charlist = preg_quote($charlist, '#');
 		return self::replace($s, '#^[' . $charlist . ']+|[' . $charlist . ']+$#Du', '');
