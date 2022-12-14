@@ -17,6 +17,7 @@ In package nette/utils you will find a set of [useful classes](https://doc.nette
 - [Callback](https://doc.nette.org/utils/callback) - PHP callbacks
 - [Date and Time](https://doc.nette.org/utils/datetime) - modify times and dates
 - [Filesystem](https://doc.nette.org/utils/filesystem) - copying, renaming, …
+- [Finder](https://doc.nette.org/utils/finder) - finds files and directories
 - [Helper Functions](https://doc.nette.org/utils/helpers)
 - [HTML elements](https://doc.nette.org/utils/html-elements) - generate HTML
 - [Images](https://doc.nette.org/utils/images) - crop, resize, rotate images
