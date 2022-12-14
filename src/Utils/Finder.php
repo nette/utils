@@ -30,6 +30,7 @@ class Finder implements \IteratorAggregate
 	private array $batches = [];
 	private FinderBatch $batch;
 	private bool $selfFirst = true;
+	private bool $sort = false;
 	private int $maxDepth = -1;
 	private bool $ignoreUnreadableDirs = true;
 
@@ -168,6 +169,13 @@ class Finder implements \IteratorAggregate
 	}
 
 
+	public function sortByName(bool $state = true): static
+	{
+		$this->sort = $state;
+		return $this;
+	}
+
+
 	/**
 	 * Starts defining a new search group.
 	 */
@@ -295,6 +303,11 @@ class Finder implements \IteratorAggregate
 	public function getIterator(): \Generator
 	{
 		$groups = $this->prepare();
+
+		if ($this->sort) {
+			ksort($groups, SORT_NATURAL);
+		}
+
 		foreach ($groups as $dir => $searches) {
 			yield from $this->traverseDir($dir, $searches);
 		}
@@ -321,6 +334,11 @@ class Finder implements \IteratorAggregate
 			} else {
 				throw new Nette\InvalidStateException($e->getMessage());
 			}
+		}
+
+		if ($this->sort) {
+			$items = iterator_to_array($items);
+			natsort($items);
 		}
 
 		$relativePath = implode(DIRECTORY_SEPARATOR, $subDirs);
