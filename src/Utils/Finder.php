@@ -31,6 +31,7 @@ class Finder implements \IteratorAggregate
 	private FinderBatch $batch;
 	private bool $selfFirst = true;
 	private int $maxDepth = -1;
+	private bool $ignoreUnreadableDirs = true;
 
 
 	public function __construct()
@@ -156,6 +157,13 @@ class Finder implements \IteratorAggregate
 	public function childFirst(): static
 	{
 		$this->selfFirst = false;
+		return $this;
+	}
+
+
+	public function ignoreUnreadableDirs(bool $state = true): static
+	{
+		$this->ignoreUnreadableDirs = $state;
 		return $this;
 	}
 
@@ -305,7 +313,16 @@ class Finder implements \IteratorAggregate
 			throw new Nette\InvalidStateException("Directory '$dir' not found.");
 		}
 
-		$items = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME);
+		try {
+			$items = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME);
+		} catch (\UnexpectedValueException $e) {
+			if ($this->ignoreUnreadableDirs) {
+				return;
+			} else {
+				throw new Nette\InvalidStateException($e->getMessage());
+			}
+		}
+
 		$relativePath = implode(DIRECTORY_SEPARATOR, $subDirs);
 
 		foreach ($items as $pathName) {
