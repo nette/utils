@@ -26,12 +26,17 @@ class Finder implements \IteratorAggregate
 {
 	use Nette\SmartObject;
 
-	private array $find = [];
-	private array $in = [];
-	private array $filters = [];
-	private array $recurseFilters = [];
+	/** @var FinderBatch[] */
+	private array $batches = [];
+	private FinderBatch $batch;
 	private bool $selfFirst = true;
 	private int $maxDepth = -1;
+
+
+	public function __construct()
+	{
+		$this->and();
+	}
 
 
 	/**
@@ -80,7 +85,7 @@ class Finder implements \IteratorAggregate
 			if (str_starts_with($mask, '**/')) {
 				$mask = substr($mask, 3);
 			}
-			$this->find[] = [$mask, 'isFile'];
+			$this->batch->find[] = [$mask, 'isFile'];
 		}
 
 		return $this;
@@ -100,7 +105,7 @@ class Finder implements \IteratorAggregate
 			if (str_starts_with($mask, '**/')) {
 				$mask = substr($mask, 3);
 			}
-			$this->find[] = [$mask, 'isDir'];
+			$this->batch->find[] = [$mask, 'isDir'];
 		}
 
 		return $this;
@@ -119,7 +124,7 @@ class Finder implements \IteratorAggregate
 				throw new Nette\InvalidArgumentException("Invalid directory '$path'");
 			}
 			$path = rtrim(self::normalizeSlashes($path), '/');
-			$this->in[] = $path;
+			$this->batch->in[] = $path;
 		}
 
 		return $this;
@@ -138,7 +143,7 @@ class Finder implements \IteratorAggregate
 				throw new Nette\InvalidArgumentException("Invalid directory '$path'");
 			}
 			$path = rtrim(self::normalizeSlashes($path), '/');
-			$this->in[] = $path . '/**';
+			$this->batch->in[] = $path . '/**';
 		}
 
 		return $this;
@@ -151,6 +156,16 @@ class Finder implements \IteratorAggregate
 	public function childFirst(): static
 	{
 		$this->selfFirst = false;
+		return $this;
+	}
+
+
+	/**
+	 * Starts defining a new search group.
+	 */
+	public function and(): static
+	{
+		$this->batches[] = $this->batch = new FinderBatch;
 		return $this;
 	}
 
@@ -185,13 +200,16 @@ class Finder implements \IteratorAggregate
 	}
 
 
+	/********************* filtering ****************d*g**/
+
+
 	/**
 	 * Restricts the search using callback.
 	 * @param  callable(FileInfo): bool  $callback
 	 */
 	public function filter(callable $callback): static
 	{
-		$this->filters[] = $callback;
+		$this->batch->filters[] = $callback;
 		return $this;
 	}
 
@@ -202,7 +220,7 @@ class Finder implements \IteratorAggregate
 	 */
 	public function recurseFilter(callable $callback): static
 	{
-		$this->recurseFilters[] = $callback;
+		$this->batch->recurseFilters[] = $callback;
 		return $this;
 	}
 
@@ -303,7 +321,7 @@ class Finder implements \IteratorAggregate
 				foreach ($searches as $search) {
 					if (
 						$search->recursive
-						&& $this->invokeFilters($this->recurseFilters, $file, $cache)
+						&& $this->invokeFilters($search->batch->recurseFilters, $file, $cache)
 					) {
 						$into[] = $search;
 					}
@@ -319,7 +337,7 @@ class Finder implements \IteratorAggregate
 				if (
 					$file->{$search->mode}()
 					&& preg_match($search->find, $relativePathname)
-					&& $this->invokeFilters($this->filters, $file, $cache)
+					&& $this->invokeFilters($search->batch->filters, $file, $cache)
 				) {
 					yield $pathName => $file;
 					break;
@@ -350,17 +368,19 @@ class Finder implements \IteratorAggregate
 	private function prepare(): array
 	{
 		$groups = [];
-		foreach ($this->find as [$mask, $mode]) {
-			if (FileSystem::isAbsolute($mask)) {
-				if ($this->in) {
-					throw new Nette\InvalidStateException("You cannot combine the absolute path in the mask '$mask' and the directory to search '{$this->in[0]}'.");
-				}
-				[$base, $rest, $recursive] = self::splitRecursivePart($mask);
-				$groups[$base][] = (object) ['find' => $this->buildPattern($rest), 'mode' => $mode, 'recursive' => $recursive];
-			} else {
-				foreach ($this->in ?: ['.'] as $in) {
-					[$base, $rest, $recursive] = self::splitRecursivePart($in . '/' . $mask);
-					$groups[$base][] = (object) ['find' => $this->buildPattern($rest), 'mode' => $mode, 'recursive' => $recursive];
+		foreach ($this->batches as $batch) {
+			foreach ($batch->find as [$mask, $mode]) {
+				if (FileSystem::isAbsolute($mask)) {
+					if ($batch->in) {
+						throw new Nette\InvalidStateException("You cannot combine the absolute path in the mask '$mask' and the directory to search '{$batch->in[0]}'.");
+					}
+					[$base, $rest, $recursive] = self::splitRecursivePart($mask);
+					$groups[$base][] = (object) ['find' => $this->buildPattern($rest), 'mode' => $mode, 'recursive' => $recursive, 'batch' => $batch];
+				} else {
+					foreach ($batch->in ?: ['.'] as $in) {
+						[$base, $rest, $recursive] = self::splitRecursivePart($in . '/' . $mask);
+						$groups[$base][] = (object) ['find' => $this->buildPattern($rest), 'mode' => $mode, 'recursive' => $recursive, 'batch' => $batch];
+					}
 				}
 			}
 		}
