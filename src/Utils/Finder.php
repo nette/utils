@@ -41,7 +41,7 @@ class Finder implements \IteratorAggregate
 	public static function find(...$masks): static
 	{
 		$masks = is_array($tmp = reset($masks)) ? $tmp : $masks;
-		return (new static)->select($masks, 'isDir')->select($masks, 'isFile');
+		return (new static)->files(...$masks)->directories(...$masks);
 	}
 
 
@@ -52,7 +52,7 @@ class Finder implements \IteratorAggregate
 	public static function findFiles(...$masks): static
 	{
 		$masks = is_array($tmp = reset($masks)) ? $tmp : $masks;
-		return (new static)->select($masks, 'isFile');
+		return (new static)->files(...$masks);
 	}
 
 
@@ -63,24 +63,44 @@ class Finder implements \IteratorAggregate
 	public static function findDirectories(...$masks): static
 	{
 		$masks = is_array($tmp = reset($masks)) ? $tmp : $masks;
-		return (new static)->select($masks, 'isDir');
+		return (new static)->directories(...$masks);
 	}
 
 
 	/**
-	 * Creates filtering group by mask & type selector.
+	 * Begins search for files matching mask.
 	 */
-	private function select(array $masks, string $type): static
+	public function files(string ...$masks): static
 	{
 		foreach ($masks as $mask) {
 			$mask = self::normalizeSlashes($mask);
+			if ($mask === '' || str_ends_with($mask, '/')) {
+				throw new Nette\InvalidArgumentException("Invalid mask '$mask'");
+			}
+			if (str_starts_with($mask, '**/')) {
+				$mask = substr($mask, 3);
+			}
+			$this->find[] = [$mask, 'isFile'];
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Begins search for directories matching mask.
+	 */
+	public function directories(string ...$masks): static
+	{
+		foreach ($masks as $mask) {
+			$mask = rtrim(self::normalizeSlashes($mask), '/');
 			if ($mask === '') {
 				throw new Nette\InvalidArgumentException("Invalid mask '$mask'");
 			}
 			if (str_starts_with($mask, '**/')) {
 				$mask = substr($mask, 3);
 			}
-			$this->find[] = [$mask, $type];
+			$this->find[] = [$mask, 'isDir'];
 		}
 
 		return $this;
