@@ -398,6 +398,6 @@ class Finder implements \IteratorAggregate
 	{
 		return !$native || DIRECTORY_SEPARATOR === '/'
 			? strtr($path, '\\', '/')
-			: strtr($path, '/', '\\');
+			: str_replace(':\\\\', '://', strtr($path, '/', '\\'));
 	}
 }
