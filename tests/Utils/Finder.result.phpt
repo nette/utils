@@ -17,6 +17,7 @@ require __DIR__ . '/../bootstrap.php';
 $finder = Finder::findFiles(basename(__FILE__))->in(__DIR__);
 
 $arr = iterator_to_array($finder);
+Assert::equal($arr, $finder->toArray());
 Assert::same(1, count($arr));
 Assert::true(isset($arr[__FILE__]));
 Assert::type(SplFileInfo::class, $arr[__FILE__]);
