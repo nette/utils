@@ -259,6 +259,12 @@ class Finder implements \IteratorAggregate
 	/********************* iterator generator ****************d*g**/
 
 
+	public function toArray(): array
+	{
+		return iterator_to_array($this->getIterator());
+	}
+
+
 	/** @return \Generator<string, FileInfo> */
 	public function getIterator(): \Generator
 	{
