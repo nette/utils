@@ -39,6 +39,7 @@ class Finder implements \IteratorAggregate
 	private array $descentFilters = [];
 	private bool $childFirst = false;
 	private int $maxDepth = -1;
+	private bool $ignoreUnreadableDirs = true;
 
 
 	/**
@@ -148,6 +149,16 @@ class Finder implements \IteratorAggregate
 	public function childFirst(bool $state = true): static
 	{
 		$this->childFirst = $state;
+		return $this;
+	}
+
+
+	/**
+	 * Ignores unreadable directories. By default, this is enabled.
+	 */
+	public function ignoreUnreadableDirs(bool $state = true): static
+	{
+		$this->ignoreUnreadableDirs = $state;
 		return $this;
 	}
 
@@ -287,9 +298,18 @@ class Finder implements \IteratorAggregate
 			throw new Nette\InvalidStateException("Directory '$dir' not found.");
 		}
 
-		$pathNames = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::UNIX_PATHS);
-		$relativePath = implode('/', $subdirs);
+		try {
+			$pathNames = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::UNIX_PATHS);
+		} catch (\UnexpectedValueException $e) {
+			if ($this->ignoreUnreadableDirs) {
+				return;
+			} else {
+				throw new Nette\InvalidStateException($e->getMessage());
+			}
+		}
 		$absolute = FileSystem::isAbsolute($dir);
+
+		$relativePath = implode(DIRECTORY_SEPARATOR, $subdirs);
 
 		foreach ($pathNames as $pathName) {
 			if (!$absolute) {
