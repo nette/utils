@@ -16,6 +16,10 @@ class Bar
 {
 }
 
+class Baz
+{
+}
+
 class Foo
 {
 }
@@ -77,3 +81,14 @@ Assert::true($type->allows('Foo&Bar&Baz'));
 
 $type = Type::fromString('Bar&FooChild');
 Assert::false($type->allows('Foo&Bar'));
+
+
+$type = Type::fromString('(Bar&Foo)|null');
+Assert::false($type->allows('string'));
+Assert::true($type->allows('null'));
+Assert::false($type->allows('Foo'));
+Assert::false($type->allows('FooChild'));
+Assert::true($type->allows('Foo&Bar'));
+Assert::true($type->allows('FooChild&Bar'));
+Assert::true($type->allows('Foo&Bar&Baz'));
+Assert::true($type->allows('(Foo&Bar&Baz)|null'));
