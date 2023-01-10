@@ -110,8 +110,10 @@ final class Type
 
 	private function __construct(array $types, string $kind = '|')
 	{
-		if ($types[0] === 'null') { // null as last
-			array_push($types, array_shift($types));
+		$o = array_search('null', $types, true);
+		if ($o !== false) { // null as last
+			array_splice($types, $o, 1);
+			$types[] = 'null';
 		}
 
 		$this->types = $types;
