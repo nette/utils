@@ -91,17 +91,17 @@ final class Type
 
 	/**
 	 * Resolves 'self', 'static' and 'parent' to the actual class name.
-	 * @param  \ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty  $reflection
+	 * @param  \ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty  $of
 	 */
-	public static function resolve(string $type, $reflection): string
+	public static function resolve(string $type, $of): string
 	{
 		$lower = strtolower($type);
-		if ($reflection instanceof \ReflectionFunction) {
+		if ($of instanceof \ReflectionFunction) {
 			return $type;
 		} elseif ($lower === 'self' || $lower === 'static') {
-			return $reflection->getDeclaringClass()->name;
-		} elseif ($lower === 'parent' && $reflection->getDeclaringClass()->getParentClass()) {
-			return $reflection->getDeclaringClass()->getParentClass()->name;
+			return $of->getDeclaringClass()->name;
+		} elseif ($lower === 'parent' && $of->getDeclaringClass()->getParentClass()) {
+			return $of->getDeclaringClass()->getParentClass()->name;
 		} else {
 			return $type;
 		}
@@ -218,22 +218,22 @@ final class Type
 	/**
 	 * Verifies type compatibility. For example, it checks if a value of a certain type could be passed as a parameter.
 	 */
-	public function allows(string $type): bool
+	public function allows(string $subtype): bool
 	{
 		if ($this->types === ['mixed']) {
 			return true;
 		}
 
-		$type = self::fromString($type);
+		$subtype = self::fromString($subtype);
 
 		if ($this->isIntersection()) {
-			if (!$type->isIntersection()) {
+			if (!$subtype->isIntersection()) {
 				return false;
 			}
 
-			return Arrays::every($this->types, function ($currentType) use ($type) {
+			return Arrays::every($this->types, function ($currentType) use ($subtype) {
 				$builtin = Reflection::isBuiltinType($currentType);
-				return Arrays::some($type->types, function ($testedType) use ($currentType, $builtin) {
+				return Arrays::some($subtype->types, function ($testedType) use ($currentType, $builtin) {
 					return $builtin
 						? strcasecmp($currentType, $testedType) === 0
 						: is_a($testedType, $currentType, true);
@@ -241,8 +241,8 @@ final class Type
 			});
 		}
 
-		$method = $type->isIntersection() ? 'some' : 'every';
-		return Arrays::$method($type->types, function ($testedType) {
+		$method = $subtype->isIntersection() ? 'some' : 'every';
+		return Arrays::$method($subtype->types, function ($testedType) {
 			$builtin = Validators::isBuiltinType($testedType);
 			return Arrays::some($this->types, function ($currentType) use ($testedType, $builtin) {
 				return $builtin
