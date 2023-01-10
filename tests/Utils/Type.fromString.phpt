@@ -96,6 +96,20 @@ Assert::false($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
 
+$type = Type::fromString('string|null|Foo');
+
+Assert::same(['string', 'Foo', 'null'], $type->getNames());
+Assert::equal([Type::fromString('string'), Type::fromString('Foo'), Type::fromString('null')], $type->getTypes());
+Assert::same('string|Foo|null', (string) $type);
+Assert::null($type->getSingleName());
+Assert::false($type->isClass());
+Assert::true($type->isUnion());
+Assert::false($type->isIntersection());
+Assert::false($type->isSingle());
+Assert::false($type->isBuiltin());
+Assert::false($type->isClassKeyword());
+
+
 $type = Type::fromString('mixed');
 
 Assert::same(['mixed'], $type->getNames());
