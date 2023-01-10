@@ -74,10 +74,7 @@ final class Reflection
 	}
 
 
-	/**
-	 * @param  \ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty  $reflection
-	 */
-	private static function getType($reflection, ?\ReflectionType $type): ?string
+	private static function getType(\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty $reflection, ?\ReflectionType $type): ?string
 	{
 		if ($type === null) {
 			return null;
@@ -96,10 +93,9 @@ final class Reflection
 
 	/**
 	 * Returns the default value of parameter. If it is a constant, it returns its value.
-	 * @return mixed
 	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
 	 */
-	public static function getParameterDefaultValue(\ReflectionParameter $param)
+	public static function getParameterDefaultValue(\ReflectionParameter $param): mixed
 	{
 		if ($param->isDefaultValueConstant()) {
 			$const = $orig = $param->getDefaultValueConstantName();
@@ -366,7 +362,7 @@ final class Reflection
 	}
 
 
-	private static function fetch(array &$tokens, $take): ?string
+	private static function fetch(array &$tokens, string|int|array $take): ?string
 	{
 		$res = null;
 		while ($token = current($tokens)) {

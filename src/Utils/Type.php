@@ -26,9 +26,10 @@ final class Type
 	/**
 	 * Creates a Type object based on reflection. Resolves self, static and parent to the actual class name.
 	 * If the subject has no type, it returns null.
-	 * @param  \ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty  $reflection
 	 */
-	public static function fromReflection($reflection): ?self
+	public static function fromReflection(
+		\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty $reflection,
+	): ?self
 	{
 		$type = $reflection instanceof \ReflectionFunctionAbstract
 			? $reflection->getReturnType() ?? (PHP_VERSION_ID >= 80100 && $reflection instanceof \ReflectionMethod ? $reflection->getTentativeReturnType() : null)
@@ -38,7 +39,7 @@ final class Type
 	}
 
 
-	private static function fromReflectionType(\ReflectionType $type, $of, bool $asObject)
+	private static function fromReflectionType(\ReflectionType $type, $of, bool $asObject): self|string
 	{
 		if ($type instanceof \ReflectionNamedType) {
 			$name = self::resolve($type->getName(), $of);
@@ -85,9 +86,11 @@ final class Type
 
 	/**
 	 * Resolves 'self', 'static' and 'parent' to the actual class name.
-	 * @param  \ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty  $of
 	 */
-	public static function resolve(string $type, $of): string
+	public static function resolve(
+		string $type,
+		\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty $of,
+	): string
 	{
 		$lower = strtolower($type);
 		if ($of instanceof \ReflectionFunction) {

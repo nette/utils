@@ -21,9 +21,8 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Transforms array to ArrayHash.
 	 * @param  array<T>  $array
-	 * @return static
 	 */
-	public static function from(array $array, bool $recursive = true)
+	public static function from(array $array, bool $recursive = true): static
 	{
 		$obj = new static;
 		foreach ($array as $key => $value) {

@@ -206,10 +206,10 @@ final class ObjectHelpers
 
 	/**
 	 * Checks if the public non-static property exists.
-	 * @return bool|string returns 'event' if the property exists and has event like name
+	 * Returns 'event' if the property exists and has event like name
 	 * @internal
 	 */
-	public static function hasProperty(string $class, string $name)
+	public static function hasProperty(string $class, string $name): bool|string
 	{
 		static $cache;
 		$prop = &$cache[$class][$name];
