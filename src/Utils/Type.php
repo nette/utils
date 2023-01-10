@@ -21,7 +21,7 @@ final class Type
 	private $types;
 
 	/** @var bool */
-	private $single;
+	private $simple;
 
 	/** @var string  |, & */
 	private $kind;
@@ -117,14 +117,14 @@ final class Type
 		}
 
 		$this->types = $types;
-		$this->single = ($types[1] ?? 'null') === 'null';
+		$this->simple = ($types[1] ?? 'null') === 'null';
 		$this->kind = count($types) > 1 ? $kind : '';
 	}
 
 
 	public function __toString(): string
 	{
-		return $this->single
+		return $this->simple
 			? (count($this->types) > 1 ? '?' : '') . $this->types[0]
 			: implode($this->kind, $this->types);
 	}
@@ -151,11 +151,11 @@ final class Type
 
 
 	/**
-	 * Returns the type name for single types, otherwise null.
+	 * Returns the type name for simple types, otherwise null.
 	 */
 	public function getSingleName(): ?string
 	{
-		return $this->single
+		return $this->simple
 			? $this->types[0]
 			: null;
 	}
@@ -180,29 +180,36 @@ final class Type
 
 
 	/**
-	 * Returns true whether it is a single type. Simple nullable types are also considered to be single types.
+	 * Returns true whether it is a simple type. Single nullable types are also considered to be simple types.
 	 */
+	public function isSimple(): bool
+	{
+		return $this->simple;
+	}
+
+
+	/** @deprecated use isSimple() */
 	public function isSingle(): bool
 	{
-		return $this->single;
+		return $this->simple;
 	}
 
 
 	/**
-	 * Returns true whether the type is both a single and a PHP built-in type.
+	 * Returns true whether the type is both a simple and a PHP built-in type.
 	 */
 	public function isBuiltin(): bool
 	{
-		return $this->single && Validators::isBuiltinType($this->types[0]);
+		return $this->simple && Validators::isBuiltinType($this->types[0]);
 	}
 
 
 	/**
-	 * Returns true whether the type is both a single and a class name.
+	 * Returns true whether the type is both a simple and a class name.
 	 */
 	public function isClass(): bool
 	{
-		return $this->single && !Validators::isBuiltinType($this->types[0]);
+		return $this->simple && !Validators::isBuiltinType($this->types[0]);
 	}
 
 
@@ -211,7 +218,7 @@ final class Type
 	 */
 	public function isClassKeyword(): bool
 	{
-		return $this->single && Validators::isClassKeyword($this->types[0]);
+		return $this->simple && Validators::isClassKeyword($this->types[0]);
 	}
 
 

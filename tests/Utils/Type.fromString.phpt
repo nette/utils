@@ -21,7 +21,7 @@ Assert::same('string', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::true($type->isSingle());
+Assert::true($type->isSimple());
 Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -35,7 +35,7 @@ Assert::same('string', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::true($type->isSingle());
+Assert::true($type->isSimple());
 Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -49,7 +49,7 @@ Assert::same('string', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::true($type->isSingle());
+Assert::true($type->isSimple());
 Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -63,7 +63,7 @@ Assert::same('string', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::true($type->isSingle());
+Assert::true($type->isSimple());
 Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -77,7 +77,7 @@ Assert::same('NS\Foo', $type->getSingleName());
 Assert::true($type->isClass());
 Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::true($type->isSingle());
+Assert::true($type->isSimple());
 Assert::false($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -91,7 +91,7 @@ Assert::null($type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::false($type->isSingle());
+Assert::false($type->isSimple());
 Assert::false($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -119,7 +119,7 @@ Assert::same('mixed', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::true($type->isSingle());
+Assert::true($type->isSimple());
 Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -133,7 +133,7 @@ Assert::same('null', $type->getSingleName());
 Assert::false($type->isClass());
 Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::true($type->isSingle());
+Assert::true($type->isSimple());
 Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -147,7 +147,7 @@ Assert::null($type->getSingleName());
 Assert::false($type->isClass());
 Assert::false($type->isUnion());
 Assert::true($type->isIntersection());
-Assert::false($type->isSingle());
+Assert::false($type->isSimple());
 Assert::false($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -161,6 +161,6 @@ Assert::same('self', $type->getSingleName());
 Assert::true($type->isClass());
 Assert::false($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::true($type->isSingle());
+Assert::true($type->isSimple());
 Assert::false($type->isBuiltin());
 Assert::true($type->isClassKeyword());
