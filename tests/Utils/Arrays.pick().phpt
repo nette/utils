@@ -20,7 +20,7 @@ $arr = [
 ];
 
 test('Single item', function () use ($arr) {
-	Assert::same('null', Arrays::pick($arr, null));
+	Assert::same('null', Arrays::pick($arr, ''));
 	Assert::same('first', Arrays::pick($arr, 1));
 	Assert::same('x', Arrays::pick($arr, 1, 'x'));
 	Assert::exception(

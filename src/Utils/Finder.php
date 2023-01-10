@@ -41,9 +41,8 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Begins search for files and directories matching mask.
 	 * @param  string  ...$masks
-	 * @return static
 	 */
-	public static function find(...$masks): self
+	public static function find(...$masks): static
 	{
 		$masks = is_array($tmp = reset($masks)) ? $tmp : $masks;
 		return (new static)->select($masks, 'isDir')->select($masks, 'isFile');
@@ -53,9 +52,8 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Begins search for files matching mask.
 	 * @param  string  ...$masks
-	 * @return static
 	 */
-	public static function findFiles(...$masks): self
+	public static function findFiles(...$masks): static
 	{
 		$masks = is_array($tmp = reset($masks)) ? $tmp : $masks;
 		return (new static)->select($masks, 'isFile');
@@ -65,9 +63,8 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Begins search for directories matching mask.
 	 * @param  string  ...$masks
-	 * @return static
 	 */
-	public static function findDirectories(...$masks): self
+	public static function findDirectories(...$masks): static
 	{
 		$masks = is_array($tmp = reset($masks)) ? $tmp : $masks;
 		return (new static)->select($masks, 'isDir');
@@ -76,9 +73,8 @@ class Finder implements \IteratorAggregate
 
 	/**
 	 * Creates filtering group by mask & type selector.
-	 * @return static
 	 */
-	private function select(array $masks, string $type): self
+	private function select(array $masks, string $type): static
 	{
 		$this->cursor = &$this->groups[];
 		$pattern = self::buildPattern($masks);
@@ -92,9 +88,8 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Searches in the given folder(s).
 	 * @param  string  ...$paths
-	 * @return static
 	 */
-	public function in(...$paths): self
+	public function in(...$paths): static
 	{
 		$this->maxDepth = 0;
 		return $this->from(...$paths);
@@ -104,9 +99,8 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Searches recursively from the given folder(s).
 	 * @param  string  ...$paths
-	 * @return static
 	 */
-	public function from(...$paths): self
+	public function from(...$paths): static
 	{
 		if ($this->paths) {
 			throw new Nette\InvalidStateException('Directory to search has already been specified.');
@@ -120,9 +114,8 @@ class Finder implements \IteratorAggregate
 
 	/**
 	 * Shows folder content prior to the folder.
-	 * @return static
 	 */
-	public function childFirst(): self
+	public function childFirst(): static
 	{
 		$this->order = RecursiveIteratorIterator::CHILD_FIRST;
 		return $this;
@@ -238,9 +231,8 @@ class Finder implements \IteratorAggregate
 	 * Restricts the search using mask.
 	 * Excludes directories from recursive traversing.
 	 * @param  string  ...$masks
-	 * @return static
 	 */
-	public function exclude(...$masks): self
+	public function exclude(...$masks): static
 	{
 		$masks = is_array($tmp = reset($masks)) ? $tmp : $masks;
 		$pattern = self::buildPattern($masks);
@@ -255,9 +247,8 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Restricts the search using callback.
 	 * @param  callable(RecursiveDirectoryIterator): bool  $callback
-	 * @return static
 	 */
-	public function filter(callable $callback): self
+	public function filter(callable $callback): static
 	{
 		$this->cursor[] = $callback;
 		return $this;
@@ -266,9 +257,8 @@ class Finder implements \IteratorAggregate
 
 	/**
 	 * Limits recursion level.
-	 * @return static
 	 */
-	public function limitDepth(int $depth): self
+	public function limitDepth(int $depth): static
 	{
 		$this->maxDepth = $depth;
 		return $this;
@@ -278,9 +268,8 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Restricts the search by size.
 	 * @param  string  $operator  "[operator] [size] [unit]" example: >=10kB
-	 * @return static
 	 */
-	public function size(string $operator, ?int $size = null): self
+	public function size(string $operator, ?int $size = null): static
 	{
 		if (func_num_args() === 1) { // in $operator is predicate
 			if (!preg_match('#^(?:([=<>!]=?|<>)\s*)?((?:\d*\.)?\d+)\s*(K|M|G|)B?$#Di', $operator, $matches)) {
@@ -300,10 +289,8 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Restricts the search by modified time.
 	 * @param  string  $operator  "[operator] [date]" example: >1978-01-23
-	 * @param  string|int|\DateTimeInterface  $date
-	 * @return static
 	 */
-	public function date(string $operator, $date = null): self
+	public function date(string $operator, string|int|\DateTimeInterface|null $date = null): static
 	{
 		if (func_num_args() === 1) { // in $operator is predicate
 			if (!preg_match('#^(?:([=<>!]=?|<>)\s*)?(.+)$#Di', $operator, $matches)) {
@@ -322,7 +309,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Compares two values.
 	 */
-	public static function compare($l, string $operator, $r): bool
+	public static function compare(mixed $l, string $operator, mixed $r): bool
 	{
 		switch ($operator) {
 			case '>':
