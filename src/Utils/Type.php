@@ -52,11 +52,8 @@ final class Type
 
 		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
 			return new self(
-				array_map(
-					function ($t) use ($of) { return self::fromReflectionType($t, $of, false); },
-					$type->getTypes()
-				),
-				$type instanceof \ReflectionUnionType ? '|' : '&'
+				array_map(fn($t) => self::fromReflectionType($t, $of, false), $type->getTypes()),
+				$type instanceof \ReflectionUnionType ? '|' : '&',
 			);
 
 		} else {
@@ -144,9 +141,7 @@ final class Type
 	 */
 	public function getNames(): array
 	{
-		return array_map(function ($t) {
-			return $t instanceof self ? $t->getNames() : $t;
-		}, $this->types);
+		return array_map(fn($t) => $t instanceof self ? $t->getNames() : $t, $this->types);
 	}
 
 
@@ -156,9 +151,7 @@ final class Type
 	 */
 	public function getTypes(): array
 	{
-		return array_map(function ($t) {
-			return $t instanceof self ? $t : new self([$t]);
-		}, $this->types);
+		return array_map(fn($t) => $t instanceof self ? $t : new self([$t]), $this->types);
 	}
 
 
@@ -245,9 +238,7 @@ final class Type
 
 		$subtype = self::fromString($subtype);
 		return $subtype->isUnion()
-			? Arrays::every($subtype->types, function ($t) {
-				return $this->allows2($t instanceof self ? $t->types : [$t]);
-			})
+			? Arrays::every($subtype->types, fn($t) => $this->allows2($t instanceof self ? $t->types : [$t]))
 			: $this->allows2($subtype->types);
 	}
 
@@ -255,22 +246,21 @@ final class Type
 	private function allows2(array $subtypes): bool
 	{
 		return $this->isUnion()
-			? Arrays::some($this->types, function ($t) use ($subtypes) {
-				return $this->allows3($t instanceof self ? $t->types : [$t], $subtypes);
-			})
+			? Arrays::some($this->types, fn($t) => $this->allows3($t instanceof self ? $t->types : [$t], $subtypes))
 			: $this->allows3($this->types, $subtypes);
 	}
 
 
 	private function allows3(array $types, array $subtypes): bool
 	{
-		return Arrays::every($types, function ($type) use ($subtypes) {
-			$builtin = Validators::isBuiltinType($type);
-			return Arrays::some($subtypes, function ($subtype) use ($type, $builtin) {
-				return $builtin
+		return Arrays::every(
+			$types,
+			fn($type) => Arrays::some(
+				$subtypes,
+				fn($subtype) => Validators::isBuiltinType($type)
 					? strcasecmp($type, $subtype) === 0
-					: is_a($subtype, $type, true);
-			});
-		});
+					: is_a($subtype, $type, true)
+			)
+		);
 	}
 }

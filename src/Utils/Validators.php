@@ -105,7 +105,7 @@ class Validators
 			if (is_int($value) || is_float($value) || (is_string($value) && strlen($value) < 40)) {
 				$type .= ' ' . var_export($value, true);
 			} elseif (is_object($value)) {
-				$type .= ' ' . get_class($value);
+				$type .= ' ' . $value::class;
 			}
 
 			throw new AssertionException("The $label expects to be $expected, $type given.");
@@ -123,7 +123,7 @@ class Validators
 		array $array,
 		$key,
 		?string $expected = null,
-		string $label = "item '%' in array"
+		string $label = "item '%' in array",
 	): void
 	{
 		if (!array_key_exists($key, $array)) {
@@ -327,14 +327,13 @@ class Validators
 		$atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
 		$alpha = "a-z\x80-\xFF"; // superset of IDN
 		return (bool) preg_match(<<<XX
-		(^
-			("([ !#-[\\]-~]*|\\\\[ -~])+"|$atom+(\\.$atom+)*)  # quoted or unquoted
-			@
-			([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+  # domain - RFC 1034
-			[$alpha]([-0-9$alpha]{0,17}[$alpha])?              # top domain
-		$)Dix
-XX
-			, $value);
+			(^
+				("([ !#-[\\]-~]*|\\\\[ -~])+"|$atom+(\\.$atom+)*)  # quoted or unquoted
+				@
+				([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+  # domain - RFC 1034
+				[$alpha]([-0-9$alpha]{0,17}[$alpha])?              # top domain
+			$)Dix
+			XX, $value);
 	}
 
 
@@ -345,20 +344,19 @@ XX
 	{
 		$alpha = "a-z\x80-\xFF";
 		return (bool) preg_match(<<<XX
-		(^
-			https?://(
-				(([-_0-9$alpha]+\\.)*                       # subdomain
-					[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)?  # domain
-					[$alpha]([-0-9$alpha]{0,17}[$alpha])?   # top domain
-				|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}  # IPv4
-				|\\[[0-9a-f:]{3,39}\\]                      # IPv6
-			)(:\\d{1,5})?                                   # port
-			(/\\S*)?                                        # path
-			(\\?\\S*)?                                      # query
-			(\\#\\S*)?                                      # fragment
-		$)Dix
-XX
-			, $value);
+			(^
+				https?://(
+					(([-_0-9$alpha]+\\.)*                       # subdomain
+						[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)?  # domain
+						[$alpha]([-0-9$alpha]{0,17}[$alpha])?   # top domain
+					|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}  # IPv4
+					|\\[[0-9a-f:]{3,39}\\]                      # IPv6
+				)(:\\d{1,5})?                                   # port
+				(/\\S*)?                                        # path
+				(\\?\\S*)?                                      # query
+				(\\#\\S*)?                                      # fragment
+			$)Dix
+			XX, $value);
 	}
 
 
@@ -413,12 +411,11 @@ XX
 	public static function isTypeDeclaration(string $type): bool
 	{
 		return (bool) preg_match(<<<'XX'
-		~(
-			\?? (?<type> \\? (?<name> [a-zA-Z_\x7f-\xff][\w\x7f-\xff]*) (\\ (?&name))* ) |
-			(?<intersection> (?&type) (& (?&type))+ ) |
-			(?<upart> (?&type) | \( (?&intersection) \) )  (\| (?&upart))+
-		)$~xAD
-XX
-			, $type);
+			~(
+				\?? (?<type> \\? (?<name> [a-zA-Z_\x7f-\xff][\w\x7f-\xff]*) (\\ (?&name))* ) |
+				(?<intersection> (?&type) (& (?&type))+ ) |
+				(?<upart> (?&type) | \( (?&intersection) \) )  (\| (?&upart))+
+			)$~xAD
+			XX, $type);
 	}
 }

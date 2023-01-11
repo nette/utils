@@ -18,9 +18,7 @@ $arr = [
 	'David' => 'Grudl',
 ];
 
-$callback = function ($item, $key) {
-	return $key . ': ' . $item;
-};
+$callback = fn($item, $key) => $key . ': ' . $item;
 
 $iterator = new Iterators\Mapper(new ArrayIterator($arr), $callback);
 

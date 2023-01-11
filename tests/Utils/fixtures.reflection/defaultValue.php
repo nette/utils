@@ -41,7 +41,7 @@ class Foo extends ParentFoo
 		$m = DEFINED,
 		$n = UNDEFINED,
 		$o = NS_DEFINED,
-		$p = parent::PUBLIC_DEFINED
+		$p = parent::PUBLIC_DEFINED,
 	) {
 	}
 }

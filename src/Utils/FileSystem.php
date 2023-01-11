@@ -30,7 +30,7 @@ final class FileSystem
 				"Unable to create directory '%s' with mode %s. %s",
 				self::normalizePath($dir),
 				decoct($mode),
-				Helpers::getLastError()
+				Helpers::getLastError(),
 			));
 		}
 	}
@@ -73,7 +73,7 @@ final class FileSystem
 					"Unable to copy file '%s' to '%s'. %s",
 					self::normalizePath($origin),
 					self::normalizePath($target),
-					Helpers::getLastError()
+					Helpers::getLastError(),
 				));
 			}
 		}
@@ -92,7 +92,7 @@ final class FileSystem
 				throw new Nette\IOException(sprintf(
 					"Unable to delete '%s'. %s",
 					self::normalizePath($path),
-					Helpers::getLastError()
+					Helpers::getLastError(),
 				));
 			}
 		} elseif (is_dir($path)) {
@@ -104,7 +104,7 @@ final class FileSystem
 				throw new Nette\IOException(sprintf(
 					"Unable to delete directory '%s'. %s",
 					self::normalizePath($path),
-					Helpers::getLastError()
+					Helpers::getLastError(),
 				));
 			}
 		}
@@ -135,7 +135,7 @@ final class FileSystem
 					"Unable to rename file or directory '%s' to '%s'. %s",
 					self::normalizePath($origin),
 					self::normalizePath($target),
-					Helpers::getLastError()
+					Helpers::getLastError(),
 				));
 			}
 		}
@@ -153,7 +153,7 @@ final class FileSystem
 			throw new Nette\IOException(sprintf(
 				"Unable to read file '%s'. %s",
 				self::normalizePath($file),
-				Helpers::getLastError()
+				Helpers::getLastError(),
 			));
 		}
 
@@ -172,7 +172,7 @@ final class FileSystem
 			throw new Nette\IOException(sprintf(
 				"Unable to write file '%s'. %s",
 				self::normalizePath($file),
-				Helpers::getLastError()
+				Helpers::getLastError(),
 			));
 		}
 
@@ -181,7 +181,7 @@ final class FileSystem
 				"Unable to chmod file '%s' to mode %s. %s",
 				self::normalizePath($file),
 				decoct($mode),
-				Helpers::getLastError()
+				Helpers::getLastError(),
 			));
 		}
 	}
@@ -200,7 +200,7 @@ final class FileSystem
 					"Unable to chmod file '%s' to mode %s. %s",
 					self::normalizePath($path),
 					decoct($fileMode),
-					Helpers::getLastError()
+					Helpers::getLastError(),
 				));
 			}
 		} elseif (is_dir($path)) {
@@ -213,7 +213,7 @@ final class FileSystem
 					"Unable to chmod directory '%s' to mode %s. %s",
 					self::normalizePath($path),
 					decoct($dirMode),
-					Helpers::getLastError()
+					Helpers::getLastError(),
 				));
 			}
 		} else {

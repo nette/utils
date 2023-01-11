@@ -16,5 +16,5 @@ require __DIR__ . '/fixtures.reflection/expandClass.nonClassUse.php';
 
 Assert::same(
 	[],
-	Reflection::getUseStatements(new ReflectionClass('NonClassUseTest'))
+	Reflection::getUseStatements(new ReflectionClass('NonClassUseTest')),
 );
