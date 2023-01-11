@@ -853,7 +853,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 				. str_replace(
 					['&', $q, '<'],
 					['&amp;', $q === '"' ? '&quot;' : '&#39;', self::$xhtml ? '&lt;' : '<'],
-					$value
+					$value,
 				)
 				. (strpos($value, '`') !== false && strpbrk($value, ' <>"\'') === false ? ' ' : '')
 				. $q;

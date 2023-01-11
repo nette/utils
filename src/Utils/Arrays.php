@@ -208,7 +208,7 @@ class Arrays
 		array $array,
 		#[Language('RegExp')]
 		string $pattern,
-		int $flags = 0
+		int $flags = 0,
 	): array
 	{
 		return Strings::pcre('preg_grep', [$pattern, $array, $flags]);
