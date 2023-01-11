@@ -624,16 +624,7 @@ class Image
 	 */
 	public function __toString(): string
 	{
-		try {
-			return $this->toString();
-		} catch (\Throwable $e) {
-			if (func_num_args() || PHP_VERSION_ID >= 70400) {
-				throw $e;
-			}
-
-			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
-			return '';
-		}
+		return $this->toString();
 	}
 
 
