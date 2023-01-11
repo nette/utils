@@ -30,23 +30,12 @@ class Finder implements \IteratorAggregate
 {
 	use Nette\SmartObject;
 
-	/** @var array */
-	private $paths = [];
-
-	/** @var array of filters */
-	private $groups = [];
-
-	/** @var array filter for recursive traversing */
-	private $exclude = [];
-
-	/** @var int */
-	private $order = RecursiveIteratorIterator::SELF_FIRST;
-
-	/** @var int */
-	private $maxDepth = -1;
-
-	/** @var array */
-	private $cursor;
+	private array $paths = [];
+	private array $groups = [];
+	private array $exclude = [];
+	private int $order = RecursiveIteratorIterator::SELF_FIRST;
+	private int $maxDepth = -1;
+	private ?array $cursor;
 
 
 	/**

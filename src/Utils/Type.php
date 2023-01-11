@@ -18,13 +18,9 @@ use Nette;
 final class Type
 {
 	/** @var array<int, string|self> */
-	private $types;
-
-	/** @var bool */
-	private $simple;
-
-	/** @var string  |, & */
-	private $kind;
+	private array $types;
+	private bool $simple;
+	private string $kind; // | &
 
 
 	/**
