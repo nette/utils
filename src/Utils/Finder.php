@@ -93,11 +93,9 @@ class Finder implements \IteratorAggregate
 	{
 		$this->cursor = &$this->groups[];
 		$pattern = self::buildPattern($masks);
-		$this->filter(function (RecursiveDirectoryIterator $file) use ($type, $pattern): bool {
-			return !$file->isDot()
+		$this->filter(fn(RecursiveDirectoryIterator $file): bool => !$file->isDot()
 				&& $file->$type()
-				&& (!$pattern || preg_match($pattern, '/' . strtr($file->getSubPathName(), '\\', '/')));
-		});
+				&& (!$pattern || preg_match($pattern, '/' . strtr($file->getSubPathName(), '\\', '/'))));
 		return $this;
 	}
 
@@ -164,7 +162,7 @@ class Finder implements \IteratorAggregate
 
 			$pattern[] = $prefix . strtr(
 				preg_quote($mask, '#'),
-				['\*\*' => '.*', '\*' => '[^/]*', '\?' => '[^/]', '\[\!' => '[^', '\[' => '[', '\]' => ']', '\-' => '-']
+				['\*\*' => '.*', '\*' => '[^/]*', '\?' => '[^/]', '\[\!' => '[^', '\[' => '[', '\]' => ']', '\-' => '-'],
 			);
 		}
 
@@ -258,9 +256,7 @@ class Finder implements \IteratorAggregate
 		$masks = is_array($tmp = reset($masks)) ? $tmp : $masks;
 		$pattern = self::buildPattern($masks);
 		if ($pattern) {
-			$this->filter(function (RecursiveDirectoryIterator $file) use ($pattern): bool {
-				return !preg_match($pattern, '/' . strtr($file->getSubPathName(), '\\', '/'));
-			});
+			$this->filter(fn(RecursiveDirectoryIterator $file): bool => !preg_match($pattern, '/' . strtr($file->getSubPathName(), '\\', '/')));
 		}
 
 		return $this;
@@ -303,13 +299,12 @@ class Finder implements \IteratorAggregate
 			}
 
 			[, $operator, $size, $unit] = $matches;
-			static $units = ['' => 1, 'k' => 1e3, 'm' => 1e6, 'g' => 1e9];
+			$units = ['' => 1, 'k' => 1e3, 'm' => 1e6, 'g' => 1e9];
 			$size *= $units[strtolower($unit)];
 			$operator = $operator ?: '=';
 		}
-		return $this->filter(function (RecursiveDirectoryIterator $file) use ($operator, $size): bool {
-			return self::compare($file->getSize(), $operator, $size);
-		});
+
+		return $this->filter(fn(RecursiveDirectoryIterator $file): bool => self::compare($file->getSize(), $operator, $size));
 	}
 
 
@@ -331,9 +326,7 @@ class Finder implements \IteratorAggregate
 		}
 
 		$date = DateTime::from($date)->format('U');
-		return $this->filter(function (RecursiveDirectoryIterator $file) use ($operator, $date): bool {
-			return self::compare($file->getMTime(), $operator, $date);
-		});
+		return $this->filter(fn(RecursiveDirectoryIterator $file): bool => self::compare($file->getMTime(), $operator, $date));
 	}
 
 

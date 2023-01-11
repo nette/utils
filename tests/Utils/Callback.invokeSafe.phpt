@@ -31,9 +31,7 @@ Assert::same('OK1', $res);
 
 
 // ignored error
-Callback::invokeSafe('preg_match', ['ab', 'foo'], function () {
-	return false;
-});
+Callback::invokeSafe('preg_match', ['ab', 'foo'], fn() => false);
 Assert::match('preg_match(): Delimiter must not be alphanumeric%a%', $res);
 
 

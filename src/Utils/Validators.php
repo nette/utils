@@ -109,7 +109,7 @@ class Validators
 			if (is_int($value) || is_float($value) || (is_string($value) && strlen($value) < 40)) {
 				$type .= ' ' . var_export($value, true);
 			} elseif (is_object($value)) {
-				$type .= ' ' . get_class($value);
+				$type .= ' ' . $value::class;
 			}
 
 			throw new AssertionException("The $label expects to be $expected, $type given.");
@@ -127,7 +127,7 @@ class Validators
 		array $array,
 		$key,
 		?string $expected = null,
-		string $label = "item '%' in array"
+		string $label = "item '%' in array",
 	): void
 	{
 		if (!array_key_exists($key, $array)) {
@@ -337,8 +337,7 @@ class Validators
 			([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+  # domain - RFC 1034
 			[$alpha]([-0-9$alpha]{0,17}[$alpha])?              # top domain
 		$)Dix
-XX
-			, $value);
+		XX, $value);
 	}
 
 
@@ -361,8 +360,7 @@ XX
 			(\\?\\S*)?                                      # query
 			(\\#\\S*)?                                      # fragment
 		$)Dix
-XX
-			, $value);
+		XX, $value);
 	}
 
 
