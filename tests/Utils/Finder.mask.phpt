@@ -112,15 +112,15 @@ test('', function () {
 
 
 test('anchored', function () {
-	$finder = Finder::findFiles('/f*')->from('fixtures.finder');
+	$finder = Finder::findFiles('./f*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
 	], export($finder));
 });
 
 
-test('', function () {
-	$finder = Finder::findFiles('/*/f*')->from('fixtures.finder');
+test('anchored', function () {
+	$finder = Finder::findFiles('./*/f*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/subdir/file.txt',
 	], export($finder));
@@ -128,8 +128,9 @@ test('', function () {
 
 
 test('multidirs mask', function () {
-	$finder = Finder::findFiles('/**/f*')->from('fixtures.finder');
+	$finder = Finder::findFiles('./**/f*')->from('fixtures.finder');
 	Assert::same([
+		'fixtures.finder/file.txt',
 		'fixtures.finder/subdir/file.txt',
 		'fixtures.finder/subdir/subdir2/file.txt',
 	], export($finder));
