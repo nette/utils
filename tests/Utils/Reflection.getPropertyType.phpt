@@ -43,13 +43,17 @@ Assert::null(Reflection::getPropertyType($props[4]));
 Assert::same('Test\B', Reflection::getPropertyType($props[5]));
 Assert::same('mixed', Reflection::getPropertyType($props[6]));
 
-Assert::exception(function () use ($props) {
-	Reflection::getPropertyType($props[7]);
-}, Nette\InvalidStateException::class, 'The A::$union is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getPropertyType($props[7]),
+	Nette\InvalidStateException::class,
+	'The A::$union is not expected to have a union or intersection type.',
+);
 
-Assert::exception(function () use ($props) {
-	Reflection::getPropertyType($props[8]);
-}, Nette\InvalidStateException::class, 'The A::$nullableUnion is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getPropertyType($props[8]),
+	Nette\InvalidStateException::class,
+	'The A::$nullableUnion is not expected to have a union or intersection type.',
+);
 
 $class = new ReflectionClass('AExt');
 $props = $class->getProperties();

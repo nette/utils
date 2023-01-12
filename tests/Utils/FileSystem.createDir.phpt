@@ -19,6 +19,8 @@ test('createDir', function () {
 	FileSystem::createDir(getTempDir() . '/1/');
 });
 
-Assert::exception(function () {
-	FileSystem::createDir('');
-}, Nette\IOException::class, "Unable to create directory '' with mode 777.%A%");
+Assert::exception(
+	fn() => FileSystem::createDir(''),
+	Nette\IOException::class,
+	"Unable to create directory '' with mode 777.%A%",
+);

@@ -14,6 +14,8 @@ Assert::same(21, Helpers::clamp(20, 21, 30));
 Assert::same(19, Helpers::clamp(20, 10, 19));
 Assert::same(19.0, Helpers::clamp(20.0, 10.0, 19.0));
 
-Assert::exception(function () {
-	Helpers::clamp(20, 30, 10);
-}, InvalidArgumentException::class, 'Minimum (30) is not less than maximum (10).');
+Assert::exception(
+	fn() => Helpers::clamp(20, 30, 10),
+	InvalidArgumentException::class,
+	'Minimum (30) is not less than maximum (10).',
+);

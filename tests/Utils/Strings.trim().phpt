@@ -18,6 +18,8 @@ Assert::same('a b', Strings::trim(' a b '));
 Assert::same(' a b ', Strings::trim(' a b ', ''));
 Assert::same('e', Strings::trim("\u{158}e-", "\u{158}-")); // Ře-
 
-Assert::exception(function () {
-	Strings::trim("\xC2x\xA0");
-}, Nette\Utils\RegexpException::class, null);
+Assert::exception(
+	fn() => Strings::trim("\xC2x\xA0"),
+	Nette\Utils\RegexpException::class,
+	null,
+);
