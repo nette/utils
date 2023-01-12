@@ -36,6 +36,7 @@ Assert::true(Floats::areEqual(INF, INF));
 Assert::false(Floats::areEqual(INF, -INF));
 Assert::false(Floats::areEqual(-INF, INF));
 
-Assert::exception(function () {
-	Floats::areEqual(NAN, NAN);
-}, LogicException::class);
+Assert::exception(
+	fn() => Floats::areEqual(NAN, NAN),
+	LogicException::class,
+);

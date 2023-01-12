@@ -42,7 +42,7 @@ Assert::same(['mixed'], $type->getNames());
 Assert::same('mixed', (string) $type);
 
 
-$type = Type::fromReflection(new ReflectionFunction(function (): Bar&Foo {}));
+$type = Type::fromReflection(new ReflectionFunction(function (): Bar & Foo {}));
 
 Assert::same(['Bar', 'Foo'], $type->getNames());
 Assert::same('Bar&Foo', (string) $type);

@@ -21,9 +21,11 @@ Assert::true(Strings::contains('123', '1'));
 Assert::false(Strings::contains('', 'foo'));
 
 if (PHP_VERSION_ID < 80000) {
-	Assert::error(function () {
-		Assert::false(Strings::contains('', ''));
-	}, E_WARNING, 'strpos(): Empty needle');
+	Assert::error(
+		fn() => Assert::false(Strings::contains('', '')),
+		E_WARNING,
+		'strpos(): Empty needle',
+	);
 } else {
 	Assert::true(Strings::contains('', ''));
 }

@@ -22,13 +22,17 @@ Assert::truthy(preg_match('#^[0-9]+$#', Random::generate(1000, '0-9')));
 Assert::truthy(preg_match('#^[0a-z12]+$#', Random::generate(1000, '0a-z12')));
 Assert::truthy(preg_match('#^[-a]+$#', Random::generate(1000, '-a')));
 
-Assert::exception(function () {
-	Random::generate(0);
-}, Nette\InvalidArgumentException::class, 'Length must be greater than zero.');
+Assert::exception(
+	fn() => Random::generate(0),
+	Nette\InvalidArgumentException::class,
+	'Length must be greater than zero.',
+);
 
-Assert::exception(function () {
-	Random::generate(1, '000');
-}, Nette\InvalidArgumentException::class, 'Character list must contain at least two chars.');
+Assert::exception(
+	fn() => Random::generate(1, '000'),
+	Nette\InvalidArgumentException::class,
+	'Character list must contain at least two chars.',
+);
 
 
 // frequency check
