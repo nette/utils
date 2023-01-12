@@ -23,50 +23,63 @@ Assert::same('1985-12-09 01:02:03.000000', DateTime::fromParts(1985, 12, 9, 1, 2
 Assert::same('1985-12-09 11:22:33.000000', DateTime::fromParts(1985, 12, 9, 11, 22, 33)->format('Y-m-d H:i:s.u'));
 Assert::same('1985-12-09 11:22:59.123000', DateTime::fromParts(1985, 12, 9, 11, 22, 59.123)->format('Y-m-d H:i:s.u'));
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 2, 29);
-}, Nette\InvalidArgumentException::class, "Invalid date '1985-02-29 00:00:0.00000'");
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 2, 29),
+	Nette\InvalidArgumentException::class,
+	"Invalid date '1985-02-29 00:00:0.00000'",
+);
 
-Assert::exception(function () { // year must be at least 1 due to limitation of checkdate()
-	DateTime::fromParts(0, 12, 9);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(0, 12, 9),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 0, 9);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 0, 9),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 13, 9);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 13, 9),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 12, 0);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 12, 0),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 12, 32);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 12, 32),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 12, 9, -1);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 12, 9, -1),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 12, 9, 60);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 12, 9, 60),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 12, 9, 0, -1);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 12, 9, 0, -1),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 12, 9, 0, 60);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 12, 9, 0, 60),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 12, 9, 0, 0, -1);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 12, 9, 0, 0, -1),
+	Nette\InvalidArgumentException::class,
+);
 
-Assert::exception(function () {
-	DateTime::fromParts(1985, 12, 9, 0, 0, 60);
-}, Nette\InvalidArgumentException::class);
+Assert::exception(
+	fn() => DateTime::fromParts(1985, 12, 9, 0, 0, 60),
+	Nette\InvalidArgumentException::class,
+);

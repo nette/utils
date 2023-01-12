@@ -52,17 +52,23 @@ Assert::null(Reflection::getParameterType($params[5]));
 Assert::same('Test\B', Reflection::getParameterType($params[6]));
 Assert::same('mixed', Reflection::getParameterType($params[7]));
 
-Assert::exception(function () use ($params) {
-	Reflection::getParameterType($params[8]);
-}, Nette\InvalidStateException::class, 'The $union in A::method() is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getParameterType($params[8]),
+	Nette\InvalidStateException::class,
+	'The $union in A::method() is not expected to have a union or intersection type.',
+);
 
-Assert::exception(function () use ($params) {
-	Reflection::getParameterType($params[9]);
-}, Nette\InvalidStateException::class, 'The $nullableUnion in A::method() is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getParameterType($params[9]),
+	Nette\InvalidStateException::class,
+	'The $nullableUnion in A::method() is not expected to have a union or intersection type.',
+);
 
-Assert::exception(function () use ($params) {
-	Reflection::getParameterType($params[10]);
-}, Nette\InvalidStateException::class, 'The $intersection in A::method() is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getParameterType($params[10]),
+	Nette\InvalidStateException::class,
+	'The $intersection in A::method() is not expected to have a union or intersection type.',
+);
 
 $method = new ReflectionMethod('AExt', 'methodExt');
 $params = $method->getParameters();

@@ -57,6 +57,8 @@ test('', function () use ($main) {
 });
 
 
-Assert::exception(function () use ($main) { // invalid image type
-	$main->send(IMG_WBMP);
-}, Nette\InvalidArgumentException::class, sprintf('Unsupported image type \'%d\'.', IMG_WBMP));
+Assert::exception(
+	fn() => $main->send(IMG_WBMP),
+	Nette\InvalidArgumentException::class,
+	sprintf('Unsupported image type \'%d\'.', IMG_WBMP),
+);

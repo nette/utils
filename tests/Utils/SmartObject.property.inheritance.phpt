@@ -82,22 +82,32 @@ Assert::same('getTraitC', $obj->traitC);
 Assert::same('getClassA', $obj->classA);
 Assert::same('getClassB', $obj->classB);
 
-Assert::exception(function () use ($obj) {
-	$obj->classBX;
-}, Nette\MemberAccessException::class, 'Cannot read an undeclared property ChildClass::$classBX, did you mean $classB?');
+Assert::exception(
+	fn() => $obj->classBX,
+	Nette\MemberAccessException::class,
+	'Cannot read an undeclared property ChildClass::$classBX, did you mean $classB?',
+);
 
-Assert::exception(function () use ($obj) {
-	$obj->classAX;
-}, Nette\MemberAccessException::class, 'Cannot read an undeclared property ChildClass::$classAX, did you mean $classA?');
+Assert::exception(
+	fn() => $obj->classAX,
+	Nette\MemberAccessException::class,
+	'Cannot read an undeclared property ChildClass::$classAX, did you mean $classA?',
+);
 
-Assert::exception(function () use ($obj) {
-	$obj->traitCX;
-}, Nette\MemberAccessException::class, 'Cannot read an undeclared property ChildClass::$traitCX, did you mean $traitC?');
+Assert::exception(
+	fn() => $obj->traitCX,
+	Nette\MemberAccessException::class,
+	'Cannot read an undeclared property ChildClass::$traitCX, did you mean $traitC?',
+);
 
-Assert::exception(function () use ($obj) {
-	$obj->traitBX;
-}, Nette\MemberAccessException::class, 'Cannot read an undeclared property ChildClass::$traitBX, did you mean $traitB?');
+Assert::exception(
+	fn() => $obj->traitBX,
+	Nette\MemberAccessException::class,
+	'Cannot read an undeclared property ChildClass::$traitBX, did you mean $traitB?',
+);
 
-Assert::exception(function () use ($obj) {
-	$obj->traitAX;
-}, Nette\MemberAccessException::class, 'Cannot read an undeclared property ChildClass::$traitAX, did you mean $traitA?');
+Assert::exception(
+	fn() => $obj->traitAX,
+	Nette\MemberAccessException::class,
+	'Cannot read an undeclared property ChildClass::$traitAX, did you mean $traitA?',
+);

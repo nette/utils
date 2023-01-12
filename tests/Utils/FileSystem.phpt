@@ -46,9 +46,11 @@ test('createDir', function () {
 	FileSystem::createDir(getTempDir() . '/1/');
 });
 
-Assert::exception(function () {
-	FileSystem::createDir('');
-}, Nette\IOException::class, "Unable to create directory '' with mode 777.%A%");
+Assert::exception(
+	fn() => FileSystem::createDir(''),
+	Nette\IOException::class,
+	"Unable to create directory '' with mode 777.%A%",
+);
 
 
 test('write + read', function () {
@@ -57,13 +59,17 @@ test('write + read', function () {
 	Assert::same('Hello', FileSystem::read(getTempDir() . '/2/file'));
 });
 
-Assert::exception(function () {
-	FileSystem::write('', 'Hello');
-}, Nette\IOException::class, "Unable to create directory '' with mode 777.%A%");
+Assert::exception(
+	fn() => FileSystem::write('', 'Hello'),
+	Nette\IOException::class,
+	"Unable to create directory '' with mode 777.%A%",
+);
 
-Assert::exception(function () {
-	FileSystem::read('missing');
-}, Nette\IOException::class, "Unable to read file 'missing'. %a%");
+Assert::exception(
+	fn() => FileSystem::read('missing'),
+	Nette\IOException::class,
+	"Unable to read file 'missing'. %a%",
+);
 
 
 test('copy', function () {
@@ -79,22 +85,28 @@ test('copy', function () {
 
 	FileSystem::write(getTempDir() . '/5/newfile', 'World');
 
-	Assert::exception(function () {
-		FileSystem::copy(getTempDir() . '/5/newfile', getTempDir() . '/3/x/file', false);
-	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
+	Assert::exception(
+		fn() => FileSystem::copy(getTempDir() . '/5/newfile', getTempDir() . '/3/x/file', false),
+		Nette\InvalidStateException::class,
+		"File or directory '%a%' already exists.",
+	);
 	Assert::same('Hello', FileSystem::read(getTempDir() . '/3/x/file'));
 
-	Assert::exception(function () {
-		FileSystem::copy('remote://example.com', getTempDir() . '/3/x/file', false);
-	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
+	Assert::exception(
+		fn() => FileSystem::copy('remote://example.com', getTempDir() . '/3/x/file', false),
+		Nette\InvalidStateException::class,
+		"File or directory '%a%' already exists.",
+	);
 	Assert::same('Hello', FileSystem::read(getTempDir() . '/3/x/file'));
 
 	FileSystem::copy(getTempDir() . '/5/newfile', getTempDir() . '/3/x/file');
 	Assert::same('World', FileSystem::read(getTempDir() . '/3/x/file'));
 
-	Assert::exception(function () {
-		FileSystem::copy(getTempDir() . '/5', getTempDir() . '/3', false);
-	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
+	Assert::exception(
+		fn() => FileSystem::copy(getTempDir() . '/5', getTempDir() . '/3', false),
+		Nette\InvalidStateException::class,
+		"File or directory '%a%' already exists.",
+	);
 	Assert::true(is_dir(getTempDir() . '/3/x/y'));
 	Assert::false(file_exists(getTempDir() . '/3/newfile'));
 
@@ -103,9 +115,11 @@ test('copy', function () {
 	Assert::true(is_file(getTempDir() . '/3/newfile'));
 });
 
-Assert::exception(function () {
-	FileSystem::copy(getTempDir() . '/6', getTempDir() . '/3');
-}, Nette\IOException::class, "File or directory '%S%' not found.");
+Assert::exception(
+	fn() => FileSystem::copy(getTempDir() . '/6', getTempDir() . '/3'),
+	Nette\IOException::class,
+	"File or directory '%S%' not found.",
+);
 
 
 test('delete', function () {
@@ -126,17 +140,21 @@ test('rename', function () {
 	Assert::same('Hello', FileSystem::read(getTempDir() . '/9/x/file'));
 
 	FileSystem::write(getTempDir() . '/8/newfile', 'World');
-	Assert::exception(function () {
-		FileSystem::rename(getTempDir() . '/8/newfile', getTempDir() . '/9/x/file', false);
-	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
+	Assert::exception(
+		fn() => FileSystem::rename(getTempDir() . '/8/newfile', getTempDir() . '/9/x/file', false),
+		Nette\InvalidStateException::class,
+		"File or directory '%a%' already exists.",
+	);
 	Assert::same('Hello', FileSystem::read(getTempDir() . '/9/x/file'));
 	FileSystem::rename(getTempDir() . '/8/newfile', getTempDir() . '/9/x/file');
 	Assert::same('World', FileSystem::read(getTempDir() . '/9/x/file'));
 
 	FileSystem::createDir(getTempDir() . '/10/');
-	Assert::exception(function () {
-		FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9', false);
-	}, Nette\InvalidStateException::class, "File or directory '%a%' already exists.");
+	Assert::exception(
+		fn() => FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9', false),
+		Nette\InvalidStateException::class,
+		"File or directory '%a%' already exists.",
+	);
 	Assert::same('World', FileSystem::read(getTempDir() . '/9/x/file'));
 
 	FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9');
@@ -150,9 +168,11 @@ test('rename', function () {
 	Assert::true(file_exists(getTempDir() . '/11'));
 });
 
-Assert::exception(function () {
-	FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9');
-}, Nette\IOException::class, "File or directory '%S%' not found.");
+Assert::exception(
+	fn() => FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9'),
+	Nette\IOException::class,
+	"File or directory '%S%' not found.",
+);
 
 
 test('isAbsolute', function () {
@@ -186,6 +206,8 @@ if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
 	});
 }
 
-Assert::exception(function () {
-	FileSystem::makeWritable(getTempDir() . '/13');
-}, Nette\IOException::class, "File or directory '%S%' not found.");
+Assert::exception(
+	fn() => FileSystem::makeWritable(getTempDir() . '/13'),
+	Nette\IOException::class,
+	"File or directory '%S%' not found.",
+);

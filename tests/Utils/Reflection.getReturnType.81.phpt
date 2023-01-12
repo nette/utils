@@ -66,7 +66,7 @@ class A
 	}
 
 
-	public function intersectionType(): AExt&A
+	public function intersectionType(): AExt & A
 	{
 	}
 }
@@ -99,7 +99,7 @@ function unionType(): array|A
 }
 
 
-function intersectionType(): AExt&A
+function intersectionType(): AExt & A
 {
 }
 
@@ -120,17 +120,23 @@ Assert::same('string', Reflection::getReturnType(new ReflectionMethod(A::class, 
 
 Assert::same('A', Reflection::getReturnType(new ReflectionMethod(A::class, 'nullableSelfType')));
 
-Assert::exception(function () {
-	Reflection::getReturnType(new ReflectionMethod(A::class, 'unionType'));
-}, Nette\InvalidStateException::class, 'The A::unionType() is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getReturnType(new ReflectionMethod(A::class, 'unionType')),
+	Nette\InvalidStateException::class,
+	'The A::unionType() is not expected to have a union or intersection type.',
+);
 
-Assert::exception(function () {
-	Reflection::getReturnType(new ReflectionMethod(A::class, 'nullableUnionType'));
-}, Nette\InvalidStateException::class, 'The A::nullableUnionType() is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getReturnType(new ReflectionMethod(A::class, 'nullableUnionType')),
+	Nette\InvalidStateException::class,
+	'The A::nullableUnionType() is not expected to have a union or intersection type.',
+);
 
-Assert::exception(function () {
-	Reflection::getReturnType(new ReflectionMethod(A::class, 'intersectionType'));
-}, Nette\InvalidStateException::class, 'The A::intersectionType() is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getReturnType(new ReflectionMethod(A::class, 'intersectionType')),
+	Nette\InvalidStateException::class,
+	'The A::intersectionType() is not expected to have a union or intersection type.',
+);
 
 Assert::same('A', Reflection::getReturnType(new ReflectionMethod(AExt::class, 'parentTypeExt')));
 
@@ -140,13 +146,17 @@ Assert::same('Test\B', Reflection::getReturnType(new ReflectionFunction('classTy
 
 Assert::same('string', Reflection::getReturnType(new ReflectionFunction('nativeType')));
 
-Assert::exception(function () {
-	Reflection::getReturnType(new ReflectionFunction('unionType'));
-}, Nette\InvalidStateException::class, 'The unionType() is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getReturnType(new ReflectionFunction('unionType')),
+	Nette\InvalidStateException::class,
+	'The unionType() is not expected to have a union or intersection type.',
+);
 
-Assert::exception(function () {
-	Reflection::getReturnType(new ReflectionFunction('intersectionType'));
-}, Nette\InvalidStateException::class, 'The intersectionType() is not expected to have a union or intersection type.');
+Assert::exception(
+	fn() => Reflection::getReturnType(new ReflectionFunction('intersectionType')),
+	Nette\InvalidStateException::class,
+	'The intersectionType() is not expected to have a union or intersection type.',
+);
 
 
 // tentative type

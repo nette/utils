@@ -90,64 +90,78 @@ class ChildClass extends InterClass
 
 
 
-Assert::exception(function () {
-	$obj = new ParentClass;
-	$obj->undef();
-}, Nette\MemberAccessException::class, 'Call to undefined method ParentClass::undef().');
+$obj = new ParentClass;
+Assert::exception(
+	fn() => $obj->undef(),
+	Nette\MemberAccessException::class,
+	'Call to undefined method ParentClass::undef().',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->undef();
-}, Nette\MemberAccessException::class, 'Call to undefined method ChildClass::undef().');
+$obj = new ChildClass;
+Assert::exception(
+	fn() => $obj->undef(),
+	Nette\MemberAccessException::class,
+	'Call to undefined method ChildClass::undef().',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->callParents();
-}, Nette\MemberAccessException::class, 'Call to undefined method ParentClass::callParents().');
+Assert::exception(
+	fn() => $obj->callParents(),
+	Nette\MemberAccessException::class,
+	'Call to undefined method ParentClass::callParents().',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->callMissingParent();
-}, Nette\MemberAccessException::class, 'Call to undefined method InterClass::callMissingParent().');
+Assert::exception(
+	fn() => $obj->callMissingParent(),
+	Nette\MemberAccessException::class,
+	'Call to undefined method InterClass::callMissingParent().',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->callMissingParentStatic();
-}, Nette\MemberAccessException::class, 'Call to undefined static method InterClass::callMissingParentStatic().');
+Assert::exception(
+	fn() => $obj->callMissingParentStatic(),
+	Nette\MemberAccessException::class,
+	'Call to undefined static method InterClass::callMissingParentStatic().',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj::callMissingParentStatic();
-}, Nette\MemberAccessException::class, 'Call to undefined static method InterClass::callMissingParentStatic().');
+Assert::exception(
+	fn() => $obj::callMissingParentStatic(),
+	Nette\MemberAccessException::class,
+	'Call to undefined static method InterClass::callMissingParentStatic().',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->callPrivateParent();
-}, Nette\MemberAccessException::class, PHP_VERSION_ID < 80100
+Assert::exception(
+	fn() => $obj->callPrivateParent(),
+	Nette\MemberAccessException::class,
+	PHP_VERSION_ID < 80100
 	? 'Call to undefined static method InterClass::callPrivateParent().' // differs from native error message
-	: 'Call to undefined method InterClass::callPrivateParent().');
+	: 'Call to undefined method InterClass::callPrivateParent().',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->protectedMethod();
-}, Nette\MemberAccessException::class, 'Call to protected method ChildClass::protectedMethod() from global scope.');
+Assert::exception(
+	fn() => $obj->protectedMethod(),
+	Nette\MemberAccessException::class,
+	'Call to protected method ChildClass::protectedMethod() from global scope.',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->protectedStaticMethod();
-}, Nette\MemberAccessException::class, 'Call to protected method ChildClass::protectedStaticMethod() from global scope.');
+Assert::exception(
+	fn() => $obj->protectedStaticMethod(),
+	Nette\MemberAccessException::class,
+	'Call to protected method ChildClass::protectedStaticMethod() from global scope.',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj::protectedStaticMethod();
-}, Nette\MemberAccessException::class, 'Call to protected method ChildClass::protectedStaticMethod() from global scope.');
+Assert::exception(
+	fn() => $obj::protectedStaticMethod(),
+	Nette\MemberAccessException::class,
+	'Call to protected method ChildClass::protectedStaticMethod() from global scope.',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->callPrivate();
-}, Nette\MemberAccessException::class, 'Call to private method ChildClass::privateMethod() from scope ParentClass.');
+Assert::exception(
+	fn() => $obj->callPrivate(),
+	Nette\MemberAccessException::class,
+	'Call to private method ChildClass::privateMethod() from scope ParentClass.',
+);
 
-Assert::exception(function () {
-	$obj = new ChildClass;
-	$obj->callPrivateStatic();
-}, Nette\MemberAccessException::class, 'Call to private method ChildClass::privateStaticMethod() from scope ParentClass.');
+Assert::exception(
+	fn() => $obj->callPrivateStatic(),
+	Nette\MemberAccessException::class,
+	'Call to private method ChildClass::privateStaticMethod() from scope ParentClass.',
+);
