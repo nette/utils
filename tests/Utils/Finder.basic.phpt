@@ -6,6 +6,7 @@
 
 declare(strict_types=1);
 
+use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
 use Tester\Assert;
 
@@ -17,7 +18,7 @@ function export($iterator, bool $sort = true)
 {
 	$arr = [];
 	foreach ($iterator as $key => $value) {
-		$arr[] = strtr($key, '\\', '/');
+		$arr[] = FileSystem::unixSlashes($key);
 	}
 
 	if ($sort) {
@@ -25,6 +26,26 @@ function export($iterator, bool $sort = true)
 	}
 	return $arr;
 }
+
+
+test('expty search', function () {
+	$finder = (new Finder)->in('fixtures.finder');
+	Assert::same([], export($finder));
+
+	$finder = (new Finder)->from('fixtures.finder');
+	Assert::same([], export($finder));
+
+	Assert::exception(
+		fn() => Finder::findFiles(''),
+		Nette\InvalidArgumentException::class,
+	);
+});
+
+
+test('current dir', function () {
+	$finder = Finder::findFiles('fixtures.finder/*.txt');
+	Assert::same(['fixtures.finder/file.txt'], export($finder));
+});
 
 
 test('non-recursive file search', function () {
@@ -80,7 +101,7 @@ test('recursive file & directory search in child-first order', function () {
 
 
 test('recursive file & directory search excluding folders', function () {
-	$finder = Finder::find('file.txt')->from('fixtures.finder')->exclude('images')->exclude('subdir2', '*.txt');
+	$finder = Finder::find('file.txt')->from('fixtures.finder')->exclude('images')->exclude('subdir2');
 	Assert::same([
 		'fixtures.finder/file.txt',
 		'fixtures.finder/subdir/file.txt',
@@ -105,42 +126,32 @@ test('recursive directory search', function () {
 });
 
 
-test('getSubPathName', function () {
-	$res = [];
-	foreach ($iterator = Finder::findFiles('file.txt')->from('fixtures.finder')->getIterator() as $foo) {
-		$res[$iterator->getSubPathName()] = true;
-	}
+test('absolute path', function () {
+	$finder = Finder::find('fixtures.finder/im*')->in(__DIR__);
+	Assert::same([
+		FileSystem::unixSlashes(__DIR__) . '/fixtures.finder/images',
+	], export($finder));
+});
 
-	Assert::same(
-		['file.txt', 'subdir/file.txt', 'subdir/subdir2/file.txt'],
-		export($res),
-	);
+
+test('absolute path in mask', function () { // will not work if there are characters [] in the path!!!
+	$finder = Finder::findDirectories(__DIR__);
+	Assert::same([
+		FileSystem::unixSlashes(__DIR__),
+	], export($finder));
 });
 
 
 test('empty args', function () {
 	$finder = Finder::find()->in('fixtures.finder');
-	Assert::same([
-		'fixtures.finder/file.txt',
-		'fixtures.finder/images',
-		'fixtures.finder/subdir',
-	], export($finder));
+	Assert::same([], export($finder));
 
 	$finder = Finder::findFiles()->in('fixtures.finder');
-	Assert::same([
-		'fixtures.finder/file.txt',
-	], export($finder));
+	Assert::same([], export($finder));
 
 	$finder = Finder::findDirectories()->in('fixtures.finder');
-	Assert::same([
-		'fixtures.finder/images',
-		'fixtures.finder/subdir',
-	], export($finder));
+	Assert::same([], export($finder));
 
 	$finder = Finder::find()->exclude()->in('fixtures.finder');
-	Assert::same([
-		'fixtures.finder/file.txt',
-		'fixtures.finder/images',
-		'fixtures.finder/subdir',
-	], export($finder));
+	Assert::same([], export($finder));
 });

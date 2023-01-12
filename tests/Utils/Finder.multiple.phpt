@@ -37,11 +37,6 @@ test('recursive', function () {
 		'fixtures.finder/images/logo.gif',
 		'fixtures.finder/subdir/subdir2/file.txt',
 	], export($finder));
-
-	Assert::exception(
-		fn() => Finder::find('*')->from('fixtures.finder/subdir/subdir2')->from('fixtures.finder/images'),
-		Nette\InvalidStateException::class,
-	);
 });
 
 
@@ -57,9 +52,4 @@ test('non-recursive', function () {
 		'fixtures.finder/images/logo.gif',
 		'fixtures.finder/subdir/subdir2/file.txt',
 	], export($finder));
-
-	Assert::exception(
-		fn() => Finder::find('*')->in('fixtures.finder/subdir/subdir2')->in('fixtures.finder/images'),
-		Nette\InvalidStateException::class,
-	);
 });

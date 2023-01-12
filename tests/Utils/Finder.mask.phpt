@@ -64,11 +64,12 @@ test('*.* mask', function () {
 });
 
 
-// subdir excluding mask
-$finder = Finder::findFiles('*')->exclude('*i*/*')->from('fixtures.finder');
-Assert::same([
-	'fixtures.finder/file.txt',
-], export($finder));
+test('subdir excluding mask', function () {
+	$finder = Finder::findFiles('*')->exclude('*i*/*')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+	], export($finder));
+});
 
 
 test('subdir mask', function () {
@@ -95,15 +96,7 @@ test('subdir excluding mask', function () {
 });
 
 
-test('complex mask', function () {
-	$finder = Finder::findFiles('*[efd][a-z][!a-r]*')->from('fixtures.finder');
-	Assert::same([
-		'fixtures.finder/images/logo.gif',
-	], export($finder));
-});
-
-
-test('', function () {
+test('wildcard ?', function () {
 	$finder = Finder::findFiles('*2*/fi??.*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/subdir/subdir2/file.txt',
@@ -111,25 +104,135 @@ test('', function () {
 });
 
 
-test('anchored', function () {
-	$finder = Finder::findFiles('/f*')->from('fixtures.finder');
+test('wildcard []', function () {
+	$finder = Finder::findFiles('*[efd][a-z][!a-r]*')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/images/logo.gif',
+	], export($finder));
+
+	$finder = Finder::findFiles('[[]x[]]/fil[e].*')->in('fixtures.finder2');
+	Assert::same([
+		'fixtures.finder2/[x]/file.txt',
+	], export($finder));
+});
+
+
+test('wildcards [] in mask part of path', function () {
+	$finder = Finder::findFiles('[x]/fil[e].*')->in('fixtures.finder2');
+	Assert::same([
+		'fixtures.finder2/x/file.txt',
+	], export($finder));
+
+	$finder = Finder::findFiles('[x]/fil[e].*')->from('fixtures.finder2');
+	Assert::same([
+		'fixtures.finder2/x/file.txt',
+	], export($finder));
+});
+
+
+test('[] are not wildcards in path', function () {
+	$finder = Finder::findFiles('*')->in('fixtures.finder*/[x]');
+	Assert::same([
+		'fixtures.finder2/[x]/file.txt',
+	], export($finder));
+
+	$finder = Finder::findFiles('*')->from('fixtures.finder*/[x]');
+	Assert::same([
+		'fixtures.finder2/[x]/file.txt',
+	], export($finder));
+});
+
+
+test('recursive mask', function () {
+	$finder = Finder::findFiles('**/f*')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+		'fixtures.finder/subdir/file.txt',
+		'fixtures.finder/subdir/subdir2/file.txt',
+	], export($finder));
+
+	$finder = Finder::findFiles('**/f*')->in('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
 	], export($finder));
 });
 
 
-test('', function () {
-	$finder = Finder::findFiles('/*/f*')->from('fixtures.finder');
+test('anchored', function () {
+	$finder = Finder::findFiles('./f*')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+	], export($finder));
+
+	$finder = Finder::findFiles('./*/f*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/subdir/file.txt',
+	], export($finder));
+
+	$finder = Finder::findFiles('./f*')->in('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/./file.txt',
 	], export($finder));
 });
 
 
-test('multidirs mask', function () {
-	$finder = Finder::findFiles('/**/f*')->from('fixtures.finder');
+test('anchored level-up', function () {
+	// not supported
+	$finder = Finder::findFiles('../f*')->from('fixtures.finder/subdir');
+	Assert::same([], export($finder));
+
+	$finder = Finder::findFiles('../f*')->in('fixtures.finder/subdir');
 	Assert::same([
+		'fixtures.finder/subdir/../file.txt',
+	], export($finder));
+});
+
+
+test('anchored recursive mask', function () {
+	$finder = Finder::findFiles('./**/f*')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+		'fixtures.finder/subdir/file.txt',
+		'fixtures.finder/subdir/subdir2/file.txt',
+	], export($finder));
+});
+
+
+test('leading recursive mask', function () {
+	$finder = Finder::find('s*/**')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/subdir/file.txt',
+		'fixtures.finder/subdir/readme',
+		'fixtures.finder/subdir/subdir2',
+		'fixtures.finder/subdir/subdir2/file.txt',
+	], export($finder));
+});
+
+
+test('mask in path', function () {
+	$finder = Finder::findFiles('f*')->in('*.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+	], export($finder));
+
+	$finder = Finder::findFiles('f*')->from('*.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+		'fixtures.finder/subdir/file.txt',
+		'fixtures.finder/subdir/subdir2/file.txt',
+	], export($finder));
+});
+
+
+test('recursive mask in path', function () {
+	$finder = Finder::findFiles('f*')->in('**/fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+	], export($finder));
+
+	$finder = Finder::findFiles('f*')->from('**/fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
 		'fixtures.finder/subdir/file.txt',
 		'fixtures.finder/subdir/subdir2/file.txt',
 	], export($finder));
