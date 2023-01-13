@@ -191,7 +191,7 @@ final class Type
 	 */
 	public function isBuiltin(): bool
 	{
-		return $this->single && Reflection::isBuiltinType($this->types[0]);
+		return $this->single && Validators::isBuiltinType($this->types[0]);
 	}
 
 
@@ -200,7 +200,7 @@ final class Type
 	 */
 	public function isClass(): bool
 	{
-		return $this->single && !Reflection::isBuiltinType($this->types[0]);
+		return $this->single && !Validators::isBuiltinType($this->types[0]);
 	}
 
 
@@ -209,7 +209,7 @@ final class Type
 	 */
 	public function isClassKeyword(): bool
 	{
-		return $this->single && Reflection::isClassKeyword($this->types[0]);
+		return $this->single && Validators::isClassKeyword($this->types[0]);
 	}
 
 
@@ -241,7 +241,7 @@ final class Type
 
 		$method = $type->isIntersection() ? 'some' : 'every';
 		return Arrays::$method($type->types, function ($testedType) {
-			$builtin = Reflection::isBuiltinType($testedType);
+			$builtin = Validators::isBuiltinType($testedType);
 			return Arrays::some($this->types, function ($currentType) use ($testedType, $builtin) {
 				return $builtin
 					? strcasecmp($currentType, $testedType) === 0
