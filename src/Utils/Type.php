@@ -231,7 +231,7 @@ final class Type
 	 */
 	public function isBuiltin(): bool
 	{
-		return $this->simple && Reflection::isBuiltinType($this->types[0]);
+		return $this->simple && Validators::isBuiltinType($this->types[0]);
 	}
 
 
@@ -240,7 +240,7 @@ final class Type
 	 */
 	public function isClass(): bool
 	{
-		return $this->simple && !Reflection::isBuiltinType($this->types[0]);
+		return $this->simple && !Validators::isBuiltinType($this->types[0]);
 	}
 
 
@@ -249,7 +249,7 @@ final class Type
 	 */
 	public function isClassKeyword(): bool
 	{
-		return $this->simple && Reflection::isClassKeyword($this->types[0]);
+		return $this->simple && Validators::isClassKeyword($this->types[0]);
 	}
 
 
@@ -284,7 +284,7 @@ final class Type
 	private function allows3(array $types, array $subtypes): bool
 	{
 		return Arrays::every($types, function ($type) use ($subtypes) {
-			$builtin = Reflection::isBuiltinType($type);
+			$builtin = Validators::isBuiltinType($type);
 			return Arrays::some($subtypes, function ($subtype) use ($type, $builtin) {
 				return $builtin
 					? strcasecmp($type, $subtype) === 0

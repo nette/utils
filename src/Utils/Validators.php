@@ -19,6 +19,12 @@ class Validators
 {
 	use Nette\StaticClass;
 
+	private const BuiltinTypes = [
+		'string' => 1, 'int' => 1, 'float' => 1, 'bool' => 1, 'array' => 1, 'object' => 1,
+		'callable' => 1, 'iterable' => 1, 'void' => 1, 'null' => 1, 'mixed' => 1, 'false' => 1,
+		'never' => 1,
+	];
+
 	/** @var array<string,?callable> */
 	protected static $validators = [
 		// PHP types
@@ -380,5 +386,23 @@ XX
 	public static function isPhpIdentifier(string $value): bool
 	{
 		return preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#D', $value) === 1;
+	}
+
+
+	/**
+	 * Determines if type is PHP built-in type. Otherwise, it is the class name.
+	 */
+	public static function isBuiltinType(string $type): bool
+	{
+		return isset(self::BuiltinTypes[strtolower($type)]);
+	}
+
+
+	/**
+	 * Determines if type is special class name self/parent/static.
+	 */
+	public static function isClassKeyword(string $name): bool
+	{
+		return (bool) preg_match('#^(self|parent|static)$#Di', $name);
 	}
 }
