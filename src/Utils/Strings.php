@@ -492,12 +492,19 @@ class Strings
 		bool|int $captureOffset = false,
 		bool $skipEmpty = false,
 		int $limit = -1,
+		bool $utf8 = false,
 	): array
 	{
 		$flags = is_int($captureOffset)  // back compatibility
 			? $captureOffset
 			: ($captureOffset ? PREG_SPLIT_OFFSET_CAPTURE : 0) | ($skipEmpty ? PREG_SPLIT_NO_EMPTY : 0);
-		return self::pcre('preg_split', [$pattern, $subject, $limit, $flags | PREG_SPLIT_DELIM_CAPTURE]);
+
+		$pattern .= $utf8 ? 'u' : '';
+		$m = self::pcre('preg_split', [$pattern, $subject, $limit, $flags | PREG_SPLIT_DELIM_CAPTURE]);
+		return $utf8 && $captureOffset
+			? self::bytesToChars($subject, [$m])[0]
+			: $m;
+
 	}
 
 
@@ -512,19 +519,27 @@ class Strings
 		bool|int $captureOffset = false,
 		int $offset = 0,
 		bool $unmatchedAsNull = false,
+		bool $utf8 = false,
 	): ?array
 	{
 		$flags = is_int($captureOffset) // back compatibility
 			? $captureOffset
 			: ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0);
 
-		if ($offset > strlen($subject)) {
-			return null;
+		if ($utf8) {
+			$offset = strlen(self::substring($subject, 0, $offset));
+			$pattern .= 'u';
 		}
 
-		return self::pcre('preg_match', [$pattern, $subject, &$m, $flags, $offset])
-			? $m
-			: null;
+		if ($offset > strlen($subject)) {
+			return null;
+		} elseif (!self::pcre('preg_match', [$pattern, $subject, &$m, $flags, $offset])) {
+			return null;
+		} elseif ($utf8 && $captureOffset) {
+			return self::bytesToChars($subject, [$m])[0];
+		} else {
+			return $m;
+		}
 	}
 
 
@@ -540,11 +555,17 @@ class Strings
 		int $offset = 0,
 		bool $unmatchedAsNull = false,
 		bool $patternOrder = false,
+		bool $utf8 = false,
 	): array
 	{
 		$flags = is_int($captureOffset) // back compatibility
 			? $captureOffset
 			: ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0) | ($patternOrder ? PREG_PATTERN_ORDER : 0);
+
+		if ($utf8) {
+			$offset = strlen(self::substring($subject, 0, $offset));
+			$pattern .= 'u';
+		}
 
 		if ($offset > strlen($subject)) {
 			return [];
@@ -555,7 +576,10 @@ class Strings
 			($flags & PREG_PATTERN_ORDER) ? $flags : ($flags | PREG_SET_ORDER),
 			$offset,
 		]);
-		return $m;
+		return $utf8 && $captureOffset
+			? self::bytesToChars($subject, $m)
+			: $m;
+
 	}
 
 
@@ -570,6 +594,7 @@ class Strings
 		int $limit = -1,
 		bool $captureOffset = false,
 		bool $unmatchedAsNull = false,
+		bool $utf8 = false,
 	): string
 	{
 		if (is_object($replacement) || is_array($replacement)) {
@@ -578,6 +603,13 @@ class Strings
 			}
 
 			$flags = ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0);
+			if ($utf8) {
+				$pattern .= 'u';
+				if ($captureOffset) {
+					$replacement = fn($m) => $replacement(self::bytesToChars($subject, [$m])[0]);
+				}
+			}
+
 			return self::pcre('preg_replace_callback', [$pattern, $replacement, $subject, $limit, 0, $flags]);
 
 		} elseif (is_array($pattern) && is_string(key($pattern))) {
@@ -585,7 +617,31 @@ class Strings
 			$pattern = array_keys($pattern);
 		}
 
+		if ($utf8) {
+			$pattern = array_map(fn($item) => $item . 'u', (array) $pattern);
+		}
+
 		return self::pcre('preg_replace', [$pattern, $replacement, $subject, $limit]);
+	}
+
+
+	private static function bytesToChars(string $s, array $groups): array
+	{
+		$lastBytes = $lastChars = 0;
+		foreach ($groups as &$matches) {
+			foreach ($matches as &$match) {
+				if ($match[1] > $lastBytes) {
+					$lastChars += self::length(substr($s, $lastBytes, $match[1] - $lastBytes));
+				} elseif ($match[1] < $lastBytes) {
+					$lastChars -= self::length(substr($s, $match[1], $lastBytes - $match[1]));
+				}
+
+				$lastBytes = $match[1];
+				$match[1] = $lastChars;
+			}
+		}
+
+		return $groups;
 	}
 
 
