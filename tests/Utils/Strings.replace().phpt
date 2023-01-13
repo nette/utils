@@ -37,4 +37,10 @@ Assert::same(' !', Strings::replace('hello world!', ['#\w#']));
 
 // flags & callback
 Assert::same('hell0o worl9d!', Strings::replace('hello world!', '#[e-l]+#', fn($m) => implode('', $m[0]), captureOffset: true));
+Assert::same('žl1uťoučk7ý k10ůň!', Strings::replace('žluťoučký kůň!', '#[e-l]+#u', fn($m) => implode('', $m[0]), captureOffset: true, utf8: true));
 Strings::replace('hello world!', '#e(x)*#', fn($m) => Assert::null($m[1]), unmatchedAsNull: true);
+
+// utf-8 without modifier
+Assert::same('* *', Strings::replace('Россия агрессор', '#\w+#', fn() => '*', utf8: true));
+Assert::same('* *', Strings::replace('Россия агрессор', '#\w+#', '*', utf8: true));
+Assert::same('* *', Strings::replace('Россия агрессор', ['#\w+#'], '*', utf8: true));
