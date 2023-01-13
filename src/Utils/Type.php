@@ -71,21 +71,29 @@ final class Type
 	 */
 	public static function fromString(string $type): self
 	{
-		if (!preg_match('#(?:
-			\?([\w\\\\]+)|
-			[\w\\\\]+ (?: (&[\w\\\\]+)* | (\|[\w\\\\]+)* )
-		)()$#xAD', $type, $m)) {
+		if (!self::isValid($type)) {
 			throw new Nette\InvalidArgumentException("Invalid type '$type'.");
 		}
 
-		[, $nType, $iType] = $m;
-		if ($nType) {
-			return new self([$nType, 'null']);
-		} elseif ($iType) {
-			return new self(explode('&', $type), '&');
+		if ($type[0] === '?') {
+			return new self([substr($type, 1), 'null']);
+		} elseif (count($parts = explode('&', $type)) > 1) {
+			return new self($parts, '&');
 		} else {
 			return new self(explode('|', $type));
 		}
+	}
+
+
+	/**
+	 * Checks whether the given type is syntactically valid.
+	 */
+	public static function isValid(string $type): bool
+	{
+		return (bool) preg_match('#(?:
+			\?([\w\\\\]+)|
+			[\w\\\\]+ (?: (&[\w\\\\]+)* | (\|[\w\\\\]+)* )
+		)$#xAD', $type);
 	}
 
 
