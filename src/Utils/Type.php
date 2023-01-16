@@ -64,17 +64,12 @@ final class Type
 	 */
 	public static function fromString(string $type): self
 	{
-		if (!preg_match('#(?:
-			\?([\w\\\\]+) |
-			(?: [\w\\\\]+  |  \( [\w\\\\]+ (?:&[\w\\\\]+)+ \) )  (?: \|  (?: [\w\\\\]+  |  \( [\w\\\\]+ (?:&[\w\\\\]+)+ \) ) )* |
-			[\w\\\\]+ (?:&[\w\\\\]+)+
-		)()$#xAD', $type, $m)) {
+		if (!self::isValid($type)) {
 			throw new Nette\InvalidArgumentException("Invalid type '$type'.");
 		}
 
-		[, $nullable] = $m;
-		if ($nullable) {
-			return new self([$nullable, 'null']);
+		if ($type[0] === '?') {
+			return new self([substr($type, 1), 'null']);
 		}
 
 		$unions = [];
@@ -86,6 +81,19 @@ final class Type
 		return count($unions) === 1 && $unions[0] instanceof self
 			? $unions[0]
 			: new self($unions);
+	}
+
+
+	/**
+	 * Checks whether the given type is syntactically valid.
+	 */
+	public static function isValid(string $type): bool
+	{
+		return (bool) preg_match('#(?:
+			\?([\w\\\\]+) |
+			(?: [\w\\\\]+  |  \( [\w\\\\]+ (?:&[\w\\\\]+)+ \) )  (?: \|  (?: [\w\\\\]+  |  \( [\w\\\\]+ (?:&[\w\\\\]+)+ \) ) )* |
+			[\w\\\\]+ (?:&[\w\\\\]+)+
+		)$#xAD', $type);
 	}
 
 
