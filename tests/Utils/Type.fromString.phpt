@@ -164,3 +164,17 @@ Assert::false($type->isIntersection());
 Assert::true($type->isSimple());
 Assert::false($type->isBuiltin());
 Assert::true($type->isClassKeyword());
+
+
+$type = Type::fromString('(A&B)|null');
+
+Assert::same([['A', 'B'], 'null'], $type->getNames());
+Assert::equal([Type::fromString('A&B'), Type::fromString('null')], $type->getTypes());
+Assert::same('(A&B)|null', (string) $type);
+Assert::null($type->getSingleName());
+Assert::false($type->isClass());
+Assert::true($type->isUnion());
+Assert::false($type->isIntersection());
+Assert::false($type->isSingle());
+Assert::false($type->isBuiltin());
+Assert::false($type->isClassKeyword());

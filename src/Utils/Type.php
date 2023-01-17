@@ -17,7 +17,7 @@ use Nette;
  */
 final class Type
 {
-	/** @var array */
+	/** @var array<int, string|self> */
 	private $types;
 
 	/** @var bool */
@@ -44,24 +44,29 @@ final class Type
 				: $reflection->getType();
 		}
 
-		if ($type === null) {
-			return null;
+		return $type ? self::fromReflectionType($type, $reflection, true) : null;
+	}
 
-		} elseif ($type instanceof \ReflectionNamedType) {
-			$name = self::resolve($type->getName(), $reflection);
-			return new self($type->allowsNull() && $type->getName() !== 'mixed' ? [$name, 'null'] : [$name]);
+
+	private static function fromReflectionType(\ReflectionType $type, $of, bool $asObject)
+	{
+		if ($type instanceof \ReflectionNamedType) {
+			$name = self::resolve($type->getName(), $of);
+			return $asObject
+				? new self($type->allowsNull() && $name !== 'mixed' ? [$name, 'null'] : [$name])
+				: $name;
 
 		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
 			return new self(
 				array_map(
-					function ($t) use ($reflection) { return self::resolve($t->getName(), $reflection); },
+					function ($t) use ($of) { return self::fromReflectionType($t, $of, false); },
 					$type->getTypes()
 				),
 				$type instanceof \ReflectionUnionType ? '|' : '&'
 			);
 
 		} else {
-			throw new Nette\InvalidStateException('Unexpected type of ' . Reflection::toString($reflection));
+			throw new Nette\InvalidStateException('Unexpected type of ' . Reflection::toString($of));
 		}
 	}
 
@@ -71,21 +76,23 @@ final class Type
 	 */
 	public static function fromString(string $type): self
 	{
-		if (!preg_match('#(?:
-			\?([\w\\\\]+)|
-			[\w\\\\]+ (?: (&[\w\\\\]+)* | (\|[\w\\\\]+)* )
-		)()$#xAD', $type, $m)) {
+		if (!Validators::isTypeDeclaration($type)) {
 			throw new Nette\InvalidArgumentException("Invalid type '$type'.");
 		}
 
-		[, $nType, $iType] = $m;
-		if ($nType) {
-			return new self([$nType, 'null']);
-		} elseif ($iType) {
-			return new self(explode('&', $type), '&');
-		} else {
-			return new self(explode('|', $type));
+		if ($type[0] === '?') {
+			return new self([substr($type, 1), 'null']);
 		}
+
+		$unions = [];
+		foreach (explode('|', $type) as $part) {
+			$part = explode('&', trim($part, '()'));
+			$unions[] = count($part) === 1 ? $part[0] : new self($part, '&');
+		}
+
+		return count($unions) === 1 && $unions[0] instanceof self
+			? $unions[0]
+			: new self($unions);
 	}
 
 
@@ -117,26 +124,35 @@ final class Type
 		}
 
 		$this->types = $types;
-		$this->simple = ($types[1] ?? 'null') === 'null';
+		$this->simple = is_string($types[0]) && ($types[1] ?? 'null') === 'null';
 		$this->kind = count($types) > 1 ? $kind : '';
 	}
 
 
 	public function __toString(): string
 	{
-		return $this->simple
-			? (count($this->types) > 1 ? '?' : '') . $this->types[0]
-			: implode($this->kind, $this->types);
+		$multi = count($this->types) > 1;
+		if ($this->simple) {
+			return ($multi ? '?' : '') . $this->types[0];
+		}
+
+		$res = [];
+		foreach ($this->types as $type) {
+			$res[] = $type instanceof self && $multi ? "($type)" : $type;
+		}
+		return implode($this->kind, $res);
 	}
 
 
 	/**
 	 * Returns the array of subtypes that make up the compound type as strings.
-	 * @return string[]
+	 * @return array<int, string|string[]>
 	 */
 	public function getNames(): array
 	{
-		return $this->types;
+		return array_map(function ($t) {
+			return $t instanceof self ? $t->getNames() : $t;
+		}, $this->types);
 	}
 
 
@@ -146,7 +162,9 @@ final class Type
 	 */
 	public function getTypes(): array
 	{
-		return array_map(function ($name) { return self::fromString($name); }, $this->types);
+		return array_map(function ($t) {
+			return $t instanceof self ? $t : new self([$t]);
+		}, $this->types);
 	}
 
 
@@ -232,29 +250,32 @@ final class Type
 		}
 
 		$subtype = self::fromString($subtype);
+		return $subtype->isUnion()
+			? Arrays::every($subtype->types, function ($t) {
+				return $this->allows2($t instanceof self ? $t->types : [$t]);
+			})
+			: $this->allows2($subtype->types);
+	}
 
-		if ($this->isIntersection()) {
-			if (!$subtype->isIntersection()) {
-				return false;
-			}
 
-			return Arrays::every($this->types, function ($currentType) use ($subtype) {
-				$builtin = Reflection::isBuiltinType($currentType);
-				return Arrays::some($subtype->types, function ($testedType) use ($currentType, $builtin) {
-					return $builtin
-						? strcasecmp($currentType, $testedType) === 0
-						: is_a($testedType, $currentType, true);
-				});
-			});
-		}
+	private function allows2(array $subtypes): bool
+	{
+		return $this->isUnion()
+			? Arrays::some($this->types, function ($t) use ($subtypes) {
+				return $this->allows3($t instanceof self ? $t->types : [$t], $subtypes);
+			})
+			: $this->allows3($this->types, $subtypes);
+	}
 
-		$method = $subtype->isIntersection() ? 'some' : 'every';
-		return Arrays::$method($subtype->types, function ($testedType) {
-			$builtin = Validators::isBuiltinType($testedType);
-			return Arrays::some($this->types, function ($currentType) use ($testedType, $builtin) {
+
+	private function allows3(array $types, array $subtypes): bool
+	{
+		return Arrays::every($types, function ($type) use ($subtypes) {
+			$builtin = Validators::isBuiltinType($type);
+			return Arrays::some($subtypes, function ($subtype) use ($type, $builtin) {
 				return $builtin
-					? strcasecmp($currentType, $testedType) === 0
-					: is_a($testedType, $currentType, true);
+					? strcasecmp($type, $subtype) === 0
+					: is_a($subtype, $type, true);
 			});
 		});
 	}
