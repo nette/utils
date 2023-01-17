@@ -25,7 +25,7 @@ class Strings
 
 
 	/**
-	 * Checks if the string is valid in UTF-8 encoding.
+	 * @deprecated use Nette\Utils\Validator::isUnicode()
 	 */
 	public static function checkEncoding(string $s): bool
 	{
@@ -60,7 +60,7 @@ class Strings
 
 
 	/**
-	 * Starts the $haystack string with the prefix $needle?
+	 * @deprecated use str_starts_with()
 	 */
 	public static function startsWith(string $haystack, string $needle): bool
 	{
@@ -69,7 +69,7 @@ class Strings
 
 
 	/**
-	 * Ends the $haystack string with the suffix $needle?
+	 * @deprecated use str_ends_with()
 	 */
 	public static function endsWith(string $haystack, string $needle): bool
 	{
@@ -78,7 +78,7 @@ class Strings
 
 
 	/**
-	 * Does $haystack contain $needle?
+	 * @deprecated use str_contains()
 	 */
 	public static function contains(string $haystack, string $needle): bool
 	{

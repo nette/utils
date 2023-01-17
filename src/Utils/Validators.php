@@ -360,6 +360,7 @@ class Validators
 
 	/**
 	 * Checks whether the input is a class, interface or trait.
+	 * @deprecated
 	 */
 	public static function isType(string $type): bool
 	{
