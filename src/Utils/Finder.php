@@ -37,6 +37,9 @@ class Finder implements \IteratorAggregate
 
 	/** @var \Closure[] */
 	private array $descentFilters = [];
+
+	/** @var array<string|self> */
+	private array $appends = [];
 	private bool $childFirst = false;
 
 	/** @var ?callable */
@@ -187,6 +190,20 @@ class Finder implements \IteratorAggregate
 	}
 
 
+	/**
+	 * Adds the specified paths or appends a new finder that returns.
+	 */
+	public function append(string|array|null $paths = null): static
+	{
+		if ($paths === null) {
+			return $this->appends[] = new static;
+		}
+
+		$this->appends = array_merge($this->appends, (array) $paths);
+		return $this;
+	}
+
+
 	/********************* filtering ****************d*g**/
 
 
@@ -305,6 +322,15 @@ class Finder implements \IteratorAggregate
 		$plan = $this->buildPlan();
 		foreach ($plan as $dir => $searches) {
 			yield from $this->traverseDir($dir, $searches);
+		}
+
+		foreach ($this->appends as $item) {
+			if ($item instanceof self) {
+				yield from $item->getIterator();
+			} else {
+				$item = FileSystem::platformSlashes($item);
+				yield $item => new FileInfo($item);
+			}
 		}
 	}
 
