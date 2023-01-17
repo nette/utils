@@ -405,4 +405,20 @@ XX
 	{
 		return (bool) preg_match('#^(self|parent|static)$#Di', $name);
 	}
+
+
+	/**
+	 * Checks whether the given type declaration is syntactically valid.
+	 */
+	public static function isTypeDeclaration(string $type): bool
+	{
+		return (bool) preg_match(<<<'XX'
+		~(
+			\?? (?<type> \\? (?<name> [a-zA-Z_\x7f-\xff][\w\x7f-\xff]*) (\\ (?&name))* ) |
+			(?<intersection> (?&type) (& (?&type))+ ) |
+			(?<upart> (?&type) | \( (?&intersection) \) )  (\| (?&upart))+
+		)$~xAD
+XX
+			, $type);
+	}
 }
