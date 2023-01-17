@@ -316,7 +316,7 @@ class Validators
 		$atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
 		$alpha = "a-z\x80-\xFF"; // superset of IDN
 		return (bool) preg_match(<<<XX
-			(^
+			(^(?n)
 				("([ !#-[\\]-~]*|\\\\[ -~])+"|$atom+(\\.$atom+)*)  # quoted or unquoted
 				@
 				([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+  # domain - RFC 1034
@@ -333,7 +333,7 @@ class Validators
 	{
 		$alpha = "a-z\x80-\xFF";
 		return (bool) preg_match(<<<XX
-			(^
+			(^(?n)
 				https?://(
 					(([-_0-9$alpha]+\\.)*                       # subdomain
 						[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)?  # domain
@@ -401,7 +401,7 @@ class Validators
 	public static function isTypeDeclaration(string $type): bool
 	{
 		return (bool) preg_match(<<<'XX'
-			~(
+			~((?n)
 				\?? (?<type> \\? (?<name> [a-zA-Z_\x7f-\xff][\w\x7f-\xff]*) (\\ (?&name))* ) |
 				(?<intersection> (?&type) (& (?&type))+ ) |
 				(?<upart> (?&type) | \( (?&intersection) \) )  (\| (?&upart))+
