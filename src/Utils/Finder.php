@@ -38,6 +38,9 @@ class Finder implements \IteratorAggregate
 	/** @var \Closure[] */
 	private array $descentFilters = [];
 	private bool $childFirst = false;
+
+	/** @var ?callable */
+	private $sort;
 	private int $maxDepth = -1;
 	private bool $ignoreUnreadableDirs = true;
 
@@ -159,6 +162,27 @@ class Finder implements \IteratorAggregate
 	public function ignoreUnreadableDirs(bool $state = true): static
 	{
 		$this->ignoreUnreadableDirs = $state;
+		return $this;
+	}
+
+
+	/**
+	 * Set a compare function for sorting directory entries. The function will be called to sort entries from the same directory.
+	 * @param  callable(FileInfo, FileInfo): int  $callback
+	 */
+	public function sortBy(callable $callback): static
+	{
+		$this->sort = $callback;
+		return $this;
+	}
+
+
+	/**
+	 * Sorts files in each directory naturally by name.
+	 */
+	public function sortByName(): static
+	{
+		$this->sort = fn(FileInfo $a, FileInfo $b): int => strnatcmp($a->getBasename(), $b->getBasename());
 		return $this;
 	}
 
@@ -307,16 +331,16 @@ class Finder implements \IteratorAggregate
 				throw new Nette\InvalidStateException($e->getMessage());
 			}
 		}
-		$absolute = FileSystem::isAbsolute($dir);
 
-		$relativePath = implode(DIRECTORY_SEPARATOR, $subdirs);
+		$files = $this->convertToFiles($pathNames, implode('/', $subdirs), FileSystem::isAbsolute($dir));
 
-		foreach ($pathNames as $pathName) {
-			if (!$absolute) {
-				$pathName = preg_replace('~\.?/~A', '', $pathName);
-			}
-			$pathName = FileSystem::platformSlashes($pathName);
-			$file = new FileInfo($pathName, $relativePath);
+		if ($this->sort) {
+			$files = iterator_to_array($files);
+			usort($files, $this->sort);
+		}
+
+		foreach ($files as $file) {
+			$pathName = $file->getPathname();
 			$cache = $subSearch = [];
 
 			if ($file->isDir()) {
@@ -346,6 +370,18 @@ class Finder implements \IteratorAggregate
 			if (!$this->childFirst && $subSearch) {
 				yield from $this->traverseDir($pathName, $subSearch, array_merge($subdirs, [$file->getBasename()]));
 			}
+		}
+	}
+
+
+	private function convertToFiles(iterable $pathNames, string $relativePath, bool $absolute): \Generator
+	{
+		foreach ($pathNames as $pathName) {
+			if (!$absolute) {
+				$pathName = preg_replace('~\.?/~A', '', $pathName);
+			}
+			$pathName = FileSystem::platformSlashes($pathName);
+			yield new FileInfo($pathName, $relativePath);
 		}
 	}
 
