@@ -46,4 +46,24 @@ final class FileInfo extends \SplFileInfo
 		return ($this->relativePath === '' ? '' : $this->relativePath . DIRECTORY_SEPARATOR)
 			. $this->getBasename();
 	}
+
+
+	/**
+	 * Returns the contents of the file.
+	 * @throws Nette\IOException
+	 */
+	public function read(): string
+	{
+		return FileSystem::read($this->getPathname());
+	}
+
+
+	/**
+	 * Writes the contents to the file.
+	 * @throws Nette\IOException
+	 */
+	public function write(string $content): void
+	{
+		FileSystem::write($this->getPathname(), $content);
+	}
 }
