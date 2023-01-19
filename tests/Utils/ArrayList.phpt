@@ -157,3 +157,13 @@ test('', function () {
 		unset($list['key']);
 	}, OutOfRangeException::class, 'Offset invalid or out of range');
 });
+
+
+test('iteration with reference', function () {
+	$list = ArrayList::from([1, 2, 3]);
+	foreach ($list as $key => &$value) {
+		$value = 'new';
+	}
+
+	Assert::same(['new', 'new', 'new'], iterator_to_array($list));
+});

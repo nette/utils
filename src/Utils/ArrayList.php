@@ -41,11 +41,13 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Returns an iterator over all items.
-	 * @return \ArrayIterator<int, T>
+	 * @return \Iterator<int, T>
 	 */
-	public function getIterator(): \ArrayIterator
+	public function &getIterator(): \Iterator
 	{
-		return new \ArrayIterator($this->list);
+		foreach ($this->list as &$item) {
+			yield $item;
+		}
 	}
 
 
