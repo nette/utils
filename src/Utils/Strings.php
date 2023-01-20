@@ -138,7 +138,7 @@ class Strings
 			$s = $n;
 		}
 
-		$s = self::normalizeNewLines($s);
+		$s = self::unixNewLines($s);
 
 		// remove control characters; leave \t + \n
 		$s = self::pcre('preg_replace', ['#[\x00-\x08\x0B-\x1F\x7F-\x9F]+#u', '', $s]);
@@ -153,12 +153,30 @@ class Strings
 	}
 
 
-	/**
-	 * Standardize line endings to unix-like.
-	 */
+	/** @deprecated use Strings::unixNewLines() */
 	public static function normalizeNewLines(string $s): string
 	{
-		return str_replace(["\r\n", "\r"], "\n", $s);
+		return self::unixNewLines($s);
+	}
+
+
+	/**
+	 * Converts line endings to \n used on Unix-like systems.
+	 * Line endings are: \n, \r, \r\n, U+2028 line separator, U+2029 paragraph separator.
+	 */
+	public static function unixNewLines(string $s): string
+	{
+		return preg_replace("~\r\n?|\u{2028}|\u{2029}~", "\n", $s);
+	}
+
+
+	/**
+	 * Converts line endings to platform-specific, i.e. \r\n on Windows and \n elsewhere.
+	 * Line endings are: \n, \r, \r\n, U+2028 line separator, U+2029 paragraph separator.
+	 */
+	public static function platformNewLines(string $s): string
+	{
+		return preg_replace("~\r\n?|\n|\u{2028}|\u{2029}~", PHP_EOL, $s);
 	}
 
 
