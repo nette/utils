@@ -177,6 +177,37 @@ final class FileSystem
 
 
 	/**
+	 * Reads the file content line by line. Because it reads continuously as we iterate over the lines,
+	 * it is possible to read files larger than the available memory.
+	 * @return \Generator<int, string>
+	 * @throws Nette\IOException  on error occurred
+	 */
+	public static function readLines(string $file, bool $stripNewLines = true): \Generator
+	{
+		return (function ($f) use ($file, $stripNewLines) {
+			$counter = 0;
+			do {
+				$line = Callback::invokeSafe('fgets', [$f], fn($error) => throw new Nette\IOException(sprintf(
+					"Unable to read file '%s'. %s",
+					self::normalizePath($file),
+					$error,
+				)));
+				if ($line === false) {
+					fclose($f);
+					break;
+				}
+				if ($stripNewLines) {
+					$line = rtrim($line, "\r\n");
+				}
+
+				yield $counter++ => $line;
+
+			} while (true);
+		})(static::open($file, 'r'));
+	}
+
+
+	/**
 	 * Writes the string to a file.
 	 * @throws Nette\IOException  on error occurred
 	 */
