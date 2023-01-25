@@ -64,11 +64,7 @@ final class FileSystem
 			}
 		} else {
 			static::createDir(dirname($target));
-			if (
-				($s = @fopen($origin, 'rb'))
-				&& ($d = @fopen($target, 'wb'))
-				&& @stream_copy_to_stream($s, $d) === false
-			) { // @ is escalated to exception
+			if (@stream_copy_to_stream(static::open($origin, 'rb'), static::open($target, 'wb')) === false) { // @ is escalated to exception
 				throw new Nette\IOException(sprintf(
 					"Unable to copy file '%s' to '%s'. %s",
 					self::normalizePath($origin),
@@ -77,6 +73,25 @@ final class FileSystem
 				));
 			}
 		}
+	}
+
+
+	/**
+	 * Opens file and returns resource.
+	 * @return resource
+	 * @throws Nette\IOException  on error occurred
+	 */
+	public static function open(string $path, string $mode)
+	{
+		$f = @fopen($path, $mode); // @ is escalated to exception
+		if (!$f) {
+			throw new Nette\IOException(sprintf(
+				"Unable to open file '%s'. %s",
+				self::normalizePath($path),
+				Helpers::getLastError(),
+			));
+		}
+		return $f;
 	}
 
 
