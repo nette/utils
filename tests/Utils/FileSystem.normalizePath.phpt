@@ -36,6 +36,10 @@ test('', function () {
 	Assert::same("..{$S}", FileSystem::normalizePath('file/../../'));
 	Assert::same("{$S}..{$S}bar", FileSystem::normalizePath('/file/../../bar'));
 	Assert::same("..{$S}bar", FileSystem::normalizePath('file/../../bar'));
+	Assert::same("..{$S}file", FileSystem::normalizePath('../file'));
+	Assert::same("{$S}..{$S}file", FileSystem::normalizePath('/../file'));
+	Assert::same('file', FileSystem::normalizePath('./file'));
+	Assert::same("{$S}file", FileSystem::normalizePath('/./file'));
 
 	Assert::same("{$S}..{$S}bar", FileSystem::normalizePath('/file/./.././.././bar'));
 	Assert::same("..{$S}bar", FileSystem::normalizePath('file/../../bar/.'));
