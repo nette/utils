@@ -37,11 +37,13 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Returns an iterator over all items.
-	 * @return \RecursiveArrayIterator<array-key, T>
+	 * @return \Iterator<int|string, T>
 	 */
-	public function getIterator(): \RecursiveArrayIterator
+	public function &getIterator(): \Iterator
 	{
-		return new \RecursiveArrayIterator((array) $this);
+		foreach ((array) $this as $key => $foo) {
+			yield $key => $this->$key;
+		}
 	}
 
 
