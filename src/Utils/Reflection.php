@@ -41,6 +41,7 @@ final class Reflection
 	 * Returns the type of return value of given function or method and normalizes `self`, `static`, and `parent` to actual class names.
 	 * If the function does not have a return type, it returns null.
 	 * If the function has union or intersection type, it throws Nette\InvalidStateException.
+	 * @deprecated use Nette\Utils\Type::fromReflection()
 	 */
 	public static function getReturnType(\ReflectionFunctionAbstract $func): ?string
 	{
@@ -63,6 +64,7 @@ final class Reflection
 	 * Returns the type of given parameter and normalizes `self` and `parent` to the actual class names.
 	 * If the parameter does not have a type, it returns null.
 	 * If the parameter has union or intersection type, it throws Nette\InvalidStateException.
+	 * @deprecated use Nette\Utils\Type::fromReflection()
 	 */
 	public static function getParameterType(\ReflectionParameter $param): ?string
 	{
@@ -84,6 +86,7 @@ final class Reflection
 	 * Returns the type of given property and normalizes `self` and `parent` to the actual class names.
 	 * If the property does not have a type, it returns null.
 	 * If the property has union or intersection type, it throws Nette\InvalidStateException.
+	 * @deprecated use Nette\Utils\Type::fromReflection()
 	 */
 	public static function getPropertyType(\ReflectionProperty $prop): ?string
 	{
