@@ -29,7 +29,7 @@ class UnknownImageFileException extends ImageException
 /**
  * The exception that indicates error of JSON encoding/decoding.
  */
-class JsonException extends \Exception
+class JsonException extends \JsonException
 {
 }
 
