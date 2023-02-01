@@ -98,19 +98,19 @@ class Image
 {
 	use Nette\SmartObject;
 
-	/** {@link resize()} only shrinks images */
+	/** Prevent from getting resized to a bigger size than the original */
 	public const SHRINK_ONLY = 0b0001;
 
-	/** {@link resize()} will ignore aspect ratio */
+	/** Resizes to a specified width and height without keeping aspect ratio */
 	public const STRETCH = 0b0010;
 
-	/** {@link resize()} fits in given area so its dimensions are less than or equal to the required dimensions */
+	/** Resizes to fit into a specified width and height and preserves aspect ratio */
 	public const FIT = 0b0000;
 
-	/** {@link resize()} fills given area so its dimensions are greater than or equal to the required dimensions */
+	/** Resizes while bounding the smaller dimension to the specified width or height and preserves aspect ratio */
 	public const FILL = 0b0100;
 
-	/** {@link resize()} fills given area exactly */
+	/** Resizes to the smallest possible size to completely cover specified width and height and reserves aspect ratio */
 	public const EXACT = 0b1000;
 
 	/** image types */
