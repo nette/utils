@@ -483,32 +483,40 @@ class Strings
 
 
 	/**
-	 * Splits a string into array by the regular expression. Parenthesized expression in the delimiter are captured.
-	 * Parameter $flags can be any combination of PREG_SPLIT_NO_EMPTY and PREG_OFFSET_CAPTURE flags.
+	 * Divides the string into arrays according to the regular expression. Expressions in parentheses will be captured and returned as well.
 	 */
 	public static function split(
 		string $subject,
 		#[Language('RegExp')]
 		string $pattern,
-		int $flags = 0
+		bool|int $captureOffset = false,
+		bool $skipEmpty = false,
 	): array
 	{
+		$flags = is_int($captureOffset)  // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_SPLIT_OFFSET_CAPTURE : 0) | ($skipEmpty ? PREG_SPLIT_NO_EMPTY : 0);
 		return self::pcre('preg_split', [$pattern, $subject, -1, $flags | PREG_SPLIT_DELIM_CAPTURE]);
 	}
 
 
 	/**
-	 * Checks if given string matches a regular expression pattern and returns an array with first found match and each subpattern.
-	 * Parameter $flags can be any combination of PREG_OFFSET_CAPTURE and PREG_UNMATCHED_AS_NULL flags.
+	 * Searches the string for the part matching the regular expression and returns
+	 * an array with the found expression and individual subexpressions, or `null`.
 	 */
 	public static function match(
 		string $subject,
 		#[Language('RegExp')]
 		string $pattern,
-		int $flags = 0,
-		int $offset = 0
+		bool|int $captureOffset = false,
+		int $offset = 0,
+		bool $unmatchedAsNull = false,
 	): ?array
 	{
+		$flags = is_int($captureOffset) // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0);
+
 		if ($offset > strlen($subject)) {
 			return null;
 		}
@@ -520,17 +528,23 @@ class Strings
 
 
 	/**
-	 * Finds all occurrences matching regular expression pattern and returns a two-dimensional array. Result is array of matches (ie uses by default PREG_SET_ORDER).
-	 * Parameter $flags can be any combination of PREG_OFFSET_CAPTURE, PREG_UNMATCHED_AS_NULL and PREG_PATTERN_ORDER flags.
+	 * Searches the string for all occurrences matching the regular expression and
+	 * returns an array of arrays containing the found expression and each subexpression.
 	 */
 	public static function matchAll(
 		string $subject,
 		#[Language('RegExp')]
 		string $pattern,
-		int $flags = 0,
-		int $offset = 0
+		bool|int $captureOffset = false,
+		int $offset = 0,
+		bool $unmatchedAsNull = false,
+		bool $patternOrder = false,
 	): array
 	{
+		$flags = is_int($captureOffset) // back compatibility
+			? $captureOffset
+			: ($captureOffset ? PREG_OFFSET_CAPTURE : 0) | ($unmatchedAsNull ? PREG_UNMATCHED_AS_NULL : 0) | ($patternOrder ? PREG_PATTERN_ORDER : 0);
+
 		if ($offset > strlen($subject)) {
 			return [];
 		}

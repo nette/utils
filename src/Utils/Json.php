@@ -19,21 +19,34 @@ final class Json
 {
 	use Nette\StaticClass;
 
+	/** @deprecated use Json::decode(..., forceArrays: true) */
 	public const FORCE_ARRAY = JSON_OBJECT_AS_ARRAY;
+
+	/** @deprecated use Json::encode(..., pretty: true) */
 	public const PRETTY = JSON_PRETTY_PRINT;
+
+	/** @deprecated use Json::encode(..., asciiSafe: true) */
 	public const ESCAPE_UNICODE = 1 << 19;
 
 
 	/**
-	 * Converts value to JSON format. The flag can be Json::PRETTY, which formats JSON for easier reading and clarity,
-	 * and Json::ESCAPE_UNICODE for ASCII output.
+	 * Converts value to JSON format. Use $pretty for easier reading and clarity and $asciiSafe for ASCII output.
 	 * @throws JsonException
 	 */
-	public static function encode(mixed $value, int $flags = 0): string
+	public static function encode(
+		mixed $value,
+		bool|int $pretty = false,
+		bool $asciiSafe = false,
+	): string
 	{
-		$flags = ($flags & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
-			| JSON_UNESCAPED_SLASHES
-			| ($flags & ~self::ESCAPE_UNICODE)
+		if (is_int($pretty)) { // back compatibility
+			$flags = ($pretty & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE) | ($pretty & ~self::ESCAPE_UNICODE);
+		} else {
+			$flags = ($asciiSafe ? 0 : JSON_UNESCAPED_UNICODE)
+				| ($pretty ? JSON_PRETTY_PRINT : 0);
+		}
+
+		$flags |= JSON_UNESCAPED_SLASHES
 			| (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0); // since PHP 5.6.6 & PECL JSON-C 1.3.7
 
 		$json = json_encode($value, $flags);
@@ -46,12 +59,17 @@ final class Json
 
 
 	/**
-	 * Parses JSON to PHP value. The flag can be Json::FORCE_ARRAY, which forces an array instead of an object as the return value.
+	 * Parses JSON to PHP value. The $forceArrays enforces the decoding of objects as arrays.
 	 * @throws JsonException
 	 */
-	public static function decode(string $json, int $flags = 0): mixed
+	public static function decode(string $json, bool|int $forceArrays = false): mixed
 	{
-		$value = json_decode($json, flags: $flags | JSON_BIGINT_AS_STRING);
+		$flags = is_int($forceArrays) // back compatibility
+			? $forceArrays
+			: ($forceArrays ? JSON_OBJECT_AS_ARRAY : 0);
+		$flags |= JSON_BIGINT_AS_STRING;
+
+		$value = json_decode($json, flags: $flags);
 		if ($error = json_last_error()) {
 			throw new JsonException(json_last_error_msg(), $error);
 		}

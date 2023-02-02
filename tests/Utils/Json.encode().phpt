@@ -38,10 +38,12 @@ Assert::same('"\u2028\u2029"', Json::encode("\u{2028}\u{2029}"));
 // ESCAPE_UNICODE
 Assert::same('"/I\u00f1t\u00ebrn\u00e2ti\u00f4n\u00e0liz\u00e6ti\u00f8n"', Json::encode("/I\u{F1}t\u{EB}rn\u{E2}ti\u{F4}n\u{E0}liz\u{E6}ti\u{F8}n", Json::ESCAPE_UNICODE));
 Assert::same('"\u2028\u2029"', Json::encode("\u{2028}\u{2029}", Json::ESCAPE_UNICODE));
+Assert::same('"\u2028\u2029"', Json::encode("\u{2028}\u{2029}", asciiSafe: true));
 
 
 // JSON_PRETTY_PRINT
 Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], Json::PRETTY));
+Assert::same("[\n    1,\n    2,\n    3\n]", Json::encode([1, 2, 3], pretty: true));
 
 
 Assert::exception(

@@ -201,9 +201,10 @@ class Arrays
 		array $array,
 		#[Language('RegExp')]
 		string $pattern,
-		int $flags = 0,
+		bool|int $invert = false,
 	): array
 	{
+		$flags = $invert ? PREG_GREP_INVERT : 0;
 		return Strings::pcre('preg_grep', [$pattern, $array, $flags]);
 	}
 

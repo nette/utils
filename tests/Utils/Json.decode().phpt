@@ -20,6 +20,7 @@ Assert::null(Json::decode(' null'));
 
 Assert::equal((object) ['a' => 1], Json::decode('{"a":1}'));
 Assert::same(['a' => 1], Json::decode('{"a":1}', Json::FORCE_ARRAY));
+Assert::same(['a' => 1], Json::decode('{"a":1}', forceArrays: true));
 
 
 Assert::exception(
