@@ -71,19 +71,39 @@ class Finder implements \IteratorAggregate
 	}
 
 
-	private function addMask(array $masks, string $type): static
+	/**
+	 * Finds files matching the specified masks.
+	 */
+	public function files(string|array $masks): static
+	{
+		return $this->addMask((array) $masks, 'file');
+	}
+
+
+	/**
+	 * Finds directories matching the specified masks.
+	 */
+	public function directories(string|array $masks): static
+	{
+		return $this->addMask((array) $masks, 'dir');
+	}
+
+
+	private function addMask(array $masks, string $mode): static
 	{
 		foreach ($masks as $mask) {
 			$mask = FileSystem::unixSlashes($mask);
-			if ($mask === '') {
+			if ($mode === 'dir') {
+				$mask = rtrim($mask, '/');
+			}
+			if ($mask === '' || ($mode === 'file' && str_ends_with($mask, '/'))) {
 				throw new Nette\InvalidArgumentException("Invalid mask '$mask'");
 			}
 			if (str_starts_with($mask, '**/')) {
 				$mask = substr($mask, 3);
 			}
-			$this->find[] = [$mask, $type];
+			$this->find[] = [$mask, $mode];
 		}
-
 		return $this;
 	}
 
