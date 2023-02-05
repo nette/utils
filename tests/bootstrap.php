@@ -13,7 +13,7 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 
 // configure environment
 Tester\Environment::setup();
-date_default_timezone_set('Europe/Prague');
+Tester\Environment::setupFunctions();
 
 
 function getTempDir(): string
@@ -34,10 +34,4 @@ function getTempDir(): string
 	}
 
 	return $dir;
-}
-
-
-function test(string $title, Closure $function): void
-{
-	$function();
 }
