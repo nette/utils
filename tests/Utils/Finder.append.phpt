@@ -30,7 +30,7 @@ test('append finder', function () {
 		"fixtures.finder{$ds}file.txt",
 		"fixtures.finder{$ds}subdir",
 		"fixtures.finder{$ds}subdir{$ds}subdir2",
-		"fixtures.finder{$ds}subdir{$ds}subdir2{$ds}file.txt",
+		"fixtures.finder/subdir/subdir2{$ds}file.txt",
 	], array_map('strval', $finder->collect()));
 });
 

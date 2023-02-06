@@ -99,16 +99,14 @@ class Finder implements \IteratorAggregate
 	private function addMask(array $masks, string $mode): static
 	{
 		foreach ($masks as $mask) {
-			$mask = FileSystem::unixSlashes($mask);
+			$orig = $mask;
 			if ($mode === 'dir') {
-				$mask = rtrim($mask, '/');
+				$mask = rtrim($mask, '/\\');
 			}
-			if ($mask === '' || ($mode === 'file' && str_ends_with($mask, '/'))) {
+			if ($mask === '' || ($mode === 'file' && $mask !== $orig)) {
 				throw new Nette\InvalidArgumentException("Invalid mask '$mask'");
 			}
-			if (str_starts_with($mask, '**/')) {
-				$mask = substr($mask, 3);
-			}
+			$mask = preg_replace('~\*\*[/\\\\]~A', '', $mask);
 			$this->find[] = [$mask, $mode];
 		}
 		return $this;
@@ -132,7 +130,7 @@ class Finder implements \IteratorAggregate
 	public function from(string|array $paths): static
 	{
 		$paths = is_array($paths) ? $paths : func_get_args(); // compatibility with variadic
-		$this->addLocation($paths, '/**');
+		$this->addLocation($paths, DIRECTORY_SEPARATOR . '**');
 		return $this;
 	}
 
@@ -143,7 +141,7 @@ class Finder implements \IteratorAggregate
 			if ($path === '') {
 				throw new Nette\InvalidArgumentException("Invalid directory '$path'");
 			}
-			$path = rtrim(FileSystem::unixSlashes($path), '/');
+			$path = rtrim($path, '/\\');
 			$this->in[] = $path . $ext;
 		}
 	}
@@ -329,7 +327,6 @@ class Finder implements \IteratorAggregate
 			if ($item instanceof self) {
 				yield from $item->getIterator();
 			} else {
-				$item = FileSystem::platformSlashes($item);
 				yield $item => new FileInfo($item);
 			}
 		}
@@ -350,7 +347,7 @@ class Finder implements \IteratorAggregate
 		}
 
 		try {
-			$pathNames = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::UNIX_PATHS);
+			$pathNames = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME);
 		} catch (\UnexpectedValueException $e) {
 			if ($this->ignoreUnreadableDirs) {
 				return;
@@ -359,7 +356,7 @@ class Finder implements \IteratorAggregate
 			}
 		}
 
-		$files = $this->convertToFiles($pathNames, implode('/', $subdirs), FileSystem::isAbsolute($dir));
+		$files = $this->convertToFiles($pathNames, implode(DIRECTORY_SEPARATOR, $subdirs), FileSystem::isAbsolute($dir));
 
 		if ($this->sort) {
 			$files = iterator_to_array($files);
@@ -405,9 +402,8 @@ class Finder implements \IteratorAggregate
 	{
 		foreach ($pathNames as $pathName) {
 			if (!$absolute) {
-				$pathName = preg_replace('~\.?/~A', '', $pathName);
+				$pathName = preg_replace('~\.?[\\\\/]~A', '', $pathName);
 			}
-			$pathName = FileSystem::platformSlashes($pathName);
 			yield new FileInfo($pathName, $relativePath);
 		}
 	}
@@ -441,7 +437,7 @@ class Finder implements \IteratorAggregate
 			} else {
 				foreach ($this->in ?: ['.'] as $in) {
 					$in = strtr($in, ['[' => '[[]', ']' => '[]]']); // in path, do not treat [ and ] as a pattern by glob()
-					$splits[] = self::splitRecursivePart($in . '/' . $mask);
+					$splits[] = self::splitRecursivePart($in . DIRECTORY_SEPARATOR . $mask);
 				}
 			}
 
@@ -471,11 +467,11 @@ class Finder implements \IteratorAggregate
 	 */
 	private static function splitRecursivePart(string $path): array
 	{
-		$a = strrpos($path, '/');
-		$parts = preg_split('~(?<=^|/)\*\*($|/)~', substr($path, 0, $a + 1), 2);
+		preg_match('~(.*[\\\\/])(.*)$~A', $path, $m);
+		$parts = preg_split('~(?<=^|[\\\\/])\*\*($|[\\\\/])~', $m[1], 2);
 		return isset($parts[1])
-			? [$parts[0], $parts[1] . substr($path, $a + 1), true]
-			: [$parts[0], substr($path, $a + 1), false];
+			? [$parts[0], $parts[1] . $m[2], true]
+			: [$parts[0], $m[2], false];
 	}
 
 
@@ -484,6 +480,7 @@ class Finder implements \IteratorAggregate
 	 */
 	private function buildPattern(string $mask): string
 	{
+		$mask = FileSystem::unixSlashes($mask);
 		if ($mask === '*') {
 			return '##';
 		} elseif (str_starts_with($mask, './')) {

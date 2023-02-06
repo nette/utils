@@ -35,6 +35,6 @@ test('globing', function () {
 	Assert::exception(
 		fn() => iterator_to_array(Finder::findFiles('fixtures.finder/*/unknown/*')),
 		Nette\InvalidStateException::class,
-		"Directory './fixtures.finder/*/unknown' does not exist.",
+		"Directory '.%ds%fixtures.finder/*/unknown' does not exist.",
 	);
 });
