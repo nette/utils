@@ -17,7 +17,7 @@ test('missing folder', function () {
 	Assert::exception(
 		fn() => iterator_to_array(Finder::findFiles('*')->in('unknown')),
 		Nette\InvalidStateException::class,
-		"Directory 'unknown/' not found.",
+		"Directory 'unknown' does not exist.",
 	);
 });
 
@@ -27,5 +27,14 @@ test('absolute mask', function () {
 		fn() => iterator_to_array(Finder::findFiles('/*')->in('.')),
 		Nette\InvalidStateException::class,
 		"You cannot combine the absolute path in the mask '/*' and the directory to search '.'.",
+	);
+});
+
+
+test('globing', function () {
+	Assert::exception(
+		fn() => iterator_to_array(Finder::findFiles('fixtures.finder/*/unknown/*')),
+		Nette\InvalidStateException::class,
+		"Directory './fixtures.finder/*/unknown' does not exist.",
 	);
 });
