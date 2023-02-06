@@ -42,6 +42,24 @@ test('expty search', function () {
 });
 
 
+test('default mask', function () {
+	$finder = Finder::find()->in('fixtures.finder');
+	Assert::same(['fixtures.finder/file.txt', 'fixtures.finder/images', 'fixtures.finder/subdir'], export($finder));
+
+	$finder = Finder::findFiles()->in('fixtures.finder');
+	Assert::same(['fixtures.finder/file.txt'], export($finder));
+
+	$finder = Finder::findDirectories()->in('fixtures.finder');
+	Assert::same(['fixtures.finder/images', 'fixtures.finder/subdir'], export($finder));
+
+	$finder = (new Finder)->files()->in('fixtures.finder');
+	Assert::same(['fixtures.finder/file.txt'], export($finder));
+
+	$finder = (new Finder)->directories()->in('fixtures.finder');
+	Assert::same(['fixtures.finder/images', 'fixtures.finder/subdir'], export($finder));
+});
+
+
 test('current dir', function () {
 	$finder = Finder::findFiles('fixtures.finder/*.txt');
 	Assert::same(['fixtures.finder/file.txt'], export($finder));
