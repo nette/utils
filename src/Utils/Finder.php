@@ -345,7 +345,7 @@ class Finder implements \IteratorAggregate
 		if ($this->maxDepth >= 0 && count($subdirs) > $this->maxDepth) {
 			return;
 		} elseif (!is_dir($dir)) {
-			throw new Nette\InvalidStateException("Directory '$dir' not found.");
+			throw new Nette\InvalidStateException(sprintf("Directory '%s' does not exist.", rtrim($dir, '/\\')));
 		}
 
 		try {
@@ -449,6 +449,10 @@ class Finder implements \IteratorAggregate
 				$dirs = $dirCache[$base] ??= strpbrk($base, '*?[')
 					? glob($base, GLOB_NOSORT | GLOB_ONLYDIR | GLOB_NOESCAPE)
 					: [strtr($base, ['[[]' => '[', '[]]' => ']'])]; // unescape [ and ]
+
+				if (!$dirs) {
+					throw new Nette\InvalidStateException(sprintf("Directory '%s' does not exist.", rtrim($base, '/\\')));
+				}
 
 				$search = (object) ['pattern' => $this->buildPattern($rest), 'mode' => $mode, 'recursive' => $recursive];
 				foreach ($dirs as $dir) {
