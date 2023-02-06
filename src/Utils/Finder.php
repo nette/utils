@@ -51,7 +51,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Begins search for files and directories matching mask.
 	 */
-	public static function find(string|array $masks): static
+	public static function find(string|array $masks = ['*']): static
 	{
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
 		return (new static)->addMask($masks, 'dir')->addMask($masks, 'file');
@@ -61,7 +61,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Begins search for files matching mask.
 	 */
-	public static function findFiles(string|array $masks): static
+	public static function findFiles(string|array $masks = ['*']): static
 	{
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
 		return (new static)->addMask($masks, 'file');
@@ -71,7 +71,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Begins search for directories matching mask.
 	 */
-	public static function findDirectories(string|array $masks): static
+	public static function findDirectories(string|array $masks = ['*']): static
 	{
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
 		return (new static)->addMask($masks, 'dir');
@@ -81,7 +81,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Finds files matching the specified masks.
 	 */
-	public function files(string|array $masks): static
+	public function files(string|array $masks = ['*']): static
 	{
 		return $this->addMask((array) $masks, 'file');
 	}
@@ -90,7 +90,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Finds directories matching the specified masks.
 	 */
-	public function directories(string|array $masks): static
+	public function directories(string|array $masks = ['*']): static
 	{
 		return $this->addMask((array) $masks, 'dir');
 	}
