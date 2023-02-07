@@ -90,8 +90,8 @@ use Nette;
  * @method void stringUp($font, $x, $y, string $s, $col)
  * @method void trueColorToPalette(bool $dither, $ncolors)
  * @method array ttfText($size, $angle, $x, $y, $color, string $fontfile, string $text)
- * @property-read int $width
- * @property-read int $height
+ * @property-read positive-int $width
+ * @property-read positive-int $height
  * @property-read \GdImage $imageResource
  */
 class Image
@@ -220,6 +220,8 @@ class Image
 
 	/**
 	 * Creates a new true color image of the given dimensions. The default color is black.
+	 * @param positive-int $width
+	 * @param positive-int $height
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 */
 	public static function fromBlank(int $width, int $height, ?array $color = null): static
@@ -247,6 +249,7 @@ class Image
 
 	/**
 	 * Returns the type of image from file.
+	 * @return ImageType::*|null
 	 */
 	public static function detectTypeFromFile(string $file, &$width = null, &$height = null): ?int
 	{
@@ -257,6 +260,7 @@ class Image
 
 	/**
 	 * Returns the type of image from string.
+	 * @return ImageType::*|null
 	 */
 	public static function detectTypeFromString(string $s, &$width = null, &$height = null): ?int
 	{
@@ -267,6 +271,8 @@ class Image
 
 	/**
 	 * Returns the file extension for the given `ImageType::XXX` constant.
+	 * @param ImageType::* $type
+	 * @return value-of<self::Formats>
 	 */
 	public static function typeToExtension(int $type): string
 	{
@@ -280,6 +286,7 @@ class Image
 
 	/**
 	 * Returns the `ImageType::XXX` constant for given file extension.
+	 * @return ImageType::*
 	 */
 	public static function extensionToType(string $extension): int
 	{
@@ -295,6 +302,7 @@ class Image
 
 	/**
 	 * Returns the mime type for the given `ImageType::XXX` constant.
+	 * @param ImageType::* $type
 	 */
 	public static function typeToMimeType(int $type): string
 	{
@@ -314,6 +322,7 @@ class Image
 
 	/**
 	 * Returns image width.
+	 * @return positive-int
 	 */
 	public function getWidth(): int
 	{
@@ -323,6 +332,7 @@ class Image
 
 	/**
 	 * Returns image height.
+	 * @return positive-int
 	 */
 	public function getHeight(): int
 	{
@@ -351,7 +361,7 @@ class Image
 
 	/**
 	 * Scales an image. Width and height accept pixels or percent.
-	 * @param  self::OrSmaller|self::OrBigger|self::Stretch|self::Cover|self::ShrinkOnly  $mode
+	 * @param  int-mask-of<self::OrSmaller|self::OrBigger|self::Stretch|self::Cover|self::ShrinkOnly>  $mode
 	 */
 	public function resize(int|string|null $width, int|string|null $height, int $mode = self::OrSmaller): static
 	{
@@ -388,7 +398,7 @@ class Image
 
 	/**
 	 * Calculates dimensions of resized image. Width and height accept pixels or percent.
-	 * @param  self::OrSmaller|self::OrBigger|self::Stretch|self::Cover|self::ShrinkOnly  $mode
+	 * @param  int-mask-of<self::OrSmaller|self::OrBigger|self::Stretch|self::Cover|self::ShrinkOnly>  $mode
 	 */
 	public static function calculateSize(
 		int $srcWidth,
@@ -534,7 +544,7 @@ class Image
 
 	/**
 	 * Puts another image into this image. Left and top accepts pixels or percent.
-	 * @param  int  $opacity 0..100
+	 * @param  int<0, 100>  $opacity 0..100
 	 */
 	public function place(self $image, int|string $left = 0, int|string $top = 0, int $opacity = 100): static
 	{
@@ -596,6 +606,7 @@ class Image
 
 	/**
 	 * Saves image to the file. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
+	 * @param ImageType::*|null $type
 	 * @throws ImageException
 	 */
 	public function save(string $file, ?int $quality = null, ?int $type = null): void
@@ -607,6 +618,7 @@ class Image
 
 	/**
 	 * Outputs image to string. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
+	 * @param ImageType::* $type
 	 */
 	public function toString(int $type = ImageType::JPEG, ?int $quality = null): string
 	{
@@ -627,6 +639,7 @@ class Image
 
 	/**
 	 * Outputs image to browser. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
+	 * @param ImageType::* $type
 	 * @throws ImageException
 	 */
 	public function send(int $type = ImageType::JPEG, ?int $quality = null): void
@@ -639,6 +652,7 @@ class Image
 	/**
 	 * Outputs image to browser or file.
 	 * @throws ImageException
+	 * @param ImageType::* $type
 	 */
 	private function output(int $type, ?int $quality, ?string $file = null): void
 	{

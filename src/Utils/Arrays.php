@@ -225,6 +225,7 @@ class Arrays
 
 	/**
 	 * Checks if the array is indexed in ascending order of numeric keys from zero, a.k.a list.
+	 * @return ($value is list ? true : false)
 	 */
 	public static function isList(mixed $value): bool
 	{
