@@ -31,7 +31,7 @@ test('append finder', function () {
 		"fixtures.finder{$ds}subdir",
 		"fixtures.finder{$ds}subdir{$ds}subdir2",
 		"fixtures.finder{$ds}subdir{$ds}subdir2{$ds}file.txt",
-	], array_keys($finder->collect()));
+	], array_map('strval', $finder->collect()));
 });
 
 test('append files', function () {
@@ -40,7 +40,7 @@ test('append files', function () {
 		->append(FileSystem::unixSlashes(__DIR__));
 
 	Assert::equal([
-		__FILE__ => new Nette\Utils\FileInfo(__FILE__),
-		__DIR__ => new Nette\Utils\FileInfo(__DIR__),
+		new Nette\Utils\FileInfo(__FILE__),
+		new Nette\Utils\FileInfo(__DIR__),
 	], $finder->collect());
 });
