@@ -309,10 +309,11 @@ class Finder implements \IteratorAggregate
 
 	/**
 	 * Returns an array with all found files and directories.
+	 * @return list<FileInfo>
 	 */
 	public function collect(): array
 	{
-		return iterator_to_array($this->getIterator());
+		return iterator_to_array($this->getIterator(), preserve_keys: false);
 	}
 
 
