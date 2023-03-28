@@ -129,12 +129,23 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
+	public function modify(string $modifier = ''): static
+	{
+		$datetime = @parent::modify($modifier);
+
+		if ($datetime === false) {
+			throw new Nette\InvalidArgumentException("Failed to parse time string '$modifier'");
+		}
+		return $datetime;
+	}
+
+
 	/**
 	 * Creates a copy with a modified time.
 	 */
 	public function modifyClone(string $modify = ''): static
 	{
 		$dolly = clone $this;
-		return $modify ? (@$dolly->modify($modify) ?: $dolly) : $dolly;
+		return $modify ? $dolly->modify($modify) : $dolly;
 	}
 }
