@@ -25,3 +25,9 @@ $dolly2 = $date->modifyClone('+1 hour');
 Assert::type(DateTime::class, $dolly2);
 Assert::notSame($date, $dolly2);
 Assert::notSame((string) $date, (string) $dolly2);
+
+Assert::exception(
+	fn() => $date->modifyClone('xx'),
+	PHP_VERSION_ID >= 80300 ? DateMalformedStringException::class : Nette\InvalidArgumentException::class,
+	'DateTime::modify(): Failed to parse %a%',
+);
