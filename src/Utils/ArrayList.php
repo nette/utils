@@ -15,6 +15,8 @@ use Nette;
 /**
  * Provides the base class for a generic list (items can be accessed by index).
  * @template T
+ * @implements \IteratorAggregate<int, T>
+ * @implements \ArrayAccess<int, T>
  */
 class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 {
@@ -25,7 +27,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Transforms array to ArrayList.
-	 * @param  array<T>  $array
+	 * @param  list<T>  $array
 	 */
 	public static function from(array $array): static
 	{
