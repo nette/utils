@@ -129,6 +129,16 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
+	public function modify(string $modifier): static
+	{
+		$datetime = @parent::modify($modifier); // @ is escalated to exception
+		if ($datetime === false) {
+			throw new Nette\InvalidArgumentException(Helpers::getLastError());
+		}
+		return $datetime;
+	}
+
+
 	/**
 	 * Creates a copy with a modified time.
 	 */
