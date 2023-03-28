@@ -188,7 +188,7 @@ final class Reflection
 	}
 
 
-	/** @return array of [alias => class] */
+	/** @return array<string, class-string> of [alias => class] */
 	public static function getUseStatements(\ReflectionClass $class): array
 	{
 		if ($class->isAnonymous()) {
