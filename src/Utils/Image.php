@@ -90,8 +90,8 @@ use Nette;
  * @method void stringUp($font, $x, $y, string $s, $col)
  * @method void trueColorToPalette(bool $dither, $ncolors)
  * @method array ttfText($size, $angle, $x, $y, $color, string $fontfile, string $text)
- * @property-read int $width
- * @property-read int $height
+ * @property-read positive-int $width
+ * @property-read positive-int $height
  * @property-read resource|\GdImage $imageResource
  */
 class Image
@@ -205,6 +205,8 @@ class Image
 
 	/**
 	 * Creates a new true color image of the given dimensions. The default color is black.
+	 * @param  positive-int  $width
+	 * @param  positive-int  $height
 	 * @return static
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 */
@@ -301,6 +303,7 @@ class Image
 
 	/**
 	 * Returns image width.
+	 * @return positive-int
 	 */
 	public function getWidth(): int
 	{
@@ -310,6 +313,7 @@ class Image
 
 	/**
 	 * Returns image height.
+	 * @return positive-int
 	 */
 	public function getHeight(): int
 	{
@@ -536,7 +540,7 @@ class Image
 	 * Puts another image into this image.
 	 * @param  int|string  $left in pixels or percent
 	 * @param  int|string  $top in pixels or percent
-	 * @param  int  $opacity 0..100
+	 * @param  int<0, 100>  $opacity 0..100
 	 * @return static
 	 */
 	public function place(self $image, $left = 0, $top = 0, int $opacity = 100)
