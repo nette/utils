@@ -135,6 +135,6 @@ class DateTime extends \DateTime implements \JsonSerializable
 	public function modifyClone(string $modify = ''): static
 	{
 		$dolly = clone $this;
-		return $modify ? $dolly->modify($modify) : $dolly;
+		return $modify ? (@$dolly->modify($modify) ?: $dolly) : $dolly;
 	}
 }

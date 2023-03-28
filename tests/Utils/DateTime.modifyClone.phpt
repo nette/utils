@@ -25,3 +25,10 @@ $dolly2 = $date->modifyClone('+1 hour');
 Assert::type(DateTime::class, $dolly2);
 Assert::notSame($date, $dolly2);
 Assert::notSame((string) $date, (string) $dolly2);
+
+
+$dolly3 = $date->modifyClone('xx');
+Assert::type(DateTime::class, $dolly3);
+Assert::notSame($date, $dolly3);
+Assert::equal($date, $dolly3);
+Assert::same((string) $date, (string) $dolly3);
