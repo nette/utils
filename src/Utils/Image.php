@@ -311,6 +311,23 @@ class Image
 
 
 	/**
+	 * @param  ImageType::*  $type
+	 */
+	public static function isTypeSupported(int $type): bool
+	{
+		return (bool) (imagetypes() & match ($type) {
+			ImageType::JPEG => IMG_JPG,
+			ImageType::PNG => IMG_PNG,
+			ImageType::GIF => IMG_GIF,
+			ImageType::WEBP => IMG_WEBP,
+			ImageType::AVIF => 256, // IMG_AVIF,
+			ImageType::BMP => IMG_BMP,
+			default => 0,
+		});
+	}
+
+
+	/**
 	 * Wraps GD image.
 	 */
 	public function __construct(\GdImage $image)

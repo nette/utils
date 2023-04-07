@@ -42,7 +42,7 @@ test('', function () use ($main) {
 
 
 test('', function () use ($main) {
-	if (!function_exists('imagewebp')) {
+	if (!Image::isTypeSupported(Image::WEBP)) {
 		return;
 	}
 
