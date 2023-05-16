@@ -382,7 +382,10 @@ class Finder implements \IteratorAggregate
 			$relativePathname = FileSystem::unixSlashes($file->getRelativePathname());
 			foreach ($searches as $search) {
 				if (
-					$file->getType() === $search->mode
+					(
+						$file->getType() === $search->mode
+						|| ($file->getType() === 'link' && in_array($search->mode, ['file', 'dir'], true))
+					)
 					&& preg_match($search->pattern, $relativePathname)
 					&& $this->proveFilters($this->filters, $file, $cache)
 				) {
