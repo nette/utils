@@ -316,7 +316,8 @@ final class Reflection
 			$tokens = [];
 		}
 
-		$namespace = $class = $classLevel = $level = null;
+		$namespace = $class = null;
+		$classLevel = $level = 0;
 		$res = $uses = [];
 
 		$nameTokens = PHP_VERSION_ID < 80000
@@ -387,7 +388,7 @@ final class Reflection
 
 				case '}':
 					if ($level === $classLevel) {
-						$class = $classLevel = null;
+						$class = $classLevel = 0;
 					}
 
 					$level--;
