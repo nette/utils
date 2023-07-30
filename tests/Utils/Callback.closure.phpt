@@ -156,6 +156,8 @@ test('object methods', function () {
 
 	Assert::same('Test::privateFun', getName(Callback::toReflection([$test, 'privateFun'])));
 	Assert::same('Test::privateFun', getName(Callback::toReflection($test->createPrivateClosure())));
+
+	Assert::same(['Test', 'privateFun'], Callback::unwrap((new TestChild)->createPrivateClosure()));
 	Assert::same('Test::privateFun', getName(Callback::toReflection((new TestChild)->createPrivateClosure())));
 
 	Assert::same('Test::privateFun*', $test->createPrivateClosure()->__invoke('*'));
