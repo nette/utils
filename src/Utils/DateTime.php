@@ -130,7 +130,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 
 	/**
-	 * Creates a copy with a modified time.
+	 * You'd better use: (clone $dt)->modify(...)
 	 */
 	public function modifyClone(string $modify = ''): static
 	{

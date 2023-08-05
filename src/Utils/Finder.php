@@ -337,7 +337,7 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * @param  array<\stdClass{pattern: string, mode: string, recursive: bool}>  $searches
+	 * @param  array<object{pattern: string, mode: string, recursive: bool}>  $searches
 	 * @param  string[]  $subdirs
 	 * @return \Generator<string, FileInfo>
 	 */
@@ -427,7 +427,7 @@ class Finder implements \IteratorAggregate
 	}
 
 
-	/** @return array<string, array<\stdClass{pattern: string, mode: string, recursive: bool}>> */
+	/** @return array<string, array<object{pattern: string, mode: string, recursive: bool}>> */
 	private function buildPlan(): array
 	{
 		$plan = $dirCache = [];
