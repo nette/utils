@@ -32,7 +32,6 @@
 		"ext-json": "to use Nette\\Utils\\Json",
 		"ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
 		"ext-mbstring": "to use Strings::lower() etc...",
-		"ext-xml": "to use Strings::length() etc. when mbstring is not available",
 		"ext-gd": "to use Image",
 		"ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()"
 	},
