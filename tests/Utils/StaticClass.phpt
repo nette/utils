@@ -22,7 +22,7 @@ class TestClass
 
 Assert::exception(function () {
 	new TestClass;
-}, Error::class, 'Class TestClass is static and cannot be instantiated.');
+}, Error::class, 'Call to private TestClass::__construct() %a%');
 
 Assert::exception(function () {
 	TestClass::methodA();
