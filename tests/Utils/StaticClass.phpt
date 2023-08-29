@@ -23,7 +23,7 @@ class TestClass
 Assert::exception(
 	fn() => new TestClass,
 	Error::class,
-	'Class TestClass is static and cannot be instantiated.',
+	'Call to private TestClass::__construct() from global scope',
 );
 
 Assert::exception(
