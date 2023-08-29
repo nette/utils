@@ -16,12 +16,10 @@ namespace Nette;
 trait StaticClass
 {
 	/**
-	 * @return never
-	 * @throws \Error
+	 * Class is static and cannot be instantiated.
 	 */
-	final public function __construct()
+	final private function __construct()
 	{
-		throw new \Error('Class ' . static::class . ' is static and cannot be instantiated.');
 	}
 
 
