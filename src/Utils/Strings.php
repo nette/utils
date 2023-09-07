@@ -397,9 +397,14 @@ class Strings
 	 */
 	public static function length(string $s): int
 	{
-		return function_exists('mb_strlen')
-			? mb_strlen($s, 'UTF-8')
-			: strlen(utf8_decode($s));
+		if (!extension_loaded('iconv') && !extension_loaded('mbstring')) {
+			throw new Nette\NotSupportedException(__METHOD__ . '() requires ICONV or MBSTRING extensions, but none of them is loaded.');
+		}
+
+		return match(true): {
+			function_exists('mb_strlen'): mb_strlen($s, 'UTF-8');
+			function_exists('iconv_strlen'): iconv_strlen($s, 'UTF-8');
+		};
 	}
 
 
