@@ -401,9 +401,9 @@ class Strings
 			throw new Nette\NotSupportedException(__METHOD__ . '() requires ICONV or MBSTRING extensions, but none of them is loaded.');
 		}
 
-		return match(true): {
-			function_exists('mb_strlen'): mb_strlen($s, 'UTF-8');
-			function_exists('iconv_strlen'): iconv_strlen($s, 'UTF-8');
+		return match(true) {
+			function_exists('mb_strlen') => mb_strlen($s, 'UTF-8'),
+			function_exists('iconv_strlen') => iconv_strlen($s, 'UTF-8'),
 		};
 	}
 
