@@ -111,6 +111,22 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
+	public function setTime(
+		?int $hour,
+		?int $minute,
+		?int $second = 0,
+		?int $microsecond = 0,
+	): static
+	{
+		return parent::setTime(
+			$hour ?? (int) $this->format('G'),
+			$minute ?? (int) $this->format('i'),
+			$second ?? (int) $this->format('s'),
+			$microsecond ?? (int) $this->format('u'),
+		);
+	}
+
+
 	/**
 	 * Returns JSON representation in ISO 8601 (used by JavaScript).
 	 */
