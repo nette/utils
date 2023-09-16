@@ -111,6 +111,20 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
+	public function setDate(
+		?int $year,
+		?int $month,
+		?int $day,
+	): static
+	{
+		return parent::setDate(
+			$year ?? (int) $this->format('Y'),
+			$month ?? (int) $this->format('n'),
+			$day ?? (int) $this->format('j'),
+		);
+	}
+
+
 	public function setTime(
 		?int $hour,
 		?int $minute,
