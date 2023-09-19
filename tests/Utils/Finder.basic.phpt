@@ -28,7 +28,7 @@ function export($iterator, bool $sort = true)
 }
 
 
-test('expty search', function () {
+test('empty search', function () {
 	$finder = (new Finder)->in('fixtures.finder');
 	Assert::same([], export($finder));
 
@@ -170,5 +170,29 @@ test('absolute path in mask', function () { // will not work if there are charac
 	$finder = Finder::findDirectories(__DIR__);
 	Assert::same([
 		FileSystem::unixSlashes(__DIR__),
+	], export($finder));
+});
+
+
+test('symlink to file', function () {
+	$finder = Finder::find('subdir/*.txt')->in('fixtures.finder3');
+	Assert::same([
+		'fixtures.finder3/subdir/file.txt',
+	], export($finder));
+});
+
+
+test('symlink to directory', function () {
+	$finder = Finder::findDirectories()->in('fixtures.finder3/another_subdir');
+	Assert::same([
+		'fixtures.finder3/another_subdir/subdir',
+	], export($finder));
+});
+
+
+test('symlink to file in symlinked directory', function () {
+	$finder = Finder::find('subdir/*.txt')->in('fixtures.finder3/another_subdir');
+	Assert::same([
+		'fixtures.finder3/another_subdir/subdir/file.txt',
 	], export($finder));
 });
