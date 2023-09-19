@@ -52,7 +52,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 				$time += time();
 			}
 
-			return (new static('@' . $time))->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+			return (new static)->setTimestamp((int) $time);
 
 		} else { // textual or null
 			return new static((string) $time);
