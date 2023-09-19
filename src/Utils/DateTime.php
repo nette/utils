@@ -11,7 +11,6 @@ namespace Nette\Utils;
 
 use Nette;
 
-
 /**
  * DateTime.
  */
@@ -111,13 +110,17 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
-	public function setDate(
-		?int $year,
-		?int $month,
-		?int $day,
+	public function applyDate(
+		?int $year = null,
+		?int $month = null,
+		?int $day = null,
 	): static
 	{
-		return parent::setDate(
+		if ($year === null && $month === null && $day === null) {
+			return $this;
+		}
+
+		return $this->setDate(
 			$year ?? (int) $this->format('Y'),
 			$month ?? (int) $this->format('n'),
 			$day ?? (int) $this->format('j'),
@@ -125,14 +128,18 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
-	public function setTime(
-		?int $hour,
-		?int $minute,
-		?int $second = 0,
-		?int $microsecond = 0,
+	public function applyTime(
+		?int $hour = null,
+		?int $minute = null,
+		?int $second = null,
+		?int $microsecond = null,
 	): static
 	{
-		return parent::setTime(
+		if ($hour === null && $minute === null && $second === null && $microsecond === null) {
+			return $this;
+		}
+
+		return $this->setTime(
 			$hour ?? (int) $this->format('G'),
 			$minute ?? (int) $this->format('i'),
 			$second ?? (int) $this->format('s'),
