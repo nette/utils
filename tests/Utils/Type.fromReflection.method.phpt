@@ -37,3 +37,19 @@ $type = Type::fromReflection((new ReflectionObject($class))->getMethod('foo'));
 
 Assert::same([$class::class], $type->getNames());
 Assert::same($class::class, (string) $type);
+
+
+class ParentClass
+{
+	public function foo(): static
+	{
+	}
+}
+
+class ChildClass extends ParentClass
+{
+}
+
+$type = Type::fromReflection(new Nette\Utils\ReflectionMethod(ChildClass::class, 'foo'));
+Assert::same([ChildClass::class], $type->getNames());
+Assert::same(ChildClass::class, (string) $type);

@@ -95,8 +95,10 @@ final class Type
 		$lower = strtolower($type);
 		if ($of instanceof \ReflectionFunction) {
 			return $type;
-		} elseif ($lower === 'self' || $lower === 'static') {
+		} elseif ($lower === 'self') {
 			return $of->getDeclaringClass()->name;
+		} elseif ($lower === 'static') {
+			return ($of instanceof ReflectionMethod ? $of->getOriginalClass() : $of->getDeclaringClass())->name;
 		} elseif ($lower === 'parent' && $of->getDeclaringClass()->getParentClass()) {
 			return $of->getDeclaringClass()->getParentClass()->name;
 		} else {
