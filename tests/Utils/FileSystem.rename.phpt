@@ -22,7 +22,7 @@ test('rename file & dir', function () {
 test('overwrite file', function () {
 	FileSystem::write(getTempDir() . '/8/newfile', 'World');
 	Assert::exception(
-		fn() => FileSystem::rename(getTempDir() . '/8/newfile', getTempDir() . '/9/x/file', false),
+		fn() => FileSystem::rename(getTempDir() . '/8/newfile', getTempDir() . '/9/x/file', overwrite: false),
 		Nette\InvalidStateException::class,
 		"File or directory '%a%' already exists.",
 	);
@@ -35,7 +35,7 @@ test('overwrite file', function () {
 test('overwrite dir', function () {
 	FileSystem::createDir(getTempDir() . '/10/');
 	Assert::exception(
-		fn() => FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9', false),
+		fn() => FileSystem::rename(getTempDir() . '/10', getTempDir() . '/9', overwrite: false),
 		Nette\InvalidStateException::class,
 		"File or directory '%a%' already exists.",
 	);

@@ -120,7 +120,7 @@ test('recursive file & directory search in child-first order', function () {
 	Assert::same([
 		'fixtures.finder/subdir/subdir2',
 		'fixtures.finder/subdir',
-	], export($finder, false));
+	], export($finder, sort: false));
 });
 
 

@@ -52,14 +52,14 @@ test('copy', function () {
 	FileSystem::write(getTempDir() . '/5/newfile', 'World');
 
 	Assert::exception(
-		fn() => FileSystem::copy(getTempDir() . '/5/newfile', getTempDir() . '/3/x/file', false),
+		fn() => FileSystem::copy(getTempDir() . '/5/newfile', getTempDir() . '/3/x/file', overwrite: false),
 		Nette\InvalidStateException::class,
 		"File or directory '%a%' already exists.",
 	);
 	Assert::same('Hello', FileSystem::read(getTempDir() . '/3/x/file'));
 
 	Assert::exception(
-		fn() => FileSystem::copy('remote://example.com', getTempDir() . '/3/x/file', false),
+		fn() => FileSystem::copy('remote://example.com', getTempDir() . '/3/x/file', overwrite: false),
 		Nette\InvalidStateException::class,
 		"File or directory '%a%' already exists.",
 	);
@@ -69,7 +69,7 @@ test('copy', function () {
 	Assert::same('World', FileSystem::read(getTempDir() . '/3/x/file'));
 
 	Assert::exception(
-		fn() => FileSystem::copy(getTempDir() . '/5', getTempDir() . '/3', false),
+		fn() => FileSystem::copy(getTempDir() . '/5', getTempDir() . '/3', overwrite: false),
 		Nette\InvalidStateException::class,
 		"File or directory '%a%' already exists.",
 	);

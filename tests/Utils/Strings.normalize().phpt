@@ -24,7 +24,7 @@ Assert::same('Hello  World', Strings::normalize("Hello \u{80} World"));
 Assert::same('Hello  World', Strings::normalize("Hello \u{9F} World"));
 Assert::same("Hello \u{A0} World", Strings::normalize("Hello \u{A0} World"));
 
-if (class_exists('Normalizer', false)) {
+if (class_exists('Normalizer')) {
 	Assert::same("\xC3\x85", Strings::normalize("\xC3\x85")); // NFC -> NFC form
 	Assert::same("\xC3\x85", Strings::normalize("A\xCC\x8A")); // NFD -> NFC form
 }

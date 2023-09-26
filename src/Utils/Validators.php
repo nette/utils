@@ -102,7 +102,7 @@ class Validators
 			$translate = ['boolean' => 'bool', 'integer' => 'int', 'double' => 'float', 'NULL' => 'null'];
 			$type = $translate[gettype($value)] ?? gettype($value);
 			if (is_int($value) || is_float($value) || (is_string($value) && strlen($value) < 40)) {
-				$type .= ' ' . var_export($value, true);
+				$type .= ' ' . var_export($value, return: true);
 			} elseif (is_object($value)) {
 				$type .= ' ' . $value::class;
 			}
@@ -245,7 +245,7 @@ class Validators
 	 */
 	public static function isCallable(mixed $value): bool
 	{
-		return $value && is_callable($value, true);
+		return $value && is_callable($value, syntax_only: true);
 	}
 
 

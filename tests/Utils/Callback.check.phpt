@@ -15,11 +15,11 @@ require __DIR__ . '/../bootstrap.php';
 
 Assert::same('trim', Callback::check('trim'));
 
-Assert::same('undefined', Callback::check('undefined', true));
+Assert::same('undefined', Callback::check('undefined', syntax: true));
 
 
 Assert::exception(
-	fn() => Callback::check(123, true),
+	fn() => Callback::check(123, syntax: true),
 	Nette\InvalidArgumentException::class,
 	'Given value is not a callable type.',
 );
@@ -40,7 +40,7 @@ Assert::exception(
 );
 
 Assert::exception(
-	fn() => Callback::check(new stdClass, true),
+	fn() => Callback::check(new stdClass, syntax: true),
 	Nette\InvalidArgumentException::class,
 	'Given value is not a callable type.',
 );

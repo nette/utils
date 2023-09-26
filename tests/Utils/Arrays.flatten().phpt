@@ -35,7 +35,7 @@ $res = Arrays::flatten([
 	],
 	'y' => 'd',
 	'z' => 'e',
-], true);
+], preserveKeys: true);
 
 Assert::same([
 	5 => 'a',

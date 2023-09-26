@@ -628,7 +628,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 */
 	final public function offsetSet($index, $child): void
 	{
-		$this->insert($index, $child, true);
+		$this->insert($index, $child, replace: true);
 	}
 
 

@@ -98,7 +98,7 @@ class Arrays
 	 */
 	public static function getKeyOffset(array $array, string|int $key): ?int
 	{
-		return Helpers::falseToNull(array_search(self::toKey($key), array_keys($array), true));
+		return Helpers::falseToNull(array_search(self::toKey($key), array_keys($array), strict: true));
 	}
 
 
@@ -151,9 +151,9 @@ class Arrays
 	public static function insertBefore(array &$array, string|int|null $key, array $inserted): void
 	{
 		$offset = $key === null ? 0 : (int) self::getKeyOffset($array, $key);
-		$array = array_slice($array, 0, $offset, true)
+		$array = array_slice($array, 0, $offset, preserve_keys: true)
 			+ $inserted
-			+ array_slice($array, $offset, count($array), true);
+			+ array_slice($array, $offset, count($array), preserve_keys: true);
 	}
 
 
@@ -167,9 +167,9 @@ class Arrays
 			$offset = count($array) - 1;
 		}
 
-		$array = array_slice($array, 0, $offset + 1, true)
+		$array = array_slice($array, 0, $offset + 1, preserve_keys: true)
 			+ $inserted
-			+ array_slice($array, $offset + 1, count($array), true);
+			+ array_slice($array, $offset + 1, count($array), preserve_keys: true);
 	}
 
 
