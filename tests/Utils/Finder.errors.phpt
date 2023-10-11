@@ -38,3 +38,18 @@ test('globing', function () {
 		"Directory './fixtures.finder/*/unknown' does not exist.",
 	);
 });
+
+
+test('wrong method', function () {
+	Assert::exception(
+		fn() => (new Finder)->findFiles('*'),
+		Nette\MemberAccessException::class,
+		'Call to undefined method Nette\Utils\Finder::findFiles().',
+	);
+
+/* prevents
+	($finder = new Finder)
+		->append()
+		->findFiles('subdir*')
+*/
+});

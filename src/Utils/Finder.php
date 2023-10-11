@@ -20,6 +20,9 @@ use Nette;
  *     ->from('.')
  *     ->exclude('temp');
  *
+ * @method static static find(string|array $masks = ['*'])
+ * @method static static findFiles(string|array $masks = ['*'])
+ * @method static static findFiles(string|array $masks = ['*'])
  * @implements \IteratorAggregate<string, FileInfo>
  */
 class Finder implements \IteratorAggregate
@@ -48,10 +51,19 @@ class Finder implements \IteratorAggregate
 	private bool $ignoreUnreadableDirs = true;
 
 
+	public static function __callStatic(string $name, array $args): mixed
+	{
+		if (in_array($name, ['find', 'findFiles', 'findDirectories'], true)) {
+			$name = '_' . $name;
+			return self::$name(...$args);
+		}
+	}
+
+
 	/**
 	 * Begins search for files and directories matching mask.
 	 */
-	public static function find(string|array $masks = ['*']): static
+	private static function _find(string|array $masks = ['*']): static
 	{
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
 		return (new static)->addMask($masks, 'dir')->addMask($masks, 'file');
@@ -61,7 +73,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Begins search for files matching mask.
 	 */
-	public static function findFiles(string|array $masks = ['*']): static
+	private static function _findFiles(string|array $masks = ['*']): static
 	{
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
 		return (new static)->addMask($masks, 'file');
@@ -71,7 +83,7 @@ class Finder implements \IteratorAggregate
 	/**
 	 * Begins search for directories matching mask.
 	 */
-	public static function findDirectories(string|array $masks = ['*']): static
+	private static function _findDirectories(string|array $masks = ['*']): static
 	{
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
 		return (new static)->addMask($masks, 'dir');
