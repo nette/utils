@@ -128,7 +128,7 @@ class Arrays
 	 */
 	public static function first(array $array): mixed
 	{
-		return count($array) ? reset($array) : null;
+		return $array[array_key_first($array)] ?? null;
 	}
 
 
@@ -140,7 +140,7 @@ class Arrays
 	 */
 	public static function last(array $array): mixed
 	{
-		return count($array) ? end($array) : null;
+		return $array[array_key_last($array)] ?? null;
 	}
 
 
