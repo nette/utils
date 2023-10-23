@@ -39,7 +39,7 @@ class Reflection
 	public static function getReturnType(\ReflectionFunctionAbstract $func)
 	{
 		return PHP_VERSION_ID >= 70000 && $func->hasReturnType()
-			? self::normalizeType((string) $func->getReturnType(), $func)
+			? self::normalizeType(@ (string) $func->getReturnType(), $func)
 			: null;
 	}
 
@@ -51,7 +51,7 @@ class Reflection
 	{
 		if (PHP_VERSION_ID >= 70000) {
 			return $param->hasType()
-				? self::normalizeType((string) $param->getType(), $param)
+				? self::normalizeType(@ (string) $param->getType(), $param)
 				: null;
 		} elseif ($param->isArray() || $param->isCallable()) {
 			return $param->isArray() ? 'array' : 'callable';
