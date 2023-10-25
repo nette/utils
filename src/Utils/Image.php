@@ -27,9 +27,9 @@ use Nette;
  * @method array affineMatrixGet(int $type, mixed $options = null)
  * @method void alphaBlending(bool $on)
  * @method void antialias(bool $on)
- * @method void arc($x, $y, $w, $h, $start, $end, $color)
- * @method void char(int $font, $x, $y, string $char, $color)
- * @method void charUp(int $font, $x, $y, string $char, $color)
+ * @method void arc($x, $y, $w, $h, $start, $end, ImageColor $color)
+ * @method void char(int $font, $x, $y, string $char, ImageColor $color)
+ * @method void charUp(int $font, $x, $y, string $char, ImageColor $color)
  * @method int colorAllocate($red, $green, $blue)
  * @method int colorAllocateAlpha($red, $green, $blue, $alpha)
  * @method int colorAt($x, $y)
@@ -52,14 +52,14 @@ use Nette;
  * @method void copyMergeGray(Image $src, $dstX, $dstY, $srcX, $srcY, $srcW, $srcH, $opacity)
  * @method void copyResampled(Image $src, $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH)
  * @method void copyResized(Image $src, $dstX, $dstY, $srcX, $srcY, $dstW, $dstH, $srcW, $srcH)
- * @method Image cropAuto(int $mode = -1, float $threshold = .5, int $color = -1)
- * @method void ellipse($cx, $cy, $w, $h, $color)
- * @method void fill($x, $y, $color)
- * @method void filledArc($cx, $cy, $w, $h, $s, $e, $color, $style)
- * @method void filledEllipse($cx, $cy, $w, $h, $color)
- * @method void filledPolygon(array $points, $numPoints, $color)
- * @method void filledRectangle($x1, $y1, $x2, $y2, $color)
- * @method void fillToBorder($x, $y, $border, $color)
+ * @method Image cropAuto(int $mode = -1, float $threshold = .5, ?ImageColor $color = null)
+ * @method void ellipse($cx, $cy, $w, $h, ImageColor $color)
+ * @method void fill($x, $y, ImageColor $color)
+ * @method void filledArc($cx, $cy, $w, $h, $s, $e, ImageColor $color, $style)
+ * @method void filledEllipse($cx, $cy, $w, $h, ImageColor $color)
+ * @method void filledPolygon(array $points, $numPoints, ImageColor $color)
+ * @method void filledRectangle($x1, $y1, $x2, $y2, ImageColor $color)
+ * @method void fillToBorder($x, $y, $border, ImageColor $color)
  * @method void filter($filtertype)
  * @method void flip(int $mode)
  * @method array ftText($size, $angle, $x, $y, $col, string $fontFile, string $text, array $extrainfo = null)
@@ -68,28 +68,28 @@ use Nette;
  * @method int interlace($interlace = null)
  * @method bool isTrueColor()
  * @method void layerEffect($effect)
- * @method void line($x1, $y1, $x2, $y2, $color)
- * @method void openPolygon(array $points, int $num_points, int $color)
+ * @method void line($x1, $y1, $x2, $y2, ImageColor $color)
+ * @method void openPolygon(array $points, int $num_points, ImageColor $color)
  * @method void paletteCopy(Image $source)
  * @method void paletteToTrueColor()
- * @method void polygon(array $points, $numPoints, $color)
- * @method array psText(string $text, $font, $size, $color, $backgroundColor, $x, $y, $space = null, $tightness = null, float $angle = null, $antialiasSteps = null)
+ * @method void polygon(array $points, $numPoints, ImageColor $color)
+ * @method array psText(string $text, $font, $size, ImageColor $color, ImageColor $backgroundColor, $x, $y, $space = null, $tightness = null, float $angle = null, $antialiasSteps = null)
  * @method void rectangle($x1, $y1, $x2, $y2, $col)
  * @method mixed resolution(int $res_x = null, int $res_y = null)
- * @method Image rotate(float $angle, $backgroundColor)
+ * @method Image rotate(float $angle, ImageColor $backgroundColor)
  * @method void saveAlpha(bool $saveflag)
  * @method Image scale(int $newWidth, int $newHeight = -1, int $mode = IMG_BILINEAR_FIXED)
  * @method void setBrush(Image $brush)
  * @method void setClip(int $x1, int $y1, int $x2, int $y2)
  * @method void setInterpolation(int $method = IMG_BILINEAR_FIXED)
- * @method void setPixel($x, $y, $color)
+ * @method void setPixel($x, $y, ImageColor $color)
  * @method void setStyle(array $style)
  * @method void setThickness($thickness)
  * @method void setTile(Image $tile)
  * @method void string($font, $x, $y, string $s, $col)
  * @method void stringUp($font, $x, $y, string $s, $col)
  * @method void trueColorToPalette(bool $dither, $ncolors)
- * @method array ttfText($size, $angle, $x, $y, $color, string $fontfile, string $text)
+ * @method array ttfText($size, $angle, $x, $y, ImageColor $color, string $fontfile, string $text)
  * @property-read positive-int $width
  * @property-read positive-int $height
  * @property-read \GdImage $imageResource
@@ -149,6 +149,7 @@ class Image
 
 	/**
 	 * Returns RGB color (0..255) and transparency (0..127).
+	 * @deprecated use ImageColor::rgb()
 	 */
 	public static function rgb(int $red, int $green, int $blue, int $transparency = 0): array
 	{
@@ -224,7 +225,7 @@ class Image
 	 * @param  positive-int  $height
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 */
-	public static function fromBlank(int $width, int $height, ?array $color = null): static
+	public static function fromBlank(int $width, int $height, ImageColor|array|null $color = null): static
 	{
 		if (!extension_loaded('gd')) {
 			throw new Nette\NotSupportedException('PHP extension GD is not loaded.');
@@ -234,16 +235,14 @@ class Image
 			throw new Nette\InvalidArgumentException('Image width and height must be greater than zero.');
 		}
 
-		$image = imagecreatetruecolor($width, $height);
+		$image = new static(imagecreatetruecolor($width, $height));
 		if ($color) {
-			$color += ['alpha' => 0];
-			$color = imagecolorresolvealpha($image, $color['red'], $color['green'], $color['blue'], $color['alpha']);
-			imagealphablending($image, false);
-			imagefilledrectangle($image, 0, 0, $width - 1, $height - 1, $color);
-			imagealphablending($image, true);
+			$image->alphablending(false);
+			$image->filledrectangle(0, 0, $width - 1, $height - 1, $color);
+			$image->alphablending(true);
 		}
 
-		return new static($image);
+		return $image;
 	}
 
 
@@ -389,7 +388,7 @@ class Image
 		[$newWidth, $newHeight] = static::calculateSize($this->getWidth(), $this->getHeight(), $width, $height, $mode);
 
 		if ($newWidth !== $this->getWidth() || $newHeight !== $this->getHeight()) { // resize
-			$newImage = static::fromBlank($newWidth, $newHeight, self::rgb(0, 0, 0, 127))->getImageResource();
+			$newImage = static::fromBlank($newWidth, $newHeight, ImageColor::rgb(0, 0, 0, 0))->getImageResource();
 			imagecopyresampled(
 				$newImage,
 				$this->image,
@@ -492,7 +491,7 @@ class Image
 			$this->image = imagecrop($this->image, $r);
 			imagesavealpha($this->image, true);
 		} else {
-			$newImage = static::fromBlank($r['width'], $r['height'], self::RGB(0, 0, 0, 127))->getImageResource();
+			$newImage = static::fromBlank($r['width'], $r['height'], ImageColor::rgb(0, 0, 0, 0))->getImageResource();
 			imagecopy($newImage, $this->image, 0, 0, $r['x'], $r['y'], $r['width'], $r['height']);
 			$this->image = $newImage;
 		}
@@ -727,20 +726,8 @@ class Image
 			if ($value instanceof self) {
 				$args[$key] = $value->getImageResource();
 
-			} elseif (is_array($value) && isset($value['red'])) { // rgb
-				$args[$key] = imagecolorallocatealpha(
-					$this->image,
-					$value['red'],
-					$value['green'],
-					$value['blue'],
-					$value['alpha'],
-				) ?: imagecolorresolvealpha(
-					$this->image,
-					$value['red'],
-					$value['green'],
-					$value['blue'],
-					$value['alpha'],
-				);
+			} elseif ($value instanceof ImageColor || (is_array($value) && isset($value['red']))) {
+				$args[$key] = $this->resolveColor($value);
 			}
 		}
 
@@ -779,5 +766,12 @@ class Image
 	public function __sleep(): array
 	{
 		throw new Nette\NotSupportedException('You cannot serialize or unserialize ' . self::class . ' instances.');
+	}
+
+
+	public function resolveColor(ImageColor|array $color): int
+	{
+		$color = $color instanceof ImageColor ? $color->toRGBA() : array_values($color);
+		return imagecolorallocatealpha($this->image, ...$color) ?: imagecolorresolvealpha($this->image, ...$color);
 	}
 }
