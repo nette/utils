@@ -615,6 +615,49 @@ class Image
 
 
 	/**
+	 * Calculates the bounding box for a TrueType text. Returns keys left, top, width and height.
+	 */
+	public static function calculateTextBox(
+		string $text,
+		string $fontFile,
+		float $size,
+		float $angle = 0,
+		array $options = [],
+	): array
+	{
+		$box = imagettfbbox($size, $angle, $fontFile, $text, $options);
+		return [
+			'left' => $minX = min([$box[0], $box[2], $box[4], $box[6]]),
+			'top' => $minY = min([$box[1], $box[3], $box[5], $box[7]]),
+			'width' => max([$box[0], $box[2], $box[4], $box[6]]) - $minX + 1,
+			'height' => max([$box[1], $box[3], $box[5], $box[7]]) - $minY + 1,
+		];
+	}
+
+
+	/**
+	 * Draw a rectangle.
+	 */
+	public function rectangleWH(int $x, int $y, int $width, int $height, ImageColor $color): void
+	{
+		if ($width !== 0 && $height !== 0) {
+			$this->rectangle($x, $y, $x + $width + ($width > 0 ? -1 : 1), $y + $height + ($height > 0 ? -1 : 1), $color);
+		}
+	}
+
+
+	/**
+	 * Draw a filled rectangle.
+	 */
+	public function filledRectangleWH(int $x, int $y, int $width, int $height, ImageColor $color): void
+	{
+		if ($width !== 0 && $height !== 0) {
+			$this->filledRectangle($x, $y, $x + $width + ($width > 0 ? -1 : 1), $y + $height + ($height > 0 ? -1 : 1), $color);
+		}
+	}
+
+
+	/**
 	 * Saves image to the file. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
 	 * @param  ImageType::*|null  $type
 	 * @throws ImageException
