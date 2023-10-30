@@ -21,7 +21,7 @@ class Strings
 {
 	use Nette\StaticClass;
 
-	public const TrimCharacters = " \t\n\r\0\x0B\u{A0}";
+	public const TrimCharacters = " \t\n\r\0\x0B\u{A0}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200A}\u{200B}";
 
 	/** @deprecated use Strings::TrimCharacters */
 	public const TRIM_CHARACTERS = self::TrimCharacters;
