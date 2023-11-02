@@ -320,6 +320,21 @@ class Image
 	}
 
 
+	/** @return  ImageType[] */
+	public static function getSupportedTypes(): array
+	{
+		$flag = imagetypes();
+		return array_filter([
+			$flag & IMG_GIF ? ImageType::GIF : null,
+			$flag & IMG_JPG ? ImageType::JPEG : null,
+			$flag & IMG_PNG ? ImageType::PNG : null,
+			$flag & IMG_WEBP ? ImageType::WEBP : null,
+			$flag & 256 ? ImageType::AVIF : null, // IMG_AVIF
+			$flag & IMG_BMP ? ImageType::BMP : null,
+		]);
+	}
+
+
 	/**
 	 * Wraps GD image.
 	 */
