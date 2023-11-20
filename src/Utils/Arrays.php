@@ -460,4 +460,26 @@ class Arrays
 
 		return $res;
 	}
+
+
+	/**
+	 * Returns the first item from the array which passes the test implemented by the
+	 * provided function. The provided function has the signature
+	 * `function ($value, $key, array $array): bool`. If no match was found, it returns null.
+	 * @template K
+	 * @template V
+	 * @param  iterable<K, V> $array
+	 * @param  callable(V, K, ($array is array ? array<K, V> : iterable<K, V>)): bool $callback
+	 * @return ?V
+	 */
+	public static function find(iterable $array, callable $callback): mixed
+	{
+		foreach ($array as $k => $v) {
+			if ($callback($v, $k, $array)) {
+				return $v;
+			}
+		}
+
+		return null;
+	}
 }
