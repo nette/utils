@@ -121,26 +121,30 @@ class Arrays
 
 
 	/**
-	 * Returns the first item from the array or null if array is empty.
+	 * Returns the first item from the array (matching the specified predicate if given) or null if there is no such item.
+	 * The $predicate has the signature `function (mixed $value, int|string $key, array $array): bool`.
 	 * @template T
 	 * @param  array<T>  $array
 	 * @return ?T
 	 */
-	public static function first(array $array): mixed
+	public static function first(array $array, ?callable $predicate = null): mixed
 	{
-		return $array[array_key_first($array)] ?? null;
+		$key = self::firstKey($array, $predicate);
+		return $key === null ? null : $array[$key];
 	}
 
 
 	/**
-	 * Returns the last item from the array or null if array is empty.
+	 * Returns the last item from the array (matching the specified predicate if given) or null if there is no such item.
+	 * The $predicate has the signature `function (mixed $value, int|string $key, array $array): bool`.
 	 * @template T
 	 * @param  array<T>  $array
 	 * @return ?T
 	 */
-	public static function last(array $array): mixed
+	public static function last(array $array, ?callable $predicate = null): mixed
 	{
-		return $array[array_key_last($array)] ?? null;
+		$key = self::lastKey($array, $predicate);
+		return $key === null ? null : $array[$key];
 	}
 
 
