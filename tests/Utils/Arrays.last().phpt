@@ -9,12 +9,31 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::null(Arrays::last([]));
-Assert::null(Arrays::last([null]));
-Assert::false(Arrays::last([false]));
-Assert::same(3, Arrays::last([1, 2, 3]));
+test('no predicate', function () {
+	Assert::null(Arrays::last([]));
+	Assert::null(Arrays::last([null]));
+	Assert::false(Arrays::last([false]));
+	Assert::same(3, Arrays::last([1, 2, 3]));
+});
 
+test('internal array pointer is not affected', function () {
+	$arr = [1, 2, 3];
+	Assert::same(3, Arrays::last($arr));
+	Assert::same(1, current($arr));
+});
 
-$arr = [1, 2, 3];
-Assert::same(3, Arrays::last($arr));
-Assert::same(1, current($arr));
+test('with predicate', function () {
+	Assert::null(Arrays::last([], fn() => true));
+	Assert::null(Arrays::last([], fn() => false));
+	Assert::null(Arrays::last(['' => 'x'], fn() => false));
+	Assert::null(Arrays::last([null], fn() => true));
+	Assert::null(Arrays::last([null], fn() => false));
+	Assert::same(3, Arrays::last([1, 2, 3], fn() => true));
+	Assert::null(Arrays::last([1, 2, 3], fn() => false));
+	Assert::same(3, Arrays::last([1, 2, 3], fn($v) => $v > 2));
+	Assert::same(1, Arrays::last([1, 2, 3], fn($v) => $v < 2));
+});
+
+test('predicate arguments', function () {
+	Arrays::last([2 => 'x'], fn() => Assert::same(['x', 2, [2 => 'x']], func_get_args()));
+});
