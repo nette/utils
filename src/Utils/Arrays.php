@@ -145,6 +145,36 @@ class Arrays
 
 
 	/**
+	 * Returns the key of first item (matching the specified predicate if given) or null if there is no such item.
+	 * The $predicate has the signature `function (mixed $value, int|string $key, array $array): bool`.
+	 */
+	public static function firstKey(array $array, ?callable $predicate = null): int|string|null
+	{
+		if (!$predicate) {
+			return array_key_first($array);
+		}
+		foreach ($array as $k => $v) {
+			if ($predicate($v, $k, $array)) {
+				return $k;
+			}
+		}
+		return null;
+	}
+
+
+	/**
+	 * Returns the key of last item (matching the specified predicate if given) or null if there is no such item.
+	 * The $predicate has the signature `function (mixed $value, int|string $key, array $array): bool`.
+	 */
+	public static function lastKey(array $array, ?callable $predicate = null): int|string|null
+	{
+		return $predicate
+			? self::firstKey(array_reverse($array, preserve_keys: true), $predicate)
+			: array_key_last($array);
+	}
+
+
+	/**
 	 * Inserts the contents of the $inserted array into the $array immediately after the $key.
 	 * If $key is null (or does not exist), it is inserted at the beginning.
 	 */
