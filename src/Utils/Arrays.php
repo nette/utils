@@ -370,6 +370,27 @@ class Arrays
 
 
 	/**
+	 * Returns a new array containing all key-value pairs matching the given $predicate.
+	 * The callback has the signature `function (mixed $value, int|string $key, array $array): bool`.
+	 * @template K of array-key
+	 * @template V
+	 * @param  array<K, V> $array
+	 * @param  callable(V, K, array<K, V>): bool $predicate
+	 * @return array<K, V>
+	 */
+	public static function filter(array $array, callable $predicate): array
+	{
+		$res = [];
+		foreach ($array as $k => $v) {
+			if ($predicate($v, $k, $array)) {
+				$res[$k] = $v;
+			}
+		}
+		return $res;
+	}
+
+
+	/**
 	 * Returns an array containing the original keys and results of applying the given transform function to each element.
 	 * The function has signature `function ($value, $key, array $array): mixed`.
 	 * @template K of array-key
