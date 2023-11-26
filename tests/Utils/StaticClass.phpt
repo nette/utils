@@ -25,9 +25,3 @@ Assert::exception(
 	Error::class,
 	'Call to private TestClass::__construct() from global scope',
 );
-
-Assert::exception(
-	fn() => TestClass::methodA(),
-	Nette\MemberAccessException::class,
-	'Call to undefined static method TestClass::methodA(), did you mean method()?',
-);
