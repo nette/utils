@@ -37,3 +37,7 @@ test('with predicate', function () {
 test('predicate arguments', function () {
 	Arrays::last([2 => 'x'], fn() => Assert::same(['x', 2, [2 => 'x']], func_get_args()));
 });
+
+test('else', function () {
+	Assert::same(123, Arrays::last([], else: fn() => 123));
+});
