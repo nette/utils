@@ -121,30 +121,34 @@ class Arrays
 
 
 	/**
-	 * Returns the first item from the array (matching the specified predicate if given) or null if there is no such item.
+	 * Returns the first item (matching the specified predicate if given). If there is no such item, it returns result of invoking $else or null.
 	 * The $predicate has the signature `function (mixed $value, int|string $key, array $array): bool`.
 	 * @template T
 	 * @param  array<T>  $array
 	 * @return ?T
 	 */
-	public static function first(array $array, ?callable $predicate = null): mixed
+	public static function first(array $array, ?callable $predicate = null, ?callable $else = null): mixed
 	{
 		$key = self::firstKey($array, $predicate);
-		return $key === null ? null : $array[$key];
+		return $key === null
+			? ($else ? $else() : null)
+			: $array[$key];
 	}
 
 
 	/**
-	 * Returns the last item from the array (matching the specified predicate if given) or null if there is no such item.
+	 * Returns the last item (matching the specified predicate if given). If there is no such item, it returns result of invoking $else or null.
 	 * The $predicate has the signature `function (mixed $value, int|string $key, array $array): bool`.
 	 * @template T
 	 * @param  array<T>  $array
 	 * @return ?T
 	 */
-	public static function last(array $array, ?callable $predicate = null): mixed
+	public static function last(array $array, ?callable $predicate = null, ?callable $else = null): mixed
 	{
 		$key = self::lastKey($array, $predicate);
-		return $key === null ? null : $array[$key];
+		return $key === null
+			? ($else ? $else() : null)
+			: $array[$key];
 	}
 
 
