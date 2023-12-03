@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
-use Nette;
 use Nette\HtmlStringable;
 use function array_merge, array_splice, count, explode, func_num_args, html_entity_decode, htmlspecialchars, http_build_query, implode, is_array, is_bool, is_float, is_object, is_string, json_encode, max, number_format, rtrim, str_contains, str_repeat, str_replace, strip_tags, strncmp, strpbrk, substr;
 use const ENT_HTML5, ENT_NOQUOTES, ENT_QUOTES;
@@ -234,8 +233,6 @@ use const ENT_HTML5, ENT_NOQUOTES, ENT_QUOTES;
  */
 class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringable
 {
-	use Nette\SmartObject;
-
 	/** @var array<string, mixed>  element's attributes */
 	public $attrs = [];
 
