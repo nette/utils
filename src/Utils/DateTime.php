@@ -18,8 +18,6 @@ use function array_merge, checkdate, implode, is_numeric, is_string, preg_replac
  */
 class DateTime extends \DateTime implements \JsonSerializable
 {
-	use Nette\SmartObject;
-
 	/** minute in seconds */
 	public const MINUTE = 60;
 
