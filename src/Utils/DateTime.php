@@ -14,10 +14,27 @@ use Nette;
 
 /**
  * DateTime.
+ * @property-read int $timestamp
+ * @property-read int $year
+ * @property-read int $month
+ * @property-read int $day
+ * @property-read int $hour
+ * @property-read int $minute
+ * @property-read int $second
+ * @property-read int $microsecond
+ * @property-read int $millisecond
+ * @property-read string $date
+ * @property-read string $dateTime
+ * @property-read string $dateTimeTz
+ * @property-read string $dateTimeMicro
+ * @property-read string $dateTimeMicroTz
+ * @property-read float $timestampMicro
+ * @property-read int $dayOfWeek
  */
 class DateTime extends \DateTime implements \JsonSerializable
 {
 	use Nette\SmartObject;
+	use DateTimeFormat;
 
 	/** minute in seconds */
 	public const MINUTE = 60;
@@ -125,7 +142,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 */
 	public function __toString(): string
 	{
-		return $this->format('Y-m-d H:i:s');
+		return $this->getDateTime();
 	}
 
 
