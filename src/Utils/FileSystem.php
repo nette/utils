@@ -305,6 +305,18 @@ final class FileSystem
 	}
 
 
+	public static function resolvePath(string ...$paths): string
+	{
+		for ($i = count($paths) - 1; $i >= 0; $i--) {
+			if (self::isAbsolute($paths[$i])) {
+				return self::joinPaths(...array_slice($paths, $i));
+			}
+		}
+
+		return self::joinPaths(getcwd(), ...$paths);
+	}
+
+
 	/**
 	 * Converts backslashes to slashes.
 	 */
