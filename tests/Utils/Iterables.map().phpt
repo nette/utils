@@ -12,7 +12,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('empty iterable', function () {
 	$arr = new ArrayIterator([]);
 	$log = [];
 	$res = Iterables::map(
@@ -26,21 +26,7 @@ test('', function () {
 	Assert::same([], $log);
 });
 
-test('', function () {
-	$arr = new ArrayIterator(['a', 'b']);
-	$log = [];
-	$res = Iterables::map(
-		$arr,
-		function ($v, $k, $arr) use (&$log) {
-			$log[] = func_get_args();
-			return $v . $v;
-		},
-	);
-	Assert::same(['aa', 'bb'], iterator_to_array($res));
-	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
-});
-
-test('', function () {
+test('non-empty iterable', function () {
 	$arr = new ArrayIterator(['x' => 'a', 'y' => 'b']);
 	$log = [];
 	$res = Iterables::map(

@@ -9,12 +9,14 @@ declare(strict_types=1);
 use Nette\Utils\Strings;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
+// not matched
 Assert::same([], Strings::matchAll('hello world!', '#([E-L])+#'));
 
+
+// capturing
 Assert::same([
 	['hell', 'l'],
 	['l', 'l'],
@@ -25,6 +27,8 @@ Assert::same([
 	['l'],
 ], Strings::matchAll('hello world!', '#[e-l]+#'));
 
+
+// options
 Assert::same([
 	[['lu', 2], ['l', 2], ['u', 3]],
 	[['ou', 6], ['o', 6], ['u', 7]],
@@ -75,4 +79,6 @@ Assert::same([['ll', 'l']], Strings::matchAll('hello world!', '#[e-l]+#', offset
 
 Assert::same([['e', null]], Strings::matchAll('hello world!', '#e(x)*#', unmatchedAsNull: true));
 
+
+// right edge
 Assert::same([], Strings::matchAll('hello world!', '', offset: 50));
