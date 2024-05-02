@@ -54,5 +54,5 @@ Assert::same('int', (string) $type);
 
 
 // disjunctive normal form
-$type = Type::fromReflection(new ReflectionFunction(function (): (Bar & Foo)|string|int|null {}));
+$type = Type::fromReflection(new ReflectionFunction(function (): (Bar & Foo) | string | int | null {}));
 Assert::same('(Bar&Foo)|string|int|null', (string) $type);

@@ -76,13 +76,13 @@ test('custom filter', function () {
 });
 
 
+function filter(FileInfo $file)
+{
+	return $file->getBaseName() === 'file.txt';
+}
+
+
 test('custom filter', function () {
-	function filter(FileInfo $file)
-	{
-		return $file->getBaseName() === 'file.txt';
-	}
-
-
 	$finder = Finder::findFiles('*')
 		->from('fixtures.finder')
 		->filter('filter');
