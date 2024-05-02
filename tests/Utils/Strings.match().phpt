@@ -41,5 +41,6 @@ Assert::same([['k', 7]], Strings::match('žluťoučký kůň', '#[e-l]+#u', capt
 
 
 // right edge
-Assert::null(Strings::match('hello world!', '', offset: 50));
-Assert::null(Strings::match('', '', offset: 1));
+Assert::same([''], Strings::match('he', '#(?<=e)#', offset: 2));
+Assert::same(null, Strings::match('he', '#(?<=x)#', offset: 2));
+Assert::same(null, Strings::match('he', '##', offset: 3));

@@ -16,6 +16,12 @@ require __DIR__ . '/../bootstrap.php';
 Assert::same([], Strings::matchAll('hello world!', '#([E-L])+#'));
 
 
+// sentinel
+Assert::same([
+	[''], [''], [''],
+], Strings::matchAll('he', '##'));
+
+
 // capturing
 Assert::same([
 	['hell', 'l'],
@@ -81,4 +87,6 @@ Assert::same([['e', null]], Strings::matchAll('hello world!', '#e(x)*#', unmatch
 
 
 // right edge
-Assert::same([], Strings::matchAll('hello world!', '', offset: 50));
+Assert::same([['']], Strings::matchAll('he', '#(?<=e)#', offset: 2));
+Assert::same([], Strings::matchAll('he', '#(?<=x)#', offset: 2));
+Assert::same([], Strings::matchAll('he', '##', offset: 3));
