@@ -154,4 +154,21 @@ final class Iterables
 			yield $k => $transformer($v, $k, $iterable);
 		}
 	}
+
+
+	/**
+	 * Creates an iterator from anything that is iterable.
+	 * @template K
+	 * @template V
+	 * @param  iterable<K, V>  $iterable
+	 * @return \Iterator<K, V>
+	 */
+	public static function toIterator(iterable $iterable): \Iterator
+	{
+		return match (true) {
+			$iterable instanceof \Iterator => $iterable,
+			$iterable instanceof \IteratorAggregate => self::toIterator($iterable->getIterator()),
+			is_array($iterable) => new \ArrayIterator($iterable),
+		};
+	}
 }
