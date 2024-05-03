@@ -159,6 +159,49 @@ final class Iterables
 
 
 	/**
+	 * Wraps around iterator and caches its keys and values during iteration.
+	 * This allows the data to be re-iterated multiple times.
+	 * @template K
+	 * @template V
+	 * @param  iterable<K, V>  $iterable
+	 * @return \IteratorAggregate<K, V>
+	 */
+	public static function memoize(iterable $iterable): iterable
+	{
+		return new class (self::toIterator($iterable)) implements \IteratorAggregate {
+			public function __construct(
+				private iterable $iterable,
+				private array $cache = [],
+			) {
+			}
+
+
+			public function getIterator(): \Generator
+			{
+				if (!$this->cache){
+					$this->iterable->rewind();
+				}
+				$i = 0;
+				while (true) {
+					if (isset($this->cache[$i])) {
+						[$k, $v] = $this->cache[$i];
+					} elseif ($this->iterable->valid()) {
+						$k = $this->iterable->key();
+						$v = $this->iterable->current();
+						$this->iterable->next();
+						$this->cache[$i] = [$k, $v];
+					} else {
+						break;
+					}
+					yield $k => $v;
+					$i++;
+				}
+			}
+		};
+	}
+
+
+	/**
 	 * Creates an iterator from anything that is iterable.
 	 * @template K
 	 * @template V
