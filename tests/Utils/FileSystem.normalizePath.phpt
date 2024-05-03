@@ -19,6 +19,7 @@ test('', function () {
 	Assert::same("d:{$S}file", FileSystem::normalizePath('d:/file'));
 	Assert::same("d:{$S}file", FileSystem::normalizePath('d:\file'));
 	Assert::same("{$S}file", FileSystem::normalizePath('/file'));
+	Assert::same("vfs:/{$S}directory/file", FileSystem::normalizePath('vfs://directory/file'));
 
 	Assert::same('', FileSystem::normalizePath('.'));
 	Assert::same($S, FileSystem::normalizePath('\\.'));

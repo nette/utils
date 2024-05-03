@@ -280,7 +280,7 @@ final class FileSystem
 	 */
 	public static function normalizePath(string $path): string
 	{
-		$parts = $path === '' ? [] : preg_split('~[/\\\\]+~', $path);
+		$parts = $path === '' ? [] : preg_split('~((?<!:)[/]+|[\\\\]+)~', $path);
 		$res = [];
 		foreach ($parts as $part) {
 			if ($part === '..' && $res && end($res) !== '..' && end($res) !== '') {
