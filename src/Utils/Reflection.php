@@ -100,7 +100,7 @@ final class Reflection
 
 		$hash = [$method->getFileName(), $method->getStartLine(), $method->getEndLine()];
 		if (($alias = $decl->getTraitAliases()[$method->name] ?? null)
-			&& ($m = new \ReflectionMethod($alias))
+			&& ($m = PHP_VERSION_ID < 80300 ? new \ReflectionMethod($alias) : \ReflectionMethod::createFromMethodName($alias))
 			&& $hash === [$m->getFileName(), $m->getStartLine(), $m->getEndLine()]
 		) {
 			return self::getMethodDeclaringMethod($m);
