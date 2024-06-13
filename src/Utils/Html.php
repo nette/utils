@@ -577,6 +577,9 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 */
 	final public function addHtml(mixed $child): static
 	{
+		if (!$child instanceof HtmlStringable) {
+			$child = (string) $child;
+		}
 		return $this->insert(null, $child);
 	}
 
