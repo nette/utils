@@ -157,6 +157,27 @@ final class Iterables
 
 
 	/**
+	 * Iterator that transforms keys and values by calling $transformer. If it returns null, the element is skipped.
+	 * @template K
+	 * @template V
+	 * @template ResV
+	 * @template ResK
+	 * @param  iterable<K, V>  $iterable
+	 * @param  callable(V, K, iterable<K, V>): ?array{ResV, ResK}  $transformer
+	 * @return \Generator<ResV, ResK>
+	 */
+	public static function mapWithKeys(iterable $iterable, callable $transformer): \Generator
+	{
+		foreach ($iterable as $k => $v) {
+			$pair = $transformer($v, $k, $iterable);
+			if ($pair) {
+				yield $pair[0] => $pair[1];
+			}
+		}
+	}
+
+
+	/**
 	 * Wraps around iterator and caches its keys and values during iteration.
 	 * This allows the data to be re-iterated multiple times.
 	 * @template K
