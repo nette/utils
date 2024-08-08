@@ -104,3 +104,11 @@ class OutOfRangeException extends \OutOfRangeException
 class UnexpectedValueException extends \UnexpectedValueException
 {
 }
+
+
+/**
+ * Houston, we have a problem.
+ */
+class ShouldNotHappenException extends \LogicException
+{
+}
