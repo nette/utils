@@ -43,7 +43,7 @@ Assert::exception(
 Assert::exception(
 	fn() => Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'j')),
 	ReflectionException::class,
-	'Unable to resolve constant NS\\Foo::UNDEFINED used as default value of $j in NS\Foo::method().',
+	'Unable to resolve constant NS\Foo::UNDEFINED used as default value of $j in NS\Foo::method().',
 );
 
 Assert::same(NS\Bar::DEFINED, Reflection::getParameterDefaultValue(new ReflectionParameter(['NS\Foo', 'method'], 'k')));
