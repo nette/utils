@@ -12,23 +12,23 @@ Introduction
 
 In package nette/utils you will find a set of useful classes for everyday use:
 
-✅ [Arrays](https://doc.nette.org/utils/arrays)<br>
-✅ [Callback](https://doc.nette.org/utils/callback) - PHP callbacks<br>
-✅ [Filesystem](https://doc.nette.org/utils/filesystem) - copying, renaming, …<br>
-✅ [Finder](https://doc.nette.org/utils/finder) - finds files and directories<br>
-✅ [Floats](https://doc.nette.org/utils/floats) - floating point numbers<br>
-✅ [Helper Functions](https://doc.nette.org/utils/helpers)<br>
-✅ [HTML elements](https://doc.nette.org/utils/html-elements) - generate HTML<br>
-✅ [Images](https://doc.nette.org/utils/images) - crop, resize, rotate images<br>
-✅ [Iterables](https://doc.nette.org/utils/iterables) <br>
-✅ [JSON](https://doc.nette.org/utils/json) - encoding and decoding<br>
-✅ [Generating Random Strings](https://doc.nette.org/utils/random)<br>
-✅ [Paginator](https://doc.nette.org/utils/paginator) - pagination math<br>
-✅ [PHP Reflection](https://doc.nette.org/utils/reflection)<br>
-✅ [Strings](https://doc.nette.org/utils/strings) - useful text functions<br>
-✅ [SmartObject](https://doc.nette.org/utils/smartobject) - PHP object enhancements<br>
-✅ [Type](https://doc.nette.org/utils/type) - PHP data type<br>
-✅ [Validation](https://doc.nette.org/utils/validators) - validate inputs<br>
+✅ [Arrays](https://doc.nette.org/en/utils/arrays)<br>
+✅ [Callback](https://doc.nette.org/en/utils/callback) - PHP callbacks<br>
+✅ [Filesystem](https://doc.nette.org/en/utils/filesystem) - copying, renaming, …<br>
+✅ [Finder](https://doc.nette.org/en/utils/finder) - finds files and directories<br>
+✅ [Floats](https://doc.nette.org/en/utils/floats) - floating point numbers<br>
+✅ [Helper Functions](https://doc.nette.org/en/utils/helpers)<br>
+✅ [HTML elements](https://doc.nette.org/en/utils/html-elements) - generate HTML<br>
+✅ [Images](https://doc.nette.org/en/utils/images) - crop, resize, rotate images<br>
+✅ [Iterables](https://doc.nette.org/en/utils/iterables) <br>
+✅ [JSON](https://doc.nette.org/en/utils/json) - encoding and decoding<br>
+✅ [Generating Random Strings](https://doc.nette.org/en/utils/random)<br>
+✅ [Paginator](https://doc.nette.org/en/utils/paginator) - pagination math<br>
+✅ [PHP Reflection](https://doc.nette.org/en/utils/reflection)<br>
+✅ [Strings](https://doc.nette.org/en/utils/strings) - useful text functions<br>
+✅ [SmartObject](https://doc.nette.org/en/utils/smartobject) - PHP object enhancements<br>
+✅ [Type](https://doc.nette.org/en/utils/type) - PHP data type<br>
+✅ [Validation](https://doc.nette.org/en/utils/validators) - validate inputs<br>
 
  <!---->
 
