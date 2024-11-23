@@ -105,7 +105,7 @@ Assert::null($type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::false($type->isSingle());
+Assert::false($type->isSimple());
 Assert::false($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
@@ -175,6 +175,6 @@ Assert::null($type->getSingleName());
 Assert::false($type->isClass());
 Assert::true($type->isUnion());
 Assert::false($type->isIntersection());
-Assert::false($type->isSingle());
+Assert::false($type->isSimple());
 Assert::false($type->isBuiltin());
 Assert::false($type->isClassKeyword());

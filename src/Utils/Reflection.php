@@ -28,7 +28,7 @@ final class Reflection
 	}
 
 
-	/** @deprecated use Nette\Utils\Validators::isClassKeyword() */
+	#[\Deprecated('use Nette\Utils\Validators::isClassKeyword()')]
 	public static function isClassKeyword(string $name): bool
 	{
 		return Validators::isClassKeyword($name);

@@ -229,7 +229,7 @@ final class Type
 	}
 
 
-	/** @deprecated use isSimple() */
+	#[\Deprecated('use isSimple()')]
 	public function isSingle(): bool
 	{
 		return $this->simple;
