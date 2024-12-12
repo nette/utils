@@ -48,3 +48,19 @@ class RegexpException extends \Exception
 class AssertionException extends \Exception
 {
 }
+
+
+/**
+ * The process failed to run successfully.
+ */
+class ProcessFailedException extends \RuntimeException
+{
+}
+
+
+/**
+ * The process execution exceeded its timeout limit.
+ */
+class ProcessTimeoutException extends \RuntimeException
+{
+}
