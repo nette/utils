@@ -10,4 +10,9 @@
 	<rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine.MultipleUsesPerLine">
 		<exclude-pattern>./src/*/*.php</exclude-pattern>
 	</rule>
+
+	<!-- utf8_decode -->
+	<rule ref="Generic.PHP.DeprecatedFunctions.Deprecated">
+		<exclude-pattern>Strings.php</exclude-pattern>
+	</rule>
 </ruleset>
