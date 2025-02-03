@@ -17,7 +17,7 @@ require __DIR__ . '/../bootstrap.php';
 $main = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 
 
-test('', function () use ($main) {
+test('sending image as JPEG by default', function () use ($main) {
 	ob_start();
 	$main->send();
 	$data = ob_get_clean();
@@ -29,7 +29,7 @@ test('', function () use ($main) {
 });
 
 
-test('', function () use ($main) {
+test('sending image as PNG', function () use ($main) {
 	ob_start();
 	$main->send(Image::PNG);
 	$data = ob_get_clean();
@@ -41,7 +41,7 @@ test('', function () use ($main) {
 });
 
 
-test('', function () use ($main) {
+test('sending WEBP image if supported', function () use ($main) {
 	if (!Image::isTypeSupported(Image::WEBP)) {
 		return;
 	}

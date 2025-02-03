@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('checks integer type with range constraints', function () {
 	Assert::false(Validators::is(true, 'int'));
 	Assert::false(Validators::is('1', 'int'));
 	Assert::true(Validators::is(1, 'integer'));
@@ -33,7 +33,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('verifies validity of a float value', function () {
 	Assert::false(Validators::is(true, 'float'));
 	Assert::false(Validators::is('1', 'float'));
 	Assert::false(Validators::is(1, 'float'));
@@ -41,7 +41,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('validates number type for both integers and floats', function () {
 	Assert::false(Validators::is(true, 'number'));
 	Assert::false(Validators::is('1', 'number'));
 	Assert::true(Validators::is(1, 'number'));
@@ -49,7 +49,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('checks numeric string format with sign and decimal rules', function () {
 	Assert::false(Validators::is(true, 'numeric'));
 	Assert::true(Validators::is('1', 'numeric'));
 	Assert::true(Validators::is('-1', 'numeric'));
@@ -64,7 +64,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('validates strict numeric integer string format', function () {
 	Assert::false(Validators::is(true, 'numericint'));
 	Assert::true(Validators::is('1', 'numericint'));
 	Assert::true(Validators::is('-1', 'numericint'));
@@ -79,7 +79,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('ensures boolean value matches expected flag', function () {
 	Assert::false(Validators::is(1, 'bool'));
 	Assert::true(Validators::is(true, 'bool'));
 	Assert::true(Validators::is(false, 'bool'));
@@ -92,7 +92,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('checks string type with fixed length constraint', function () {
 	Assert::false(Validators::is(1, 'string'));
 	Assert::true(Validators::is('', 'string'));
 	Assert::true(Validators::is('hello', 'string'));
@@ -103,7 +103,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('validates Unicode string with length requirements', function () {
 	Assert::false(Validators::is(1, 'unicode'));
 	Assert::true(Validators::is('', 'unicode'));
 	Assert::true(Validators::is('hello', 'unicode'));
@@ -115,7 +115,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('checks array structure against length constraints', function () {
 	Assert::false(Validators::is(null, 'array'));
 	Assert::true(Validators::is([], 'array'));
 	Assert::true(Validators::is([], 'array:0'));
@@ -125,7 +125,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('verifies that value is a sequential list', function () {
 	Assert::false(Validators::is(null, 'list'));
 	Assert::true(Validators::is([], 'list'));
 	Assert::true(Validators::is([1], 'list'));
@@ -140,20 +140,20 @@ test('', function () {
 });
 
 
-test('', function () {
+test('confirms value is an object instance', function () {
 	Assert::false(Validators::is(null, 'object'));
 	Assert::true(Validators::is(new stdClass, 'object'));
 });
 
 
-test('', function () {
+test('checks that value is scalar', function () {
 	Assert::false(Validators::is(null, 'scalar'));
 	Assert::false(Validators::is([], 'scalar'));
 	Assert::true(Validators::is(1, 'scalar'));
 });
 
 
-test('', function () {
+test('validates callable type including array callables', function () {
 	Assert::false(Validators::is(null, 'callable'));
 	Assert::false(Validators::is([], 'callable'));
 	Assert::false(Validators::is(1, 'callable'));
@@ -164,19 +164,19 @@ test('', function () {
 });
 
 
-test('', function () {
+test('ensures value is null', function () {
 	Assert::false(Validators::is(0, 'null'));
 	Assert::true(Validators::is(null, 'null'));
 });
 
 
-test('', function () {
+test('accepts any value for mixed type', function () {
 	Assert::true(Validators::is([], 'mixed'));
 	Assert::true(Validators::is(null, 'mixed'));
 });
 
 
-test('', function () {
+test('validates email format with domain restrictions', function () {
 	Assert::false(Validators::is('', 'email'));
 	Assert::false(Validators::is(false, 'email'));
 	Assert::false(Validators::is('hello', 'email'));
@@ -195,7 +195,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('verifies URL format across various domain cases', function () {
 	Assert::false(Validators::is('', 'url'));
 	Assert::false(Validators::is(false, 'url'));
 	Assert::false(Validators::is('hello', 'url'));
@@ -226,7 +226,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('checks URI format with proper scheme requirements', function () {
 	Assert::false(Validators::is('', 'uri'));
 	Assert::false(Validators::is(false, 'uri'));
 	Assert::false(Validators::is('hello', 'uri'));
@@ -240,7 +240,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('accepts empty and null values for none type', function () {
 	Assert::true(Validators::is(0, 'none'));
 	Assert::true(Validators::is('', 'none'));
 	Assert::true(Validators::is(null, 'none'));
@@ -250,14 +250,14 @@ test('', function () {
 });
 
 
-test('', function () {
+test('validates string against a regular expression pattern', function () {
 	Assert::true(Validators::is('', 'pattern'));
 	Assert::true(Validators::is('  123', 'pattern:\s+\d+'));
 	Assert::false(Validators::is('  123x', 'pattern:\s+\d+'));
 });
 
 
-test('', function () {
+test('ensures alphanumeric string meets minimum length', function () {
 	Assert::false(Validators::is('', 'alnum'));
 	Assert::false(Validators::is('a-1', 'alnum'));
 	Assert::true(Validators::is('a1', 'alnum'));
@@ -265,7 +265,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('checks alphabetic string within a specified length range', function () {
 	Assert::false(Validators::is('', 'alpha'));
 	Assert::false(Validators::is('a1', 'alpha'));
 	Assert::true(Validators::is('aA', 'alpha'));
@@ -273,7 +273,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('validates digit-only string with length limitations', function () {
 	Assert::false(Validators::is('', 'digit'));
 	Assert::false(Validators::is('123x', 'digit'));
 	Assert::true(Validators::is('123', 'digit'));
@@ -281,7 +281,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('ensures string is entirely lowercase with fixed length', function () {
 	Assert::false(Validators::is('', 'lower'));
 	Assert::false(Validators::is('Hello', 'lower'));
 	Assert::true(Validators::is('hello', 'lower'));
@@ -289,35 +289,35 @@ test('', function () {
 });
 
 
-test('', function () {
+test('confirms string is entirely uppercase', function () {
 	Assert::false(Validators::is('', 'upper'));
 	Assert::false(Validators::is('Hello', 'upper'));
 	Assert::true(Validators::is('HELLO', 'upper'));
 });
 
 
-test('', function () {
+test('validates that string contains only whitespace', function () {
 	Assert::false(Validators::is('', 'space'));
 	Assert::false(Validators::is(' 1', 'space'));
 	Assert::true(Validators::is(" \t\r\n", 'space'));
 });
 
 
-test('', function () {
+test('checks that string consists solely of hexadecimal digits', function () {
 	Assert::false(Validators::is('', 'xdigit'));
 	Assert::false(Validators::is('123x', 'xdigit'));
 	Assert::true(Validators::is('123aA', 'xdigit'));
 });
 
 
-test('', function () {
+test('validates union type allowing int or float values', function () {
 	Assert::true(Validators::is(1.0, 'int|float'));
 	Assert::true(Validators::is(1, 'int|float'));
 	Assert::false(Validators::is('1', 'int|float'));
 });
 
 
-test('', function () {
+test('verifies existence of a type by its name', function () {
 	class rimmer
 	{
 	}
@@ -331,45 +331,45 @@ test('', function () {
 });
 
 
-test('', function () {
+test('checks for the existence of a class by name', function () {
 	Assert::true(Validators::is('rimmer', 'class'));
 	Assert::false(Validators::is('kryton', 'class'));
 	Assert::false(Validators::is('1', 'class'));
 });
 
 
-test('', function () {
+test('determines if an interface exists by its name', function () {
 	Assert::false(Validators::is('rimmer', 'interface'));
 	Assert::true(Validators::is('kryton', 'interface'));
 	Assert::false(Validators::is('1', 'interface'));
 });
 
 
-test('', function () {
+test('validates file existence based on file type', function () {
 	Assert::true(Validators::is(__FILE__, 'file'));
 	Assert::false(Validators::is(__FILE__ . 'xx', 'class'));
 });
 
 
-test('', function () {
+test('confirms directory existence', function () {
 	Assert::true(Validators::is(__DIR__, 'directory'));
 	Assert::false(Validators::is(__DIR__ . 'xx', 'directory'));
 });
 
 
-test('', function () {
+test('ensures identifier follows naming conventions', function () {
 	Assert::true(Validators::is('Item', 'identifier'));
 	Assert::false(Validators::is('0Item', 'identifier'));
 });
 
-test('', function () {
+test('validates optional string or email format', function () {
 	Assert::true(Validators::is('', 'string:0|email'));
 	Assert::true(Validators::is('foo@bar.com', 'string:0|email'));
 	Assert::false(Validators::is('foo', 'string:0|email'));
 });
 
 
-test('', function () {
+test('checks that value is iterable from arrays, iterators, or generators', function () {
 	$gen = function () {
 		yield;
 	};
@@ -383,7 +383,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('validates multi-dimensional arrays against element type rules', function () {
 	class Abc
 	{
 	}
@@ -411,7 +411,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('checks nullable string type acceptance', function () {
 	Assert::true(Validators::is(null, '?string'));
 	Assert::true(Validators::is('1', '?string'));
 	Assert::false(Validators::is(true, '?int'));

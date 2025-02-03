@@ -12,7 +12,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('empty iterable returns false without callback execution', function () {
 	$arr = new ArrayIterator([]);
 	$log = [];
 	$res = Iterables::some(
@@ -26,7 +26,7 @@ test('', function () {
 	Assert::same([], $log);
 });
 
-test('', function () {
+test('empty iterable ignores callback despite true return', function () {
 	$arr = new ArrayIterator([]);
 	$log = [];
 	$res = Iterables::some(
@@ -40,7 +40,7 @@ test('', function () {
 	Assert::same([], $log);
 });
 
-test('', function () {
+test('iterates all elements when none match', function () {
 	$arr = new ArrayIterator(['a', 'b']);
 	$log = [];
 	$res = Iterables::some(
@@ -54,7 +54,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
 });
 
-test('', function () {
+test('halts iteration on first true value', function () {
 	$arr = new ArrayIterator(['a', 'b']);
 	$log = [];
 	$res = Iterables::some(
@@ -68,7 +68,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr]], $log);
 });
 
-test('', function () {
+test('stops on first element matching condition', function () {
 	$arr = new ArrayIterator(['a', 'b']);
 	$log = [];
 	$res = Iterables::some(
@@ -82,7 +82,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr]], $log);
 });
 
-test('', function () {
+test('processes associative iterable and stops on match', function () {
 	$arr = new ArrayIterator(['x' => 'a', 'y' => 'b']);
 	$log = [];
 	$res = Iterables::some(

@@ -21,7 +21,7 @@ $arr = [
 	],
 ];
 
-test('Single item', function () use ($arr) {
+test('basic retrieval with default and exception for missing keys', function () use ($arr) {
 	Assert::same('first', Arrays::get($arr, ''));
 	Assert::same('second', Arrays::get($arr, 1));
 	Assert::same('second', Arrays::get($arr, 1, 'x'));
@@ -34,7 +34,7 @@ test('Single item', function () use ($arr) {
 });
 
 
-test('Traversing', function () use ($arr) {
+test('nested access using key path', function () use ($arr) {
 	Assert::same([
 		'' => 'first',
 		1 => 'second',

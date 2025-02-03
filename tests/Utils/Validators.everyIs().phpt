@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('ensures all elements conform to a type specification', function () {
 	class Abc
 	{
 	}
@@ -41,7 +41,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('validates generator yields elements of the specified type', function () {
 	$gen = function () {
 		yield 1;
 		yield 2;

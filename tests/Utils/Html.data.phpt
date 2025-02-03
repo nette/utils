@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('direct', function () {
+test('setting data-* attributes via property syntax', function () {
 	$el = Html::el('div');
 	$el->{'data-x'} = 'x';
 	$el->{'data-list'} = [1, 2, 3];
@@ -23,7 +23,7 @@ test('direct', function () {
 });
 
 
-test('function', function () {
+test('using data() method for data-* attributes', function () {
 	$el = Html::el('div');
 	$el->data('a', 'one');
 	$el->data('b', 'two');
@@ -35,7 +35,7 @@ test('function', function () {
 });
 
 
-test('special values', function () {
+test('handling null, boolean, and empty data values', function () {
 	$el = Html::el('div');
 	$el->data('top', null);
 	$el->data('t', true);
@@ -46,7 +46,7 @@ test('special values', function () {
 });
 
 
-test('setter', function () {
+test('overriding non-data attributes with data-* formatting', function () {
 	$el = Html::el('div');
 	$el->setAttribute('data-x', 'x');
 	$el->setAttribute('data-list', [1, 2, 3]);
@@ -58,7 +58,7 @@ test('setter', function () {
 });
 
 
-test('', function () {
+test('direct data attribute manipulation via property and method', function () {
 	$el = Html::el('div');
 	$el->data = 'simple';
 	Assert::same('<div data="simple"></div>', (string) $el);

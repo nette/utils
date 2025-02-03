@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('add', function () {
+test('building list with children and indentation', function () {
 	$el = Html::el('ul');
 	$el->create('li')->setText('one');
 	$el->addHtml(Html::el('li')->setText('two'))->class('hello');
@@ -31,7 +31,7 @@ test('add', function () {
 });
 
 
-test('', function () {
+test('mixing HTML and text children with array access', function () {
 	$el = Html::el(null);
 	$el->addHtml(Html::el('p')->setText('one'));
 	$el->addText('<p>two</p>');
@@ -48,7 +48,7 @@ test('', function () {
 });
 
 
-test('Iterator', function () {
+test('nested elements in select with optgroup and options', function () {
 	$el = Html::el('select');
 	$el->create('optgroup')->label('Main')->create('option')->setText('sub one')->create('option')->setText('sub two');
 	$el->create('option')->setText('Item');
@@ -59,7 +59,7 @@ test('Iterator', function () {
 });
 
 
-test('counting', function () {
+test('manipulating children collection', function () {
 	$el = Html::el('ul');
 	$el->addHtml('li');
 	$el->addHtml('li');
@@ -79,7 +79,7 @@ test('counting', function () {
 });
 
 
-test('cloning', function () {
+test('cloning element with children preservation', function () {
 	$el = Html::el('ul');
 	$el->addHtml(Html::el('li'));
 

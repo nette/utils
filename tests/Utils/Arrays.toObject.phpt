@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('converts an empty array to the provided object without properties', function () {
 	$obj = new stdClass;
 	$res = Arrays::toObject([], $obj);
 	Assert::same($res, $obj);
@@ -21,7 +21,7 @@ test('', function () {
 	Assert::same([], (array) $res);
 });
 
-test('', function () {
+test('converts an associative array to object properties', function () {
 	$obj = new stdClass;
 	$res = Arrays::toObject(['a' => 1, 'b' => 2], $obj);
 	Assert::same($res, $obj);
@@ -29,7 +29,7 @@ test('', function () {
 	Assert::same(['a' => 1, 'b' => 2], (array) $res);
 });
 
-test('', function () {
+test('converts Traversable input to object properties', function () {
 	$obj = new stdClass;
 	$res = Arrays::toObject(new ArrayIterator(['a' => 1, 'b' => 2]), $obj);
 	Assert::same($res, $obj);

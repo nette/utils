@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('empty array returns true without iteration', function () {
 	$arr = [];
 	$log = [];
 	$res = Arrays::every(
@@ -27,7 +27,7 @@ test('', function () {
 	Assert::same([], $log);
 });
 
-test('', function () {
+test('empty array returns true regardless of callback result', function () {
 	$arr = [];
 	$log = [];
 	$res = Arrays::every(
@@ -41,7 +41,7 @@ test('', function () {
 	Assert::same([], $log);
 });
 
-test('', function () {
+test('iteration stops on first false predicate', function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::every(
@@ -55,7 +55,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr]], $log);
 });
 
-test('', function () {
+test('all elements satisfying predicate return true', function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::every(
@@ -69,7 +69,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
 });
 
-test('', function () {
+test('not all elements satisfying predicate return false', function () {
 	$arr = ['a', 'b'];
 	$log = [];
 	$res = Arrays::every(
@@ -83,7 +83,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
 });
 
-test('', function () {
+test('associative array iteration preserves key order in callback', function () {
 	$arr = ['x' => 'a', 'y' => 'b'];
 	$log = [];
 	$res = Arrays::every(
@@ -97,7 +97,7 @@ test('', function () {
 	Assert::same([['a', 'x', $arr], ['b', 'y', $arr]], $log);
 });
 
-test('', function () {
+test('works seamlessly with Traversable objects', function () {
 	$arr = new ArrayIterator(['x' => 'a', 'y' => 'b']);
 	$log = [];
 	$res = Arrays::every(
