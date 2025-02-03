@@ -31,7 +31,7 @@ class Person
 }
 
 
-test('ArrayList::from', function () {
+test('creation from valid list and error on associative arrays', function () {
 	Assert::exception(
 		fn() => ArrayList::from(['a' => 1, 'b' => 2]),
 		Nette\InvalidArgumentException::class,
@@ -46,7 +46,7 @@ test('ArrayList::from', function () {
 });
 
 
-test('', function () {
+test('supports push, access, iteration, unset, and prepend operations', function () {
 	$list = new ArrayList;
 	$jack = new Person('Jack');
 	$mary = new Person('Mary');
@@ -90,7 +90,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('setting invalid offsets throws OutOfRangeException', function () {
 	$list = new ArrayList;
 	$list[] = 'a';
 	$list[] = 'b';
@@ -115,7 +115,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('accessing invalid offsets throws OutOfRangeException', function () {
 	$list = new ArrayList;
 	$list[] = 'a';
 	$list[] = 'b';
@@ -140,7 +140,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('unsetting invalid offsets throws OutOfRangeException', function () {
 	$list = new ArrayList;
 	$list[] = 'a';
 	$list[] = 'b';
@@ -159,7 +159,7 @@ test('', function () {
 });
 
 
-test('iteration with reference', function () {
+test('reference iteration modifies all list elements', function () {
 	$list = ArrayList::from([1, 2, 3]);
 	foreach ($list as $key => &$value) {
 		$value = 'new';

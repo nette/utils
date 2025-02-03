@@ -41,7 +41,7 @@ test('stdClass', function () {
 });
 
 
-test('IteratorAggregate', function () {
+test('iteratorAggregate', function () {
 	$arr = new ArrayObject(['Nette', 'Framework']);
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {
@@ -54,7 +54,7 @@ test('IteratorAggregate', function () {
 	], $tmp);
 });
 
-test('Iterator', function () {
+test('iterator', function () {
 	$arr = new ArrayObject(['Nette', 'Framework']);
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr->getIterator()) as $k => $v) {
@@ -68,7 +68,7 @@ test('Iterator', function () {
 });
 
 
-test('SimpleXMLElement', function () {
+test('simpleXMLElement', function () {
 	$arr = new SimpleXMLElement('<feed><item>Nette</item><item>Framework</item></feed>');
 	$tmp = [];
 	foreach (new Iterators\CachingIterator($arr) as $k => $v) {

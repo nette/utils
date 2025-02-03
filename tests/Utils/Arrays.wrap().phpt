@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('Basics', function () {
+test('wraps strings with specified prefix and suffix', function () {
 	Assert::same([], Arrays::wrap([], '{', '}'));
 	Assert::same(['STR'], Arrays::wrap(['STR']));
 	Assert::same(['{STR'], Arrays::wrap(['STR'], '{'));
@@ -22,7 +22,7 @@ test('Basics', function () {
 });
 
 
-test('Type conversion', function () {
+test('converts scalars to strings with error on array conversion', function () {
 	$o = new class {
 		public function __toString()
 		{

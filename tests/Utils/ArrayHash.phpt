@@ -31,7 +31,7 @@ class Person
 }
 
 
-test('', function () {
+test('store and retrieve values via array and property notation', function () {
 	$list = new ArrayHash;
 	$jack = new Person('Jack');
 	$mary = new Person('Mary');
@@ -79,7 +79,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('creation with non‐recursive conversion leaves nested arrays unchanged', function () {
 	$mary = new Person('Mary');
 	$list = ArrayHash::from([
 		'm' => $mary,
@@ -93,7 +93,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('recursive conversion transforms nested arrays into ArrayHash', function () {
 	$mary = new Person('Mary');
 	$list = ArrayHash::from([
 		'm' => $mary,
@@ -121,7 +121,7 @@ test('', function () {
 });
 
 
-test('numeric fields', function () {
+test('numeric key handling supports both integer and string offsets', function () {
 	$row = ArrayHash::from([1, 2]);
 
 	foreach ($row as $key => $value) {
@@ -171,7 +171,7 @@ test('numeric fields', function () {
 });
 
 
-test('null fields', function () {
+test('null values are stored but not regarded as set', function () {
 	$row = ArrayHash::from(['null' => null]);
 	Assert::null($row->null);
 	Assert::null($row['null']);
@@ -180,7 +180,7 @@ test('null fields', function () {
 });
 
 
-test('undeclared fields', function () {
+test('accessing undefined keys triggers a notice or warning', function () {
 	$row = new ArrayHash;
 	Assert::error(
 		fn() => $row->undef,
@@ -196,7 +196,7 @@ test('undeclared fields', function () {
 });
 
 
-test('PHP 7 changed behavior https://3v4l.org/2A1pf', function () {
+test('unsetting entries during iteration removes them', function () {
 	$hash = ArrayHash::from([1, 2, 3]);
 	foreach ($hash as $key => $value) {
 		unset($hash->$key);
@@ -206,7 +206,7 @@ test('PHP 7 changed behavior https://3v4l.org/2A1pf', function () {
 });
 
 
-test('iteration with reference', function () {
+test('reference iteration allows modification of all elements', function () {
 	$hash = ArrayHash::from([1, 2, 3]);
 	foreach ($hash as $key => &$value) {
 		$value = 'new';

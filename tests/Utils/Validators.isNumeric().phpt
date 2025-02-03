@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('Valid numbers by string', function () {
+test('handles numeric strings with decimals and signs', function () {
 	Assert::true(Validators::isNumeric('1.0'));
 	Assert::true(Validators::isNumeric('1'));
 	Assert::true(Validators::isNumeric('-1'));
@@ -24,21 +24,21 @@ test('Valid numbers by string', function () {
 });
 
 
-test('Valid numbers by float', function () {
+test('processes numeric float values', function () {
 	Assert::true(Validators::isNumeric(1.0));
 	Assert::true(Validators::isNumeric(.0));
 	Assert::true(Validators::isNumeric(1.));
 });
 
 
-test('Valid numbers by int', function () {
+test('processes integer values', function () {
 	Assert::true(Validators::isNumeric(1));
 	Assert::true(Validators::isNumeric(-1));
 	Assert::true(Validators::isNumeric(+1));
 });
 
 
-test('Invalid numbers', function () {
+test('rejects non-numeric formats and malformed numbers', function () {
 	Assert::false(Validators::isNumeric('.')); // it is not 0.0
 	Assert::false(Validators::isNumeric(' 1'));
 	Assert::false(Validators::isNumeric('1 '));

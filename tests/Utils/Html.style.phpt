@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('appending styles and classes with array syntax', function () {
 	$el = Html::el('div');
 	$el->style[] = 'text-align:right';
 	$el->style[] = null;
@@ -32,7 +32,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('manipulating style and class attributes with append and set', function () {
 	$el = Html::el('div');
 	$el->appendAttribute('style', 'text-align:right');
 	$el->appendAttribute('style', null);
@@ -65,7 +65,7 @@ test('', function () {
 });
 
 
-test('append', function () {
+test('combining style, class, and id methods', function () {
 	$el = Html::el('div');
 	$el->style('color', 'white');
 	$el->style('background-color', 'blue');
@@ -80,7 +80,7 @@ test('append', function () {
 });
 
 
-test('append II', function () {
+test('appending style attributes with forced addition', function () {
 	$el = Html::el('div');
 	$el->style[] = 'text-align:right';
 	$el->style('', true);
@@ -90,7 +90,7 @@ test('append II', function () {
 });
 
 
-test('append III', function () {
+test('toggling class names with boolean flags', function () {
 	$el = Html::el('div');
 	$el->class('top', true);
 	$el->class('active', true);

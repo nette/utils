@@ -12,7 +12,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('empty iterable bypasses callback with false return', function () {
 	$arr = new ArrayIterator([]);
 	$log = [];
 	$res = Iterables::every(
@@ -26,7 +26,7 @@ test('', function () {
 	Assert::same([], $log);
 });
 
-test('', function () {
+test('empty iterable bypasses callback with true return', function () {
 	$arr = new ArrayIterator([]);
 	$log = [];
 	$res = Iterables::every(
@@ -40,7 +40,7 @@ test('', function () {
 	Assert::same([], $log);
 });
 
-test('', function () {
+test('stops iteration on first false value', function () {
 	$arr = new ArrayIterator(['a', 'b']);
 	$log = [];
 	$res = Iterables::every(
@@ -54,7 +54,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr]], $log);
 });
 
-test('', function () {
+test('processes all elements returning true', function () {
 	$arr = new ArrayIterator(['a', 'b']);
 	$log = [];
 	$res = Iterables::every(
@@ -68,7 +68,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
 });
 
-test('', function () {
+test('terminates when element does not match condition', function () {
 	$arr = new ArrayIterator(['a', 'b']);
 	$log = [];
 	$res = Iterables::every(
@@ -82,7 +82,7 @@ test('', function () {
 	Assert::same([['a', 0, $arr], ['b', 1, $arr]], $log);
 });
 
-test('', function () {
+test('iterates associative iterable with all true results', function () {
 	$arr = new ArrayIterator(['x' => 'a', 'y' => 'b']);
 	$log = [];
 	$res = Iterables::every(

@@ -25,7 +25,7 @@ function export($iterator)
 }
 
 
-test('multiple mask', function () {
+test('multiple file masks find matching files in a directory', function () {
 	$finder = Finder::findFiles('*.txt', '*.gif')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -36,7 +36,7 @@ test('multiple mask', function () {
 });
 
 
-test('', function () {
+test('array of file masks returns expected matching files', function () {
 	$finder = Finder::findFiles(['*.txt', '*.gif'])->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -47,7 +47,7 @@ test('', function () {
 });
 
 
-test('* mask', function () {
+test('multiple masks in a subdirectory return files and directories', function () {
 	$finder = Finder::findFiles('*.txt', '*')->in('fixtures.finder/subdir');
 	Assert::same([
 		'fixtures.finder/subdir/file.txt',
@@ -56,7 +56,7 @@ test('* mask', function () {
 });
 
 
-test('*.* mask', function () {
+test('mask with dot character excludes files without extension', function () {
 	$finder = Finder::findFiles('*.*')->in('fixtures.finder/subdir');
 	Assert::same([
 		'fixtures.finder/subdir/file.txt',
@@ -64,7 +64,7 @@ test('*.* mask', function () {
 });
 
 
-test('subdir excluding mask', function () {
+test('excluding subdirectories by pattern filters out unwanted files', function () {
 	$finder = Finder::findFiles('*')->exclude('*i*/*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -72,7 +72,7 @@ test('subdir excluding mask', function () {
 });
 
 
-test('subdir mask', function () {
+test('nested wildcard pattern finds files in deeper subdirectories', function () {
 	$finder = Finder::findFiles('*/*2/*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/subdir/subdir2/file.txt',
@@ -80,7 +80,7 @@ test('subdir mask', function () {
 });
 
 
-test('excluding mask', function () {
+test('excluding files by pattern in subdirectory returns remaining entries', function () {
 	$finder = Finder::findFiles('*')->exclude('*i*')->in('fixtures.finder/subdir');
 	Assert::same([
 		'fixtures.finder/subdir/readme',
@@ -88,7 +88,7 @@ test('excluding mask', function () {
 });
 
 
-test('subdir excluding mask', function () {
+test('excluding nested patterns in base directory filters correctly', function () {
 	$finder = Finder::findFiles('*')->exclude('*i*/*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -96,7 +96,7 @@ test('subdir excluding mask', function () {
 });
 
 
-test('wildcard ?', function () {
+test('complex mask with character classes matches the expected file', function () {
 	$finder = Finder::findFiles('*2*/fi??.*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/subdir/subdir2/file.txt',
@@ -104,7 +104,7 @@ test('wildcard ?', function () {
 });
 
 
-test('wildcard []', function () {
+test('masks with character classes and escaped brackets match files', function () {
 	$finder = Finder::findFiles('*[efd][a-z][!a-r]*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/images/logo.gif',
@@ -117,7 +117,7 @@ test('wildcard []', function () {
 });
 
 
-test('wildcards [] in mask part of path', function () {
+test('bracket patterns match directory names correctly', function () {
 	$finder = Finder::findFiles('[x]/fil[e].*')->in('fixtures.finder2');
 	Assert::same([
 		'fixtures.finder2/x/file.txt',
@@ -130,7 +130,7 @@ test('wildcards [] in mask part of path', function () {
 });
 
 
-test('[] are not wildcards in path', function () {
+test('wildcard with bracketed directory pattern matches files', function () {
 	$finder = Finder::findFiles('*')->in('fixtures.finder*/[x]');
 	Assert::same([
 		'fixtures.finder2/[x]/file.txt',
@@ -143,7 +143,7 @@ test('[] are not wildcards in path', function () {
 });
 
 
-test('recursive mask', function () {
+test('double asterisk wildcard behaves differently in from() and in()', function () {
 	$finder = Finder::findFiles('**/f*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -158,7 +158,7 @@ test('recursive mask', function () {
 });
 
 
-test('anchored', function () {
+test('relative path masks with "./" prefix work correctly', function () {
 	$finder = Finder::findFiles('./f*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -176,7 +176,7 @@ test('anchored', function () {
 });
 
 
-test('anchored level-up', function () {
+test('parent directory references are handled differently in from() versus in()', function () {
 	// not supported
 	$finder = Finder::findFiles('../f*')->from('fixtures.finder/subdir');
 	Assert::same([], export($finder));
@@ -188,7 +188,7 @@ test('anchored level-up', function () {
 });
 
 
-test('anchored recursive mask', function () {
+test('combined relative and recursive wildcards match nested files', function () {
 	$finder = Finder::findFiles('./**/f*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -198,7 +198,7 @@ test('anchored recursive mask', function () {
 });
 
 
-test('leading recursive mask', function () {
+test('finder returns directories matching the given pattern', function () {
 	$finder = Finder::find('s*/**')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/subdir/file.txt',
@@ -209,7 +209,7 @@ test('leading recursive mask', function () {
 });
 
 
-test('mask in path', function () {
+test('glob pattern for directory names returns different file sets', function () {
 	$finder = Finder::findFiles('f*')->in('*.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -224,7 +224,7 @@ test('mask in path', function () {
 });
 
 
-test('recursive mask in path', function () {
+test('recursive glob patterns yield varying results with in() and from()', function () {
 	$finder = Finder::findFiles('f*')->in('**/fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',

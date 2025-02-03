@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('adjusts page when exceeding total count for zero-based indexing', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -32,7 +32,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('normalizes negative page value to first page', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -48,7 +48,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('handles single-page pagination with exact fit', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 7;
@@ -67,7 +67,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('treats negative item count as empty result', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = -1;
 	$paginator->itemsPerPage = 7;
@@ -86,7 +86,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('adapts pagination for one-based indexing', function () {
 	$paginator = new Paginator;
 	$paginator->itemCount = 7;
 	$paginator->itemsPerPage = 6;
@@ -105,7 +105,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('determines first/last page status and item boundaries', function () {
 	$paginator = new Paginator;
 
 	// ItemCount: 0
@@ -140,7 +140,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('manages pagination when total item count is undefined', function () {
 	$paginator = new Paginator;
 	$paginator->itemsPerPage = 6;
 	$paginator->base = 0;

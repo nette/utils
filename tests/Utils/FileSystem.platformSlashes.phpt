@@ -8,11 +8,11 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('converts slash characters to platform‐specific DIRECTORY_SEPARATOR', function () {
 	Assert::same(DIRECTORY_SEPARATOR, FileSystem::platformSlashes('\\'));
 	Assert::same(DIRECTORY_SEPARATOR, FileSystem::platformSlashes('/'));
 });
 
-test('protocol', function () {
+test('converts URL paths to use platform‐specific separators', function () {
 	Assert::same('file://path' . DIRECTORY_SEPARATOR . 'file', FileSystem::platformSlashes('file://path/file'));
 });

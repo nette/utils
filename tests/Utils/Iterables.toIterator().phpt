@@ -12,7 +12,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('array', function () {
+test('converts array into iterator', function () {
 	$arr = ['Nette', 'Framework'];
 	$tmp = [];
 	foreach (Iterables::toIterator($arr) as $k => $v) {
@@ -26,7 +26,7 @@ test('array', function () {
 });
 
 
-test('Iterator', function () {
+test('preserves ArrayIterator instance', function () {
 	$arr = new ArrayIterator(['Nette', 'Framework']);
 	$tmp = [];
 	foreach (Iterables::toIterator($arr) as $k => $v) {
@@ -40,7 +40,7 @@ test('Iterator', function () {
 });
 
 
-test('IteratorAggregate', function () {
+test('converts ArrayObject to ArrayIterator', function () {
 	$arr = new ArrayObject(['Nette', 'Framework']);
 	Assert::type(ArrayIterator::class, Iterables::toIterator($arr));
 

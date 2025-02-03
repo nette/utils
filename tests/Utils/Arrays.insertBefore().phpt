@@ -21,7 +21,7 @@ $arr = [
 ];
 
 
-test('First item', function () use ($arr) {
+test('first item', function () use ($arr) {
 	$dolly = $arr;
 	Arrays::insertBefore($dolly, null, ['new' => 'value']);
 	Assert::same([
@@ -45,7 +45,7 @@ test('First item', function () use ($arr) {
 });
 
 
-test('Last item', function () use ($arr) {
+test('last item', function () use ($arr) {
 	$dolly = $arr;
 	Arrays::insertBefore($dolly, 7, ['new' => 'value']);
 	Assert::same([
@@ -69,7 +69,7 @@ test('Last item', function () use ($arr) {
 });
 
 
-test('Undefined item', function () use ($arr) {
+test('undefined item', function () use ($arr) {
 	$dolly = $arr;
 	Arrays::insertBefore($dolly, 'undefined', ['new' => 'value']);
 	Assert::same([

@@ -19,7 +19,7 @@ class TestClass
 }
 
 
-test('', function () {
+test('allows unsetting and reassigning a declared property', function () {
 	$obj = new TestClass;
 	unset($obj->foo);
 	Assert::false(isset($obj->foo));
@@ -30,13 +30,13 @@ test('', function () {
 });
 
 
-test('double unset', function () {
+test('multiple unsets on a property are permitted', function () {
 	$obj = new TestClass;
 	unset($obj->foo, $obj->foo);
 });
 
 
-test('reading of unset property', function () {
+test('accessing an unset property triggers an exception', function () {
 	Assert::exception(function () {
 		$obj = new TestClass;
 		unset($obj->foo);

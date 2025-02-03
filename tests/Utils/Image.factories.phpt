@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('loading GIF image and detecting dimensions', function () {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif', $format);
 	Assert::same(176, $image->getWidth());
 	Assert::same(104, $image->getHeight());
@@ -26,7 +26,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('loading WEBP image if supported', function () {
 	if (!Image::isTypeSupported(Image::WEBP)) {
 		return;
 	}
@@ -38,7 +38,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('loading AVIF image if supported', function () {
 	if (!Image::isTypeSupported(Image::AVIF)) {
 		return;
 	}
@@ -74,14 +74,14 @@ Assert::exception(
 );
 
 
-test('', function () {
+test('creating blank image with background color', function () {
 	$image = Image::fromBlank(200, 300, Image::rgb(255, 128, 0));
 	Assert::same(200, $image->getWidth());
 	Assert::same(300, $image->getHeight());
 });
 
 
-test('', function () {
+test('creating image from empty GIF string and detecting type', function () {
 	$image = Image::fromString(Image::EmptyGIF, $format);
 	Assert::same(1, $image->getWidth());
 	Assert::same(1, $image->getHeight());
