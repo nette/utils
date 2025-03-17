@@ -88,3 +88,21 @@ Assert::exception(
 	Nette\InvalidArgumentException::class,
 	'Unsupported file extension \'psd\'.',
 );
+
+
+test('saving palette-based as WEBP should fail without creating file', function () {
+	if (!Image::isTypeSupported(Image::WEBP) || PHP_VERSION_ID < 80200) {
+		return;
+	}
+
+	$paletteImage = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif');
+	$filename = getTempDir() . '/palette-test.webp';
+
+	Assert::exception(
+		fn() => $paletteImage->save($filename),
+		Nette\Utils\ImageException::class,
+		'Palette %a%',
+	);
+
+	Assert::false(is_file($filename));
+});
