@@ -32,11 +32,11 @@ Assert::same(
 	['a' => 1, 'b' => 2, 'c' => 3],
 	Arrays::filter(
 		['a' => 1, 'b' => 2, 'c' => 3],
-		fn($v, $k, $a) => $a === ['a' => 1, 'b' => 2, 'c' => 3]
+		fn($v, $k, $a) => $a === ['a' => 1, 'b' => 2, 'c' => 3],
 	),
 );
 
 Assert::same(
 	[],
-	Arrays::filter([], fn() => true)
+	Arrays::filter([], fn() => true),
 );

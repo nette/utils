@@ -21,7 +21,7 @@ test('', function () {
 	Assert::same("{$S}file", FileSystem::normalizePath('/file'));
 
 	Assert::same('', FileSystem::normalizePath('.'));
-	Assert::same($S, FileSystem::normalizePath('\\.'));
+	Assert::same($S, FileSystem::normalizePath('\.'));
 	Assert::same($S, FileSystem::normalizePath('/.'));
 	Assert::same($S, FileSystem::normalizePath('.\\'));
 	Assert::same($S, FileSystem::normalizePath('./'));
