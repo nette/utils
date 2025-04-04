@@ -110,14 +110,13 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 	public function __construct(string $datetime = 'now', ?\DateTimeZone $timezone = null)
 	{
-		parent::__construct($datetime, $timezone);
-		$this->handleErrors($datetime);
+		$this->apply($datetime, $timezone, true);
 	}
 
 
 	public function modify(string $modifier): static
 	{
-		parent::modify($modifier) && $this->handleErrors($modifier);
+		$this->apply($modifier);
 		return $this;
 	}
 
@@ -152,6 +151,34 @@ class DateTime extends \DateTime implements \JsonSerializable
 	{
 		return (new \DateTimeImmutable('1970-01-01 ' . $relativeTime, new \DateTimeZone('UTC')))
 			->getTimestamp();
+	}
+
+
+	private function apply(string $datetime, $timezone = null, bool $ctr = false): void
+	{
+		$relPart = '';
+		$absPart = preg_replace_callback(
+			'/[+-]?\s*\d+\s+((microsecond|millisecond|[mµu]sec)s?|[mµ]s|sec(ond)?s?|min(ute)?s?|hours?)\b/iu',
+			function ($m) use (&$relPart) {
+				$relPart .= $m[0] . ' ';
+				return '';
+			},
+			$datetime,
+		);
+
+		if ($ctr) {
+			parent::__construct($absPart, $timezone);
+			$this->handleErrors($datetime);
+		} elseif (trim($absPart)) {
+			parent::modify($absPart) && $this->handleErrors($datetime);
+		}
+
+		if ($relPart) {
+			$timezone ??= $this->getTimezone();
+			$this->setTimezone(new \DateTimeZone('UTC'));
+			parent::modify($relPart) && $this->handleErrors($datetime);
+			$this->setTimezone($timezone);
+		}
 	}
 
 

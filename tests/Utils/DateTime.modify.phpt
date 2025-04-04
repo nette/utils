@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 date_default_timezone_set('Europe/Prague');
 
 
-test('Basic operations', function () {
+test('Basic operations (no DST involved)', function () {
 	$base = new DateTime('2024-07-15 10:00:00'); // Summer time (CEST)
 
 	$dt = clone $base;
@@ -32,6 +32,68 @@ test('Basic operations', function () {
 	$dt = new DateTime('2024-01-15 10:00:00'); // Winter time (CET)
 	$dt->modify('+1 month');
 	Assert::same('2024-02-15 10:00:00 CET (+01:00)', $dt->format('Y-m-d H:i:s T (P)'), '+1 month in winter');
+});
+
+
+test('Spring DST transition (2025-03-30 02:00 -> 03:00)', function () {
+	$startSpring = new DateTime('2025-03-30 01:45:00'); // Before the jump (CET +01:00)
+
+	// Modification ending BEFORE the jump
+	$dt = clone $startSpring;
+	$dt->modify('+10 minutes');
+	Assert::same('2025-03-30 01:55:00 CET (+01:00)', $dt->format('Y-m-d H:i:s T (P)'), '+10 min (ends before jump)');
+
+	// Modification crossing the jump (duration logic thanks to Nette fix)
+	$dt = clone $startSpring;
+	$dt->modify('+30 minutes'); // 01:45 CET + 30 min duration = 01:15 UTC = 03:15 CEST
+	Assert::same('2025-03-30 03:15:00 CEST (+02:00)', $dt->format('Y-m-d H:i:s T (P)'), '+30 min (crosses jump)');
+
+	$dt = clone $startSpring;
+	$dt->modify('+90 minutes'); // 01:45 CET + 90 min duration = 02:15 UTC = 04:15 CEST (Key test!)
+	Assert::same('2025-03-30 04:15:00 CEST (+02:00)', $dt->format('Y-m-d H:i:s T (P)'), '+90 min (crosses jump)');
+
+	// Adding a day across the jump (day has only 23 hours)
+	$dt = clone $startSpring;
+	$dt->modify('+1 day');
+	Assert::same('2025-03-31 01:45:00 CEST (+02:00)', $dt->format('Y-m-d H:i:s T (P)'), '+1 day');
+
+	// Combination of day + hours across the jump
+	$dt = clone $startSpring;
+	$dt->modify('+1 day +1 hour');
+	Assert::same('2025-03-31 02:45:00 CEST (+02:00)', $dt->format('Y-m-d H:i:s T (P)'), '+1 day + 1 hour');
+
+	$dt = clone $startSpring;
+	$dt->modify('+2 hours'); // 01:45 CET + 2h duration = 02:45 UTC = 04:45 CEST
+	Assert::same('2025-03-30 04:45:00 CEST (+02:00)', $dt->format('Y-m-d H:i:s T (P)'), '+2 hours (crosses jump)');
+});
+
+
+test('Autumn DST transition (2024-10-27 03:00 -> 02:00)', function () {
+	$startAutumn = new DateTime('2024-10-27 01:45:00'); // Before the fallback (CEST +02:00)
+
+	// Modification ending BEFORE the fallback (still CEST)
+	$dt = clone $startAutumn;
+	$dt->modify('+30 minutes');
+	Assert::same('2024-10-27 02:15:00 CEST (+02:00)', $dt->format('Y-m-d H:i:s T (P)'), '+30 min (ends before fallback)');
+
+	// Modification crossing the fallback (lands in the second 2:xx hour - CET)
+	$dt = clone $startAutumn;
+	$dt->modify('+90 minutes'); // 01:45 CEST + 90 min duration = 01:15 UTC = 02:15 CET
+	Assert::same('2024-10-27 02:15:00 CET (+01:00)', $dt->format('Y-m-d H:i:s T (P)'), '+90 min (crosses fallback, lands in CET)');
+
+	$dt = clone $startAutumn;
+	$dt->modify('+1 hour + 30 minutes'); // Same as +90 minutes
+	Assert::same('2024-10-27 02:15:00 CET (+01:00)', $dt->format('Y-m-d H:i:s T (P)'), '+1 hour + 30 minutes (crosses fallback)');
+
+	// Adding a day across the fallback (day has 25 hours)
+	$dt = clone $startAutumn;
+	$dt->modify('+1 day');
+	Assert::same('2024-10-28 01:45:00 CET (+01:00)', $dt->format('Y-m-d H:i:s T (P)'), '+1 day');
+
+	// Combination of day + hours across the fallback
+	$dt = clone $startAutumn;
+	$dt->modify('+1 day +2 hours');
+	Assert::same('2024-10-28 03:45:00 CET (+01:00)', $dt->format('Y-m-d H:i:s T (P)'), '+1 day + 2 hours');
 });
 
 
