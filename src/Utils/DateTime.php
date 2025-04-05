@@ -76,12 +76,9 @@ class DateTime extends \DateTime implements \JsonSerializable
 		$s = sprintf('%04d-%02d-%02d %02d:%02d:%02.5F', $year, $month, $day, $hour, $minute, $second);
 		if (
 			!checkdate($month, $day, $year)
-			|| $hour < 0
-			|| $hour > 23
-			|| $minute < 0
-			|| $minute > 59
-			|| $second < 0
-			|| $second >= 60
+			|| $hour < 0 || $hour > 23
+			|| $minute < 0 || $minute > 59
+			|| $second < 0 || $second >= 60
 		) {
 			throw new Nette\InvalidArgumentException("Invalid date '$s'");
 		}
@@ -91,11 +88,11 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 
 	/**
-	 * Returns new DateTime object formatted according to the specified format.
+	 * Returns a new DateTime object formatted according to the specified format.
 	 */
 	public static function createFromFormat(
 		string $format,
-		string $time,
+		string $datetime,
 		string|\DateTimeZone|null $timezone = null,
 	): static|false
 	{
@@ -106,7 +103,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 			$timezone = new \DateTimeZone($timezone);
 		}
 
-		$date = parent::createFromFormat($format, $time, $timezone);
+		$date = parent::createFromFormat($format, $datetime, $timezone);
 		return $date ? static::from($date) : false;
 	}
 
