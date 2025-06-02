@@ -146,6 +146,16 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 
 	/**
+	 * Converts a relative time string (e.g. '10 minut') to seconds.
+	 */
+	public static function relativeToSeconds(string $relativeTime): int
+	{
+		return (new \DateTimeImmutable('1970-01-01 ' . $relativeTime, new \DateTimeZone('UTC')))
+			->getTimestamp();
+	}
+
+
+	/**
 	 * Returns JSON representation in ISO 8601 (used by JavaScript).
 	 */
 	public function jsonSerialize(): string
