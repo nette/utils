@@ -112,4 +112,10 @@ test('Invalid modifier format exceptions', function () {
 			'DateTime::modify(): Failed to parse time string (+) at position 0 (+): Unexpected character',
 		);
 	}
+
+	Assert::error(
+		fn() => (new DateTime)->modify('2024-02-31 10:00:00'), // Invalid day for February
+		E_USER_WARNING,
+		"Nette\\Utils\\DateTime: The parsed date was invalid '2024-02-31 10:00:00'",
+	);
 });

@@ -108,6 +108,43 @@ class DateTime extends \DateTime implements \JsonSerializable
 	}
 
 
+	public function __construct(string $datetime = 'now', ?\DateTimeZone $timezone = null)
+	{
+		parent::__construct($datetime, $timezone);
+		$this->handleErrors($datetime);
+	}
+
+
+	public function modify(string $modifier): static
+	{
+		parent::modify($modifier) && $this->handleErrors($modifier);
+		return $this;
+	}
+
+
+	public function setDate(int $year, int $month, int $day): static
+	{
+		if (!checkdate($month, $day, $year)) {
+			trigger_error(sprintf(self::class . ': The date %04d-%02d-%02d is not valid.', $year, $month, $day), E_USER_WARNING);
+		}
+		return parent::setDate($year, $month, $day);
+	}
+
+
+	public function setTime(int $hour, int $minute, int $second = 0, int $microsecond = 0): static
+	{
+		if (
+			$hour < 0 || $hour > 23
+			|| $minute < 0 || $minute > 59
+			|| $second < 0 || $second >= 60
+			|| $microsecond < 0 || $microsecond >= 1_000_000
+		) {
+			trigger_error(sprintf(self::class . ': The time %02d:%02d:%08.5F is not valid.', $hour, $minute, $second + $microsecond / 1_000_000), E_USER_WARNING);
+		}
+		return parent::setTime($hour, $minute, $second, $microsecond);
+	}
+
+
 	/**
 	 * Returns JSON representation in ISO 8601 (used by JavaScript).
 	 */
@@ -133,5 +170,15 @@ class DateTime extends \DateTime implements \JsonSerializable
 	{
 		$dolly = clone $this;
 		return $modify ? $dolly->modify($modify) : $dolly;
+	}
+
+
+	private function handleErrors(string $value): void
+	{
+		$errors = self::getLastErrors();
+		$errors = array_merge($errors['errors'] ?? [], $errors['warnings'] ?? []);
+		if ($errors) {
+			trigger_error(self::class . ': ' . implode(', ', $errors) . " '$value'", E_USER_WARNING);
+		}
 	}
 }
