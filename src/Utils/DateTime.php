@@ -150,7 +150,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	 */
 	public static function relativeToSeconds(string $relativeTime): int
 	{
-		return (new \DateTimeImmutable('1970-01-01 ' . $relativeTime, new \DateTimeZone('UTC')))
+		return (new self('@0 ' . $relativeTime))
 			->getTimestamp();
 	}
 
