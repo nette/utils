@@ -24,6 +24,7 @@ class FooChild extends Foo
 function testTypeHint(string $expected, Type $type): void
 {
 	Assert::same($expected, (string) $type);
+	eval("function($expected \$_) {};");
 }
 
 
