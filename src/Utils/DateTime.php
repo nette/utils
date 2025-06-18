@@ -120,7 +120,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	public function setDate(int $year, int $month, int $day): static
 	{
 		if (!checkdate($month, $day, $year)) {
-			trigger_error(sprintf(self::class . ': The date %04d-%02d-%02d is not valid.', $year, $month, $day), E_USER_WARNING);
+			throw new \Exception(sprintf('The date %04d-%02d-%02d is not valid.', $year, $month, $day));
 		}
 		return parent::setDate($year, $month, $day);
 	}
@@ -134,7 +134,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 			|| $second < 0 || $second >= 60
 			|| $microsecond < 0 || $microsecond >= 1_000_000
 		) {
-			trigger_error(sprintf(self::class . ': The time %02d:%02d:%08.5F is not valid.', $hour, $minute, $second + $microsecond / 1_000_000), E_USER_WARNING);
+			throw new \Exception(sprintf('The time %02d:%02d:%08.5F is not valid.', $hour, $minute, $second + $microsecond / 1_000_000));
 		}
 		return parent::setTime($hour, $minute, $second, $microsecond);
 	}
@@ -211,7 +211,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 		$errors = self::getLastErrors();
 		$errors = array_merge($errors['errors'] ?? [], $errors['warnings'] ?? []);
 		if ($errors) {
-			trigger_error(self::class . ': ' . implode(', ', $errors) . " '$value'", E_USER_WARNING);
+			throw new \Exception(implode(', ', $errors) . " '$value'");
 		}
 	}
 }
