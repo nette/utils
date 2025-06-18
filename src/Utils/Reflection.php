@@ -35,7 +35,6 @@ final class Reflection
 	}
 
 
-	/** @deprecated use native ReflectionParameter::getDefaultValue() */
 	public static function getParameterDefaultValue(\ReflectionParameter $param): mixed
 	{
 		if ($param->isDefaultValueConstant()) {
