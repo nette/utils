@@ -29,8 +29,8 @@ test('relativeToSeconds throws on invalid', function () {
 		'%a?%Failed to parse time string %a%',
 	);
 
-	Assert::error(
+	Assert::exception(
 		fn() => DateTime::relativeToSeconds('1 minu'),
-		E_USER_WARNING,
+		Throwable::class,
 	);
 });

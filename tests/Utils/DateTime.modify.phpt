@@ -167,22 +167,22 @@ test('Complex and varied format strings', function () {
 
 test('Invalid modifier format exceptions', function () {
 	if (PHP_VERSION_ID < 80300) {
-		Assert::error(
+		Assert::exception(
 			fn() => (new DateTime)->modify('+'),
-			E_WARNING,
+			Throwable::class,
 			'DateTime::modify(): Failed to parse time string (+) at position 0 (+): Unexpected character',
 		);
 	} else {
-		Assert::error(
+		Assert::exception(
 			fn() => (new DateTime)->modify('+'),
 			DateMalformedStringException::class,
 			'DateTime::modify(): Failed to parse time string (+) at position 0 (+): Unexpected character',
 		);
 	}
 
-	Assert::error(
+	Assert::exception(
 		fn() => (new DateTime)->modify('2024-02-31 10:00:00'), // Invalid day for February
-		E_USER_WARNING,
-		"Nette\\Utils\\DateTime: The parsed date was invalid '2024-02-31 10:00:00'",
+		Throwable::class,
+		"The parsed date was invalid '2024-02-31 10:00:00'",
 	);
 });

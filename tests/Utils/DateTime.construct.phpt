@@ -101,21 +101,21 @@ test('Exception handling for invalid input', function () {
 		'%a%invalid date format%a%',
 	);
 
-	Assert::error(
+	Assert::exception(
 		fn() => new DateTime('0000-00-00'),
-		E_USER_WARNING,
-		"Nette\\Utils\\DateTime: The parsed date was invalid '0000-00-00'",
+		Throwable::class,
+		"The parsed date was invalid '0000-00-00'",
 	);
 
-	Assert::error(
+	Assert::exception(
 		fn() => new DateTime('2024-02-31 10:00:00'), // Invalid day for February
-		E_USER_WARNING,
-		"Nette\\Utils\\DateTime: The parsed date was invalid '2024-02-31 10:00:00'",
+		Throwable::class,
+		"The parsed date was invalid '2024-02-31 10:00:00'",
 	);
 
-	Assert::error(
+	Assert::exception(
 		fn() => new DateTime('1978-01-23 23:00:60'),
-		E_USER_WARNING,
-		"Nette\\Utils\\DateTime: The parsed time was invalid '1978-01-23 23:00:60'",
+		Throwable::class,
+		"The parsed time was invalid '1978-01-23 23:00:60'",
 	);
 });
