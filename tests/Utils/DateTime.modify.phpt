@@ -157,6 +157,11 @@ test('Complex and varied format strings', function () {
 	// 'first day of may' -> 2024-05-01 00:00 | 'noon' -> 2024-05-01 12:00
 	$dt->modify('first day of may 2024 noon');
 	Assert::same('2024-05-01 12:00:00 CEST (+02:00)', $dt->format('Y-m-d H:i:s T (P)'), 'Chained textual modifiers');
+
+	// ago
+	$dt = new DateTime('2024-03-10 10:00:00'); // CET
+	$dt->modify('12 minutes ago');
+	Assert::same('2024-03-10 09:48:00 CET (+01:00)', $dt->format('Y-m-d H:i:s T (P)'), 'Ago modifier');
 });
 
 
