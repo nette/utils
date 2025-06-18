@@ -12,14 +12,14 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::error(
+Assert::exception(
 	fn() => (new DateTime)->setDate(1978, 2, 31),
-	E_USER_WARNING,
-	'Nette\Utils\DateTime: The date 1978-02-31 is not valid.',
+	Throwable::class,
+	'The date 1978-02-31 is not valid.',
 );
 
-Assert::error(
+Assert::exception(
 	fn() => (new DateTime)->setTime(0, 60),
-	E_USER_WARNING,
-	'Nette\Utils\DateTime: The time 00:60:00.00000 is not valid.',
+	Throwable::class,
+	'The time 00:60:00.00000 is not valid.',
 );
