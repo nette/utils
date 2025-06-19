@@ -6,11 +6,6 @@
 	<exclude-pattern>./tests/Utils/Reflection.getDeclaringMethod.alias.phpt</exclude-pattern>
 	<exclude-pattern>./tests/Utils/Reflection.getDeclaringMethod.insteadof.phpt</exclude-pattern>
 
-	<!-- use function in Arrays.php, Callback.php, Html.php, Strings.php -->
-	<rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine.MultipleUsesPerLine">
-		<exclude-pattern>./src/*/*.php</exclude-pattern>
-	</rule>
-
 	<!-- utf8_decode -->
 	<rule ref="Generic.PHP.DeprecatedFunctions.Deprecated">
 		<exclude-pattern>Strings.php</exclude-pattern>

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Utils;
 
 use Nette;
+use function array_merge, checkdate, date_default_timezone_get, implode, is_numeric, is_string, preg_replace_callback, sprintf, time, trim;
 
 
 /**
