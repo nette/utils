@@ -25,61 +25,72 @@ Assert::same('1985-12-09 11:22:59.123000', DateTime::fromParts(1985, 12, 9, 11, 
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 2, 29),
-	Nette\InvalidArgumentException::class,
-	"Invalid date '1985-02-29 00:00:0.00000'",
+	Throwable::class,
+	'The date 1985-02-29 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(0, 12, 9),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The date 0000-12-09 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 0, 9),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The date 1985-00-09 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 13, 9),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The date 1985-13-09 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 12, 0),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The date 1985-12-00 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 12, 32),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The date 1985-12-32 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 12, 9, -1),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The time -1:00:00.00000 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 12, 9, 60),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The time 60:00:00.00000 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 12, 9, 0, -1),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The time 00:-1:00.00000 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 12, 9, 0, 60),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The time 00:60:00.00000 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 12, 9, 0, 0, -1),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The time 00:00:-1.00000 is not valid.',
 );
 
 Assert::exception(
 	fn() => DateTime::fromParts(1985, 12, 9, 0, 0, 60),
-	Nette\InvalidArgumentException::class,
+	Throwable::class,
+	'The time 00:00:60.00000 is not valid.',
 );
