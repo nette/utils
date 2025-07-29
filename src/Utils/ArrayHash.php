@@ -60,7 +60,7 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 
 	/**
-	 * Replaces or appends a item.
+	 * Replaces or appends an item.
 	 * @param  array-key  $key
 	 * @param  T  $value
 	 */
@@ -75,7 +75,7 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 
 	/**
-	 * Returns a item.
+	 * Returns an item.
 	 * @param  array-key  $key
 	 * @return T
 	 */
@@ -87,7 +87,7 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 
 	/**
-	 * Determines whether a item exists.
+	 * Determines whether an item exists.
 	 * @param  array-key  $key
 	 */
 	public function offsetExists($key): bool
