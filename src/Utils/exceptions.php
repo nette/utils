@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Nette\Utils;
 
+use Nette;
+
 
 /**
  * An error occurred while working with the image.
@@ -46,5 +48,13 @@ class RegexpException extends \Exception
  * Type validation failed. The value doesn't match the expected type constraints.
  */
 class AssertionException extends \Exception
+{
+}
+
+
+/**
+ * The exception indicates that item is not present in collection.
+ */
+class ItemNotFoundException extends Nette\ArgumentOutOfRangeException
 {
 }
