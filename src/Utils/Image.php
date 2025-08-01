@@ -796,7 +796,7 @@ class Image
 	/**
 	 * Prevents serialization.
 	 */
-	public function __sleep(): array
+	public function __serialize(): array
 	{
 		throw new Nette\NotSupportedException('You cannot serialize or unserialize ' . self::class . ' instances.');
 	}
