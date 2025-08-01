@@ -24,7 +24,7 @@ class Helpers
 	 */
 	public static function capture(callable $func): string
 	{
-		ob_start(function () {});
+		ob_start(fn() => '');
 		try {
 			$func();
 			return ob_get_clean();

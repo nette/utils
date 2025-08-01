@@ -773,7 +773,7 @@ class Image
 
 	public function __clone()
 	{
-		ob_start(function () {});
+		ob_start(fn() => '');
 		imagepng($this->image, null, 0);
 		$this->setImageResource(imagecreatefromstring(ob_get_clean()));
 	}
