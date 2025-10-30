@@ -56,7 +56,7 @@ Callback::invokeSafe('preg_replace_callback', ['#.#', function () {
 	throw new Exception('Should not be thrown');
 });
 
-Assert::same(PHP_VERSION_ID < 80000 ? 'Undefined variable: a' : 'Undefined variable $a', $res);
+Assert::same('Undefined variable $a', $res);
 
 
 // exception inside

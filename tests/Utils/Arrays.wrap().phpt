@@ -42,7 +42,7 @@ test('converts scalars to strings with error on array conversion', function () {
 
 	Assert::error(
 		fn() => Arrays::wrap([[]]),
-		PHP_VERSION_ID < 80000 ? E_NOTICE : E_WARNING,
+		E_WARNING,
 		'Array to string conversion',
 	);
 });
