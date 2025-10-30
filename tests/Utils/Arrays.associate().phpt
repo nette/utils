@@ -81,7 +81,7 @@ Assert::equal(
 		22 => (object) [
 			'John' => ['name' => 'John', 'age' => 22],
 		],
-		null => (object) [
+		'' => (object) [
 			'Mary' => ['name' => 'Mary', 'age' => null],
 		],
 		44 => (object) [
@@ -112,7 +112,7 @@ Assert::same(
 			22 => ['name' => 'John', 'age' => 22],
 		],
 		'Mary' => [
-			null => ['name' => 'Mary', 'age' => null],
+			'' => ['name' => 'Mary', 'age' => null],
 		],
 		'Paul' => [
 			44 => ['name' => 'Paul', 'age' => 44],
@@ -168,7 +168,7 @@ Assert::same(
 			[22 => ['name' => 'John', 'age' => 22]],
 		],
 		'Mary' => [
-			[null => ['name' => 'Mary', 'age' => null]],
+			['' => ['name' => 'Mary', 'age' => null]],
 		],
 		'Paul' => [
 			[44 => ['name' => 'Paul', 'age' => 44]],

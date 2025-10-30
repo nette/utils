@@ -33,6 +33,12 @@ class RemoteStream /* extends \streamWrapper */
 	{
 		return false;
 	}
+
+
+	public function stream_eof()
+	{
+		return false;
+	}
 }
 
 stream_wrapper_register('remote', RemoteStream::class, STREAM_IS_URL);

@@ -117,7 +117,7 @@ test('recursive conversion transforms nested arrays into ArrayHash', function ()
 		'j' => 'Jack',
 		'children' => $list['children'],
 		'c' => 'Jim',
-	], iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator($list), RecursiveIteratorIterator::SELF_FIRST)));
+	], @iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator($list), RecursiveIteratorIterator::SELF_FIRST))); // ArrayIterator($object) is deprecated since PHP 8.5
 });
 
 
