@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Nette\Utils;
 
 use Nette;
-use function array_map, array_search, array_splice, count, explode, implode, is_a, is_string, strcasecmp, strtolower, substr, trim;
+use function array_map, array_search, array_splice, count, explode, implode, is_a, is_resource, is_string, strcasecmp, strtolower, substr, trim;
 use const PHP_VERSION_ID;
 
 
@@ -83,6 +83,23 @@ final class Type
 		return count($unions) === 1 && $unions[0] instanceof self
 			? $unions[0]
 			: new self($unions);
+	}
+
+
+	/**
+	 * Creates a Type object based on the actual type of value.
+	 */
+	public static function fromValue(mixed $value): self
+	{
+		$type = get_debug_type($value);
+		if (is_resource($value)) {
+			$type = 'mixed';
+		} elseif (str_ends_with($type, '@anonymous')) {
+			$parent = substr($type, 0, -10);
+			$type = $parent === 'class' ? 'object' : $parent;
+		}
+
+		return new self([$type]);
 	}
 
 
