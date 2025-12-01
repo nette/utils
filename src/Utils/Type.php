@@ -233,36 +233,36 @@ final class Type
 	/**
 	 * Verifies type compatibility. For example, it checks if a value of a certain type could be passed as a parameter.
 	 */
-	public function allows(string $subtype): bool
+	public function allows(string $type): bool
 	{
 		if ($this->types === ['mixed']) {
 			return true;
 		}
 
-		$subtype = self::fromString($subtype);
-		return $subtype->isUnion()
-			? Arrays::every($subtype->types, fn($t) => $this->allows2($t instanceof self ? $t->types : [$t]))
-			: $this->allows2($subtype->types);
+		$type = self::fromString($type);
+		return $type->isUnion()
+			? Arrays::every($type->types, fn($t) => $this->allowsAny($t instanceof self ? $t->types : [$t]))
+			: $this->allowsAny($type->types);
 	}
 
 
-	private function allows2(array $subtypes): bool
+	private function allowsAny(array $givenTypes): bool
 	{
 		return $this->isUnion()
-			? Arrays::some($this->types, fn($t) => $this->allows3($t instanceof self ? $t->types : [$t], $subtypes))
-			: $this->allows3($this->types, $subtypes);
+			? Arrays::some($this->types, fn($t) => $this->allowsAll($t instanceof self ? $t->types : [$t], $givenTypes))
+			: $this->allowsAll($this->types, $givenTypes);
 	}
 
 
-	private function allows3(array $types, array $subtypes): bool
+	private function allowsAll(array $ourTypes, array $givenTypes): bool
 	{
 		return Arrays::every(
-			$types,
-			fn($type) => Arrays::some(
-				$subtypes,
-				fn($subtype) => Validators::isBuiltinType($type)
-					? strcasecmp($type, $subtype) === 0
-					: is_a($subtype, $type, allow_string: true),
+			$ourTypes,
+			fn($ourType) => Arrays::some(
+				$givenTypes,
+				fn($givenType) => Validators::isBuiltinType($ourType)
+					? strcasecmp($ourType, $givenType) === 0
+					: is_a($givenType, $ourType, allow_string: true),
 			),
 		);
 	}
