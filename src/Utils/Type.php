@@ -156,6 +156,23 @@ final class Type
 
 
 	/**
+	 * Returns a type that accepts both the current type and the given type.
+	 */
+	public function with(string|self $type): self
+	{
+		$type = is_string($type) ? self::fromString($type) : $type;
+		return match (true) {
+			$this->allows($type) => $this,
+			$type->allows($this) => $type,
+			default => new self(array_unique(
+				array_merge($this->isIntersection() ? [$this] : $this->types, $type->isIntersection() ? [$type] : $type->types),
+				SORT_REGULAR,
+			), '|'),
+		};
+	}
+
+
+	/**
 	 * Returns the array of subtypes that make up the compound type as strings.
 	 * @return array<int, string|string[]>
 	 */
