@@ -91,7 +91,7 @@ Assert::exception(
 
 
 test('saving palette-based as WEBP should fail without creating file', function () {
-	if (!Image::isTypeSupported(Image::WEBP) || PHP_VERSION_ID < 80200) {
+	if (!Image::isTypeSupported(Image::WEBP)) {
 		return;
 	}
 

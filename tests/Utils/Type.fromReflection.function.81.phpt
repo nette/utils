@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @phpversion 8.1
- */
-
 declare(strict_types=1);
 
 use Nette\Utils\Type;

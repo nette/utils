@@ -131,9 +131,7 @@ Assert::exception(
 Assert::exception(
 	fn() => $obj->callPrivateParent(),
 	Nette\MemberAccessException::class,
-	PHP_VERSION_ID < 80100
-	? 'Call to undefined static method InterClass::callPrivateParent().' // differs from native error message
-	: 'Call to undefined method InterClass::callPrivateParent().',
+	'Call to undefined method InterClass::callPrivateParent().',
 );
 
 Assert::exception(

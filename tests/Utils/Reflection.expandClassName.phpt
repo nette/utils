@@ -15,13 +15,11 @@ require __DIR__ . '/../bootstrap.php';
 require __DIR__ . '/fixtures.reflection/expandClass.noNamespace.php';
 require __DIR__ . '/fixtures.reflection/expandClass.inBracketedNamespace.php';
 require __DIR__ . '/fixtures.reflection/expandClass.inNamespace.php';
+require __DIR__ . '/fixtures.reflection/expandClass.special.php';
 
-if (PHP_VERSION_ID >= 80100) {
-	require __DIR__ . '/fixtures.reflection/expandClass.special.php';
-	Assert::same('A\B', Reflection::expandClassName('C', new ReflectionClass(T::class)));
-	Assert::same('A\B', Reflection::expandClassName('C', new ReflectionClass(I::class)));
-	Assert::same('A\B', Reflection::expandClassName('C', new ReflectionClass(E::class)));
-}
+Assert::same('A\B', Reflection::expandClassName('C', new ReflectionClass(T::class)));
+Assert::same('A\B', Reflection::expandClassName('C', new ReflectionClass(I::class)));
+Assert::same('A\B', Reflection::expandClassName('C', new ReflectionClass(E::class)));
 
 $rcTest = new ReflectionClass(Test::class);
 $rcBTest = new ReflectionClass(BTest::class);
