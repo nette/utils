@@ -92,3 +92,10 @@ Assert::true($type->allows('Foo&Bar'));
 Assert::true($type->allows('FooChild&Bar'));
 Assert::true($type->allows('Foo&Bar&Baz'));
 Assert::true($type->allows('(Foo&Bar&Baz)|null'));
+
+
+// allows() with Type object
+$type = Type::fromString('string|int');
+Assert::true($type->allows(Type::fromString('string')));
+Assert::true($type->allows(Type::fromString('int')));
+Assert::false($type->allows(Type::fromString('bool')));

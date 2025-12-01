@@ -233,13 +233,13 @@ final class Type
 	/**
 	 * Verifies type compatibility. For example, it checks if a value of a certain type could be passed as a parameter.
 	 */
-	public function allows(string $type): bool
+	public function allows(string|self $type): bool
 	{
 		if ($this->types === ['mixed']) {
 			return true;
 		}
 
-		$type = self::fromString($type);
+		$type = is_string($type) ? self::fromString($type) : $type;
 		return $type->isUnion()
 			? Arrays::every($type->types, fn($t) => $this->allowsAny($t instanceof self ? $t->types : [$t]))
 			: $this->allowsAny($type->types);
