@@ -16,7 +16,7 @@ use function array_map, array_search, array_splice, count, explode, implode, is_
 /**
  * PHP type reflection.
  */
-final class Type
+final readonly class Type
 {
 	/** @var array<int, string|self> */
 	private array $types;
