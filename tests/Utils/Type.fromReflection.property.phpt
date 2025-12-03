@@ -12,3 +12,27 @@ $type = Type::fromReflection((new ReflectionObject(new class {
 	public $foo;
 }))->getProperty('foo'));
 Assert::null($type);
+
+
+$type = Type::fromReflection((new ReflectionObject(new class {
+	public string $foo;
+}))->getProperty('foo'));
+
+Assert::same(['string'], $type->getNames());
+Assert::same('string', (string) $type);
+
+
+$type = Type::fromReflection((new ReflectionObject(new class {
+	public ?string $foo;
+}))->getProperty('foo'));
+
+Assert::same(['string', 'null'], $type->getNames());
+Assert::same('?string', (string) $type);
+
+
+$type = Type::fromReflection((new ReflectionObject(new class {
+	public Foo $foo;
+}))->getProperty('foo'));
+
+Assert::same(['Foo'], $type->getNames());
+Assert::same('Foo', (string) $type);
