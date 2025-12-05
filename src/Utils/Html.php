@@ -573,7 +573,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/**
 	 * Adds new element's child.
 	 */
-	final public function addHtml(HtmlStringable|string $child): static
+	final public function addHtml(HtmlStringable|string|null $child): static
 	{
 		return $this->insert(null, $child);
 	}
@@ -582,7 +582,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/**
 	 * Appends plain-text string to element content.
 	 */
-	public function addText(\Stringable|string $text): static
+	public function addText(\Stringable|string|null $text): static
 	{
 		if (!$text instanceof HtmlStringable) {
 			$text = htmlspecialchars((string) $text, ENT_NOQUOTES, 'UTF-8');
@@ -605,7 +605,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/**
 	 * Inserts child node.
 	 */
-	public function insert(?int $index, HtmlStringable|string $child, bool $replace = false): static
+	public function insert(?int $index, HtmlStringable|string|null $child, bool $replace = false): static
 	{
 		$child = $child instanceof self ? $child : (string) $child;
 		if ($index === null) { // append
@@ -622,7 +622,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	/**
 	 * Inserts (replaces) child node (\ArrayAccess implementation).
 	 * @param  int|null  $index  position or null for appending
-	 * @param  Html|string  $child  Html node or raw HTML string
+	 * @param  Html|string|null  $child  Html node or raw HTML string
 	 */
 	final public function offsetSet($index, $child): void
 	{

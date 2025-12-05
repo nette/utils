@@ -87,3 +87,12 @@ test('cloning element with children preservation', function () {
 
 	Assert::same((string) $el, (string) $el2);
 });
+
+
+test('using null with addText and addHtml', function () {
+	$el = Html::el('div');
+	$el->addText(null);
+	$el->addHtml(null);
+
+	Assert::same((string) $el, '<div></div>');
+});
