@@ -764,10 +764,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 */
 	final public function attributes(): string
 	{
-		if (!is_array($this->attrs)) {
-			return '';
-		}
-
 		$s = '';
 		$attrs = $this->attrs;
 		foreach ($attrs as $key => $value) {
@@ -780,7 +776,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 				continue;
 
 			} elseif (is_array($value)) {
-				if (strncmp($key, 'data-', 5) === 0) {
+				if (str_starts_with($key, 'data-')) {
 					$value = Json::encode($value);
 
 				} else {

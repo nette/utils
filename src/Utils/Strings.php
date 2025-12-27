@@ -135,7 +135,7 @@ class Strings
 	public static function normalize(string $s): string
 	{
 		// convert to compressed normal form (NFC)
-		if (class_exists('Normalizer', false) && ($n = \Normalizer::normalize($s, \Normalizer::FORM_C)) !== false) {
+		if (class_exists('Normalizer', autoload: false) && ($n = \Normalizer::normalize($s, \Normalizer::FORM_C)) !== false) {
 			$s = $n;
 		}
 
@@ -323,7 +323,7 @@ class Strings
 	 */
 	public static function compare(string $left, string $right, ?int $length = null): bool
 	{
-		if (class_exists('Normalizer', false)) {
+		if (class_exists('Normalizer', autoload: false)) {
 			$left = \Normalizer::normalize($left, \Normalizer::FORM_D); // form NFD is faster
 			$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
 		}
@@ -688,7 +688,7 @@ class Strings
 		});
 
 		if (($code = preg_last_error()) // run-time error, but preg_last_error & return code are liars
-			&& ($res === null || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace'], true))
+			&& ($res === null || !in_array($func, ['preg_filter', 'preg_replace_callback', 'preg_replace'], strict: true))
 		) {
 			throw new RegexpException(preg_last_error_msg()
 				. ' (pattern: ' . implode(' or ', (array) $args[0]) . ')', $code);

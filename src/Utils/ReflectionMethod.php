@@ -18,7 +18,7 @@ use function explode, is_string, str_contains;
  */
 final class ReflectionMethod extends \ReflectionMethod
 {
-	private \ReflectionClass $originalClass;
+	private readonly \ReflectionClass $originalClass;
 
 
 	public function __construct(object|string $objectOrMethod, ?string $method = null)

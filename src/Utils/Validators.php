@@ -126,10 +126,10 @@ class Validators
 	): void
 	{
 		if (!array_key_exists($key, $array)) {
-			throw new AssertionException('Missing ' . str_replace('%', $key, $label) . '.');
+			throw new AssertionException('Missing ' . str_replace('%', (string) $key, $label) . '.');
 
 		} elseif ($expected) {
-			static::assert($array[$key], $expected, str_replace('%', $key, $label));
+			static::assert($array[$key], $expected, str_replace('%', (string) $key, $label));
 		}
 	}
 
@@ -159,7 +159,7 @@ class Validators
 					if (!static::$validators[$type]($value)) {
 						continue;
 					}
-				} catch (\TypeError $e) {
+				} catch (\TypeError) {
 					continue;
 				}
 			} elseif ($type === 'pattern') {
