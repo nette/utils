@@ -106,7 +106,7 @@ class Arrays
 	/**
 	 * @deprecated  use  getKeyOffset()
 	 */
-	public static function searchKey(array $array, $key): ?int
+	public static function searchKey(array $array, string|int $key): ?int
 	{
 		return self::getKeyOffset($array, $key);
 	}
@@ -117,7 +117,7 @@ class Arrays
 	 */
 	public static function contains(array $array, mixed $value): bool
 	{
-		return in_array($value, $array, true);
+		return in_array($value, $array, strict: true);
 	}
 
 

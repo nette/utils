@@ -215,7 +215,7 @@ final class Iterables
 	{
 		return new class (self::toIterator($iterable)) implements \IteratorAggregate {
 			public function __construct(
-				private \Iterator $iterator,
+				private readonly \Iterator $iterator,
 				private array $cache = [],
 			) {
 			}

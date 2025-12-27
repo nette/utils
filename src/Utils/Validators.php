@@ -159,7 +159,7 @@ class Validators
 					if (!static::$validators[$type]($value)) {
 						continue;
 					}
-				} catch (\TypeError $e) {
+				} catch (\TypeError) {
 					continue;
 				}
 			} elseif ($type === 'pattern') {

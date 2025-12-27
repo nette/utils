@@ -53,7 +53,7 @@ final class Callback
 	 * @return callable
 	 * @throws Nette\InvalidArgumentException
 	 */
-	public static function check(mixed $callable, bool $syntax = false)
+	public static function check(mixed $callable, bool $syntax = false): mixed
 	{
 		if (!is_callable($callable, $syntax)) {
 			throw new Nette\InvalidArgumentException(

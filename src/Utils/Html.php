@@ -780,7 +780,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 				continue;
 
 			} elseif (is_array($value)) {
-				if (strncmp($key, 'data-', 5) === 0) {
+				if (str_starts_with($key, 'data-')) {
 					$value = Json::encode($value);
 
 				} else {

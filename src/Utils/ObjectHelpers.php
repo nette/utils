@@ -27,7 +27,7 @@ final class ObjectHelpers
 	 * @return never
 	 * @throws MemberAccessException
 	 */
-	public static function strictGet(string $class, string $name): void
+	public static function strictGet(string $class, string $name): never
 	{
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
@@ -42,7 +42,7 @@ final class ObjectHelpers
 	 * @return never
 	 * @throws MemberAccessException
 	 */
-	public static function strictSet(string $class, string $name): void
+	public static function strictSet(string $class, string $name): never
 	{
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
@@ -222,7 +222,7 @@ final class ObjectHelpers
 				if ($rp->isPublic() && !$rp->isStatic()) {
 					$prop = $name >= 'onA' && $name < 'on_' ? 'event' : true;
 				}
-			} catch (\ReflectionException $e) {
+			} catch (\ReflectionException) {
 			}
 		}
 
