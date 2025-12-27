@@ -57,9 +57,9 @@ final class FileSystem
 
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($origin, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isDir()) {
-					static::createDir($target . '/' . $iterator->getSubPathName());
+					static::createDir($target . '/' . $iterator->getSubPathname());
 				} else {
-					static::copy($item->getPathname(), $target . '/' . $iterator->getSubPathName());
+					static::copy($item->getPathname(), $target . '/' . $iterator->getSubPathname());
 				}
 			}
 		} else {

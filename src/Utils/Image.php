@@ -224,9 +224,9 @@ class Image
 
 		$image = new static(imagecreatetruecolor($width, $height));
 		if ($color) {
-			$image->alphablending(false);
-			$image->filledrectangle(0, 0, $width - 1, $height - 1, $color);
-			$image->alphablending(true);
+			$image->alphaBlending(false);
+			$image->filledRectangle(0, 0, $width - 1, $height - 1, $color);
+			$image->alphaBlending(true);
 		}
 
 		return $image;
@@ -804,7 +804,7 @@ class Image
 
 	public function resolveColor(ImageColor|array $color): int
 	{
-		$color = $color instanceof ImageColor ? $color->toRGBA() : array_values($color);
+		$color = $color instanceof ImageColor ? $color->toRGBA() : array_values($color + ['alpha' => 0]);
 		return imagecolorallocatealpha($this->image, ...$color) ?: imagecolorresolvealpha($this->image, ...$color);
 	}
 

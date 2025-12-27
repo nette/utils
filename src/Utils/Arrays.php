@@ -117,7 +117,7 @@ class Arrays
 	 */
 	public static function contains(array $array, mixed $value): bool
 	{
-		return in_array($value, $array, true);
+		return in_array($value, $array, strict: true);
 	}
 
 
@@ -293,7 +293,7 @@ class Arrays
 			: preg_split('#(\[\]|->|=|\|)#', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
 		if (!$parts || $parts === ['->'] || $parts[0] === '=' || $parts[0] === '|') {
-			throw new Nette\InvalidArgumentException("Invalid path '$path'.");
+			throw new Nette\InvalidArgumentException("Invalid path '" . (is_array($path) ? implode('', $path) : $path) . "'.");
 		}
 
 		$res = $parts[0] === '->' ? new \stdClass : [];
