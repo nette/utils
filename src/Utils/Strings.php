@@ -273,6 +273,9 @@ class Strings
 
 	/**
 	 * Converts all characters of UTF-8 string to lower case.
+	 * @template T of string
+	 * @param T $s
+	 * @return T
 	 */
 	public static function lower(string $s): string
 	{
@@ -282,6 +285,9 @@ class Strings
 
 	/**
 	 * Converts the first character of a UTF-8 string to lower case and leaves the other characters unchanged.
+	 * @template T of string
+	 * @param T $s
+	 * @return T
 	 */
 	public static function firstLower(string $s): string
 	{
@@ -291,6 +297,9 @@ class Strings
 
 	/**
 	 * Converts all characters of a UTF-8 string to upper case.
+	 * @template T of string
+	 * @param T $s
+	 * @return T
 	 */
 	public static function upper(string $s): string
 	{
@@ -300,6 +309,9 @@ class Strings
 
 	/**
 	 * Converts the first character of a UTF-8 string to upper case and leaves the other characters unchanged.
+	 * @template T of string
+	 * @param T $s
+	 * @return T
 	 */
 	public static function firstUpper(string $s): string
 	{
@@ -309,6 +321,9 @@ class Strings
 
 	/**
 	 * Converts the first character of every word of a UTF-8 string to upper case and the others to lower case.
+	 * @template T of string
+	 * @param T $s
+	 * @return T
 	 */
 	public static function capitalize(string $s): string
 	{
