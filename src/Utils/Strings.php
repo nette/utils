@@ -425,7 +425,7 @@ class Strings
 
 
 	/**
-	 * Returns part of $haystack before $nth occurence of $needle or returns null if the needle was not found.
+	 * Returns part of $haystack before $nth occurrence of $needle or returns null if the needle was not found.
 	 * Negative value means searching from the end.
 	 */
 	public static function before(string $haystack, string $needle, int $nth = 1): ?string
@@ -438,7 +438,7 @@ class Strings
 
 
 	/**
-	 * Returns part of $haystack after $nth occurence of $needle or returns null if the needle was not found.
+	 * Returns part of $haystack after $nth occurrence of $needle or returns null if the needle was not found.
 	 * Negative value means searching from the end.
 	 */
 	public static function after(string $haystack, string $needle, int $nth = 1): ?string
@@ -451,7 +451,7 @@ class Strings
 
 
 	/**
-	 * Returns position in characters of $nth occurence of $needle in $haystack or null if the $needle was not found.
+	 * Returns position in characters of $nth occurrence of $needle in $haystack or null if the $needle was not found.
 	 * Negative value of `$nth` means searching from the end.
 	 */
 	public static function indexOf(string $haystack, string $needle, int $nth = 1): ?int
@@ -464,7 +464,7 @@ class Strings
 
 
 	/**
-	 * Returns position in characters of $nth occurence of $needle in $haystack or null if the needle was not found.
+	 * Returns position in characters of $nth occurrence of $needle in $haystack or null if the needle was not found.
 	 */
 	private static function pos(string $haystack, string $needle, int $nth = 1): ?int
 	{
