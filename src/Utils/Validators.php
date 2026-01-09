@@ -26,7 +26,7 @@ class Validators
 		'never' => 1, 'true' => 1,
 	];
 
-	/** @var array<string,?callable> */
+	/** @var array<string, ?(callable(mixed): bool)> */
 	protected static $validators = [
 		// PHP types
 		'array' => 'is_array',
@@ -76,7 +76,7 @@ class Validators
 		'type' => [self::class, 'isType'],
 	];
 
-	/** @var array<string,callable> */
+	/** @var array<string, callable(mixed): int> */
 	protected static $counters = [
 		'string' => 'strlen',
 		'unicode' => [Strings::class, 'length'],
@@ -261,7 +261,7 @@ class Validators
 
 	/**
 	 * Checks if the value is 0, '', false or null.
-	 * @return ($value is 0|''|false|null ? true : false)
+	 * @return ($value is 0|0.0|''|false|null ? true : false)
 	 */
 	public static function isNone(mixed $value): bool
 	{
@@ -290,6 +290,7 @@ class Validators
 	/**
 	 * Checks if the value is in the given range [min, max], where the upper or lower limit can be omitted (null).
 	 * Numbers, strings and DateTime objects can be compared.
+	 * @param  array{int|float|string|\DateTimeInterface|null, int|float|string|\DateTimeInterface|null}  $range
 	 */
 	public static function isInRange(mixed $value, array $range): bool
 	{

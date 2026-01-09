@@ -22,6 +22,7 @@ final class Iterables
 
 	/**
 	 * Tests for the presence of value.
+	 * @param  iterable<mixed>  $iterable
 	 */
 	public static function contains(iterable $iterable, mixed $value): bool
 	{
@@ -36,6 +37,7 @@ final class Iterables
 
 	/**
 	 * Tests for the presence of key.
+	 * @param  iterable<mixed>  $iterable
 	 */
 	public static function containsKey(iterable $iterable, mixed $key): bool
 	{
@@ -54,6 +56,7 @@ final class Iterables
 	 * @template V
 	 * @param  iterable<K, V>  $iterable
 	 * @param  ?callable(V, K, iterable<K, V>): bool  $predicate
+	 * @param  ?callable(): V  $else
 	 * @return ?V
 	 */
 	public static function first(iterable $iterable, ?callable $predicate = null, ?callable $else = null): mixed
@@ -73,6 +76,7 @@ final class Iterables
 	 * @template V
 	 * @param  iterable<K, V>  $iterable
 	 * @param  ?callable(V, K, iterable<K, V>): bool  $predicate
+	 * @param  ?callable(): K  $else
 	 * @return ?K
 	 */
 	public static function firstKey(iterable $iterable, ?callable $predicate = null, ?callable $else = null): mixed
@@ -216,6 +220,7 @@ final class Iterables
 		return new class (self::toIterator($iterable)) implements \IteratorAggregate {
 			public function __construct(
 				private readonly \Iterator $iterator,
+				/** @var array<array{mixed, mixed}> */
 				private array $cache = [],
 			) {
 			}
