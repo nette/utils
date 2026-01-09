@@ -22,6 +22,7 @@ final class Callback
 
 	/**
 	 * Invokes internal PHP function with own error handler.
+	 * @param  array<mixed>  $args
 	 */
 	public static function invokeSafe(string $function, array $args, callable $onError): mixed
 	{

@@ -146,6 +146,7 @@ class Image
 	/**
 	 * Returns RGB color (0..255) and transparency (0..127).
 	 * @deprecated use ImageColor::rgb()
+	 * @return array{red: int, green: int, blue: int, alpha: int}
 	 */
 	public static function rgb(int $red, int $green, int $blue, int $transparency = 0): array
 	{

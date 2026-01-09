@@ -290,6 +290,7 @@ class Validators
 	/**
 	 * Checks if the value is in the given range [min, max], where the upper or lower limit can be omitted (null).
 	 * Numbers, strings and DateTime objects can be compared.
+	 * @param  array{0?: int|float|string|\DateTimeInterface, 1?: int|float|string|\DateTimeInterface}  $range
 	 */
 	public static function isInRange(mixed $value, array $range): bool
 	{

@@ -659,6 +659,10 @@ class Strings
 	}
 
 
+	/**
+	 * @param  array<array<array{string, int}>>  $groups
+	 * @return array<array<array{string, int}>>
+	 */
 	private static function bytesToChars(string $s, array $groups): array
 	{
 		$lastBytes = $lastChars = 0;
