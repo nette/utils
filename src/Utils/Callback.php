@@ -22,6 +22,9 @@ final class Callback
 
 	/**
 	 * Invokes internal PHP function with own error handler.
+	 * @param  callable-string  $function
+	 * @param  list<mixed>  $args
+	 * @param  callable(string, int): (bool|void|null)  $onError
 	 */
 	public static function invokeSafe(string $function, array $args, callable $onError): mixed
 	{
@@ -116,6 +119,7 @@ final class Callback
 
 	/**
 	 * Unwraps closure created by Closure::fromCallable().
+	 * @return callable|array{object|class-string, string}|string
 	 */
 	public static function unwrap(\Closure $closure): callable|array
 	{

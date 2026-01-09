@@ -499,6 +499,7 @@ class Strings
 
 	/**
 	 * Divides the string into arrays according to the regular expression. Expressions in parentheses will be captured and returned as well.
+	 * @return list<string>
 	 */
 	public static function split(
 		string $subject,
@@ -525,6 +526,7 @@ class Strings
 	/**
 	 * Searches the string for the part matching the regular expression and returns
 	 * an array with the found expression and individual subexpressions, or `null`.
+	 * @return ?array<string>
 	 */
 	public static function match(
 		string $subject,
@@ -560,7 +562,7 @@ class Strings
 	/**
 	 * Searches the string for all occurrences matching the regular expression and
 	 * returns an array of arrays containing the found expression and each subexpression.
-	 * @return ($lazy is true ? \Generator<int, array> : array[])
+	 * @return ($lazy is true ? \Generator<int, array<string>> : list<array<string>>)
 	 */
 	public static function matchAll(
 		string $subject,
@@ -619,6 +621,7 @@ class Strings
 
 	/**
 	 * Replaces all occurrences matching regular expression $pattern which can be string or array in the form `pattern => replacement`.
+	 * @param  string|array<string, string>  $pattern
 	 */
 	public static function replace(
 		string $subject,
@@ -659,6 +662,10 @@ class Strings
 	}
 
 
+	/**
+	 * @param  list<array<array{string, int}>>  $groups
+	 * @return list<array<array{string, int}>>
+	 */
 	private static function bytesToChars(string $s, array $groups): array
 	{
 		$lastBytes = $lastChars = 0;
@@ -679,7 +686,11 @@ class Strings
 	}
 
 
-	/** @internal */
+	/**
+	 * @param  callable-string  $func
+	 * @param  list<mixed>  $args
+	 * @internal
+	 */
 	public static function pcre(string $func, array $args): mixed
 	{
 		$res = Callback::invokeSafe($func, $args, function (string $message) use ($args): void {
