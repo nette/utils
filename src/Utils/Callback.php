@@ -28,18 +28,18 @@ final class Callback
 	 */
 	public static function invokeSafe(string $function, array $args, callable $onError): mixed
 	{
-		$prev = set_error_handler(function (int $severity, string $message, string $file, int $line) use ($onError, &$prev, $function): ?bool {
+		$prev = set_error_handler(function (int $severity, string $message, string $file, int $line) use ($onError, &$prev, $function): bool {
 			if ($file === __FILE__) {
 				$msg = ini_get('html_errors')
 					? Html::htmlToText($message)
 					: $message;
-				$msg = preg_replace("#^$function\\(.*?\\): #", '', $msg);
+				$msg = (string) preg_replace("#^$function\\(.*?\\): #", '', $msg);
 				if ($onError($msg, $severity) !== false) {
-					return null;
+					return true;
 				}
 			}
 
-			return $prev ? $prev(...func_get_args()) : false;
+			return $prev ? $prev(...func_get_args()) !== false : false;
 		});
 
 		try {
@@ -103,6 +103,7 @@ final class Callback
 		} elseif (is_object($callable) && !$callable instanceof \Closure) {
 			return new ReflectionMethod($callable, '__invoke');
 		} else {
+			assert($callable instanceof \Closure || is_string($callable));
 			return new \ReflectionFunction($callable);
 		}
 	}
@@ -121,7 +122,7 @@ final class Callback
 	 * Unwraps closure created by Closure::fromCallable().
 	 * @return callable|array{object|class-string, string}|string
 	 */
-	public static function unwrap(\Closure $closure): callable|array
+	public static function unwrap(\Closure $closure): callable|array|string
 	{
 		$r = new \ReflectionFunction($closure);
 		$class = $r->getClosureScopeClass()?->name;

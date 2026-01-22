@@ -1,18 +1,50 @@
 parameters:
-	level: 5
+	level: 8
 
 	paths:
 		- src
+
+	excludePaths:
+		- src/compatibility.php
+		- src/Iterators/Mapper.php
+		- src/Utils/ObjectHelpers.php
 
 	bootstrapFiles:
 		- tests/phpstan-bootstrap.php
 
 	ignoreErrors:
-		# PHPStan does not support dynamic by reference return used by Nette\Utils\Strings::pcre()
-		- '#Undefined variable: \$m#'
+		# Intentional design pattern: new static() for inheritance support in fluent interfaces
+		-
+			identifier: new.static
+			paths:
+				- src/Utils/ArrayHash.php
+				- src/Utils/ArrayList.php
+				- src/Utils/DateTime.php
+				- src/Utils/Finder.php
+				- src/Utils/Html.php
+				- src/Utils/Image.php
 
-		# PHPStan does not support RecursiveIteratorIterator proxying unknown method calls to inner iterator
-		- '#RecursiveIteratorIterator::getSubPathName\(\)#'
+		# Runtime validation: type narrowing checks that are necessary at runtime
+		-
+			identifier: function.alreadyNarrowedType
+			paths:
+				- src/Utils/ArrayHash.php
+				- src/Utils/ArrayList.php
+				- src/Utils/Strings.php
 
-		# static cannot be changed to maintain backward compatibility
-		- '#Unsafe usage of new static\(\)#'
+		# Array destructuring from getimagesize() which returns false (converted to null by falseToNull)
+		-
+			identifier: offsetAccess.nonArray
+			paths:
+				- src/Utils/Image.php
+
+		# Works with arbitrary PHP callbacks, precise callable types not practical
+		-
+			identifier: missingType.callable
+			paths:
+				- src/Utils/Callback.php
+				- src/Utils/Image.php
+				- src/Utils/Strings.php
+
+includes:
+	- phpstan-baseline.neon

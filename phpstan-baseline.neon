@@ -1,0 +1,151 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Parameter \#1 \$key \(\(int\|string\)\) of method Nette\\Utils\\ArrayHash\:\:offsetSet\(\) should be contravariant with parameter \$offset \(int\|string\|null\) of method ArrayAccess\<\(int\|string\),T\>\:\:offsetSet\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: src/Utils/ArrayHash.php
+
+		-
+			message: '#^Call to static method Nette\\Utils\\Arrays\:\:isList\(\) with list\<T\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Utils/ArrayList.php
+
+		-
+			message: '#^Property Nette\\Utils\\ArrayList\<T\>\:\:\$list \(list\<T\>\) does not accept non\-empty\-array\<int\<0, max\>, T\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Utils/ArrayList.php
+
+		-
+			message: '#^Cannot access offset string on array\<mixed\>\|object\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
+			path: src/Utils/Arrays.php
+
+		-
+			message: '#^Method Nette\\Utils\\Arrays\:\:invoke\(\) has parameter \$callbacks with no signature specified for callable\.$#'
+			identifier: missingType.callable
+			count: 1
+			path: src/Utils/Arrays.php
+
+		-
+			message: '#^Parameter \#1 \$objectOrMethod of class Nette\\Utils\\ReflectionMethod constructor expects class\-string\|object, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utils/Callback.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 2
+			path: src/Utils/DateTime.php
+
+		-
+			message: '#^Parameter \#1 \$pathNames of method Nette\\Utils\\Finder\:\:convertToFiles\(\) expects iterable\<string\>, FilesystemIterator given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utils/Finder.php
+
+		-
+			message: '#^Parameter \#2 \$operator of static method Nette\\Utils\\Helpers\:\:compare\(\) expects ''\!\=''\|''\!\=\=''\|''\<''\|''\<\=''\|''\<\>''\|''\=''\|''\=\=''\|''\=\=\=''\|''\>''\|''\>\='', non\-falsy\-string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Utils/Finder.php
+
+		-
+			message: '#^Trying to invoke non\-falsy\-string but it might not be a callable\.$#'
+			identifier: callable.nonCallable
+			count: 1
+			path: src/Utils/Finder.php
+
+		-
+			message: '#^Variable \$res on left side of \?\?\= always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: src/Utils/Finder.php
+
+		-
+			message: '#^Match arm comparison between ''\!\=\='' and ''\!\=\='' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: src/Utils/Helpers.php
+
+		-
+			message: '#^Comparison operation "\<" between int\<1, max\> and 1 is always false\.$#'
+			identifier: smaller.alwaysFalse
+			count: 2
+			path: src/Utils/Image.php
+
+		-
+			message: '#^Match arm comparison between 6 and 6 is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 2
+			path: src/Utils/Image.php
+
+		-
+			message: '#^Offset 1\|2\|3\|6\|18\|19 on array\{2\: ''jpeg'', 3\: ''png'', 1\: ''gif'', 18\: ''webp'', 19\: ''avif'', 6\: ''bmp''\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/Utils/Image.php
+
+		-
+			message: '#^Result of \|\| is always false\.$#'
+			identifier: booleanOr.alwaysFalse
+			count: 1
+			path: src/Utils/Image.php
+
+		-
+			message: '#^Parameter \#1 \$class of class ReflectionClassConstant constructor expects class\-string\|object, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utils/Reflection.php
+
+		-
+			message: '#^Right side of && is always true\.$#'
+			identifier: booleanAnd.rightAlwaysTrue
+			count: 2
+			path: src/Utils/Reflection.php
+
+		-
+			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, object\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utils/ReflectionMethod.php
+
+		-
+			message: '#^Parameter \#2 \$method of method ReflectionMethod\:\:__construct\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utils/ReflectionMethod.php
+
+		-
+			message: '#^Method Nette\\Utils\\Strings\:\:match\(\) should return array\<string\>\|null but returns array\<array\<int, int\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Utils/Strings.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and false will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: src/Utils/Strings.php
+
+		-
+			message: '#^Parameter \#1 \$givenTypes of method Nette\\Utils\\Type\:\:allowsAny\(\) expects array\<string\>, list\<Nette\\Utils\\Type\|string\> given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Utils/Type.php
+
+		-
+			message: '#^Parameter \#1 \$ourTypes of method Nette\\Utils\\Type\:\:allowsAll\(\) expects array\<string\>, list\<Nette\\Utils\\Type\|string\> given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Utils/Type.php
+
+		-
+			message: '#^Parameter \#2 \$of of static method Nette\\Utils\\Type\:\:resolve\(\) expects ReflectionFunction\|ReflectionMethod\|ReflectionParameter\|ReflectionProperty, ReflectionFunctionAbstract\|ReflectionParameter\|ReflectionProperty given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utils/Type.php

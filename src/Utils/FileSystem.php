@@ -52,6 +52,7 @@ final class FileSystem
 		} elseif (is_dir($origin)) {
 			static::createDir($target);
 			foreach (new \FilesystemIterator($target) as $item) {
+				\assert($item instanceof \SplFileInfo);
 				static::delete($item->getPathname());
 			}
 
@@ -112,6 +113,7 @@ final class FileSystem
 			}
 		} elseif (is_dir($path)) {
 			foreach (new \FilesystemIterator($path) as $item) {
+				\assert($item instanceof \SplFileInfo);
 				static::delete($item->getPathname());
 			}
 
@@ -251,6 +253,7 @@ final class FileSystem
 			}
 		} elseif (is_dir($path)) {
 			foreach (new \FilesystemIterator($path) as $item) {
+				\assert($item instanceof \SplFileInfo);
 				static::makeWritable($item->getPathname(), $dirMode, $fileMode);
 			}
 

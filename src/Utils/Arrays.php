@@ -328,6 +328,8 @@ class Arrays
 						$x = $row[$parts[$i]];
 						$row = null;
 					}
+					break; // '=' is always the final operation
+
 				} elseif ($part === '->') {
 					if (isset($parts[++$i])) {
 						if ($x === null) {
