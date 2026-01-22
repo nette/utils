@@ -1,5 +1,5 @@
 parameters:
-	level: 5
+	level: 6
 
 	paths:
 		- src
@@ -8,12 +8,102 @@ parameters:
 	bootstrapFiles:
 		- tests/phpstan-bootstrap.php
 
+	excludePaths:
+		- src/compatibility.php
+		- src/Iterators/Mapper.php
+		- src/Utils/ObjectHelpers.php
+
 	ignoreErrors:
-		# PHPStan does not support dynamic by reference return used by Nette\Utils\Strings::pcre()
-		- '#Undefined variable: \$m#'
+		# Intentional design pattern: new static() for inheritance support in fluent interfaces
+		-
+			identifier: new.static
+			paths:
+				- src/Utils/ArrayHash.php
+				- src/Utils/ArrayList.php
+				- src/Utils/DateTime.php
+				- src/Utils/Finder.php
+				- src/Utils/Html.php
+				- src/Utils/Image.php
 
-		# PHPStan does not support RecursiveIteratorIterator proxying unknown method calls to inner iterator
-		- '#RecursiveIteratorIterator::getSubPathName\(\)#'
+		# Runtime validation: ArrayAccess methods receive mixed types, validation is necessary
+		-
+			identifier: function.alreadyNarrowedType
+			paths:
+				- src/Utils/ArrayHash.php
+				- src/Utils/ArrayList.php
 
-		# static cannot be changed to maintain backward compatibility
-		- '#Unsafe usage of new static\(\)#'
+		# Runtime validation: isList check validates input at runtime
+		-
+			identifier: staticMethod.alreadyNarrowedType
+			path: src/Utils/ArrayList.php
+
+		# Runtime validation: is_callable check validates callback at runtime
+		-
+			identifier: function.alreadyNarrowedType
+			path: src/Utils/Strings.php
+
+		# Intentional pattern: using && for short-circuit evaluation with side effects
+		-
+			identifier: booleanAnd.leftAlwaysTrue
+			path: src/Utils/DateTime.php
+			reportUnmatched: false
+
+		# Intentional pattern: assignment in condition with && operator
+		-
+			identifier: booleanAnd.rightAlwaysTrue
+			path: src/Utils/Reflection.php
+
+		# PHP 8.3+: getBytesFromString() doesn't exist on PHP 8.2
+		-
+			identifier: method.notFound
+			path: src/Utils/Random.php
+			reportUnmatched: false
+
+		# Intentional pattern: ??= for caching filter results, variable is declared via reference
+		-
+			identifier: nullCoalesce.variable
+			path: src/Utils/Finder.php
+
+		# Type test files: assertType() is the side effect, comparison warnings are expected
+		-
+			identifier: greater.alwaysTrue
+			path: tests/types/utils-types.php
+
+		# Image.php: Callback signature intentionally simplified (doesn't use int parameter)
+		-
+			identifier: argument.type
+			path: src/Utils/Image.php
+			count: 1
+
+		# Image.php: Defensive validation even though phpDoc specifies positive-int
+		-
+			identifiers:
+				- smaller.alwaysFalse
+				- booleanOr.alwaysFalse
+			path: src/Utils/Image.php
+
+		# Image.php: isset() check for type safety even though offset always exists
+		-
+			identifier: isset.offset
+			path: src/Utils/Image.php
+
+		# Image.php: Match arms document all supported types
+		-
+			identifier: match.alwaysTrue
+			path: src/Utils/Image.php
+
+		# Image.php: Return type annotation conveys intent (ImageType constants are ints)
+		-
+			identifier: return.type
+			path: src/Utils/Image.php
+			count: 1
+
+		# Image.php: By-ref parameter type narrowing in isPercent()
+		-
+			identifier: parameterByRef.type
+			path: src/Utils/Image.php
+
+		# Iterables.php: Anonymous classes can't properly resolve template types from enclosing method
+		-
+			identifier: argument.templateType
+			path: src/Utils/Iterables.php

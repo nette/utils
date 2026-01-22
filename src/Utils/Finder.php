@@ -288,7 +288,7 @@ class Finder implements \IteratorAggregate
 
 			[, $operator, $size, $unit] = $matches;
 			$units = ['' => 1, 'k' => 1e3, 'm' => 1e6, 'g' => 1e9];
-			$size *= $units[strtolower($unit)];
+			$size = (float) $size * $units[strtolower($unit)];
 			$operator = $operator ?: '=';
 		}
 
