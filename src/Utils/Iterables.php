@@ -192,9 +192,9 @@ final class Iterables
 	 */
 	public static function repeatable(callable $factory): \IteratorAggregate
 	{
-		return new class ($factory) implements \IteratorAggregate {
+		return new class ($factory(...)) implements \IteratorAggregate {
 			public function __construct(
-				private $factory,
+				private \Closure $factory,
 			) {
 			}
 
