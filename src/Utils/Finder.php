@@ -42,8 +42,8 @@ class Finder implements \IteratorAggregate
 	private array $appends = [];
 	private bool $childFirst = false;
 
-	/** @var ?callable */
-	private $sort;
+	/** @var ?(\Closure(FileInfo, FileInfo): int) */
+	private ?\Closure $sort = null;
 	private int $maxDepth = -1;
 	private bool $ignoreUnreadableDirs = true;
 
@@ -184,7 +184,7 @@ class Finder implements \IteratorAggregate
 	 */
 	public function sortBy(callable $callback): static
 	{
-		$this->sort = $callback;
+		$this->sort = $callback(...);
 		return $this;
 	}
 
@@ -250,7 +250,7 @@ class Finder implements \IteratorAggregate
 	 */
 	public function filter(callable $callback): static
 	{
-		$this->filters[] = \Closure::fromCallable($callback);
+		$this->filters[] = $callback(...);
 		return $this;
 	}
 
@@ -261,7 +261,7 @@ class Finder implements \IteratorAggregate
 	 */
 	public function descentFilter(callable $callback): static
 	{
-		$this->descentFilters[] = \Closure::fromCallable($callback);
+		$this->descentFilters[] = $callback(...);
 		return $this;
 	}
 
