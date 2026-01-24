@@ -107,7 +107,7 @@ final readonly class Type
 	 */
 	public static function resolve(
 		string $type,
-		\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty $of,
+		\ReflectionFunction|\ReflectionMethod|\ReflectionParameter|\ReflectionProperty $of,
 	): string
 	{
 		$lower = strtolower($type);

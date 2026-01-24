@@ -680,7 +680,7 @@ class Strings
 
 
 	/** @internal */
-	public static function pcre(string $func, array $args)
+	public static function pcre(string $func, array $args): mixed
 	{
 		$res = Callback::invokeSafe($func, $args, function (string $message) use ($args): void {
 			// compile-time error, not detectable by preg_last_error
