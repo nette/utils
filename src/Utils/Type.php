@@ -40,7 +40,11 @@ final readonly class Type
 	}
 
 
-	private static function fromReflectionType(\ReflectionType $type, $of, bool $asObject): self|string
+	private static function fromReflectionType(
+		\ReflectionType $type,
+		\ReflectionFunctionAbstract|\ReflectionParameter|\ReflectionProperty $of,
+		bool $asObject,
+	): self|string
 	{
 		if ($type instanceof \ReflectionNamedType) {
 			$name = self::resolve($type->getName(), $of);
@@ -291,9 +295,9 @@ final readonly class Type
 	{
 		return Arrays::every(
 			$ourTypes,
-			fn($ourType) => Arrays::some(
+			fn(string $ourType) => Arrays::some(
 				$givenTypes,
-				fn($givenType) => Validators::isBuiltinType($ourType)
+				fn(string $givenType) => Validators::isBuiltinType($ourType)
 					? strcasecmp($ourType, $givenType) === 0
 					: is_a($givenType, $ourType, allow_string: true),
 			),

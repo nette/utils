@@ -106,7 +106,7 @@ class Arrays
 	/**
 	 * @deprecated  use  getKeyOffset()
 	 */
-	public static function searchKey(array $array, $key): ?int
+	public static function searchKey(array $array, string|int $key): ?int
 	{
 		return self::getKeyOffset($array, $key);
 	}
@@ -286,7 +286,7 @@ class Arrays
 	 * Reformats table to associative tree. Path looks like 'field|field[]field->field=field'.
 	 * @param  string|string[]  $path
 	 */
-	public static function associate(array $array, $path): array|\stdClass
+	public static function associate(array $array, string|array $path): array|\stdClass
 	{
 		$parts = is_array($path)
 			? $path
@@ -482,7 +482,7 @@ class Arrays
 	 * Invokes all callbacks and returns array of results.
 	 * @param  callable[]  $callbacks
 	 */
-	public static function invoke(iterable $callbacks, ...$args): array
+	public static function invoke(iterable $callbacks, mixed ...$args): array
 	{
 		$res = [];
 		foreach ($callbacks as $k => $cb) {
@@ -497,7 +497,7 @@ class Arrays
 	 * Invokes method on every object in an array and returns array of results.
 	 * @param  object[]  $objects
 	 */
-	public static function invokeMethod(iterable $objects, string $method, ...$args): array
+	public static function invokeMethod(iterable $objects, string $method, mixed ...$args): array
 	{
 		$res = [];
 		foreach ($objects as $k => $obj) {

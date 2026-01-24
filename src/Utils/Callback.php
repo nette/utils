@@ -25,7 +25,7 @@ final class Callback
 	 */
 	public static function invokeSafe(string $function, array $args, callable $onError): mixed
 	{
-		$prev = set_error_handler(function ($severity, $message, $file) use ($onError, &$prev, $function): ?bool {
+		$prev = set_error_handler(function (int $severity, string $message, string $file, int $line) use ($onError, &$prev, $function): ?bool {
 			if ($file === __FILE__) {
 				$msg = ini_get('html_errors')
 					? Html::htmlToText($message)
@@ -53,7 +53,7 @@ final class Callback
 	 * @return callable
 	 * @throws Nette\InvalidArgumentException
 	 */
-	public static function check(mixed $callable, bool $syntax = false)
+	public static function check(mixed $callable, bool $syntax = false): mixed
 	{
 		if (!is_callable($callable, $syntax)) {
 			throw new Nette\InvalidArgumentException(
@@ -87,7 +87,7 @@ final class Callback
 	 * @param  callable  $callable  type check is escalated to ReflectionException
 	 * @throws \ReflectionException  if callback is not valid
 	 */
-	public static function toReflection($callable): \ReflectionMethod|\ReflectionFunction
+	public static function toReflection(mixed $callable): \ReflectionMethod|\ReflectionFunction
 	{
 		if ($callable instanceof \Closure) {
 			$callable = self::unwrap($callable);

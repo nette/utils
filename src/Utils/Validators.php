@@ -120,7 +120,7 @@ class Validators
 	 */
 	public static function assertField(
 		array $array,
-		$key,
+		int|string $key,
 		?string $expected = null,
 		string $label = "item '%' in array",
 	): void
