@@ -496,7 +496,7 @@ class Arrays
 
 	/**
 	 * Invokes all callbacks and returns array of results.
-	 * @param  iterable<callable(): mixed>  $callbacks
+	 * @param  iterable<callable(...mixed): mixed>  $callbacks
 	 * @param  mixed  ...$args
 	 * @return array<mixed>
 	 */
