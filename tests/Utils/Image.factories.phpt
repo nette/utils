@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Image factories.
  * @phpExtension gd
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Image;
 use Tester\Assert;

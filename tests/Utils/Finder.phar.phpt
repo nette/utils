@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Finder browsing PHAR.
  *
  * @phpIni phar.readonly=0
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Finder;
 use Tester\Assert;

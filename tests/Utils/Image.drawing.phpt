@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Image drawing.
  * @phpExtension gd
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Image;
 use Nette\Utils\ImageColor;
