@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Random::generate()
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Random;
 use Tester\Assert;

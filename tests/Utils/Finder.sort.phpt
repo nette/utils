@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Finder sorting.
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\FileInfo;
 use Nette\Utils\Finder;

@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Strings::replace()
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Strings;
 use Tester\Assert;

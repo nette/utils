@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Callback::check()
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Callback;
 use Tester\Assert;

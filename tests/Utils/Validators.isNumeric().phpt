@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Validators::isNumeric()
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Validators;
 use Tester\Assert;

@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Arrays::toObject()
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Arrays;
 use Tester\Assert;

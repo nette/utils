@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Reflection::getDeclaringMethod
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Reflection;
 use Tester\Assert;

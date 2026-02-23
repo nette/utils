@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\DateTime constructor __construct() method.
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\DateTime;
 use Tester\Assert;
