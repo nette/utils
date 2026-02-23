@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * @phpExtension gd
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Image;
 use Tester\Assert;

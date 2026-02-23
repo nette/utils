@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Finder basic usage.
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;

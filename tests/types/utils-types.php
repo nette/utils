@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * PHPStan type tests for Utils.
  * Run: vendor/bin/phpstan analyse tests/types
  */
-
-declare(strict_types=1);
 
 use Nette\Iterators\CachingIterator;
 use Nette\Utils\ArrayHash;

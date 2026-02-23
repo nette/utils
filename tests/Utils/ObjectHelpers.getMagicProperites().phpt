@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\ObjectHelpers::getMagicProperties()
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\ObjectHelpers;
 use Tester\Assert;

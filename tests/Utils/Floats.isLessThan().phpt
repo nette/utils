@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Floats::isLowerThan()
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Floats;
 use Tester\Assert;

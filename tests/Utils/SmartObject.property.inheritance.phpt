@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\SmartObject properties and inheritance.
  */
-
-declare(strict_types=1);
 
 use Tester\Assert;
 

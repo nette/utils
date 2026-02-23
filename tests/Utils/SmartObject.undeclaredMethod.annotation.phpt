@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\SmartObject undeclared method and annotation @method.
  */
-
-declare(strict_types=1);
 
 use Tester\Assert;
 

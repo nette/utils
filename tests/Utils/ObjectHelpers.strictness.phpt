@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\ObjectHelpers: strictness
  */
-
-declare(strict_types=1);
 
 use Nette\MemberAccessException;
 use Nette\Utils\ObjectHelpers;

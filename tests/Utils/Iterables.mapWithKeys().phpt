@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Utils\Iterables::mapWithKeys()
  */
-
-declare(strict_types=1);
 
 use Nette\Utils\Iterables;
 use Tester\Assert;
