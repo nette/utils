@@ -112,7 +112,7 @@ class Validators
 
 
 	/**
-	 * Verifies that element $key in array is of expected types separated by pipe.
+	 * Verifies that item $key in array exists and is of expected types separated by pipe.
 	 * @param  mixed[]  $array
 	 * @throws AssertionException
 	 */

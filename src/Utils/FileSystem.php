@@ -208,7 +208,7 @@ final class FileSystem
 
 
 	/**
-	 * Writes the string to a file.
+	 * Writes the string to a file. Creates the parent directory if it does not exist. Pass null as $mode to skip chmod.
 	 * @throws Nette\IOException  on error occurred
 	 */
 	public static function write(string $file, string $content, ?int $mode = 0o666): void

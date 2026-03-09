@@ -514,7 +514,7 @@ class Strings
 
 
 	/**
-	 * Divides the string into arrays according to the regular expression. Expressions in parentheses will be captured and returned as well.
+	 * Splits the string by a regular expression. Expressions in parentheses will be captured and returned as well.
 	 * @return list<string>
 	 */
 	public static function split(
@@ -540,8 +540,8 @@ class Strings
 
 
 	/**
-	 * Searches the string for the part matching the regular expression and returns
-	 * an array with the found expression and individual subexpressions, or `null`.
+	 * Searches the string for the first match of the regular expression and returns
+	 * an array with the found expression and individual subexpressions, or null.
 	 * @return ?array<string>
 	 */
 	public static function match(
@@ -577,8 +577,8 @@ class Strings
 
 
 	/**
-	 * Searches the string for all occurrences matching the regular expression and
-	 * returns an array of arrays containing the found expression and each subexpression.
+	 * Searches the string for all occurrences matching the regular expression and returns
+	 * an array of arrays containing the found expression and each subexpression.
 	 * @return ($lazy is true ? \Generator<int, array<string>> : list<array<string>>)
 	 */
 	public static function matchAll(
@@ -640,7 +640,7 @@ class Strings
 
 
 	/**
-	 * Replaces all occurrences matching regular expression $pattern which can be string or array in the form `pattern => replacement`.
+	 * Replaces all occurrences matching the regular expression $pattern, which can be a string or array in the form `pattern => replacement`.
 	 * @param  string|array<string, string>  $pattern
 	 */
 	public static function replace(

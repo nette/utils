@@ -49,8 +49,8 @@ final class Callback
 
 
 	/**
-	 * Checks that $callable is valid PHP callback. Otherwise throws exception. If the $syntax is set to true, only verifies
-	 * that $callable has a valid structure to be used as a callback, but does not verify if the class or method actually exists.
+	 * Checks that $callable is a valid PHP callback and returns it. With $syntax set to true, only verifies
+	 * the structural validity without checking whether the class or method actually exists.
 	 * @return callable
 	 * @throws Nette\InvalidArgumentException
 	 */

@@ -13,7 +13,7 @@ use const GLOB_NOESCAPE, GLOB_NOSORT, GLOB_ONLYDIR;
 
 
 /**
- * Finder allows searching through directory trees using iterator.
+ * Searches for files and directories in directory trees.
  *
  * Finder::findFiles('*.php')
  *     ->size('> 10kB')
@@ -177,7 +177,7 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Set a compare function for sorting directory entries. The function will be called to sort entries from the same directory.
+	 * Sets a comparison function for sorting entries within each directory.
 	 * @param  callable(FileInfo, FileInfo): int  $callback
 	 */
 	public function sortBy(callable $callback): static
@@ -198,7 +198,7 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Adds the specified paths or appends a new finder that returns.
+	 * Appends the specified file paths to results. Passing null creates and returns a new sub-finder whose results are appended.
 	 * @param  string|list<string>|null  $paths
 	 */
 	public function append(string|array|null $paths = null): static

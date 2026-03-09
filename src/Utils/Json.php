@@ -30,8 +30,8 @@ final class Json
 
 
 	/**
-	 * Converts value to JSON format. Use $pretty for easier reading and clarity, $asciiSafe for ASCII output
-	 * and $htmlSafe for HTML escaping, $forceObjects enforces the encoding of non-associateve arrays as objects.
+	 * Converts value to JSON format. Use $pretty for formatted output, $asciiSafe for ASCII-only output,
+	 * $htmlSafe for HTML-safe output, and $forceObjects to encode non-associative arrays as objects.
 	 * @throws JsonException
 	 */
 	public static function encode(
@@ -64,7 +64,7 @@ final class Json
 
 
 	/**
-	 * Parses JSON to PHP value. The $forceArrays enforces the decoding of objects as arrays.
+	 * Decodes a JSON string to a PHP value. Use $forceArrays to decode objects as arrays.
 	 * @throws JsonException
 	 */
 	public static function decode(string $json, bool|int $forceArrays = false): mixed
