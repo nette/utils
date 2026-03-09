@@ -302,6 +302,7 @@ class Image
 
 
 	/**
+	 * Checks whether the given image type is supported by the GD extension.
 	 * @param  ImageType::*  $type
 	 */
 	public static function isTypeSupported(int $type): bool
@@ -319,7 +320,10 @@ class Image
 	}
 
 
-	/** @return  ImageType::*[] */
+	/**
+	 * Returns list of image types supported by the GD extension.
+	 * @return  ImageType::*[]
+	 */
 	public static function getSupportedTypes(): array
 	{
 		self::ensureExtension();
@@ -643,7 +647,7 @@ class Image
 
 
 	/**
-	 * Draw a rectangle.
+	 * Draws a rectangle using top-left coordinates and dimensions instead of two corner coordinates.
 	 */
 	public function rectangleWH(int $x, int $y, int $width, int $height, ImageColor $color): void
 	{
@@ -654,7 +658,7 @@ class Image
 
 
 	/**
-	 * Draw a filled rectangle.
+	 * Draws a filled rectangle using top-left coordinates and dimensions instead of two corner coordinates.
 	 */
 	public function filledRectangleWH(int $x, int $y, int $width, int $height, ImageColor $color): void
 	{
@@ -802,6 +806,7 @@ class Image
 
 
 	/**
+	 * Resolves a color to a GD color index for the current image.
 	 * @param  ImageColor|array{red: int, green: int, blue: int, alpha?: int}  $color
 	 */
 	public function resolveColor(ImageColor|array $color): int

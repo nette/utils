@@ -74,7 +74,7 @@ class Helpers
 
 
 	/**
-	 * Looks for a string from possibilities that is most similar to value, but not the same (for 8-bit encoding).
+	 * Finds the string from $possibilities most similar to $value using Levenshtein distance, or null if none is close enough.
 	 * @param  string[]  $possibilities
 	 */
 	public static function getSuggestion(array $possibilities, string $value): ?string

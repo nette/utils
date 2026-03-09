@@ -71,7 +71,7 @@ class Paginator
 
 
 	/**
-	 * Returns the sequence number of the first element on the page
+	 * Returns the 1-based index of the first item on the current page, or 0 if the page is empty.
 	 * @return int<0, max>
 	 */
 	public function getFirstItemOnPage(): int
@@ -83,7 +83,7 @@ class Paginator
 
 
 	/**
-	 * Returns the sequence number of the last element on the page
+	 * Returns the 1-based index of the last item on the current page.
 	 * @return int<0, max>
 	 */
 	public function getLastItemOnPage(): int

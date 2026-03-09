@@ -16,6 +16,9 @@ use function hexdec, ltrim, max, min, round, strlen;
  */
 class ImageColor
 {
+	/**
+	 * Creates a color from RGB components (0..255) and opacity (0..1).
+	 */
 	public static function rgb(int $red, int $green, int $blue, float $opacity = 1): self
 	{
 		return new self($red, $green, $blue, $opacity);
