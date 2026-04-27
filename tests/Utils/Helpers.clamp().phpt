@@ -14,6 +14,6 @@ Assert::same(19.0, Helpers::clamp(20.0, 10.0, 19.0));
 
 Assert::exception(
 	fn() => Helpers::clamp(20, 30, 10),
-	InvalidArgumentException::class,
-	'Minimum (30) is not less than maximum (10).',
+	ValueError::class,
+	'clamp(): Argument #2 ($min) must be smaller than or equal to argument #3 ($max)',
 );

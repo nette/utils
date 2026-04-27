@@ -65,11 +65,7 @@ class Helpers
 	 */
 	public static function clamp(int|float $value, int|float $min, int|float $max): int|float
 	{
-		if ($min > $max) {
-			throw new Nette\InvalidArgumentException("Minimum ($min) is not less than maximum ($max).");
-		}
-
-		return min(max($value, $min), $max);
+		return clamp($value, $min, $max);
 	}
 
 
