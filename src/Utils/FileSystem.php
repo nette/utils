@@ -279,6 +279,19 @@ final class FileSystem
 
 
 	/**
+	 * Determines whether the string is a valid cross-platform filename without any path information.
+	 */
+	public static function isValidFilename(string $name): bool
+	{
+		[$stem] = explode('.', $name, 2);
+		return $name !== '' && $name !== '.' && $name !== '..'
+			&& !preg_match('#[\x00-\x1F<>:"|?*\\\/]#', $name) // control and reserved characters
+			&& !str_ends_with($name, '.') && !str_ends_with($name, ' ') // trailing dots/spaces
+			&& !preg_match('#^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$#i', $stem); // Windows reserved device names
+	}
+
+
+	/**
 	 * Normalizes `..` and `.` and directory separators in path.
 	 */
 	public static function normalizePath(string $path): string
