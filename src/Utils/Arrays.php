@@ -498,7 +498,7 @@ class Arrays
 
 	/**
 	 * Invokes all callbacks and returns array of results.
-	 * @param  callable[]  $callbacks
+	 * @param  iterable<callable>  $callbacks
 	 * @return array<mixed>
 	 */
 	public static function invoke(iterable $callbacks, mixed ...$args): array
@@ -514,7 +514,7 @@ class Arrays
 
 	/**
 	 * Invokes method on every object in an array and returns array of results.
-	 * @param  object[]  $objects
+	 * @param  iterable<object>  $objects
 	 * @return array<mixed>
 	 */
 	public static function invokeMethod(iterable $objects, string $method, mixed ...$args): array
