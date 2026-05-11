@@ -13,12 +13,6 @@ parameters:
 			path: src/Utils/ArrayList.php
 
 		-
-			message: '#^Property Nette\\Utils\\ArrayList\<T\>\:\:\$list \(list\<T\>\) does not accept non\-empty\-array\<int\<0, max\>, T\>\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/Utils/ArrayList.php
-
-		-
 			message: '#^Cannot access offset string on array\<mixed\>\|object\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
@@ -109,7 +103,7 @@ parameters:
 			path: src/Utils/Reflection.php
 
 		-
-			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, object\|string given\.$#'
+			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor expects class\-string\<object\>\|object, object\|string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Utils/ReflectionMethod.php
