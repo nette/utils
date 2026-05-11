@@ -100,6 +100,39 @@ Assert::exception(
 Assert::null(Image::detectTypeFromString('x'));
 
 
+// $warnings parameter
+
+test('fromFile with $warnings parameter on a valid image', function () {
+	$image = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif', $type, $warnings);
+	Assert::same(Image::GIF, $type);
+	Assert::null($warnings);
+	Assert::same(176, $image->getWidth());
+});
+
+
+test('fromString with $warnings parameter on a valid image', function () {
+	Image::fromString(Image::EmptyGIF, $type, $warnings);
+	Assert::same(Image::GIF, $type);
+	Assert::null($warnings);
+});
+
+
+test('$warnings can be passed by name, skipping $type', function () {
+	$image = Image::fromFile(__DIR__ . '/fixtures.images/logo.gif', warnings: $warnings);
+	Assert::null($warnings);
+	Assert::same(176, $image->getWidth());
+});
+
+
+test('a complete failure still throws even with $warnings passed', function () {
+	Assert::exception(
+		fn() => Image::fromFile(__DIR__ . '/fixtures.images/bad.gif', $type, $warnings),
+		Nette\Utils\ImageException::class,
+		'%a% not a valid GIF file',
+	);
+});
+
+
 Assert::same('webp', Image::typeToExtension(Image::WEBP));
 Assert::same('jpeg', Image::typeToExtension(Image::JPEG));
 Assert::same('image/webp', Image::typeToMimeType(Image::WEBP));

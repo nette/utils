@@ -137,6 +137,7 @@ class Image
 	public const EmptyGIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
 	private const Formats = [ImageType::JPEG => 'jpeg', ImageType::PNG => 'png', ImageType::GIF => 'gif', ImageType::WEBP => 'webp', ImageType::AVIF => 'avif', ImageType::BMP => 'bmp'];
+	private const Sentinel = "\0";
 
 	private \GdImage $image;
 
@@ -158,11 +159,13 @@ class Image
 
 
 	/**
-	 * Reads an image from a file and returns its type in $type.
+	 * Reads an image from a file and returns its type in $type. If $warnings is passed, recoverable decoder
+	 * warnings are returned in it instead of being raised as a PHP warning.
+	 * @param-out ?string  $warnings
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws UnknownImageFileException if file not found or file type is not known
 	 */
-	public static function fromFile(string $file, ?int &$type = null): static
+	public static function fromFile(string $file, ?int &$type = null, ?string &$warnings = self::Sentinel): static
 	{
 		self::ensureExtension();
 		$type = self::detectTypeFromFile($file);
@@ -170,16 +173,18 @@ class Image
 			throw new UnknownImageFileException(is_file($file) ? "Unknown type of file '$file'." : "File '$file' not found.");
 		}
 
-		return self::invokeSafe('imagecreatefrom' . self::Formats[$type], $file, "Unable to open file '$file'.", __METHOD__);
+		return self::invokeSafe('imagecreatefrom' . self::Formats[$type], $file, "Unable to open file '$file'.", __METHOD__, $warnings);
 	}
 
 
 	/**
-	 * Reads an image from a string and returns its type in $type.
+	 * Reads an image from a string and returns its type in $type. If $warnings is passed, recoverable decoder
+	 * warnings are returned in it instead of being raised as a PHP warning.
+	 * @param-out ?string  $warnings
 	 * @throws Nette\NotSupportedException if gd extension is not loaded
 	 * @throws ImageException
 	 */
-	public static function fromString(string $s, ?int &$type = null): static
+	public static function fromString(string $s, ?int &$type = null, ?string &$warnings = self::Sentinel): static
 	{
 		self::ensureExtension();
 		$type = self::detectTypeFromString($s);
@@ -187,22 +192,31 @@ class Image
 			throw new UnknownImageFileException('Unknown type of image.');
 		}
 
-		return self::invokeSafe('imagecreatefromstring', $s, 'Unable to open image from string.', __METHOD__);
+		return self::invokeSafe('imagecreatefromstring', $s, 'Unable to open image from string.', __METHOD__, $warnings);
 	}
 
 
 	/** @param  callable-string  $func */
-	private static function invokeSafe(string $func, string $arg, string $message, string $callee): static
+	private static function invokeSafe(
+		string $func,
+		string $arg,
+		string $message,
+		string $callee,
+		?string &$warnings = self::Sentinel,
+	): static
 	{
 		$errors = [];
 		$res = Callback::invokeSafe($func, [$arg], function (string $message) use (&$errors): void {
 			$errors[] = $message;
 		});
 
+		$raiseWarning = $warnings === self::Sentinel;
+		$warnings = $errors ? implode(', ', $errors) : null;
+
 		if (!$res) {
-			throw new ImageException($message . ' Errors: ' . implode(', ', $errors));
-		} elseif ($errors) {
-			trigger_error($callee . '(): ' . implode(', ', $errors), E_USER_WARNING);
+			throw new ImageException($message . ' Errors: ' . $warnings);
+		} elseif ($errors && $raiseWarning) {
+			trigger_error($callee . '(): ' . $warnings, E_USER_WARNING);
 		}
 
 		return new static($res);
