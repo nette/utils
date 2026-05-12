@@ -9,6 +9,7 @@ namespace Nette\Utils;
 
 use Nette;
 use function is_resource, is_string, strlen;
+use const PHP_VERSION_ID;
 
 
 /**
@@ -42,6 +43,9 @@ final class Process
 
 	/** @var array<int, true> Output IDs whose target resource was supplied by the caller and must not be closed here. */
 	private array $callerOutputs = [];
+
+	/** @var array<int, true> Output IDs whose pipe is backed by a temporary file (Windows < 8.5 workaround). */
+	private array $fileBackedOutputs = [];
 	private float $startTime;
 
 
@@ -190,7 +194,7 @@ final class Process
 
 	/**
 	 * Reads any new data from the captured pipes into the buffers, so a process producing more output
-	 * than the OS pipe buffer holds does not block. (On Windows the captured output is a file and never blocks.)
+	 * than the OS pipe buffer holds does not block. (On Windows < 8.5 the captured output is a file and never blocks.)
 	 */
 	private function drainPipes(): void
 	{
@@ -400,14 +404,31 @@ final class Process
 	 */
 	private function readFromPipe(int $id): void
 	{
-		if (!isset($this->outputBuffers[$id]) || !is_resource($this->outputPipes[$id] ?? null)) {
+		$pipe = $this->outputPipes[$id] ?? null;
+		if (!isset($this->outputBuffers[$id]) || !is_resource($pipe)) {
 			return;
-		} elseif (Helpers::IsWindows) {
-			fseek($this->outputPipes[$id], strlen($this->outputBuffers[$id]));
+
+		} elseif (isset($this->fileBackedOutputs[$id])) {
+			// Windows < 8.5: captured output is a temporary file; read whatever was appended since last time
+			fseek($pipe, strlen($this->outputBuffers[$id]));
+			$this->outputBuffers[$id] .= stream_get_contents($pipe);
+
 		} else {
-			stream_set_blocking($this->outputPipes[$id], false);
+			// Non-blocking drain. On POSIX, stream_set_blocking(false) makes fread() return partial data at once.
+			// On Windows that flag is a no-op on proc_open() pipes, but stream_select() works there since PHP 8.5
+			// (PeekNamedPipe fix), so we poll with it and read fixed-size chunks - never blocks on either platform.
+			stream_set_blocking($pipe, false);
+			$read = [$pipe];
+			$write = $except = [];
+			while (@stream_select($read, $write, $except, 0, 0) > 0) {
+				$chunk = fread($pipe, 8192);
+				if ($chunk === false || $chunk === '') {
+					break;
+				}
+				$this->outputBuffers[$id] .= $chunk;
+				$read = [$pipe];
+			}
 		}
-		$this->outputBuffers[$id] .= stream_get_contents($this->outputPipes[$id]);
 	}
 
 
@@ -471,9 +492,13 @@ final class Process
 		} elseif ($output === null) {
 			$this->outputBuffers[$id] = '';
 			$this->outputBufferOffsets[$id] = 0;
-			// On Windows anonymous pipes are blocking and cannot be polled without freezing the process,
-			// so captured output is backed by a temporary file that can be read non-blockingly (needed for timeouts).
-			return Helpers::IsWindows ? tmpfile() : ['pipe', 'w'];
+			if (Helpers::IsWindows && PHP_VERSION_ID < 80500) {
+				// Windows < 8.5: anonymous pipes are blocking and stream_select() doesn't work on them,
+				// so captured output is backed by a temporary file that can be read non-blockingly (needed for timeouts).
+				$this->fileBackedOutputs[$id] = true;
+				return tmpfile();
+			}
+			return ['pipe', 'w'];
 
 		} else {
 			throw new Nette\InvalidArgumentException('Output must be string, resource, bool or null, ' . get_debug_type($output) . ' given.');
@@ -495,7 +520,7 @@ final class Process
 
 	/**
 	 * Closes the output pipes that this class opened; resources supplied by the caller are left untouched.
-	 * (The temporary file backing captured output on Windows is removed by fclose() itself.)
+	 * (The temporary file backing captured output on Windows < 8.5 is removed by fclose() itself.)
 	 */
 	private function closeOutputPipes(): void
 	{
