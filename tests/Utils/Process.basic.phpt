@@ -148,15 +148,14 @@ test('getExitCode() after terminate()', function () {
 	Assert::false($process->isSuccess());
 });
 
-test('terminate() does not hang on a process that ignores SIGTERM', function () {
-	if (!function_exists('pcntl_signal')) {
-		Tester\Environment::skip('Requires the pcntl extension.');
-	}
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'pcntl_async_signals(true); pcntl_signal(SIGTERM, fn() => null); while (true) sleep(1);']);
-	usleep(100_000); // let the child install the handler
-	$process->terminate(); // would hang in proc_close() if only SIGTERM were sent
-	Assert::false($process->isRunning());
-});
+if (function_exists('pcntl_signal')) {
+	test('terminate() does not hang on a process that ignores SIGTERM', function () {
+		$process = Process::runExecutable(PHP_BINARY, ['-r', 'pcntl_async_signals(true); pcntl_signal(SIGTERM, fn() => null); while (true) sleep(1);']);
+		usleep(100_000); // let the child install the handler
+		$process->terminate(); // would hang in proc_close() if only SIGTERM were sent
+		Assert::false($process->isRunning());
+	});
+}
 
 
 // Timeout
