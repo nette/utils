@@ -813,8 +813,8 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 			$q = str_contains($value, '"') ? "'" : '"';
 			$s .= ' ' . $key . '=' . $q
 				. str_replace(
-					['&', $q, '<'],
-					['&amp;', $q === '"' ? '&quot;' : '&#39;', '<'],
+					['&', $q],
+					['&amp;', $q === '"' ? '&quot;' : '&#39;'],
 					$value,
 				)
 				. (str_contains($value, '`') && strpbrk($value, ' <>"\'') === false ? ' ' : '')

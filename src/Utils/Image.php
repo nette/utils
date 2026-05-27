@@ -327,7 +327,7 @@ class Image
 			ImageType::PNG => IMG_PNG,
 			ImageType::GIF => IMG_GIF,
 			ImageType::WEBP => IMG_WEBP,
-			ImageType::AVIF => 256, // IMG_AVIF,
+			ImageType::AVIF => IMG_AVIF,
 			ImageType::BMP => IMG_BMP,
 			default => 0,
 		});
@@ -347,7 +347,7 @@ class Image
 			$flag & IMG_JPG ? ImageType::JPEG : null,
 			$flag & IMG_PNG ? ImageType::PNG : null,
 			$flag & IMG_WEBP ? ImageType::WEBP : null,
-			$flag & 256 ? ImageType::AVIF : null, // IMG_AVIF
+			$flag & IMG_AVIF ? ImageType::AVIF : null,
 			$flag & IMG_BMP ? ImageType::BMP : null,
 		]);
 	}

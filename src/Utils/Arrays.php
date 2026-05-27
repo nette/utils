@@ -304,7 +304,7 @@ class Arrays
 	{
 		$parts = is_array($path)
 			? $path
-			: preg_split('#(\[\]|->|=|\|)#', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+			: preg_split('#(\[]|->|=|\|)#', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
 		if (!$parts || $parts === ['->'] || $parts[0] === '=' || $parts[0] === '|') {
 			throw new Nette\InvalidArgumentException("Invalid path '" . (is_array($path) ? implode('', $path) : $path) . "'.");

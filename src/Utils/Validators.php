@@ -344,7 +344,7 @@ class Validators
 						[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)?  # domain
 						[$alpha]([-0-9$alpha]{0,17}[$alpha])?   # top domain
 					|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}  # IPv4
-					|\\[[0-9a-f:]{3,39}\\]                      # IPv6
+					|\\[[0-9a-f:]{3,39}]                        # IPv6
 				)(:\\d{1,5})?                                   # port
 				(/\\S*)?                                        # path
 				(\\?\\S*)?                                      # query
@@ -359,7 +359,7 @@ class Validators
 	 */
 	public static function isUri(string $value): bool
 	{
-		return (bool) preg_match('#^[a-z\d+\.-]+:\S+$#Di', $value);
+		return (bool) preg_match('#^[a-z\d+.-]+:\S+$#Di', $value);
 	}
 
 

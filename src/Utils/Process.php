@@ -8,6 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
+use function is_resource, is_string, strlen;
 
 
 /**
@@ -113,7 +114,7 @@ final class Process
 		mixed $stdin,
 		mixed $stdout,
 		mixed $stderr,
-		private ?float $timeout,
+		private readonly ?float $timeout,
 	) {
 		$descriptors = [
 			self::StdIn => $this->createInputDescriptor($stdin),
