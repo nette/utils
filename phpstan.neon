@@ -13,9 +13,9 @@ parameters:
 		- tests/phpstan-bootstrap.php
 
 	ignoreErrors:
-		# Intentional design pattern: new static() for inheritance support in fluent interfaces
-		-
+		-   # Intentional design pattern: new static() for inheritance support in fluent interfaces
 			identifier: new.static
+			message: '#^Unsafe usage of new static\(\)\.$#'
 			paths:
 				- src/Utils/ArrayHash.php
 				- src/Utils/ArrayList.php
@@ -24,22 +24,20 @@ parameters:
 				- src/Utils/Html.php
 				- src/Utils/Image.php
 
-		# Runtime validation: type narrowing checks that are necessary at runtime
-		-
+		-   # Runtime validation: type narrowing checks that are necessary at runtime
 			identifier: function.alreadyNarrowedType
 			paths:
 				- src/Utils/ArrayHash.php
 				- src/Utils/ArrayList.php
 				- src/Utils/Strings.php
 
-		# Array destructuring from getimagesize() which returns false (converted to null by falseToNull)
-		-
+		-   # Array destructuring from getimagesize() which returns false (converted to null by falseToNull)
 			identifier: offsetAccess.nonArray
-			paths:
-				- src/Utils/Image.php
+			message: '#^Cannot use array destructuring on array<int\|string, int\|string>\|null\.$#'
+			path: src/Utils/Image.php
+			count: 2
 
-		# Works with arbitrary PHP callbacks, precise callable types not practical
-		-
+		-   # Works with arbitrary PHP callbacks, precise callable types not practical
 			identifier: missingType.callable
 			paths:
 				- src/Utils/Callback.php
