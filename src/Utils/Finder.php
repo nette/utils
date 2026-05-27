@@ -120,7 +120,7 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Searches in the given directories. Wildcards are allowed.
+	 * Searches in the given directories. Wildcards * and ? are allowed; unlike in masks, [ and ] are taken literally.
 	 * @param  string|list<string>  $paths
 	 */
 	public function in(string|array $paths): static
@@ -132,7 +132,7 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Searches recursively from the given directories. Wildcards are allowed.
+	 * Searches recursively from the given directories. Wildcards * and ? are allowed; unlike in masks, [ and ] are taken literally.
 	 * @param  string|list<string>  $paths
 	 */
 	public function from(string|array $paths): static

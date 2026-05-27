@@ -396,7 +396,7 @@ class Strings
 	public static function trim(string $s, string $charlist = self::TrimCharacters): string
 	{
 		$charlist = preg_quote($charlist, '#');
-		return self::replace($s, '#^[' . $charlist . ']+|[' . $charlist . ']+$#Du', '');
+		return self::replace($s, '#^[' . $charlist . ']+|[' . $charlist . ']+$#Du');
 	}
 
 
