@@ -224,7 +224,7 @@ class Finder implements \IteratorAggregate
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
 		foreach ($masks as $mask) {
 			$mask = FileSystem::unixSlashes($mask);
-			if (!preg_match('~^/?(\*\*/)?(.+)(/\*\*|/\*|/|)$~D', $mask, $m)) {
+			if (!preg_match('~^/?(\*\*/)?(.+?)(/\*\*|/\*|/|)$~D', $mask, $m)) {
 				throw new Nette\InvalidArgumentException("Invalid mask '$mask'");
 			}
 			$end = $m[3];

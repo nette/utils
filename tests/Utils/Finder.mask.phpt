@@ -141,6 +141,27 @@ test('wildcard with bracketed directory pattern matches files', function () {
 });
 
 
+test('trailing slash in exclude() mask excludes the directory and its contents', function () {
+	$finder = Finder::find('*')->exclude('subdir/')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+		'fixtures.finder/images',
+		'fixtures.finder/images/logo.gif',
+	], export($finder));
+});
+
+
+test('trailing /* in exclude() mask excludes contents but keeps the directory', function () {
+	$finder = Finder::find('*')->exclude('subdir/*')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+		'fixtures.finder/images',
+		'fixtures.finder/images/logo.gif',
+		'fixtures.finder/subdir',
+	], export($finder));
+});
+
+
 test('double asterisk wildcard behaves differently in from() and in()', function () {
 	$finder = Finder::findFiles('**/f*')->from('fixtures.finder');
 	Assert::same([
