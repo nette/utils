@@ -14,6 +14,22 @@ Tester\Environment::setup();
 Tester\Environment::setupFunctions();
 
 
+// Returns the path to the PHP CLI binary. When the test runner itself runs
+// under a non-CLI SAPI (e.g. php-cgi), PHP_BINARY points to that binary, which
+// can't run the -r/-f scripts the Process tests rely on, so we look for the CLI
+// executable next to it.
+function getPhpCliBinary(): string
+{
+	if (PHP_SAPI === 'cli') {
+		return PHP_BINARY;
+	}
+
+	$ext = defined('PHP_WINDOWS_VERSION_BUILD') ? '.exe' : '';
+	$path = dirname(PHP_BINARY) . '/php' . $ext;
+	return is_file($path) ? $path : PHP_BINARY;
+}
+
+
 function getTempDir(): string
 {
 	$dir = __DIR__ . '/tmp/' . getmypid();

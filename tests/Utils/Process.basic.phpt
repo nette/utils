@@ -12,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 // Process execution - success
 
 test('run executable successfully', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'echo "hello";']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'echo "hello";']);
 	Assert::true($process->isSuccess());
 	Assert::same(0, $process->getExitCode());
 	Assert::same('hello', $process->getStdOutput());
@@ -31,34 +31,34 @@ test('run command successfully', function () {
 // Process execution - errors
 
 test('run executable with error', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'exit(1);']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'exit(1);']);
 	Assert::false($process->isSuccess());
 	Assert::same(1, $process->getExitCode());
 });
 
 test('run executable ensure success throws exception on error', function () {
 	Assert::exception(
-		fn() => Process::runExecutable(PHP_BINARY, ['-r', 'exit(1);'])->ensureSuccess(),
+		fn() => Process::runExecutable(getPhpCliBinary(), ['-r', 'exit(1);'])->ensureSuccess(),
 		ProcessFailedException::class,
 		'Process failed with non-zero exit code: 1',
 	);
 });
 
 test('ensureSuccess() does not throw on success', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'echo "ok";']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'echo "ok";']);
 	$process->ensureSuccess();
 	Assert::same('ok', $process->getStdOutput());
 });
 
 test('run command with error', function () {
-	$process = Process::runCommand('"' . PHP_BINARY . '" -r "exit(1);"');
+	$process = Process::runCommand('"' . getPhpCliBinary() . '" -r "exit(1);"');
 	Assert::false($process->isSuccess());
 	Assert::same(1, $process->getExitCode());
 });
 
 test('run command ensure success throws exception on error', function () {
 	Assert::exception(
-		fn() => Process::runCommand('"' . PHP_BINARY . '" -r "exit(1);"')->ensureSuccess(),
+		fn() => Process::runCommand('"' . getPhpCliBinary() . '" -r "exit(1);"')->ensureSuccess(),
 		ProcessFailedException::class,
 		'Process failed with non-zero exit code: 1',
 	);
@@ -68,14 +68,14 @@ test('run command ensure success throws exception on error', function () {
 // Process state monitoring
 
 test('is running', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'sleep(1);']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'sleep(1);']);
 	Assert::true($process->isRunning());
 	$process->wait();
 	Assert::false($process->isRunning());
 });
 
 test('get pid', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'sleep(1);']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'sleep(1);']);
 	Assert::type('int', $process->getPid());
 	$process->wait();
 	Assert::null($process->getPid());
@@ -85,7 +85,7 @@ test('get pid', function () {
 // Waiting for process
 
 test('wait', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'echo "hello";']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'echo "hello";']);
 	$process->wait();
 	$process->wait();
 	Assert::false($process->isRunning());
@@ -96,7 +96,7 @@ test('wait', function () {
 test('wait with callback', function () {
 	$output = '';
 	$error = '';
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'echo "hello"; fwrite(STDERR, "error");']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'echo "hello"; fwrite(STDERR, "error");']);
 	$process->wait(function ($stdOut, $stdErr) use (&$output, &$error) {
 		$output .= $stdOut;
 		$error .= $stdErr;
@@ -109,19 +109,19 @@ test('wait with callback', function () {
 // Automatically call wait()
 
 test('getStdOutput() automatically call wait()', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'echo "hello";']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'echo "hello";']);
 	Assert::same('hello', $process->getStdOutput());
 	Assert::false($process->isRunning());
 });
 
 test('getExitCode() automatically call wait()', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'exit(2);']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'exit(2);']);
 	Assert::same(2, $process->getExitCode());
 	Assert::false($process->isRunning());
 });
 
 test('reads large output without deadlocking', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'echo str_repeat("a", 1_000_000);']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'echo str_repeat("a", 1_000_000);']);
 	Assert::same(1_000_000, strlen($process->getStdOutput()));
 });
 
@@ -129,20 +129,20 @@ test('reads large output without deadlocking', function () {
 // Terminating process
 
 test('terminate', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'sleep(5);']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'sleep(5);']);
 	$process->terminate();
 	Assert::false($process->isRunning());
 });
 
 test('terminate() and then wait()', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'sleep(5);']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'sleep(5);']);
 	$process->terminate();
 	$process->wait();
 	Assert::false($process->isRunning());
 });
 
 test('getExitCode() after terminate()', function () {
-	$process = Process::runExecutable(PHP_BINARY, ['-r', 'sleep(5);']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'sleep(5);']);
 	$process->terminate();
 	Assert::type('int', $process->getExitCode());
 	Assert::false($process->isSuccess());
@@ -150,7 +150,7 @@ test('getExitCode() after terminate()', function () {
 
 if (function_exists('pcntl_signal')) {
 	test('terminate() does not hang on a process that ignores SIGTERM', function () {
-		$process = Process::runExecutable(PHP_BINARY, ['-r', 'pcntl_async_signals(true); pcntl_signal(SIGTERM, fn() => null); while (true) sleep(1);']);
+		$process = Process::runExecutable(getPhpCliBinary(), ['-r', 'pcntl_async_signals(true); pcntl_signal(SIGTERM, fn() => null); while (true) sleep(1);']);
 		usleep(100_000); // let the child install the handler
 		$process->terminate(); // would hang in proc_close() if only SIGTERM were sent
 		Assert::false($process->isRunning());
@@ -162,7 +162,7 @@ if (function_exists('pcntl_signal')) {
 
 test('timeout', function () {
 	Assert::exception(
-		fn() => Process::runExecutable(PHP_BINARY, ['-r', 'sleep(5);'], timeout: 0.1)->wait(),
+		fn() => Process::runExecutable(getPhpCliBinary(), ['-r', 'sleep(5);'], timeout: 0.1)->wait(),
 		ProcessTimeoutException::class,
 		'Process exceeded the time limit of 0.1 seconds',
 	);
@@ -173,7 +173,7 @@ test('timeout', function () {
 
 if (Helpers::IsWindows) {
 	test('bypass_shell = false', function () {
-		$process = Process::runCommand('"' . PHP_BINARY . '" -r "echo 123;"', options: ['bypass_shell' => false]);
+		$process = Process::runCommand('"' . getPhpCliBinary() . '" -r "echo 123;"', options: ['bypass_shell' => false]);
 		Assert::same('123', $process->getStdOutput());
 	});
 }

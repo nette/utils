@@ -29,7 +29,7 @@ $drain = function (Process $process, callable $consume): array {
 
 
 test('incremental output consumption', function () use ($drain) {
-	$process = Process::runExecutable(PHP_BINARY, ['-f', __DIR__ . '/fixtures.process/incremental.php', 'stdout']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-f', __DIR__ . '/fixtures.process/incremental.php', 'stdout']);
 	$chunks = $drain($process, fn(Process $p) => $p->consumeStdOutput());
 
 	Assert::same('helloworld', implode($chunks));
@@ -39,7 +39,7 @@ test('incremental output consumption', function () use ($drain) {
 });
 
 test('incremental error output consumption', function () use ($drain) {
-	$process = Process::runExecutable(PHP_BINARY, ['-f', __DIR__ . '/fixtures.process/incremental.php', 'stderr']);
+	$process = Process::runExecutable(getPhpCliBinary(), ['-f', __DIR__ . '/fixtures.process/incremental.php', 'stderr']);
 	$chunks = $drain($process, fn(Process $p) => $p->consumeStdError());
 
 	Assert::same('hello' . PHP_EOL . 'world' . PHP_EOL, implode($chunks));
