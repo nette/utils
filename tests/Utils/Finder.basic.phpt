@@ -26,6 +26,35 @@ function export($iterator, bool $sort = true)
 }
 
 
+// Ensures that the fixtures symlinks exist. On Windows without core.symlinks
+// Git checks them out as plain text files containing the target path, so we
+// recreate them as real symlinks. Skips the test if symlinks can't be created.
+function setupSymlinks(): void
+{
+	$links = [
+		__DIR__ . '/fixtures.finder3/subdir/file.txt' => '../file.txt',
+		__DIR__ . '/fixtures.finder3/another_subdir/subdir' => '../subdir',
+	];
+	$todo = array_filter($links, fn($link) => !is_link($link), ARRAY_FILTER_USE_KEY);
+	if (!$todo) {
+		return;
+	}
+
+	// verify symlinks can be created before deleting anything
+	$probe = __DIR__ . '/fixtures.finder3/__symlink_probe';
+	@unlink($probe);
+	if (!@symlink('.', $probe)) {
+		Tester\Environment::skip('Unable to create symlinks.');
+	}
+	@unlink($probe);
+
+	foreach ($todo as $link => $target) {
+		@unlink($link);
+		symlink($target, $link);
+	}
+}
+
+
 test('empty search', function () {
 	$finder = (new Finder)->in('fixtures.finder');
 	Assert::same([], export($finder));
@@ -173,6 +202,7 @@ test('absolute path in mask', function () { // will not work if there are charac
 
 
 test('symlink to file', function () {
+	setupSymlinks();
 	$finder = Finder::find('subdir/*.txt')->in('fixtures.finder3');
 	Assert::same([
 		'fixtures.finder3/subdir/file.txt',
@@ -181,6 +211,7 @@ test('symlink to file', function () {
 
 
 test('symlink to directory', function () {
+	setupSymlinks();
 	$finder = Finder::findDirectories()->in('fixtures.finder3/another_subdir');
 	Assert::same([
 		'fixtures.finder3/another_subdir/subdir',
@@ -189,6 +220,7 @@ test('symlink to directory', function () {
 
 
 test('symlink to file in symlinked directory', function () {
+	setupSymlinks();
 	$finder = Finder::find('subdir/*.txt')->in('fixtures.finder3/another_subdir');
 	Assert::same([
 		'fixtures.finder3/another_subdir/subdir/file.txt',
