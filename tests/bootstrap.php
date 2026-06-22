@@ -14,6 +14,18 @@ Tester\Environment::setup();
 Tester\Environment::setupFunctions();
 
 
+function getPhpCliBinary(): string
+{
+	if (PHP_SAPI === 'cli') {
+		return PHP_BINARY;
+	}
+
+	$ext = defined('PHP_WINDOWS_VERSION_BUILD') ? '.exe' : '';
+	$path = dirname(PHP_BINARY) . '/php' . $ext;
+	return is_file($path) ? $path : PHP_BINARY;
+}
+
+
 function getTempDir(): string
 {
 	$dir = __DIR__ . '/tmp/' . getmypid();
