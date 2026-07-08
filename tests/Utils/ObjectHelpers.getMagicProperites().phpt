@@ -16,6 +16,15 @@ require __DIR__ . '/../bootstrap.php';
  * @property int $getter2 by ref
  * @property int $setter
  * @property A\B $both with typehint
+ * @property array<string, string> $generic with space in type
+ * @property array<int, array<string, mixed>> $nested
+ * @property array{a: int, b?: string} $shape
+ * @property array{
+ *     multi: string,
+ *     line: int,
+ * } $multiline
+ * @property array<string,
+ *     int> $multilineGeneric
  * @property int $missing
  * @property int $Upper
  * @property int $cAse
@@ -27,6 +36,9 @@ require __DIR__ . '/../bootstrap.php';
  * @property-x int $invalid1
  * @property $invalid2
  * abc @property int $invalid3
+ * @property array{
+ *     unterminated: string,
+ * @property-read int $bridged
  */
 class TestClass
 {
@@ -51,6 +63,41 @@ class TestClass
 
 
 	public function setBoth()
+	{
+	}
+
+
+	public function getGeneric()
+	{
+	}
+
+
+	public function getNested()
+	{
+	}
+
+
+	public function getShape()
+	{
+	}
+
+
+	public function getMultiline()
+	{
+	}
+
+
+	public function getMultilineGeneric()
+	{
+	}
+
+
+	public function getBridged()
+	{
+	}
+
+
+	public function setBridged()
 	{
 	}
 
@@ -118,10 +165,16 @@ Assert::same([
 	'getter2' => 0b0101,
 	'setter' => 0b1000,
 	'both' => 0b1011,
+	'generic' => 0b0011,
+	'nested' => 0b0011,
+	'shape' => 0b0011,
+	'multiline' => 0b0011,
+	'multilineGeneric' => 0b0011,
 	'Upper' => 0b0011,
 	'protected' => 0b0011,
 	'read' => 0b0011,
 	'write' => 0b1000,
+	'bridged' => 0b0011,
 ], ObjectHelpers::getMagicProperties('TestClass'));
 
 
