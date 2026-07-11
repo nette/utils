@@ -88,6 +88,16 @@ test('supports push, access, iteration, unset, and prepend operations', function
 });
 
 
+test('prepend works on an empty list', function () {
+	$list = new ArrayList;
+	$list->prepend('First');
+	Assert::same(['First'], iterator_to_array($list));
+
+	$list->prepend('Zero');
+	Assert::same(['Zero', 'First'], iterator_to_array($list));
+});
+
+
 test('setting invalid offsets throws OutOfRangeException', function () {
 	$list = new ArrayList;
 	$list[] = 'a';
