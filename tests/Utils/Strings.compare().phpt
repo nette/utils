@@ -158,6 +158,13 @@ test('single character comparison', function () {
 });
 
 
+test('handles invalid UTF-8 gracefully', function () {
+	Assert::false(Strings::compare("\xFF", 'x'));
+	Assert::false(Strings::compare("\xFF", 'x', 1));
+	Assert::true(Strings::compare("\xFF", "\xFF"));
+});
+
+
 test('comparison with whitespace', function () {
 	Assert::false(Strings::compare('hello', ' hello'));
 	Assert::false(Strings::compare('hello ', 'hello'));

@@ -333,8 +333,8 @@ class Strings
 	public static function compare(string $left, string $right, ?int $length = null): bool
 	{
 		if (class_exists('Normalizer', autoload: false)) {
-			$left = \Normalizer::normalize($left, \Normalizer::FORM_D); // form NFD is faster
-			$right = \Normalizer::normalize($right, \Normalizer::FORM_D); // form NFD is faster
+			$left = \Normalizer::normalize($left, \Normalizer::FORM_D) ?: $left; // form NFD is faster, false on invalid UTF-8
+			$right = \Normalizer::normalize($right, \Normalizer::FORM_D) ?: $right; // form NFD is faster, false on invalid UTF-8
 		}
 
 		if ($length < 0) {
