@@ -47,6 +47,7 @@ final class Process
 	/** @var array<int, true> Output IDs whose pipe is backed by a temporary file (Windows < 8.5 workaround). */
 	private array $fileBackedOutputs = [];
 	private float $startTime;
+	private bool $detached = false;
 
 
 	/**
@@ -150,8 +151,29 @@ final class Process
 
 	public function __destruct()
 	{
+		if ($this->detached) {
+			return;
+		}
 		$this->outputBuffers = [];
 		$this->terminate();
+	}
+
+
+	/**
+	 * Detaches the process: it keeps running in the background and is not terminated when the object
+	 * is destroyed. STDIN and output pipes are closed, so the output must not be captured in memory
+	 * (pass a file name, a resource or false as $stdout/$stderr). Only the destructor behavior changes:
+	 * wait() and getExitCode() still block ($timeout still applies) and terminate() still kills it.
+	 * On POSIX, a detached child that exits early stays a zombie until the script ends.
+	 */
+	public function detach(): void
+	{
+		if ($this->outputBuffers !== []) {
+			throw new Nette\InvalidStateException('Cannot detach process: its output is captured in memory, pass a file name, a resource or false as $stdout/$stderr.');
+		}
+		$this->detached = true;
+		$this->closeStdInput();
+		$this->closeOutputPipes();
 	}
 
 
