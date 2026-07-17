@@ -20,6 +20,7 @@ parameters:
 				- src/Utils/ArrayHash.php
 				- src/Utils/ArrayList.php
 				- src/Utils/DateTime.php
+				- src/Utils/DateTimeImmutable.php
 				- src/Utils/Finder.php
 				- src/Utils/Html.php
 				- src/Utils/Image.php
@@ -85,6 +86,12 @@ parameters:
 			identifier: booleanAnd.leftAlwaysTrue
 			count: 2
 			path: src/Utils/DateTime.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: src/Utils/DateTimeImmutable.php
 
 		-
 			message: '#^Parameter \#1 \$pathNames of method Nette\\Utils\\Finder\:\:convertToFiles\(\) expects iterable\<string\>, FilesystemIterator given\.$#'
