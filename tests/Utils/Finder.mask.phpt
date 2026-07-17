@@ -162,7 +162,7 @@ test('trailing /* in exclude() mask excludes contents but keeps the directory', 
 });
 
 
-test('double asterisk wildcard behaves differently in from() and in()', function () {
+test('leading **/ in mask drives recursion with both from() and in()', function () {
 	$finder = Finder::findFiles('**/f*')->from('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -173,6 +173,48 @@ test('double asterisk wildcard behaves differently in from() and in()', function
 	$finder = Finder::findFiles('**/f*')->in('fixtures.finder');
 	Assert::same([
 		'fixtures.finder/file.txt',
+		'fixtures.finder/subdir/file.txt',
+		'fixtures.finder/subdir/subdir2/file.txt',
+	], export($finder));
+});
+
+
+test('trailing ** in mask searches recursively (globstar short form)', function () {
+	$finder = Finder::findFiles('subdir/**')->in('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/subdir/file.txt',
+		'fixtures.finder/subdir/readme',
+		'fixtures.finder/subdir/subdir2/file.txt',
+	], export($finder));
+
+	$finder = Finder::findFiles('subdir/*')->in('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/subdir/file.txt',
+		'fixtures.finder/subdir/readme',
+	], export($finder));
+});
+
+
+test('**.ext is a shortcut for **/*.ext', function () {
+	$finder = Finder::findFiles('**.txt')->in('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/file.txt',
+		'fixtures.finder/subdir/file.txt',
+		'fixtures.finder/subdir/subdir2/file.txt',
+	], export($finder));
+});
+
+
+test('** bridges repeated path segments', function () {
+	$finder = Finder::findDirectories('a/**/b/c')->in('fixtures.finder4');
+	Assert::same([
+		'fixtures.finder4/a/b/c',
+		'fixtures.finder4/a/b/c/a/b/c',
+	], export($finder));
+
+	$finder = Finder::findFiles('**.txt')->from('fixtures.finder4');
+	Assert::same([
+		'fixtures.finder4/a/b/c/a/b/c/d.txt',
 	], export($finder));
 });
 
