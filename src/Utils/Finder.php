@@ -8,8 +8,8 @@
 namespace Nette\Utils;
 
 use Nette;
-use function array_filter, array_merge, array_values, count, func_get_args, func_num_args, glob, implode, is_array, is_dir, iterator_to_array, preg_match, preg_quote, preg_replace, preg_split, rtrim, spl_object_id, sprintf, str_starts_with, strnatcmp, strpbrk, strrpos, strtolower, strtr, substr, usort;
-use const DIRECTORY_SEPARATOR, GLOB_NOESCAPE, GLOB_NOSORT, GLOB_ONLYDIR;
+use function array_filter, array_merge, array_values, count, func_get_args, func_num_args, glob, implode, is_array, is_dir, iterator_to_array, preg_match, preg_quote, preg_replace, preg_split, rtrim, spl_object_id, sprintf, str_starts_with, strnatcmp, strpbrk, strrpos, strtolower, strtr, substr, trigger_error, usort;
+use const DIRECTORY_SEPARATOR, E_USER_DEPRECATED, GLOB_NOESCAPE, GLOB_NOSORT, GLOB_ONLYDIR;
 
 
 /**
@@ -227,24 +227,29 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Skips entries that matches the given masks relative to the ones defined with the in() or from() methods.
+	 * Skips entries that match the given masks, using the same grammar as find() masks, relative to the directories from in() or from().
+	 * A trailing slash excludes directories only; a trailing /* or /** excludes the contents while keeping the directory itself.
 	 * @param  string|list<string>  $masks
 	 */
 	public function exclude(string|array $masks): static
 	{
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
 		foreach ($masks as $mask) {
+			$orig = $mask;
 			$mask = FileSystem::unixSlashes($mask);
+			if (FileSystem::isAbsolute($mask) || $mask === '..' || str_starts_with($mask, '../')) {
+				trigger_error("Absolute or ../ mask '$orig' in exclude() is deprecated and will change meaning, use a mask relative to the searched directory.", E_USER_DEPRECATED);
+			}
 			if (!preg_match('~^/?(\*\*/)?(.+?)(/\*\*|/\*|/|)$~D', $mask, $m)) {
-				throw new Nette\InvalidArgumentException("Invalid mask '$mask'");
+				throw new Nette\InvalidArgumentException("Invalid mask '$orig'");
 			}
 			$end = $m[3];
-			$re = $this->buildPattern($m[2]);
+			$re = $this->buildPattern(self::expandGlobStar($m[2]));
 			$filter = fn(FileInfo $file): bool => ($end && !$file->isDir())
 				|| !preg_match($re, FileSystem::unixSlashes($file->getRelativePathname()));
 
 			$this->descentFilter($filter);
-			if ($end !== '/*') {
+			if ($end === '' || $end === '/') {
 				$this->filter($filter);
 			}
 		}
