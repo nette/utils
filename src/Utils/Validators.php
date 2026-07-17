@@ -337,13 +337,14 @@ class Validators
 	public static function isUrl(string $value): bool
 	{
 		$alpha = "a-z\x80-\xFF";
+		$octet = '(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])'; // 0..255
 		return (bool) preg_match(<<<XX
 			(^(?n)
 				https?://(
 					(([-_0-9$alpha]+\\.)*                       # subdomain
 						[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)?  # domain
 						[$alpha]([-0-9$alpha]{0,17}[$alpha])?   # top domain
-					|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}  # IPv4
+					|$octet(\\.$octet){3}                       # IPv4
 					|\\[[0-9a-f:]{3,39}]                        # IPv6
 				)(:\\d{1,5})?                                   # port
 				(/\\S*)?                                        # path

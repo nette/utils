@@ -207,6 +207,10 @@ test('verifies URL format across various domain cases', function () {
 	Assert::true(Validators::is('http://l.org', 'url'));
 	Assert::true(Validators::is('http://localhost', 'url'));
 	Assert::true(Validators::is('http://127.0.0.1', 'url'));
+	Assert::true(Validators::is('http://255.255.255.255', 'url'));
+	Assert::false(Validators::is('http://999.999.999.999', 'url'));
+	Assert::false(Validators::is('http://256.1.1.1', 'url'));
+	Assert::false(Validators::is('http://1.2.3', 'url'));
 	Assert::true(Validators::is('http://[::1]', 'url'));
 	Assert::true(Validators::is('http://[2001:0db8:0000:0000:0000:0000:1428:57AB]', 'url'));
 	Assert::true(Validators::is('http://nette.org/path', 'url'));
