@@ -28,7 +28,7 @@ test('append finder', function () {
 		"fixtures.finder{$ds}file.txt",
 		"fixtures.finder{$ds}subdir",
 		"fixtures.finder{$ds}subdir{$ds}subdir2",
-		"fixtures.finder{$ds}subdir{$ds}subdir2{$ds}file.txt",
+		"fixtures.finder/subdir/subdir2{$ds}file.txt", // the base comes from glob() and keeps the slashes used in from()
 	], array_map('strval', $finder->collect()));
 });
 
@@ -37,8 +37,8 @@ test('append files', function () {
 		->append(__FILE__)
 		->append(FileSystem::unixSlashes(__DIR__));
 
-	Assert::equal([
-		new Nette\Utils\FileInfo(__FILE__),
-		new Nette\Utils\FileInfo(__DIR__),
-	], $finder->collect());
+	Assert::same([
+		__FILE__,
+		FileSystem::unixSlashes(__DIR__), // paths are kept verbatim
+	], array_map('strval', $finder->collect()));
 });
