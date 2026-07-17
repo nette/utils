@@ -63,7 +63,9 @@ composer phpstan
 - **`Html` sets attributes through magic** (`__set`/`__call`, so `$el->href('x')`,
   `$el->href = 'x'`, `$el->setHref('x')` all set `href`) - **but `setText`, `setHtml`,
   `setName` are real methods, not attribute setters.** `Html::el(null)` is a nameless
-  element that renders only its children.
+  element that renders only its children. `Html::text()`/`Html::html()`
+  are static factories via `__callStatic` (not real methods); instance calls
+  `$el->text()`/`$el->html()` are deprecated and warn. See `docs/internals.md`.
 - **`Image` has two inverted color scales:** `ImageColor` opacity runs 0-1 while the
   legacy GD `alpha` runs 0-127. Requires `ext-gd`.
 - **`FileSystem` is destructive by default:** `copy()`/`rename()` overwrite unless

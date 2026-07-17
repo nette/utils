@@ -8,8 +8,8 @@
 namespace Nette\Utils;
 
 use Nette\HtmlStringable;
-use function array_merge, array_splice, count, explode, func_num_args, html_entity_decode, htmlspecialchars, http_build_query, implode, is_array, is_bool, is_float, is_object, is_string, json_encode, max, number_format, rtrim, str_contains, str_repeat, str_replace, strip_tags, strncmp, strpbrk, substr;
-use const ENT_HTML5, ENT_NOQUOTES, ENT_QUOTES;
+use function array_merge, array_splice, count, explode, func_num_args, html_entity_decode, htmlspecialchars, http_build_query, implode, is_array, is_bool, is_float, is_object, is_string, json_encode, max, number_format, rtrim, str_contains, str_repeat, str_replace, strip_tags, strncmp, strpbrk, substr, trigger_error, ucfirst;
+use const E_USER_DEPRECATED, ENT_HTML5, ENT_NOQUOTES, ENT_QUOTES;
 
 
 /**
@@ -229,6 +229,9 @@ use const ENT_HTML5, ENT_NOQUOTES, ENT_QUOTES;
  * @method self width(?int $val)
  * @method self wrap(?string $val)
  *
+ * @method static static text(mixed $text)
+ * @method static static html(mixed $html)
+ *
  * @implements \IteratorAggregate<int, self|string>
  * @implements \ArrayAccess<int, self|string>
  */
@@ -282,6 +285,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 
 	/**
 	 * Returns an object representing HTML text.
+	 * @deprecated  use Html::html()
 	 */
 	public static function fromHtml(string $html): static
 	{
@@ -291,6 +295,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 
 	/**
 	 * Returns an object representing plain text.
+	 * @deprecated  use Html::text()
 	 */
 	public static function fromText(string $text): static
 	{
@@ -473,6 +478,10 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 */
 	final public function __call(string $m, array $args): mixed
 	{
+		if ($m === 'text' || $m === 'html') {
+			trigger_error("Method \$el->$m() is deprecated, use set" . ucfirst($m) . "() for content or setAttribute() for the '$m' attribute; Html::$m() is a static factory.", E_USER_DEPRECATED);
+		}
+
 		$p = substr($m, 0, 3);
 		if ($p === 'get' || $p === 'set' || $p === 'add') {
 			$m = substr($m, 3);
@@ -495,6 +504,20 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 		}
 
 		return $this;
+	}
+
+
+	/**
+	 * Creates element with escaped text (Html::text()) or raw HTML (Html::html()) content.
+	 * @param  mixed[]  $args
+	 */
+	final public static function __callStatic(string $name, array $args): static
+	{
+		return match ($name) {
+			'text' => (new static)->setText(...$args),
+			'html' => (new static)->setHtml(...$args),
+			default => ObjectHelpers::strictStaticCall(static::class, $name),
+		};
 	}
 
 
