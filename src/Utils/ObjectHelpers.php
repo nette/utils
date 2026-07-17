@@ -30,7 +30,7 @@ final class ObjectHelpers
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
 			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
-			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-read)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m'),
+			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-read)?[ \t]+(?:(?!@)[^\s$*]+[\s*]+)*+\$(\w+)~m'),
 		), $name);
 		throw new MemberAccessException("Cannot read an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
 	}
@@ -45,7 +45,7 @@ final class ObjectHelpers
 		$rc = new \ReflectionClass($class);
 		$hint = self::getSuggestion(array_merge(
 			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
-			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-write)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m'),
+			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-write)?[ \t]+(?:(?!@)[^\s$*]+[\s*]+)*+\$(\w+)~m'),
 		), $name);
 		throw new MemberAccessException("Cannot write to an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
 	}
@@ -131,7 +131,7 @@ final class ObjectHelpers
 
 		$rc = new \ReflectionClass($class);
 		preg_match_all(
-			'~^  [ \t*]*  @property(|-read|-write|-deprecated)  [ \t]+  [^\s$]+  [ \t]+  \$  (\w+)  ()~mx',
+			'~^  [ \t*]*  @property(|-read|-write|-deprecated)  [ \t]+  (?:(?!@)[^\s$*]+[\s*]+)++  \$  (\w+)  ()~mx',
 			(string) $rc->getDocComment(),
 			$matches,
 			PREG_SET_ORDER,
