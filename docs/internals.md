@@ -67,6 +67,16 @@ so `$el->setTitle(...)` sets an attribute but `$el->setText(...)` calls the meth
 `Html::el(null)` builds a **nameless element** that renders only its children (no
 surrounding tag).
 
+`Html::text()` and `Html::html()` are static factories (escaped text / raw HTML,
+successors of deprecated `fromText()`/`fromHtml()`) implemented via `__callStatic`,
+**deliberately not as real static methods**: a real static would also be found for
+instance calls (`$el->text('x')`) and silently shadow `__call`. With no real method,
+PHP routes static calls to `__callStatic` (factory) and instance calls to `__call`,
+which triggers a deprecation warning for `text`/`html` (exception in the next major).
+Beware the PHP context leak: `Html::text()` written *inside* an instance method of
+`Html` or a subclass runs in object context and lands in `__call` too — the guard
+catches that as well.
+
 ### Image: two color representations on opposite scales
 
 A color is either an `ImageColor` object or a legacy GD array, and the two use
