@@ -47,7 +47,7 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Begins search for files and directories matching mask.
+	 * Begins search for files and directories matching mask. The ** wildcard searches recursively.
 	 * @param  string|list<string>  $masks
 	 */
 	public static function find(string|array $masks = ['*']): static
@@ -58,7 +58,7 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Begins search for files matching mask.
+	 * Begins search for files matching mask. The ** wildcard searches recursively.
 	 * @param  string|list<string>  $masks
 	 */
 	public static function findFiles(string|array $masks = ['*']): static
@@ -69,7 +69,7 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Begins search for directories matching mask.
+	 * Begins search for directories matching mask. The ** wildcard searches recursively.
 	 * @param  string|list<string>  $masks
 	 */
 	public static function findDirectories(string|array $masks = ['*']): static
@@ -109,12 +109,16 @@ class Finder implements \IteratorAggregate
 			if ($mask === '' || ($mode === 'file' && str_ends_with(strtr($mask, '\\', '/'), '/'))) {
 				throw new Nette\InvalidArgumentException("Invalid mask '$mask'");
 			}
-			if (preg_match('~\*\*[/\\\]~A', $mask)) {
-				$mask = substr($mask, 3);
-			}
-			$this->find[] = [$mask, $mode];
+			$this->find[] = [self::expandGlobStar($mask), $mode];
 		}
 		return $this;
+	}
+
+
+	// Expands a ** that is not followed by a slash into **/*, so that e.g. "test/**" and "**.c" search recursively.
+	private static function expandGlobStar(string $mask): string
+	{
+		return preg_replace('~(?<=^|[/\\\])\*\*(?![/\\\])~', '**/*', $mask);
 	}
 
 
