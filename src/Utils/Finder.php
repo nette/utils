@@ -8,7 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
-use function array_merge, count, func_get_args, func_num_args, glob, implode, is_array, is_dir, iterator_to_array, preg_match, preg_quote, preg_replace, preg_split, rtrim, spl_object_id, sprintf, str_ends_with, str_starts_with, strnatcmp, strpbrk, strrpos, strtolower, strtr, substr, usort;
+use function array_filter, array_merge, array_values, count, func_get_args, func_num_args, glob, implode, is_array, is_dir, iterator_to_array, preg_match, preg_quote, preg_replace, preg_split, rtrim, spl_object_id, sprintf, str_starts_with, strnatcmp, strpbrk, strrpos, strtolower, strtr, substr, usort;
 use const DIRECTORY_SEPARATOR, GLOB_NOESCAPE, GLOB_NOSORT, GLOB_ONLYDIR;
 
 
@@ -47,13 +47,14 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Begins search for files and directories matching mask. The ** wildcard searches recursively.
+	 * Begins search for files and directories matching mask. The ** wildcard searches recursively; a trailing slash limits the mask to directories.
 	 * @param  string|list<string>  $masks
 	 */
 	public static function find(string|array $masks = ['*']): static
 	{
 		$masks = is_array($masks) ? $masks : func_get_args(); // compatibility with variadic
-		return (new static)->addMask($masks, 'dir')->addMask($masks, 'file');
+		$files = array_filter($masks, fn(string $mask): bool => !self::hasTrailingSeparator($mask)); // trailing slash means directories only
+		return (new static)->addMask($masks, 'dir')->addMask(array_values($files), 'file');
 	}
 
 
@@ -103,15 +104,22 @@ class Finder implements \IteratorAggregate
 	private function addMask(array $masks, string $mode): static
 	{
 		foreach ($masks as $mask) {
+			$orig = $mask;
 			if ($mode === 'dir') {
 				$mask = rtrim($mask, '/\\');
 			}
-			if ($mask === '' || ($mode === 'file' && str_ends_with(strtr($mask, '\\', '/'), '/'))) {
-				throw new Nette\InvalidArgumentException("Invalid mask '$mask'");
+			if ($mask === '' || ($mode === 'file' && self::hasTrailingSeparator($mask))) {
+				throw new Nette\InvalidArgumentException("Invalid mask '$orig'");
 			}
 			$this->find[] = [self::expandGlobStar($mask), $mode];
 		}
 		return $this;
+	}
+
+
+	private static function hasTrailingSeparator(string $mask): bool
+	{
+		return ($last = substr($mask, -1)) === '/' || $last === '\\';
 	}
 
 

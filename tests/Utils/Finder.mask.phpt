@@ -205,6 +205,26 @@ test('**.ext is a shortcut for **/*.ext', function () {
 });
 
 
+test('trailing slash in mask means directories only', function () {
+	$finder = Finder::find('s*/')->from('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/subdir',
+		'fixtures.finder/subdir/subdir2',
+	], export($finder));
+
+	$finder = Finder::find('subdir/**/')->in('fixtures.finder');
+	Assert::same([
+		'fixtures.finder/subdir/subdir2',
+	], export($finder));
+
+	Assert::exception(
+		fn() => Finder::findFiles('subdir/'),
+		Nette\InvalidArgumentException::class,
+		"Invalid mask 'subdir/'",
+	);
+});
+
+
 test('** bridges repeated path segments', function () {
 	$finder = Finder::findDirectories('a/**/b/c')->in('fixtures.finder4');
 	Assert::same([
