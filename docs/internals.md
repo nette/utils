@@ -65,7 +65,10 @@ prefixes and a prefix-less form, so `$el->href('x')`, `$el->href = 'x'`, and
 **real methods, not attribute setters** — `setText`, `setHtml`, `setName`, etc. —
 so `$el->setTitle(...)` sets an attribute but `$el->setText(...)` calls the method.
 `Html::el(null)` builds a **nameless element** that renders only its children (no
-surrounding tag).
+surrounding tag); `Html::fragment(...$children)` creates one pre-filled — it
+**escapes plain strings** (the opposite default to `addHtml()`; `HtmlStringable`
+children pass through raw, nulls are skipped). The instance counterpart
+`$el->add(...$children)` appends children with the same semantics.
 
 `Html::text()` and `Html::html()` are static factories (escaped text / raw HTML,
 successors of deprecated `fromText()`/`fromHtml()`) implemented via `__callStatic`,

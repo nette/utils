@@ -284,6 +284,16 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 
 
 	/**
+	 * Creates a nameless element (fragment) containing the given children.
+	 * Everything except HtmlStringable is escaped; use Html::html() for raw HTML. Nulls are skipped.
+	 */
+	public static function fragment(HtmlStringable|\Stringable|string|int|null ...$children): static
+	{
+		return (new static)->add(...$children);
+	}
+
+
+	/**
 	 * Returns an object representing HTML text.
 	 * @deprecated  use Html::html()
 	 */
@@ -595,6 +605,21 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	final public function getText(): string
 	{
 		return self::htmlToText($this->getHtml());
+	}
+
+
+	/**
+	 * Appends the given children. Everything except HtmlStringable is escaped; use Html::html() for raw HTML. Nulls are skipped.
+	 */
+	public function add(HtmlStringable|\Stringable|string|int|null ...$children): static
+	{
+		foreach ($children as $child) {
+			if ($child !== null) {
+				$this->addText($child);
+			}
+		}
+
+		return $this;
 	}
 
 
