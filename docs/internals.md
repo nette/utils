@@ -141,21 +141,33 @@ model** you only see by tracing `buildPlan` → `splitRecursivePart` →
   `**` segment: the part before becomes a `glob()` base (which resolves `*`, `?`,
   `[...]`), the part after becomes a regex applied while walking directories
   (`traverseDir`). This split is the core of the engine.
-- **`from()` = `in()` + `/**`.** `in()` searches one level; `from()` appends `/**`
-  to the location so traversal recurses. The two entry styles differ only by that
-  suffix.
+- **The mask drives recursion.** A `**` segment anywhere in the mask makes the
+  search recursive, with `in()` as well. A segment-initial `**` not followed by
+  a slash is expanded zsh-style (`GLOB_STAR_SHORT`) in `addMask`: `test/**` ≡
+  `test/**/*`, `**.c` ≡ `**/*.c`. `from()` remains a shortcut: it merely appends
+  `/**` to the location, so `from('dir')` ≡ `in('dir/**')`.
+- **A trailing slash means directories only** — `find('test/**/')` yields only
+  directories; in `findFiles()` a trailing slash is an error.
 - **Mask grammar → regex** (`buildPattern`): `**/`→`(.+/)?`, `*`→`[^/]*` (never
   crosses `/`), `?`→`[^/]`, `[...]`/`[!...]` character classes. Anchoring is the
   subtle bit: a `./` prefix anchors to the **search root** (`^`), otherwise the
   pattern may match at **any segment boundary** (`(?:^|/)`). **Case sensitivity is
   platform-dependent** — the `i` flag is added only on Windows (`Helpers::IsWindows`),
   so identical code is case-sensitive on Linux and insensitive on Windows.
-- **`exclude()` is a separate, ad-hoc parser** — not the same grammar as the find
-  masks. It matches its own regex (`~^/?(\*\*/)?(.+)(/\*\*|/\*|/|)$~D`) and the
-  **trailing marker** (`/**`, `/*`, `/`, or none) decides whether the exclusion is
-  applied as a descent filter, a result filter, or both. This divergence is a
-  documented source of silent mismatches between what `findFiles` and `exclude`
-  masks mean; treat the two grammars as distinct.
+- **`exclude()` speaks the same grammar** — the mask body goes through the same
+  globstar expansion and `buildPattern` (so `./` anchoring, `[...]` classes and
+  inner `**` work), and a **trailing marker** decides the scope: none = exclude
+  the entry anywhere, `/` = directories only (with contents), `/*` and `/**` =
+  contents while keeping the directory itself (implemented as a descent filter,
+  so excluded subtrees are never traversed). Absolute paths, a leading `/` and
+  `../` are **deprecated**: today they are stripped or never match; a future
+  version will interpret them as real absolute/outside paths.
+- **Paths stay native.** User-supplied paths (masks, `in()`, `from()`,
+  `append()`) are kept verbatim and traversal appends the platform separator, so
+  output may mix separators on Windows; the only conversion is a one-way
+  `unixSlashes()` when a relative path is matched against a pattern. Do not
+  reintroduce normalize-in/convert-out — it corrupts `\` in POSIX file names and
+  `protocol://` paths.
 - **Filter results are memoized per file.** `proveFilters` caches each filter's
   outcome by `spl_object_id` within a single file's evaluation, so a closure used
   as both a `descentFilter` and a `filter` (as `exclude` does) is not evaluated
@@ -215,7 +227,7 @@ subsystem). Its traps are behavioral, not structural:
 | Color scale trap | `Image`, `ImageColor` |
 | Re-iteration | `Iterables::memoize` (not `CachingIterator`) |
 | Search plan, `**` split | `Finder::buildPlan`, `splitRecursivePart`, `buildPattern` |
-| Exclude grammar divergence | `Finder::exclude` |
+| Exclude markers, deprecations | `Finder::exclude` |
 | Traversal, descent vs result filters | `Finder::traverseDir`, `proveFilters` |
 | Shell vs no-shell process start | `Process::runCommand` vs `runExecutable` |
 | Blocking vs incremental output reads | `Process::getStdOutput` vs `consumeStdOutput` |
