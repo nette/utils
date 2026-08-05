@@ -33,7 +33,6 @@ jobs:
     code_coverage:
         name: Code Coverage
         runs-on: ubuntu-latest
-        continue-on-error: true
         steps:
             - uses: actions/checkout@v6
             - uses: shivammathur/setup-php@v2
@@ -44,7 +43,8 @@ jobs:
 
             - run: composer install --no-progress --prefer-dist
             - run: composer tester -- -p phpdbg --coverage ./coverage.xml --coverage-src ./src
-            - run: wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
-            - env:
-                  COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: php php-coveralls.phar --verbose --config tests/.coveralls.yml
+              continue-on-error: true
+            - uses: coverallsapp/github-action@v2
+              with:
+                  file: coverage.xml
+                  format: clover
