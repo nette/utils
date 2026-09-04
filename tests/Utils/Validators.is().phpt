@@ -259,6 +259,25 @@ test('validates string against a regular expression pattern', function () {
 });
 
 
+test('allows pipe inside a regular expression pattern', function () {
+	// grouped alternation, https://github.com/nette/utils/issues/206
+	Assert::true(Validators::is('a', 'pattern:(a|b)'));
+	Assert::true(Validators::is('b', 'pattern:(a|b)'));
+	Assert::false(Validators::is('c', 'pattern:(a|b)'));
+
+	// bare alternation must no longer throw and is anchored as a whole
+	Assert::true(Validators::is('a', 'pattern:a|b'));
+	Assert::true(Validators::is('b', 'pattern:a|b'));
+	Assert::false(Validators::is('c', 'pattern:a|b'));
+	Assert::false(Validators::is('ab', 'pattern:a|b'));
+
+	// a pattern combined with other validators
+	Assert::true(Validators::is(5, 'int|pattern:(a|b)'));
+	Assert::true(Validators::is('a', 'int|pattern:(a|b)'));
+	Assert::false(Validators::is('c', 'int|pattern:(a|b)'));
+});
+
+
 test('ensures alphanumeric string meets minimum length', function () {
 	Assert::false(Validators::is('', 'alnum'));
 	Assert::false(Validators::is('a-1', 'alnum'));
