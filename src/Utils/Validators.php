@@ -137,7 +137,9 @@ class Validators
 	 */
 	public static function is(mixed $value, string $expected): bool
 	{
-		foreach (explode('|', $expected) as $item) {
+		$items = explode('|', $expected);
+		for ($i = 0, $count = count($items); $i < $count; $i++) {
+			$item = $items[$i];
 			if (str_ends_with($item, '[]')) {
 				if (is_iterable($value) && self::everyIs($value, substr($item, 0, -2))) {
 					return true;
@@ -152,7 +154,16 @@ class Validators
 			}
 
 			[$type] = $item = explode(':', $item, 2);
-			if (isset(static::$validators[$type])) {
+			if ($type === 'pattern') {
+				// A pattern may contain pipes, so the rest belongs to it and must not be
+				// split into further validators.
+				$pattern = implode('|', array_merge(array_slice($item, 1), array_slice($items, $i + 1)));
+				if (Strings::match($value, '~^(?:' . $pattern . ')$~D')) {
+					return true;
+				}
+
+				break;
+			} elseif (isset(static::$validators[$type])) {
 				try {
 					if (!static::$validators[$type]($value)) {
 						continue;
@@ -160,12 +171,6 @@ class Validators
 				} catch (\TypeError) {
 					continue;
 				}
-			} elseif ($type === 'pattern') {
-				if (Strings::match($value, '|^' . ($item[1] ?? '') . '$|D')) {
-					return true;
-				}
-
-				continue;
 			} elseif (!$value instanceof $type) {
 				continue;
 			}
