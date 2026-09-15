@@ -19,6 +19,7 @@ test('relative paths', function () {
 	Assert::same("base{$sep}rel", FileSystem::resolvePath('base', 'rel'));
 	Assert::same("{$sep}base{$sep}rel", FileSystem::resolvePath('/base', 'rel'));
 	Assert::same("{$sep}base{$sep}dir{$sep}file.txt", FileSystem::resolvePath('/base/dir/', 'file.txt'));
+	Assert::same("phar://base{$sep}rel", FileSystem::resolvePath('phar://base', 'rel'));
 });
 
 test('path normalization', function () {

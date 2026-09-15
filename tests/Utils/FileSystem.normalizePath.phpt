@@ -48,3 +48,12 @@ test('', function () {
 	Assert::same("{$sep}foo{$sep}", FileSystem::normalizePath('//foo//'));
 	Assert::same("{$sep}", FileSystem::normalizePath('//foo//..//'));
 });
+
+
+test('scheme is kept', function () {
+	$sep = DIRECTORY_SEPARATOR;
+	Assert::same('phar://', FileSystem::normalizePath('phar://'));
+	Assert::same("phar://dir{$sep}file", FileSystem::normalizePath('phar://dir//./file'));
+	Assert::same('phar://file', FileSystem::normalizePath('phar://dir/../file'));
+	Assert::same("vfs://root{$sep}", FileSystem::normalizePath('vfs://root\\'));
+});

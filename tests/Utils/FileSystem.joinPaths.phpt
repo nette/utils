@@ -14,4 +14,5 @@ test('', function () {
 	Assert::same("a{$sep}b", FileSystem::joinPaths('a', 'b'));
 	Assert::same("{$sep}a{$sep}b{$sep}", FileSystem::joinPaths('/a/', '/b/'));
 	Assert::same("{$sep}", FileSystem::joinPaths('/a/', '/../'));
+	Assert::same("phar://a{$sep}b", FileSystem::joinPaths('phar://a', 'b'));
 });

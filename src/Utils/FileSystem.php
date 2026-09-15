@@ -8,7 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
-use function sprintf;
+use function sprintf, strlen;
 use const DIRECTORY_SEPARATOR;
 
 
@@ -325,10 +325,12 @@ final class FileSystem
 
 
 	/**
-	 * Normalizes `..` and `.` and directory separators in path.
+	 * Normalizes `..` and `.` and directory separators in path; a scheme like `phar://` is kept.
 	 */
 	public static function normalizePath(string $path): string
 	{
+		$scheme = preg_match('#^[a-z][a-z0-9+.-]*://#i', $path, $m) ? $m[0] : '';
+		$path = substr($path, strlen($scheme));
 		$parts = $path === '' ? [] : preg_split('~[/\\\]+~', $path);
 		$res = [];
 		foreach ($parts as $part) {
@@ -339,9 +341,9 @@ final class FileSystem
 			}
 		}
 
-		return $res === ['']
+		return $scheme . ($res === ['']
 			? DIRECTORY_SEPARATOR
-			: implode(DIRECTORY_SEPARATOR, $res);
+			: implode(DIRECTORY_SEPARATOR, $res));
 	}
 
 
