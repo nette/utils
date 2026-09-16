@@ -14,6 +14,12 @@ traps (the eager/lazy divide, uneven extension requirements, `Html` attribute
 magic, and the two engines: `Finder` and `Process`). Those are in
 `docs/internals.md` - read it before touching them.
 
+`docs/upgrading.md` records, per released version, every change visible to
+users of the package (renames, removals, deprecations, signatures, behavior,
+configuration), each with its commit hash; internal changes are not in it. It
+is the place to look up the history of a public symbol. Do not write to it; it
+is extended at release time from the git history.
+
 ## Project Overview
 
 Nette Utils is a standalone PHP utility library: strings, arrays/iterables, HTML
