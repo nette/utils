@@ -143,3 +143,59 @@ Assert::exception(
 	MemberAccessException::class,
 	'Cannot read an undeclared property TestClass::$protectedX.',
 );
+
+
+// hints from @property annotations with whitespace inside the type
+/**
+ * @property array<string, string> $generic
+ * @property array{
+ *     foo: string,
+ * } $multiline
+ * @property-read array<int, string> $readOnly
+ * @property-write array<int, string> $writeOnly
+ */
+class AnnotatedClass
+{
+}
+
+Assert::exception(
+	fn() => ObjectHelpers::strictGet('AnnotatedClass', 'gneric'),
+	MemberAccessException::class,
+	'Cannot read an undeclared property AnnotatedClass::$gneric, did you mean $generic?',
+);
+
+Assert::exception(
+	fn() => ObjectHelpers::strictSet('AnnotatedClass', 'gneric'),
+	MemberAccessException::class,
+	'Cannot write to an undeclared property AnnotatedClass::$gneric, did you mean $generic?',
+);
+
+Assert::exception(
+	fn() => ObjectHelpers::strictGet('AnnotatedClass', 'multilin'),
+	MemberAccessException::class,
+	'Cannot read an undeclared property AnnotatedClass::$multilin, did you mean $multiline?',
+);
+
+Assert::exception(
+	fn() => ObjectHelpers::strictGet('AnnotatedClass', 'readOnli'),
+	MemberAccessException::class,
+	'Cannot read an undeclared property AnnotatedClass::$readOnli, did you mean $readOnly?',
+);
+
+Assert::exception(
+	fn() => ObjectHelpers::strictSet('AnnotatedClass', 'writeOnli'),
+	MemberAccessException::class,
+	'Cannot write to an undeclared property AnnotatedClass::$writeOnli, did you mean $writeOnly?',
+);
+
+Assert::exception(
+	fn() => ObjectHelpers::strictSet('AnnotatedClass', 'readOnli'),
+	MemberAccessException::class,
+	'Cannot write to an undeclared property AnnotatedClass::$readOnli.',
+);
+
+Assert::exception(
+	fn() => ObjectHelpers::strictGet('AnnotatedClass', 'writeOnli'),
+	MemberAccessException::class,
+	'Cannot read an undeclared property AnnotatedClass::$writeOnli.',
+);
