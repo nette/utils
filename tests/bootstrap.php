@@ -22,7 +22,11 @@ function getPhpCliBinary(): string
 
 	$ext = defined('PHP_WINDOWS_VERSION_BUILD') ? '.exe' : '';
 	$path = dirname(PHP_BINARY) . '/php' . $ext;
-	return is_file($path) ? $path : PHP_BINARY;
+	if (!is_file($path)) {
+		Tester\Environment::skip('No CLI binary of PHP beside ' . PHP_BINARY . '.');
+	}
+
+	return $path;
 }
 
 
