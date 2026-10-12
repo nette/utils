@@ -9,8 +9,8 @@ namespace Nette\Utils;
 
 use JetBrains\PhpStorm\Language;
 use Nette;
-use function array_combine, array_intersect_key, array_is_list, array_key_exists, array_key_first, array_key_last, array_keys, array_reverse, array_search, array_slice, array_walk_recursive, count, func_num_args, in_array, is_array, is_int, is_object, key, preg_split;
-use const PREG_GREP_INVERT, PREG_SPLIT_DELIM_CAPTURE, PREG_SPLIT_NO_EMPTY;
+use function array_key_exists, count, func_num_args, is_array, is_int, is_object;
+use const PREG_SPLIT_DELIM_CAPTURE, PREG_SPLIT_NO_EMPTY;
 
 
 /**
@@ -118,7 +118,7 @@ class Arrays
 	 */
 	public static function contains(array $array, mixed $value): bool
 	{
-		return in_array($value, $array, strict: true);
+		return in_array($value, $array, true);
 	}
 
 

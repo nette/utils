@@ -8,8 +8,8 @@
 namespace Nette\Utils;
 
 use Nette\HtmlStringable;
-use function array_merge, array_splice, count, explode, func_num_args, html_entity_decode, htmlspecialchars, http_build_query, implode, is_array, is_bool, is_float, is_object, is_string, json_encode, max, number_format, rtrim, str_contains, str_repeat, str_replace, strip_tags, strncmp, strpbrk, substr, trigger_error, ucfirst;
-use const E_USER_DEPRECATED, ENT_HTML5, ENT_NOQUOTES, ENT_QUOTES;
+use function count, func_num_args, is_array, is_bool, is_float, is_object, is_string;
+use const ENT_HTML5, ENT_QUOTES;
 
 
 /**

@@ -8,7 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
-use function array_splice, array_unshift, count, is_int;
+use function count, is_int;
 
 
 /**

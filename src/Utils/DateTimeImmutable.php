@@ -7,7 +7,7 @@
 
 namespace Nette\Utils;
 
-use function array_merge, checkdate, implode, is_int, is_string, preg_match, preg_replace_callback, sprintf, trim;
+use function is_int, is_string;
 
 
 /**

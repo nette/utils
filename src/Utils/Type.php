@@ -8,7 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
-use function array_map, array_search, array_splice, array_values, count, explode, implode, is_a, is_resource, is_string, strcasecmp, strtolower, substr, trim;
+use function count, is_resource, is_string;
 
 
 /**

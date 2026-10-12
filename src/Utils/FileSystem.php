@@ -8,7 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
-use function array_pop, chmod, decoct, dirname, end, fclose, file_exists, file_get_contents, file_put_contents, fopen, implode, is_dir, is_file, is_link, mkdir, preg_match, preg_split, realpath, rename, rmdir, rtrim, sprintf, str_replace, stream_copy_to_stream, stream_is_local, strtr, uniqid, unlink, usleep;
+use function sprintf;
 use const DIRECTORY_SEPARATOR;
 
 
@@ -50,7 +50,7 @@ final class FileSystem
 		} elseif (is_dir($origin)) {
 			static::createDir($target);
 			foreach (new \FilesystemIterator($target) as $item) {
-				\assert($item instanceof \SplFileInfo);
+				assert($item instanceof \SplFileInfo);
 				static::delete($item->getPathname());
 			}
 
@@ -111,7 +111,7 @@ final class FileSystem
 			}
 		} elseif (is_dir($path)) {
 			foreach (new \FilesystemIterator($path) as $item) {
-				\assert($item instanceof \SplFileInfo);
+				assert($item instanceof \SplFileInfo);
 				static::delete($item->getPathname());
 			}
 
@@ -281,7 +281,7 @@ final class FileSystem
 			}
 		} elseif (is_dir($path)) {
 			foreach (new \FilesystemIterator($path) as $item) {
-				\assert($item instanceof \SplFileInfo);
+				assert($item instanceof \SplFileInfo);
 				static::makeWritable($item->getPathname(), $dirMode, $fileMode);
 			}
 

@@ -8,8 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
-use function is_array, is_int, is_string;
-use const IMG_BMP, IMG_FLIP_BOTH, IMG_FLIP_HORIZONTAL, IMG_FLIP_VERTICAL, IMG_GIF, IMG_JPG, IMG_PNG, IMG_WEBP, PATHINFO_EXTENSION;
+use function extension_loaded, is_array, is_int, is_string;
 
 
 /**
@@ -613,9 +612,9 @@ class Image
 
 			for ($x = 0; $x < $width; $x++) {
 				for ($y = 0; $y < $height; $y++) {
-					$c = \imagecolorat($input, $x, $y);
+					$c = imagecolorat($input, $x, $y);
 					$c = ($c & 0xFFFFFF) + ($tbl[$c >> 24] << 24);
-					\imagesetpixel($output, $x, $y, $c);
+					imagesetpixel($output, $x, $y, $c);
 				}
 			}
 
