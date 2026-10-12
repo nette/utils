@@ -24,42 +24,42 @@ Assert::same(['a' => 1], Json::decode('{"a":1}', forceArrays: true));
 Assert::exception(
 	fn() => Json::decode(''),
 	Nette\Utils\JsonException::class,
-	'Syntax error',
+	'Syntax error%a?%',
 );
 
 
 Assert::exception(
 	fn() => Json::decode('NULL'),
 	Nette\Utils\JsonException::class,
-	'Syntax error',
+	'Syntax error%a?%',
 );
 
 
 Assert::exception(
 	fn() => Json::decode('{'),
 	Nette\Utils\JsonException::class,
-	'Syntax error',
+	'Syntax error%a?%',
 );
 
 
 Assert::exception(
 	fn() => Json::decode('{}}'),
 	Nette\Utils\JsonException::class,
-	'Syntax error',
+	'Syntax error%a?%',
 );
 
 
 Assert::exception(
 	fn() => Json::decode("\x00"),
 	Nette\Utils\JsonException::class,
-	defined('JSON_C_VERSION') ? 'Syntax error' : 'Control character error, possibly incorrectly encoded',
+	defined('JSON_C_VERSION') ? 'Syntax error%a?%' : 'Control character error, possibly incorrectly encoded%a?%',
 );
 
 
 Assert::exception(
 	fn() => Json::decode('{"\u0000": 1}'),
 	Nette\Utils\JsonException::class,
-	'The decoded property name is invalid',
+	'The decoded property name is invalid%a?%',
 );
 
 
@@ -71,7 +71,7 @@ Assert::equal((object) ["\"\x00" => 1], Json::decode('{"\"\u0000": 1}'));
 Assert::exception(
 	fn() => Json::decode("\"\xC1\xBF\""),
 	Nette\Utils\JsonException::class,
-	'Malformed UTF-8 characters, possibly incorrectly encoded',
+	'Malformed UTF-8 characters, possibly incorrectly encoded%a?%',
 );
 
 

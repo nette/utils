@@ -163,7 +163,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 		);
 
 		if ($ctr) {
-			parent::__construct($absPart, $timezone);
+			parent::__construct(trim($absPart), $timezone);
 			$this->handleErrors($datetime);
 		} elseif (trim($absPart)) {
 			parent::modify($absPart) && $this->handleErrors($datetime);

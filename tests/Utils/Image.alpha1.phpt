@@ -28,4 +28,4 @@ Assert::same($image->toString(), (string) $image);
 $image = Image::fromBlank(200, 100, Image::rgb(255, 128, 0, 60));
 $image->crop(0, 0, '60%', '60%');
 
-Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha1.png'), $image->toString($image::PNG));
+assertImage(__DIR__ . '/expected/Image.alpha1.png', $image);

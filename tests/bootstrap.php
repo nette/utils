@@ -33,3 +33,17 @@ function getTempDir(): string
 
 	return $dir;
 }
+
+
+/**
+ * Compares the pixels of the images, as the bytes of a PNG depend on the version of GD.
+ */
+function assertImage(string $expectedFile, Nette\Utils\Image $actual): void
+{
+	$normalize = function (Nette\Utils\Image $image): string {
+		$image = clone $image;
+		$image->paletteToTrueColor();
+		return $image->toString(Nette\Utils\Image::PNG);
+	};
+	Tester\Assert::same($normalize(Nette\Utils\Image::fromFile($expectedFile)), $normalize($actual));
+}
