@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-use Nette\Utils\Helpers;
-use Nette\Utils\Process;
+use Nette\Utils\{Helpers, Process};
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';

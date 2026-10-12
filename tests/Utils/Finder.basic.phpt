@@ -4,8 +4,7 @@
  * Test: Nette\Utils\Finder basic usage.
  */
 
-use Nette\Utils\FileSystem;
-use Nette\Utils\Finder;
+use Nette\Utils\{FileSystem, Finder};
 use Tester\Assert;
 
 

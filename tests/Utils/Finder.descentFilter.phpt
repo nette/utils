@@ -4,8 +4,7 @@
  * Test: Nette\Utils\Finder descentFilter.
  */
 
-use Nette\Utils\FileInfo;
-use Nette\Utils\Finder;
+use Nette\Utils\{FileInfo, Finder};
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';

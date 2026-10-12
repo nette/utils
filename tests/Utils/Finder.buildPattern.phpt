@@ -4,8 +4,7 @@
  * Test: Nette\Utils\Finder buildPattern.
  */
 
-use Nette\Utils\Finder;
-use Nette\Utils\Helpers;
+use Nette\Utils\{Finder, Helpers};
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';

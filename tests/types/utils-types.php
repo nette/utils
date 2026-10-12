@@ -6,13 +6,7 @@
  */
 
 use Nette\Iterators\CachingIterator;
-use Nette\Utils\ArrayHash;
-use Nette\Utils\Arrays;
-use Nette\Utils\Helpers;
-use Nette\Utils\Html;
-use Nette\Utils\Iterables;
-use Nette\Utils\Type;
-use Nette\Utils\Validators;
+use Nette\Utils\{ArrayHash, Arrays, Helpers, Html, Iterables, Type, Validators};
 use function PHPStan\Testing\assertType;
 
 
