@@ -127,7 +127,7 @@ final class Process
 			self::StdErr => $this->createOutputDescriptor(self::StdErr, $stderr),
 		];
 
-		$process = @proc_open($command, $descriptors, $pipes, $directory, $env, $options);
+		$process = @proc_open($command, $descriptors, $pipes, $directory, $env, $options); // @ is escalated to exception
 		if (!is_resource($process)) {
 			throw new ProcessFailedException('Failed to start process: ' . Helpers::getLastError());
 		}
@@ -448,7 +448,7 @@ final class Process
 			stream_set_blocking($pipe, false);
 			$read = [$pipe];
 			$write = $except = [];
-			while (@stream_select($read, $write, $except, 0, 0) > 0) {
+			while (@stream_select($read, $write, $except, 0, 0) > 0) { // @ an interrupting signal triggers a warning
 				$chunk = fread($pipe, 8192);
 				if ($chunk === false || $chunk === '') {
 					break;

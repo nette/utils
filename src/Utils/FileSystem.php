@@ -257,7 +257,7 @@ final class FileSystem
 				usleep(5_000); // on Windows, rename fails while the target is open in another process
 			}
 		} catch (\Throwable $e) {
-			@unlink($tmp);
+			@unlink($tmp); // @ file may not exist
 			throw $e;
 		}
 	}

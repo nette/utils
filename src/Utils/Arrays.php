@@ -550,7 +550,7 @@ class Arrays
 	 */
 	public static function toKey(mixed $value): int|string
 	{
-		return key(@[$value => null]);
+		return key(@[$value => null]); // @ null as an array offset is deprecated in PHP 8.5
 	}
 
 

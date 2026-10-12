@@ -42,14 +42,14 @@ function setupSymlinks(): void
 
 	// verify symlinks can be created before deleting anything
 	$probe = __DIR__ . '/fixtures.finder3/__symlink_probe';
-	@unlink($probe);
-	if (!@symlink('.', $probe)) {
+	@unlink($probe); // @ file may not exist
+	if (!@symlink('.', $probe)) { // @ creating symlinks may be denied
 		Tester\Environment::skip('Unable to create symlinks.');
 	}
-	@unlink($probe);
+	@unlink($probe); // @ cleanup failure is not a test failure
 
 	foreach ($todo as $link => $target) {
-		@unlink($link);
+		@unlink($link); // @ file may not exist
 		symlink($target, $link);
 	}
 }

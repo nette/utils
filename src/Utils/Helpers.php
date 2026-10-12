@@ -103,9 +103,9 @@ class Helpers
 			'>=' => $left >= $right,
 			'<' => $left < $right,
 			'<=' => $left <= $right,
-			'=', '==' => $left == $right,
+			'=', '==' => $left == $right, // intentionally ==
 			'===' => $left === $right,
-			'!=', '<>' => $left != $right,
+			'!=', '<>' => $left != $right, // intentionally !=
 			'!==' => $left !== $right,
 			default => throw new Nette\InvalidArgumentException("Unknown operator '$operator'"),
 		};

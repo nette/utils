@@ -750,7 +750,7 @@ class Image
 
 		Callback::invokeSafe('image' . self::Formats[$type], $args, function (string $message) use ($file): void {
 			if ($file !== null) {
-				@unlink($file);
+				@unlink($file); // @ file may not exist
 			}
 			throw new ImageException($message);
 		});
