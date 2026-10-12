@@ -20,7 +20,7 @@ Nette Utils is a standalone PHP utility library: strings, arrays/iterables, HTML
 generation, images, JSON, validation, filesystem, file search, and process
 execution.
 
-- **PHP Version**: 8.2 - 8.5
+- **PHP Version**: 8.2 - 8.6
 - **Package**: `nette/utils`
 
 ## Essential Commands

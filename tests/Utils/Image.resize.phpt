@@ -132,26 +132,26 @@ test('rotate', function () use ($main) {
 test('alpha crop', function () use ($main) {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->crop(1, 1, 8, 8);
-	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.crop.png'), $image->toString($image::PNG));
+	assertImage(__DIR__ . '/expected/Image.alpha.crop.png', $image);
 });
 
 
 test('alpha resize', function () use ($main) {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->resize(20, 20);
-	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.resize1.png'), $image->toString($image::PNG));
+	assertImage(__DIR__ . '/expected/Image.alpha.resize1.png', $image);
 });
 
 
 test('alpha flip', function () use ($main) {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
 	$image->resize(-10, -10);
-	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.flip1.png'), $image->toString($image::PNG));
+	assertImage(__DIR__ . '/expected/Image.alpha.flip1.png', $image);
 });
 
 
 test('palette alpha resize', function () use ($main) {
 	$image = Image::fromFile(__DIR__ . '/fixtures.images/alpha3.gif');
 	$image->resize(20, 20);
-	Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha.resize2.png'), $image->toString($image::PNG));
+	assertImage(__DIR__ . '/expected/Image.alpha.resize2.png', $image);
 });

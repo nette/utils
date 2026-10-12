@@ -134,7 +134,7 @@ class DateTimeImmutable extends \DateTimeImmutable implements \JsonSerializable
 		);
 
 		if ($base === null) {
-			$result = new \DateTimeImmutable($absPart, $timezone);
+			$result = new \DateTimeImmutable(trim($absPart), $timezone);
 			self::handleErrors($input);
 		} else {
 			$result = \DateTimeImmutable::createFromInterface($base);
