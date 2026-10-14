@@ -123,7 +123,7 @@ class Arrays
 
 
 	/**
-	 * Returns the first item (matching the specified predicate if given). If there is no such item, it returns result of invoking $else or null.
+	 * Returns the first item (matching the predicate if given). If there is no such item, returns the result of $else or null.
 	 * @template K of int|string
 	 * @template V
 	 * @template E
@@ -142,7 +142,7 @@ class Arrays
 
 
 	/**
-	 * Returns the last item (matching the specified predicate if given). If there is no such item, it returns result of invoking $else or null.
+	 * Returns the last item (matching the predicate if given). If there is no such item, returns the result of $else or null.
 	 * @template K of int|string
 	 * @template V
 	 * @template E
@@ -278,7 +278,7 @@ class Arrays
 		$res = [];
 		$cb = $preserveKeys
 			? function ($v, $k) use (&$res): void { $res[$k] = $v; }
-		: function ($v) use (&$res): void { $res[] = $v; };
+			: function ($v) use (&$res): void { $res[] = $v; };
 		array_walk_recursive($array, $cb);
 		return $res;
 	}
@@ -335,6 +335,7 @@ class Arrays
 						}
 
 						$x = &$x->{$row[$parts[$i]]};
+
 					} else {
 						$row = is_object($rowOrig) ? $rowOrig : (object) $row;
 					}

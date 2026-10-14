@@ -7,7 +7,6 @@
 use Nette\Utils\Floats;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

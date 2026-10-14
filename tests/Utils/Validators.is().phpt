@@ -7,7 +7,6 @@
 use Nette\Utils\Validators;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -323,6 +322,7 @@ test('verifies existence of a type by its name', function () {
 	class rimmer
 	{
 	}
+
 	interface kryton
 	{
 	}
@@ -391,7 +391,7 @@ test('validates multi-dimensional arrays against element type rules', function (
 	}
 
 	Assert::true(Validators::is([], 'int[]'));
-	Assert::true(Validators::is(new ArrayIterator([]), 'int[]'));
+	Assert::true(Validators::is(new ArrayIterator, 'int[]'));
 	Assert::false(Validators::is(1, 'int[]'));
 	Assert::false(Validators::is(2.15, 'int[]'));
 	Assert::true(Validators::is(2.15, 'float|int[]'));

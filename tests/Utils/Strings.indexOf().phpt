@@ -4,9 +4,10 @@
  * Test: Nette\Utils\Strings::indexOf()
  */
 
+// dresscode:disable hygiene.defaultArgument -- every value of the argument is spelled out, the default among them
+
 use Nette\Utils\Strings;
 use Tester\Assert;
-
 
 require __DIR__ . '/../bootstrap.php';
 

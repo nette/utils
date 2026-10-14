@@ -173,9 +173,9 @@ final readonly class Type
 			$this->allows($type) => $this,
 			$type->allows($this) => $type,
 			default => new self(array_unique(
-				array_merge($this->isIntersection() ? [$this] : $this->types, $type->isIntersection() ? [$type] : $type->types),
+				[...$this->isIntersection() ? [$this] : $this->types, ...$type->isIntersection() ? [$type] : $type->types],
 				SORT_REGULAR,
-			), '|'),
+			)),
 		};
 	}
 

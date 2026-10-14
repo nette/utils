@@ -7,7 +7,6 @@
 use Nette\Utils\{FileInfo, Finder};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -63,7 +62,7 @@ test('date filter', function () {
 test('custom filter', function () {
 	$finder = Finder::findFiles('*')
 		->from('fixtures.finder')
-		->filter(fn(FileInfo $file) => $file->getBaseName() === 'file.txt');
+		->filter(fn(FileInfo $file) => $file->getBasename() === 'file.txt');
 
 	Assert::same([
 		'fixtures.finder/file.txt',
@@ -75,7 +74,7 @@ test('custom filter', function () {
 
 function filter(FileInfo $file)
 {
-	return $file->getBaseName() === 'file.txt';
+	return $file->getBasename() === 'file.txt';
 }
 
 

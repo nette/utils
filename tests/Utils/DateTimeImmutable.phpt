@@ -107,7 +107,7 @@ test('fromParts() builds a date and validates it', function () {
 test('constructor parses absolute and relative parts', function () {
 	Assert::same('2005-01-02 00:00:00', (string) new DateTimeImmutable('2 january 2005'));
 
-	$now = new DateTimeImmutable('now');
+	$now = new DateTimeImmutable;
 	Assert::true(abs((new DateTimeImmutable(''))->getTimestamp() - $now->getTimestamp()) <= 1);
 
 	$nowTs = time();

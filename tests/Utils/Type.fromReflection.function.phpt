@@ -36,7 +36,7 @@ Assert::same(['mixed'], $type->getNames());
 Assert::same('mixed', (string) $type);
 
 
-$type = Type::fromReflection(new ReflectionFunction(function (): Bar & Foo {}));
+$type = Type::fromReflection(new ReflectionFunction(function (): Bar&Foo {}));
 
 Assert::same(['Bar', 'Foo'], $type->getNames());
 Assert::same('Bar&Foo', (string) $type);
@@ -48,5 +48,5 @@ Assert::same('int', (string) $type);
 
 
 // disjunctive normal form
-$type = Type::fromReflection(new ReflectionFunction(function (): (Bar & Foo) | string | int | null {}));
+$type = Type::fromReflection(new ReflectionFunction(function (): (Bar&Foo)|string|int|null {}));
 Assert::same('(Bar&Foo)|string|int|null', (string) $type);

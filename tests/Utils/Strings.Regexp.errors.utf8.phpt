@@ -7,7 +7,6 @@
 use Nette\Utils\Strings;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -43,7 +42,7 @@ function cb()
 
 
 Assert::exception(
-	fn() => Strings::replace("0123456789\xFF", '#\d#u', Closure::fromCallable('cb')),
+	fn() => Strings::replace("0123456789\xFF", '#\d#u', cb(...)),
 	Nette\Utils\RegexpException::class,
 	'Malformed UTF-8 characters, possibly incorrectly encoded (pattern: #\d#u)',
 );

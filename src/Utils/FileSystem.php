@@ -54,7 +54,10 @@ final class FileSystem
 				static::delete($item->getPathname());
 			}
 
-			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($origin, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			foreach ($iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($origin, \RecursiveDirectoryIterator::SKIP_DOTS),
+				\RecursiveIteratorIterator::SELF_FIRST,
+			) as $item) {
 				if ($item->isDir()) {
 					static::createDir($target . '/' . $iterator->getSubPathname());
 				} else {
@@ -242,7 +245,7 @@ final class FileSystem
 	public static function writeAtomic(string $file, string $content, ?int $mode = 0o666): void
 	{
 		$file = realpath($file) ?: $file; // writes through a symlink to its target, as write() does
-		$tmp = $file . '.' . uniqid('', more_entropy: true) . '.tmp';
+		$tmp = $file . '.' . uniqid(more_entropy: true) . '.tmp';
 		try {
 			static::write($tmp, $content, $mode);
 			// plain rename() is atomic; static::rename() must not be used here, it deletes the target first

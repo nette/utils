@@ -96,7 +96,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 
 	public function __construct(string $datetime = 'now', ?\DateTimeZone $timezone = null)
 	{
-		$this->apply($datetime, $timezone, true);
+		$this->apply($datetime, $timezone, ctr: true);
 	}
 
 
@@ -199,7 +199,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 	private function handleErrors(string $value): void
 	{
 		$errors = self::getLastErrors();
-		$errors = array_merge($errors['errors'] ?? [], $errors['warnings'] ?? []);
+		$errors = [...$errors['errors'] ?? [], ...$errors['warnings'] ?? []];
 		if ($errors) {
 			throw new \Exception(implode(', ', $errors) . " '$value'");
 		}

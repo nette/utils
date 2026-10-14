@@ -7,18 +7,14 @@
 use Nette\Utils\ArrayList;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
 class Person
 {
-	private $name;
-
-
-	public function __construct($name)
-	{
-		$this->name = $name;
+	public function __construct(
+		private $name,
+	) {
 	}
 
 

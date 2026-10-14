@@ -45,11 +45,11 @@ Assert::same('A\B', Reflection::expandClassName('C', $rcTest));
 
 Assert::same('BTest', Reflection::expandClassName('BTest', $rcBTest));
 
-Assert::same('Test\Space\Foo', Reflection::expandClassName('self', $rcFoo));
-Assert::same('Test\Space\Foo', Reflection::expandClassName('Self', $rcFoo));
+Assert::same(Test\Space\Foo::class, Reflection::expandClassName('self', $rcFoo));
+Assert::same(Test\Space\Foo::class, Reflection::expandClassName('Self', $rcFoo));
 
 Assert::same('parent', Reflection::expandClassName('parent', $rcFoo));
-Assert::same('Test\Space\Foo', Reflection::expandClassName('parent', new ReflectionClass(new class extends Test\Space\Foo {
+Assert::same(Test\Space\Foo::class, Reflection::expandClassName('parent', new ReflectionClass(new class extends Test\Space\Foo {
 })));
 
 foreach (['String', 'string', 'int', 'float', 'bool', 'array', 'callable', 'iterable', 'void', 'null'] as $type) {
@@ -144,12 +144,12 @@ Assert::same(
 
 Assert::same(
 	[],
-	Reflection::getUseStatements(new ReflectionClass('Test\Space\Foo')),
+	Reflection::getUseStatements(new ReflectionClass(Test\Space\Foo::class)),
 );
 
 Assert::same(
 	['AAA' => 'AAA', 'B' => 'BBB', 'DDD' => 'CCC\DDD', 'F' => 'EEE\FFF', 'G' => 'GGG'],
-	Reflection::getUseStatements(new ReflectionClass('Test\Space\Bar')),
+	Reflection::getUseStatements(new ReflectionClass(Test\Space\Bar::class)),
 );
 Assert::same(
 	[],

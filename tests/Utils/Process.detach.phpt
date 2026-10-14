@@ -16,9 +16,9 @@ test('detached process survives destruction of the object', function () {
 	);
 	$process->detach();
 
-	$start = microtime(true);
+	$start = microtime(as_float: true);
 	unset($process); // must neither terminate the process nor wait for it
-	Assert::true(microtime(true) - $start < 0.5, 'destructor must not wait for the process');
+	Assert::true(microtime(as_float: true) - $start < 0.5, 'destructor must not wait for the process');
 
 	for ($i = 0; @file_get_contents($file) !== 'done' && $i < 100; $i++) { // @ - file may not exist yet
 		usleep(50_000);

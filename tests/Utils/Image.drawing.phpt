@@ -8,7 +8,6 @@
 use Nette\Utils\{Image, ImageColor};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

@@ -179,7 +179,7 @@ class DateTimeImmutable extends \DateTimeImmutable implements \JsonSerializable
 	private static function handleErrors(string $value): void
 	{
 		$errors = self::getLastErrors();
-		$errors = array_merge($errors['errors'] ?? [], $errors['warnings'] ?? []);
+		$errors = [...$errors['errors'] ?? [], ...$errors['warnings'] ?? []];
 		if ($errors) {
 			throw new \Exception(implode(', ', $errors) . " '$value'");
 		}

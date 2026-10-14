@@ -135,7 +135,10 @@ class Image
 
 	public const EmptyGIF = "GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;";
 
-	private const Formats = [ImageType::JPEG => 'jpeg', ImageType::PNG => 'png', ImageType::GIF => 'gif', ImageType::WEBP => 'webp', ImageType::AVIF => 'avif', ImageType::BMP => 'bmp'];
+	private const Formats = [
+		ImageType::JPEG => 'jpeg', ImageType::PNG => 'png', ImageType::GIF => 'gif', ImageType::WEBP => 'webp', ImageType::AVIF => 'avif',
+		ImageType::BMP => 'bmp',
+	];
 	private const Sentinel = "\0";
 
 	private \GdImage $image;
@@ -682,7 +685,7 @@ class Image
 
 
 	/**
-	 * Saves image to the file. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
+	 * Saves image to the file. Quality is 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30), 0..9 for PNG (default 9).
 	 * @param  ?ImageType::*  $type
 	 * @throws ImageException
 	 */
@@ -694,7 +697,7 @@ class Image
 
 
 	/**
-	 * Outputs image to string. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
+	 * Outputs image to string. Quality is 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30), 0..9 for PNG (default 9).
 	 * @param  ImageType::*  $type
 	 */
 	public function toString(int $type = ImageType::JPEG, ?int $quality = null): string
@@ -715,7 +718,7 @@ class Image
 
 
 	/**
-	 * Outputs image to browser. Quality is in the range 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30) and 0..9 for PNG (default 9).
+	 * Outputs image to browser. Quality is 0..100 for JPEG (default 85), WEBP (default 80) and AVIF (default 30), 0..9 for PNG (default 9).
 	 * @param  ImageType::*  $type
 	 * @throws ImageException
 	 */

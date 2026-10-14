@@ -7,7 +7,6 @@
 use Nette\Utils\Strings;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -49,13 +48,13 @@ function cb()
 
 
 Assert::exception(
-	fn() => Strings::replace('0123456789', '#*#', Closure::fromCallable('cb')),
+	fn() => Strings::replace('0123456789', '#*#', cb(...)),
 	Nette\Utils\RegexpException::class,
 	'Compilation failed: %a% in pattern: #*#',
 );
 
 Assert::exception(
-	fn() => Strings::replace('0123456789', ['##', '#*#'], Closure::fromCallable('cb')),
+	fn() => Strings::replace('0123456789', ['##', '#*#'], cb(...)),
 	Nette\Utils\RegexpException::class,
 	'Compilation failed: %a% in pattern: ## or #*#',
 );

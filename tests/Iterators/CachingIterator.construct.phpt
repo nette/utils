@@ -7,7 +7,6 @@
 use Nette\Iterators;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -84,7 +83,7 @@ test('object', function () {
 	Assert::exception(function () {
 		$arr = dir('.');
 		foreach (new Iterators\CachingIterator($arr) as $k => $v);
-	}, TypeError::class, null);
+	}, TypeError::class);
 });
 
 

@@ -11,7 +11,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test('empty iterable', function () {
-	$arr = new ArrayIterator([]);
+	$arr = new ArrayIterator;
 	$log = [];
 	$res = Iterables::map(
 		$arr,

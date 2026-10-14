@@ -27,10 +27,10 @@ final class ObjectHelpers
 	public static function strictGet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
-		$hint = self::getSuggestion(array_merge(
-			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
-			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-read)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m'),
-		), $name);
+		$hint = self::getSuggestion([
+			...array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
+			...self::parseFullDoc($rc, '~^[ \t*]*@property(?:-read)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m'),
+		], $name);
 		throw new MemberAccessException("Cannot read an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
 	}
 
@@ -42,10 +42,10 @@ final class ObjectHelpers
 	public static function strictSet(string $class, string $name): void
 	{
 		$rc = new \ReflectionClass($class);
-		$hint = self::getSuggestion(array_merge(
-			array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
-			self::parseFullDoc($rc, '~^[ \t*]*@property(?:-write)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m'),
-		), $name);
+		$hint = self::getSuggestion([
+			...array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($p) => !$p->isStatic()),
+			...self::parseFullDoc($rc, '~^[ \t*]*@property(?:-write)?[ \t]+(?:\S+[ \t]+)??\$(\w+)~m'),
+		], $name);
 		throw new MemberAccessException("Cannot write to an undeclared property $class::\$$name" . ($hint ? ", did you mean \$$hint?" : '.'));
 	}
 
@@ -61,7 +61,7 @@ final class ObjectHelpers
 			? ($trace[2]['class'] ?? null)
 			: null;
 
-		if ($context && is_a($class, $context, true) && method_exists($context, $method)) { // called parent::$method()
+		if ($context && is_a($class, $context, allow_string: true) && method_exists($context, $method)) { // called parent::$method()
 			$class = get_parent_class($context);
 		}
 
@@ -73,11 +73,11 @@ final class ObjectHelpers
 			throw new MemberAccessException("Call to {$visibility}method $class::$method() from " . ($context ? "scope $context." : 'global scope.'));
 
 		} else {
-			$hint = self::getSuggestion(array_merge(
-				get_class_methods($class),
-				self::parseFullDoc(new \ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:static[ \t]+)?(?:\S+[ \t]+)??(\w+)\(~m'),
-				$additionalMethods,
-			), $method);
+			$hint = self::getSuggestion([
+				...get_class_methods($class),
+				...self::parseFullDoc(new \ReflectionClass($class), '~^[ \t*]*@method[ \t]+(?:static[ \t]+)?(?:\S+[ \t]+)??(\w+)\(~m'),
+				...$additionalMethods,
+			], $method);
 			throw new MemberAccessException("Call to undefined method $class::$method()" . ($hint ? ", did you mean $hint()?" : '.'));
 		}
 	}
@@ -94,7 +94,7 @@ final class ObjectHelpers
 			? ($trace[2]['class'] ?? null)
 			: null;
 
-		if ($context && is_a($class, $context, true) && method_exists($context, $method)) { // called parent::$method()
+		if ($context && is_a($class, $context, allow_string: true) && method_exists($context, $method)) { // called parent::$method()
 			$class = get_parent_class($context);
 		}
 
@@ -147,7 +147,11 @@ final class ObjectHelpers
 				&& ($rm = $rc->getMethod($nm))->name === $nm && !$rm->isPrivate() && !$rm->isStatic();
 
 			if ($read || $write) {
-				$props[$name] = $read << 0 | ($nm[0] === 'g') << 1 | $rm->returnsReference() << 2 | $write << 3 | ($type === '-deprecated') << 4;
+				$props[$name] = $read << 0
+					| ($nm[0] === 'g') << 1
+					| $rm->returnsReference() << 2
+					| $write << 3
+					| ($type === '-deprecated') << 4;
 			}
 		}
 
@@ -178,7 +182,8 @@ final class ObjectHelpers
 			if ($item !== $value && (
 				($len = levenshtein($item, $value, 10, 11, 10)) < $min
 				|| ($len = levenshtein(preg_replace($re, '*', $item), $norm, 10, 11, 10)) < $min
-			)) {
+			)
+			) {
 				$min = $len;
 				$best = $item;
 			}

@@ -7,7 +7,6 @@
 use Nette\Utils\ObjectHelpers;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -111,7 +110,6 @@ class TestClass
 }
 
 
-
 Assert::same([], ObjectHelpers::getMagicProperties('stdClass'));
 Assert::same([
 	'getter' => 0b0011,
@@ -123,7 +121,6 @@ Assert::same([
 	'read' => 0b0011,
 	'write' => 0b1000,
 ], ObjectHelpers::getMagicProperties('TestClass'));
-
 
 
 /**

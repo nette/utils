@@ -47,7 +47,8 @@ class Finder implements \IteratorAggregate
 
 
 	/**
-	 * Begins search for files and directories matching mask. The ** wildcard searches recursively; a trailing slash limits the mask to directories.
+	 * Begins search for files and directories matching mask. The ** wildcard searches recursively;
+	 * a trailing slash limits the mask to directories.
 	 * @param  string|list<string>  $masks
 	 */
 	public static function find(string|array $masks = ['*']): static
@@ -218,7 +219,7 @@ class Finder implements \IteratorAggregate
 			return $this->appends[] = new static;
 		}
 
-		$this->appends = array_merge($this->appends, (array) $paths);
+		$this->appends = [...$this->appends, ...(array) $paths];
 		return $this;
 	}
 
@@ -238,7 +239,10 @@ class Finder implements \IteratorAggregate
 			$orig = $mask;
 			$mask = FileSystem::unixSlashes($mask);
 			if (FileSystem::isAbsolute($mask) || $mask === '..' || str_starts_with($mask, '../')) {
-				trigger_error("Absolute or ../ mask '$orig' in exclude() is deprecated and will change meaning, use a mask relative to the searched directory.", E_USER_DEPRECATED);
+				trigger_error(
+					"Absolute or ../ mask '$orig' in exclude() is deprecated and will change meaning, use a mask relative to the searched directory.",
+					E_USER_DEPRECATED,
+				);
 			}
 			if (!preg_match('~^/?(\*\*/)?(.+?)(/\*\*|/\*|/|)$~D', $mask, $m)) {
 				throw new Nette\InvalidArgumentException("Invalid mask '$orig'");
@@ -376,7 +380,10 @@ class Finder implements \IteratorAggregate
 		}
 
 		try {
-			$pathNames = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME);
+			$pathNames = new \FilesystemIterator(
+				$dir,
+				\FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME,
+			);
 		} catch (\UnexpectedValueException $e) {
 			if ($this->ignoreUnreadableDirs) {
 				return;
@@ -405,7 +412,7 @@ class Finder implements \IteratorAggregate
 			}
 
 			if ($this->childFirst && $subSearch) {
-				yield from $this->traverseDir($pathName, $subSearch, array_merge($subdirs, [$file->getBasename()]));
+				yield from $this->traverseDir($pathName, $subSearch, [...$subdirs, $file->getBasename()]);
 			}
 
 			$relativePathname = FileSystem::unixSlashes($file->getRelativePathname());
@@ -421,7 +428,7 @@ class Finder implements \IteratorAggregate
 			}
 
 			if (!$this->childFirst && $subSearch) {
-				yield from $this->traverseDir($pathName, $subSearch, array_merge($subdirs, [$file->getBasename()]));
+				yield from $this->traverseDir($pathName, $subSearch, [...$subdirs, $file->getBasename()]);
 			}
 		}
 	}

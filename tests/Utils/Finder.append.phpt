@@ -7,7 +7,6 @@
 use Nette\Utils\{FileSystem, Finder};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

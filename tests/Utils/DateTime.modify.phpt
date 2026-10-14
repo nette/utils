@@ -112,7 +112,8 @@ test('Complex and varied format strings', function () {
 
 	// Complex mixed modification 2 (year/month/day/hour/min)
 	$dt = new DateTime('2023-11-20 08:30:00'); // CET
-	// +1y -> 2024-11-20 08:30 CET | -3m -> 2024-08-20 08:30 CEST | +10d -> 2024-08-30 08:30 CEST | +5h -> 2024-08-30 13:30 CEST | -15min -> 2024-08-30 13:15 CEST
+	// +1y -> 2024-11-20 08:30 CET | -3m -> 2024-08-20 08:30 CEST | +10d -> 2024-08-30 08:30 CEST
+	// | +5h -> 2024-08-30 13:30 CEST | -15min -> 2024-08-30 13:15 CEST
 	$dt->modify('+1 year -3 months + 10 days + 5 hours - 15 minutes');
 	Assert::same('2024-08-30 13:15:00 CEST (+02:00)', $dt->format('Y-m-d H:i:s T (P)'), 'Complex mixed modification 2');
 

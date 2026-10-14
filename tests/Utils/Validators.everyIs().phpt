@@ -7,7 +7,6 @@
 use Nette\Utils\Validators;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -17,7 +16,7 @@ test('ensures all elements conform to a type specification', function () {
 	}
 
 	Assert::true(Validators::everyIs([], 'int'));
-	Assert::true(Validators::everyIs(new ArrayIterator([]), 'int'));
+	Assert::true(Validators::everyIs(new ArrayIterator, 'int'));
 
 	Assert::true(Validators::everyIs([1, 2, 3], 'int'));
 	Assert::false(Validators::everyIs([1, 2.15, 3], 'int'));

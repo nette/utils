@@ -9,7 +9,11 @@ require __DIR__ . '/../bootstrap.php';
 if (Helpers::IsWindows) {
 	test('piping is not supported on Windows', function () {
 		Assert::exception(
-			fn() => Process::runExecutable(getPhpCliBinary(), ['-r', 'exit;'], stdin: Process::runExecutable(getPhpCliBinary(), ['-r', 'exit;'])),
+			fn() => Process::runExecutable(
+				getPhpCliBinary(),
+				['-r', 'exit;'],
+				stdin: Process::runExecutable(getPhpCliBinary(), ['-r', 'exit;']),
+			),
 			Nette\NotSupportedException::class,
 			'Process piping is not supported on Windows.',
 		);

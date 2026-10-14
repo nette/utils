@@ -7,7 +7,6 @@
 use Nette\Utils\Strings;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -46,7 +45,7 @@ function cb()
 
 
 Assert::exception(
-	fn() => Strings::replace('0123456789', '#.*\d\d#', Closure::fromCallable('cb')),
+	fn() => Strings::replace('0123456789', '#.*\d\d#', cb(...)),
 	Nette\Utils\RegexpException::class,
 	'Backtrack limit exhausted (pattern: #.*\d\d#)',
 );

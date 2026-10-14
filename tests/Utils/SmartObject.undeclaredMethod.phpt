@@ -87,7 +87,6 @@ class ChildClass extends InterClass
 }
 
 
-
 $obj = new ParentClass;
 Assert::exception(
 	fn() => $obj->undef(),

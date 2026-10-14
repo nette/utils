@@ -144,6 +144,7 @@ class Validators
 				}
 
 				continue;
+
 			} elseif (str_starts_with($item, '?')) {
 				$item = substr($item, 1);
 				if ($value === null) {
@@ -166,6 +167,7 @@ class Validators
 				}
 
 				continue;
+
 			} elseif (!$value instanceof $type) {
 				continue;
 			}

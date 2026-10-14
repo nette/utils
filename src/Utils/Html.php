@@ -375,7 +375,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	 */
 	public function addAttributes(array $attrs): static
 	{
-		$this->attrs = array_merge($this->attrs, $attrs);
+		$this->attrs = [...$this->attrs, ...$attrs];
 		return $this;
 	}
 
@@ -489,7 +489,11 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 	final public function __call(string $m, array $args): mixed
 	{
 		if ($m === 'text' || $m === 'html') {
-			trigger_error("Method \$el->$m() is deprecated, use set" . ucfirst($m) . "() for content or setAttribute() for the '$m' attribute; Html::$m() is a static factory.", E_USER_DEPRECATED);
+			trigger_error(
+				"Method \$el->$m() is deprecated, use set" . ucfirst($m)
+				. "() for content or setAttribute() for the '$m' attribute; Html::$m() is a static factory.",
+				E_USER_DEPRECATED,
+			);
 		}
 
 		$p = substr($m, 0, 3);

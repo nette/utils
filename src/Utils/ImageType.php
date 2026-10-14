@@ -8,11 +8,10 @@
 namespace Nette\Utils;
 
 
-
 /**
  * Type of image file.
  */
-/*enum*/ final class ImageType
+/* enum */ final class ImageType
 {
 	public const
 		JPEG = IMAGETYPE_JPEG,

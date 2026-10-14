@@ -66,12 +66,12 @@ Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
 
-$type = Type::fromString('NS\Foo');
+$type = Type::fromString(NS\Foo::class);
 
-Assert::same(['NS\Foo'], $type->getNames());
-Assert::equal([Type::fromString('NS\Foo')], $type->getTypes());
-Assert::same('NS\Foo', (string) $type);
-Assert::same('NS\Foo', $type->getSingleName());
+Assert::same([NS\Foo::class], $type->getNames());
+Assert::equal([Type::fromString(NS\Foo::class)], $type->getTypes());
+Assert::same(NS\Foo::class, (string) $type);
+Assert::same(NS\Foo::class, $type->getSingleName());
 Assert::true($type->isClass());
 Assert::false($type->isUnion());
 Assert::false($type->isIntersection());

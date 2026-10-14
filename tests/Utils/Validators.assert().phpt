@@ -7,7 +7,6 @@
 use Nette\Utils\Validators;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -66,7 +65,7 @@ Assert::exception(
 );
 
 Assert::exception(
-	fn() => Validators::assert(1, 'string|integer:2..5', 'variable'),
+	fn() => Validators::assert(1, 'string|integer:2..5'),
 	Nette\Utils\AssertionException::class,
 	'The variable expects to be string or integer in range 2..5, int 1 given.',
 );

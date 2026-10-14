@@ -7,7 +7,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test('no predicate', function () {
-	Assert::null(Iterables::first(new ArrayIterator([])));
+	Assert::null(Iterables::first(new ArrayIterator));
 	Assert::null(Iterables::first(new ArrayIterator([null])));
 	Assert::false(Iterables::first(new ArrayIterator([false])));
 	Assert::same(1, Iterables::first(new ArrayIterator([1, 2, 3])));
@@ -37,5 +37,5 @@ test('predicate arguments', function () {
 });
 
 test('else', function () {
-	Assert::same(123, Iterables::first(new ArrayIterator([]), else: fn() => 123));
+	Assert::same(123, Iterables::first(new ArrayIterator, else: fn() => 123));
 });
