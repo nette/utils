@@ -37,7 +37,7 @@ Assert::same(
 Assert::same(
 	[],
 	iterator_to_array(Iterables::filter(
-		new ArrayIterator([]),
+		new ArrayIterator,
 		fn() => true,
 	)),
 );

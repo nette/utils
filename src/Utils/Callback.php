@@ -56,8 +56,8 @@ final class Callback
 		if (!is_callable($callable, $syntax)) {
 			throw new Nette\InvalidArgumentException(
 				$syntax
-				? 'Given value is not a callable type.'
-				: sprintf("Callback '%s' is not callable.", self::toString($callable)),
+					? 'Given value is not a callable type.'
+					: sprintf("Callback '%s' is not callable.", self::toString($callable)),
 			);
 		}
 

@@ -134,7 +134,10 @@ class DateTime extends \DateTime implements \JsonSerializable
 			|| $second < 0 || $second >= 60
 			|| $microsecond < 0 || $microsecond >= 1_000_000
 		) {
-			trigger_error(sprintf(self::class . ': The time %02d:%02d:%08.5F is not valid.', $hour, $minute, $second + $microsecond / 1_000_000), E_USER_WARNING);
+			trigger_error(
+				sprintf(self::class . ': The time %02d:%02d:%08.5F is not valid.', $hour, $minute, $second + $microsecond / 1_000_000),
+				E_USER_WARNING,
+			);
 		}
 		return parent::setTime($hour, $minute, $second, $microsecond);
 	}

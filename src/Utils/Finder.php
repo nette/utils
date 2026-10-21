@@ -350,7 +350,13 @@ class Finder implements \IteratorAggregate
 		}
 
 		try {
-			$pathNames = new \FilesystemIterator($dir, \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::UNIX_PATHS);
+			$pathNames = new \FilesystemIterator(
+				$dir,
+				\FilesystemIterator::FOLLOW_SYMLINKS
+				| \FilesystemIterator::SKIP_DOTS
+				| \FilesystemIterator::CURRENT_AS_PATHNAME
+				| \FilesystemIterator::UNIX_PATHS,
+			);
 		} catch (\UnexpectedValueException $e) {
 			if ($this->ignoreUnreadableDirs) {
 				return;

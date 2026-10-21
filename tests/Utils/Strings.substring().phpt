@@ -7,7 +7,6 @@
 use Nette\Utils\Strings;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 $s = "man\u{303}ana"; // mañana, U+006E + U+0303 (combining character)

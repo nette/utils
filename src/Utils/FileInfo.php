@@ -16,14 +16,12 @@ use Nette;
  */
 final class FileInfo extends \SplFileInfo
 {
-	private string $relativePath;
-
-
-	public function __construct(string $file, string $relativePath = '')
-	{
+	public function __construct(
+		string $file,
+		private string $relativePath = '',
+	) {
 		parent::__construct($file);
 		$this->setInfoClass(static::class);
-		$this->relativePath = $relativePath;
 	}
 
 

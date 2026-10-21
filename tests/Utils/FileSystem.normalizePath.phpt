@@ -3,49 +3,48 @@
 use Nette\Utils\FileSystem;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
 test('', function () {
-	$S = DIRECTORY_SEPARATOR;
+	$sep = DIRECTORY_SEPARATOR;
 	Assert::same('', FileSystem::normalizePath(''));
-	Assert::same($S, FileSystem::normalizePath('\\'));
-	Assert::same($S, FileSystem::normalizePath('/'));
+	Assert::same($sep, FileSystem::normalizePath('\\'));
+	Assert::same($sep, FileSystem::normalizePath('/'));
 	Assert::same('file', FileSystem::normalizePath('file'));
-	Assert::same("file{$S}", FileSystem::normalizePath('file/'));
-	Assert::same("d:{$S}file", FileSystem::normalizePath('d:/file'));
-	Assert::same("d:{$S}file", FileSystem::normalizePath('d:\file'));
-	Assert::same("{$S}file", FileSystem::normalizePath('/file'));
+	Assert::same("file{$sep}", FileSystem::normalizePath('file/'));
+	Assert::same("d:{$sep}file", FileSystem::normalizePath('d:/file'));
+	Assert::same("d:{$sep}file", FileSystem::normalizePath('d:\file'));
+	Assert::same("{$sep}file", FileSystem::normalizePath('/file'));
 
 	Assert::same('', FileSystem::normalizePath('.'));
-	Assert::same($S, FileSystem::normalizePath('\.'));
-	Assert::same($S, FileSystem::normalizePath('/.'));
-	Assert::same($S, FileSystem::normalizePath('.\\'));
-	Assert::same($S, FileSystem::normalizePath('./'));
+	Assert::same($sep, FileSystem::normalizePath('\.'));
+	Assert::same($sep, FileSystem::normalizePath('/.'));
+	Assert::same($sep, FileSystem::normalizePath('.\\'));
+	Assert::same($sep, FileSystem::normalizePath('./'));
 
-	Assert::same($S, FileSystem::normalizePath('/file/..'));
-	Assert::same($S, FileSystem::normalizePath('/file/../'));
+	Assert::same($sep, FileSystem::normalizePath('/file/..'));
+	Assert::same($sep, FileSystem::normalizePath('/file/../'));
 	Assert::same('', FileSystem::normalizePath('file/..'));
-	Assert::same($S, FileSystem::normalizePath('file/../'));
-	Assert::same("{$S}..", FileSystem::normalizePath('/file/../..'));
-	Assert::same("{$S}..{$S}", FileSystem::normalizePath('/file/../../'));
+	Assert::same($sep, FileSystem::normalizePath('file/../'));
+	Assert::same("{$sep}..", FileSystem::normalizePath('/file/../..'));
+	Assert::same("{$sep}..{$sep}", FileSystem::normalizePath('/file/../../'));
 	Assert::same('..', FileSystem::normalizePath('file/../..'));
-	Assert::same("..{$S}", FileSystem::normalizePath('file/../../'));
-	Assert::same("{$S}..{$S}bar", FileSystem::normalizePath('/file/../../bar'));
-	Assert::same("..{$S}bar", FileSystem::normalizePath('file/../../bar'));
-	Assert::same("..{$S}file", FileSystem::normalizePath('../file'));
-	Assert::same("{$S}..{$S}file", FileSystem::normalizePath('/../file'));
+	Assert::same("..{$sep}", FileSystem::normalizePath('file/../../'));
+	Assert::same("{$sep}..{$sep}bar", FileSystem::normalizePath('/file/../../bar'));
+	Assert::same("..{$sep}bar", FileSystem::normalizePath('file/../../bar'));
+	Assert::same("..{$sep}file", FileSystem::normalizePath('../file'));
+	Assert::same("{$sep}..{$sep}file", FileSystem::normalizePath('/../file'));
 	Assert::same('file', FileSystem::normalizePath('./file'));
-	Assert::same("{$S}file", FileSystem::normalizePath('/./file'));
+	Assert::same("{$sep}file", FileSystem::normalizePath('/./file'));
 
-	Assert::same("{$S}..{$S}bar", FileSystem::normalizePath('/file/./.././.././bar'));
-	Assert::same("..{$S}bar", FileSystem::normalizePath('file/../../bar/.'));
-	Assert::same("{$S}..{$S}bar{$S}", FileSystem::normalizePath('/file/./.././.././bar/'));
-	Assert::same("..{$S}bar{$S}", FileSystem::normalizePath('file/../../bar/./'));
+	Assert::same("{$sep}..{$sep}bar", FileSystem::normalizePath('/file/./.././.././bar'));
+	Assert::same("..{$sep}bar", FileSystem::normalizePath('file/../../bar/.'));
+	Assert::same("{$sep}..{$sep}bar{$sep}", FileSystem::normalizePath('/file/./.././.././bar/'));
+	Assert::same("..{$sep}bar{$sep}", FileSystem::normalizePath('file/../../bar/./'));
 
 
-	Assert::same($S, FileSystem::normalizePath('//'));
-	Assert::same("{$S}foo{$S}", FileSystem::normalizePath('//foo//'));
-	Assert::same("{$S}", FileSystem::normalizePath('//foo//..//'));
+	Assert::same($sep, FileSystem::normalizePath('//'));
+	Assert::same("{$sep}foo{$sep}", FileSystem::normalizePath('//foo//'));
+	Assert::same("{$sep}", FileSystem::normalizePath('//foo//..//'));
 });

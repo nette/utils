@@ -7,7 +7,6 @@
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -83,7 +82,7 @@ test('appending style attributes with forced addition', function () {
 	$el->style[] = 'text-align:right';
 	$el->style('', true);
 	$el->style('background-color: blue', true);
-	$el->appendAttribute('style', 'color: orange', true);
+	$el->appendAttribute('style', 'color: orange');
 	Assert::same('<div style="text-align:right;background-color: blue;color: orange"></div>', (string) $el);
 });
 
@@ -92,7 +91,7 @@ test('toggling class names with boolean flags', function () {
 	$el = Html::el('div');
 	$el->class('top', true);
 	$el->class('active', true);
-	$el->appendAttribute('class', 'pull-right', true);
+	$el->appendAttribute('class', 'pull-right');
 	Assert::same('<div class="top active pull-right"></div>', (string) $el);
 
 

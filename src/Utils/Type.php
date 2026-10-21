@@ -32,7 +32,9 @@ final class Type
 	): ?self
 	{
 		$type = $reflection instanceof \ReflectionFunctionAbstract
-			? $reflection->getReturnType() ?? (PHP_VERSION_ID >= 80100 && $reflection instanceof \ReflectionMethod ? $reflection->getTentativeReturnType() : null)
+			? $reflection->getReturnType() ?? (PHP_VERSION_ID >= 80100 && $reflection instanceof \ReflectionMethod
+				? $reflection->getTentativeReturnType()
+				: null)
 			: $reflection->getType();
 
 		return $type ? self::fromReflectionType($type, $reflection, asObject: true) : null;
@@ -165,7 +167,7 @@ final class Type
 			default => new self(array_unique(
 				array_merge($this->isIntersection() ? [$this] : $this->types, $type->isIntersection() ? [$type] : $type->types),
 				SORT_REGULAR,
-			), '|'),
+			)),
 		};
 	}
 

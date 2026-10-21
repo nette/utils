@@ -7,7 +7,6 @@
 use Nette\Utils\Strings;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -20,5 +19,4 @@ Assert::same('foo', Strings::trim("\u{2000}\u{200B}foo"));
 Assert::exception(
 	fn() => Strings::trim("\xC2x\xA0"),
 	Nette\Utils\RegexpException::class,
-	null,
 );

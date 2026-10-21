@@ -7,7 +7,6 @@
 use Nette\Utils\Callback;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -98,7 +97,7 @@ test('global function', function () {
 	Assert::same('{closure trim}', Callback::toString(Closure::fromCallable('trim')));
 	Assert::same('trim', getName(Callback::toReflection('trim')));
 	Assert::same('trim', getName(Callback::toReflection(Closure::fromCallable('trim'))));
-	Assert::same('x', Closure::fromCallable('trim')->__invoke(' x '));
+	Assert::same('x', Closure::fromCallable('trim')(' x '));
 
 
 	Assert::same('undefined', Callback::toString('undefined'));
@@ -132,7 +131,7 @@ test('invokable object', function () {
 	Assert::same('{closure Test::__invoke}', Callback::toString(Closure::fromCallable($test)));
 	Assert::same('Test::__invoke', getName(Callback::toReflection($test)));
 	Assert::same('Test::__invoke', getName(Callback::toReflection(Closure::fromCallable($test))));
-	Assert::same('Test::__invoke*', Closure::fromCallable($test)->__invoke('*'));
+	Assert::same('Test::__invoke*', Closure::fromCallable($test)('*'));
 });
 
 
@@ -146,7 +145,7 @@ test('object methods', function () {
 	Assert::same('Test::publicFun', getName(Callback::toReflection([$test, 'publicFun'])));
 	Assert::same('Test::publicFun', getName(Callback::toReflection(Closure::fromCallable([$test, 'publicFun']))));
 
-	Assert::same('Test::publicFun*', Closure::fromCallable([$test, 'publicFun'])->__invoke('*'));
+	Assert::same('Test::publicFun*', Closure::fromCallable([$test, 'publicFun'])('*'));
 
 
 	Assert::same([$test, 'privateFun'], Callback::unwrap($test->createPrivateClosure()));
@@ -160,7 +159,7 @@ test('object methods', function () {
 	Assert::same(['Test', 'privateFun'], Callback::unwrap((new TestChild)->createPrivateClosure()));
 	Assert::same('Test::privateFun', getName(Callback::toReflection((new TestChild)->createPrivateClosure())));
 
-	Assert::same('Test::privateFun*', $test->createPrivateClosure()->__invoke('*'));
+	Assert::same('Test::privateFun*', $test->createPrivateClosure()('*'));
 
 	Assert::same('Test::ref', Closure::fromCallable([$test, 'ref'])(...[&$res]));
 	Assert::same('Test::ref', $res);
@@ -182,8 +181,8 @@ test('static methods', function () {
 	Assert::same('Test::publicStatic', getName(Callback::toReflection('Test::publicStatic')));
 	Assert::same('Test::publicStatic', getName(Callback::toReflection(Closure::fromCallable('Test::publicStatic'))));
 
-	Assert::same('Test::publicStatic*', Closure::fromCallable(['Test', 'publicStatic'])->__invoke('*'));
-	Assert::same('Test::publicStatic*', Closure::fromCallable([$test, 'publicStatic'])->__invoke('*'));
+	Assert::same('Test::publicStatic*', Closure::fromCallable(['Test', 'publicStatic'])('*'));
+	Assert::same('Test::publicStatic*', Closure::fromCallable([$test, 'publicStatic'])('*'));
 
 
 	Assert::same(['Test', 'privateStatic'], Callback::unwrap(Test::createPrivateStaticClosure()));
@@ -193,7 +192,7 @@ test('static methods', function () {
 	Assert::same('Test::privateStatic', getName(Callback::toReflection(Test::createPrivateStaticClosure())));
 	Assert::same('Test::privateStatic', getName(Callback::toReflection(TestChild::createPrivateStaticClosure())));
 
-	Assert::same('Test::privateStatic*', Test::createPrivateStaticClosure()->__invoke('*'));
+	Assert::same('Test::privateStatic*', Test::createPrivateStaticClosure()('*'));
 });
 
 
@@ -202,12 +201,12 @@ test('magic methods', function () {
 	Assert::same([$test, 'magic'], Callback::unwrap(Closure::fromCallable([$test, 'magic'])));
 	Assert::same('TestDynamic::magic', Callback::toString([$test, 'magic']));
 	Assert::same('{closure TestDynamic::magic}', Callback::toString(Closure::fromCallable([$test, 'magic'])));
-	Assert::same('TestDynamic::__call magic *', Closure::fromCallable([$test, 'magic'])->__invoke('*'));
+	Assert::same('TestDynamic::__call magic *', Closure::fromCallable([$test, 'magic'])('*'));
 
 	Assert::same(['TestDynamic', 'magic'], Callback::unwrap(Closure::fromCallable('TestDynamic::magic')));
 	Assert::same('TestDynamic::magic', Callback::toString('TestDynamic::magic'));
 	Assert::same('{closure TestDynamic::magic}', Callback::toString(Closure::fromCallable('TestDynamic::magic')));
-	Assert::same('TestDynamic::__callStatic magic *', Closure::fromCallable('TestDynamic::magic')->__invoke('*'));
+	Assert::same('TestDynamic::__callStatic magic *', Closure::fromCallable('TestDynamic::magic')('*'));
 
 	Assert::exception(
 		fn() => Callback::toReflection([new TestDynamic, 'magic']),

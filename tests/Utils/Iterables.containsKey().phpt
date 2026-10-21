@@ -6,7 +6,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::false(Iterables::containsKey(new ArrayIterator([]), 'a'));
+Assert::false(Iterables::containsKey(new ArrayIterator, 'a'));
 Assert::true(Iterables::containsKey(new ArrayIterator(['a']), 0));
 Assert::true(Iterables::containsKey(new ArrayIterator(['x' => 1, 'y' => 2, 'z' => 3]), 'y'));
 Assert::false(Iterables::containsKey(new ArrayIterator(['x' => 1, 'y' => 2, 'z' => 3]), ''));

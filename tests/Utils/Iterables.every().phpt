@@ -11,7 +11,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test('empty iterable bypasses callback with false return', function () {
-	$arr = new ArrayIterator([]);
+	$arr = new ArrayIterator;
 	$log = [];
 	$res = Iterables::every(
 		$arr,
@@ -25,7 +25,7 @@ test('empty iterable bypasses callback with false return', function () {
 });
 
 test('empty iterable bypasses callback with true return', function () {
-	$arr = new ArrayIterator([]);
+	$arr = new ArrayIterator;
 	$log = [];
 	$res = Iterables::every(
 		$arr,

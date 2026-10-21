@@ -23,12 +23,12 @@ test('Absolute date/time strings', function () {
 
 
 test('now', function () {
-	$now = new DateTimeImmutable('now');
+	$now = new DateTimeImmutable;
 
 	$dt = new DateTime('');
 	Assert::true(abs($dt->getTimestamp() - $now->getTimestamp()) <= 1);
 
-	$dt = new DateTime('now');
+	$dt = new DateTime;
 	Assert::true(abs($dt->getTimestamp() - $now->getTimestamp()) <= 1);
 });
 

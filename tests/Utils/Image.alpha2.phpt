@@ -8,12 +8,11 @@
 use Nette\Utils\Image;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
 $image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
-$image->place(Image::fromFile(__DIR__ . '/fixtures.images/alpha2.png'), 0, 0, 100);
+$image->place(Image::fromFile(__DIR__ . '/fixtures.images/alpha2.png'));
 Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha2.100.png'), $image->toString($image::PNG));
 
 
@@ -38,7 +37,7 @@ Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha2.0.png'), $image
 
 
 $image = Image::fromFile(__DIR__ . '/fixtures.images/alpha1.png');
-$image->place(Image::fromFile(__DIR__ . '/fixtures.images/alpha3.gif'), 0, 0, 100);
+$image->place(Image::fromFile(__DIR__ . '/fixtures.images/alpha3.gif'));
 Assert::same(file_get_contents(__DIR__ . '/expected/Image.alpha2.100b.png'), $image->toString($image::PNG));
 
 

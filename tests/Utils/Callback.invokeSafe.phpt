@@ -7,7 +7,6 @@
 use Nette\Utils\Callback;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

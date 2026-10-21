@@ -7,7 +7,6 @@
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -30,7 +29,7 @@ test('building list with children and indentation', function () {
 
 
 test('mixing HTML and text children with array access', function () {
-	$el = Html::el(null);
+	$el = Html::el();
 	$el->addHtml(Html::el('p')->setText('one'));
 	$el->addText('<p>two</p>');
 	$el->addHtml('<p>three</p>');
@@ -50,7 +49,10 @@ test('nested elements in select with optgroup and options', function () {
 	$el = Html::el('select');
 	$el->create('optgroup')->label('Main')->create('option')->setText('sub one')->create('option')->setText('sub two');
 	$el->create('option')->setText('Item');
-	Assert::same('<select><optgroup label="Main"><option>sub one<option>sub two</option></option></optgroup><option>Item</option></select>', (string) $el);
+	Assert::same(
+		'<select><optgroup label="Main"><option>sub one<option>sub two</option></option></optgroup><option>Item</option></select>',
+		(string) $el,
+	);
 	Assert::same(2, count($el));
 	Assert::same('optgroup', $el[0]->getName());
 	Assert::same('option', $el[1]->getName());

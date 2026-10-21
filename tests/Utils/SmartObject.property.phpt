@@ -22,15 +22,11 @@ class TestClass
 
 	public $declared;
 
-	private $foo;
 
-	private $bar;
-
-
-	public function __construct($foo = null, $bar = null)
-	{
-		$this->foo = $foo;
-		$this->bar = $bar;
+	public function __construct(
+		private $foo = null,
+		private $bar = null,
+	) {
 	}
 
 

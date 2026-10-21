@@ -43,7 +43,7 @@ final class Json
 	): string
 	{
 		if (is_int($pretty)) { // back compatibility
-			$flags = ($pretty & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE) | ($pretty & ~self::ESCAPE_UNICODE);
+			$flags = ($pretty & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE) | ($pretty & ~self::ESCAPE_UNICODE); // dresscode:ignore upgrading.declarations.deprecatedMember
 		} else {
 			$flags = ($asciiSafe ? 0 : JSON_UNESCAPED_UNICODE)
 				| ($pretty ? JSON_PRETTY_PRINT : 0)
