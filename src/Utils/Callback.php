@@ -8,7 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
-use function explode, func_get_args, ini_get, is_array, is_callable, is_object, is_string, preg_replace, restore_error_handler, set_error_handler, sprintf, str_contains, str_ends_with;
+use function func_get_args, ini_get, is_array, is_object, is_string, sprintf;
 
 
 /**

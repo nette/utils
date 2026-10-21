@@ -8,7 +8,7 @@
 namespace Nette\Utils;
 
 use Nette;
-use function array_merge, checkdate, implode, is_numeric, is_string, preg_replace_callback, sprintf, time, trim;
+use function is_string;
 
 
 /**
