@@ -5,8 +5,7 @@
  * @phpExtension gd
  */
 
-use Nette\Utils\Image;
-use Nette\Utils\ImageColor;
+use Nette\Utils\{Image, ImageColor};
 use Tester\Assert;
 
 
