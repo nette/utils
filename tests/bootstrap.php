@@ -3,7 +3,7 @@
 // The Nette Tester command-line runner can be
 // invoked through the command: ../vendor/bin/tester .
 
-if (@!include __DIR__ . '/../vendor/autoload.php') {
+if (@!include __DIR__ . '/../vendor/autoload.php') { // @ dependencies may not be installed
 	echo 'Install Nette Tester using `composer install`';
 	exit(1);
 }
@@ -23,12 +23,12 @@ function getTempDir(): string
 		$GLOBALS['\lock'] = $lock = fopen(__DIR__ . '/lock', 'w');
 		if (rand(0, 100)) {
 			flock($lock, LOCK_SH);
-			@mkdir(dirname($dir));
+			@mkdir(dirname($dir)); // @ directory may already exist
 		} elseif (flock($lock, LOCK_EX)) {
 			Tester\Helpers::purge(dirname($dir));
 		}
 
-		@mkdir($dir);
+		@mkdir($dir); // @ directory may already exist
 	}
 
 	return $dir;

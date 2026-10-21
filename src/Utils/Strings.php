@@ -399,7 +399,7 @@ class Strings
 		return match (true) {
 			extension_loaded('mbstring') => mb_strlen($s, 'UTF-8'),
 			extension_loaded('iconv') => iconv_strlen($s, 'UTF-8'),
-			default => strlen(@utf8_decode($s)), // deprecated
+			default => strlen(@utf8_decode($s)), // dresscode:ignore mistakes.errorSuppression, upgrading.php.deprecatedApi
 		};
 	}
 

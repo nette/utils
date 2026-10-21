@@ -34,7 +34,7 @@ Assert::exception(
 
 
 // frequency check
-$phpdbgLog = defined('PHPDBG_VERSION') && @phpdbg_end_oplog(); // memory leak workaround
+$phpdbgLog = defined('PHPDBG_VERSION') && @phpdbg_end_oplog(); // @ the oplog may not be running; ending it works around a memory leak
 $length = (int) 1e6;
 $delta = 0.1;
 $s = Nette\Utils\Random::generate($length, "\x01-\xFF");
