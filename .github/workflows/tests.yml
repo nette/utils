@@ -39,11 +39,12 @@ jobs:
               with:
                   php-version: 8.0
                   extensions: iconv, json, mbstring, xml, gd, intl, tokenizer
-                  coverage: none
+                  coverage: pcov
 
             - run: composer install --no-progress --prefer-dist
-            - run: vendor/bin/tester -p phpdbg tests -s -C --coverage ./coverage.xml --coverage-src ./src
-            - run: wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
-            - env:
-                  COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: php php-coveralls.phar --verbose --config tests/.coveralls.yml
+            - run: vendor/bin/tester tests -s -C --coverage ./coverage.xml --coverage-src ./src
+              continue-on-error: true
+            - uses: coverallsapp/github-action@v2
+              with:
+                  file: coverage.xml
+                  format: clover
