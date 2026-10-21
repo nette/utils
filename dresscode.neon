@@ -1,0 +1,44 @@
+use:
+	- nette
+	- modernizations
+
+typeAnalysis: phpstan
+
+paths:
+	- src
+	- tests
+
+excludePaths:
+	- tests/**/fixtures*
+
+fileExtensions:
+	- php
+	- phpt
+
+imports: {grouping: {class: grouped}}
+
+overrides:
+	-
+		paths: [src]
+		nameResolution: certain
+		use:
+			- compilerOptimizations
+			- deprecations
+
+	- # constants published in upper case, where the case is part of the API
+		paths: [src/Utils/DateTime.php, src/Utils/Image.php, src/Utils/ImageType.php]
+		naming: {constant: keep}
+
+	- # the parameter names of ArrayAccess methods are part of the API, callers may name them
+		paths: [src/Utils/ArrayHash.php, src/Utils/ArrayList.php, src/Utils/Html.php]
+		classes: {overridingMethod: {parameterName: keep}}
+
+	- # the test declares types whose names it then asserts as strings
+		paths: ['tests/Utils/Validators.is().phpt']
+		naming: {class: keep}
+
+	- # the construct is what the test is about
+		paths:
+			- tests/Utils/SmartObject.property.inheritance.phpt
+			- tests/Utils/SmartObject.undeclaredMethod.annotation.phpt
+		naming: {traitAffix: keep}
