@@ -44,6 +44,9 @@ testTypeHint('string|int', Type::fromString('string')->with(Type::fromString('in
 // mixed
 testTypeHint('mixed', Type::fromString('string')->with('mixed'));
 testTypeHint('mixed', Type::fromString('mixed')->with('null'));
+testTypeHint('MIXED', Type::fromString('MIXED')->with('null'));
+testTypeHint('Mixed', Type::fromString('Mixed')->with('?int'));
+testTypeHint('?int', Type::fromString('int')->with('NULL'));
 
 // Already allows - returns same instance
 $type = Type::fromString('string');

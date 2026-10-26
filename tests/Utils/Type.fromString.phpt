@@ -52,6 +52,16 @@ Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
 
 
+$type = Type::fromString('NULL|int');
+
+Assert::same(['int', 'NULL'], $type->getNames());
+Assert::same('?int', (string) $type);
+Assert::same('int', $type->getSingleName());
+Assert::true($type->isSimple());
+Assert::same('?int', (string) Type::fromString('int|NULL'));
+Assert::same('string|int|NULL', (string) Type::fromString('string|NULL|int'));
+
+
 $type = Type::fromString('?string');
 
 Assert::same(['string', 'null'], $type->getNames());
@@ -120,6 +130,13 @@ Assert::false($type->isIntersection());
 Assert::true($type->isSimple());
 Assert::true($type->isBuiltin());
 Assert::false($type->isClassKeyword());
+
+
+$type = Type::fromString('?MIXED');
+
+Assert::same(['MIXED'], $type->getNames());
+Assert::same('MIXED', (string) $type);
+Assert::same('mixed', (string) Type::fromString('?mixed'));
 
 
 $type = Type::fromString('null'); // invalid type

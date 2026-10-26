@@ -48,7 +48,7 @@ final readonly class Type
 		if ($type instanceof \ReflectionNamedType) {
 			$name = self::resolve($type->getName(), $of);
 			return $asObject
-				? new self($type->allowsNull() && $name !== 'mixed' ? [$name, 'null'] : [$name])
+				? new self($type->allowsNull() && strcasecmp($name, 'mixed') !== 0 ? [$name, 'null'] : [$name])
 				: $name;
 
 		} elseif ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
@@ -73,7 +73,8 @@ final readonly class Type
 		}
 
 		if ($type[0] === '?') {
-			return new self([substr($type, 1), 'null']);
+			$name = substr($type, 1);
+			return new self(strcasecmp($name, 'mixed') === 0 ? [$name] : [$name, 'null']);
 		}
 
 		$unions = [];
@@ -136,14 +137,14 @@ final readonly class Type
 	/** @param  array<string|self>  $types */
 	private function __construct(array $types, string $kind = '|')
 	{
-		$o = array_search('null', $types, strict: true);
-		if ($o !== false) { // null as last
-			array_splice($types, (int) $o, 1);
-			$types[] = 'null';
+		$o = Arrays::firstKey($types, fn($t) => is_string($t) && strcasecmp($t, 'null') === 0);
+		if ($o !== null) { // null as last
+			$null = array_splice($types, (int) $o, 1);
+			$types[] = $null[0];
 		}
 
 		$this->types = array_values($types);
-		$this->singleName = is_string($types[0]) && ($types[1] ?? 'null') === 'null' ? $types[0] : null;
+		$this->singleName = is_string($types[0]) && count($types) <= ($o === null ? 1 : 2) ? $types[0] : null;
 		$this->kind = count($types) > 1 ? $kind : '';
 	}
 
@@ -275,7 +276,7 @@ final readonly class Type
 	 */
 	public function allows(string|self $type): bool
 	{
-		if ($this->types === ['mixed']) {
+		if ($this->singleName !== null && strcasecmp($this->singleName, 'mixed') === 0) {
 			return true;
 		}
 

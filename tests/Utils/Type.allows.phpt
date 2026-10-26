@@ -67,6 +67,21 @@ Assert::true($type->allows('Foo|FooChild'));
 Assert::true($type->allows('Foo&Bar'));
 
 
+$type = Type::fromString('MIXED');
+Assert::true($type->allows('null'));
+Assert::true($type->allows('string|null'));
+Assert::true(Type::fromString('Mixed')->allows('null'));
+
+
+$type = Type::fromString('NULL|int');
+Assert::true($type->allows('int'));
+Assert::true($type->allows('null'));
+Assert::true($type->allows('NULL'));
+Assert::true($type->allows('?int'));
+Assert::false($type->allows('string'));
+Assert::true(Type::fromString('int|NULL')->allows('NULL'));
+
+
 $type = Type::fromString('Bar&Foo');
 Assert::false($type->allows('string'));
 Assert::false($type->allows('null'));
