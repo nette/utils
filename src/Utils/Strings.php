@@ -654,6 +654,7 @@ class Strings
 	/**
 	 * Replaces all matches of the regular expression $pattern, which can be a string or array in the form `pattern => replacement`.
 	 * @param  string|array<string, string>  $pattern
+	 * @param-immediately-invoked-callable  $replacement
 	 */
 	public static function replace(
 		string $subject,

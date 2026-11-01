@@ -204,6 +204,7 @@ final class Process
 	 * continuously and kept in memory; an optional callback is invoked with each new output/error chunk.
 	 *
 	 * @param  (\Closure(string, string): void)|null  $callback
+	 * @param-immediately-invoked-callable  $callback
 	 */
 	public function wait(?\Closure $callback = null): void
 	{
