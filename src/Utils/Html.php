@@ -508,7 +508,7 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate, HtmlStringab
 			}
 		}
 
-		if (count($args) === 0) { // invalid
+		if ($args === []) { // invalid
 
 		} elseif (count($args) === 1) { // set
 			$this->attrs[$m] = $args[0];

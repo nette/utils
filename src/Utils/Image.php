@@ -624,16 +624,7 @@ class Image
 			imagealphablending($output, true);
 		}
 
-		imagecopy(
-			$this->image,
-			$output,
-			$left,
-			$top,
-			0,
-			0,
-			$width,
-			$height,
-		);
+		imagecopy($this->image, $output, $left, $top, 0, 0, $width, $height);
 		return $this;
 	}
 
