@@ -298,6 +298,24 @@ function testArraysGetKeyOffset(array $array): void
 }
 
 
+/** @param array<string, string> $array */
+function testArraysGrepAndWrap(array $array): void
+{
+	assertType('array<string, string>', Arrays::grep($array, '#x#'));
+	assertType('array<string, string>', Arrays::wrap($array, '<', '>'));
+	assertType('array<3|5, string>', Arrays::wrap([3 => 'a', 5 => 'b']));
+}
+
+
+/** @param array<string, mixed> $array */
+function testArraysFlatten(array $array, bool $preserveKeys): void
+{
+	assertType('list<mixed>', Arrays::flatten($array));
+	assertType('array<mixed>', Arrays::flatten($array, preserveKeys: true));
+	assertType('array<mixed>', Arrays::flatten($array, $preserveKeys));
+}
+
+
 /**
  * @param ArrayHash<int> $hash
  * @param ArrayList<int> $list

@@ -255,8 +255,9 @@ class Arrays
 
 	/**
 	 * Returns only those array items, which matches a regular expression $pattern.
-	 * @param  string[]  $array
-	 * @return string[]
+	 * @template K of array-key
+	 * @param  array<K, string>  $array
+	 * @return array<K, string>
 	 */
 	public static function grep(
 		array $array,
@@ -273,7 +274,7 @@ class Arrays
 	/**
 	 * Transforms multidimensional array to flat array.
 	 * @param  array<mixed>  $array
-	 * @return array<mixed>
+	 * @return ($preserveKeys is true ? array<mixed> : list<mixed>)
 	 */
 	public static function flatten(array $array, bool $preserveKeys = false): array
 	{
@@ -559,8 +560,9 @@ class Arrays
 
 	/**
 	 * Returns a copy of $array where every item is cast to string and wrapped with $prefix and $suffix.
-	 * @param  string[]  $array
-	 * @return string[]
+	 * @template K of array-key
+	 * @param  array<K, string>  $array
+	 * @return array<K, string>
 	 */
 	public static function wrap(array $array, string $prefix = '', string $suffix = ''): array
 	{
