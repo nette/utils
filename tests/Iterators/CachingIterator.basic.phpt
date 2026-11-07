@@ -69,3 +69,17 @@ test('', function () {
 	Assert::same(0, $iterator->getCounter());
 	Assert::true($iterator->isEmpty());
 });
+
+
+test('magic properties', function () {
+	$iterator = new Iterators\CachingIterator(['a' => 'Nette', 'b' => 'Framework']);
+	$iterator->rewind();
+	Assert::true($iterator->first);
+	Assert::false($iterator->last);
+	Assert::false($iterator->empty);
+	Assert::true($iterator->odd);
+	Assert::false($iterator->even);
+	Assert::same(1, $iterator->counter);
+	Assert::same('b', $iterator->nextKey);
+	Assert::same('Framework', $iterator->nextValue);
+});

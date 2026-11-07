@@ -47,6 +47,7 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	}
 
 
+	/** @return int<0, max> */
 	public function count(): int
 	{
 		return count((array) $this);

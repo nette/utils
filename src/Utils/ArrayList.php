@@ -50,6 +50,7 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	}
 
 
+	/** @return int<0, max> */
 	public function count(): int
 	{
 		return count($this->list);

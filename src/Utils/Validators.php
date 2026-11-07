@@ -252,6 +252,7 @@ class Validators
 
 	/**
 	 * Checks if the value is a valid UTF-8 string.
+	 * @phpstan-assert-if-true string $value
 	 */
 	public static function isUnicode(mixed $value): bool
 	{

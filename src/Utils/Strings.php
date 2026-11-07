@@ -292,6 +292,7 @@ class Strings
 
 	/**
 	 * Converts all characters of UTF-8 string to lower case.
+	 * @return ($s is non-empty-string ? non-empty-string : string)
 	 */
 	public static function lower(string $s): string
 	{
@@ -301,6 +302,7 @@ class Strings
 
 	/**
 	 * Converts the first character of a UTF-8 string to lower case and leaves the other characters unchanged.
+	 * @return ($s is non-empty-string ? non-empty-string : string)
 	 */
 	public static function firstLower(string $s): string
 	{
@@ -310,6 +312,7 @@ class Strings
 
 	/**
 	 * Converts all characters of a UTF-8 string to upper case.
+	 * @return ($s is non-empty-string ? non-empty-string : string)
 	 */
 	public static function upper(string $s): string
 	{
@@ -319,6 +322,7 @@ class Strings
 
 	/**
 	 * Converts the first character of a UTF-8 string to upper case and leaves the other characters unchanged.
+	 * @return ($s is non-empty-string ? non-empty-string : string)
 	 */
 	public static function firstUpper(string $s): string
 	{
@@ -328,6 +332,7 @@ class Strings
 
 	/**
 	 * Converts the first character of every word of a UTF-8 string to upper case and the others to lower case.
+	 * @return ($s is non-empty-string ? non-empty-string : string)
 	 */
 	public static function capitalize(string $s): string
 	{
@@ -389,6 +394,7 @@ class Strings
 	/**
 	 * Returns number of characters (not bytes) in UTF-8 string.
 	 * That is the number of Unicode code points which may differ from the number of graphemes.
+	 * @return ($s is non-empty-string ? int<1, max> : 0)
 	 */
 	public static function length(string $s): int
 	{
@@ -436,6 +442,7 @@ class Strings
 
 	/**
 	 * Reverses UTF-8 string.
+	 * @return ($s is non-empty-string ? non-empty-string : string)
 	 */
 	public static function reverse(string $s): string
 	{
@@ -479,6 +486,7 @@ class Strings
 	/**
 	 * Returns position in characters of $nth occurence of $needle in $haystack or null if the $needle was not found.
 	 * Negative value of `$nth` means searching from the end.
+	 * @return ?int<0, max>
 	 */
 	public static function indexOf(string $haystack, string $needle, int $nth = 1): ?int
 	{

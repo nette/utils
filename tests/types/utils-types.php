@@ -6,7 +6,7 @@
  */
 
 use Nette\Iterators\CachingIterator;
-use Nette\Utils\{ArrayHash, Arrays, Helpers, Html, Iterables, Type, Validators};
+use Nette\Utils\{ArrayHash, ArrayList, Arrays, Helpers, Html, Iterables, Random, Strings, Type, Validators};
 use function PHPStan\Testing\assertType;
 
 
@@ -251,4 +251,88 @@ function testIterablesFirstWithElse(iterable $iterable): void
 function testIterablesFirstKeyWithElse(iterable $iterable): void
 {
 	assertType('string', Iterables::firstKey($iterable, else: fn() => 'default'));
+}
+
+
+/** @param non-empty-string $nonEmpty */
+function testStringsLength(string $string, string $nonEmpty): void
+{
+	assertType('int<1, max>', Strings::length('abc'));
+	assertType('int<1, max>', Strings::length($nonEmpty));
+	assertType('0', Strings::length(''));
+	assertType('int<0, max>', Strings::length($string));
+}
+
+
+/** @param non-empty-string $nonEmpty */
+function testStringsCaseConversion(string $string, string $nonEmpty): void
+{
+	assertType('non-empty-string', Strings::lower($nonEmpty));
+	assertType('non-empty-string', Strings::firstLower($nonEmpty));
+	assertType('non-empty-string', Strings::upper('abc'));
+	assertType('non-empty-string', Strings::firstUpper($nonEmpty));
+	assertType('non-empty-string', Strings::capitalize($nonEmpty));
+	assertType('non-empty-string', Strings::reverse($nonEmpty));
+	assertType('string', Strings::lower($string));
+	assertType('string', Strings::reverse($string));
+}
+
+
+function testStringsIndexOf(string $string): void
+{
+	assertType('int<0, max>|null', Strings::indexOf($string, 'x'));
+}
+
+
+function testRandomGenerate(int $length): void
+{
+	assertType('non-empty-string', Random::generate());
+	assertType('non-empty-string', Random::generate($length, 'a-z'));
+}
+
+
+/** @param array<string, mixed> $array */
+function testArraysGetKeyOffset(array $array): void
+{
+	assertType('int<0, max>|null', Arrays::getKeyOffset($array, 'key'));
+}
+
+
+/** @param array<string, string> $array */
+function testArraysGrepAndWrap(array $array): void
+{
+	assertType('array<string, string>', Arrays::grep($array, '#x#'));
+	assertType('array<string, string>', Arrays::wrap($array, '<', '>'));
+	assertType('array<3|5, string>', Arrays::wrap([3 => 'a', 5 => 'b']));
+}
+
+
+/** @param array<string, mixed> $array */
+function testArraysFlatten(array $array, bool $preserveKeys): void
+{
+	assertType('list<mixed>', Arrays::flatten($array));
+	assertType('array<mixed>', Arrays::flatten($array, preserveKeys: true));
+	assertType('array<mixed>', Arrays::flatten($array, $preserveKeys));
+}
+
+
+/**
+ * @param ArrayHash<int> $hash
+ * @param ArrayList<int> $list
+ * @param CachingIterator<int, string> $iterator
+ */
+function testCounts(ArrayHash $hash, ArrayList $list, CachingIterator $iterator): void
+{
+	assertType('int<0, max>', $hash->count());
+	assertType('int<0, max>', $list->count());
+	assertType('int<0, max>', $iterator->getCounter());
+	assertType('int<0, max>', $iterator->counter);
+}
+
+
+function testValidatorsIsUnicode(mixed $value): void
+{
+	if (Validators::isUnicode($value)) {
+		assertType('string', $value);
+	}
 }
