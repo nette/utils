@@ -6,7 +6,7 @@
  */
 
 use Nette\Iterators\CachingIterator;
-use Nette\Utils\{ArrayHash, Arrays, Helpers, Html, Iterables, Random, Strings, Type, Validators};
+use Nette\Utils\{ArrayHash, ArrayList, Arrays, Helpers, Html, Iterables, Random, Strings, Type, Validators};
 use function PHPStan\Testing\assertType;
 
 
@@ -278,8 +278,35 @@ function testStringsCaseConversion(string $string, string $nonEmpty): void
 }
 
 
+function testStringsIndexOf(string $string): void
+{
+	assertType('int<0, max>|null', Strings::indexOf($string, 'x'));
+}
+
+
 function testRandomGenerate(int $length): void
 {
 	assertType('non-empty-string', Random::generate());
 	assertType('non-empty-string', Random::generate($length, 'a-z'));
+}
+
+
+/** @param array<string, mixed> $array */
+function testArraysGetKeyOffset(array $array): void
+{
+	assertType('int<0, max>|null', Arrays::getKeyOffset($array, 'key'));
+}
+
+
+/**
+ * @param ArrayHash<int> $hash
+ * @param ArrayList<int> $list
+ * @param CachingIterator<int, string> $iterator
+ */
+function testCounts(ArrayHash $hash, ArrayList $list, CachingIterator $iterator): void
+{
+	assertType('int<0, max>', $hash->count());
+	assertType('int<0, max>', $list->count());
+	assertType('int<0, max>', $iterator->getCounter());
+	assertType('int<0, max>', $iterator->counter);
 }

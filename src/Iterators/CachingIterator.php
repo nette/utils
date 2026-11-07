@@ -21,7 +21,7 @@ use Nette;
  * @property-read bool $empty
  * @property-read bool $odd
  * @property-read bool $even
- * @property-read int $counter
+ * @property-read int<0,max> $counter
  * @property-read TKey $nextKey
  * @property-read TValue $nextValue
  */
@@ -29,6 +29,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 {
 	use Nette\SmartObject;
 
+	/** @var int<0, max> */
 	private int $counter = 0;
 
 
@@ -78,6 +79,7 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
+	/** @return int<0, max> */
 	public function getCounter(): int
 	{
 		return $this->counter;

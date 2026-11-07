@@ -486,6 +486,7 @@ class Strings
 	/**
 	 * Returns position in characters of $nth occurence of $needle in $haystack or null if the $needle was not found.
 	 * Negative value of `$nth` means searching from the end.
+	 * @return ?int<0, max>
 	 */
 	public static function indexOf(string $haystack, string $needle, int $nth = 1): ?int
 	{

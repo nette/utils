@@ -95,6 +95,7 @@ class Arrays
 	/**
 	 * Returns zero-indexed position of given array key. Returns null if key is not found.
 	 * @param  array<mixed>  $array
+	 * @return ?int<0, max>
 	 */
 	public static function getKeyOffset(array $array, string|int $key): ?int
 	{
@@ -104,6 +105,7 @@ class Arrays
 
 	/**
 	 * @param  array<mixed>  $array
+	 * @return ?int<0, max>
 	 * @deprecated  use  getKeyOffset()
 	 */
 	public static function searchKey(array $array, string|int $key): ?int
