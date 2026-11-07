@@ -23,6 +23,7 @@ final class Random
 	/**
 	 * Generates a random string of given length from characters specified in second argument.
 	 * Supports intervals, such as `0-9` or `A-Z`.
+	 * @return non-empty-string
 	 */
 	public static function generate(int $length = 10, string $charlist = '0-9a-z'): string
 	{
