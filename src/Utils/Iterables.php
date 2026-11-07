@@ -56,6 +56,8 @@ final class Iterables
 	 * @param  iterable<K, V>  $iterable
 	 * @param  ?callable(V, K, iterable<K, V>): bool  $predicate
 	 * @param  ?callable(): E  $else
+	 * @param-immediately-invoked-callable  $predicate
+	 * @param-immediately-invoked-callable  $else
 	 * @return ($else is null ? ?V : V|E)
 	 */
 	public static function first(iterable $iterable, ?callable $predicate = null, ?callable $else = null): mixed
@@ -77,6 +79,8 @@ final class Iterables
 	 * @param  iterable<K, V>  $iterable
 	 * @param  ?callable(V, K, iterable<K, V>): bool  $predicate
 	 * @param  ?callable(): E  $else
+	 * @param-immediately-invoked-callable  $predicate
+	 * @param-immediately-invoked-callable  $else
 	 * @return ($else is null ? ?K : K|E)
 	 */
 	public static function firstKey(iterable $iterable, ?callable $predicate = null, ?callable $else = null): mixed
@@ -96,6 +100,7 @@ final class Iterables
 	 * @template V
 	 * @param  iterable<K, V>  $iterable
 	 * @param  callable(V, K, iterable<K, V>): bool  $predicate
+	 * @param-immediately-invoked-callable  $predicate
 	 */
 	public static function some(iterable $iterable, callable $predicate): bool
 	{
@@ -114,6 +119,7 @@ final class Iterables
 	 * @template V
 	 * @param  iterable<K, V>  $iterable
 	 * @param  callable(V, K, iterable<K, V>): bool  $predicate
+	 * @param-immediately-invoked-callable  $predicate
 	 */
 	public static function every(iterable $iterable, callable $predicate): bool
 	{

@@ -23,6 +23,7 @@ class Helpers
 	/**
 	 * Executes a callback and returns the captured output as a string.
 	 * @param  callable(): void  $func
+	 * @param-immediately-invoked-callable  $func
 	 */
 	public static function capture(callable $func): string
 	{

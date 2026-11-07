@@ -23,6 +23,7 @@ final class Callback
 	 * @param  callable-string  $function
 	 * @param  list<mixed>  $args
 	 * @param  callable(string, int): (bool|void|null)  $onError
+	 * @param-immediately-invoked-callable  $onError
 	 */
 	public static function invokeSafe(string $function, array $args, callable $onError): mixed
 	{

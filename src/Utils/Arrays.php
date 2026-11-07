@@ -130,6 +130,8 @@ class Arrays
 	 * @param  array<K, V>  $array
 	 * @param  ?callable(V, K, array<K, V>): bool  $predicate
 	 * @param  ?callable(): E  $else
+	 * @param-immediately-invoked-callable  $predicate
+	 * @param-immediately-invoked-callable  $else
 	 * @return ($else is null ? ?V : V|E)
 	 */
 	public static function first(array $array, ?callable $predicate = null, ?callable $else = null): mixed
@@ -149,6 +151,8 @@ class Arrays
 	 * @param  array<K, V>  $array
 	 * @param  ?callable(V, K, array<K, V>): bool  $predicate
 	 * @param  ?callable(): E  $else
+	 * @param-immediately-invoked-callable  $predicate
+	 * @param-immediately-invoked-callable  $else
 	 * @return ($else is null ? ?V : V|E)
 	 */
 	public static function last(array $array, ?callable $predicate = null, ?callable $else = null): mixed
@@ -166,6 +170,7 @@ class Arrays
 	 * @template V
 	 * @param  array<K, V>  $array
 	 * @param  ?callable(V, K, array<K, V>): bool  $predicate
+	 * @param-immediately-invoked-callable  $predicate
 	 * @return ?K
 	 */
 	public static function firstKey(array $array, ?callable $predicate = null): int|string|null
@@ -188,6 +193,7 @@ class Arrays
 	 * @template V
 	 * @param  array<K, V>  $array
 	 * @param  ?callable(V, K, array<K, V>): bool  $predicate
+	 * @param-immediately-invoked-callable  $predicate
 	 * @return ?K
 	 */
 	public static function lastKey(array $array, ?callable $predicate = null): int|string|null
@@ -400,6 +406,7 @@ class Arrays
 	 * @template V
 	 * @param  array<K, V>  $array
 	 * @param  callable(V, K, array<K, V>): bool  $predicate
+	 * @param-immediately-invoked-callable  $predicate
 	 */
 	public static function some(iterable $array, callable $predicate): bool
 	{
@@ -419,6 +426,7 @@ class Arrays
 	 * @template V
 	 * @param  array<K, V>  $array
 	 * @param  callable(V, K, array<K, V>): bool  $predicate
+	 * @param-immediately-invoked-callable  $predicate
 	 */
 	public static function every(iterable $array, callable $predicate): bool
 	{
@@ -438,6 +446,7 @@ class Arrays
 	 * @template V
 	 * @param  array<K, V>  $array
 	 * @param  callable(V, K, array<K, V>): bool  $predicate
+	 * @param-immediately-invoked-callable  $predicate
 	 * @return array<K, V>
 	 */
 	public static function filter(array $array, callable $predicate): array
@@ -459,6 +468,7 @@ class Arrays
 	 * @template R
 	 * @param  array<K, V>  $array
 	 * @param  callable(V, K, array<K, V>): R  $transformer
+	 * @param-immediately-invoked-callable  $transformer
 	 * @return array<K, R>
 	 */
 	public static function map(iterable $array, callable $transformer): array
@@ -481,6 +491,7 @@ class Arrays
 	 * @template ResV
 	 * @param  array<K, V>  $array
 	 * @param  callable(V, K, array<K, V>): ?array{ResK, ResV}  $transformer
+	 * @param-immediately-invoked-callable  $transformer
 	 * @return array<ResK, ResV>
 	 */
 	public static function mapWithKeys(array $array, callable $transformer): array
