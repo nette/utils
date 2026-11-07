@@ -328,3 +328,11 @@ function testCounts(ArrayHash $hash, ArrayList $list, CachingIterator $iterator)
 	assertType('int<0, max>', $iterator->getCounter());
 	assertType('int<0, max>', $iterator->counter);
 }
+
+
+function testValidatorsIsUnicode(mixed $value): void
+{
+	if (Validators::isUnicode($value)) {
+		assertType('string', $value);
+	}
+}
