@@ -209,8 +209,11 @@ subsystem). Its traps are behavioral, not structural:
   that the child does not read while filling its own output can block; pass
   `null` and feed via `writeStdInput()` instead.
 - **Windows capture differs by PHP version.** On Windows < PHP 8.5 captured
-  output is backed by a `tmpfile()` (`stream_select()` did not work on
-  `proc_open` pipes before the 8.5 PeekNamedPipe fix); elsewhere it is anonymous
+  output is backed by a temporary file (`stream_select()` did not work on
+  `proc_open` pipes before the 8.5 PeekNamedPipe fix); the child writes and the
+  parent reads through separate handles, as an inherited handle shares the file
+  position, and the file is removed right after the start where the platform
+  allows (best effort, retried on close); elsewhere it is anonymous
   pipes drained non-blockingly via `stream_select()` (`readFromPipe`).
 
 ## Navigation map
