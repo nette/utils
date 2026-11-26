@@ -140,7 +140,9 @@ final class Process
 		[$this->inputPipe, $this->outputPipes[self::StdOut], $this->outputPipes[self::StdErr]] = $pipes + $descriptors;
 
 		if ($stdin instanceof self) {
-			// the source process hands over its STDOUT pipe; from now on this process owns it
+			// the source process hands over its STDOUT pipe: the child has its own copy of the read end, the parent's
+			// copy is closed, otherwise the source would not get a broken pipe when this process exits
+			fclose($this->inputPipe);
 			unset(
 				$stdin->outputBuffers[self::StdOut],
 				$stdin->outputBufferOffsets[self::StdOut],
