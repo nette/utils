@@ -46,6 +46,9 @@ final class Process
 
 	/** @var array<int, true> Output IDs whose pipe is backed by a temporary file (Windows < 8.5 workaround). */
 	private array $fileBackedOutputs = [];
+
+	/** @var array<int, string> Paths of the temporary files not removed yet. */
+	private array $temporaryFiles = [];
 	private float $startTime;
 	private bool $detached = false;
 
@@ -125,19 +128,32 @@ final class Process
 		mixed $stderr,
 		private readonly ?float $timeout,
 	) {
-		$descriptors = [
-			self::StdIn => $this->createInputDescriptor($stdin),
-			self::StdOut => $this->createOutputDescriptor(self::StdOut, $stdout),
-			self::StdErr => $this->createOutputDescriptor(self::StdErr, $stderr),
-		];
+		try {
+			$descriptors = [
+				self::StdIn => $this->createInputDescriptor($stdin),
+				self::StdOut => $this->createOutputDescriptor(self::StdOut, $stdout),
+				self::StdErr => $this->createOutputDescriptor(self::StdErr, $stderr),
+			];
 
-		$process = @proc_open($command, $descriptors, $pipes, $directory, $env, $options); // @ is escalated to exception
-		if (!is_resource($process)) {
-			throw new ProcessFailedException('Failed to start process: ' . Helpers::getLastError());
+			$process = @proc_open($command, $descriptors, $pipes, $directory, $env, $options); // @ is escalated to exception
+			if (!is_resource($process)) {
+				throw new ProcessFailedException('Failed to start process: ' . Helpers::getLastError());
+			}
+		} catch (\Throwable $e) {
+			unset($descriptors); // closes the writing handles of temporary files, so they can be removed
+			$this->closeOutputPipes();
+			$this->removeTemporaryFiles();
+			throw $e;
 		}
 
 		$this->process = $process;
-		[$this->inputPipe, $this->outputPipes[self::StdOut], $this->outputPipes[self::StdErr]] = $pipes + $descriptors;
+		// the parent reads the temporary files through its own handles
+		$readers = array_intersect_key($this->outputPipes, $this->fileBackedOutputs);
+		[$this->inputPipe, $this->outputPipes[self::StdOut], $this->outputPipes[self::StdErr]] = $pipes + $readers + $descriptors;
+		foreach ($this->fileBackedOutputs as $id => $_) {
+			fclose($descriptors[$id]); // the child has its own copy of the writing handle
+		}
+		$this->removeTemporaryFiles(); // best effort, the open handles keep working; close() and the destructor retry
 
 		if ($stdin instanceof self) {
 			// the source process hands over its STDOUT pipe; from now on this process owns it
@@ -160,6 +176,7 @@ final class Process
 		}
 		$this->outputBuffers = [];
 		$this->terminate();
+		$this->removeTemporaryFiles(); // again, if a file could not be removed at close()
 	}
 
 
@@ -435,8 +452,7 @@ final class Process
 			return;
 
 		} elseif (isset($this->fileBackedOutputs[$id])) {
-			// Windows < 8.5: captured output is a temporary file; read whatever was appended since last time
-			fseek($pipe, strlen($this->outputBuffers[$id]));
+			// Windows < 8.5: captured output is a temporary file; the own handle reads on where it stopped
 			$this->outputBuffers[$id] .= stream_get_contents($pipe);
 
 		} elseif ($final) {
@@ -526,13 +542,61 @@ final class Process
 			$this->outputBufferOffsets[$id] = 0;
 			if (Helpers::IsWindows && PHP_VERSION_ID < 80500) {
 				// Windows < 8.5: stream_select() doesn't work on pipes, capture into a temp file that reads non-blockingly
-				$this->fileBackedOutputs[$id] = true;
-				return tmpfile();
+				return $this->createTemporaryFile($id);
 			}
 			return ['pipe', 'w'];
 
 		} else {
 			throw new Nette\InvalidArgumentException('Output must be string, resource, bool or null, ' . get_debug_type($output) . ' given.');
+		}
+	}
+
+
+	/**
+	 * Creates the temporary file that captures an output on Windows < 8.5. The child writes through the returned handle,
+	 * the parent reads through another one: with a single shared handle both would share the file position, and every
+	 * read would move the position the child writes at.
+	 * @return resource
+	 */
+	private function createTemporaryFile(int $id): mixed
+	{
+		// errors are reported by the exceptions below, not by the application's error handler
+		$error = '';
+		$onError = function (string $message) use (&$error): void {
+			$error = $message;
+		};
+		$writer = false;
+		for ($i = 0; $i < 10 && !$writer; $i++) { // 'x' fails if the name exists, so concurrent processes never share a file
+			$path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'nette-process-' . bin2hex(random_bytes(8)) . '.tmp';
+			$writer = Callback::invokeSafe('fopen', [$path, 'xb'], $onError);
+		}
+		if (!$writer) {
+			throw new ProcessFailedException("Unable to create a temporary file for the output: $error");
+		}
+		$this->fileBackedOutputs[$id] = true;
+		$this->temporaryFiles[$id] = $path;
+		$reader = Callback::invokeSafe('fopen', [$path, 'rb'], $onError);
+		if (!$reader) {
+			fclose($writer);
+			throw new ProcessFailedException("Unable to open the temporary file '$path': $error");
+		}
+		$this->outputPipes[$id] = $reader;
+		return $writer;
+	}
+
+
+	/**
+	 * Tries to remove the temporary files of the captured output; called right after the start, the open handles keep
+	 * working. A file that cannot be removed then (e.g. opened by other software without sharing deletion, or denied by
+	 * the directory's permissions) is tried again in close() and by the destructor; if that fails too, it stays in the
+	 * temporary directory. Never throws: a failure is not reported to the application's error handler either.
+	 */
+	private function removeTemporaryFiles(): void
+	{
+		foreach ($this->temporaryFiles as $id => $path) {
+			if (Callback::invokeSafe('unlink', [$path], fn() => null) || !is_file($path)) {
+				unset($this->temporaryFiles[$id]);
+			}
 		}
 	}
 
@@ -546,12 +610,12 @@ final class Process
 		$this->closeStdInput();
 		$this->closeOutputPipes();
 		proc_close($this->process);
+		$this->removeTemporaryFiles();
 	}
 
 
 	/**
 	 * Closes the output pipes that this class opened; resources supplied by the caller are left untouched.
-	 * (The temporary file backing captured output on Windows < 8.5 is removed by fclose() itself.)
 	 */
 	private function closeOutputPipes(): void
 	{
